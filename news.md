@@ -1,4 +1,4 @@
 ---
 layout: default
-title: API
+title: News
 ---

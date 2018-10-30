@@ -1,0 +1,50 @@
+---
+layout: default
+---
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 d-none d-lg-block">
+            {% for categorie in site.data.subprojects %}
+            {% for subcategorie in categorie.subcategories %}
+            <h5>{{subcategorie.short}}</h5>
+            <div class="container-fluid pb-3">
+                <div class="row">
+                    {% for component in subcategorie.list %}
+                    <div class="col-12">
+                        <a class="d-block text-dark"
+                           href="{{"/projects/" | append: categorie.id | append: "/" | append: subcategorie.id | append: "/" | append: component.id | relative_url}}">
+                        <i class="fas fa-{{component.icon}} pr-2"></i><span>{{ component.name }}</span>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-lg-9">
+            <h2>{{page.title}}</h2>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 pr-md-3">{{content}}</div>
+                    <div class="col-sm-12 d-sm-none border border-top border-dark"></div>
+                    <div class="col-sm-12 col-md-6 pl-md-3">
+                        <table class="table table-borderless table-hover table-responsive-md w-100">
+                            {% for version in site.data.versions %}
+                            <tr>
+                                <td>{{ version.name }}
+                                    {% for badge in version.badges %}
+                                    <span class="badge {{badge.style}}">{{ badge.name }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td><a class="text-dark" href="{{page.url | append: "/reference" | relative_url }}">Reference</a></td>
+                                <td><a class="text-dark" href="{{page.url | append: "/api" | relative_url }}">Rest API</a></td>
+                                <td><a class="text-dark" href="{{page.url | append: "/javadoc" | relative_url }}">Javadoc</a></td>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

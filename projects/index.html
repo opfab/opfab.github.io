@@ -1,0 +1,25 @@
+---
+layout: default
+title: Components
+---
+{% for categorie in site.data.subprojects %}
+  <h2>{{categorie.name}}</h2>
+  {% for subcategorie in categorie.subcategories %}
+  <h3>{{subcategorie.name}}</h3>
+  <div class="container-fluid">
+    <div class="row">
+  {% for component in subcategorie.list %}
+      <div class="col-sm-4 p-0">
+        <a class="d-block border border-dark shadow rounded m-2 p-2 text-dark text-center"
+           href="{{"/projects/" | append: categorie.id | append: "/" | append: subcategorie.id | append: "/" | append: component.id | relative_url}}">
+        <i class="fas fa-{{component.icon}} fa-7x"></i>
+        <p></p>
+        <h4>{{ component.name }}</h4>
+        </a>
+      </div>
+  {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+{% endfor %}
+
