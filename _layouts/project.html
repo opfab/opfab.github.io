@@ -3,7 +3,7 @@ layout: default
 ---
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-3 d-none d-lg-block">
+        <div class="col-lg-3 d-none d-lg-block" >
             {% for categorie in site.data.subprojects %}
             {% for subcategorie in categorie.subcategories %}
             <h5>{{subcategorie.short}}</h5>
@@ -22,7 +22,7 @@ layout: default
             {% endfor %}
             {% endfor %}
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-9" >
             <h2>{{page.title}}</h2>
             <div class="container-fluid">
                 <div class="row">
@@ -37,9 +37,10 @@ layout: default
                                     <span class="badge {{badge.style}}">{{ badge.name }}</span>
                                     {% endfor %}
                                 </td>
-                                <td><a class="text-dark" href="{{page.url | append: "/reference" | relative_url }}">Reference</a></td>
-                                <td><a class="text-dark" href="{{page.url | append: "/api" | relative_url }}">Rest API</a></td>
-                                <td><a class="text-dark" href="{{page.url | append: "/javadoc" | relative_url }}">Javadoc</a></td>
+                                {% assign baseUrl = page.url | append: version.name %}
+                                <td><a class="text-dark" href="{{baseUrl | append: "/reference" | relative_url }}">Reference</a></td>
+                                <td><a class="text-dark" href="{{baseUrl | append: "/api" | relative_url }}">Rest API</a></td>
+                                <td><a class="text-dark" href="{{baseUrl | append: "/javadoc" | relative_url }}">Javadoc</a></td>
                             {% endfor %}
                         </table>
                     </div>
