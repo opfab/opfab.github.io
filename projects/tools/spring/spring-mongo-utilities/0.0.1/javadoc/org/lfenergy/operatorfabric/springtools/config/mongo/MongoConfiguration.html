@@ -109,8 +109,13 @@ var activeTableTab = "activeTableTab";
 <pre>@Configuration
 public class <span class="typeNameLabel">MongoConfiguration</span>
 extends java.lang.Object</pre>
-<div class="block"><p></p>
- Created on 24/07/18</div>
+<div class="block">Mongo configuration.
+ <ul>
+ <li>Standard cluster client configuration</li>
+ <li>Reactive cluster client configuration</li>
+ <li>Builds converter form <a href="../../../../../../org/lfenergy/operatorfabric/springtools/config/mongo/AbstractLocalMongoConfiguration.html#converterList--"><code>AbstractLocalMongoConfiguration.converterList()</code></a></li>
+ <li>Mongo bean validation</li>
+ </ul></div>
 </li>
 </ul>
 </div>
@@ -172,7 +177,9 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/springtools/config/mongo/MongoConfiguration.html#validatingMongoEventListener-org.springframework.validation.beanvalidation.LocalValidatorFactoryBean-">validatingMongoEventListener</a></span>(org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&nbsp;localValidatorFactoryBean)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/springtools/config/mongo/MongoConfiguration.html#validatingMongoEventListener-org.springframework.validation.beanvalidation.LocalValidatorFactoryBean-">validatingMongoEventListener</a></span>(org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&nbsp;localValidatorFactoryBean)</code>
+<div class="block">Called before entities are persisted to mong, trigers bean validation</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -221,6 +228,10 @@ extends java.lang.Object</pre>
 <h4>reactiveMongoClient</h4>
 <pre>@Bean
 public&nbsp;com.mongodb.reactivestreams.client.MongoClient&nbsp;reactiveMongoClient()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>reative client</dd>
+</dl>
 </li>
 </ul>
 <a name="mongoClient--">
@@ -231,6 +242,10 @@ public&nbsp;com.mongodb.reactivestreams.client.MongoClient&nbsp;reactiveMongoCli
 <h4>mongoClient</h4>
 <pre>@Bean
 public&nbsp;com.mongodb.MongoClient&nbsp;mongoClient()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>standard client</dd>
+</dl>
 </li>
 </ul>
 <a name="mappingMongoConverter--">
@@ -240,11 +255,10 @@ public&nbsp;com.mongodb.MongoClient&nbsp;mongoClient()</pre>
 <li class="blockList">
 <h4>mappingMongoConverter</h4>
 <pre>@Bean
-public&nbsp;org.springframework.data.mongodb.core.convert.MappingMongoConverter&nbsp;mappingMongoConverter()
-                                                                                                throws java.lang.Exception</pre>
+public&nbsp;org.springframework.data.mongodb.core.convert.MappingMongoConverter&nbsp;mappingMongoConverter()</pre>
 <dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.Exception</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>mapping converter with local conversions</dd>
 </dl>
 </li>
 </ul>
@@ -255,6 +269,10 @@ public&nbsp;org.springframework.data.mongodb.core.convert.MappingMongoConverter&
 <li class="blockList">
 <h4>getDatabaseName</h4>
 <pre>protected&nbsp;java.lang.String&nbsp;getDatabaseName()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>database name from configuration</dd>
+</dl>
 </li>
 </ul>
 <a name="mongoMappingContext--">
@@ -276,6 +294,13 @@ public&nbsp;org.springframework.data.mongodb.core.mapping.MongoMappingContext&nb
 <pre>@Bean
 public&nbsp;org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener&nbsp;validatingMongoEventListener(@Autowired
                                                                                                                            org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&nbsp;localValidatorFactoryBean)</pre>
+<div class="block">Called before entities are persisted to mong, trigers bean validation</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>localValidatorFactoryBean</code> - spring bean validation main component</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Mongo lifecycle listener that triggers validation</dd>
+</dl>
 </li>
 </ul>
 <a name="customConversions--">
