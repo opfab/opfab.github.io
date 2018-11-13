@@ -178,7 +178,7 @@ extends java.lang.Object</pre>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/time/services/TimeService.html#updateSpeedAndTime-org.lfenergy.operatorfabric.time.model.SpeedEnum-java.time.Instant-">updateSpeedAndTime</a></span>(org.lfenergy.operatorfabric.time.model.SpeedEnum&nbsp;speed,
-                  java.time.Instant&nbsp;instant)</code>
+                  java.time.Instant&nbsp;time)</code>
 <div class="block">Updates speed and time values, used in later computation</div>
 </td>
 </tr>
@@ -224,10 +224,10 @@ public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp
 <div class="block">Constructor by injection</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>simulatedTime</code> - injected</dd>
-<dd><code>rabbitTemplate</code> - injected</dd>
-<dd><code>mapper</code> - injected</dd>
-<dd><code>timeExchange</code> - injected</dd>
+<dd><code>simulatedTime</code> - injected simulated time singleton instance</dd>
+<dd><code>rabbitTemplate</code> - injected rabbit template for message sending</dd>
+<dd><code>mapper</code> - injected object mapper to linearize object into json string representation in AMQP message body</dd>
+<dd><code>timeExchange</code> - injected AMQP exchange to send time messages</dd>
 </dl>
 </li>
 </ul>
@@ -248,7 +248,7 @@ public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp
 <pre>public&nbsp;java.time.Instant&nbsp;computeNow()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>simuleted "now" time</dd>
+<dd>simulated "now" time</dd>
 </dl>
 </li>
 </ul>
@@ -288,7 +288,7 @@ public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp
  <p>Relies on <a href="../../../../../org/lfenergy/operatorfabric/time/services/TimeService.html#updateSpeed-org.lfenergy.operatorfabric.time.model.SpeedEnum-boolean-"><code>updateSpeed(SpeedEnum, boolean)</code></a> with notify set to true</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>speed</code> - </dd>
+<dd><code>speed</code> - new speed value</dd>
 </dl>
 </li>
 </ul>
@@ -299,12 +299,13 @@ public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp
 <li class="blockList">
 <h4>updateSpeedAndTime</h4>
 <pre>public&nbsp;void&nbsp;updateSpeedAndTime(org.lfenergy.operatorfabric.time.model.SpeedEnum&nbsp;speed,
-                               java.time.Instant&nbsp;instant)</pre>
+                               java.time.Instant&nbsp;time)</pre>
 <div class="block"><p>Updates speed and time values, used in later computation</p>
  <p>Trigers AMQP message emission</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>speed</code> - </dd>
+<dd><code>speed</code> - new speed value</dd>
+<dd><code>time</code> - new time value</dd>
 </dl>
 </li>
 </ul>
