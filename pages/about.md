@@ -15,4 +15,4 @@ Operator Fabric is a modular, extensible, industrial-strength and field-tested p
 - Historian
 - Scripting (ex: Python, JavaScript)
 
-It is an open source project initiated by [RTE](http://www.rte-france.com/) with [LF Energy](https://www.lfenergy.org/) and licensed under [Mozilla Public Licence V2](https://www.mozilla.org/en-US/MPL/2.0/).
+It is an open source project initiated by [RTE](http://www.rte-france.com/) with [LF Energy](https://www.lfenergy.org/) and licensed under [Mozilla Public License V2](https://www.mozilla.org/en-US/MPL/2.0/).
