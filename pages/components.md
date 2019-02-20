@@ -2,8 +2,7 @@
 layout: page
 title : Components
 permalink: /components/
-subtitle: "Documentation" 
-feature-img: "assets/img/pexels/triangular.jpeg"
+feature-img: "assets/img/pexels/pexels-photo-1476316.jpeg"
 tags: [Documentation]
 ---
 

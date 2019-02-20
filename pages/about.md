@@ -1,7 +1,7 @@
 ---
 layout: page
-title: About
-permalink: /about/
+title: What is OpFab?
+permalink: /whatisopfab/
 feature-img: "assets/img/pexels/triangular.jpeg"
 tags: [About]
 ---
