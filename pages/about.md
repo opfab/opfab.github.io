@@ -33,7 +33,7 @@ The source code is hosted on GitHub in this repository : [operatorfabric-core](h
  - **Fabric**, from a modern digital perspective, is used as a metaphor to illustrate the idea of a simple work to create and weave together powerful software
 
 That's why when we started this project it felt kind of natural to call it **OperatorFabric**, or **"OpFab"** for short (there's no need to explain it, is there? :-) ).
-And in the end, in emails and presentations and such, we started referring to as just **"OF"**.
+And in the end, in emails and presentations and such, we started referring to it as just **"OF"**.
 
 <h2>Technology stack</h2>
 
