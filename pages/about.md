@@ -8,7 +8,7 @@ tags: [About]
 
 <h2>A Smart Assistant For System Operators</h2>
 
-Operator Fabric is a modular, extensible, industrial-strength and field-tested platform for use in electricity, water, and other utility operations.
+OperatorFabric is a modular, extensible, industrial-strength and field-tested platform for use in electricity, water, and other utility operations.
 
 OpFab provides a notification GUI with strong added value and powerful backend modules :
 
