@@ -3,12 +3,18 @@
 {% for categorie in site.data.subprojects %}
 <h2>{{categorie.name}}</h2>
     {% for subcategorie in categorie.subcategories %}
-    <h3>{{subcategorie.name}}</h3>
-        {% for component in subcategorie.list %}
-            <a href="{{"/projects/" | append: categorie.id | append: "/" | append: subcategorie.id | append: "/" | append: component.id | relative_url}}">
-            <h4>{{ component.name }}</h4>
+        {% if subcategorie.list.size > 0 %}
+            <h3>{{subcategorie.name}}</h3>
+            {% for component in subcategorie.list %}
+                <a href="{{"/projects/" | append: categorie.id | append: "/" | append: subcategorie.id | append: "/" | append: component.id | relative_url}}">
+                <h4>{{ component.name }}</h4>
+                </a>
+            {% endfor %}
+        {% else %}
+            <a href="{{"/projects/" | append: categorie.id | append: "/" | append: subcategorie.id | relative_url}}">
+            <h4>{{ subcategorie.short }}</h4>
             </a>
-        {% endfor %}
+        {% endif %}
     {% endfor %}
 {% endfor %}
 </div>
