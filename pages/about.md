@@ -39,6 +39,7 @@ And in the end, in emails and presentations and such, we started referring to it
 
 <h3>Development</h3>
 OperatorFabric is mostly written in Java and based on the Spring framework. This makes writing and integrating software for a simplified and better coordination very easy.
+
 [![Using Java](https://img.shields.io/badge/Using-Java-%237473C0.svg?style=for-the-badge)]() 
 [![Using Spring](https://img.shields.io/badge/Using-Spring-%236db33f.svg?style=for-the-badge)](https://spring.io/) 
 [![Using Angular](https://img.shields.io/badge/Using-Angular-%237473C0.svg?style=for-the-badge)](https://angular.io/)
@@ -46,6 +47,7 @@ OperatorFabric is mostly written in Java and based on the Spring framework. This
 
 <h3>Continuous Integration / Continuous Delivery</h3>
 OperatorFabric is built and integrated using battle-tested tools and (open) platforms. 
+
 [![Built with Gradle](https://img.shields.io/badge/Built%20with-Gradle-%23410099.svg?style=for-the-badge)](https://gradle.org/)
 [![Built with Maven](https://img.shields.io/badge/Built%20with-Maven-%23410099.svg?style=for-the-badge)](https://maven.apache.org/)
 [![Using Travis CI](https://img.shields.io/badge/Using-Travis%20CI-%23FF647D.svg?style=for-the-badge)](https://travis-ci.org/opfab/operatorfabric-core)
