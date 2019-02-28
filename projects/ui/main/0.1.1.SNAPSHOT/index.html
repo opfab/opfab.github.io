@@ -1,0 +1,168 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>operatorfabric-ui-main documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">operatorfabric-ui-main documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="operator-fabric-core-user-interface">Operator Fabric Core User Interface</h1>
+<p>This project was partially generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8. </p>
+<p><em>note :</em></p>
+<blockquote>
+<p>In the following document the variable declared as <code>OPERATOR_FABRIC_CORE_HOME</code> is the root folder of the <code>opertaor fabric core project</code>.</p>
+<p>The <code>CLI</code> acronym stand for <code>Command Line Interface</code>.</p>
+<p>The <code>SPA</code> acronym stand for <code>Single Page Application</code>.</p>
+<p>The <code>OS</code> acronym stand for <code>Operating System</code>.</p>
+</blockquote>
+<h2 id="run">Run</h2>
+<h3 id="linux">Linux</h3>
+<p>After launching docker containers, use the following command line <code>$OPERATOR_FABRIC_HOME/bin/run_all.sh start</code> to run the application. Once the whole application is ready, you have at least the following kind of message in your terminal :</p>
+<div><pre class="line-numbers"><code class="language-shell">##########################################################
+Starting client-gateway-cloud-service, debug port: 5008
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/infra/client-gateway/build/PIDFILE
+Started with pid: 7479
+
+##########################################################
+Starting users-business-service, debug port: 5009
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/users/build/PIDFILE
+Started with pid: 7483
+
+##########################################################
+Starting time-business-service, debug port: 5010
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/time/build/PIDFILE
+Started with pid: 7488
+
+##########################################################
+Starting cards-consultation-business-service, debug port: 5011
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/cards-consultation/build/PIDFILE
+Started with pid: 7493
+
+##########################################################
+Starting cards-publication-business-service, debug port: 5012
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/cards-publication/build/PIDFILE</code></pre></div><p>Wait a few moments before trying to connect to the <code>SPA</code>, leaving time for the <code>client-gateway</code> to boot up completely. </p>
+<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code>http://localhost:2002/home</code>.</p>
+<p>To log in you need to use a valid user. Currently you need to use a connection pair define in <code>$OPERATOR_FABRIC_HOME/services/infra/auth/src/main/java/org/lfenergy/operatorfabric/auth/config/WebSecurityConfiguration.java</code>. It could be <code>admin</code> with <code>test</code>, for example.</p>
+<p>To test the reception of cards, you can use the following script to create fake ones:</p>
+<div><pre class="line-numbers"><code class="language-shell">$OPERTAOR_FABRIC_HOME/services/core/cards-publication/src/main/bin/push_cards_loop.sh</code></pre></div><p>Once, logged in, with that script running in background, you should be able to see some cards displayed in <code>http://localhost:2002/home/feed</code>.</p>
+<h3 id="windows">Windows</h3>
+<p>No script helpers provided for this OS. </p>
+<h2 id="build">Build</h2>
+<p>Run <code>ng build</code> to build the project. The build artifacts will be stored in :</p>
+<div><pre class="line-numbers"><code class="language-shell">$OPERATOR_FABRIC_CORE_HOME/services/infra/client-gateway/build/src/generated/resources/static/home`</code></pre></div><h2 id="test">Test</h2>
+<h3 id="standalone-tests">Standalone tests</h3>
+<p>Run in the <code>$OPERTAOR_FABRIC_HOME/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests based on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
+<h3 id="test-during-ui-development">Test during UI development</h3>
+<ol start="0">
+<li>if the RabittMQ and MongoDB docker containers are not not running, launch them;</li>
+<li>set your environment variables with <code>. $OPERTAOR_FABRIC_HOME/bin/load_environment_light.sh</code>;</li>
+<li>run the micro services using the same command as earlier: <code>$OPERTAOR_FABRIC_HOME/bin/run_all.sh start</code>;</li>
+<li>if needed, enable a card-operation test flow using the script <code>$OPERTAOR_FABRIC_HOME/service/core/cards-publication/src/main/bin/push_cards_loop.sh</code>;</li>
+<li>launch an angular server with the command: <code>ng serve</code>;</li>
+<li>test your changes in your browser using this url: <code>http://localhost:4200/home</code>.</li>
+</ol>
+<h2 id="known-bugs">Known Bugs</h2>
+<h3 id="login-page">Login Page</h3>
+<ul>
+<li>no error message displayed on wrong identication;</li>
+</ul>
+<h3 id="light-card-flow">Light Card flow</h3>
+<ul>
+<li>not unsuscribe on logout;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
