@@ -1,0 +1,50 @@
+---
+layout: default
+---
+
+<head>
+    <link rel="stylesheet" href="{{ "/assets/css/version_badges.css" | relative_url}}">
+</head>
+
+<article {% if page.feature-img %}class="feature-image"{% endif %}>
+    <header id="main" style="background-image: url('{{ page.feature-img | relative_url }}')">
+        <h1 id="{{ page.title | default: "" | cgi_escape }}" class="title">
+        {{ page.title }}
+        </h1>
+
+        {% if page.subtitle %}
+        <h2 class="subtitle">{{ page.subtitle }}</h2>
+        {% endif %}
+    </header>
+
+    <!-- Taken from first OpFab site - displays index.html content + documentation table -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 pr-md-3">{{content}}</div>
+                        <div class="col-sm-12 d-sm-none border border-top border-dark"></div>
+                        <div class="col-sm-12 col-md-6 pl-md-3">
+                            <table class="table table-borderless table-hover table-responsive-md w-100">
+                                {% for version in site.data.versions %}
+                                <tr>
+                                    <td>{{ version.name }}
+                                        {% for badge in version.badges %}
+                                        <span class="badge {{badge.style}}">{{ badge.name }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    {% assign baseUrl = page.url | append: version.fullname %}
+                                    <td><a class="text-dark" href="{{baseUrl | append: "/reference" | relative_url }}">Reference</a></td>
+                                    <td><a class="text-dark" href="{{baseUrl | append: "/compodoc" | relative_url }}">Compodoc</a></td>
+                                    {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+    <!-- Tag list for portfolio -->
+    {% capture tag_list %}{{ page.tags | join: "|"}}{% endcapture %}
+    {% include tags_list.html tags=tag_list %}
+
+</article>
+
