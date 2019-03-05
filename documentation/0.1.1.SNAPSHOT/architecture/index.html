@@ -1391,14 +1391,332 @@ Service business process instances.</p>
 </div>
 <div class="sect2">
 <h3 id="_business_services">2.4. Business Services</h3>
+<div class="sect3">
+<h4 id="_generic">2.4.1. Generic</h4>
+<div class="sect4">
+<h5 id="_to_authenticate">To Authenticate</h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_services/Model_opfab_GenericUseCaseDiagram.JPEG" alt="Generic Use Case Diagram">
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>User (Primary), 3rd Party IS (Primary)</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>To authenticate. Human User and automated 3rd Party IS do not
+share the exact same authentication process, Human user are authenticate
+through user/password whereas 3rd Party IS do authenticate through use of
+certificates.</p>
+</dd>
+<dt class="hdlist1">Pre requisites</dt>
+<dd>
+<p>User and 3rd Party IS must be already registered in their
+respective mechanisms</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_administration">2.4.2. Administration</h4>
+<div class="sect4">
+<h5 id="_to_register_a_new_service">To Register a new Service</h5>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_services/Package_third_ThirdUseCaseDiagram.JPEG" alt="Third Management Use Case Diagram">
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Administrator</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>To Register a new or existing service with a new or updated
+version.</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>Create service definition</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal Scenario</div>
+<ol class="arabic">
+<li>
+<p>Submit the new service definition</p>
+</li>
+<li>
+<p>Persist the new service data</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Alternative Scenario</div>
+<ul>
+<li>
+<p>If the service already exist but not its associated version:</p>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Create a new version and set it as the default version</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>If the service and its associated versions already exist:</p>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Update the existing version</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Error Scenario</div>
+<ul>
+<li>
+<p>If the submitted Service definition is erroneous (format, file corruption …):</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Raise an error for the user</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_manage_users">To Manage Users</h5>
 
+</div>
+</div>
+<div class="sect3">
+<h4 id="_process">2.4.3. Process</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_services/Package_process_ProcessUseCaseDiagram.JPEG" alt="Process Use Case Diagram">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_consult_the_card_feed">To consult the card feed</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Operator</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Access the feed of cards which display cards with a focus and the operator needs to accomplish its tasks</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>Authenticated user (see To Authenticate)</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal Scenario</div>
+<ol class="arabic">
+<li>
+<p>Access the main operator-fabric ui to display the feed of cards</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title">Extended Scenario</div>
+<p>Adjust the focus on the feed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>With temporal filter adjustment (defaults to : from now to +24 hour);;.</p>
+</li>
+<li>
+<p>With recipient adjustment (defaults to only cards where the user is main recipient)</p>
+</li>
+<li>
+<p>With type adjustment through the use of tag filters</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_consult_a_card">To consult a Card</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Operator, 3rd Party IS (Secondary in extended scenario)</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Access a specific card associated business content called details</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>Authenticated user (see To Authenticate)</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal Scenario</div>
+<ol class="arabic">
+<li>
+<p>Select a card in the feed to display its associated details</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title">Extended Scenario</div>
+<p>Details can be of two types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Templated details are a predefined rendering of the card associated business data;</p>
+</li>
+<li>
+<p>Embedded frame details are embedded frames loading a 3rd Party IS defined web page.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_start_a_process_instance">To start a process instance</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>3rd Party IS</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Start a process instance</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>The process definition must exist.</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal Scenario</div>
+<ol class="arabic">
+<li>
+<p>Initiate the process with corresponding initialization data</p>
+</li>
+<li>
+<p>Realize the initial state</p>
+</li>
+<li>
+<p>Issue a card for the initial state</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Error Scenario</div>
+<ul>
+<li>
+<p>If the process definition does not exist:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return an error to 3rd Party IS</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>If the process initialization data are incorrect:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return an error to 3rd Party IS</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>If an error occurs during realization of the initial state:</p>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>&nbsp;</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Log an error</p>
+</li>
+<li>
+<p>Issue an error card</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>If an error occurs during card issuing:</p>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Log an error, notify administrator</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_handle_a_process_state">To handle a process state</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dt class="hdlist1">Description</dt>
+<dt class="hdlist1">Pre requisite</dt>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_input_data_to_process">To input data to process</h5>
+<div class="dlist">
+<div class="title">Error Scenario</div>
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dt class="hdlist1">Description</dt>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>.Nominal Scenario</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-03-05 09:01:41 UTC
+Last updated 2019-03-05 12:30:37 UTC
 </div>
 </div>
 </body>
