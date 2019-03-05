@@ -188,10 +188,6 @@ font-style: italic;
     <div class="license-info">Mozilla Public License V2.0</div>
     <div class="license-url">http://mozilla.org/MPL/2.0/</div>
   <h2>Access</h2>
-    <ol>
-      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
-      <li>OAuth AuthorizationUrl:http://petstore.swagger.io/oauth/dialogTokenUrl:</li>
-    </ol>
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
@@ -224,8 +220,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Adds users to group (<span class="nickname">addGroupUsers</span>)</div>
-    <div class="method-notes">ONLY add users to group</div>
+    <div class="method-summary">Add users to group (<span class="nickname">addGroupUsers</span>)</div>
+    <div class="method-notes">ONLY add users to group (no deletions)</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -244,7 +240,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">users <a href="#string">string</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user login to be added </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins to be added to group </div>
 
     </div>  <!-- field-items -->
 
@@ -264,7 +260,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    created
+    Updated
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -275,207 +274,6 @@ font-style: italic;
     <div class="method-summary">Create a new group of users (<span class="nickname">createGroup</span>)</div>
     <div class="method-notes">Create a new group of users</div>
 
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">group <a href="#Group">Group</a> (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Group  to be created </div>
-
-    </div>  <!-- field-items -->
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      <a href="#Group">Group</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "name" : "name",
-  "description" : "description"
-}</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">201</h4>
-    created
-        <a href="#Group">Group</a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="deleteGroupUsers"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Deletes users from group (<span class="nickname">deleteGroupUsers</span>)</div>
-    <div class="method-notes">ONLY deletes users from group</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">name (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div>
-    </div>  <!-- field-items -->
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">users <a href="#string">string</a> (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user login to be added </div>
-
-    </div>  <!-- field-items -->
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    created
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="fetchGroup"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /groups/{name}</code></pre></div>
-    <div class="method-summary">Create a new group of users (<span class="nickname">fetchGroup</span>)</div>
-    <div class="method-notes">Create a new group of users</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">name (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div>
-    </div>  <!-- field-items -->
-
-
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      <a href="#Group">Group</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "name" : "name",
-  "description" : "description"
-}</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    created
-        <a href="#Group">Group</a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="fetchGroups"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /groups</code></pre></div>
-    <div class="method-summary">fetch list of existing groups (<span class="nickname">fetchGroups</span>)</div>
-    <div class="method-notes">fetch list of existing users, with pagination and filter options</div>
-
-
-
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      array[<a href="#Group">Group</a>]
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "name" : "name",
-  "description" : "description"
-}, {
-  "name" : "name",
-  "description" : "description"
-} ]</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    ok
-        
-    <h4 class="field-label">401</h4>
-    unauthorized user
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="updateGroup"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /groups/{name}</code></pre></div>
-    <div class="method-summary">Updates an existing group of users (<span class="nickname">updateGroup</span>)</div>
-    <div class="method-notes">Updates an existing group of users</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">name (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div>
-    </div>  <!-- field-items -->
 
     <h3 class="field-label">Consumes</h3>
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
@@ -505,8 +303,8 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "name" : "name",
-  "description" : "description"
+  "name" : "Wanda",
+  "description" : "They were not as successful in Fierce Creatures."
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -517,17 +315,20 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    created
+    <h4 class="field-label">201</h4>
+    Created
         <a href="#Group">Group</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="updateGroupUsers"/>
+  <div class="method"><a name="deleteGroupUsers"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Update list of group users (<span class="nickname">updateGroupUsers</span>)</div>
-    <div class="method-notes">Update list of group users, users not included are removed from group</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users</code></pre></div>
+    <div class="method-summary">Remove users from group (<span class="nickname">deleteGroupUsers</span>)</div>
+    <div class="method-notes">ONLY remove users from group (no additions)</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -546,7 +347,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">users <a href="#string">string</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user login to be added </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins to be removed from group </div>
 
     </div>  <!-- field-items -->
 
@@ -565,8 +366,224 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">20</h4>
-    updated
+    <h4 class="field-label">200</h4>
+    Deleted
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchGroup"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /groups/{name}</code></pre></div>
+    <div class="method-summary">Fetch an existing group of users (<span class="nickname">fetchGroup</span>)</div>
+    <div class="method-notes">Fetch an existing group of users</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Group">Group</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "name" : "Wanda",
+  "description" : "They were not as successful in Fierce Creatures."
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    OK
+        <a href="#Group">Group</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchGroups"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /groups</code></pre></div>
+    <div class="method-summary">Fetch a list of all existing groups (<span class="nickname">fetchGroups</span>)</div>
+    <div class="method-notes">Fetch a list of all existing groups, with pagination and filter options</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#Group">Group</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "name" : "Wanda",
+  "description" : "They were not as successful in Fierce Creatures"
+}, {
+  "name" : "Marx Brothers",
+  "description" : "Chico, Groucho and Harpo, forget about Zeppo and Gummo"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[{name=Wanda, description=They were not as successful in Fierce Creatures}, {name=Marx Brothers, description=Chico, Groucho and Harpo, forget about Zeppo and Gummo}]</code></pre>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateGroup"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /groups/{name}</code></pre></div>
+    <div class="method-summary">Update group if existing or create it (<span class="nickname">updateGroup</span>)</div>
+    <div class="method-notes">Update group if existing or create it</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of group to be updated </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">group <a href="#Group">Group</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated group data </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Group">Group</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "name" : "Wanda",
+  "description" : "They were not as successful in Fierce Creatures."
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Updated
+        <a href="#Group">Group</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateGroupUsers"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /groups/{name}/users</code></pre></div>
+    <div class="method-summary">Update list of group users (<span class="nickname">updateGroupUsers</span>)</div>
+    <div class="method-notes">Update list of group users, users not included in given list are removed from group</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">users <a href="#string">string</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins representing exactly the intended list of group users after update </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Updated
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -575,8 +592,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Adds users to group (<span class="nickname">addGroupUsers</span>)</div>
-    <div class="method-notes">ONLY add users to group</div>
+    <div class="method-summary">Add users to group (<span class="nickname">addGroupUsers</span>)</div>
+    <div class="method-notes">ONLY add users to group (no deletions)</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -595,7 +612,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">users <a href="#string">string</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user login to be added </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins to be added to group </div>
 
     </div>  <!-- field-items -->
 
@@ -615,7 +632,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    created
+    Updated
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -623,16 +643,21 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /users</code></pre></div>
-    <div class="method-summary">Create new user (<span class="nickname">createUser</span>)</div>
+    <div class="method-summary">Create a new user (<span class="nickname">createUser</span>)</div>
     <div class="method-notes">Create a new user</div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
       <div class="param">user <a href="#SimpleUser">SimpleUser</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; User  to be created </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; User to be created </div>
 
     </div>  <!-- field-items -->
 
@@ -650,9 +675,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "login" : "login"
+  "login" : "jlcurtis",
+  "firstName" : "Jamie Lee",
+  "lastName" : "Curtis"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -664,7 +689,7 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#SimpleUser">SimpleUser</a>
     <h4 class="field-label">401</h4>
     Authentication required
@@ -675,8 +700,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Deletes users from group (<span class="nickname">deleteGroupUsers</span>)</div>
-    <div class="method-notes">ONLY deletes users from group</div>
+    <div class="method-summary">Remove users from group (<span class="nickname">deleteGroupUsers</span>)</div>
+    <div class="method-notes">ONLY remove users from group (no additions)</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -695,7 +720,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">users <a href="#string">string</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user login to be added </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins to be removed from group </div>
 
     </div>  <!-- field-items -->
 
@@ -715,7 +740,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    created
+    Deleted
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -723,8 +751,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /users/{login}</code></pre></div>
-    <div class="method-summary">fetch existing user (<span class="nickname">fetchUser</span>)</div>
-    <div class="method-notes">fetch existing user from its login</div>
+    <div class="method-summary">Fetch an existing user (<span class="nickname">fetchUser</span>)</div>
+    <div class="method-notes">Fetch an existing user from their login</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -764,7 +792,7 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#User">User</a>
     <h4 class="field-label">401</h4>
     Authentication required
@@ -772,14 +800,17 @@ font-style: italic;
     <h4 class="field-label">403</h4>
     Authenticated users who are not admins can only access their own data
         <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Required user not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="fetchUsers"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /users</code></pre></div>
-    <div class="method-summary">fetch list of existing users (<span class="nickname">fetchUsers</span>)</div>
-    <div class="method-notes">fetch list of existing users, with pagination and filter options</div>
+    <div class="method-summary">Fetch a list of all existing users (<span class="nickname">fetchUsers</span>)</div>
+    <div class="method-notes">Fetch a list of all existing users, with pagination and filter options</div>
 
 
 
@@ -798,15 +829,15 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "groups" : [ "groups", "groups" ],
-  "login" : "login"
+  "login" : "jcleese",
+  "firstName" : "John",
+  "lastName" : "Cleese",
+  "groups" : [ "Monty Python", "Wanda" ]
 }, {
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "groups" : [ "groups", "groups" ],
-  "login" : "login"
+  "login" : "gchapman",
+  "firstName" : "Graham",
+  "lastName" : "Chapman",
+  "groups" : [ "Monty Python" ]
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -818,8 +849,11 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[{login=jcleese, firstName=John, lastName=Cleese, groups=[Monty Python, Wanda]}, {login=gchapman, firstName=Graham, lastName=Chapman, groups=[Monty Python]}]</code></pre>
     <h4 class="field-label">401</h4>
     Authentication required
         <a href="#"></a>
@@ -830,7 +864,7 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="put"><code class="huge"><span class="http-method">put</span> /groups/{name}/users</code></pre></div>
     <div class="method-summary">Update list of group users (<span class="nickname">updateGroupUsers</span>)</div>
-    <div class="method-notes">Update list of group users, users not included are removed from group</div>
+    <div class="method-notes">Update list of group users, users not included in given list are removed from group</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -849,7 +883,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">users <a href="#string">string</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user login to be added </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins representing exactly the intended list of group users after update </div>
 
     </div>  <!-- field-items -->
 
@@ -868,8 +902,11 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">20</h4>
-    updated
+    <h4 class="field-label">200</h4>
+    Updated
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -877,8 +914,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="put"><code class="huge"><span class="http-method">put</span> /users/{login}</code></pre></div>
-    <div class="method-summary">Update new user (<span class="nickname">updateUser</span>)</div>
-    <div class="method-notes">updates existing user</div>
+    <div class="method-summary">Update user if existing or create it (<span class="nickname">updateUser</span>)</div>
+    <div class="method-notes">Update user if existing or create it</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -887,12 +924,17 @@ font-style: italic;
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; user login </div>
     </div>  <!-- field-items -->
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
       <div class="param">user <a href="#SimpleUser">SimpleUser</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; User  to be created </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; User to be updated </div>
 
     </div>  <!-- field-items -->
 
@@ -910,9 +952,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "login" : "login"
+  "login" : "jlcurtis",
+  "firstName" : "Jamie Lee",
+  "lastName" : "Curtis"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -924,7 +966,7 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#SimpleUser">SimpleUser</a>
     <h4 class="field-label">401</h4>
     Authentication required
@@ -937,18 +979,11 @@ font-style: italic;
 
   <h3>Table of Contents</h3>
   <ol>
-    <li><a href="#EpochDate"><code>EpochDate</code> - </a></li>
     <li><a href="#Group"><code>Group</code> - </a></li>
     <li><a href="#SimpleUser"><code>SimpleUser</code> - </a></li>
     <li><a href="#User"><code>User</code> - </a></li>
   </ol>
 
-  <div class="model">
-    <h3><a name="EpochDate"><code>EpochDate</code> - </a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>number of milliseconds since Epoch (long integer)</div>
-    <div class="field-items">
-          </div>  <!-- field-items -->
-  </div>
   <div class="model">
     <h3><a name="Group"><code>Group</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
@@ -959,7 +994,7 @@ font-style: italic;
   </div>
   <div class="model">
     <h3><a name="SimpleUser"><code>SimpleUser</code> - </a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>User</div>
+    <div class='model-description'>User (basic properties)</div>
     <div class="field-items">
       <div class="param">login (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
