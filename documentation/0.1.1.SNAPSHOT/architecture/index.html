@@ -430,9 +430,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>Architecture</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Architecture</div>
+<ul class="sectlevel1">
+<li><a href="#_contextual_background">1. Contextual background</a>
+<ul class="sectlevel2">
+<li><a href="#_business_mission">1.1. Business Mission</a></li>
+<li><a href="#_business_objectives">1.2. Business Objectives</a></li>
+<li><a href="#_objectives_hierarchie">1.3. Objectives Hierarchie</a></li>
+<li><a href="#_risks">1.4. Risks</a></li>
+<li><a href="#_constraints">1.5. Constraints</a></li>
+<li><a href="#_scopes">1.6. Scopes</a></li>
+<li><a href="#_assumptions">1.7. Assumptions</a></li>
+<li><a href="#_principles">1.8. Principles</a></li>
+</ul>
+</li>
+<li><a href="#_business_conceptual_layer">2. Business Conceptual Layer</a>
+<ul class="sectlevel2">
+<li><a href="#_business_goals">2.1. Business Goals</a></li>
+<li><a href="#_business_roles">2.2. Business Roles</a></li>
+<li><a href="#_business_services">2.3. Business Services</a></li>
+<li><a href="#_business_activities">2.4. Business Activities</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
@@ -1042,278 +1067,14 @@ accessing the view.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_business_activities">2.2. Business Activities</h3>
-<div class="sect3">
-<h4 id="_handle_business">2.2.1. Handle Business</h4>
-<div class="sect4">
-<h5 id="_handle_business_process_instance">Handle Business Process instance</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Handles defined business process instances from start event to end event. The
-handling of business process instance instantiate a business process instance
-upon predefined business start event and rules the interaction between
-operators and 3rd Party Information Services.</p>
-</dd>
-<dt class="hdlist1">Result control requirements</dt>
-<dd>
-<p>Result control required for each business process instance</p>
-</dd>
-<dt class="hdlist1">Importance</dt>
-<dd>
-<p>Must complete in one of the Business Process allowed end state. Must react to.</p>
-</dd>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dd>
-<p>Input:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>To start : Business process start event ; Business process definition;</p>
-</li>
-<li>
-<p>During processing : Operator input event ; 3rd Party Service input event ;</p>
-</li>
-</ul>
-</div>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>Business Process end event</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-02 ; BCL-G-03 ;</p>
-</dd>
-</dl>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/02_02_business_activities/Activity_Handle_Process_ProcessActivityDiagram.JPEG" alt="Handle Business Process Instance Activity">
-</div>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Notes</dt>
-<dd>
-<div class="ulist">
-<ul>
-<li>
-<p>Depending on future implementation decisions the above described process
-instance handling loop may be delegated to an external business process
-management system (ResponsabilityTLD partition), the sole responsibility for
-the Operator-Fabric system would then be to handle card and user inputs.</p>
-</li>
-<li>
-<p>The “Handle Card” Action refers to the Handle Card Activity described bellow</p>
-</li>
-</ul>
-</div>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_handle_card">Handle Card</h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Handles new card input representing the state of an externally
-defined process.</p>
-</dd>
-<dt class="hdlist1">Result control requirements</dt>
-<dd>
-<p>Result control required for each card instance</p>
-</dd>
-<dt class="hdlist1">Importance</dt>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
-<dd>
-<div class="ulist">
-<ul>
-<li>
-<p>To start : Card data;</p>
-</li>
-<li>
-<p>During processing : Operator input event ;</p>
-</li>
-</ul>
-</div>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>Card and events</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-01</p>
-</dd>
-<dt class="hdlist1">Parent Activity</dt>
-<dd>
-<p>Handle Business Process instance</p>
-</dd>
-</dl>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/02_02_business_activities//Activity_Handle_Card_CardActivityDiagram.JPEG" alt="Handle Card Input Activity">
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_declare_new_3rd_party_information_services">2.2.2. Declare new 3rd Party Information Services</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Declare a new or updated 3rd Party Information Service to the
-system
-Result control requirements: Result control required for each declaration</p>
-</dd>
-<dt class="hdlist1">Importance</dt>
-<dd>
-<p>Must complete in short response time</p>
-</dd>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
-<dd>
-<p>3rd Party Service Add/Update Event; 3rd Party Information Service
-definition.</p>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>Registered 3rd Party Information Services definition</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-02 ; BCL-G-01 ;</p>
-</dd>
-<dt class="hdlist1">Parent Activity</dt>
-</dl>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/02_02_business_activities/Activity_UploadThirdActivity_ThirdActivityDiagram.JPEG" alt="Upload a Third Party Data Bundle Activity">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_browse_card_archive">2.2.3. Browse card archive</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Access by search the completed process instances for verification
-or feedback.</p>
-</dd>
-<dt class="hdlist1">Result control requirements</dt>
-<dd>
-<p>Result control required for each search.</p>
-</dd>
-<dt class="hdlist1">Importance</dt>
-<dd>
-<p>Must complete in short response time</p>
-</dd>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
-<dd>
-<p>User identification; Search criterias;</p>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>Archived process instances;</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-02; BCL-G-01;</p>
-</dd>
-<dt class="hdlist1">Parent Activity</dt>
-</dl>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_browse_card_feed">2.2.4. Browse card feed</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Access a feed of cards. A feed of card is an updatable ensemble
-of cards, it consist of both the card previously published and the new incoming
-cards in the system. It is characterized by the following:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>The connected user is a recipient of the cards;</p>
-</li>
-<li>
-<p>The feed of cards is related to a time span or a collection of time span
-defined by a start and an end.
-A card feed displays cards. There are two interaction possible with cards:</p>
-</li>
-<li>
-<p>Display a specific card details, which are formatted views on the card
-associated business data;</p>
-</li>
-<li>
-<p>Submit a card action, actions are buttons available from the card itself or
-its details which triggers events in business process. These events may be
-attached with input data.</p>
-</li>
-</ul>
-</div>
-</dd>
-<dt class="hdlist1">Result control requirements</dt>
-<dt class="hdlist1">Importance</dt>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
-<dd>
-<p>User identification; Time span(s);</p>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>A continuously updated feed;</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-03</p>
-</dd>
-<dt class="hdlist1">Parent Activity</dt>
-</dl>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/02_02_business_activities/Activity_Feed_Feed_Activity_Diagram.JPEG" alt="Browse a Feed Activity">
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_business_roles">2.3. Business Roles</h3>
+<h3 id="_business_roles">2.2. Business Roles</h3>
 <div class="paragraph">
 <p>We limit business roles to the high level business role, it is not the purpose
 of this document to delve into specific Business Process implementation
 defined during the lifetime of the system</p>
 </div>
 <div class="sect3">
-<h4 id="_operator">2.3.1. Operator</h4>
+<h4 id="_operator">2.2.1. Operator</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1341,7 +1102,7 @@ Service business process instances.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_administrator">2.3.2. Administrator</h4>
+<h4 id="_administrator">2.2.2. Administrator</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1365,7 +1126,7 @@ Service business process instances.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_3rd_party_information_service">2.3.3. 3rd Party Information Service</h4>
+<h4 id="_3rd_party_information_service">2.2.3. 3rd Party Information Service</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1390,16 +1151,16 @@ Service business process instances.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_business_services">2.4. Business Services</h3>
+<h3 id="_business_services">2.3. Business Services</h3>
 <div class="sect3">
-<h4 id="_generic">2.4.1. Generic</h4>
-<div class="sect4">
-<h5 id="_to_authenticate">To Authenticate</h5>
+<h4 id="_generic">2.3.1. Generic</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/02_04_business_services/Model_opfab_GenericUseCaseDiagram.JPEG" alt="Generic Use Case Diagram">
+<img src="images/02_03_business_services/Model_opfab_GenericUseCaseDiagram.JPEG" alt="Generic Use Case Diagram">
 </div>
 </div>
+<div class="sect4">
+<h5 id="_to_authenticate">To Authenticate</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Actors</dt>
@@ -1421,16 +1182,146 @@ respective mechanisms</p>
 </dl>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_to_create_users">To Create Users</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Administrator(Primary), User(Primary)</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Create User</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>User must be defined in provided authentication service</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal Scenario</div>
+<ol class="arabic">
+<li>
+<p>User succeed in connecting for the first time (See To Authenticate)</p>
+</li>
+<li>
+<p>A user is registred in the system</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Alternative scenario</div>
+<ol class="arabic">
+<li>
+<p>Administrator creates a user directly</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Error scenario</div>
+<ul>
+<li>
+<p>If user is not registred in authentication provider when an Administrator creates it, raise an error</p>
+</li>
+<li>
+<p>If user already exist when an Administrator creates it, raise an error</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_create_a_group">To create a Group</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Administrator</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Create Group</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>none</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal scenario</div>
+<ol class="arabic">
+<li>
+<p>create group</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Error scenario</div>
+<ul>
+<li>
+<p>If group already exist when an Administrator creates it, raise an error</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_create_a_user_group_association">To create a user-group association</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Administrator</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>associate users to a group or associate groups a user</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>none</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal scenario 1</div>
+<ol class="arabic">
+<li>
+<p>associate a list of existing users to an existing group</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal scenario 2</div>
+<ol class="arabic">
+<li>
+<p>associate a list of existing groups to an existing user</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Error scenario</div>
+<ul>
+<li>
+<p>If one or more group do not exist, raise an error</p>
+</li>
+<li>
+<p>If one or more user does not exist, raise an error</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_administration">2.4.2. Administration</h4>
-<div class="sect4">
-<h5 id="_to_register_a_new_service">To Register a new Service</h5>
+<h4 id="_third_party">2.3.2. Third Party</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/02_04_business_services/Package_third_ThirdUseCaseDiagram.JPEG" alt="Third Management Use Case Diagram">
+<img src="images/02_03_business_services/Package_third_ThirdUseCaseDiagram.JPEG" alt="Third Management Use Case Diagram">
 </div>
 </div>
+<div class="sect4">
+<h5 id="_to_register_a_new_service">To Register a new Service</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Actors</dt>
@@ -1499,17 +1390,16 @@ version.</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>.</p>
 </div>
-<div class="sect4">
-<h5 id="_to_manage_users">To Manage Users</h5>
-
 </div>
 </div>
 <div class="sect3">
-<h4 id="_process">2.4.3. Process</h4>
+<h4 id="_process">2.3.3. Process</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/02_04_business_services/Package_process_ProcessUseCaseDiagram.JPEG" alt="Process Use Case Diagram">
+<img src="images/02_03_business_services/Package_process_ProcessUseCaseDiagram.JPEG" alt="Process Use Case Diagram">
 </div>
 </div>
 <div class="sect4">
@@ -1687,26 +1577,270 @@ version.</p>
 </div>
 <div class="sect4">
 <h5 id="_to_handle_a_process_state">To handle a process state</h5>
+
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_business_activities">2.4. Business Activities</h3>
+<div class="sect3">
+<h4 id="_handle_business">2.4.1. Handle Business</h4>
+<div class="sect4">
+<h5 id="_handle_business_process_instance">Handle Business Process instance</h5>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Actors</dt>
 <dt class="hdlist1">Description</dt>
-<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>Handles defined business process instances from start event to end event. The
+handling of business process instance instantiate a business process instance
+upon predefined business start event and rules the interaction between
+operators and 3rd Party Information Services.</p>
+</dd>
+<dt class="hdlist1">Result control requirements</dt>
+<dd>
+<p>Result control required for each business process instance</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dd>
+<p>Must complete in one of the Business Process allowed end state. Must react to.</p>
+</dd>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dt class="hdlist1">Governance Characteristics</dt>
+<dt class="hdlist1">Security Characteristics</dt>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>Input:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>To start : Business process start event ; Business process definition;</p>
+</li>
+<li>
+<p>During processing : Operator input event ; 3rd Party Service input event ;</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Business Process end event</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-02 ; BCL-G-03 ;</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_activities/Activity_Handle_Process_ProcessActivityDiagram.JPEG" alt="Handle Business Process Instance Activity">
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Notes</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Depending on future implementation decisions the above described process
+instance handling loop may be delegated to an external business process
+management system (ResponsabilityTLD partition), the sole responsibility for
+the Operator-Fabric system would then be to handle card and user inputs.</p>
+</li>
+<li>
+<p>The “Handle Card” Action refers to the Handle Card Activity described bellow</p>
+</li>
+</ul>
+</div>
+</dd>
 </dl>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_to_input_data_to_process">To input data to process</h5>
+<h5 id="_handle_card">Handle Card</h5>
 <div class="dlist">
-<div class="title">Error Scenario</div>
 <dl>
-<dt class="hdlist1">Actors</dt>
 <dt class="hdlist1">Description</dt>
-<dt class="hdlist1">Pre requisite</dt>
 <dd>
-<p>.Nominal Scenario</p>
+<p>Handles new card input representing the state of an externally
+defined process.</p>
+</dd>
+<dt class="hdlist1">Result control requirements</dt>
+<dd>
+<p>Result control required for each card instance</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dt class="hdlist1">Governance Characteristics</dt>
+<dt class="hdlist1">Security Characteristics</dt>
+<dt class="hdlist1">Behavior</dt>
+<dt class="hdlist1">Input</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>To start : Card data;</p>
+</li>
+<li>
+<p>During processing : Operator input event ;</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Card and events</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-01</p>
+</dd>
+<dt class="hdlist1">Parent Activity</dt>
+<dd>
+<p>Handle Business Process instance</p>
 </dd>
 </dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_activities//Activity_Handle_Card_CardActivityDiagram.JPEG" alt="Handle Card Input Activity">
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_declare_new_3rd_party_information_services">2.4.2. Declare new 3rd Party Information Services</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Declare a new or updated 3rd Party Information Service to the
+system
+Result control requirements: Result control required for each declaration</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dd>
+<p>Must complete in short response time</p>
+</dd>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dt class="hdlist1">Governance Characteristics</dt>
+<dt class="hdlist1">Security Characteristics</dt>
+<dt class="hdlist1">Behavior</dt>
+<dt class="hdlist1">Input</dt>
+<dd>
+<p>3rd Party Service Add/Update Event; 3rd Party Information Service
+definition.</p>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Registered 3rd Party Information Services definition</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-02 ; BCL-G-01 ;</p>
+</dd>
+<dt class="hdlist1">Parent Activity</dt>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_activities/Activity_UploadThirdActivity_ThirdActivityDiagram.JPEG" alt="Upload a Third Party Data Bundle Activity">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_browse_card_archive">2.4.3. Browse card archive</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Access by search the completed process instances for verification
+or feedback.</p>
+</dd>
+<dt class="hdlist1">Result control requirements</dt>
+<dd>
+<p>Result control required for each search.</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dd>
+<p>Must complete in short response time</p>
+</dd>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dt class="hdlist1">Governance Characteristics</dt>
+<dt class="hdlist1">Security Characteristics</dt>
+<dt class="hdlist1">Behavior</dt>
+<dt class="hdlist1">Input</dt>
+<dd>
+<p>User identification; Search criterias;</p>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Archived process instances;</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-02; BCL-G-01;</p>
+</dd>
+<dt class="hdlist1">Parent Activity</dt>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_browse_card_feed">2.4.4. Browse card feed</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Access a feed of cards. A feed of card is an updatable ensemble
+of cards, it consist of both the card previously published and the new incoming
+cards in the system. It is characterized by the following:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The connected user is a recipient of the cards;</p>
+</li>
+<li>
+<p>The feed of cards is related to a time span or a collection of time span
+defined by a start and an end.
+A card feed displays cards. There are two interaction possible with cards:</p>
+</li>
+<li>
+<p>Display a specific card details, which are formatted views on the card
+associated business data;</p>
+</li>
+<li>
+<p>Submit a card action, actions are buttons available from the card itself or
+its details which triggers events in business process. These events may be
+attached with input data.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Result control requirements</dt>
+<dt class="hdlist1">Importance</dt>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dt class="hdlist1">Governance Characteristics</dt>
+<dt class="hdlist1">Security Characteristics</dt>
+<dt class="hdlist1">Behavior</dt>
+<dt class="hdlist1">Input</dt>
+<dd>
+<p>User identification; Time span(s);</p>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>A continuously updated feed;</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-03</p>
+</dd>
+<dt class="hdlist1">Parent Activity</dt>
+</dl>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_activities/Activity_Feed_Feed_Activity_Diagram.JPEG" alt="Browse a Feed Activity">
 </div>
 </div>
 </div>
@@ -1716,7 +1850,7 @@ version.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-03-05 12:30:37 UTC
+Last updated 2019-03-06 11:24:09 UTC
 </div>
 </div>
 </body>
