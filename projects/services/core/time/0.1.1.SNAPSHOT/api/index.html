@@ -180,7 +180,7 @@ font-style: italic;
   </head>
   <body>
   <h1>Time Management</h1>
-    <div class="app-desc">Time Service a.k.a. Time management API for Operator Fabric</div>
+    <div class="app-desc">Time Management Service for Operator Fabric</div>
     <div class="app-desc">More information: <a href="https://opfab.github.io/">https://opfab.github.io/</a></div>
     <div class="app-desc">Contact Info: <a href="benoit.jeanson@rte-france.com">benoit.jeanson@rte-france.com</a></div>
     <div class="app-desc">Version: 0.1.1.SNAPSHOT</div>
@@ -188,10 +188,6 @@ font-style: italic;
     <div class="license-info">Mozilla Public License V2.0</div>
     <div class="license-url">http://mozilla.org/MPL/2.0/</div>
   <h2>Access</h2>
-    <ol>
-      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
-      <li>OAuth AuthorizationUrl:http://petstore.swagger.io/oauth/dialogTokenUrl:</li>
-    </ol>
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
@@ -205,8 +201,8 @@ font-style: italic;
   <li><a href="#setCurrentSpeed"><code><span class="http-method">post</span> /time/speed</code></a></li>
   <li><a href="#setCurrentTime"><code><span class="http-method">post</span> /time/current</code></a></li>
   <li><a href="#setTime"><code><span class="http-method">post</span> /time</code></a></li>
+  <li><a href="#updateCurrentSpeed"><code><span class="http-method">put</span> /time/speed</code></a></li>
   <li><a href="#updateCurrentTime"><code><span class="http-method">put</span> /time/current</code></a></li>
-  <li><a href="#updateCurrentspeed"><code><span class="http-method">put</span> /time/speed</code></a></li>
   <li><a href="#updateTime"><code><span class="http-method">put</span> /time</code></a></li>
   </ul>
 
@@ -215,8 +211,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /time</code></pre></div>
-    <div class="method-summary">fetch current time configuration (<span class="nickname">fetchTime</span>)</div>
-    <div class="method-notes">fetch current time configuration</div>
+    <div class="method-summary">Fetch current time configuration (<span class="nickname">fetchTime</span>)</div>
+    <div class="method-notes">Fetch current time configuration</div>
 
 
 
@@ -235,10 +231,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "currentTime" : null,
-  "computedNow" : null,
-  "referenceTime" : { },
-  "speed" : { }
+  "referenceTime" : 1551868290379,
+  "currentTime" : 1520332290378,
+  "computedNow" : 1520332310718,
+  "speed" : "X10"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -250,16 +246,19 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#TimeData">TimeData</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="resetTime"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /time</code></pre></div>
-    <div class="method-summary">resets time configuration (<span class="nickname">resetTime</span>)</div>
-    <div class="method-notes">resets time configuration</div>
+    <div class="method-summary">Reset time configuration (<span class="nickname">resetTime</span>)</div>
+    <div class="method-notes">Reset time configuration</div>
 
 
 
@@ -276,14 +275,17 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="setCurrentSpeed"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /time/speed</code></pre></div>
-    <div class="method-summary">Sets current speed (<span class="nickname">setCurrentSpeed</span>)</div>
-    <div class="method-notes">Sets the virtual server speed</div>
+    <div class="method-summary">Set simulated time speed (<span class="nickname">setCurrentSpeed</span>)</div>
+    <div class="method-notes">Set simulated time speed</div>
 
 
 
@@ -291,7 +293,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">currentspeed <a href="#SpeedEnum">SpeedEnum</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; virtual server speed </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Simulated time speed </div>
 
     </div>  <!-- field-items -->
 
@@ -308,21 +310,24 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
+    <pre class="example"><code>"X2"</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
         <a href="#SpeedEnum">SpeedEnum</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="setCurrentTime"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /time/current</code></pre></div>
-    <div class="method-summary">Sets current time (<span class="nickname">setCurrentTime</span>)</div>
-    <div class="method-notes">Sets the virtual server time (milliseconds since Epoch)</div>
+    <div class="method-summary">Set start of simulated time (<span class="nickname">setCurrentTime</span>)</div>
+    <div class="method-notes">Set start of simulated time (milliseconds since Epoch)</div>
 
 
 
@@ -330,7 +335,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">currentTime <a href="#EpochDate">EpochDate</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; virtual server time (milliseconds since Epoch) </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Start of simulated time (milliseconds since Epoch) </div>
 
     </div>  <!-- field-items -->
 
@@ -347,21 +352,24 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
+    <pre class="example"><code>"1551732725193"</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
         <a href="#EpochDate">EpochDate</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="setTime"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /time</code></pre></div>
-    <div class="method-summary">sets current time configuration (<span class="nickname">setTime</span>)</div>
-    <div class="method-notes">sets current time configuration</div>
+    <div class="method-summary">Set current time configuration (<span class="nickname">setTime</span>)</div>
+    <div class="method-notes">Set current time configuration</div>
 
 
 
@@ -387,72 +395,36 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "currentTime" : null,
-  "computedNow" : null,
-  "referenceTime" : { },
-  "speed" : { }
+  "referenceTime" : 1551868290379,
+  "currentTime" : 1520332290378,
+  "computedNow" : 1520332310718,
+  "speed" : "X10"
 }</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
-        <a href="#TimeData">TimeData</a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="updateCurrentTime"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /time/current</code></pre></div>
-    <div class="method-summary">Updates current time (<span class="nickname">updateCurrentTime</span>)</div>
-    <div class="method-notes">Updates the virtual server time (milliseconds since Epoch)</div>
-
-
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">currentTime <a href="#EpochDate">EpochDate</a> (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; virtual server time (milliseconds since Epoch) </div>
-
-    </div>  <!-- field-items -->
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      <a href="#EpochDate">EpochDate</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
     OK
-        <a href="#EpochDate">EpochDate</a>
+        <a href="#TimeData">TimeData</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="updateCurrentspeed"/>
+  <div class="method"><a name="updateCurrentSpeed"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="put"><code class="huge"><span class="http-method">put</span> /time/speed</code></pre></div>
-    <div class="method-summary">Updates current speed (<span class="nickname">updateCurrentspeed</span>)</div>
-    <div class="method-notes">Updates the virtual server speed (milliseconds since Epoch)</div>
+    <div class="method-summary">Update simulated time speed (same as setCurrentSpeed) (<span class="nickname">updateCurrentSpeed</span>)</div>
+    <div class="method-notes">Update simulated time speed (same as setCurrentSpeed)</div>
 
 
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">currentspeed <a href="#SpeedEnum">SpeedEnum</a> (optional)</div>
+      <div class="param">currentSpeed <a href="#SpeedEnum">SpeedEnum</a> (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; virtual server speed (milliseconds since Epoch) </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Simulated time speed </div>
 
     </div>  <!-- field-items -->
 
@@ -469,21 +441,66 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
+    <pre class="example"><code>"X2"</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
         <a href="#SpeedEnum">SpeedEnum</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateCurrentTime"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /time/current</code></pre></div>
+    <div class="method-summary">Update start of simulated time (same as setCurrentTime) (<span class="nickname">updateCurrentTime</span>)</div>
+    <div class="method-notes">Updates start of simulated time (milliseconds since Epoch) (same as setCurrentTime)</div>
+
+
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">currentTime <a href="#EpochDate">EpochDate</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Start of simulated time (milliseconds since Epoch) </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#EpochDate">EpochDate</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"1551732725193"</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#EpochDate">EpochDate</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateTime"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="put"><code class="huge"><span class="http-method">put</span> /time</code></pre></div>
-    <div class="method-summary">updates current time configuration (<span class="nickname">updateTime</span>)</div>
-    <div class="method-notes">updates current time configuration</div>
+    <div class="method-summary">Update current time configuration (same as setTime) (<span class="nickname">updateTime</span>)</div>
+    <div class="method-notes">Update current time configuration (same as setTime)</div>
 
 
 
@@ -509,17 +526,20 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "currentTime" : null,
-  "computedNow" : null,
-  "referenceTime" : { },
-  "speed" : { }
+  "referenceTime" : 1551868290379,
+  "currentTime" : 1520332290378,
+  "computedNow" : 1520332310718,
+  "speed" : "X10"
 }</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#TimeData">TimeData</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
 
@@ -535,24 +555,24 @@ font-style: italic;
 
   <div class="model">
     <h3><a name="EpochDate"><code>EpochDate</code> - </a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>number of milliseconds since Epoch (long integer)</div>
+    <div class='model-description'>Number of milliseconds since Epoch (long integer)</div>
     <div class="field-items">
           </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="SpeedEnum"><code>SpeedEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>the speed of time flow</div>
+    <div class='model-description'>Speed of time flow in simulated time</div>
     <div class="field-items">
           </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="TimeData"><code>TimeData</code> - </a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>Describe a time configuration</div>
+    <div class='model-description'>Description of a time configuration, containing the current simulated time as well as the references used for computation</div>
     <div class="field-items">
-      <div class="param">referenceTime (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> The real server time at last time server change </div>
-<div class="param">currentTime (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> The virtual server time for last time server change </div>
-<div class="param">computedNow (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Current time computed by server </div>
-<div class="param">speed (optional)</div><div class="param-desc"><span class="param-type"><a href="#SpeedEnum">SpeedEnum</a></span> The speed of time flow </div>
+      <div class="param">referenceTime (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Real server time at last time change </div>
+<div class="param">currentTime (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Chosen simulated time start at last time change </div>
+<div class="param">computedNow (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Current simulated time computed by server as currentTime + (referenceTime - now) * speed </div>
+<div class="param">speed (optional)</div><div class="param-desc"><span class="param-type"><a href="#SpeedEnum">SpeedEnum</a></span> Speed of simulated time flow </div>
     </div>  <!-- field-items -->
   </div>
   </body>
