@@ -5,7 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Architecture</title>
+<meta name="author" content="David Binder, Boris Dolley, Alexandra Guirronet, Ronan Le Gall">
+<title>OperatorFabric Architecture</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,28 +434,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Architecture</h1>
+<h1>OperatorFabric Architecture</h1>
+<div class="details">
+<span id="author" class="author">David Binder</span><br>
+<span id="author2" class="author">Boris Dolley</span><br>
+<span id="author3" class="author">Alexandra Guirronet</span><br>
+<span id="author4" class="author">Ronan Le Gall</span><br>
+<span id="revnumber">version 0.1.1,</span>
+<span id="revdate">April 15, 2019</span>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Architecture</div>
 <ul class="sectlevel1">
-<li><a href="#_contextual_background">1. Contextual background</a>
+<li><a href="#_introduction">1. Introduction</a>
 <ul class="sectlevel2">
-<li><a href="#_business_mission">1.1. Business Mission</a></li>
-<li><a href="#_business_objectives">1.2. Business Objectives</a></li>
-<li><a href="#_objectives_hierarchie">1.3. Objectives Hierarchie</a></li>
-<li><a href="#_risks">1.4. Risks</a></li>
-<li><a href="#_constraints">1.5. Constraints</a></li>
-<li><a href="#_scopes">1.6. Scopes</a></li>
-<li><a href="#_assumptions">1.7. Assumptions</a></li>
-<li><a href="#_principles">1.8. Principles</a></li>
+<li><a href="#_a_smart_assistant_for_system_operators">1.1. A Smart Assistant For System Operators</a></li>
+<li><a href="#_open_source">1.2. Open source</a></li>
+<li><a href="#_where_does_the_name_come_from">1.3. Where does the name come from ?</a></li>
+<li><a href="#_what_is_the_present_document">1.4. What is the present document</a></li>
 </ul>
 </li>
-<li><a href="#_business_conceptual_layer">2. Business Conceptual Layer</a>
+<li><a href="#_contextual_background">2. Contextual background</a>
 <ul class="sectlevel2">
-<li><a href="#_business_goals">2.1. Business Goals</a></li>
-<li><a href="#_business_roles">2.2. Business Roles</a></li>
-<li><a href="#_business_services">2.3. Business Services</a></li>
-<li><a href="#_business_activities">2.4. Business Activities</a></li>
+<li><a href="#_business_mission">2.1. Business Mission</a></li>
+<li><a href="#_business_objectives">2.2. Business Objectives</a></li>
+<li><a href="#_objectives_hierarchie">2.3. Objectives Hierarchie</a></li>
+<li><a href="#_risks">2.4. Risks</a></li>
+<li><a href="#_constraints">2.5. Constraints</a></li>
+<li><a href="#_scopes">2.6. Scopes</a></li>
+<li><a href="#_assumptions">2.7. Assumptions</a></li>
+<li><a href="#_principles">2.8. Principles</a></li>
+</ul>
+</li>
+<li><a href="#_business_conceptual_layer">3. Business Conceptual Layer</a>
+<ul class="sectlevel2">
+<li><a href="#_business_goals">3.1. Business Goals</a></li>
+<li><a href="#_business_roles">3.2. Business Roles</a></li>
+<li><a href="#_business_services">3.3. Business Services</a></li>
+<li><a href="#_business_activities">3.4. Business Activities</a></li>
+<li><a href="#_business_objects">3.5. Business Objects</a></li>
 </ul>
 </li>
 </ul>
@@ -462,7 +480,110 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_contextual_background">1. Contextual background</h2>
+<h2 id="_introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_a_smart_assistant_for_system_operators">1.1. A Smart Assistant For System Operators</h3>
+<div class="paragraph">
+<p>OperatorFabric is a modular, extensible, industrial-strength and field-tested
+platform for use in electricity, water, and other utility operations.</p>
+</div>
+<div class="paragraph">
+<p>OperatorFabric provides a notification GUI with strong added value and powerful
+backend modules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>System visualization and console integration</p>
+</li>
+<li>
+<p>Precise alerting</p>
+</li>
+<li>
+<p>Workflow scheduling</p>
+</li>
+<li>
+<p>Historical browsing</p>
+</li>
+<li>
+<p>Scripting (ex: Python, JavaScript)</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Workflow Scheduling could be addressed either as an internal module or
+through simplified and standardized (BPMN) integration with external workflow
+engines, we&#8217;re still weighing the pros and cons of the two options._
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_open_source">1.2. Open source</h3>
+<div class="paragraph">
+<p>OperatorFabric is part of the <a href="https://www.lfenergy.org/">LF Energy</a> coalition,
+a project of The Linux Foundation that supports open source innovation projects
+within the energy and electricity sectors.</p>
+</div>
+<div class="paragraph">
+<p>OperatorFabric is an open source platform licensed under
+<a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License V2</a>.
+The source code is hosted on GitHub in this repository:
+<a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_where_does_the_name_come_from">1.3. Where does the name come from ?</h3>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+Operator
+</td>
+<td class="hdlist2">
+<p>represents the human being at the center of the platform, whether
+he&#8217;s working in a control room or in the field</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Fabric
+</td>
+<td class="hdlist2">
+<p>from a modern digital perspective, is used as a metaphor to
+illustrate the idea of a simple work to create and weave together powerful
+software</p>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>That&#8217;s why when we started this project it felt kind of natural to call it
+<strong>OperatorFabric</strong>, or <strong>"OpFab"</strong> for short (there&#8217;s no need to explain it,
+is there? :-) ).
+And in the end, in emails and presentations and such, we started referring to
+it as just <strong>"OF"</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_is_the_present_document">1.4. What is the present document</h3>
+<div class="paragraph">
+<p>The present document describes the reflexion process that leaded us from
+business observations to the technical architecture solution of OperatorFabric.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contextual_background">2. Contextual background</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Contextual Background captures a picture of the reason of existence of the
@@ -471,21 +592,21 @@ constraints. It also restrict the scope of the project by expressing
 assumptions on the business environment and principles of development.</p>
 </div>
 <div class="sect2">
-<h3 id="_business_mission">1.1. Business Mission</h3>
+<h3 id="_business_mission">2.1. Business Mission</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_business_objectives">1.2. Business Objectives</h3>
+<h3 id="_business_objectives">2.2. Business Objectives</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_objectives_hierarchie">1.3. Objectives Hierarchie</h3>
+<h3 id="_objectives_hierarchie">2.3. Objectives Hierarchie</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_risks">1.4. Risks</h3>
+<h3 id="_risks">2.4. Risks</h3>
 <div class="sect3">
-<h4 id="_absence_of_finite_target_audience">1.4.1. Absence of finite target audience</h4>
+<h4 id="_absence_of_finite_target_audience">2.4.1. Absence of finite target audience</h4>
 <div class="paragraph">
 <p>Operator-Fabric being a tool for other services and organization, it has no
 target audience. It means we cannot completely define the following things :</p>
@@ -544,9 +665,9 @@ scale intel.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_constraints">1.5. Constraints</h3>
+<h3 id="_constraints">2.5. Constraints</h3>
 <div class="sect3">
-<h4 id="_usage_of_open_source_technologies">1.5.1. Usage of open source technologies</h4>
+<h4 id="_usage_of_open_source_technologies">2.5.1. Usage of open source technologies</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Priority</dt>
@@ -565,7 +686,7 @@ enforce widespread standards and protocols.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_usage_of_referenced_technologies">1.5.2. Usage of referenced technologies</h4>
+<h4 id="_usage_of_referenced_technologies">2.5.2. Usage of referenced technologies</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Priority</dt>
@@ -585,7 +706,7 @@ technologies to isolate new technologies (virtualization, docker, &#8230;&#8203;
 </div>
 </div>
 <div class="sect3">
-<h4 id="_open_source_project">1.5.3. Open source project</h4>
+<h4 id="_open_source_project">2.5.3. Open source project</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Priority</dt>
@@ -602,7 +723,7 @@ to trace restrictive licensed components such as GPL components.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_integrate_with_varying_existing_infrastructure">1.5.4. Integrate with varying existing infrastructure</h4>
+<h4 id="_integrate_with_varying_existing_infrastructure">2.5.4. Integrate with varying existing infrastructure</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Priority</dt>
@@ -622,7 +743,7 @@ and other standards or specific organization authentication.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_available_skill_pool">1.5.5. Available skill pool</h4>
+<h4 id="_available_skill_pool">2.5.5. Available skill pool</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Priority</dt>
@@ -640,13 +761,13 @@ this scope but the learning phase must be taken into account.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scopes">1.6. Scopes</h3>
+<h3 id="_scopes">2.6. Scopes</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_assumptions">1.7. Assumptions</h3>
+<h3 id="_assumptions">2.7. Assumptions</h3>
 <div class="sect3">
-<h4 id="_usage_may_be_expanded_by_consolidating_existing_data">1.7.1. Usage may be expanded by consolidating existing data</h4>
+<h4 id="_usage_may_be_expanded_by_consolidating_existing_data">2.7.1. Usage may be expanded by consolidating existing data</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Priority</dt>
@@ -672,9 +793,9 @@ a readable form.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_principles">1.8. Principles</h3>
+<h3 id="_principles">2.8. Principles</h3>
 <div class="sect3">
-<h4 id="_organization_principle">1.8.1. Organization principle</h4>
+<h4 id="_organization_principle">2.8.1. Organization principle</h4>
 <div class="sect4">
 <h5 id="_leverage_some_agility_during_conception_and_development">Leverage some agility during conception and development</h5>
 <div class="dlist">
@@ -740,7 +861,7 @@ a readable form.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_business_principle">1.8.2. Business Principle</h4>
+<h4 id="_business_principle">2.8.2. Business Principle</h4>
 <div class="sect4">
 <h5 id="_allow_failure_recovery">Allow failure recovery</h5>
 <div class="dlist">
@@ -836,7 +957,7 @@ a readable form.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_information_principles">1.8.3. Information Principles</h4>
+<h4 id="_information_principles">2.8.3. Information Principles</h4>
 <div class="sect4">
 <h5 id="_store_data_in_a_readable_and_accessible_way">Store Data in a readable and accessible way</h5>
 <div class="dlist">
@@ -935,7 +1056,7 @@ traced. Theses audit information may be deactivated.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_design_decision">1.8.4. Design Decision</h4>
+<h4 id="_design_decision">2.8.4. Design Decision</h4>
 <div class="sect4">
 <h5 id="_use_recent_tools">Use recent tools</h5>
 <div class="dlist">
@@ -1033,7 +1154,7 @@ production environments, the solution must especially be horizontally scalable.<
 </div>
 </div>
 <div class="sect1">
-<h2 id="_business_conceptual_layer">2. Business Conceptual Layer</h2>
+<h2 id="_business_conceptual_layer">3. Business Conceptual Layer</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We derive the business conceptual layer from the aforementioned business
@@ -1041,9 +1162,9 @@ objectives, we’ll focus on one primary objective: "Provide a generic
 approach to operator and services interaction"</p>
 </div>
 <div class="sect2">
-<h3 id="_business_goals">2.1. Business Goals</h3>
+<h3 id="_business_goals">3.1. Business Goals</h3>
 <div class="sect3">
-<h4 id="_reduce_cost_integration_of_new_service_bcl_g_01">2.1.1. Reduce cost integration of new Service (BCL-G-01)<a id="BCL-G-01"></a></h4>
+<h4 id="_reduce_cost_integration_of_new_service_bcl_g_01">3.1.1. Reduce cost integration of new Service (BCL-G-01)<a id="BCL-G-01"></a></h4>
 <div class="paragraph">
 <p>To offer a mean to integrate new 3rd Party Information Systems to the operating
 station in an uniform and integrated way to reduce the future cost of
@@ -1051,7 +1172,7 @@ integrating new services.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_reduce_cost_integration_of_new_business_process_bcl_g_02">2.1.2. Reduce cost integration of new Business Process (BCL-G-02)<a id="BCL-G-02"></a></h4>
+<h4 id="_reduce_cost_integration_of_new_business_process_bcl_g_02">3.1.2. Reduce cost integration of new Business Process (BCL-G-02)<a id="BCL-G-02"></a></h4>
 <div class="paragraph">
 <p>To offer a mean to integrate new 3rd Party Information Systems’ business
 processes to the operating station. This should allow to integrate new tasks
@@ -1059,7 +1180,7 @@ in a uniform and centralized way to the operator tasks.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_unify_user_experience_bcl_g_03">2.1.3. Unify user experience (BCL-G-03)<a id="BCL-G-03"></a></h4>
+<h4 id="_unify_user_experience_bcl_g_03">3.1.3. Unify user experience (BCL-G-03)<a id="BCL-G-03"></a></h4>
 <div class="paragraph">
 <p>To offer a complete and centralized user experience around a holistic view of
 running processes with a focus on what is specifically necessary to the user
@@ -1068,42 +1189,14 @@ accessing the view.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_business_roles">2.2. Business Roles</h3>
+<h3 id="_business_roles">3.2. Business Roles</h3>
 <div class="paragraph">
 <p>We limit business roles to the high level business role, it is not the purpose
 of this document to delve into specific Business Process implementation
 defined during the lifetime of the system</p>
 </div>
 <div class="sect3">
-<h4 id="_operator">2.2.1. Operator</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Operates the systems, i.e. takes part in 3rd Party Information
-Service business process instances.</p>
-</dd>
-<dt class="hdlist1">Type</dt>
-<dd>
-<p>Human</p>
-</dd>
-<dt class="hdlist1">Access</dt>
-<dd>
-<p>Mobile, Intranet</p>
-</dd>
-<dt class="hdlist1">Triggers</dt>
-<dd>
-<p>Archive Consultation Event; Operator Input Event;</p>
-</dd>
-<dt class="hdlist1">Location</dt>
-<dd>
-<p>Operating room</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_administrator">2.2.2. Administrator</h4>
+<h4 id="_administrator">3.2.1. Administrator</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1118,21 +1211,91 @@ Service business process instances.</p>
 <dd>
 <p>Intranet</p>
 </dd>
-<dt class="hdlist1">Triggers</dt>
+<dt class="hdlist1">Degree of confidence</dt>
 <dd>
-<p>3rd Party Service Add/Update Event</p>
+<p>High</p>
 </dd>
 <dt class="hdlist1">Location</dt>
+<dt class="hdlist1">Number</dt>
+<dd>
+<p>1-2</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_3rd_party_information_service">2.2.3. 3rd Party Information Service</h4>
+<h4 id="_business_actor">3.2.2. Business Actor</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
 <dd>
-<p>Initiate Process instances and interacts with it</p>
+<p>Interrats with a business process</p>
+</dd>
+<dt class="hdlist1">Type</dt>
+<dd>
+<p>Human or Service</p>
+</dd>
+<dt class="hdlist1">Access</dt>
+<dd>
+<p>Mobile, Intranet, Internal</p>
+</dd>
+<dt class="hdlist1">Degree of Confidence</dt>
+<dd>
+<p>Medium</p>
+</dd>
+<dt class="hdlist1">Location</dt>
+<dt class="hdlist1">Number</dt>
+<dd>
+<p>??</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_operator">3.2.3. Operator</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Operates the systems, consult published information from business
+process and interract with business process
+Service business process instances.</p>
+</dd>
+<dt class="hdlist1">Type</dt>
+<dd>
+<p>Human</p>
+</dd>
+<dt class="hdlist1">Access</dt>
+<dd>
+<p>Mobile, Intranet</p>
+</dd>
+<dt class="hdlist1">Degree of confidence</dt>
+<dd>
+<p>Medium</p>
+</dd>
+<dt class="hdlist1">Location</dt>
+<dd>
+<p>Operating room</p>
+</dd>
+<dt class="hdlist1">Number</dt>
+<dd>
+<p>?</p>
+</dd>
+<dt class="hdlist1">Parent Role</dt>
+<dd>
+<p><a href="#_business_actor">Business Actor</a></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_thirrd_party_information_service">3.2.4. Thirrd Party Information Service</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Initiate Process instances and interacts with it. Performs
+computation for business processes</p>
 </dd>
 <dt class="hdlist1">Type</dt>
 <dd>
@@ -1142,19 +1305,27 @@ Service business process instances.</p>
 <dd>
 <p>Internal</p>
 </dd>
-<dt class="hdlist1">Triggers</dt>
+<dt class="hdlist1">Degree of confidence</dt>
 <dd>
-<p>Business Process Start Event; 3rd Party Service input event;</p>
+<p>Medium</p>
 </dd>
 <dt class="hdlist1">Location</dt>
+<dt class="hdlist1">Number</dt>
+<dd>
+<p>?</p>
+</dd>
+<dt class="hdlist1">Parent Role</dt>
+<dd>
+<p>Business Actor</p>
+</dd>
 </dl>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_business_services">2.3. Business Services</h3>
+<h3 id="_business_services">3.3. Business Services</h3>
 <div class="sect3">
-<h4 id="_generic">2.3.1. Generic</h4>
+<h4 id="_generic">3.3.1. Generic</h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/02_03_business_services/Model_opfab_GenericUseCaseDiagram.JPEG" alt="Generic Use Case Diagram">
@@ -1315,7 +1486,7 @@ respective mechanisms</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_third_party">2.3.2. Third Party</h4>
+<h4 id="_third_party">3.3.2. Third Party</h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/02_03_business_services/Package_third_ThirdUseCaseDiagram.JPEG" alt="Third Management Use Case Diagram">
@@ -1398,7 +1569,7 @@ version.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_process">2.3.3. Process</h4>
+<h4 id="_process">3.3.3. Process</h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/02_03_business_services/Package_process_ProcessUseCaseDiagram.JPEG" alt="Process Use Case Diagram">
@@ -1751,12 +1922,53 @@ to a transition from one state to another.</p>
 </ul>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_to_consult_the_card_archive">To Consult the Card Archive</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Actors</dt>
+<dd>
+<p>Operator</p>
+</dd>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Access previously published cards</p>
+</dd>
+<dt class="hdlist1">Pre requisite</dt>
+<dd>
+<p>Authenticated user (see To Authenticate)</p>
+</dd>
+</dl>
+</div>
+<div class="olist arabic">
+<div class="title">Nominal Scenario</div>
+<ol class="arabic">
+<li>
+<p>Input search criteria</p>
+</li>
+<li>
+<p>Consult results</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Extended Scenario</div>
+<ol class="arabic" start="2">
+<li>
+<p>Consult result</p>
+</li>
+<li>
+<p>Navigate throught result pages</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_business_activities">2.4. Business Activities</h3>
+<h3 id="_business_activities">3.4. Business Activities</h3>
 <div class="sect3">
-<h4 id="_handle_business">2.4.1. Handle Business</h4>
+<h4 id="_handle_business">3.4.1. Handle Business</h4>
 <div class="sect4">
 <h5 id="_handle_business_process_instance">Handle Business Process instance</h5>
 <div class="dlist">
@@ -1770,27 +1982,63 @@ operators and 3rd Party Information Services.</p>
 </dd>
 <dt class="hdlist1">Result control requirements</dt>
 <dd>
-<p>Result control required for each business process instance</p>
+<p>Result control required for each business process instance and each state of
+the instance</p>
 </dd>
 <dt class="hdlist1">Importance</dt>
 <dd>
-<p>Must complete in one of the Business Process allowed end state. Must react to.</p>
-</dd>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dd>
-<p>Input:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>To start : Business process start event ; Business process definition;</p>
+<p>Business Process instance must complete in one of the Business Process
+allowed end state;</p>
 </li>
 <li>
-<p>During processing : Operator input event ; 3rd Party Service input event ;</p>
+<p>No failure allowed outside business process specific error cases.</p>
 </li>
 </ul>
+</div>
+</dd>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dd>
+<p>(Metrics TBLD)</p>
+</dd>
+<dt class="hdlist1">Security Characteristics</dt>
+<dd>
+<p>Only allowed actors of business process may
+interact with it (current state consultation, interactions)</p>
+</dd>
+<dt class="hdlist1">Input</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">To start</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Business process start event ;</p>
+</li>
+<li>
+<p>Business process definition;</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">During processing</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Operator input event ;</p>
+</li>
+<li>
+<p>3rd Party Service input event ;</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
 </div>
 </dd>
 <dt class="hdlist1">Output</dt>
@@ -1801,15 +2049,15 @@ operators and 3rd Party Information Services.</p>
 <dd>
 <p><a href="#BCL-G-02">BCL-G-02</a> ; <a href="#BCL-G-03">BCL-G-03</a> ;</p>
 </dd>
-</dl>
-</div>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>&nbsp;</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/02_04_business_activities/Activity_Handle_Process_ProcessActivityDiagram.JPEG" alt="Handle Business Process Instance Activity">
 </div>
 </div>
-<div class="dlist">
-<dl>
+</dd>
 <dt class="hdlist1">Notes</dt>
 <dd>
 <div class="ulist">
@@ -1843,21 +2091,52 @@ defined process.</p>
 <p>Result control required for each card instance</p>
 </dd>
 <dt class="hdlist1">Importance</dt>
+<dd>
+<p>No data loss allowed</p>
+</dd>
 <dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
 <dd>
 <div class="ulist">
 <ul>
 <li>
-<p>To start : Card data;</p>
+<p>Card input volumetry (count/size);</p>
 </li>
 <li>
-<p>During processing : Operator input event ;</p>
+<p>Card propagation time through the system.</p>
 </li>
 </ul>
+</div>
+</dd>
+<dt class="hdlist1">Security Characteristics</dt>
+<dd>
+<p>Only allowed <a href="#_operator">Operator</a>s may be recipient of the
+card.</p>
+</dd>
+<dt class="hdlist1">Input</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">To start</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Card data.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">During processing</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Operator input event.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
 </div>
 </dd>
 <dt class="hdlist1">Output</dt>
@@ -1866,107 +2145,35 @@ defined process.</p>
 </dd>
 <dt class="hdlist1">Business Goal</dt>
 <dd>
-<p>BCL-G-01</p>
+<p><a href="#BCL-G-01">BCL-G-01</a></p>
 </dd>
 <dt class="hdlist1">Parent Activity</dt>
 <dd>
-<p>Handle Business Process instance</p>
+<p><a href="#_handle_business_process_instance">Handle Business Process instance</a></p>
 </dd>
-</dl>
-</div>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>&nbsp;</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/02_04_business_activities//Activity_Handle_Card_CardActivityDiagram.JPEG" alt="Handle Card Input Activity">
+<img src="images/02_04_business_activities/Activity_Handle_Card_CardActivityDiagram.JPEG" alt="Handle Card Input Activity">
 </div>
 </div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_declare_new_3rd_party_information_services">2.4.2. Declare new 3rd Party Information Services</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Declare a new or updated 3rd Party Information Service to the
-system
-Result control requirements: Result control required for each declaration</p>
 </dd>
-<dt class="hdlist1">Importance</dt>
-<dd>
-<p>Must complete in short response time</p>
-</dd>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
-<dd>
-<p>3rd Party Service Add/Update Event; 3rd Party Information Service
-definition.</p>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>Registered 3rd Party Information Services definition</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-02 ; BCL-G-01 ;</p>
-</dd>
-<dt class="hdlist1">Parent Activity</dt>
-</dl>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/02_04_business_activities/Activity_UploadThirdActivity_ThirdActivityDiagram.JPEG" alt="Upload a Third Party Data Bundle Activity">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_browse_card_archive">2.4.3. Browse card archive</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Description</dt>
-<dd>
-<p>Access by search the completed process instances for verification
-or feedback.</p>
-</dd>
-<dt class="hdlist1">Result control requirements</dt>
-<dd>
-<p>Result control required for each search.</p>
-</dd>
-<dt class="hdlist1">Importance</dt>
-<dd>
-<p>Must complete in short response time</p>
-</dd>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
-<dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
-<dt class="hdlist1">Input</dt>
-<dd>
-<p>User identification; Search criterias;</p>
-</dd>
-<dt class="hdlist1">Output</dt>
-<dd>
-<p>Archived process instances;</p>
-</dd>
-<dt class="hdlist1">Business Goal</dt>
-<dd>
-<p>BCL-G-02; BCL-G-01;</p>
-</dd>
-<dt class="hdlist1">Parent Activity</dt>
 </dl>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_browse_card_feed">2.4.4. Browse card feed</h4>
+<div class="sect4">
+<h5 id="_handle_feed_activity">Handle Feed Activity</h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
 <dd>
-<p>Access a feed of cards. A feed of card is an updatable ensemble
-of cards, it consist of both the card previously published and the new incoming
-cards in the system. It is characterized by the following:</p>
+<p>Handles card routing from server to user. Routing is based on Feed
+subscription data.
+A Feed of card is an updatable ensemble of cards, it consist of both the
+card previously published and the new incoming cards in the system.
+It is characterized by the following:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1974,9 +2181,94 @@ cards in the system. It is characterized by the following:</p>
 </li>
 <li>
 <p>The feed of cards is related to a time span or a collection of time span
-defined by a start and an end.
-A card feed displays cards. There are two interaction possible with cards:</p>
+defined by a start and an end.</p>
 </li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Result control requirements</dt>
+<dd>
+<p>Result control required on each card or deletion
+operation</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dd>
+<p>No data loss allowed if user is disconnected/reconnected</p>
+</dd>
+<dt class="hdlist1">Quality Characteristics</dt>
+<dd>
+<p>Card Volumetry must be monitored (count/size)</p>
+</dd>
+<dt class="hdlist1">Security Characteristics</dt>
+<dd>
+<p>No usurpation allowed on connection recovery</p>
+</dd>
+<dt class="hdlist1">Input</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">To start</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Feed Subscription data (User identification and time spans).</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">During processing</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>New Card notification ;</p>
+</li>
+<li>
+<p>Card Deletion Operation</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Continuously updated Card Feed</p>
+</dd>
+<dt class="hdlist1">Business Goals</dt>
+<dd>
+<p><a href="#BCL-G-01">BCL-G-01</a> ; <a href="#BCL-G-02">BCL-G-02</a> ; <a href="#BCL-G-03">BCL-G-03</a></p>
+</dd>
+<dt class="hdlist1">Parent Activity</dt>
+<dd>
+<p><a href="#_handle_feed_activity">Handle Feed Activity</a></p>
+</dd>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>&nbsp;</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_activities/Activity_Feed_Feed_Activity_Diagram.JPEG" alt="Handle Card Feed Activity">
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_handle_card_consultation_activity">Handle Card Consultation Activity</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Handles card consultation from the main user interface. The
+Cards are accessible throught a Card Feed which displays associated cards
+( See <a href="#_handle_feed_activity">Handle Feed Activity</a> above).
+A card feed displays cards. There are two interaction possible with cards:</p>
+<div class="ulist">
+<ul>
 <li>
 <p>Display a specific card details, which are formatted views on the card
 associated business data;</p>
@@ -1990,30 +2282,243 @@ attached with input data.</p>
 </div>
 </dd>
 <dt class="hdlist1">Result control requirements</dt>
+<dd>
+<p>No specific control</p>
+</dd>
 <dt class="hdlist1">Importance</dt>
-<dt class="hdlist1">Quality Characteristics</dt>
-<dt class="hdlist1">Governance Characteristics</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Ensure correct ordering of cards to present most important;</p>
+</li>
+<li>
+<p>New cards and deletion operation must trigger fast UX update
+information first.</p>
+</li>
+</ul>
+</div>
+</dd>
 <dt class="hdlist1">Security Characteristics</dt>
-<dt class="hdlist1">Behavior</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Authenticated and authorized operators only;</p>
+</li>
+<li>
+<p>Operator can only access cards he was a recipient;</p>
+</li>
+</ul>
+</div>
+</dd>
 <dt class="hdlist1">Input</dt>
 <dd>
-<p>User identification; Time span(s);</p>
-</dd>
-<dt class="hdlist1">Output</dt>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">To start</dt>
 <dd>
-<p>A continuously updated feed;</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Cards;</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">During processing</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>New Card notification ;</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
 </dd>
 <dt class="hdlist1">Business Goal</dt>
 <dd>
-<p>BCL-G-03</p>
+<p><a href="#BCL-G-03">BCL-G-03</a></p>
 </dd>
 <dt class="hdlist1">Parent Activity</dt>
-</dl>
-</div>
+<dd>
+<p><a href="#_handle_feed_activity">Handle Feed Activity</a></p>
+</dd>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>&nbsp;</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/02_04_business_activities/Activity_Feed_Feed_Activity_Diagram.JPEG" alt="Browse a Feed Activity">
+<img src="images/02_04_business_activities/Activity_CardConsultationActivity_CardConsultationProcessActivityDiagram.JPEG" alt="Handle Card Consultation Activity">
 </div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_declare_new_3rd_party_information_services">3.4.2. Declare new 3rd Party Information Services</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Declare a new or updated 3rd Party Information Service to the
+system
+Result control requirements: Result control required for each declaration</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dd>
+<p>Must complete in short response time</p>
+</dd>
+<dt class="hdlist1">Security Characteristics</dt>
+<dd>
+<p>Only administrator can declare new 3rd Party</p>
+</dd>
+<dt class="hdlist1">Input</dt>
+<dd>
+<p>3rd Party Information Service definition.</p>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Registered 3rd Party Information Services definition</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-02 ; BCL-G-01 ;</p>
+</dd>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>&nbsp;</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_04_business_activities/Activity_Upload_Third_ThirdActivityDiagram.JPEG" alt="Upload a Third Party Data Bundle Activity">
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_browse_card_archive">3.4.3. Browse card archive</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Access the completed process instances for verification
+or feedback using a search form.</p>
+</dd>
+<dt class="hdlist1">Result control requirements</dt>
+<dd>
+<p>Result control required for each search.</p>
+</dd>
+<dt class="hdlist1">Importance</dt>
+<dd>
+<p>Must complete in short response time</p>
+</dd>
+<dt class="hdlist1">Security Characteristics</dt>
+<dd>
+<p>Operator can only access cards he was a recipient to</p>
+</dd>
+<dt class="hdlist1">Input</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>User identification;</p>
+</li>
+<li>
+<p>Search criterias.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Output</dt>
+<dd>
+<p>Archived process instances;</p>
+</dd>
+<dt class="hdlist1">Business Goal</dt>
+<dd>
+<p>BCL-G-02; BCL-G-01;</p>
+</dd>
+<dt class="hdlist1">Behavior</dt>
+<dd>
+<p>&nbsp;</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/02_02_business_activities/Activity_ArchivedCardConsultationActivity_ArchivedCardConsultationProcessActivityDiagram.JPEG" alt="Browse Archive Activity">
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_business_objects">3.5. Business Objects</h3>
+<div class="sect3">
+<h4 id="_business_process">3.5.1. Business Process</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Defines a process. A process describes interractions between
+Operators(<a href="#_user">User</a>) and <a href="#_thirdparty_information_service">ThirdParty Information Service</a> using a business
+workflow. An effective process realization is called a <a href="#_business_process_instance">Business Process Instance</a></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_business_process_instance">3.5.2. Business Process Instance</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>A Business process Instance is the effective realization of a
+<a href="#_business_process">Business Process</a> (Definition).</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cards">3.5.3. Cards</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Cards are data object encapsulating the current state of a
+<a href="#_business_process_instance">Business Process Instance</a></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user">3.5.4. User</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>a User is the internal description of a human actor
+(<a href="#_operator">Operator</a>; <a href="#_administrator">Administrator</a>; See <a href="#_business_roles">Business Roles</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_thirdparty_information_service">3.5.5. ThirdParty Information Service</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>a ThirdParty Information Service is the internal description
+of a ThirdParty actor (<a href="#_thirrd_party_information_service">Thirrd Party Information Service</a>; See
+<a href="#_business_roles">Business Roles</a>).</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -2022,7 +2527,8 @@ attached with input data.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-03-07 11:24:39 UTC
+Version 0.1.1<br>
+Last updated 2019-03-08 11:24:57 UTC
 </div>
 </div>
 </body>
