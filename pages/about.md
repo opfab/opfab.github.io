@@ -27,7 +27,7 @@ OperatorFabric is part of the [LF Energy](https://www.lfenergy.org/) coalition, 
 OpFab is an open source platform licensed under [Mozilla Public License V2](https://www.mozilla.org/en-US/MPL/2.0/). 
 The source code is hosted on GitHub in this repository : [operatorfabric-core](https://github.com/opfab/operatorfabric-core).
 
-<h2>Where is the name from ?</h2>
+## Where is the name from ?
 
  - **Operator** represents the human being at the center of the platform, whether he's working in a control room or in the field
  - **Fabric**, from a modern digital perspective, is used as a metaphor to illustrate the idea of a simple work to create and weave together powerful software
