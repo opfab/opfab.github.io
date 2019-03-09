@@ -1196,7 +1196,7 @@ of this document to delve into specific Business Process implementation
 defined during the lifetime of the system</p>
 </div>
 <div class="sect3">
-<h4 id="_administrator">3.2.1. Administrator</h4>
+<h4 id="_administrator_role">3.2.1. Administrator Role</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1224,7 +1224,7 @@ defined during the lifetime of the system</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_business_actor">3.2.2. Business Actor</h4>
+<h4 id="_business_actor_role">3.2.2. Business Actor Role</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1252,7 +1252,7 @@ defined during the lifetime of the system</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_operator">3.2.3. Operator</h4>
+<h4 id="_operator_role">3.2.3. Operator Role</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1283,13 +1283,13 @@ Service business process instances.</p>
 </dd>
 <dt class="hdlist1">Parent Role</dt>
 <dd>
-<p><a href="#_business_actor">Business Actor</a></p>
+<p><a href="#_business_actor_role">Business Actor Role</a></p>
 </dd>
 </dl>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_thirrd_party_information_service">3.2.4. Thirrd Party Information Service</h4>
+<h4 id="_thirdparty_information_service_role">3.2.4. ThirdParty Information Service Role</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
@@ -1316,7 +1316,7 @@ computation for business processes</p>
 </dd>
 <dt class="hdlist1">Parent Role</dt>
 <dd>
-<p>Business Actor</p>
+<p><a href="#_business_actor_role">Business Actor Role</a></p>
 </dd>
 </dl>
 </div>
@@ -2109,7 +2109,7 @@ defined process.</p>
 </dd>
 <dt class="hdlist1">Security Characteristics</dt>
 <dd>
-<p>Only allowed <a href="#_operator">Operator</a>s may be recipient of the
+<p>Only allowed <a href="#Operator">[Operator]</a>s may be recipient of the
 card.</p>
 </dd>
 <dt class="hdlist1">Input</dt>
@@ -2460,17 +2460,51 @@ or feedback using a search form.</p>
 <div class="sect2">
 <h3 id="_business_objects">3.5. Business Objects</h3>
 <div class="sect3">
-<h4 id="_business_process">3.5.1. Business Process</h4>
+<h4 id="_business_process_definition">3.5.1. Business Process Definition</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
 <dd>
 <p>Defines a process. A process describes interractions between
-Operators(<a href="#_user">User</a>) and <a href="#_thirdparty_information_service">ThirdParty Information Service</a> using a business
-workflow. An effective process realization is called a <a href="#_business_process_instance">Business Process Instance</a></p>
+<a href="#Operators Role">Operators</a> and <a href="#_thirdparty_information_service_role">ThirdParty Information Services</a>
+using a business workflow. An effective process realization is called a
+<a href="#_business_process_instance">Business Process Instance</a>. Business Process Definition are defined by
+<a href="#Third Party Information Service">Third Party Information Services</a></p>
+<div class="paragraph">
+<p>Business process definitions have the following characteristics:</p>
+</div>
 </dd>
 </dl>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Characteristic</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Business Process Definition needs to be uniquely identified at business level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multiple version of the same Business Process Defintion may cohabit in the system
+Business process definition version is correlated to its associated
+<a href="#_thirdparty_information_service">ThirdParty Information Service</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A Business Process Definition Instance defines representation of its data in
+the <a href="#Operator Roles">[Operator Roles]</a> end user interface</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_business_process_instance">3.5.2. Business Process Instance</h4>
@@ -2479,44 +2513,183 @@ workflow. An effective process realization is called a <a href="#_business_proce
 <dt class="hdlist1">Description</dt>
 <dd>
 <p>A Business process Instance is the effective realization of a
-<a href="#_business_process">Business Process</a> (Definition).</p>
+<a href="#_business_process_definition">Business Process Definition</a>.</p>
 </dd>
 </dl>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Characteristic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Business Process Definition</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A business Process Instance is relative to a specific Business Process Definition version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Business Process Instance needs to be uniquely identified at business level, for its associated definition</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
-<h4 id="_cards">3.5.3. Cards</h4>
+<h4 id="_card">3.5.3. Card</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
 <dd>
 <p>Cards are data object encapsulating the current state of a
-<a href="#_business_process_instance">Business Process Instance</a></p>
+<a href="#_business_process_instance">Business Process Instance</a>.</p>
+<div class="paragraph">
+<p>All cards have the following characteristics:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Characteristic</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">publishing date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The date when the card was introduced in the information system</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">process instance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A card is tied to a specific business process instance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>A card must be associated to time information. There are different time indication.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>publication: input in the system</p>
+</li>
+<li>
+<p>validity: time frame when the card is relevant</p>
+</li>
+<li>
+<p>notification: time information to determine when the <a href="#Operator">[Operator]</a> is to be notified (may be recurring)</p>
+</li>
+<li>
+<p>actionnability: the last time some action may be triggered on the process state associated with the card</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Business Data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Arbitrary data may be attached to card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The card contains clues on how to represent attached data in the Operator end user interface</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The card contains clues on what interaction with the <a href="#_business_process_instance">Business Process Instance</a> is available to <a href="#Operator">Operators</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Recipient</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The card contains clues on who is allowed to see the card</p></td>
+</tr>
+</tbody>
+</table>
 </dd>
 </dl>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_user">3.5.4. User</h4>
+<h4 id="_feed_subscription">3.5.4. Feed Subscription</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Gathers characteristics of which <a href="#_card">Card</a> ensemble an <a href="#Operator">[Operator]</a>
+is currently following. It relies on the <a href="#Operator">[Operator]</a> Characteristics and a
+time frame.</p>
+<div class="paragraph">
+<p>User is following the <a href="#_card">cards</a> he is a recipient for in a specific time frame.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user">3.5.5. User</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
 <dd>
 <p>a User is the internal description of a human actor
-(<a href="#_operator">Operator</a>; <a href="#_administrator">Administrator</a>; See <a href="#_business_roles">Business Roles</a>)</p>
+(<a href="#Operator">[Operator]</a>; <a href="#Administrator">[Administrator]</a>; See <a href="#_business_roles">Business Roles</a>)</p>
 </dd>
 </dl>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_thirdparty_information_service">3.5.5. ThirdParty Information Service</h4>
+<h4 id="_group">3.5.6. Group</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Description</dt>
+<dd>
+<p>Group are ensemble of <a href="#_user">Users</a>, one <a href="#_user">User</a> may belong to multiple Groups</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_thirdparty_information_service">3.5.7. ThirdParty Information Service</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Description</dt>
 <dd>
 <p>a ThirdParty Information Service is the internal description
-of a ThirdParty actor (<a href="#_thirrd_party_information_service">Thirrd Party Information Service</a>; See
+of a ThirdParty actor (<a href="#_thirdparty_information_service">ThirdParty Information Service</a>; See
 <a href="#_business_roles">Business Roles</a>).</p>
+<div class="paragraph">
+<p>ThirdParty Information Service has the following characteristics</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">ThirdParty Information Services are uniquely defined</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multiple version of the same ThirdParty Information Service may coexist</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Business Process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_business_process_definition">Business process Definitions</a> are associated to a ThirdParty Information Service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">authentication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security means to ensure</p></td>
+</tr>
+</tbody>
+</table>
 </dd>
 </dl>
 </div>
@@ -2528,7 +2701,7 @@ of a ThirdParty actor (<a href="#_thirrd_party_information_service">Thirrd Party
 <div id="footer">
 <div id="footer-text">
 Version 0.1.1<br>
-Last updated 2019-03-08 11:24:57 UTC
+Last updated 2019-03-09 11:25:39 UTC
 </div>
 </div>
 </body>
