@@ -129,7 +129,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/time/services/TimeService.html#TimeService-org.lfenergy.operatorfabric.utilities.SimulatedTime-org.springframework.amqp.rabbit.core.RabbitTemplate-com.fasterxml.jackson.databind.ObjectMapper-org.springframework.amqp.core.FanoutExchange-">TimeService</a></span>(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp;simulatedTime,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/time/services/TimeService.html#TimeService-org.lfenergy.operatorfabric.utilities.VirtualTime-org.springframework.amqp.rabbit.core.RabbitTemplate-com.fasterxml.jackson.databind.ObjectMapper-org.springframework.amqp.core.FanoutExchange-">TimeService</a></span>(org.lfenergy.operatorfabric.utilities.VirtualTime&nbsp;virtualTime,
            org.springframework.amqp.rabbit.core.RabbitTemplate&nbsp;rabbitTemplate,
            com.fasterxml.jackson.databind.ObjectMapper&nbsp;mapper,
            org.springframework.amqp.core.FanoutExchange&nbsp;timeExchange)</code>
@@ -185,7 +185,7 @@ extends java.lang.Object</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/time/services/TimeService.html#updateTime-java.time.Instant-">updateTime</a></span>(java.time.Instant&nbsp;instant)</code>
-<div class="block">Sets current time to specified value computing a delta in real and simulated value for later computation</div>
+<div class="block">Sets current time to specified value computing a delta in real and virtual value for later computation</div>
 </td>
 </tr>
 </table>
@@ -210,21 +210,21 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="TimeService-org.lfenergy.operatorfabric.utilities.SimulatedTime-org.springframework.amqp.rabbit.core.RabbitTemplate-com.fasterxml.jackson.databind.ObjectMapper-org.springframework.amqp.core.FanoutExchange-">
+<a name="TimeService-org.lfenergy.operatorfabric.utilities.VirtualTime-org.springframework.amqp.rabbit.core.RabbitTemplate-com.fasterxml.jackson.databind.ObjectMapper-org.springframework.amqp.core.FanoutExchange-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TimeService</h4>
 <pre>@Autowired
-public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp;simulatedTime,
+public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.VirtualTime&nbsp;virtualTime,
                               org.springframework.amqp.rabbit.core.RabbitTemplate&nbsp;rabbitTemplate,
                               com.fasterxml.jackson.databind.ObjectMapper&nbsp;mapper,
                               org.springframework.amqp.core.FanoutExchange&nbsp;timeExchange)</pre>
 <div class="block">Constructor by injection</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>simulatedTime</code> - injected simulated time singleton instance</dd>
+<dd><code>virtualTime</code> - injected virtual time singleton instance</dd>
 <dd><code>rabbitTemplate</code> - injected rabbit template for message sending</dd>
 <dd><code>mapper</code> - injected object mapper to linearize object into json string representation in AMQP message body</dd>
 <dd><code>timeExchange</code> - injected AMQP exchange to send time messages</dd>
@@ -248,7 +248,7 @@ public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp
 <pre>public&nbsp;java.time.Instant&nbsp;computeNow()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>simulated "now" time</dd>
+<dd>virtual "now" time</dd>
 </dl>
 </li>
 </ul>
@@ -259,7 +259,7 @@ public&nbsp;TimeService(org.lfenergy.operatorfabric.utilities.SimulatedTime&nbsp
 <li class="blockList">
 <h4>updateTime</h4>
 <pre>public&nbsp;void&nbsp;updateTime(java.time.Instant&nbsp;instant)</pre>
-<div class="block"><p>Sets current time to specified value computing a delta in real and simulated value for later computation</p>
+<div class="block"><p>Sets current time to specified value computing a delta in real and virtual value for later computation</p>
  <p>Relies on <a href="../../../../../org/lfenergy/operatorfabric/time/services/TimeService.html#updateTime-java.time.Instant-boolean-"><code>updateTime(Instant, boolean)</code></a> with notify set to true</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
