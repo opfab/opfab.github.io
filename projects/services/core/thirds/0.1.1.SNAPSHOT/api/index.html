@@ -180,7 +180,7 @@ font-style: italic;
   </head>
   <body>
   <h1>Thirds Management</h1>
-    <div class="app-desc">Third Party Service a.k.a. Thirds management API for OperatorFabric</div>
+    <div class="app-desc">OperatorFabric ThirdParty Management Service</div>
     <div class="app-desc">More information: <a href="https://opfab.github.io/">https://opfab.github.io/</a></div>
     <div class="app-desc">Contact Info: <a href="boris.dolley_AT_rte-france.com">boris.dolley_AT_rte-france.com</a></div>
     <div class="app-desc">Version: 0.1.1.SNAPSHOT</div>
@@ -188,10 +188,6 @@ font-style: italic;
     <div class="license-info">Mozilla Public License V2.0</div>
     <div class="license-url">http://mozilla.org/MPL/2.0/</div>
   <h2>Access</h2>
-    <ol>
-      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
-      <li>OAuth AuthorizationUrl:http://petstore.swagger.io/oauth/dialogTokenUrl:</li>
-    </ol>
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
@@ -223,7 +219,7 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of Third to retrieve </div><div class="param">cssFileName (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of stylesheet file to retrieve (w.o. suffix) </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of stylesheet file to retrieve (w.o. extension) </div>
     </div>  <!-- field-items -->
 
 
@@ -259,10 +255,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#byte[]">byte[]</a>
     <h4 class="field-label">404</h4>
-    no such template
+    No such template
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -285,7 +281,7 @@ font-style: italic;
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">locale (optional)</div>
+      <div class="param">locale (required)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Locale iso code </div><div class="param">version (optional)</div>
 
@@ -315,10 +311,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#byte[]">byte[]</a>
     <h4 class="field-label">404</h4>
-    no such template
+    No such template
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -335,7 +331,7 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of Third to retrieve </div><div class="param">mediaFileName (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of media file to retrieve  (w. suffix) </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of media file to retrieve  (w.o. extension) </div>
     </div>  <!-- field-items -->
 
 
@@ -373,10 +369,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#byte[]">byte[]</a>
     <h4 class="field-label">404</h4>
-    no such template
+    No such template
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -384,7 +380,7 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /thirds/{thirdName}/templates/{templateName}</code></pre></div>
-    <div class="method-summary">Get template associated with Third (<span class="nickname">getTemplate</span>)</div>
+    <div class="method-summary">Get existing template associated with Third (<span class="nickname">getTemplate</span>)</div>
     <div class="method-notes">Get template associated with Third, if file exists return file (application/handlebars) otherwise return error message (application/json)</div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -393,7 +389,7 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of Third to retrieve </div><div class="param">templateName (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of template to retrieve (w.o. suffix) </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of template to retrieve (w.o. extension) </div>
     </div>  <!-- field-items -->
 
 
@@ -431,10 +427,10 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#byte[]">byte[]</a>
     <h4 class="field-label">404</h4>
-    no such template
+    No such template
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -474,26 +470,30 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "name" : "My ThirdParty Application",
+  "version" : "v1.0",
+  "templates" : [ "emergency", "info" ],
+  "csses" : [ "tab-style", "content-style" ],
+  "i18nLabelKey" : "myThirdPartyApp.label",
   "medias" : {
-    "key" : {
-      "name" : "name",
-      "files" : "jingle-bells.ogg"
+    "JingleBells" : {
+      "name" : "Jingle Bells",
+      "files" : [ "jingle-bells.ogg", "vive-le-vent.ogg" ]
+    },
+    "Alarm" : {
+      "name" : "Alarm sound",
+      "files" : [ "smallProblem.ogg", "biggerProblem.ogg", "abandonShip.ogg" ]
     }
   },
-  "i18nLabelKey" : "i18nLabelKey",
-  "templates" : "\"emergency\", \"security\"",
   "menuEntries" : [ {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
+    "id" : "website",
+    "url" : "http://www.mythirdpartyapp.com",
+    "label" : "menu.website"
   }, {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
-  } ],
-  "name" : "name",
-  "csses" : "tab-style",
-  "version" : "version"
+    "id" : "status",
+    "url" : "http://www.mythirdpartyapp.com/status",
+    "label" : "menu.status"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -505,7 +505,7 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         <a href="#Third">Third</a>
   </div> <!-- method -->
   <hr/>
@@ -533,47 +533,55 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
+  "name" : "My ThirdParty Application",
+  "version" : "v1.0",
+  "templates" : [ "emergency", "info" ],
+  "csses" : [ "tab-style", "content-style" ],
+  "i18nLabelKey" : "myThirdPartyApp.label",
   "medias" : {
-    "key" : {
-      "name" : "name",
-      "files" : "jingle-bells.ogg"
+    "JingleBells" : {
+      "name" : "Jingle Bells",
+      "files" : [ "jingle-bells.ogg", "vive-le-vent.ogg" ]
+    },
+    "Alarm" : {
+      "name" : "Alarm sound",
+      "files" : [ "smallProblem.ogg", "biggerProblem.ogg", "abandonShip.ogg" ]
     }
   },
-  "i18nLabelKey" : "i18nLabelKey",
-  "templates" : "\"emergency\", \"security\"",
   "menuEntries" : [ {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
+    "id" : "website",
+    "url" : "http://www.mythirdpartyapp.com",
+    "label" : "menu.website"
   }, {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
-  } ],
-  "name" : "name",
-  "csses" : "tab-style",
-  "version" : "version"
+    "id" : "status",
+    "url" : "http://www.mythirdpartyapp.com/status",
+    "label" : "menu.status"
+  } ]
 }, {
+  "name" : "My ThirdParty Application",
+  "version" : "v1.0",
+  "templates" : [ "emergency", "info" ],
+  "csses" : [ "tab-style", "content-style" ],
+  "i18nLabelKey" : "myThirdPartyApp.label",
   "medias" : {
-    "key" : {
-      "name" : "name",
-      "files" : "jingle-bells.ogg"
+    "JingleBells" : {
+      "name" : "Jingle Bells",
+      "files" : [ "jingle-bells.ogg", "vive-le-vent.ogg" ]
+    },
+    "Alarm" : {
+      "name" : "Alarm sound",
+      "files" : [ "smallProblem.ogg", "biggerProblem.ogg", "abandonShip.ogg" ]
     }
   },
-  "i18nLabelKey" : "i18nLabelKey",
-  "templates" : "\"emergency\", \"security\"",
   "menuEntries" : [ {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
+    "id" : "website",
+    "url" : "http://www.mythirdpartyapp.com",
+    "label" : "menu.website"
   }, {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
-  } ],
-  "name" : "name",
-  "csses" : "tab-style",
-  "version" : "version"
+    "id" : "status",
+    "url" : "http://www.mythirdpartyapp.com/status",
+    "label" : "menu.status"
+  } ]
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -585,7 +593,7 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    ok
+    OK
         
   </div> <!-- method -->
   <hr/>
@@ -620,7 +628,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">thirdName (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of Third to retrieve </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of Third to update </div>
     </div>  <!-- field-items -->
 
     <h3 class="field-label">Consumes</h3>
@@ -650,26 +658,30 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "name" : "My ThirdParty Application",
+  "version" : "v1.0",
+  "templates" : [ "emergency", "info" ],
+  "csses" : [ "tab-style", "content-style" ],
+  "i18nLabelKey" : "myThirdPartyApp.label",
   "medias" : {
-    "key" : {
-      "name" : "name",
-      "files" : "jingle-bells.ogg"
+    "JingleBells" : {
+      "name" : "Jingle Bells",
+      "files" : [ "jingle-bells.ogg", "vive-le-vent.ogg" ]
+    },
+    "Alarm" : {
+      "name" : "Alarm sound",
+      "files" : [ "smallProblem.ogg", "biggerProblem.ogg", "abandonShip.ogg" ]
     }
   },
-  "i18nLabelKey" : "i18nLabelKey",
-  "templates" : "\"emergency\", \"security\"",
   "menuEntries" : [ {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
+    "id" : "website",
+    "url" : "http://www.mythirdpartyapp.com",
+    "label" : "menu.website"
   }, {
-    "id" : "id",
-    "label" : "label",
-    "url" : "url"
-  } ],
-  "name" : "name",
-  "csses" : "tab-style",
-  "version" : "version"
+    "id" : "status",
+    "url" : "http://www.mythirdpartyapp.com/status",
+    "label" : "menu.status"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -681,7 +693,7 @@ font-style: italic;
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
-    successful operation
+    Successful operation
         <a href="#Third">Third</a>
   </div> <!-- method -->
   <hr/>
@@ -704,18 +716,18 @@ font-style: italic;
 <div class="param">version </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Third party business module configuration version </div>
 <div class="param">templates (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of templates name (without extension) </div>
 <div class="param">csses (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of css file names (without extension) </div>
-<div class="param">i18nLabelKey (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> label reference key for internationalisation </div>
+<div class="param">i18nLabelKey (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> i18n key for the label of this Third The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN') </div>
 <div class="param">medias (optional)</div><div class="param-desc"><span class="param-type"><a href="#Third_medias">map[String, Third_medias]</a></span> List available medias </div>
-<div class="param">menuEntries (optional)</div><div class="param-desc"><span class="param-type"><a href="#ThirdMenuEntry">array[ThirdMenuEntry]</a></span> describes the menu items added to ui navbar </div>
+<div class="param">menuEntries (optional)</div><div class="param-desc"><span class="param-type"><a href="#ThirdMenuEntry">array[ThirdMenuEntry]</a></span> describes the menu items to add to UI navbar </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="ThirdMenuEntry"><code>ThirdMenuEntry</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> unique identifier oft this menu item for the current third service </div>
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> unique identifier of this menu item for the current third service </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url of the endpoint for this menu item </div>
-<div class="param">label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> i18n key for the label of this menu item. </div>
+<div class="param">label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> i18n key for the label of this menu item. The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN') </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
