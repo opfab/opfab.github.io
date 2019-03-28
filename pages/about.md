@@ -20,6 +20,40 @@ OpFab provides a notification GUI with strong added value and powerful backend m
 
 _* This feature could be addressed either as an internal module or through simplified and standardized (BPMN) integration with external workflow engines, we're still weighing the pros and cons of the two options._
 
+## What does OperatorFabric do in practice?
+
+To perform their duties, an operator has to interact with multiple applications (perform actions, watch for alerts, etc.), which can prove difficult if there are to many of them.
+
+The idea is to aggregate all the notifications from all these applications into a single screen, and to let the operator act on them if needed. 
+
+These notifications are materialized by **cards** ordered in a **feed** according to their period of relevance and their severity. 
+When a card is selected in the feed, the right-hand pane displays the **details** of the card: information about the state of the parent process instance in the third-party application that published it, available actions, etc. 
+
+In addition, the cards will also translate as events displayed on a **timeline** (its design is still under discussion) at the top of the screen. 
+This view will be complimentary to the card feed in that it will allow the operator to see at a glance the status of processes for a given period, when the feed is more like a "To Do" list.
+
+![Feed screen layout](../assets/img/ui_schema/feed_details_1.png)
+
+Part of the value of OperatorFabric is that it makes the integration very simple on the part of the third-party applications. 
+To start publishing cards to users in an OperatorFabric instance, all they have to do is:
+* Register as a publisher through the "Thirds" service and provide a "bundle" containing handlebars templates defining how cards should be rendered, i18n info etc.
+* Publish cards as json containing card data through the card publication API
+
+OperatorFabric will then:
+* Dispatch the cards to the appropriate users (by translating recipients defined in the card into actual users)
+* Take care of the rendering of the cards, displaying details, actions, inputs etc.
+* Display relevant information from the cards in the timeline
+
+Another aim of OperatorFabric is to make cooperation easier by letting operators forward or send cards to other operators, for example:
+* if they need an input from another operator
+* if they can't handle a given card for lack of time or because the necessary action is out of their scope
+
+This will replace phone calls or emails, making cooperation more efficient and traceable.
+
+For instance, operators might be interested in knowing why a given decision was made in the past: 
+the cards detailing the decision process steps will be accessible through the Archives screen, showing how the 
+operators reached this agreement.
+
 ## Open source
 
 OperatorFabric is part of the [LF Energy](https://www.lfenergy.org/) coalition, a project of The Linux Foundation that supports open source innovation projects within the energy and electricity sectors.
