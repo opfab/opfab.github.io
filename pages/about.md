@@ -24,9 +24,9 @@ _* This feature could be addressed either as an internal module or through simpl
 
 To perform their duties, an operator has to interact with multiple applications (perform actions, watch for alerts, etc.), which can prove difficult if there are to many of them.
 
-The idea is to aggregate all the notifications from all these applications into a single screen, and to let the operator act on them if needed. 
+The idea is to aggregate all the notifications from all these applications into a single screen, and to allow the operator to act on them if needed. 
 
-These notifications are materialized by **cards** ordered in a **feed** according to their period of relevance and their severity. 
+These notifications are materialized by **cards** sorted in a **feed** according to their period of relevance and their severity. 
 When a card is selected in the feed, the right-hand pane displays the **details** of the card: information about the state of the parent process instance in the third-party application that published it, available actions, etc. 
 
 In addition, the cards will also translate as events displayed on a **timeline** (its design is still under discussion) at the top of the screen. 
@@ -40,13 +40,13 @@ To start publishing cards to users in an OperatorFabric instance, all they have 
 * Publish cards as json containing card data through the card publication API
 
 OperatorFabric will then:
-* Dispatch the cards to the appropriate users (by translating recipients defined in the card into actual users)
+* Dispatch the cards to the appropriate users (by computing the actual users who should receive the card from the recipients rules defined in the card)
 * Take care of the rendering of the cards, displaying details, actions, inputs etc.
 * Display relevant information from the cards in the timeline
 
 Another aim of OperatorFabric is to make cooperation easier by letting operators forward or send cards to other operators, for example:
-* if they need an input from another operator
-* if they can't handle a given card for lack of time or because the necessary action is out of their scope
+* If they need an input from another operator
+* If they can't handle a given card for lack of time or because the necessary action is out of their scope
 
 This will replace phone calls or emails, making cooperation more efficient and traceable.
 
