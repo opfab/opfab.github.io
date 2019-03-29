@@ -22,7 +22,7 @@ _* This feature could be addressed either as an internal module or through simpl
 
 ## What does OperatorFabric do in practice?
 
-To perform their duties, an operator has to interact with multiple applications (perform actions, watch for alerts, etc.), which can prove difficult if there are to many of them.
+To perform their duties, an operator has to interact with multiple applications (perform actions, watch for alerts, etc.), which can prove difficult if there are too many of them.
 
 The idea is to aggregate all the notifications from all these applications into a single screen, and to allow the operator to act on them if needed. 
 
