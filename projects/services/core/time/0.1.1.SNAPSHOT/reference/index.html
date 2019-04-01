@@ -549,6 +549,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_prerequisites">4.1. Prerequisites</a></li>
 <li><a href="#_scenario_1_getting_the_current_virtual_time">4.2. Scenario 1: Getting the current virtual time</a></li>
+<li><a href="#_scenario_2_setting_virtual_time_to_be_10_minutes_ahead_of_real_time">4.3. Scenario 2: Setting virtual time to be 10 minutes ahead of real time</a></li>
 </ul>
 </li>
 </ul>
@@ -753,13 +754,22 @@ It is made up of the following properties:</p>
 <h2 id="_demonstration">4. Demonstration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section demonstrates how to interact with the Time service through its API by following a simple scenario.</p>
+<p>This section demonstrates how to interact with the Time service through its API by following a few simple scenarios.</p>
 </div>
 <div class="sect2">
 <h3 id="_prerequisites">4.1. Prerequisites</h3>
-<div class="paragraph">
-<p>For these examples to work, you need to have a running Time service.
-The requests below assume that the Time service is running on localhost on port 2101 (see demo setup).</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+For these examples to work, you need to have a running Time service.
+The requests below assume that the Time service is running on localhost on port 2101 (see demo setup).
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>You can choose from several ways to send requests to the API, among which:</p>
@@ -792,8 +802,8 @@ makes it easier to use.</p>
 <p>Let&#8217;s say we want to get the current virtual time, which we expect to be equal
 to real server time so far.</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Go to the <a href="http://localhost:2101/swagger-ui.html#/time/fetchTime">Swagger UI for the Time API and unfold the "time" category click on the GET /time request</a></p>
 </li>
@@ -803,7 +813,7 @@ to real server time so far.</p>
 <li>
 <p>This request doesn&#8217;t require any parameters so just click "Execute"</p>
 </li>
-</ul>
+</ol>
 </div>
 <div class="paragraph">
 <p>This gives you:</p>
@@ -839,13 +849,155 @@ to real server time so far.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The current virtual time (number of milliseconds since Epoch), for example this converts to Tuesday, March 26, 2019 4:28:15.195 PM GMT</td>
+<td>The current virtual time (number of milliseconds since Epoch), for example this value converts to <em>Tuesday, March 26, 2019 4:28:15.195 PM GMT</em></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>Speed of the virtual time flow relatively to real time flow. X1 means they&#8217;re the same.</td>
 </tr>
 </table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can use an <a href="https://www.epochconverter.com/">online converter</a> to switch between epochDate and human readable date.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scenario_2_setting_virtual_time_to_be_10_minutes_ahead_of_real_time">4.3. Scenario 2: Setting virtual time to be 10 minutes ahead of real time</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the <a href="http://localhost:2101/swagger-ui.html#/time/setTime">POST /time request</a></p>
+</li>
+<li>
+<p>Click on the "Try it out" button on the right</p>
+</li>
+<li>
+<p>The Example Value block for the body parameter becomes editable (the background goes from dark to white)</p>
+</li>
+<li>
+<p>Edit the values as follows:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example body</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>, <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652000</span>, <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>, <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span> <i class="conum" data-value="1"></i><b>(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>These can be left blank as they won&#8217;t be used</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This should be the intended start of virtual time, about 10 minutes ahead from now</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Watch out for the order of the parameters in the JSON, the initial example JSON sorts them by alphabetical order rather than definition order.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">The equivalent curl command</div>
+<div class="content">
+<pre>curl -X POST \
+  http://localhost:2101/time \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "referenceTime": null,
+    "virtualTime": 1554111652000,
+    "computedNow": null,
+    "speed": null
+}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The response contains the current virtual time (computedNow) as well as the references used for the computation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Response code</div>
+<div class="content">
+<pre>200 OK</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response body</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111014449</span>, <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652000</span>, <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652009</span>, <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">X1</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="4"></i><b>(4)</b>
+}
+<span class="error">&lt;</span><span class="integer">1</span><span class="error">&gt;</span> <span class="error">R</span><span class="error">e</span><span class="error">a</span><span class="error">l</span> <span class="error">t</span><span class="error">i</span><span class="error">m</span><span class="error">e</span> <span class="error">a</span><span class="error">t</span> <span class="error">t</span><span class="error">h</span><span class="error">e</span> <span class="error">t</span><span class="error">i</span><span class="error">m</span><span class="error">e</span>
+<span class="error">&lt;</span><span class="integer">2</span><span class="error">&gt;</span> <span class="error">C</span><span class="error">h</span><span class="error">o</span><span class="error">s</span><span class="error">e</span><span class="error">n</span> <span class="error">s</span><span class="error">t</span><span class="error">a</span><span class="error">r</span><span class="error">t</span> <span class="error">o</span><span class="error">f</span> <span class="error">v</span><span class="error">i</span><span class="error">r</span><span class="error">t</span><span class="error">u</span><span class="error">a</span><span class="error">l</span> <span class="error">t</span><span class="error">i</span><span class="error">m</span><span class="error">e</span>
+<span class="error">&lt;</span><span class="integer">3</span><span class="error">&gt;</span> <span class="error">C</span><span class="error">u</span><span class="error">r</span><span class="error">r</span><span class="error">e</span><span class="error">n</span><span class="error">t</span> <span class="error">v</span><span class="error">i</span><span class="error">r</span><span class="error">t</span><span class="error">u</span><span class="error">a</span><span class="error">l</span> <span class="error">t</span><span class="error">i</span><span class="error">m</span><span class="error">e</span> <span class="error">=</span> <span class="error">c</span><span class="error">h</span><span class="error">o</span><span class="error">s</span><span class="error">e</span><span class="error">n</span> <span class="error">s</span><span class="error">t</span><span class="error">a</span><span class="error">r</span><span class="error">t</span> <span class="error">o</span><span class="error">f</span> <span class="error">v</span><span class="error">i</span><span class="error">r</span><span class="error">t</span><span class="error">u</span><span class="error">a</span><span class="error">l</span> <span class="error">t</span><span class="error">i</span><span class="error">m</span><span class="error">e</span>
+<span class="error">&lt;</span><span class="integer">4</span><span class="error">&gt;</span> <span class="error">S</span><span class="error">p</span><span class="error">e</span><span class="error">e</span><span class="error">d</span> <span class="error">h</span><span class="error">a</span><span class="error">s</span><span class="error">n</span><span class="error">'</span><span class="error">t</span> <span class="error">b</span><span class="error">e</span><span class="error">e</span><span class="error">n</span> <span class="error">c</span><span class="error">h</span><span class="error">a</span><span class="error">n</span><span class="error">g</span><span class="error">e</span><span class="error">d</span><span class="error">.</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+PUT /time does the exact same thing as POST /time as there was no need for a different behaviour.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s ask again (using the GET request) a little while later:</p>
+</div>
+<div class="listingblock">
+<div class="title">The equivalent curl command</div>
+<div class="content">
+<pre>curl -X GET "http://localhost:2101/time" -H  "accept: application/json"</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response code</div>
+<div class="content">
+<pre>200 OK</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Response body</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111014449</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652000</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554119300367</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">X1</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
