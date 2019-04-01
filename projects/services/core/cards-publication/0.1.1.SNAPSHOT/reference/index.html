@@ -5,8 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="David Binder, Boris Dolley, Alexandra Guironnet, Ronan Le Gall">
-<title>Card Publication Service Reference Documentation</title>
+<meta name="author" content="David Binder, Boris Dolley, Alexandra Guirronet, Ronan Le Gall">
+<title>OperatorFabric Card Publication Service</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -432,21 +432,575 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>Card Publication Service Reference Documentation</h1>
+<h1>OperatorFabric Card Publication Service</h1>
 <div class="details">
 <span id="author" class="author">David Binder</span><br>
 <span id="author2" class="author">Boris Dolley</span><br>
-<span id="author3" class="author">Alexandra Guironnet</span><br>
+<span id="author3" class="author">Alexandra Guirronet</span><br>
 <span id="author4" class="author">Ronan Le Gall</span><br>
 <span id="revnumber">version 0.1.1,</span>
 <span id="revdate">April 15, 2019</span>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">Card Publication Service</div>
+<ul class="sectlevel1">
+<li><a href="#_cards_examples">1. Cards Examples</a>
+<ul class="sectlevel2">
+<li><a href="#_minimal_card">1.1. Minimal Card</a></li>
+<li><a href="#_regular_card">1.2. Regular Card</a></li>
+<li><a href="#_displaying_rules">1.3. Displaying Rules</a></li>
+</ul>
+</li>
+<li><a href="#_card_anatomy">2. Card Anatomy</a>
+<ul class="sectlevel2">
+<li><a href="#_technical_information_of_the_card">2.1. Technical Information of the card</a></li>
+<li><a href="#_user_destined_information_of_the_card">2.2. User destined Information of the card</a></li>
+<li><a href="#_presentation_information_of_the_card">2.3. Presentation Information of the card</a></li>
+</ul>
+</li>
+<li><a href="#_publication_rest_api_overview">3. Publication REST API Overview.</a>
+<ul class="sectlevel2">
+<li><a href="#_publish_cards">3.1. Publish Cards</a></li>
+<li><a href="#_delete_cards">3.2. Delete Cards</a></li>
+<li><a href="#_other_methods">3.3. Other methods</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Work in progress</p>
+<p>The Card Publication Service is the entry point in OpeartorFabric to send information to Operators. The cards are the bearer of this information in OperatorFabric system. They are composed of 3 differents parts. The technical one is destined to the internal mecanism of card managing of Operator Fabric, the second one is the data itself destined to the Operator and the third and last one is the formatting information, which indicates OperatorFabric how to display the card data to the operator.</p>
+</div>
+<div class="paragraph">
+<p>To have an overview of the card publication you could go through the 101 document. If it&#8217;s ok for you, let&#8217;s dive more deeply in the cards anatomy and then we will explore the subtilities of the Card publication API.</p>
+</div>
+<div class="paragraph">
+<p>But mainly, before everything else, posting a card in OperatorFabric is done by using a POST request sending the card as Json object in the request body.</p>
+</div>
+<div id="_publish_card" class="paragraph">
+<p>For a card stored in a file named <code>card.json</code>, with an OperatorFabric running on the localhost the <code>cURL</code> command could be:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2103/cards -H "Content-Type:application/type" --data @card.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more details about possibilities about the Card Publication REST API please refere to the <a href="#_publication_rest_api_overview">Publication REST API Overview.</a> chapter or to the swagger documentation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cards_examples">1. Cards Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before detailing the content of cards, let&#8217;s show you what cards look like through few examples of json.</p>
+</div>
+<div class="sect2">
+<h3 id="_minimal_card">1.1. Minimal Card</h3>
+<div class="paragraph">
+<p>The OperatorFabric Card specification defines 7 mandatory attributes, but some optional attributes are needed for cards to be useful in OperatorFabric. Let&#8217;s clarify those point through few examples of minimal cards and what happens when they&#8217;re used as if.</p>
+</div>
+<div class="sect3">
+<h4 id="_send_to_one_user">1.1.1. Send to One User</h4>
+<div class="paragraph">
+<p>The following card contains only the mandatory attributes.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":"1546297200000",
+	"severity":"NOTIFICATION",
+	"title":{"key":"card.title.key"},
+	"summary":{"key":"card.summary.key"},
+	"recipient":{
+		"type":"USER",
+		"identity":"tso1-operator"
+	}
+
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This an information about the process <code>process-000</code>, send by the <code>TSO1</code>. The title and the summary refere to <code>i18n</code> keys defined in the associated <code>i18n</code> files of the pulbisher. This card is displayable since the first januray of 2019 and should only be received by the user using the <code>tso1-operator</code> login.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_send_to_several_users">1.1.2. Send to several users</h4>
+<div class="sect4">
+<h5 id="_simple_case">Simple case</h5>
+<div class="paragraph">
+<p>The following example is nearly the same as the previous one except for the recipient.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":"1546297200000",
+	"severity":"NOTIFICATION",
+	"title":{"key":"card.title.key"},
+	"summary":{"key":"card.summary.key"},
+	"recipient":{
+		"type":"GROUP",
+		"identity":"TSO1"
+	}
+
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The recipient is here a group, the <code>TSO1</code>. So all users whoa are member of this group will receive the card.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_complexe_case">Complexe case</h5>
+<div class="paragraph">
+<p>If this card need to be view by a user who is not in the <code>TSO1</code> group, it&#8217;s possible to tune more precisely the definition of the recipient. If the <code>tso2-operator</code> needs to see also this card, the recipient definition could be(the following code details only the recipient part):</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"recipient":{
+	"type":"UNION",
+	"recipients":[
+		{ "type": "GROUP", "identity":"TSO1"},
+		{ "type": "USER", "identity":"tso2-operator"}
+		]
+	}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So here, all the users of the <code>TSO1</code> group will received the <code>NOTIFICATION</code> as should the <code>tos2-operator</code> user.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_regular_card">1.2. Regular Card</h3>
+<div class="paragraph">
+<p>The previous cards were nearly empty regarding information carrying. In fact, cards are intented to contains more information than a title and a summary. The optional attribute <code>data</code> is here for that. This attribute is destined to contains any <code>json</code> object. The creator of the card is free to put any information needed as long as it&#8217;s in a <code>json</code> format.</p>
+</div>
+<div class="sect3">
+<h4 id="_full_of_hidden_data">1.2.1. Full of Hidden data</h4>
+<div class="paragraph">
+<p>For this example we will use our previous example for the <code>TSO1</code> group with a <code>data</code> attribute containing the definition of a <code>json</code> object containing two attributes: <code>stringExample</code> and <code>numberExample</code>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":"1546297200000",
+	"severity":"NOTIFICATION",
+	"title":{"key":"card.title.key"},
+	"summary":{"key":"card.summary.key"},
+	"recipient":{
+		"type":"USER",
+		"identity":"tso1-operator"
+	},
+	"data":{
+		"stringExample":"This is a not so random string of characters.",
+		"numberExample":123
+		}
+
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This card contains some data but when selected in the feed nothing more than the previous example of card happen because there is no rendering configuration.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_fully_useful">1.2.2. Fully useful</h4>
+<div class="paragraph">
+<p>When a card is selected in the feed (of the GUI), the data is display in the detail panel. The way details are formatted depends on template uploaded by Third parties as <a href="https://opfab.github.io/projects/services/core/thirds/0.1.1.SNAPSHOT/reference/#_bundle">describe here</a>. To have an effective example without to many actions to performed, the following example will use an alerady existing configuration.The one presents in the developpement version of OperatorFabric, for test purpose(<code>TEST</code> bundle).</p>
+</div>
+<div class="paragraph">
+<p>At the card level, the attribtues in the card telling OperatorFabric which template to use is the <code>details</code> attributes.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TEST",
+	"pulisherVersion":"1",
+	"processId":"process-000",
+	"startDate":"1546297200000",
+	"severity":"NOTIFICATION",
+	"title":{"key":"process.title"},
+	"summary":{"key":"process.summary"},
+	"recipient":{
+		"type":"USER",
+		"identity":"tso1-operator"
+	},
+	"data":{"rootProp":"Data displayed in the detail panel"},
+	"details":[{"title":{"key":"process.detail.tab.first"}, "templateName":"template1"}]
+
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So here a single custome data is defined and it&#8217;s <code>rootProp</code>. This attribute is used by the template called by the <code>details</code> attribute. This attribute contains an array of <code>json</code> object containing an <code>i18n</code> key and a <code>template</code> reference. Each of those object is a tab in the detail panel of the GUI. The template to used are defined and configured in the <code>Third</code> bundle upload into the server by the publisher.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_displaying_rules">1.3. Displaying Rules</h3>
+<div class="sect3">
+<h4 id="_dates">1.3.1. Dates</h4>
+<div class="sect4">
+<h5 id="_start_date_startdate">Start Date (<code>startDate</code>)</h5>
+<div class="paragraph">
+<p>The card is only display after this date is reach by the current time. It&#8217;s a mandatory attributes for OperatorFabric cards.</p>
+</div>
+<div class="paragraph">
+<p>example:</p>
+</div>
+<div class="paragraph">
+<p>The current day is the 29 january of 2019.</p>
+</div>
+<div class="paragraph">
+<p>A card with the following configuration <code>"startDate":"1548758040000"</code>, has a start date equals to the iso date: "2019-01-29T10:34:00Z". So the operator will see it appearing in it&#8217;s feed at 10h34 AM universal time. And if there is no <code>endDate</code> defines for it, it will stay in the feed indefinitely, so this card should be still visible the 30th january of 2019. Before "10h34 AM universal time", this card was not visible in the feed.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_end_date_enddate">End Date (<code>endDate</code>)</h5>
+<div class="paragraph">
+<p>This optional attribute, corresponds to the moment afterwhich the card will be remove from the feed of the GUI.</p>
+</div>
+<div class="paragraph">
+<p>example:</p>
+</div>
+<div class="paragraph">
+<p>Imagine that the current day is still the 29 january of 2019.</p>
+</div>
+<div class="paragraph">
+<p>The card we are looking after, has the same value for the startDate than in the previous example but has the following configuration for the <code>endDate</code>: <code>"endDate":"1548765240000"</code>. It&#8217;s correpsonding to "2019-01-29T12:34:00Z" universal time.</p>
+</div>
+<div class="paragraph">
+<p>So our card is present in the feed between "11h34" and "13h34". Before and after those hours, the card is not available.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_recipients">1.3.2. Recipients</h4>
+<div class="paragraph">
+<p>The attribute <code>recepient</code> of a card tells to whom it&#8217;s sent. It&#8217;s value format is an <a href="https://opfab.github.io/projects/services/core/cards-publication/0.1.1.SNAPSHOT/api/#Recipient"><code>object named recipient</code></a> that describe the rule for recipient computation.</p>
+</div>
+<div class="paragraph">
+<p>The available types are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GROUP</code></p>
+</li>
+<li>
+<p><code>USER</code></p>
+</li>
+<li>
+<p><code>UNION</code></p>
+</li>
+<li>
+<p><code>INTERSECT</code></p>
+</li>
+<li>
+<p><code>RANDOM</code></p>
+</li>
+<li>
+<p><code>WEIGHTED</code></p>
+</li>
+<li>
+<p><code>FAVORITE</code></p>
+</li>
+<li>
+<p><code>BROADCAST</code></p>
+</li>
+<li>
+<p><code>DEADEND</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The simplest way to determine the recipient is to assign the card to a <code>user</code> or a <code>group</code> as seen <a href="#_minimal_card">previously in  "Minimal Card"</a>.</p>
+</div>
+<div class="paragraph">
+<p>But it&#8217;s possible to combine groups and potentially users using <code>UNION</code> and <code>INTERSECT</code> type to have a better control on whom should receive the card.</p>
+</div>
+<div class="sect4">
+<h5 id="_union">UNION</h5>
+<div class="paragraph">
+<p>For example, if a card is destined to the operators of <code>TSO1</code> and <code>TSO2</code> and need to be alos view by the <code>admin</code> the recipient configuration looks like:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"recipient":{"type":"UNION",
+	"recipients":[
+		{"type":"GROUP","identity":"TSO1"},
+		{"type":"GROUP","identity":"TSO2"},
+		{"type":"USER","identity":"admin"}
+		]
+	}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_intersect">INTERSECT</h5>
+<div class="paragraph">
+<p>To target all users member of the <code>admin</code> group in the <code>TSO2</code> group, the recipient rule could be:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"recipient":{"type":"INTERSECT",
+	"recipients":[
+		{"type":"GROUP","identity":"TSO1"},
+		{"type":"GROUP","identity":"ADMIN"}
+		]
+	}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_card_anatomy">2. Card Anatomy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cards are modelized as <code>Json</code> objects. The technical design of card is describe in <a href="https://opfab.github.io/projects/services/core/cards-publication/0.1.1.SNAPSHOT/api/#Card">the swagger api descripiton of Card Publication Service</a>. A card correspond to the state of a Processus in OperatorFabric.</p>
+</div>
+<div class="sect2">
+<h3 id="_technical_information_of_the_card">2.1. Technical Information of the card</h3>
+<div class="paragraph">
+<p>Those attributes are used by OperatorFabric to manage how cards are stored, to whom and when they&#8217;re sended.</p>
+</div>
+<div class="sect3">
+<h4 id="_mandotory_information">2.1.1. Mandotory information</h4>
+<div class="paragraph">
+<p>Below, the <code>json</code> technical key is in the '()' following the title.</p>
+</div>
+<div class="sect4">
+<h5 id="_card_publisher">Publisher (<code>publisher</code>)</h5>
+<div class="paragraph">
+<p>Quite obviously it&#8217;s the Third party which publish the card. This information is used to look up for Presentation resources of the card.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_card_publisher_version">Publisher Version (<code>publisherVersion</code>)</h5>
+<div class="paragraph">
+<p>Refers the <code>version</code> of <code>publisher third</code> to use to render this card (i18n, title, summary, media and details).
+As through time, the presentation of a publisher card data changes, this changes are managed through <code>publisherVersion</code> in OperatorFabric. Each version is keep in the system in order to be able to display correctely old cards.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_process_identifier_processid">Process Identifier (<code>processId</code>)</h5>
+<div class="paragraph">
+<p>It&#8217;s the way to identify the process to which the card is associated. A card represent a state of a process.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="startDate">Start Date (<code>startDate</code>)</h5>
+<div class="paragraph">
+<p>This attribute is a part of the card life management system. It&#8217;s indicate OperatorFabric the moment since the card can be diplay to the opertors or main receipients, <a href="#_displaying_rules">see Displaying rules</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_severity_severity">Severity (<code>severity</code>)</h5>
+<div class="paragraph">
+<p>The severity is a core principe of the OperatorFabric Card system. There are 4 serverities available(<a href="https://opfab.github.io/projects/services/core/cards-publication/0.1.1.SNAPSHOT/api/#SeverityEnum">Technical definition of OperatorFabric Card Severity</a>). A color is associated in the GUI to each severity. Here the details about severity and their meaning for OperatorFabric:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>ALARM: representes a critical state of the associated process, need an action from the operator. In the Gui, the card is red;</p>
+</li>
+<li>
+<p>ACTION: the associated process need an action form operators in order to evolve correctly. In the Gui, an action is orange;</p>
+</li>
+<li>
+<p>QUESTION: an operator need to give specific information to the associated process in order to evolve correctly. In the UI, an action is blue.;</p>
+</li>
+<li>
+<p>NOTIFICATION: give information to the operator. In the GUI, a notification is green.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="cardTitle">Title (<code>title</code>)</h5>
+<div class="paragraph">
+<p>This attribute is display as header of a card in the feed of the GUI. It&#8217;s the main User destined Information of a card. The value refer to an <code>i18n</code> value used to localized this information.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="cardSummary">Summary (<code>summary</code>)</h5>
+<div class="paragraph">
+<p>This attribute is display as a description of a card in the feed of the GUI, when the card is selected by the operator. It&#8217;s completing the information of the card title. The value refer to an <code>i18n</code> value used to localized this information.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_recipient_recipient">2.1.2. Recipient (<code>recipient</code>)</h4>
+<div class="paragraph">
+<p>Declares to whom the card is send. For more details about way recipient works <a href="#_displaying_rules">see Displaying rules</a>. Without recipient declaration a card is useless in <code>OperatorFabric</code> system.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_store_information">2.1.3. Store information</h4>
+<div class="sect4">
+<h5 id="_tags_tag">Tags (<code>tag</code>)</h5>
+<div class="paragraph">
+<p>Tags are intended to enable filter of cards in the feed of the GUI.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_uid_uid">uid (<code>uid</code>)</h5>
+<div class="paragraph">
+<p>Unique identifier of the card in the OperatorFabric system. This attribute can be send with card, but normally it&#8217;s manage by <code>OperatorFabric</code> system.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_id_id">id (<code>id</code>)</h5>
+<div class="paragraph">
+<p>State id of the associated process, determines by <code>OperatorFabric</code> can be set abritrarly by the <code>publisher</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_card_life_management_configuration">2.1.4. Card Life Management Configuration</h4>
+<div class="paragraph">
+<p>With this attributes OperatorFabric know when to display or hide cards, but also if an action is still available for a given card.</p>
+</div>
+<div class="sect4">
+<h5 id="_start_date_startdate_2">Start Date (<code>startDate</code>)</h5>
+<div class="paragraph">
+<p><a href="#startDate">see Start Date in Technical Information of the Card</a> and <a href="#_displaying_rules">for more examples</a>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_end_date_enddate_2">End Date (<code>endDate</code>)</h5>
+<div class="paragraph">
+<p>Fixes the moment until when <code>OperatorFabric</code> displays the card. After the card is remove from the GUI feed, <a href="#_display_rules">see Display Rules for some examples</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_last_time_to_decide_lttd">2.1.5. Last Time to Decide (<code>lttd</code>)</h4>
+<div class="paragraph">
+<p>Fixes the moment until when a <code>actions</code> associated to the card are available. After then, the associated actions won&#8217;t be displayed or actionnable.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_technical_attributes">2.1.6. Other technical attributes</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_publish_date_publishdate">2.1.7. Publish Date (<code>publishDate</code>)</h4>
+<div class="paragraph">
+<p>Indicates when the card has been registred in <code>OperatorFabric</code> sytsem. This is a technical information exclusively managed by <code>OperatorFabric</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deletion_date_deletiondate">2.1.8. Deletion Date (`deletionDate°)</h4>
+<div class="paragraph">
+<p>Indicates when the card has been removes from <code>OperatorFabric</code> system. Technical inforation manage by <code>OperatorFabric</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_destined_information_of_the_card">2.2. User destined Information of the card</h3>
+<div class="paragraph">
+<p>There are two kind of User destined information in a card. Some are restricted to the card format, others are defined by the publisher as long as there are encoded in <code>json</code> format.</p>
+</div>
+<div class="sect3">
+<h4 id="_in_card_format">2.2.1. in Card Format</h4>
+<div class="sect4">
+<h5 id="_title_title">Title (<code>title</code>)</h5>
+<div class="paragraph">
+<p><a href="#cardTitle">see Title in Technical Information of the Card</a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_summary_summary">Summary (<code>summary</code>)</h5>
+<div class="paragraph">
+<p><a href="#cardSummary">see Summary in Technical Information of the Card</a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_custome_part">2.2.2. Custome part</h4>
+<div class="sect4">
+<h5 id="_data_data">Data (<code>data</code>)</h5>
+<div class="paragraph">
+<p>Determines where custome information is store. The content in this attribute, is purely <code>publisher</code> choice. This content, as long as it&#8217;s in <code>json</code> format can be used to display details. For the way the details are displayed <a href="#_presentation_information_of_the_card">see below</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_presentation_information_of_the_card">2.3. Presentation Information of the card</h3>
+<div class="sect3">
+<h4 id="_media_media">2.3.1. Media (<code>media</code>)</h4>
+<div class="paragraph">
+<p>In this attribute are indicates the id of audio notification.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_details_details">2.3.2. details (<code>details</code>)</h4>
+<div class="paragraph">
+<p>This attribute is a string of objects containing a <code>title</code> attribute whichi is <code>i18n</code> key and a <code>template</code> attribute which referes to a template name contained in the publisher bundle. The bundle in which those resources will be looked for is the one corresponding of the <a href="#_card_publisher_version">version</a> declared in the card for the current <a href="#_card_publisher">publisher</a>. If no resource is found, either because there is no bundle for the given version or there is no resource for the given key, then the corresponding key is displayed in the details section of the GUI.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://opfab.github.io/projects/services/core/thirds/0.1.1.SNAPSHOT/reference/#_bundle">See the documentation about third bundle in the Third service documentation</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>example:</strong></p>
+</div>
+<div class="paragraph">
+<p>The <code>TEST</code> publisher has only a <code>0.1</code> version uploaded in the current <code>OperatorFabric</code> system. The <code>details</code> value is <code>[{"title":{"key":"first.tab.title"},"template":"template0"}]</code>.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>publisherVersion</code> of the card is <code>2</code> then only the <code>title</code> key declared in the <code>details</code> array will be displays without any translation, i.e. the tab will contains <code>TEST.2.first.tab.title</code> and will be empty. If the <code>l10n</code> for the title is not available, then the tab title will be still <code>TEST.2.first.tab.title</code> but the template will be compute and the details section will display the template content.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_publication_rest_api_overview">3. Publication REST API Overview.</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_publish_cards">3.1. Publish Cards</h3>
+<div class="paragraph">
+<p>As <a href="#_publish_card">seen here</a> the main publication method is to post Card using an http <code>POST</code> method to the endpoint <code>/cards</code> with a card as <code>json</code> object in the body of the request.</p>
+</div>
+<div class="paragraph">
+<p>There is an asynchrone metho available whom end-point is <code>/async/cards</code>. The response for this method is always a <code>201</code> status, no matter what the card is accepted or not.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delete_cards">3.2. Delete Cards</h3>
+<div class="paragraph">
+<p>For a given <code>process id</code> it&#8217;s possible to delete the current card (not the archived ones), using the <code>DELETE</code> http method with the following end-point <code>/cards/{processId}</code> where <code>processId</code> is the id of the choosen process. In <code>OperatorFabric</code> calling this method will trigger a <code>DELETE CardOperation</code> with the <code>id</code> of the current card linked to the request process.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_other_methods">3.3. Other methods</h3>
+<div class="paragraph">
+<p>The other methods declared in the <a href="https://opfab.github.io/projects/services/core/cards-publication/0.1.1.SNAPSHOT/api/">Card Management</a> are used by the GUI and are parts of the <code>Card Consultation API</code>.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </body>
