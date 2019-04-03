@@ -5,8 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="David Binder, Boris Dolley, Alexandra Guironnet, Ronan Le Gall">
-<title>Users Service Reference Documentation</title>
+<meta name="author" content="David Binder, Boris Dolley, Alexandra Guirronet, Ronan Le Gall">
+<title>OperatorFabric User Service</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -432,21 +432,623 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>Users Service Reference Documentation</h1>
+<h1>OperatorFabric User Service</h1>
 <div class="details">
 <span id="author" class="author">David Binder</span><br>
 <span id="author2" class="author">Boris Dolley</span><br>
-<span id="author3" class="author">Alexandra Guironnet</span><br>
+<span id="author3" class="author">Alexandra Guirronet</span><br>
 <span id="author4" class="author">Ronan Le Gall</span><br>
 <span id="revnumber">version 0.1.1,</span>
 <span id="revdate">April 15, 2019</span>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">User Service</div>
+<ul class="sectlevel1">
+<li><a href="#_cookbook">1. Cookbook</a>
+<ul class="sectlevel2">
+<li><a href="#_list_all_users">1.1. List all users</a></li>
+<li><a href="#_create_a_new_user">1.2. Create a new User</a></li>
+<li><a href="#_fetch_user_details">1.3. Fetch user details</a></li>
+<li><a href="#_update_user_details">1.4. Update user details</a></li>
+<li><a href="#_list_groups">1.5. List groups</a></li>
+<li><a href="#_create_a_new_group">1.6. Create a new Group</a></li>
+<li><a href="#_fetch_details_of_a_given_group">1.7. Fetch details of a given group</a></li>
+<li><a href="#_update_details_of_a_group">1.8. Update details of a group</a></li>
+<li><a href="#_add_a_user_to_a_group">1.9. Add a user to a group</a></li>
+<li><a href="#_remove_a_user_from_a_group">1.10. Remove a user from a Group</a></li>
+</ul>
+</li>
+<li><a href="#_users_and_groups">2. Users and Groups</a>
+<ul class="sectlevel2">
+<li><a href="#_users">2.1. Users</a></li>
+<li><a href="#_groups">2.2. Groups</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Work in progress</p>
+<p>The User service manage users and groups.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Users</dt>
+<dd>
+<p>represent account information for person destined to receive cards in the OperatorFabric instance.</p>
+</dd>
+<dt class="hdlist1">Groups</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>represent set of users destined to receive collectivelly some cards.</p>
+</li>
+<li>
+<p>can be used in a way to handle rights on card reception in OperatorFabric.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The user define here is an internal representation of the individual card recipient in <code>OperatorFabric</code> the authentication is leave to specific OAuth2 extrernal service.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the following commands the <code>$token</code> is an authentication token currently valid for the <code>OAuth2</code> service used by the current <code>OperatorFabric</code> system.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cookbook">1. Cookbook</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance. As a user of OperatorFabric, he needes to be added to the system with a <code>login</code> (john-doe-opertaor), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).</p>
+</div>
+<div class="paragraph">
+<p>As there is no <code>Administration GUI</code> for the moment, it must be performed through command line, as specify <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#SimpleUser">here</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_list_all_users">1.1. List all users</h3>
+<div class="paragraph">
+<p>First of all, list the users (who are the recipients in OperatorFabric) of the system with the following commands:</p>
+</div>
+<div class="paragraph">
+<p>Httpie</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/type"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>cURL</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -v http://localhost:2103/users -H "Authorization:Bearer $token" -H "Content-Type:application/type"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+[
+    {
+        "firstName": null,
+        "groups": [
+            "ADMIN"
+        ],
+        "lastName": null,
+        "login": "admin"
+    },
+    {
+        "firstName": null,
+        "groups": [
+            "RTE",
+            "ADMIN",
+            "CORESO",
+            "TRANS",
+            "TEST"
+        ],
+        "lastName": null,
+        "login": "rte-operator"
+    },
+    {
+        "firstName": null,
+        "groups": [
+            "ELIA"
+        ],
+        "lastName": null,
+        "login": "elia-operator"
+    },
+    {
+        "firstName": null,
+        "groups": [
+            "CORESO"
+        ],
+        "lastName": null,
+        "login": "coreso-operator"
+    },
+    {
+        "firstName": null,
+        "groups": [
+            "TSO1",
+            "TRANS",
+            "TEST"
+        ],
+        "lastName": null,
+        "login": "tso1-operator"
+    },
+    {
+        "firstName": null,
+        "groups": [
+            "TSO2",
+            "TRANS"
+        ],
+        "lastName": null,
+        "login": "tso2-operator"
+    },
+]</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_new_user">1.2. Create a new User</h3>
+<div class="paragraph">
+<p>We are sure that no John-doe-operator exists in our OperatorFabric instance. We can add him in our OperatorFabric instance using the following command use httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '{"login":"john-doe-operator","firstName":"Jahne","lastName":"Doe"}' | http POST http://localhost:2103/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or here cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2103/users -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"login":"john-doe-operator","firstName":"Jahne","lastName":"Doe"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "firstName": "Jahne",
+    "lastName": "Doe",
+    "login": "john-doe-operator"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fetch_user_details">1.3. Fetch user details</h3>
+<div class="paragraph">
+<p>It&#8217;s always a good thing to verify if all the information has been correctely recorded in the system:</p>
+</div>
+<div class="paragraph">
+<p>with httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http -b http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or with cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http://localhost:2103/users/test-login-operator -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "firstName": "Jahne",
+    "groups": [],
+    "lastName": "Doe",
+    "login": "john-doe-operator"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_user_details">1.4. Update user details</h3>
+<div class="paragraph">
+<p>As shown by this result, the firstName of the new operator has been mispelled.We need <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#updateUser">to update the existing user</a> with <code>john-doe-operator</code> login. To correct this mistake, the following commands can be used :</p>
+</div>
+<div class="paragraph">
+<p>with httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '{"login":"john-doe-operator","lastName":"Doe","firstName":"John"}' | http PUT http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or with cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -X PUT http://localhost:2103/users/john-doe-operator -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"login":"john-doe-operator","firstName":"John","lastName":"Doe"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "login": "john-doe-operator"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_list_groups">1.5. List groups</h3>
+<div class="paragraph">
+<p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in the system. As shown when we <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#fetchGroups">lists the groups existing in the server</a>.</p>
+</div>
+<div class="paragraph">
+<p>Httpie</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/type"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>cURL</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+[
+    {
+        "description": "The admin group",
+        "name": "ADMIN"
+    },
+    {
+        "description": "RTE TSO Group",
+        "name": "RTE"
+    },
+    {
+        "description": "ELIA TSO group",
+        "name": "ELIA"
+    },
+    {
+        "description": "CORESO Group",
+        "name": "CORESO"
+    },
+    {
+        "description": "TSO 1 Group",
+        "name": "TSO1"
+    },
+    {
+        "description": "TSO 2 Group",
+        "name": "TSO2"
+    },
+    {
+        "description": "Transnationnal Group",
+        "name": "TRANS"
+    }
+]</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_new_group">1.6. Create a new Group</h3>
+<div class="paragraph">
+<p>Firstly, the group called <code>OPERATORS</code> has <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#createGroup">to be added to the system</a> using the following command:</p>
+</div>
+<div class="paragraph">
+<p>using httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '{"name":"OPERATORS","decription":"This is the brand new  group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>using cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"name":"OPERATORS","decription":"This is the brand new  group of operator"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "description": null,
+    "name": "OPERATORS"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fetch_details_of_a_given_group">1.7. Fetch details of a given group</h3>
+<div class="paragraph">
+<p>The result return seems strange, to verify if it&#8217;s the correct answer by <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#fetchGroup">displaying the details of the group</a> called <code>OPERATORS</code>, use the following command:</p>
+</div>
+<div class="paragraph">
+<p>using httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>using cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "description": null,
+    "name": "OPERATORS"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_details_of_a_group">1.8. Update details of a group</h3>
+<div class="paragraph">
+<p>The description is really null. After verification, in our first command used to create the group, the attribut for the description is misspelled. Using the following command <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#updateGroup">to update the group</a>, with the correct spelling, the new group of operator gets a proper description:</p>
+</div>
+<div class="paragraph">
+<p>with httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '{"name":"OPERATORS","description":"This is the brand new  group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http -b PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"name":"OPERATORS","description":"This is the brand new  group of operator"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+    "description": "This is the brand new  group of operator",
+    "name": "OPERATORS"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_a_user_to_a_group">1.9. Add a user to a group</h3>
+<div class="paragraph">
+<p>As both new group and new user are correct it&#8217;s time <a href="https://opfab.github.io/projects/services/core/users/0.1.1.SNAPSHOT/api/#addGroupUsers">to make the user member of the group</a>. To achieve this, use the following command:</p>
+</div>
+<div class="paragraph">
+<p>with httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '["john-doe-operator"]' | http POST http://localhost:2103/groups/OPERATORS/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http POST http://localhost:2103/groups/OPERATORS/users -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '["john-doe-operator"]'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s verify that the changes are correctelly recorded by fetching the :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with cURL</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2103/users/john-doe-operator -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "firstName": "John",
+    "groups": ["OPERATORS"],
+    "lastName": "Doe",
+    "login": "john-doe-operator"
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It&#8217;s now possible to send cards either specifically to <code>john-doe-operator</code> or more generally to the <code>OPERATORS</code> group.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remove_a_user_from_a_group">1.10. Remove a user from a Group</h3>
+<div class="paragraph">
+<p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be remove from his login by using the following command:</p>
+</div>
+<div class="paragraph">
+<p>with httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '["john-doe-operator"]' | http DELETE http://localhost:2103/groups/OPERATORS/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -X DELETE -H "Authorization:Bearer $token" -H "Content-Type:application/json" http://localhost:2103/users/john-doe-operator</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+	"login":"john-doe-operator","
+	firstName":"John",
+	"lastName":"Doe",
+	"groups":[]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A last command to verify that <code>OPERATORS</code> is no longer linked to <code>john-doe-operator</code>:</p>
+</div>
+<div class="paragraph">
+<p>with httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>http http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2103/users/john-doe-operator -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "firstName": "John",
+    "groups": [],
+    "lastName": "Doe",
+    "login": "coreso-operator"
+
+}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_users_and_groups">2. Users and Groups</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>User service manager users and groups.</p>
+</div>
+<div class="sect2">
+<h3 id="_users">2.1. Users</h3>
+<div class="paragraph">
+<p>Users are the individuals and mainly physical person who can log in OperatorFabric.</p>
+</div>
+<div class="paragraph">
+<p>The access to this service as to be authorized, in the <code>OAuth2</code> service use by the current <code>OperatorFabric</code> instance, at least to access User informations and to manage Users. The membership of groups is stored in the user information.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_groups">2.2. Groups</h3>
+<div class="paragraph">
+<p>The notion of group is loose and can be used to simulate role in <code>OpertaroFabric</code>. Groups are used to send cards to several users without name them specifically. The information about membership to a group is stored in the user information. The rules used to send cards are describe in the <a href="https://opfab.github.io/projects/services/core/cards-publication/0.1.1.SNAPSHOT/reference/#_card_recipients">Card Publication Service</a>.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </body>
