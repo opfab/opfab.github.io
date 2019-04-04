@@ -260,6 +260,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/CustomRouterStateSerializer.html" data-type="entity-link">CustomRouterStateSerializer</a>
                             </li>
                             <li class="link">
+                                <a href="classes/Filter.html" data-type="entity-link">Filter</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/GuidService.html" data-type="entity-link">GuidService</a>
                             </li>
                             <li class="link">
@@ -410,10 +413,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/AuthState.html" data-type="entity-link">AuthState</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CardState.html" data-type="entity-link">CardState</a>
+                                <a href="interfaces/CardFeedState.html" data-type="entity-link">CardFeedState</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/LightCardStateEntity.html" data-type="entity-link">LightCardStateEntity</a>
+                                <a href="interfaces/CardState.html" data-type="entity-link">CardState</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/MenuState.html" data-type="entity-link">MenuState</a>

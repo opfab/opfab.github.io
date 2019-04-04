@@ -372,7 +372,7 @@ import {select, Store} from &#x27;@ngrx/store&#x27;;
 import {AppState} from &#x27;@ofStore/index&#x27;;
 import {Observable, of} from &#x27;rxjs&#x27;;
 import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
-import * as lightCardSelectors from &#x27;@ofSelectors/light-card.selectors&#x27;;
+import * as feedSelectors from &#x27;@ofSelectors/feed.selectors&#x27;;
 import {catchError, tap} from &quot;rxjs/operators&quot;;
 
 @Component({
@@ -390,10 +390,10 @@ export class FeedComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.lightCards$ &#x3D; this.store.pipe(
-            select(lightCardSelectors.selectAllLightCards),
+            select(feedSelectors.selectFeed),
             catchError(err &#x3D;&gt; of([]))
         );
-        this.selection$ &#x3D; this.store.select(lightCardSelectors.selectLightCardSelection);
+        this.selection$ &#x3D; this.store.select(feedSelectors.selectLightCardSelection);
     }
 
 
