@@ -242,6 +242,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/AddLightCardFailure.html" data-type="entity-link">AddLightCardFailure</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ApplyFilter.html" data-type="entity-link">ApplyFilter</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/AuthObject.html" data-type="entity-link">AuthObject</a>
                             </li>
                             <li class="link">
@@ -276,6 +279,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/I18n.html" data-type="entity-link">I18n</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/InitFilter.html" data-type="entity-link">InitFilter</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Input.html" data-type="entity-link">Input</a>
