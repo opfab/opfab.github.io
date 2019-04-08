@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -117,8 +117,9 @@ public class <span class="typeNameLabel">CustomExceptionHandler</span>
 extends org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler</pre>
 <div class="block">CustomExceptionHandler.
  <ul>
+     <li>Handle <code>DuplicateKeyException</code> as 400 BAD REQUEST errors</li>
      <li>Handle Api errors according to their configuration</li>
-     <li>Handle uncaught logging error</li>
+     <li>Handle uncaught logging errors</li>
  </ul></div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
@@ -189,9 +190,17 @@ extends org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExce
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.Object&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/users/controllers/CustomExceptionHandler.html#handleApiError-org.lfenergy.operatorfabric.springtools.error.model.ApiErrorException-org.springframework.web.context.request.WebRequest-">handleApiError</a></span>(org.lfenergy.operatorfabric.springtools.error.model.ApiErrorException&nbsp;exception,
-              org.springframework.web.context.request.WebRequest&nbsp;request)</code>&nbsp;</td>
+              org.springframework.web.context.request.WebRequest&nbsp;request)</code>
+<div class="block">Handles <code>ApiErrorException</code></div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>org.springframework.http.ResponseEntity&lt;java.lang.Object&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/users/controllers/CustomExceptionHandler.html#handleDuplicateKey-org.springframework.dao.DuplicateKeyException-">handleDuplicateKey</a></span>(org.springframework.dao.DuplicateKeyException&nbsp;exception)</code>
+<div class="block">Handles <code>DuplicateKeyException</code> as 400 BAD_REQUEST error</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>protected org.springframework.http.ResponseEntity&lt;java.lang.Object&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/users/controllers/CustomExceptionHandler.html#handleExceptionInternal-java.lang.Exception-java.lang.Object-org.springframework.http.HttpHeaders-org.springframework.http.HttpStatus-org.springframework.web.context.request.WebRequest-">handleExceptionInternal</a></span>(java.lang.Exception&nbsp;ex,
                        java.lang.Object&nbsp;body,
@@ -275,6 +284,31 @@ extends org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExce
 <pre>@ExceptionHandler(value=org.lfenergy.operatorfabric.springtools.error.model.ApiErrorException.class)
 public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.Object&gt;&nbsp;handleApiError(org.lfenergy.operatorfabric.springtools.error.model.ApiErrorException&nbsp;exception,
                                                                                                                                                                                      org.springframework.web.context.request.WebRequest&nbsp;request)</pre>
+<div class="block">Handles <code>ApiErrorException</code></div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>exception</code> - exception to handle</dd>
+<dd><code>request</code> - Corresponding request of exchange</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Computed http response for specified exception</dd>
+</dl>
+</li>
+</ul>
+<a name="handleDuplicateKey-org.springframework.dao.DuplicateKeyException-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>handleDuplicateKey</h4>
+<pre>@ExceptionHandler(value=org.springframework.dao.DuplicateKeyException.class)
+public&nbsp;org.springframework.http.ResponseEntity&lt;java.lang.Object&gt;&nbsp;handleDuplicateKey(org.springframework.dao.DuplicateKeyException&nbsp;exception)</pre>
+<div class="block">Handles <code>DuplicateKeyException</code> as 400 BAD_REQUEST error</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>exception</code> - exception to handle</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Computed http response for specified exception</dd>
+</dl>
 </li>
 </ul>
 <a name="handleExceptionInternal-java.lang.Exception-java.lang.Object-org.springframework.http.HttpHeaders-org.springframework.http.HttpStatus-org.springframework.web.context.request.WebRequest-">
