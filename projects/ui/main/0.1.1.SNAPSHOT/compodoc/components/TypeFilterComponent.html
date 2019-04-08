@@ -35,7 +35,7 @@
 
 <ol class="breadcrumb">
   <li>Components</li>
-  <li>NoSelectionComponent</li>
+  <li>TypeFilterComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -49,6 +49,9 @@
             <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
         </li>
         <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
             <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
@@ -58,7 +61,7 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>src/app/modules/feed/components/no-selection/no-selection.component.ts</code>
+    <code>src/app/modules/feed/components/card-list/filters/type-filter/type-filter.component.ts</code>
 </p>
 
 
@@ -88,15 +91,19 @@
 
             <tr>
                 <td class="col-md-3">selector</td>
-                <td class="col-md-9"><code>of-no-selection</code></td>
+                <td class="col-md-9"><code>of-type-filter</code></td>
             </tr>
 
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./type-filter.component.scss</code></td>
+            </tr>
 
 
 
             <tr>
                 <td class="col-md-3">templateUrl</td>
-                <td class="col-md-9"><code>./no-selection.component.html</code></td>
+                <td class="col-md-9"><code>./type-filter.component.html</code></td>
             </tr>
 
 
@@ -149,7 +156,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/modules/feed/components/no-selection/no-selection.component.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/modules/feed/components/card-list/filters/type-filter/type-filter.component.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -188,7 +195,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/modules/feed/components/no-selection/no-selection.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/modules/feed/components/card-list/filters/type-filter/type-filter.component.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -214,10 +221,11 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
 
 @Component({
-  selector: &#x27;of-no-selection&#x27;,
-  templateUrl: &#x27;./no-selection.component.html&#x27;,
+  selector: &#x27;of-type-filter&#x27;,
+  templateUrl: &#x27;./type-filter.component.html&#x27;,
+  styleUrls: [&#x27;./type-filter.component.scss&#x27;]
 })
-export class NoSelectionComponent implements OnInit {
+export class TypeFilterComponent implements OnInit {
 
   constructor() { }
 
@@ -236,11 +244,68 @@ export class NoSelectionComponent implements OnInit {
 &lt;!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --&gt;
 
 &lt;p&gt;
-  no-selection works!
+    &lt;ng-template #filterTypeContent&gt;Configuration goes here&lt;/ng-template&gt;
+    &lt;ng-template #filterTypeTitle&gt;&lt;span translate&gt;feed.filters.type.title&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-outline-secondary p-1 mr-2&quot; placement&#x3D;&quot;right&quot;
+            [ngbPopover]&#x3D;&quot;filterTypeContent&quot; [popoverTitle]&#x3D;&quot;filterTypeTitle&quot;&gt;
+        &lt;div class&#x3D;&quot;type-selections&quot;&gt;
+            &lt;div class&#x3D;&quot;type-row&quot;&gt;
+                &lt;div class&#x3D;&quot;type-cell bg-sev-alarm&quot;&gt;&lt;/div&gt;
+                &lt;div class&#x3D;&quot;type-cell bg-sev-action&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;type-row&quot;&gt;
+                &lt;div class&#x3D;&quot;type-cell bg-sev-question&quot;&gt;&lt;/div&gt;
+                &lt;div class&#x3D;&quot;type-cell bg-sev-notification&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/button&gt;
 &lt;/p&gt;
 </code></pre>
     </div>
 
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./type-filter.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">/* Copyright (c) 2018, RTE (http://www.rte-france.com)
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+@import &quot;~assets/styles/_variables.scss&quot;;
+
+$cell-width: 10;
+
+.type-selections {
+  display: table;
+  width: $cell-width * 2px;
+  height: $cell-width * 2px;
+}
+
+.type-row {
+  display: table-row;
+}
+
+.type-cell {
+  display: table-cell;
+}
+
+/deep/ .popover {
+  background-color: $dark;
+  .popover-header {
+    color: $light;
+    background-color: $dark;
+  }
+  .popover-body {
+    color: $light;
+  }
+  .arrow::after{
+    border-right-color: $dark;
+  }
+}
+</code></pre>
+    </div>
 
     <div class="tab-pane fade " id="c-tree">
         <div id="tree-container"></div>
@@ -267,10 +332,10 @@ export class NoSelectionComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><p>  no-selection works!</p></div>'
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><p>    <ng-template #filterTypeContent>Configuration goes here</ng-template>    <ng-template #filterTypeTitle><span translate>feed.filters.type.title</span></ng-template>    <button type="button" class="btn btn-outline-secondary p-1 mr-2" placement="right"            [ngbPopover]="filterTypeContent" [popoverTitle]="filterTypeTitle">        <div class="type-selections">            <div class="type-row">                <div class="type-cell bg-sev-alarm"></div>                <div class="type-cell bg-sev-action"></div>            </div>            <div class="type-row">                <div class="type-cell bg-sev-question"></div>                <div class="type-cell bg-sev-notification"></div>            </div>        </div>    </button></p></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [];
-    var ACTUAL_COMPONENT = {'name': 'NoSelectionComponent'};
+    var ACTUAL_COMPONENT = {'name': 'TypeFilterComponent'};
 </script>
 <script src="../js/tree.js"></script>
 
@@ -304,7 +369,7 @@ export class NoSelectionComponent implements OnInit {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
-            var COMPODOC_CURRENT_PAGE_URL = 'NoSelectionComponent.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'TypeFilterComponent.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

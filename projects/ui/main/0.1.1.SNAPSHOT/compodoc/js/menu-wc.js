@@ -154,13 +154,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/FeedModule.html" data-type="entity-link">FeedModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-FeedModule-72be7ff0450fe8df9d54aaba9d288a3b"' : 'data-target="#xs-components-links-module-FeedModule-72be7ff0450fe8df9d54aaba9d288a3b"' }>
+                                            'data-target="#components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' : 'data-target="#xs-components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-FeedModule-72be7ff0450fe8df9d54aaba9d288a3b"' :
-                                            'id="xs-components-links-module-FeedModule-72be7ff0450fe8df9d54aaba9d288a3b"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' :
+                                            'id="xs-components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' }>
                                             <li class="link">
                                                 <a href="components/CardListComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">CardListComponent</a>
@@ -180,6 +180,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <li class="link">
                                                 <a href="components/TimeLineComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">TimeLineComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TypeFilterComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">TypeFilterComponent</a>
                                             </li>
                                         </ul>
                                     </li>
