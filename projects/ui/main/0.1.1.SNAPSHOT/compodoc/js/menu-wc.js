@@ -55,13 +55,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-0b68098a68548b9a942e2c0f6c39ccf1"' : 'data-target="#xs-components-links-module-AppModule-0b68098a68548b9a942e2c0f6c39ccf1"' }>
+                                            'data-target="#components-links-module-AppModule-40c27dd07c1b9fdcfca951da180fd0be"' : 'data-target="#xs-components-links-module-AppModule-40c27dd07c1b9fdcfca951da180fd0be"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-0b68098a68548b9a942e2c0f6c39ccf1"' :
-                                            'id="xs-components-links-module-AppModule-0b68098a68548b9a942e2c0f6c39ccf1"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-40c27dd07c1b9fdcfca951da180fd0be"' :
+                                            'id="xs-components-links-module-AppModule-40c27dd07c1b9fdcfca951da180fd0be"' }>
                                             <li class="link">
                                                 <a href="components/AppComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">AppComponent</a>
@@ -154,13 +154,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/FeedModule.html" data-type="entity-link">FeedModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' : 'data-target="#xs-components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' }>
+                                            'data-target="#components-links-module-FeedModule-43adb9dfd2d7eeba0bb799b108feaa8d"' : 'data-target="#xs-components-links-module-FeedModule-43adb9dfd2d7eeba0bb799b108feaa8d"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' :
-                                            'id="xs-components-links-module-FeedModule-72118b0485292f9223ce94ba6fbc97b7"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-FeedModule-43adb9dfd2d7eeba0bb799b108feaa8d"' :
+                                            'id="xs-components-links-module-FeedModule-43adb9dfd2d7eeba0bb799b108feaa8d"' }>
                                             <li class="link">
                                                 <a href="components/CardListComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">CardListComponent</a>
@@ -176,6 +176,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <li class="link">
                                                 <a href="components/NoSelectionComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">NoSelectionComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimeFilterComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">TimeFilterComponent</a>
                                             </li>
                                             <li class="link">
                                                 <a href="components/TimeLineComponent.html"
@@ -289,7 +293,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/I18n.html" data-type="entity-link">I18n</a>
                             </li>
                             <li class="link">
-                                <a href="classes/InitFilter.html" data-type="entity-link">InitFilter</a>
+                                <a href="classes/InitFilters.html" data-type="entity-link">InitFilters</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Input.html" data-type="entity-link">Input</a>
@@ -384,6 +388,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/CustomRouterEffects.html" data-type="entity-link">CustomRouterEffects</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/FeedFiltersEffects.html" data-type="entity-link">FeedFiltersEffects</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/FilterService.html" data-type="entity-link">FilterService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/LightCardEffects.html" data-type="entity-link">LightCardEffects</a>
