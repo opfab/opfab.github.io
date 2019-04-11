@@ -199,13 +199,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ServicesModule.html" data-type="entity-link">ServicesModule</a>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#injectables-links-module-ServicesModule-9cae9fb73719c1b7437d037e68282438"' : 'data-target="#xs-injectables-links-module-ServicesModule-9cae9fb73719c1b7437d037e68282438"' }>
+                                        'data-target="#injectables-links-module-ServicesModule-d7e637ad2403282df2ca3328158effa3"' : 'data-target="#xs-injectables-links-module-ServicesModule-d7e637ad2403282df2ca3328158effa3"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-ServicesModule-9cae9fb73719c1b7437d037e68282438"' :
-                                        'id="xs-injectables-links-module-ServicesModule-9cae9fb73719c1b7437d037e68282438"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-ServicesModule-d7e637ad2403282df2ca3328158effa3"' :
+                                        'id="xs-injectables-links-module-ServicesModule-d7e637ad2403282df2ca3328158effa3"' }>
                                         <li class="link">
                                             <a href="injectables/AuthenticationService.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>AuthenticationService</a>
@@ -213,6 +213,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <li class="link">
                                             <a href="injectables/CardService.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>CardService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/FilterService.html"
+                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>FilterService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/ThirdsService.html"

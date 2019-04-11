@@ -99,6 +99,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#initTimeFilter">initTimeFilter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#initTypeFilter">initTypeFilter</a>
                             </li>
                         </ul>
@@ -175,7 +179,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/services/filter.service.ts:60</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/services/filter.service.ts:82</a></div>
                             </td>
                         </tr>
 
@@ -216,6 +220,46 @@
                         <tr>
                             <td class="col-md-4">
                                     <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/services/filter.service.ts:52</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initTimeFilter"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            initTimeFilter
+                            </b>
+                            <a href="#initTimeFilter"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>initTimeFilter()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/services/filter.service.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -340,7 +384,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import {Filter} from &quot;@ofModel/feed-filter.model&quot;;
-import {Severity} from &quot;@ofModel/light-card.model&quot;;
+import {LightCard, Severity} from &quot;@ofModel/light-card.model&quot;;
 
 @Injectable({
     providedIn: &#x27;root&#x27;
@@ -353,7 +397,7 @@ export class FilterService {
         this._defaultFilters &#x3D; this.initFilters();
     }
 
-    get defaultFilters(): Map&lt;string, Filter&gt; {
+    get defaultFilters(): Map&lt;FilterType, Filter&gt; {
         return this._defaultFilters;
     }
 
@@ -390,16 +434,44 @@ export class FilterService {
         );
     }
 
+    private initTimeFilter() {
+        return new Filter(
+            (card:LightCard, status) &#x3D;&gt; {
+                if (!!status.start &amp;&amp; !!status.end) {
+                    if (!card.endDate)
+                        return card.startDate &lt;&#x3D; status.end;
+                    return status.start &lt;&#x3D; card.startDate &amp;&amp; card.startDate &lt;&#x3D; status.end
+                        || status.start &lt;&#x3D; card.endDate &amp;&amp; card.endDate &lt;&#x3D; status.start
+                        || card.startDate &lt;&#x3D; status.start &amp;&amp; status.end &lt;&#x3D; card.endDate;
+                } else if (!!status.start) {
+                    return !card.endDate || status.start &lt;&#x3D; card.endDate;
+                } else if (!!status.end) {
+                    return card.startDate &lt;&#x3D; status.end;
+                }
+                console.warn(&quot;Unexpected time filter situation&quot;);
+                return false;
+            },
+            false,
+            {start: null, end: null})
+    }
+
+
     private initFilters(): Map&lt;string, Filter&gt; {
         const filters &#x3D; new Map();
-        filters.set(TYPE_FILTER, this.initTypeFilter());
-        filters.set(RECIPIENT_FILTER, this.initRecipientFilter());
+        filters.set(FilterType.TYPE_FILTER, this.initTypeFilter());
+        filters.set(FilterType.RECIPIENT_FILTER, this.initRecipientFilter());
+        filters.set(FilterType.TIME_FILTER, this.initTimeFilter());
         return filters;
     }
 }
 
-export const TYPE_FILTER &#x3D; &#x27;type&#x27;;
-export const RECIPIENT_FILTER &#x3D; &#x27;recipient&#x27;;</code></pre>
+export enum FilterType {
+    TYPE_FILTER,
+    RECIPIENT_FILTER,
+    TIME_FILTER,
+    TEST_FILTER
+}
+</code></pre>
     </div>
 
 </div>
