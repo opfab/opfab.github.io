@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">src/app/services/thirds.service.ts:160</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/services/thirds.service.ts:169</a></div>
                             </td>
                         </tr>
 
@@ -178,7 +178,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/services/thirds.service.ts:164</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/services/thirds.service.ts:173</a></div>
                             </td>
                         </tr>
 
@@ -237,13 +237,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Injector} from &#x27;@angular/core&#x27;;
-import {HttpClient, HttpParams} from &quot;@angular/common/http&quot;;
+import {HttpClient, HttpParams, HttpUrlEncodingCodec} from &quot;@angular/common/http&quot;;
 import {environment} from &quot;../../environments/environment&quot;;
 import {AuthenticationService} from &quot;@ofServices/authentication.service&quot;;
 import {empty, from, merge, Observable, of, throwError} from &quot;rxjs&quot;;
 import {TranslateLoader, TranslateService} from &quot;@ngx-translate/core&quot;;
 import {Map} from &quot;../model/map&quot;;
-import {catchError, filter, map, reduce, switchMap, tap} from &quot;rxjs/operators&quot;;
+import {catchError, filter, map, reduce, switchMap} from &quot;rxjs/operators&quot;;
 import * as _ from &#x27;lodash&#x27;;
 import {Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;../store/index&quot;;
@@ -252,15 +252,17 @@ import {Third, ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
 
 @Injectable()
 export class ThirdsService {
-    private thirdsUrl: string;
+    readonly thirdsUrl: string;
     private loaded: string[] &#x3D; [];
     private loading: string[] &#x3D; [];
-    private initiated &#x3D; false;
+    private urlCleaner: HttpUrlEncodingCodec;
 
     constructor(private httpClient: HttpClient,
                 private authenticationService: AuthenticationService,
                 private store: Store&lt;AppState&gt;,
-                private $injector: Injector) {
+                private $injector: Injector,
+    ) {
+        this.urlCleaner &#x3D; new HttpUrlEncodingCodec();
         this.thirdsUrl &#x3D; &#x60;${environment.urls.thirds}&#x60;;
     }
 
@@ -273,6 +275,13 @@ export class ThirdsService {
             headers: this.authenticationService.getSecurityHeader(),
             responseType: &#x27;text&#x27;
         })
+    }
+
+    computeThirdCssUrl(publisher: string, styleName: string, version: string){
+        //manage url character encoding
+        const resourceUrl &#x3D; this.urlCleaner.encodeValue(&#x60;${this.thirdsUrl}/${publisher}/css/${styleName}&#x60;);
+        const versionParam &#x3D; new HttpParams().set(&#x27;version&#x27;,version);
+        return &#x60;${resourceUrl}?${versionParam.toString()}&#x60;;
     }
 
     fetchI18nJson(publisher: string, version: string, locales: string[]): Observable&lt;Map&lt;any&gt;&gt; {
@@ -400,7 +409,8 @@ export class ThirdsI18nLoader implements TranslateLoader {
 
 export function ThirdsI18nLoaderFactory(thirdsService: ThirdsService): TranslateLoader {
     return new ThirdsI18nLoader(thirdsService);
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 
