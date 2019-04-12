@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -161,20 +161,34 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscriptionService.html#clearSubscriptions--">clearSubscriptions</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscriptionService.html#evict-java.lang.String-">evict</a></span>(java.lang.String&nbsp;subId)</code>
 <div class="block">Evict subscription definitively</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services">CardSubscription</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscriptionService.html#findSubscription-org.lfenergy.operatorfabric.users.model.User-java.lang.String-">findSubscription</a></span>(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
+                java.lang.String&nbsp;uiId)</code>
+<div class="block">Find existing subscription</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscriptionService.html#scheduleEviction-java.lang.String-">scheduleEviction</a></span>(java.lang.String&nbsp;subId)</code>
 <div class="block">Schedule deletion of subscription in deletionDelay millis</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services">CardSubscription</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscriptionService.html#subscribe-org.lfenergy.operatorfabric.users.model.User-java.lang.String-">subscribe</a></span>(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
-         java.lang.String&nbsp;clientId)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscriptionService.html#subscribe-org.lfenergy.operatorfabric.users.model.User-java.lang.String-java.lang.Long-java.lang.Long-boolean-">subscribe</a></span>(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
+         java.lang.String&nbsp;clientId,
+         java.lang.Long&nbsp;rangeStart,
+         java.lang.Long&nbsp;rangeEnd,
+         boolean&nbsp;filterNotification)</code>
 <div class="block">Generates a <a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services"><code>CardSubscription</code></a> or retrieve it from a local <a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services"><code>CardSubscription</code></a> cache.</div>
 </td>
 </tr>
@@ -224,20 +238,26 @@ public&nbsp;CardSubscriptionService(org.springframework.scheduling.concurrent.Th
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="subscribe-org.lfenergy.operatorfabric.users.model.User-java.lang.String-">
+<a name="subscribe-org.lfenergy.operatorfabric.users.model.User-java.lang.String-java.lang.Long-java.lang.Long-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>subscribe</h4>
 <pre>public&nbsp;<a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services">CardSubscription</a>&nbsp;subscribe(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
-                                  java.lang.String&nbsp;clientId)</pre>
+                                  java.lang.String&nbsp;clientId,
+                                  java.lang.Long&nbsp;rangeStart,
+                                  java.lang.Long&nbsp;rangeEnd,
+                                  boolean&nbsp;filterNotification)</pre>
 <div class="block"><p>Generates a <a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services"><code>CardSubscription</code></a> or retrieve it from a local <a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services"><code>CardSubscription</code></a> cache.</p>
  <p>If it finds a <a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services"><code>CardSubscription</code></a> from cache, it will try to cancel possible scheduled evict</p></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>user</code> - connected user</dd>
 <dd><code>clientId</code> - client unique id (generated by ui)</dd>
+<dd><code>rangeStart</code> - notification filtering start</dd>
+<dd><code>rangeEnd</code> - notification filtering end</dd>
+<dd><code>filterNotification</code> - filter notification on range start and end (Not implemented)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the CardSubscription object which controls publisher instantiation</dd>
 </dl>
@@ -277,7 +297,7 @@ public&nbsp;CardSubscriptionService(org.springframework.scheduling.concurrent.Th
 <a name="evict-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>evict</h4>
 <pre>public&nbsp;void&nbsp;evict(java.lang.String&nbsp;subId)</pre>
@@ -286,6 +306,35 @@ public&nbsp;CardSubscriptionService(org.springframework.scheduling.concurrent.Th
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>subId</code> - subscription autogenerated id</dd>
 </dl>
+</li>
+</ul>
+<a name="findSubscription-org.lfenergy.operatorfabric.users.model.User-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>findSubscription</h4>
+<pre>public&nbsp;<a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html" title="class in org.lfenergy.operatorfabric.cards.consultation.services">CardSubscription</a>&nbsp;findSubscription(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
+                                         java.lang.String&nbsp;uiId)
+                                  throws java.lang.IllegalArgumentException</pre>
+<div class="block">Find existing subscription</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>user</code> - </dd>
+<dd><code>uiId</code> - </dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code></dd>
+</dl>
+</li>
+</ul>
+<a name="clearSubscriptions--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>clearSubscriptions</h4>
+<pre>public&nbsp;void&nbsp;clearSubscriptions()</pre>
 </li>
 </ul>
 </li>
