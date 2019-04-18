@@ -27,634 +27,81 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content overview">
+               <div class="content getting-started">
                    <div class="content-data">
 
+<h1 id="operatorfabric-core-user-interface">OperatorFabric Core User Interface</h1>
+<p>This project was partially generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8. </p>
+<p><em>note :</em></p>
+<blockquote>
+<p>In the following document the variable declared as <code>OPERATOR_FABRIC_CORE_HOME</code> is the root folder of the <code>opertaor fabric core project</code>.</p>
+<p>The <code>CLI</code> acronym stand for <code>Command Line Interface</code>.</p>
+<p>The <code>SPA</code> acronym stand for <code>Single Page Application</code>.</p>
+<p>The <code>OS</code> acronym stand for <code>Operating System</code>.</p>
+</blockquote>
+<h2 id="run">Run</h2>
+<h3 id="linux">Linux</h3>
+<p>After launching docker containers, use the following command line <code>$OPERATOR_FABRIC_HOME/bin/run_all.sh start</code> to run the application. Once the whole application is ready, you have at least the following kind of message in your terminal :</p>
+<div><pre class="line-numbers"><code class="language-shell">##########################################################
+Starting client-gateway-cloud-service, debug port: 5008
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/infra/client-gateway/build/PIDFILE
+Started with pid: 7479
 
-<ol class="breadcrumb">
-    <li>Overview</li>
+##########################################################
+Starting users-business-service, debug port: 5009
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/users/build/PIDFILE
+Started with pid: 7483
+
+##########################################################
+Starting time-business-service, debug port: 5010
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/time/build/PIDFILE
+Started with pid: 7488
+
+##########################################################
+Starting cards-consultation-business-service, debug port: 5011
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/cards-consultation/build/PIDFILE
+Started with pid: 7493
+
+##########################################################
+Starting cards-publication-business-service, debug port: 5012
+##########################################################
+pid file: $OPERTAOR_FABRIC_HOME/services/core/cards-publication/build/PIDFILE</code></pre></div><p>Wait a few moments before trying to connect to the <code>SPA</code>, leaving time for the <code>client-gateway</code> to boot up completely. </p>
+<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code>http://localhost:2002/ui/</code>.</p>
+<p>To log in you need to use a valid user. Currently you need to use a connection pair define in <code>$OPERATOR_FABRIC_HOME/services/infra/auth/src/main/java/org/lfenergy/operatorfabric/auth/config/WebSecurityConfiguration.java</code>. It could be <code>admin</code> with <code>test</code>, for example.</p>
+<p>To test the reception of cards, you can use the following script to create fake ones:</p>
+<div><pre class="line-numbers"><code class="language-shell">$OPERTAOR_FABRIC_HOME/services/core/cards-publication/src/main/bin/push_cards_loop.sh</code></pre></div><p>Once, logged in, with that script running in background, you should be able to see some cards displayed in <code>http://localhost:2002/ui/feed</code>.</p>
+<h3 id="windows">Windows</h3>
+<p>No script helpers provided for this OS. </p>
+<h2 id="build">Build</h2>
+<p>Run <code>ng build</code> to build the project. The build artifacts will be stored in :</p>
+<div><pre class="line-numbers"><code class="language-shell">$OPERATOR_FABRIC_CORE_HOME/services/web/web-ui/build/src/generated/resources/static</code></pre></div><h2 id="test">Test</h2>
+<h3 id="standalone-tests">Standalone tests</h3>
+<p>Run in the <code>$OPERTAOR_FABRIC_HOME/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests based on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
+<h3 id="test-during-ui-development">Test during UI development</h3>
+<ol start="0">
+<li>if the RabittMQ and MongoDB docker containers are not not running, launch them;</li>
+<li>set your environment variables with <code>. $OPERTAOR_FABRIC_HOME/bin/load_environment_light.sh</code>;</li>
+<li>run the micro services using the same command as earlier: <code>$OPERTAOR_FABRIC_HOME/bin/run_all.sh start</code>;</li>
+<li>if needed, enable a card-operation test flow using the script <code>$OPERTAOR_FABRIC_HOME/service/core/cards-publication/src/main/bin/push_cards_loop.sh</code>;</li>
+<li>launch an angular server with the command: <code>ng serve</code>;</li>
+<li>test your changes in your browser using this url: <code>http://localhost:4200</code> which leads to <code>http://localhost:4200/#/feed</code>.</li>
 </ol>
-  
-<div class="text-center module-graph-container">
-    <div id="module-graph-svg">
-        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.40.1 (20161225.0304)
- -->
-<!-- Title: dependencies Pages: 1 -->
-<svg width="3744pt" height="363pt"
- viewBox="0.00 0.00 3744.00 363.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 359)">
-<title>dependencies</title>
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-359 3740,-359 3740,4 -4,4"/>
-<text text-anchor="start" x="1847.0091" y="-42.4" font-family="sans-serif" font-weight="bold" font-size="14.00" fill="#000000">Legend</text>
-<polygon fill="#ffffb3" stroke="transparent" points="1634,-10 1634,-30 1654,-30 1654,-10 1634,-10"/>
-<text text-anchor="start" x="1657.629" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Declarations</text>
-<polygon fill="#8dd3c7" stroke="transparent" points="1747,-10 1747,-30 1767,-30 1767,-10 1747,-10"/>
-<text text-anchor="start" x="1770.7251" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Module</text>
-<polygon fill="#80b1d3" stroke="transparent" points="1833,-10 1833,-30 1853,-30 1853,-10 1833,-10"/>
-<text text-anchor="start" x="1856.7812" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Bootstrap</text>
-<polygon fill="#fdb462" stroke="transparent" points="1930,-10 1930,-30 1950,-30 1950,-10 1930,-10"/>
-<text text-anchor="start" x="1953.6732" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Providers</text>
-<polygon fill="#fb8072" stroke="transparent" points="2026,-10 2026,-30 2046,-30 2046,-10 2026,-10"/>
-<text text-anchor="start" x="2049.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
-<g id="clust1" class="cluster">
-<title>cluster_AppModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="453,-146 453,-347 1370,-347 1370,-146 453,-146"/>
-</g>
-<g id="clust2" class="cluster">
-<title>cluster_AppModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="843,-154 843,-206 1362,-206 1362,-154 843,-154"/>
-</g>
-<g id="clust7" class="cluster">
-<title>cluster_AppModule_imports</title>
-<polygon fill="none" stroke="#000000" points="461,-154 461,-206 835,-206 835,-154 461,-154"/>
-</g>
-<g id="clust9" class="cluster">
-<title>cluster_AppModule_bootstrap</title>
-<polygon fill="none" stroke="#000000" points="850,-287 850,-339 974,-339 974,-287 850,-287"/>
-</g>
-<g id="clust17" class="cluster">
-<title>cluster_ArchivesModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="1378,-70 1378,-206 1722,-206 1722,-70 1378,-70"/>
-</g>
-<g id="clust18" class="cluster">
-<title>cluster_ArchivesModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="1566,-78 1566,-130 1714,-130 1714,-78 1566,-78"/>
-</g>
-<g id="clust20" class="cluster">
-<title>cluster_ArchivesModule_imports</title>
-<polygon fill="none" stroke="#000000" points="1386,-78 1386,-130 1558,-130 1558,-78 1386,-78"/>
-</g>
-<g id="clust30" class="cluster">
-<title>cluster_CardsModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="1730,-70 1730,-279 2500,-279 2500,-70 1730,-70"/>
-</g>
-<g id="clust31" class="cluster">
-<title>cluster_CardsModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="1930,-78 1930,-130 2492,-130 2492,-78 1930,-78"/>
-</g>
-<g id="clust37" class="cluster">
-<title>cluster_CardsModule_exports</title>
-<polygon fill="none" stroke="#000000" points="1879,-219 1879,-271 2456,-271 2456,-219 1879,-219"/>
-</g>
-<g id="clust39" class="cluster">
-<title>cluster_CardsModule_providers</title>
-<polygon fill="none" stroke="#000000" points="1738,-78 1738,-130 1922,-130 1922,-78 1738,-78"/>
-</g>
-<g id="clust40" class="cluster">
-<title>cluster_FeedModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="2508,-146 2508,-347 3728,-347 3728,-146 2508,-146"/>
-</g>
-<g id="clust41" class="cluster">
-<title>cluster_FeedModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="2672,-154 2672,-206 3720,-206 3720,-154 2672,-154"/>
-</g>
-<g id="clust49" class="cluster">
-<title>cluster_FeedModule_imports</title>
-<polygon fill="none" stroke="#000000" points="2516,-154 2516,-206 2664,-206 2664,-154 2516,-154"/>
-</g>
-<g id="clust50" class="cluster">
-<title>cluster_FeedModule_exports</title>
-<polygon fill="none" stroke="#000000" points="2999,-287 2999,-339 3127,-339 3127,-287 2999,-287"/>
-</g>
-<g id="clust59" class="cluster">
-<title>cluster_ServicesModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 947,-138 947,-70 8,-70"/>
-</g>
-<g id="clust64" class="cluster">
-<title>cluster_ServicesModule_providers</title>
-<polygon fill="none" stroke="#000000" points="16,-78 16,-130 939,-130 939,-78 16,-78"/>
-</g>
-<g id="clust65" class="cluster">
-<title>cluster_StateModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="955,-70 955,-138 1079,-138 1079,-70 955,-70"/>
-</g>
-<g id="clust67" class="cluster">
-<title>cluster_StateModule_imports</title>
-<polygon fill="none" stroke="#000000" points="963,-78 963,-130 1071,-130 1071,-78 963,-78"/>
-</g>
-<!-- AppComponent -->
-<g id="node1" class="node">
-<title>AppComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="1353.9399,-198 1248.0601,-198 1248.0601,-162 1353.9399,-162 1353.9399,-198"/>
-<text text-anchor="middle" x="1301" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppComponent</text>
-</g>
-<!-- AppModule -->
-<g id="node5" class="node">
-<title>AppModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="953.6571,-263 950.6571,-267 929.6571,-267 926.6571,-263 870.3429,-263 870.3429,-227 953.6571,-227 953.6571,-263"/>
-<text text-anchor="middle" x="912" y="-240.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppModule</text>
-</g>
-<!-- AppComponent&#45;&gt;AppModule -->
-<g id="edge1" class="edge">
-<title>AppComponent&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M1301,-198.2921C1301,-220.2057 1301,-254 1301,-254 1301,-254 963.9994,-254 963.9994,-254"/>
-<polygon fill="#000000" stroke="#000000" points="963.9994,-250.5001 953.9994,-254 963.9994,-257.5001 963.9994,-250.5001"/>
-</g>
-<!-- IconComponent -->
-<g id="node2" class="node">
-<title>IconComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="1230.2078,-198 1123.7922,-198 1123.7922,-162 1230.2078,-162 1230.2078,-198"/>
-<text text-anchor="middle" x="1177" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">IconComponent</text>
-</g>
-<!-- IconComponent&#45;&gt;AppModule -->
-<g id="edge2" class="edge">
-<title>IconComponent&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M1177,-198.1061C1177,-217.3391 1177,-245 1177,-245 1177,-245 963.6978,-245 963.6978,-245"/>
-<polygon fill="#000000" stroke="#000000" points="963.6978,-241.5001 953.6978,-245 963.6977,-248.5001 963.6978,-241.5001"/>
-</g>
-<!-- LoginComponent -->
-<g id="node3" class="node">
-<title>LoginComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="1106.2758,-198 991.7242,-198 991.7242,-162 1106.2758,-162 1106.2758,-198"/>
-<text text-anchor="middle" x="1049" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">LoginComponent</text>
-</g>
-<!-- LoginComponent&#45;&gt;AppModule -->
-<g id="edge3" class="edge">
-<title>LoginComponent&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M1049,-198.027C1049,-214.3976 1049,-236 1049,-236 1049,-236 963.8489,-236 963.8489,-236"/>
-<polygon fill="#000000" stroke="#000000" points="963.849,-232.5001 953.8489,-236 963.8489,-239.5001 963.849,-232.5001"/>
-</g>
-<!-- NavbarComponent -->
-<g id="node4" class="node">
-<title>NavbarComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="973.0297,-198 850.9703,-198 850.9703,-162 973.0297,-162 973.0297,-198"/>
-<text text-anchor="middle" x="912" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">NavbarComponent</text>
-</g>
-<!-- NavbarComponent&#45;&gt;AppModule -->
-<g id="edge4" class="edge">
-<title>NavbarComponent&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M912,-198.1061C912,-198.1061 912,-216.991 912,-216.991"/>
-<polygon fill="#000000" stroke="#000000" points="908.5001,-216.9909 912,-226.991 915.5001,-216.991 908.5001,-216.9909"/>
-</g>
-<!-- AppComponent  -->
-<g id="node9" class="node">
-<title>AppComponent </title>
-<polygon fill="#80b1d3" stroke="#000000" points="966.439,-331 857.561,-331 857.561,-295 966.439,-295 966.439,-331"/>
-<text text-anchor="middle" x="912" y="-308.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppComponent </text>
-</g>
-<!-- AppModule&#45;&gt;AppComponent  -->
-<g id="edge8" class="edge">
-<title>AppModule&#45;&gt;AppComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M912,-263.2228C912,-263.2228 912,-284.7269 912,-284.7269"/>
-<polygon fill="#000000" stroke="#000000" points="908.5001,-284.7269 912,-294.7269 915.5001,-284.727 908.5001,-284.7269"/>
-</g>
-<!-- AppRoutingModule -->
-<g id="node6" class="node">
-<title>AppRoutingModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="827.2744,-198 824.2744,-202 803.2744,-202 800.2744,-198 698.7256,-198 698.7256,-162 827.2744,-162 827.2744,-198"/>
-<text text-anchor="middle" x="763" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppRoutingModule</text>
-</g>
-<!-- AppRoutingModule&#45;&gt;AppModule -->
-<g id="edge5" class="edge">
-<title>AppRoutingModule&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M763,-198.027C763,-214.3976 763,-236 763,-236 763,-236 860.0987,-236 860.0987,-236"/>
-<polygon fill="#000000" stroke="#000000" points="860.0987,-239.5001 870.0987,-236 860.0986,-232.5001 860.0987,-239.5001"/>
-</g>
-<!-- ServicesModule -->
-<g id="node7" class="node">
-<title>ServicesModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="575.472,-198 572.472,-202 551.472,-202 548.472,-198 468.528,-198 468.528,-162 575.472,-162 575.472,-198"/>
-<text text-anchor="middle" x="522" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">ServicesModule</text>
-</g>
-<!-- ServicesModule&#45;&gt;AppModule -->
-<g id="edge6" class="edge">
-<title>ServicesModule&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M522,-198.2921C522,-220.2057 522,-254 522,-254 522,-254 860.2632,-254 860.2632,-254"/>
-<polygon fill="#000000" stroke="#000000" points="860.2632,-257.5001 870.2632,-254 860.2631,-250.5001 860.2632,-257.5001"/>
-</g>
-<!-- StateModule -->
-<g id="node8" class="node">
-<title>StateModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="680.544,-198 677.544,-202 656.544,-202 653.544,-198 593.456,-198 593.456,-162 680.544,-162 680.544,-198"/>
-<text text-anchor="middle" x="637" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">StateModule</text>
-</g>
-<!-- StateModule&#45;&gt;AppModule -->
-<g id="edge7" class="edge">
-<title>StateModule&#45;&gt;AppModule</title>
-<path fill="none" stroke="#000000" d="M637,-198.1061C637,-217.3391 637,-245 637,-245 637,-245 860.2334,-245 860.2334,-245"/>
-<polygon fill="#000000" stroke="#000000" points="860.2335,-248.5001 870.2334,-245 860.2334,-241.5001 860.2335,-248.5001"/>
-</g>
-<!-- ArchivesComponent -->
-<g id="node10" class="node">
-<title>ArchivesComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="1705.8641,-122 1574.1359,-122 1574.1359,-86 1705.8641,-86 1705.8641,-122"/>
-<text text-anchor="middle" x="1640" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ArchivesComponent</text>
-</g>
-<!-- ArchivesModule -->
-<g id="node11" class="node">
-<title>ArchivesModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="1611.0814,-198 1608.0814,-202 1587.0814,-202 1584.0814,-198 1500.9186,-198 1500.9186,-162 1611.0814,-162 1611.0814,-198"/>
-<text text-anchor="middle" x="1556" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">ArchivesModule</text>
-</g>
-<!-- ArchivesComponent&#45;&gt;ArchivesModule -->
-<g id="edge9" class="edge">
-<title>ArchivesComponent&#45;&gt;ArchivesModule</title>
-<path fill="none" stroke="#000000" d="M1592.5543,-122.0109C1592.5543,-122.0109 1592.5543,-151.855 1592.5543,-151.855"/>
-<polygon fill="#000000" stroke="#000000" points="1589.0544,-151.8549 1592.5543,-161.855 1596.0544,-151.855 1589.0544,-151.8549"/>
-</g>
-<!-- ArchivesRoutingModule -->
-<g id="node12" class="node">
-<title>ArchivesRoutingModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="1549.6993,-122 1546.6993,-126 1525.6993,-126 1522.6993,-122 1394.3007,-122 1394.3007,-86 1549.6993,-86 1549.6993,-122"/>
-<text text-anchor="middle" x="1472" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ArchivesRoutingModule</text>
-</g>
-<!-- ArchivesRoutingModule&#45;&gt;ArchivesModule -->
-<g id="edge10" class="edge">
-<title>ArchivesRoutingModule&#45;&gt;ArchivesModule</title>
-<path fill="none" stroke="#000000" d="M1525.2795,-122.0109C1525.2795,-122.0109 1525.2795,-151.855 1525.2795,-151.855"/>
-<polygon fill="#000000" stroke="#000000" points="1521.7795,-151.8549 1525.2795,-161.855 1528.7795,-151.855 1521.7795,-151.8549"/>
-</g>
-<!-- CardComponent -->
-<g id="node13" class="node">
-<title>CardComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="2484.0452,-122 2375.9548,-122 2375.9548,-86 2484.0452,-86 2484.0452,-122"/>
-<text text-anchor="middle" x="2430" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardComponent</text>
-</g>
-<!-- CardsModule -->
-<g id="node17" class="node">
-<title>CardsModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="2252.2064,-198 2249.2064,-202 2228.2064,-202 2225.2064,-198 2159.7936,-198 2159.7936,-162 2252.2064,-162 2252.2064,-198"/>
-<text text-anchor="middle" x="2206" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardsModule</text>
-</g>
-<!-- CardComponent&#45;&gt;CardsModule -->
-<g id="edge11" class="edge">
-<title>CardComponent&#45;&gt;CardsModule</title>
-<path fill="none" stroke="#000000" d="M2411.875,-122.308C2411.875,-142.1455 2411.875,-171 2411.875,-171 2411.875,-171 2262.2024,-171 2262.2024,-171"/>
-<polygon fill="#000000" stroke="#000000" points="2262.2024,-167.5001 2252.2024,-171 2262.2023,-174.5001 2262.2024,-167.5001"/>
-</g>
-<!-- CardDetailsComponent -->
-<g id="node14" class="node">
-<title>CardDetailsComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="2358.1965,-122 2209.8035,-122 2209.8035,-86 2358.1965,-86 2358.1965,-122"/>
-<text text-anchor="middle" x="2284" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardDetailsComponent</text>
-</g>
-<!-- CardDetailsComponent&#45;&gt;CardsModule -->
-<g id="edge12" class="edge">
-<title>CardDetailsComponent&#45;&gt;CardsModule</title>
-<path fill="none" stroke="#000000" d="M2231.0025,-122.0109C2231.0025,-122.0109 2231.0025,-151.855 2231.0025,-151.855"/>
-<polygon fill="#000000" stroke="#000000" points="2227.5025,-151.8549 2231.0025,-161.855 2234.5025,-151.855 2227.5025,-151.8549"/>
-</g>
-<!-- DetailComponent -->
-<g id="node15" class="node">
-<title>DetailComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="2191.5409,-122 2076.4591,-122 2076.4591,-86 2191.5409,-86 2191.5409,-122"/>
-<text text-anchor="middle" x="2134" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">DetailComponent</text>
-</g>
-<!-- DetailComponent&#45;&gt;CardsModule -->
-<g id="edge13" class="edge">
-<title>DetailComponent&#45;&gt;CardsModule</title>
-<path fill="none" stroke="#000000" d="M2175.8335,-122.0109C2175.8335,-122.0109 2175.8335,-151.855 2175.8335,-151.855"/>
-<polygon fill="#000000" stroke="#000000" points="2172.3335,-151.8549 2175.8335,-161.855 2179.3335,-151.855 2172.3335,-151.8549"/>
-</g>
-<!-- DetailsComponent -->
-<g id="node16" class="node">
-<title>DetailsComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="2058.4846,-122 1937.5154,-122 1937.5154,-86 2058.4846,-86 2058.4846,-122"/>
-<text text-anchor="middle" x="1998" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">DetailsComponent</text>
-</g>
-<!-- DetailsComponent&#45;&gt;CardsModule -->
-<g id="edge14" class="edge">
-<title>DetailsComponent&#45;&gt;CardsModule</title>
-<path fill="none" stroke="#000000" d="M2043.9862,-122.0348C2043.9862,-141.5762 2043.9862,-170 2043.9862,-170 2043.9862,-170 2149.5733,-170 2149.5733,-170"/>
-<polygon fill="#000000" stroke="#000000" points="2149.5734,-173.5001 2159.5733,-170 2149.5733,-166.5001 2149.5734,-173.5001"/>
-</g>
-<!-- CardComponent  -->
-<g id="node18" class="node">
-<title>CardComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="2448.0442,-263 2335.9558,-263 2335.9558,-227 2448.0442,-227 2448.0442,-263"/>
-<text text-anchor="middle" x="2392" y="-240.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardComponent </text>
-</g>
-<!-- CardsModule&#45;&gt;CardComponent  -->
-<g id="edge15" class="edge">
-<title>CardsModule&#45;&gt;CardComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M2252.1811,-189C2293.3138,-189 2347.0381,-189 2347.0381,-189 2347.0381,-189 2347.0381,-216.973 2347.0381,-216.973"/>
-<polygon fill="#000000" stroke="#000000" points="2343.5381,-216.973 2347.0381,-226.973 2350.5381,-216.973 2343.5381,-216.973"/>
-</g>
-<!-- CardDetailsComponent  -->
-<g id="node19" class="node">
-<title>CardDetailsComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="2317.6967,-263 2166.3033,-263 2166.3033,-227 2317.6967,-227 2317.6967,-263"/>
-<text text-anchor="middle" x="2242" y="-240.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardDetailsComponent </text>
-</g>
-<!-- CardsModule&#45;&gt;CardDetailsComponent  -->
-<g id="edge16" class="edge">
-<title>CardsModule&#45;&gt;CardDetailsComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M2209.1275,-198.1061C2209.1275,-198.1061 2209.1275,-216.991 2209.1275,-216.991"/>
-<polygon fill="#000000" stroke="#000000" points="2205.6275,-216.9909 2209.1275,-226.991 2212.6275,-216.991 2205.6275,-216.9909"/>
-</g>
-<!-- DetailComponent  -->
-<g id="node20" class="node">
-<title>DetailComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="2148.54,-263 2029.46,-263 2029.46,-227 2148.54,-227 2148.54,-263"/>
-<text text-anchor="middle" x="2089" y="-240.8" font-family="Times,serif" font-size="14.00" fill="#000000">DetailComponent </text>
-</g>
-<!-- CardsModule&#45;&gt;DetailComponent  -->
-<g id="edge17" class="edge">
-<title>CardsModule&#45;&gt;DetailComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M2159.7361,-191C2136.1484,-191 2112.375,-191 2112.375,-191 2112.375,-191 2112.375,-216.7181 2112.375,-216.7181"/>
-<polygon fill="#000000" stroke="#000000" points="2108.8751,-216.718 2112.375,-226.7181 2115.8751,-216.7181 2108.8751,-216.718"/>
-</g>
-<!-- DetailsComponent  -->
-<g id="node21" class="node">
-<title>DetailsComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="2011.4855,-263 1886.5145,-263 1886.5145,-227 2011.4855,-227 2011.4855,-263"/>
-<text text-anchor="middle" x="1949" y="-240.8" font-family="Times,serif" font-size="14.00" fill="#000000">DetailsComponent </text>
-</g>
-<!-- CardsModule&#45;&gt;DetailsComponent  -->
-<g id="edge18" class="edge">
-<title>CardsModule&#45;&gt;DetailsComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M2159.6839,-184C2092.0898,-184 1974.375,-184 1974.375,-184 1974.375,-184 1974.375,-216.698 1974.375,-216.698"/>
-<polygon fill="#000000" stroke="#000000" points="1970.8751,-216.698 1974.375,-226.698 1977.8751,-216.698 1970.8751,-216.698"/>
-</g>
-<!-- FeedModule -->
-<g id="node30" class="node">
-<title>FeedModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="3106.2619,-263 3103.2619,-267 3082.2619,-267 3079.2619,-263 3019.7381,-263 3019.7381,-227 3106.2619,-227 3106.2619,-263"/>
-<text text-anchor="middle" x="3063" y="-240.8" font-family="Times,serif" font-size="14.00" fill="#000000">FeedModule</text>
-</g>
-<!-- CardsModule&#45;&gt;FeedModule -->
-<g id="edge27" class="edge">
-<title>CardsModule&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M2252.2613,-180C2336.0107,-180 2504.1662,-180 2504.1662,-180 2504.1662,-180 2504.1662,-256 2504.1662,-256 2504.1662,-256 3009.6143,-256 3009.6143,-256"/>
-<polygon fill="#000000" stroke="#000000" points="3009.6143,-259.5001 3019.6143,-256 3009.6142,-252.5001 3009.6143,-259.5001"/>
-</g>
-<!-- HandlebarsService -->
-<g id="node22" class="node">
-<title>HandlebarsService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="1830" cy="-104" rx="83.9257" ry="18"/>
-<text text-anchor="middle" x="1830" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">HandlebarsService</text>
-</g>
-<!-- HandlebarsService&#45;&gt;CardsModule -->
-<g id="edge19" class="edge">
-<title>HandlebarsService&#45;&gt;CardsModule</title>
-<path fill="none" stroke="#000000" d="M1900.3603,-113.8451C1900.3603,-133.771 1900.3603,-177 1900.3603,-177 1900.3603,-177 2149.5799,-177 2149.5799,-177"/>
-<polygon fill="#000000" stroke="#000000" points="2149.5799,-180.5001 2159.5799,-177 2149.5799,-173.5001 2149.5799,-180.5001"/>
-</g>
-<!-- CardListComponent -->
-<g id="node23" class="node">
-<title>CardListComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="3712.323,-198 3581.677,-198 3581.677,-162 3712.323,-162 3712.323,-198"/>
-<text text-anchor="middle" x="3647" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardListComponent</text>
-</g>
-<!-- CardListComponent&#45;&gt;FeedModule -->
-<g id="edge20" class="edge">
-<title>CardListComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M3647,-198.0109C3647,-220.4852 3647,-256 3647,-256 3647,-256 3116.4178,-256 3116.4178,-256"/>
-<polygon fill="#000000" stroke="#000000" points="3116.4178,-252.5001 3106.4178,-256 3116.4178,-259.5001 3116.4178,-252.5001"/>
-</g>
-<!-- FeedComponent -->
-<g id="node24" class="node">
-<title>FeedComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="3564.0452,-198 3455.9548,-198 3455.9548,-162 3564.0452,-162 3564.0452,-198"/>
-<text text-anchor="middle" x="3510" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">FeedComponent</text>
-</g>
-<!-- FeedComponent&#45;&gt;FeedModule -->
-<g id="edge21" class="edge">
-<title>FeedComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M3510,-198.1289C3510,-218.5724 3510,-249 3510,-249 3510,-249 3116.2664,-249 3116.2664,-249"/>
-<polygon fill="#000000" stroke="#000000" points="3116.2664,-245.5001 3106.2664,-249 3116.2664,-252.5001 3116.2664,-245.5001"/>
-</g>
-<!-- FiltersComponent -->
-<g id="node25" class="node">
-<title>FiltersComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="3437.6066,-198 3320.3934,-198 3320.3934,-162 3437.6066,-162 3437.6066,-198"/>
-<text text-anchor="middle" x="3379" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">FiltersComponent</text>
-</g>
-<!-- FiltersComponent&#45;&gt;FeedModule -->
-<g id="edge22" class="edge">
-<title>FiltersComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M3379,-198.2667C3379,-216.5552 3379,-242 3379,-242 3379,-242 3116.2759,-242 3116.2759,-242"/>
-<polygon fill="#000000" stroke="#000000" points="3116.2759,-238.5001 3106.2759,-242 3116.2758,-245.5001 3116.2759,-238.5001"/>
-</g>
-<!-- NoSelectionComponent -->
-<g id="node26" class="node">
-<title>NoSelectionComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="3302.0379,-198 3151.9621,-198 3151.9621,-162 3302.0379,-162 3302.0379,-198"/>
-<text text-anchor="middle" x="3227" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">NoSelectionComponent</text>
-</g>
-<!-- NoSelectionComponent&#45;&gt;FeedModule -->
-<g id="edge23" class="edge">
-<title>NoSelectionComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M3227,-198.0091C3227,-214.0494 3227,-235 3227,-235 3227,-235 3116.5184,-235 3116.5184,-235"/>
-<polygon fill="#000000" stroke="#000000" points="3116.5185,-231.5001 3106.5184,-235 3116.5184,-238.5001 3116.5185,-231.5001"/>
-</g>
-<!-- TimeFilterComponent -->
-<g id="node27" class="node">
-<title>TimeFilterComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="3133.7106,-198 2992.2894,-198 2992.2894,-162 3133.7106,-162 3133.7106,-198"/>
-<text text-anchor="middle" x="3063" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">TimeFilterComponent</text>
-</g>
-<!-- TimeFilterComponent&#45;&gt;FeedModule -->
-<g id="edge24" class="edge">
-<title>TimeFilterComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M3063,-198.1061C3063,-198.1061 3063,-216.991 3063,-216.991"/>
-<polygon fill="#000000" stroke="#000000" points="3059.5001,-216.9909 3063,-226.991 3066.5001,-216.991 3059.5001,-216.9909"/>
-</g>
-<!-- TimeLineComponent -->
-<g id="node28" class="node">
-<title>TimeLineComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="2974.0394,-198 2837.9606,-198 2837.9606,-162 2974.0394,-162 2974.0394,-198"/>
-<text text-anchor="middle" x="2906" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">TimeLineComponent</text>
-</g>
-<!-- TimeLineComponent&#45;&gt;FeedModule -->
-<g id="edge25" class="edge">
-<title>TimeLineComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M2906,-198.0091C2906,-214.0494 2906,-235 2906,-235 2906,-235 3009.6835,-235 3009.6835,-235"/>
-<polygon fill="#000000" stroke="#000000" points="3009.6835,-238.5001 3019.6835,-235 3009.6834,-231.5001 3009.6835,-238.5001"/>
-</g>
-<!-- TypeFilterComponent -->
-<g id="node29" class="node">
-<title>TypeFilterComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="2820.4299,-198 2679.5701,-198 2679.5701,-162 2820.4299,-162 2820.4299,-198"/>
-<text text-anchor="middle" x="2750" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">TypeFilterComponent</text>
-</g>
-<!-- TypeFilterComponent&#45;&gt;FeedModule -->
-<g id="edge26" class="edge">
-<title>TypeFilterComponent&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M2750,-198.2667C2750,-216.5552 2750,-242 2750,-242 2750,-242 3009.4787,-242 3009.4787,-242"/>
-<polygon fill="#000000" stroke="#000000" points="3009.4787,-245.5001 3019.4787,-242 3009.4787,-238.5001 3009.4787,-245.5001"/>
-</g>
-<!-- FeedComponent  -->
-<g id="node32" class="node">
-<title>FeedComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="3119.0442,-331 3006.9558,-331 3006.9558,-295 3119.0442,-295 3119.0442,-331"/>
-<text text-anchor="middle" x="3063" y="-308.8" font-family="Times,serif" font-size="14.00" fill="#000000">FeedComponent </text>
-</g>
-<!-- FeedModule&#45;&gt;FeedComponent  -->
-<g id="edge29" class="edge">
-<title>FeedModule&#45;&gt;FeedComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M3063,-263.2228C3063,-263.2228 3063,-284.7269 3063,-284.7269"/>
-<polygon fill="#000000" stroke="#000000" points="3059.5001,-284.7269 3063,-294.7269 3066.5001,-284.727 3059.5001,-284.7269"/>
-</g>
-<!-- FeedRoutingModule -->
-<g id="node31" class="node">
-<title>FeedRoutingModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="2655.8795,-198 2652.8795,-202 2631.8795,-202 2628.8795,-198 2524.1205,-198 2524.1205,-162 2655.8795,-162 2655.8795,-198"/>
-<text text-anchor="middle" x="2590" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">FeedRoutingModule</text>
-</g>
-<!-- FeedRoutingModule&#45;&gt;FeedModule -->
-<g id="edge28" class="edge">
-<title>FeedRoutingModule&#45;&gt;FeedModule</title>
-<path fill="none" stroke="#000000" d="M2590,-198.1289C2590,-218.5724 2590,-249 2590,-249 2590,-249 3009.3491,-249 3009.3491,-249"/>
-<polygon fill="#000000" stroke="#000000" points="3009.3492,-252.5001 3019.3491,-249 3009.3491,-245.5001 3009.3492,-252.5001"/>
-</g>
-<!-- AuthenticationService -->
-<g id="node33" class="node">
-<title>AuthenticationService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="834" cy="-104" rx="97.2683" ry="18"/>
-<text text-anchor="middle" x="834" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AuthenticationService</text>
-</g>
-<!-- AuthenticationService&#45;&gt;ServicesModule -->
-<g id="edge30" class="edge">
-<title>AuthenticationService&#45;&gt;ServicesModule</title>
-<path fill="none" stroke="#000000" d="M782.0015,-119.2502C782.0015,-127.4922 782.0015,-136 782.0015,-136 782.0015,-136 539.8287,-136 539.8287,-136 539.8287,-136 539.8287,-151.8495 539.8287,-151.8495"/>
-<polygon fill="#000000" stroke="#000000" points="536.3288,-151.8494 539.8287,-161.8495 543.3288,-151.8495 536.3288,-151.8494"/>
-</g>
-<!-- CardService -->
-<g id="node34" class="node">
-<title>CardService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="660" cy="-104" rx="58.5251" ry="18"/>
-<text text-anchor="middle" x="660" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CardService</text>
-</g>
-<!-- CardService&#45;&gt;ServicesModule -->
-<g id="edge31" class="edge">
-<title>CardService&#45;&gt;ServicesModule</title>
-<path fill="none" stroke="#000000" d="M600.9302,-104C593.2961,-104 588.0706,-104 588.0706,-104 588.0706,-104 588.0706,-180 588.0706,-180 588.0706,-180 585.6433,-180 585.6433,-180"/>
-<polygon fill="#000000" stroke="#000000" points="585.6433,-176.5001 575.6433,-180 585.6432,-183.5001 585.6433,-176.5001"/>
-</g>
-<!-- FilterService -->
-<g id="node35" class="node">
-<title>FilterService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="522" cy="-104" rx="60.8255" ry="18"/>
-<text text-anchor="middle" x="522" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">FilterService</text>
-</g>
-<!-- FilterService&#45;&gt;ServicesModule -->
-<g id="edge32" class="edge">
-<title>FilterService&#45;&gt;ServicesModule</title>
-<path fill="none" stroke="#000000" d="M504.1713,-121.2456C504.1713,-121.2456 504.1713,-151.7629 504.1713,-151.7629"/>
-<polygon fill="#000000" stroke="#000000" points="500.6714,-151.7628 504.1713,-161.7629 507.6714,-151.7629 500.6714,-151.7628"/>
-</g>
-<!-- ThirdsService -->
-<g id="node36" class="node">
-<title>ThirdsService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="378" cy="-104" rx="65.4053" ry="18"/>
-<text text-anchor="middle" x="378" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ThirdsService</text>
-</g>
-<!-- ThirdsService&#45;&gt;ServicesModule -->
-<g id="edge33" class="edge">
-<title>ThirdsService&#45;&gt;ServicesModule</title>
-<path fill="none" stroke="#000000" d="M378,-122.308C378,-142.1455 378,-171 378,-171 378,-171 458.3797,-171 458.3797,-171"/>
-<polygon fill="#000000" stroke="#000000" points="458.3797,-174.5001 468.3797,-171 458.3797,-167.5001 458.3797,-174.5001"/>
-</g>
-<!-- TimeService -->
-<g id="node37" class="node">
-<title>TimeService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="234" cy="-104" rx="60.2479" ry="18"/>
-<text text-anchor="middle" x="234" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">TimeService</text>
-</g>
-<!-- TimeService&#45;&gt;ServicesModule -->
-<g id="edge34" class="edge">
-<title>TimeService&#45;&gt;ServicesModule</title>
-<path fill="none" stroke="#000000" d="M234,-122.0109C234,-144.4852 234,-180 234,-180 234,-180 458.5044,-180 458.5044,-180"/>
-<polygon fill="#000000" stroke="#000000" points="458.5044,-183.5001 468.5044,-180 458.5043,-176.5001 458.5044,-183.5001"/>
-</g>
-<!-- TokenInjector -->
-<g id="node38" class="node">
-<title>TokenInjector</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="90" cy="-104" rx="65.9716" ry="18"/>
-<text text-anchor="middle" x="90" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">TokenInjector</text>
-</g>
-<!-- TokenInjector&#45;&gt;ServicesModule -->
-<g id="edge35" class="edge">
-<title>TokenInjector&#45;&gt;ServicesModule</title>
-<path fill="none" stroke="#000000" d="M90,-122.0263C90,-146.9773 90,-189 90,-189 90,-189 458.1604,-189 458.1604,-189"/>
-<polygon fill="#000000" stroke="#000000" points="458.1604,-192.5001 468.1604,-189 458.1603,-185.5001 458.1604,-192.5001"/>
-</g>
-<!-- !environment -->
-<g id="node39" class="node">
-<title>!environment</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="1062.9232,-122 1059.9232,-126 1038.9232,-126 1035.9232,-122 971.0768,-122 971.0768,-86 1062.9232,-86 1062.9232,-122"/>
-<text text-anchor="middle" x="1017" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">!environment</text>
-</g>
-<!-- !environment&#45;&gt;StateModule -->
-<g id="edge36" class="edge">
-<title>!environment&#45;&gt;StateModule</title>
-<path fill="none" stroke="#000000" d="M982.4383,-122.0439C982.4383,-134.5633 982.4383,-149 982.4383,-149 982.4383,-149 641.0047,-149 641.0047,-149 641.0047,-149 641.0047,-151.9672 641.0047,-151.9672"/>
-<polygon fill="#000000" stroke="#000000" points="637.5048,-151.9671 641.0047,-161.9672 644.5048,-151.9672 637.5048,-151.9671"/>
-</g>
-</g>
-</svg>
+<h2 id="known-bugs">Known Bugs</h2>
+<h3 id="login-page">Login Page</h3>
+<ul>
+<li>no error message displayed on wrong identication;</li>
+</ul>
+<h3 id="light-card-flow">Light Card flow</h3>
+<ul>
+<li>not unsuscribe on logout;</li>
+</ul>
 
-    </div>
-    <i id="fullscreen" class="icon ion-ios-resize module-graph-fullscreen-btn" aria-hidden="true"></i>
-    <div class="btn-group">
-        <button id="zoom-in" class="btn btn-default btn-sm">Zoom in</button>
-        <button id="reset" class="btn btn-default btn-sm">Reset</button>
-        <button id="zoom-out" class="btn btn-default btn-sm">Zoom out</button>
-    </div>
-</div>
-  
-<div class="container-fluid overview">
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="card text-center">
-                <div class="card-block">
-                    <h4 class="card-title"><span class="icon ion-ios-archive"></span></h4>
-                    <p class="card-text">
-                        <a href="./modules.html">9 Modules</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card text-center">
-                <div class="card-block">
-                    <h4 class="card-title"><span class="icon ion-md-cog"></span></h4>
-                    <p class="card-text">16 Components</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card text-center">
-                <div class="card-block">
-                    <h4 class="card-title"><span class="icon ion-md-arrow-round-down"></span></h4>
-                    <p class="card-text">13 Injectables</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card text-center">
-                <div class="card-block">
-                    <h4 class="card-title"><span class="icon ion-ios-paper"></span></h4>
-                    <p class="card-text">44 Classes</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card text-center">
-                <div class="card-block">
-                    <h4 class="card-title"><span class="icon ion-md-information-circle-outline"></span></h4>
-                    <p class="card-text">5 Interfaces</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card text-center">
-                <div class="card-block">
-                    <h4 class="card-title"><span class="icon ion-ios-git-branch"></span></h4>
-                    <p class="card-text">
-                        <a href="./routes.html">16 Routes</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="js/libs/svg-pan-zoom.min.js"></script>
-<script src="js/svg-pan-zoom.controls.js"></script> 
+
+
 
 
 
@@ -686,7 +133,7 @@
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 0;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'overview';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
             var COMPODOC_CURRENT_PAGE_URL = 'index.html';
        </script>
 
