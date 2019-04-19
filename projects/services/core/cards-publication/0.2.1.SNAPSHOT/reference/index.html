@@ -657,6 +657,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_displaying_rules">1.3. Displaying Rules</h3>
 <div class="sect3">
 <h4 id="_dates">1.3.1. Dates</h4>
+<div class="paragraph">
+<p>Dates impact both the feed rendering and the timeline rendering.</p>
+</div>
+<div class="paragraph">
+<p>In the feed cards are visible based on a collection of filters among which a
+time filter.</p>
+</div>
+<div class="paragraph">
+<p>In the time line cards are visible based on a similar filter plus the time line
+renders the "position" in time of said cards. By default it groups cards at
+close time in bubbles whom color indicates severity and inner number indicates
+number of cards.</p>
+</div>
 <div class="sect4">
 <h5 id="_start_date_startdate">Start Date (<code>startDate</code>)</h5>
 <div class="paragraph">
@@ -971,6 +984,67 @@ As through time, the presentation of a publisher card data changes, this changes
 </div>
 <div class="paragraph">
 <p>If the <code>publisherVersion</code> of the card is <code>2</code> then only the <code>title</code> key declared in the <code>details</code> array will be displays without any translation, i.e. the tab will contains <code>TEST.2.first.tab.title</code> and will be empty. If the <code>l10n</code> for the title is not available, then the tab title will be still <code>TEST.2.first.tab.title</code> but the template will be compute and the details section will display the template content.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_timespans_timespans">2.3.3. TimeSpans (<code>timeSpans</code>)</h4>
+<div class="paragraph">
+<p>When the simple startDate and endDate are not enough to characterize your
+process business times, you can add a list of TimeSpan to your card. TimeSpans
+are rendered in the timeline component as cluster bubbles are as lines
+depending on your parametrization of the span. This as no effect on the feed
+content</p>
+</div>
+<div class="paragraph">
+<p><strong>example 1:</strong></p>
+</div>
+<div class="paragraph">
+<p>to display the card two times in the timeline you can add two TimeSpan to your
+card:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":"1546297200000",
+	"severity":"NOTIFICATION",
+	...
+	"timeSpans" : [
+        {"start" : 1546297200000},
+        {"start" : 1546297500000},
+    ]
+
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this sample, the card will be displayed twice in the time line. The card
+start date will be ignored.</p>
+</div>
+<div class="paragraph">
+<p><strong>example 2:</strong></p>
+</div>
+<div class="paragraph">
+<p>Instead of the default clustered view, you may want your card to be displayed
+as a line in the time line.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":"1546297200000",
+	"severity":"NOTIFICATION",
+	...
+	"timeSpans" : [
+        {"start" : 1546297200000, "end" : 1546297500000},
+    ]
+
+}</pre>
+</div>
 </div>
 </div>
 </div>
