@@ -203,6 +203,8 @@ font-style: italic;
   <ul>
   <li><a href="#deleteProcessCard"><code><span class="http-method">delete</span> /cards/{processId}</code></a></li>
   <li><a href="#fetchCards"><code><span class="http-method">get</span> /cards</code></a></li>
+  <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
+  <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
   <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
   <li><a href="#fetchProcessCardAction"><code><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></a></li>
   <li><a href="#getCardSubscription"><code><span class="http-method">get</span> /cardSubscription</code></a></li>
@@ -223,6 +225,8 @@ font-style: italic;
   <h4><a href="#Read">Read</a></h4>
   <ul>
   <li><a href="#fetchCards"><code><span class="http-method">get</span> /cards</code></a></li>
+  <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
+  <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
   <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
   <li><a href="#fetchProcessCardAction"><code><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></a></li>
   <li><a href="#getCardSubscription"><code><span class="http-method">get</span> /cardSubscription</code></a></li>
@@ -721,6 +725,300 @@ font-style: italic;
         
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="fetchNextCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/next</code></pre></div>
+    <div class="method-summary">fetch next card after specified time if any (<span class="nickname">fetchNextCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "processId" : "MyProcess_001",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URI",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My action label",
+        "FR" : "Mon intitule d'action"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchPreviousCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/previous</code></pre></div>
+    <div class="method-summary">fetch previous card before specified time if any (<span class="nickname">fetchPreviousCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "processId" : "MyProcess_001",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URI",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My action label",
+        "FR" : "Mon intitule d'action"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="fetchProcessCard"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -740,15 +1038,129 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "processId" : "MyProcess_001",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URI",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My action label",
+        "FR" : "Mon intitule d'action"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#"></a>
+        <a href="#Card">Card</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="fetchProcessCardAction"/>
@@ -1541,6 +1953,300 @@ font-style: italic;
         
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="fetchNextCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/next</code></pre></div>
+    <div class="method-summary">fetch next card after specified time if any (<span class="nickname">fetchNextCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "processId" : "MyProcess_001",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URI",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My action label",
+        "FR" : "Mon intitule d'action"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchPreviousCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/previous</code></pre></div>
+    <div class="method-summary">fetch previous card before specified time if any (<span class="nickname">fetchPreviousCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "processId" : "MyProcess_001",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URI",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My action label",
+        "FR" : "Mon intitule d'action"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="fetchProcessCard"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -1560,15 +2266,129 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "processId" : "MyProcess_001",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URI",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My action label",
+        "FR" : "Mon intitule d'action"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
 
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#"></a>
+        <a href="#Card">Card</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="fetchProcessCardAction"/>
