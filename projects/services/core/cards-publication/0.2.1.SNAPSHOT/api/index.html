@@ -202,7 +202,6 @@ font-style: italic;
   <h4><a href="#Cards">Cards</a></h4>
   <ul>
   <li><a href="#deleteProcessCard"><code><span class="http-method">delete</span> /cards/{processId}</code></a></li>
-  <li><a href="#fetchCards"><code><span class="http-method">get</span> /cards</code></a></li>
   <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
   <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
   <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
@@ -224,7 +223,6 @@ font-style: italic;
   </ul>
   <h4><a href="#Read">Read</a></h4>
   <ul>
-  <li><a href="#fetchCards"><code><span class="http-method">get</span> /cards</code></a></li>
   <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
   <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
   <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
@@ -410,6 +408,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="triggerProcessCardAction"/>
@@ -615,114 +619,6 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="fetchCards"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards</code></pre></div>
-    <div class="method-summary">fetch cards (<span class="nickname">fetchCards</span>)</div>
-    <div class="method-notes">Fetch cards for which calling user is a recipient. Fetched cards all comes with empty</div>
-
-
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">from (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">to (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">startingPage (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">pageSize (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">published (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">deleted (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  default: false </div>
-    </div>  <!-- field-items -->
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      array[<a href="#LightCard">LightCard</a>]
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "uid" : 12345,
-  "id" : "cardIdFromMyProcess",
-  "publisher" : "MyService",
-  "publisherVersion" : "0.0.1",
-  "processId" : "MyProcess_001",
-  "lttd" : 1546387230000,
-  "startDate" : 1546387200000,
-  "endDate" : 1546387250000,
-  "severity" : "ACTION",
-  "media" : "sound1.wav",
-  "tags" : [ "MyService", "MyProcess" ],
-  "title" : {
-    "key" : "myservice.myprocess.title",
-    "parameters" : {
-      "EN" : "My process name",
-      "FR" : "Mon nom de processus"
-    }
-  },
-  "summary" : {
-    "key" : "myservice.myprocess.title.summary",
-    "parameters" : {
-      "EN" : "Summary of card content",
-      "FR" : "Resume du contenu de la carte"
-    }
-  },
-  "mainRecipient" : "givenUser"
-}, {
-  "uid" : 12345,
-  "id" : "cardIdFromMyProcess",
-  "publisher" : "MyService",
-  "publisherVersion" : "0.0.1",
-  "processId" : "MyProcess_001",
-  "lttd" : 1546387230000,
-  "startDate" : 1546387200000,
-  "endDate" : 1546387250000,
-  "severity" : "ACTION",
-  "media" : "sound1.wav",
-  "tags" : [ "MyService", "MyProcess" ],
-  "title" : {
-    "key" : "myservice.myprocess.title",
-    "parameters" : {
-      "EN" : "My process name",
-      "FR" : "Mon nom de processus"
-    }
-  },
-  "summary" : {
-    "key" : "myservice.myprocess.title.summary",
-    "parameters" : {
-      "EN" : "Summary of card content",
-      "FR" : "Resume du contenu de la carte"
-    }
-  },
-  "mainRecipient" : "givenUser"
-} ]</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    ok
-        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="fetchNextCard"/>
@@ -1161,6 +1057,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#Card">Card</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="fetchProcessCardAction"/>
@@ -1335,6 +1237,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getCardSubscription"/>
@@ -1395,6 +1303,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     ok
         
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="publishCards"/>
@@ -1845,114 +1759,6 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   <h1><a name="Read">Read</a></h1>
-  <div class="method"><a name="fetchCards"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards</code></pre></div>
-    <div class="method-summary">fetch cards (<span class="nickname">fetchCards</span>)</div>
-    <div class="method-notes">Fetch cards for which calling user is a recipient. Fetched cards all comes with empty</div>
-
-
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">from (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">to (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">startingPage (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">pageSize (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">published (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div><div class="param">deleted (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  default: false </div>
-    </div>  <!-- field-items -->
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      array[<a href="#LightCard">LightCard</a>]
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-  "uid" : 12345,
-  "id" : "cardIdFromMyProcess",
-  "publisher" : "MyService",
-  "publisherVersion" : "0.0.1",
-  "processId" : "MyProcess_001",
-  "lttd" : 1546387230000,
-  "startDate" : 1546387200000,
-  "endDate" : 1546387250000,
-  "severity" : "ACTION",
-  "media" : "sound1.wav",
-  "tags" : [ "MyService", "MyProcess" ],
-  "title" : {
-    "key" : "myservice.myprocess.title",
-    "parameters" : {
-      "EN" : "My process name",
-      "FR" : "Mon nom de processus"
-    }
-  },
-  "summary" : {
-    "key" : "myservice.myprocess.title.summary",
-    "parameters" : {
-      "EN" : "Summary of card content",
-      "FR" : "Resume du contenu de la carte"
-    }
-  },
-  "mainRecipient" : "givenUser"
-}, {
-  "uid" : 12345,
-  "id" : "cardIdFromMyProcess",
-  "publisher" : "MyService",
-  "publisherVersion" : "0.0.1",
-  "processId" : "MyProcess_001",
-  "lttd" : 1546387230000,
-  "startDate" : 1546387200000,
-  "endDate" : 1546387250000,
-  "severity" : "ACTION",
-  "media" : "sound1.wav",
-  "tags" : [ "MyService", "MyProcess" ],
-  "title" : {
-    "key" : "myservice.myprocess.title",
-    "parameters" : {
-      "EN" : "My process name",
-      "FR" : "Mon nom de processus"
-    }
-  },
-  "summary" : {
-    "key" : "myservice.myprocess.title.summary",
-    "parameters" : {
-      "EN" : "Summary of card content",
-      "FR" : "Resume du contenu de la carte"
-    }
-  },
-  "mainRecipient" : "givenUser"
-} ]</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    ok
-        
-  </div> <!-- method -->
-  <hr/>
   <div class="method"><a name="fetchNextCard"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -2389,6 +2195,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#Card">Card</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="fetchProcessCardAction"/>
@@ -2563,6 +2375,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getCardSubscription"/>
@@ -2623,6 +2441,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     ok
         
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Subscription">Subscription</a></h1>
@@ -2684,6 +2508,12 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     ok
         
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateCardSubscription"/>
