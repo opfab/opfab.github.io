@@ -192,11 +192,9 @@
         .pipe(
             ofType&lt;LoadCard&gt;(MenuActionTypes.LoadMenu),
             switchMap(action &#x3D;&gt; this.service.computeThirdsMenu()),
-            // tap(menus&#x3D;&gt;this.service.loadI18nForMenuEntries(menus)),
             switchMap(menu&#x3D;&gt;zip(of(menu),this.service.loadI18nForMenuEntries(menu)
                 .pipe(
                     catchError((err,caught)&#x3D;&gt;{
-                        console.error(&#x60;i18n loading failed for menu&#x60;);
                         console.error(err);
                         return of(false);
                     })
@@ -205,7 +203,6 @@
                 new LoadMenuSuccess({menu: array[0]})
             ),
             catchError((err, caught) &#x3D;&gt; {
-                console.error(&#x60;menu loading failed&#x60;);
                 console.error(err);
                 this.store.dispatch(new LoadMenuFailure(err));
                 return caught;
@@ -262,11 +259,9 @@ export class MenuEffects {
         .pipe(
             ofType&lt;LoadCard&gt;(MenuActionTypes.LoadMenu),
             switchMap(action &#x3D;&gt; this.service.computeThirdsMenu()),
-            // tap(menus&#x3D;&gt;this.service.loadI18nForMenuEntries(menus)),
             switchMap(menu&#x3D;&gt;zip(of(menu),this.service.loadI18nForMenuEntries(menu)
                 .pipe(
                     catchError((err,caught)&#x3D;&gt;{
-                        console.error(&#x60;i18n loading failed for menu&#x60;);
                         console.error(err);
                         return of(false);
                     })
@@ -275,7 +270,6 @@ export class MenuEffects {
                 new LoadMenuSuccess({menu: array[0]})
             ),
             catchError((err, caught) &#x3D;&gt; {
-                console.error(&#x60;menu loading failed&#x60;);
                 console.error(err);
                 this.store.dispatch(new LoadMenuFailure(err));
                 return caught;

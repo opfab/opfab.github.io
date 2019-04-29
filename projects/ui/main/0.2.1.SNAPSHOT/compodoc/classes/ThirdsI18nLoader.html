@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">src/app/services/thirds.service.ts:169</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">src/app/services/thirds.service.ts:179</a></div>
                             </td>
                         </tr>
 
@@ -178,7 +178,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/services/thirds.service.ts:173</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">src/app/services/thirds.service.ts:183</a></div>
                             </td>
                         </tr>
 
@@ -243,12 +243,13 @@ import {AuthenticationService} from &quot;@ofServices/authentication.service&quo
 import {empty, from, merge, Observable, of, throwError} from &quot;rxjs&quot;;
 import {TranslateLoader, TranslateService} from &quot;@ngx-translate/core&quot;;
 import {Map} from &quot;../model/map&quot;;
-import {catchError, filter, map, reduce, switchMap} from &quot;rxjs/operators&quot;;
+import {catchError, concatMap, filter, map, reduce, switchMap} from &quot;rxjs/operators&quot;;
 import * as _ from &#x27;lodash&#x27;;
 import {Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;../store/index&quot;;
 import {LightCard} from &quot;../model/light-card.model&quot;;
 import {Third, ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
+import {tap} from &quot;rxjs/internal/operators/tap&quot;;
 
 @Injectable()
 export class ThirdsService {
@@ -335,12 +336,15 @@ export class ThirdsService {
     }
 
     loadI18nForLightCards(cards:LightCard[]){
-        let observable &#x3D; from(cards).pipe(map(card&#x3D;&gt; card.publisher + &#x27;###&#x27; + card.publisherVersion));
+        let observable &#x3D; from(cards).pipe(
+            map(card&#x3D;&gt; card.publisher + &#x27;###&#x27; + card.publisherVersion));
         return this.subscribeToLoadI18n(observable);
     }
 
     loadI18nForMenuEntries(menus:ThirdMenu[]){
-        const observable &#x3D; from(menus).pipe(map(menu&#x3D;&gt; menu.id + &#x27;###&#x27; + menu.version));
+        const observable &#x3D; from(menus).pipe(
+            map(menu&#x3D;&gt; menu.id + &#x27;###&#x27; + menu.version)
+        );
         return this.subscribeToLoadI18n(observable);
     }
 
@@ -356,39 +360,45 @@ export class ThirdsService {
                     work &#x3D; _.difference&lt;string&gt;(work, this.loading)
                     return from(_.difference&lt;string&gt;(work, this.loaded))
                 }),
-                switchMap((id: string) &#x3D;&gt; {
+                concatMap((id: string) &#x3D;&gt; {
                     this.loading.push(id);
                     const input &#x3D; id.split(&#x27;###&#x27;);
-                    return this.fetchI18nJson(input[0], input[1], this.translate().getLangs())
+
+                    let publisher &#x3D; input[0];
+                    let version &#x3D; input[1];
+                    return this.fetchI18nJson(publisher, version, this.translate().getLangs())
                         .pipe(map(trans &#x3D;&gt; {
-                            console.debug(&#x60;translation received for ${id}&#x60;);
                                 return {id: id, translation: trans};
                             }),
                             catchError(err &#x3D;&gt; {
-                                console.error(&#x60;translation error for ${id}&#x60;);
                                 _.remove(this.loading, id);
                                 return throwError(err);
                             })
                         );
                 }),
-                catchError(error &#x3D;&gt;{
-                    console.error(error);
-                    return throwError(error);
-                }),
                 reduce((acc, val) &#x3D;&gt; _.merge(acc,val)),
                 map(
                     (result:any) &#x3D;&gt; {
-                        console.debug(&#x60;receiving i18n data&#x60;)
-                        for (let lang of this.translate().getLangs()) {
-                            if (result.translation[lang]) {
-                                this.translate().setTranslation(lang, result.translation[lang], true);
+                        let langs &#x3D; this.translate().getLangs();
+                        for (let lang of langs) {
+                            let translationElement &#x3D; result.translation[lang];
+                            if (translationElement) {
+                                this.translate().setTranslation(lang, translationElement, true);
+                                // needed otherwise only one translation apply
+                                this.translate().use(lang);
                             }
                         }
                         _.remove(this.loading, result.id);
                         this.loaded.push(result.id);
                         return true;
                     }
-                )
+                ),
+                catchError((error,caught )&#x3D;&gt;{
+                    console.error(&#x27;something went wrong during translation&#x27;,error);
+                    return caught;
+                })
+                // needed otherwise some translation break
+               // , tap(()&#x3D;&gt; console.log(&#x27;translate&#x27;))
             )
     }
 

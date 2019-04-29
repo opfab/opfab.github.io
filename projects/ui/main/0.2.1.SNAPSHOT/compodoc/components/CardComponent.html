@@ -204,12 +204,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, store: <a href="../interfaces/AppState.html">Store<AppState></a>, thirds: <a href="../injectables/ThirdsService.html">ThirdsService</a>)</code>
+<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, store: <a href="../interfaces/AppState.html">Store<AppState></a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -250,18 +250,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>thirds</td>
-                                                  
-                                                        <td>
-                                                                    <code><a href="../injectables/ThirdsService.html" target="_self" >ThirdsService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -289,7 +277,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -310,12 +298,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
+                        <i>Default value : </i><code>true</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:22</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -391,7 +379,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -435,7 +423,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -462,7 +450,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -491,7 +479,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:46</a></div>
                                 </td>
                             </tr>
 
@@ -508,7 +496,6 @@ import {Router} from &#x27;@angular/router&#x27;;
 import {selectCurrentUrl} from &#x27;@ofStore/selectors/router.selectors&#x27;;
 import {Store} from &#x27;@ngrx/store&#x27;;
 import {AppState} from &#x27;@ofStore/index&#x27;;
-import {ThirdsService} from &quot;../../../../services/thirds.service&quot;;
 
 @Component({
     selector: &#x27;of-card&#x27;,
@@ -517,18 +504,19 @@ import {ThirdsService} from &quot;../../../../services/thirds.service&quot;;
 })
 export class CardComponent implements OnInit{
 
-    @Input() public open: boolean &#x3D; false;
+    @Input() public open: boolean &#x3D; true;
     @Input() public lightCard: LightCard;
     currentPath: any;
     private _i18nPrefix: string;
 
     constructor(private router: Router,
-                private store: Store&lt;AppState&gt;,
-                private thirds: ThirdsService) {
+                private store: Store&lt;AppState&gt;) {
+
     }
 
     public select() {
         this.router.navigate([&#x27;/&#x27;+this.currentPath,&#x27;cards&#x27;,this.lightCard.id]);
+        this.open&#x3D;true;
     }
 
     ngOnInit() {
@@ -537,6 +525,7 @@ export class CardComponent implements OnInit{
             if(url)
                 this.currentPath &#x3D; url.split(&#x27;/&#x27;)[1];
         })
+        this.open&#x3D;true;
     }
 
     get i18nPrefix(): string {

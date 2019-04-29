@@ -100,7 +100,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/store/effects/light-card.effects.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/store/effects/light-card.effects.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -194,6 +194,7 @@
             switchMap((action:LoadLightCardsSuccess)&#x3D;&gt;
                     this.thirdService.loadI18nForLightCards(action.payload.lightCards)
                         .pipe(
+                            tap(test&#x3D;&gt;console.log(&#x60;loaded lightCards:${test}&#x60;)),
                             catchError((err,caught)&#x3D;&gt;{
                                 console.error(&#x60;i18 loading failed for card publishers&#x60;);
                                 console.error(err);
@@ -219,7 +220,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/store/effects/light-card.effects.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/store/effects/light-card.effects.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -240,6 +241,7 @@ import {catchError, map, switchMap} from &#x27;rxjs/operators&#x27;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {LightCardActionTypes, LoadLightCardsExtendedData, LoadLightCardsSuccess} from &quot;@ofActions/light-card.actions&quot;;
 import {ThirdsService} from &quot;@ofServices/thirds.service&quot;;
+import {tap} from &quot;rxjs/internal/operators/tap&quot;;
 
 // those effects are unused for the moment
 @Injectable()
@@ -259,6 +261,7 @@ export class LightCardEffects {
             switchMap((action:LoadLightCardsSuccess)&#x3D;&gt;
                     this.thirdService.loadI18nForLightCards(action.payload.lightCards)
                         .pipe(
+                            tap(test&#x3D;&gt;console.log(&#x60;loaded lightCards:${test}&#x60;)),
                             catchError((err,caught)&#x3D;&gt;{
                                 console.error(&#x60;i18 loading failed for card publishers&#x60;);
                                 console.error(err);
