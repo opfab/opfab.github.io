@@ -560,19 +560,41 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The aim of this document is to describe the role of the Time Service in OperatorFabric as well as
+<p>The aim of this document is to describe the role of the Time Service in
+OperatorFabric as well as
 the features it provides.
-It also includes code snippets demonstrating how to interact with the Time Service through its API.</p>
+It also includes code snippets demonstrating how to interact with the Time
+Service through its API.</p>
 </div>
 <div class="paragraph">
 <p>OperatorFabric services rely on the Time Service to get their current time.
 This allows the reference time to be set anywhere in the past or the future.
-In addition, the speed of time flow can also easily be altered: for example, go twice as fast as real time.
+In addition, the speed of time flow can also easily be altered: for example, go
+twice as fast as real time.
 This is useful mostly for test and demonstration purposes.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For test purpose at start the time service (i.e the
+<code>org.lfenergy.operatorfabric.time.services.TimeService</code> java class.) use a
+default value called <code>defaultStartTime</code>
+in the code, configured in the <code>resources/application.yml</code> and
+<code>resources/application-dev.yml</code> of the <code>OperatorFabric Time</code> project.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>We are also planning to add methods to the Time Services allowing to fast forward in time (or rewind) up to the next received card (or the last received card).
-See <a href="https://github.com/opfab/operatorfabric-core/issues/80">issue 80</a> for more details.</p>
+<p>We are also planning to add methods to the Time Services allowing to fast
+forward in time (or rewind) up to the next received card (or the last received
+card).
+See <a href="https://github.com/opfab/operatorfabric-core/issues/80">issue 80</a> for more
+details.</p>
 </div>
 </div>
 </div>
@@ -754,7 +776,8 @@ It is made up of the following properties:</p>
 <h2 id="_demonstration">4. Demonstration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section demonstrates how to interact with the Time service through its API by following a few simple scenarios.</p>
+<p>This section demonstrates how to interact with the Time service through its API
+by following a few simple scenarios.</p>
 </div>
 <div class="sect2">
 <h3 id="_prerequisites">4.1. Prerequisites</h3>
@@ -766,7 +789,10 @@ It is made up of the following properties:</p>
 </td>
 <td class="content">
 For these examples to work, you need to have a running Time service.
-The requests below assume that the Time service is running on localhost on port 2101 (see <a href="https://github.com/opfab/operatorfabric-core/blob/master/README.md">demo setup</a>).
+The requests below assume that the Time service is running on localhost on port
+2101 (see
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/README.md">demo
+setup</a>).
 </td>
 </tr>
 </table>
@@ -794,7 +820,8 @@ The requests below assume that the Time service is running on localhost on port 
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-In the following commands the <code>$token</code> is a valid authentication token from the <code>OAuth2</code> server used by the current <code>OperatorFabric</code> instance.
+In the following commands the <code>$token</code> is a valid authentication
+token from the <code>OAuth2</code> server used by the current <code>OperatorFabric</code> instance.
 </td>
 </tr>
 </table>
@@ -806,8 +833,10 @@ In the following commands the <code>$token</code> is a valid authentication toke
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Another option would be to use the Swagger UI. Provided that you have the Time service running on localhost on port 2101,
-the Swagger UI for the Time API is available at <a href="http://localhost:2101/" class="bare">localhost:2101/</a> . It also displays documentation and examples next to each request.
+Another option would be to use the Swagger UI. Provided that you have the
+Time service running on localhost on port 2101,
+the Swagger UI for the Time API is available at <a href="http://localhost:2101/" class="bare">localhost:2101/</a> . It
+also displays documentation and examples next to each request.
 However, requests requiring authentication won&#8217;t work as it isn&#8217;t set up yet.
 </td>
 </tr>
@@ -835,7 +864,9 @@ No authentication is required for this request.
 <div class="listingblock">
 <div class="title">Curl command</div>
 <div class="content">
-<pre>curl -X GET "http://localhost:2101/time" -H  "accept: application/json"</pre>
+<pre>curl -X GET "http://localhost:2101/time" \
+    -H "Authorization:Bearer $token" \
+    -H "accept: application/json"</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -859,15 +890,18 @@ No authentication is required for this request.
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Since the time hasn&#8217;t been changed yet, referenceTime and virtualTime haven&#8217;t been set.</td>
+<td>Since the time hasn&#8217;t been changed yet, referenceTime and virtualTime
+haven&#8217;t been set.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The current virtual time (number of milliseconds since Epoch), for example this value converts to <em>March 26, 2019 4:28:15.195 PM GMT</em></td>
+<td>The current virtual time (number of milliseconds since Epoch), for example
+this value converts to <em>March 26, 2019 4:28:15.195 PM GMT</em></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Speed of the virtual time flow relatively to real time flow. X1 means they&#8217;re the same.</td>
+<td>Speed of the virtual time flow relatively to real time flow. X1 means
+they&#8217;re the same.</td>
 </tr>
 </table>
 </div>
@@ -878,7 +912,8 @@ No authentication is required for this request.
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You can use an <a href="https://www.epochconverter.com/">online converter</a> to switch between epochDate and human readable date.
+You can use an <a href="https://www.epochconverter.com/">online converter</a> to
+switch between epochDate and human readable date.
 </td>
 </tr>
 </table>
@@ -887,7 +922,8 @@ You can use an <a href="https://www.epochconverter.com/">online converter</a> to
 <div class="sect2">
 <h3 id="_scenario_2_setting_virtual_time_to_be_10_minutes_ahead_of_real_time">4.3. Scenario 2: Setting virtual time to be 10 minutes ahead of real time</h3>
 <div class="paragraph">
-<p>To set virtual time to be 10 minutes ahead of time, we use the POST request and set the intended virtual time start (10 minutes from now) in the body:</p>
+<p>To set virtual time to be 10 minutes ahead of time, we use the POST request and
+set the intended virtual time start (10 minutes from now) in the body:</p>
 </div>
 <div class="listingblock">
 <div class="title">Example body</div>
@@ -908,7 +944,8 @@ You can use an <a href="https://www.epochconverter.com/">online converter</a> to
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>This should be the intended start of virtual time, about 10 minutes ahead from now</td>
+<td>This should be the intended start of virtual time, about 10 minutes ahead
+from now</td>
 </tr>
 </table>
 </div>
@@ -928,7 +965,8 @@ You can use an <a href="https://www.epochconverter.com/">online converter</a> to
 </div>
 </div>
 <div class="paragraph">
-<p>The response contains the current virtual time (computedNow) as well as the references used for the computation.</p>
+<p>The response contains the current virtual time (computedNow) as well as the
+references used for the computation.</p>
 </div>
 <div class="listingblock">
 <div class="title">Response code</div>
@@ -951,7 +989,8 @@ You can use an <a href="https://www.epochconverter.com/">online converter</a> to
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Real time at the time of the time change = <em>April 1, 2019 9:30:14.449 AM GMT</em></td>
+<td>Real time at the time of the time change = <em>April 1, 2019 9:30:14.449 AM
+GMT</em></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -959,7 +998,8 @@ You can use an <a href="https://www.epochconverter.com/">online converter</a> to
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Current virtual time = <em>April 1, 2019 9:40:52.009 AM</em> &#8594; 9 milliseconds have elapsed since server time change</td>
+<td>Current virtual time = <em>April 1, 2019 9:40:52.009 AM</em> &#8594; 9 milliseconds
+have elapsed since server time change</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -974,18 +1014,22 @@ You can use an <a href="https://www.epochconverter.com/">online converter</a> to
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-PUT /time does the exact same thing as POST /time as there was no need for a different behaviour.
+PUT /time does the exact same thing as POST /time as there was no need for
+a different behaviour.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s ask for the current time again (using the GET request) a little while later (real time is <em>April 1, 2019 11:37:43 AM GMT</em>)</p>
+<p>Let&#8217;s ask for the current time again (using the GET request) a little while
+later (real time is <em>April 1, 2019 11:37:43 AM GMT</em>)</p>
 </div>
 <div class="listingblock">
 <div class="title">curl command</div>
 <div class="content">
-<pre>curl -X GET "http://localhost:2101/time" -H  "accept: application/json"</pre>
+<pre>curl -X GET "http://localhost:2101/time" \
+    -H "Authorization:Bearer $token" \
+    -H "accept: application/json"</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1009,7 +1053,8 @@ PUT /time does the exact same thing as POST /time as there was no need for a dif
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Real time at the time of the time change = <em>April 1, 2019 9:30:14.449 AM GMT</em></td>
+<td>Real time at the time of the time change = <em>April 1, 2019 9:30:14.449 AM
+GMT</em></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1017,7 +1062,8 @@ PUT /time does the exact same thing as POST /time as there was no need for a dif
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Current virtual time = <em>April 1, 2019 11:48:20.367</em> &#8594; virtual time is about 10 minutes ahead from real time as expected</td>
+<td>Current virtual time = <em>April 1, 2019 11:48:20.367</em> &#8594; virtual time is
+about 10 minutes ahead from real time as expected</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -1032,10 +1078,15 @@ PUT /time does the exact same thing as POST /time as there was no need for a dif
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Notice how referenceTime, virtualTime and speed haven&#8217;t changed from the response to the POST request to set the virtual time. They will only change the next time is set or reset.
+Notice how referenceTime, virtualTime and speed haven&#8217;t changed from
+the response to the POST request to set the virtual time. They will only change
+the next time is set or reset.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Postman to get token</p>
 </div>
 </div>
 </div>
