@@ -289,6 +289,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/HandleUnexpectedError-2.html" data-type="entity-link">HandleUnexpectedError</a>
                             </li>
                             <li class="link">
+                                <a href="classes/HandleUnexpectedError-3.html" data-type="entity-link">HandleUnexpectedError</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/I18n.html" data-type="entity-link">I18n</a>
                             </li>
                             <li class="link">
@@ -305,6 +308,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/LoadCardSuccess.html" data-type="entity-link">LoadCardSuccess</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/LoadConfig.html" data-type="entity-link">LoadConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/LoadConfigFailure.html" data-type="entity-link">LoadConfigFailure</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/LoadConfigSuccess.html" data-type="entity-link">LoadConfigSuccess</a>
                             </li>
                             <li class="link">
                                 <a href="classes/LoadLightCards.html" data-type="entity-link">LoadLightCards</a>
@@ -389,6 +401,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/CardOperationEffects.html" data-type="entity-link">CardOperationEffects</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/ConfigService.html" data-type="entity-link">ConfigService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/CustomRouterEffects.html" data-type="entity-link">CustomRouterEffects</a>
                                 </li>
                                 <li class="link">
@@ -443,6 +458,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/CardState.html" data-type="entity-link">CardState</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ConfigState.html" data-type="entity-link">ConfigState</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/MenuState.html" data-type="entity-link">MenuState</a>
