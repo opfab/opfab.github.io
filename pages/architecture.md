@@ -21,5 +21,6 @@ tags: [Documentation]
         {% assign baseUrl = page.url | append: version.fullname %}
         <td><a class="text-dark" href="{{baseUrl | append: "/architecture" | relative_url }}">Architecture</a></td>
         <td><a class="text-dark" href="{{baseUrl | append: "/start" | relative_url }}">Getting Started</a></td></tr>
+        <td><a class="text-dark" href="{{baseUrl | append: "/user_guide" | relative_url }}">User Guide</a></td></tr>
     {% endfor %}
 </table>
