@@ -5,7 +5,7 @@ tags: [Release, Docker, 0.1.1.RELEASE, 0.2.1.SNAPSHOT]
 excerpt_separator: <!--more-->
 ---
 Operator Fabric is now available on the [public dockerhub](https://cloud.docker.com).
-
+<!--more-->
 ## What is available ?
 
 For now only dedicated per service images are available, these images will allow us to work on future Kubernetes deployments.
