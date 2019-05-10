@@ -266,9 +266,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Card.html" data-type="entity-link">Card</a>
                             </li>
                             <li class="link">
-                                <a href="classes/CardDetail.html" data-type="entity-link">CardDetail</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/CheckAuthenticationStatus.html" data-type="entity-link">CheckAuthenticationStatus</a>
                             </li>
                             <li class="link">
@@ -276,6 +273,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/CustomRouterStateSerializer.html" data-type="entity-link">CustomRouterStateSerializer</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/Detail.html" data-type="entity-link">Detail</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Filter.html" data-type="entity-link">Filter</a>
@@ -353,6 +353,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/PayloadForSuccessfulAuthentication.html" data-type="entity-link">PayloadForSuccessfulAuthentication</a>
                             </li>
                             <li class="link">
+                                <a href="classes/Process.html" data-type="entity-link">Process</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/RejectLogIn.html" data-type="entity-link">RejectLogIn</a>
                             </li>
                             <li class="link">
@@ -360,6 +363,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/SelectLightCard.html" data-type="entity-link">SelectLightCard</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/State.html" data-type="entity-link">State</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Third.html" data-type="entity-link">Third</a>

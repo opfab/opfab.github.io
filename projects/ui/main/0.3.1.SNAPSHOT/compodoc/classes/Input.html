@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/model/card.model.ts</code>
+            <code>src/app/model/thirds.model.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/model/card.model.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/model/thirds.model.ts:92</a></div>
                             </td>
                         </tr>
 
@@ -236,46 +236,60 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Severity} from &quot;@ofModel/light-card.model&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Card, Detail} from &quot;@ofModel/card.model&quot;;
 import {I18n} from &quot;@ofModel/i18n.model&quot;;
-import {Map} from &quot;@ofModel/map&quot;;
+import {Map as OfMap} from &quot;@ofModel/map&quot;;
 
-export class Card {
-
+export class Third{
     constructor(
-        readonly uid: string,
+        readonly name:string,
+        readonly version:string,
+        readonly i18nLabelKey: string,
+        readonly templates?:string[],
+        readonly csses?:string[],
+        readonly locales?:string[],
+        readonly menuEntries?:ThirdMenuEntry[],
+        readonly processes?:OfMap&lt;Process&gt;
+    ){}
+
+    public extractState(card:Card):State{
+        if(card.process &amp;&amp; this.processes[card.process]) {
+            const process &#x3D; this.processes[card.process];
+            if(card.state &amp;&amp; process.states[card.state]) {
+               return process.states[card.state];
+            }
+        }
+        return null;
+    }
+}
+
+export class ThirdMenuEntry{
+    constructor(
+        readonly id:string,
+        readonly label: string,
+        readonly url: string
+    ){}
+}
+
+export class ThirdMenu{
+    constructor(
         readonly id: string,
-        readonly publisher: string,
-        readonly publisherVersion: string,
-        readonly publishDate: number,
-        readonly startDate: number,
-        readonly endDate: number,
-        readonly severity: Severity,
-        readonly mainRecipient: string,
-        readonly processId?: string,
-        readonly lttd?: number,
-        readonly title?: I18n,
-        readonly summary?: I18n,
-        readonly  data?: any,
-        readonly  details?: CardDetail[],
-        readonly  actions?: Map&lt;Action&gt;
-    ) {
-    }
+        readonly version: string,
+        readonly label: string,
+        readonly entries: ThirdMenuEntry[]){}
 }
 
-export enum TitlePosition {
-    UP, DOWN, NONE
-
-}
-
-export class CardDetail {
+export class Process{
     constructor(
-        readonly titlePosition: TitlePosition,
-        readonly title: I18n,
-        readonly titleStyle: string,
-        readonly templateName: string,
-        readonly styles: string[]) {
-    }
+        readonly states?:OfMap&lt;State&gt;
+    ){}
+}
+
+export class State{
+    constructor(
+        readonly details?:Detail[],
+        readonly actions?:OfMap&lt;Action&gt;
+    ){}
 }
 
 export enum ActionType {

@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="176" class="link-to-prism">src/app/services/thirds.service.ts:176</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/services/thirds.service.ts:198</a></div>
                             </td>
                         </tr>
 
@@ -178,7 +178,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">src/app/services/thirds.service.ts:180</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="202" class="link-to-prism">src/app/services/thirds.service.ts:202</a></div>
                             </td>
                         </tr>
 
@@ -242,8 +242,7 @@ import {environment} from &quot;../../environments/environment&quot;;
 import {AuthenticationService} from &quot;@ofServices/authentication.service&quot;;
 import {EMPTY, from, merge, Observable, of, throwError} from &quot;rxjs&quot;;
 import {TranslateLoader, TranslateService} from &quot;@ngx-translate/core&quot;;
-import {Map} from &quot;../model/map&quot;;
-import {catchError, filter, map, mergeMap, reduce, switchMap} from &quot;rxjs/operators&quot;;
+import {catchError, filter, map, mergeMap, reduce, switchMap, tap} from &quot;rxjs/operators&quot;;
 import * as _ from &#x27;lodash&#x27;;
 import {Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;../store/index&quot;;
@@ -253,9 +252,10 @@ import {Third, ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
 @Injectable()
 export class ThirdsService {
     readonly thirdsUrl: string;
-    private loaded: string[] &#x3D; [];
-    private loading: string[] &#x3D; [];
+    private loadedI18n: string[] &#x3D; [];
+    private loadingI18n: string[] &#x3D; [];
     private urlCleaner: HttpUrlEncodingCodec;
+    private thirdCache &#x3D; new Map();
 
     constructor(private httpClient: HttpClient,
                 private authenticationService: AuthenticationService,
@@ -266,6 +266,28 @@ export class ThirdsService {
         this.thirdsUrl &#x3D; &#x60;${environment.urls.thirds}&#x60;;
     }
 
+    queryThird(thirdName:string, version:string):Observable&lt;Third&gt; {
+        const key &#x3D; &#x60;${thirdName}.${version}&#x60;;
+        let third &#x3D; this.thirdCache.get(key);
+        if(third){
+            return of(third);
+        }
+        return this.fetchThird(thirdName,version)
+            .pipe(
+                tap(t&#x3D;&gt;Object.setPrototypeOf(t,Third.prototype)),
+                tap(t&#x3D;&gt;this.thirdCache.set(key,t))
+            );
+    }
+
+    private fetchThird(publisher: string, version: string): Observable&lt;Third&gt; {
+        const params &#x3D; new HttpParams()
+            .set(&quot;version&quot;, version);
+        return this.httpClient.get&lt;Third&gt;(&#x60;${this.thirdsUrl}/${publisher}/&#x60;,{
+            params,
+            headers: this.authenticationService.getSecurityHeader()
+        });
+    }
+
     fetchHbsTemplate(publisher: string, version: string, name: string, locale: string): Observable&lt;string&gt; {
         const params &#x3D; new HttpParams()
                 .set(&quot;locale&quot;, locale)
@@ -274,7 +296,7 @@ export class ThirdsService {
             params,
             headers: this.authenticationService.getSecurityHeader(),
             responseType: &#x27;text&#x27;
-        })
+        });
     }
 
     computeThirdCssUrl(publisher: string, styleName: string, version: string){
@@ -284,7 +306,7 @@ export class ThirdsService {
         return &#x60;${resourceUrl}?${versionParam.toString()}&#x60;;
     }
 
-    fetchI18nJson(publisher: string, version: string, locales: string[]): Observable&lt;Map&lt;any&gt;&gt; {
+    fetchI18nJson(publisher: string, version: string, locales: string[]): Observable&lt;any&gt; {
         let previous: Observable&lt;any&gt;;
         for (let locale of locales) {
             const params &#x3D; new HttpParams()
@@ -356,11 +378,11 @@ export class ThirdsService {
                 }, []),
                 switchMap((ids:string[]) &#x3D;&gt; {
                     let work &#x3D; _.uniq(ids);
-                    work &#x3D; _.difference&lt;string&gt;(work, this.loading)
-                    return from(_.difference&lt;string&gt;(work, this.loaded))
+                    work &#x3D; _.difference&lt;string&gt;(work, this.loadingI18n)
+                    return from(_.difference&lt;string&gt;(work, this.loadedI18n))
                 }),
                 mergeMap((id: string) &#x3D;&gt; {
-                    this.loading.push(id);
+                    this.loadingI18n.push(id);
                     const input &#x3D; id.split(&#x27;###&#x27;);
 
                     let publisher &#x3D; input[0];
@@ -370,7 +392,7 @@ export class ThirdsService {
                                 return {id: id, translation: trans};
                             }),
                             catchError(err &#x3D;&gt; {
-                                _.remove(this.loading, id);
+                                _.remove(this.loadingI18n, id);
                                 return throwError(err);
                             })
                         );
@@ -387,8 +409,8 @@ export class ThirdsService {
                                 this.translate().use(lang);
                             }
                         }
-                        _.remove(this.loading, result.id);
-                        this.loaded.push(result.id);
+                        _.remove(this.loadingI18n, result.id);
+                        this.loadedI18n.push(result.id);
                         return true;
                     }
                 ),
