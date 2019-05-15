@@ -134,7 +134,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">src/app/services/authentication.service.ts:197</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">src/app/services/authentication.service.ts:210</a></div>
                             </td>
                         </tr>
 
@@ -161,7 +161,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="196" class="link-to-prism">src/app/services/authentication.service.ts:196</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/services/authentication.service.ts:209</a></div>
                             </td>
                         </tr>
 
@@ -188,7 +188,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="195" class="link-to-prism">src/app/services/authentication.service.ts:195</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/services/authentication.service.ts:208</a></div>
                             </td>
                         </tr>
 
@@ -215,6 +215,9 @@ import {Guid} from &#x27;guid-typescript&#x27;;
 import {PayloadForSuccessfulAuthentication} from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &quot;@env/environment&quot;;
 import {GuidService} from &quot;@ofServices/guid.service&quot;;
+import {AppState} from &quot;@ofStore/index&quot;;
+import {Store} from &quot;@ngrx/store&quot;;
+import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
 
 export enum LocalStorageAuthContent {
     token &#x3D; &#x27;token&#x27;,
@@ -232,13 +235,20 @@ export class AuthenticationService {
     private checkTokenUrl &#x3D; &#x60;${environment.urls.auth}/check_token&#x60;;
     /** url to ask for an authentication token (jwt) */
     private askTokenUrl &#x3D; &#x60;${environment.urls.auth}/token&#x60;;
+    private clientId: string;
+    private clientSecret: string;
 
     /**
      * @constructor
      * @param httpClient - Angular build-in
      * @param guidService - create and store the unique id for this application and user
      */
-    constructor(private httpClient: HttpClient,private guidService: GuidService) {
+    constructor(private httpClient: HttpClient,private guidService: GuidService, private store: Store&lt;AppState&gt;) {
+        store.select(buildConfigSelector(&#x27;security.oauth2&#x27;))
+            .subscribe(oauth2Conf&#x3D;&gt;{
+               this.clientId&#x3D; oauth2Conf[&#x27;client-id&#x27;];
+               this.clientSecret&#x3D; oauth2Conf[&#x27;client-secret&#x27;];
+            });
     }
 
     /**
@@ -265,12 +275,15 @@ export class AuthenticationService {
      * @param password
      */
     askToken(login: string, password: string): Observable&lt;any&gt; {
+        if(!this.clientId||!this.clientSecret)
+            return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
         const params &#x3D; new URLSearchParams();
         params.append(&#x27;username&#x27;, login);
         params.append(&#x27;password&#x27;, password);
         params.append(&#x27;grant_type&#x27;, &#x27;password&#x27;);
         // beware clientId for token defines a type of authentication
-        params.append(&#x27;client_id&#x27;, &#x27;clientIdPassword&#x27;);
+        params.append(&#x27;client_id&#x27;, this.clientId);
+        params.append(&#x27;client_secret&#x27;, this.clientSecret);
 
         const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
         return this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl
