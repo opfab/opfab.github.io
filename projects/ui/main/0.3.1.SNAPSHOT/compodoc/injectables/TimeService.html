@@ -76,7 +76,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#asLocalString">asLocalString</a>
+                                <a href="#asInputString">asInputString</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/time.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/time.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -130,27 +130,27 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="asLocalString"></a>
+                        <a name="asInputString"></a>
                         <span class="name">
                             <b>
                                 <span class="modifier">Public</span>
-                            asLocalString
+                            asInputString
                             </b>
-                            <a href="#asLocalString"><span class="icon ion-ios-link"></span></a>
+                            <a href="#asInputString"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                             <span class="modifier-icon icon ion-ios-reset"></span>
-                        <code>asLocalString(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                        <code>asInputString(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/time.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/time.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -221,7 +221,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/time.service.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/time.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -292,7 +292,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/services/time.service.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/services/time.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -301,7 +301,7 @@
                     <td class="col-md-4">
 
                             <div class="io-description">
-                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                <b>Returns : </b>    <code>moment.Moment</code>
 
                             </div>
                     </td>
@@ -332,7 +332,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/time.service.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/services/time.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -369,7 +369,7 @@
                             <div>
                             </div>
                             <div class="io-description">
-                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                <b>Returns : </b>    <code>moment.Moment</code>
 
                             </div>
                                 <div class="io-description">
@@ -387,6 +387,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
+import * as moment from &#x27;moment&#x27;;
 
 @Injectable()
 export class TimeService {
@@ -394,20 +395,20 @@ export class TimeService {
     constructor() {
     }
 
-    public currentTime(): number {
-        return Date.now();
+    public currentTime(): moment.Moment {
+        return moment();
     }
 
-    public parseString(value: string): number {
-        return Date.parse(value);
+    public parseString(value: string): moment.Moment {
+        return moment(value,&#x27;YYYY-MM-DDTHH:mm&#x27;);
     }
 
     public asString(value: number): string {
         return new Date(value).toISOString();
     }
 
-    public asLocalString(value: number): string {
-        return new Date(value).toISOString().slice(0, -8);
+    public asInputString(value: number): string {
+        return moment(value).format(&#x27;YYYY-MM-DDTHH:mm:ss.SSS&#x27;);
     }
 }
 </code></pre>
