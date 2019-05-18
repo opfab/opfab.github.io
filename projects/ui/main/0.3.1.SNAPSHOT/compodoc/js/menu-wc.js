@@ -299,6 +299,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/I18n.html" data-type="entity-link">I18n</a>
                             </li>
                             <li class="link">
+                                <a href="classes/InitAuthStatus.html" data-type="entity-link">InitAuthStatus</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/InitFilters.html" data-type="entity-link">InitFilters</a>
                             </li>
                             <li class="link">

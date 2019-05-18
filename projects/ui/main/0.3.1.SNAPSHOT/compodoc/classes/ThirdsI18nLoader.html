@@ -284,7 +284,7 @@ export class ThirdsService {
             .set(&quot;version&quot;, version);
         return this.httpClient.get&lt;Third&gt;(&#x60;${this.thirdsUrl}/${publisher}/&#x60;,{
             params,
-            headers: this.authenticationService.getSecurityHeader()
+            headers: AuthenticationService.getSecurityHeader()
         });
     }
 
@@ -294,7 +294,7 @@ export class ThirdsService {
                 .set(&quot;version&quot;, version);
         return this.httpClient.get(&#x60;${this.thirdsUrl}/${publisher}/templates/${name}&#x60;,{
             params,
-            headers: this.authenticationService.getSecurityHeader(),
+            headers: AuthenticationService.getSecurityHeader(),
             responseType: &#x27;text&#x27;
         });
     }
@@ -314,7 +314,7 @@ export class ThirdsService {
                 .set(&quot;version&quot;, version);
             const httpCall &#x3D; this.httpClient.get(&#x60;${this.thirdsUrl}/${publisher}/i18n&#x60;, {
                 params,
-                headers: this.authenticationService.getSecurityHeader()
+                headers: AuthenticationService.getSecurityHeader()
             }).pipe(
                 map(r &#x3D;&gt; {
                         const object &#x3D; {};
@@ -342,7 +342,7 @@ export class ThirdsService {
 
     computeThirdsMenu(): Observable&lt;ThirdMenu[]&gt;{
         return this.httpClient.get&lt;Third[]&gt;(&#x60;${this.thirdsUrl}/&#x60;, {
-            headers: this.authenticationService.getSecurityHeader()
+            headers: AuthenticationService.getSecurityHeader()
         }).pipe(
             switchMap(ts&#x3D;&gt;from(ts)),
             filter((t:Third)&#x3D;&gt;!(!t.menuEntries)),

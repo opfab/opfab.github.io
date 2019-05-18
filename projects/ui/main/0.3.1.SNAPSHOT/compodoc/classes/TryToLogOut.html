@@ -137,7 +137,7 @@ when the user click on the <code>logOut</code> button of the <code>navbar</code>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/store/actions/authentication.actions.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/store/actions/authentication.actions.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -160,6 +160,7 @@ when the user click on the <code>logOut</code> button of the <code>navbar</code>
 import {Guid} from &#x27;guid-typescript&#x27;;
 
 export enum AuthenticationActionTypes {
+    InitAuthStatus &#x3D; &#x27;[Authentication] Init Authentication Status&#x27;,
     CheckAuthenticationStatus &#x3D; &#x27;[Authentication] Check Authentication Status&#x27;,
     AcceptLogIn &#x3D; &#x27;[Authentication] Accept the user log in attempt&#x27;,
     RejectLogIn &#x3D; &#x27;[Authentication] Reject the user log in attempt&#x27;,
@@ -169,6 +170,9 @@ export enum AuthenticationActionTypes {
     AcceptLogOutSuccess &#x3D; &#x27;[Authentication] Success Accept the user log out attempt&#x27;,
 }
 
+/**
+ * Authentication success payload
+ */
 export class PayloadForSuccessfulAuthentication {
     constructor(public identifier: string,
                 public clientId: Guid,
@@ -176,8 +180,18 @@ export class PayloadForSuccessfulAuthentication {
                 public expirationDate: Date) {
     }
 }
+
 /**
- * First action dispatch by the application.
+ * It aims to validate the current authentication if exists.
+ *
+ */
+export class InitAuthStatus implements Action {
+    /* istanbul ignore next */
+    readonly type &#x3D; AuthenticationActionTypes.InitAuthStatus;
+    constructor(public payload:{code: string}){}
+}
+
+/**
  * It aims to validate the current authentication if exists.
  *
  */
@@ -277,7 +291,8 @@ export class AcceptLogOutSuccess implements Action {
 }
 
 export type AuthenticationActions &#x3D;
-     AcceptLogIn
+    InitAuthStatus
+    | AcceptLogIn
     | RejectLogIn
     | TryToLogIn
     | TryToLogOut

@@ -63,6 +63,13 @@
             <code>src/app/store/actions/authentication.actions.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Authentication success payload</p>
+
+            </p>
 
 
 
@@ -119,7 +126,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/store/actions/authentication.actions.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/store/actions/authentication.actions.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -219,7 +226,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/store/actions/authentication.actions.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/store/actions/authentication.actions.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -247,7 +254,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/store/actions/authentication.actions.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/store/actions/authentication.actions.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -275,7 +282,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/store/actions/authentication.actions.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/store/actions/authentication.actions.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -303,7 +310,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/store/actions/authentication.actions.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/store/actions/authentication.actions.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -326,6 +333,7 @@
 import {Guid} from &#x27;guid-typescript&#x27;;
 
 export enum AuthenticationActionTypes {
+    InitAuthStatus &#x3D; &#x27;[Authentication] Init Authentication Status&#x27;,
     CheckAuthenticationStatus &#x3D; &#x27;[Authentication] Check Authentication Status&#x27;,
     AcceptLogIn &#x3D; &#x27;[Authentication] Accept the user log in attempt&#x27;,
     RejectLogIn &#x3D; &#x27;[Authentication] Reject the user log in attempt&#x27;,
@@ -335,6 +343,9 @@ export enum AuthenticationActionTypes {
     AcceptLogOutSuccess &#x3D; &#x27;[Authentication] Success Accept the user log out attempt&#x27;,
 }
 
+/**
+ * Authentication success payload
+ */
 export class PayloadForSuccessfulAuthentication {
     constructor(public identifier: string,
                 public clientId: Guid,
@@ -342,8 +353,18 @@ export class PayloadForSuccessfulAuthentication {
                 public expirationDate: Date) {
     }
 }
+
 /**
- * First action dispatch by the application.
+ * It aims to validate the current authentication if exists.
+ *
+ */
+export class InitAuthStatus implements Action {
+    /* istanbul ignore next */
+    readonly type &#x3D; AuthenticationActionTypes.InitAuthStatus;
+    constructor(public payload:{code: string}){}
+}
+
+/**
  * It aims to validate the current authentication if exists.
  *
  */
@@ -443,7 +464,8 @@ export class AcceptLogOutSuccess implements Action {
 }
 
 export type AuthenticationActions &#x3D;
-     AcceptLogIn
+    InitAuthStatus
+    | AcceptLogIn
     | RejectLogIn
     | TryToLogIn
     | TryToLogOut

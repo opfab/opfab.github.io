@@ -138,7 +138,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">src/app/services/authentication.service.ts:199</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="262" class="link-to-prism">src/app/services/authentication.service.ts:262</a></div>
                             </td>
                         </tr>
 
@@ -165,7 +165,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/services/authentication.service.ts:201</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="264" class="link-to-prism">src/app/services/authentication.service.ts:264</a></div>
                             </td>
                         </tr>
 
@@ -192,7 +192,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">src/app/services/authentication.service.ts:200</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="263" class="link-to-prism">src/app/services/authentication.service.ts:263</a></div>
                             </td>
                         </tr>
 
@@ -220,7 +220,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/services/authentication.service.ts:198</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="261" class="link-to-prism">src/app/services/authentication.service.ts:261</a></div>
                             </td>
                         </tr>
 
@@ -241,8 +241,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import {HttpClient, HttpHeaders} from &#x27;@angular/common/http&#x27;;
-import {Observable, throwError} from &#x27;rxjs&#x27;;
-import {catchError, map} from &#x27;rxjs/operators&#x27;;
+import {Observable, of, throwError} from &#x27;rxjs&#x27;;
+import {catchError, map, tap} from &#x27;rxjs/operators&#x27;;
 import {Guid} from &#x27;guid-typescript&#x27;;
 import {PayloadForSuccessfulAuthentication} from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &quot;@env/environment&quot;;
@@ -250,6 +250,8 @@ import {GuidService} from &quot;@ofServices/guid.service&quot;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {Store} from &quot;@ngrx/store&quot;;
 import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
+import * as jwt_decode from &quot;jwt-decode&quot;;
+import * as _ from &quot;lodash&quot;;
 
 export enum LocalStorageAuthContent {
     token &#x3D; &#x27;token&#x27;,
@@ -269,18 +271,28 @@ export class AuthenticationService {
     private askTokenUrl &#x3D; &#x60;${environment.urls.auth}/token&#x60;;
     private clientId: string;
     private clientSecret: string;
+    private loginClaim: string;
+    private expireClaim: string;
 
     /**
      * @constructor
      * @param httpClient - Angular build-in
      * @param guidService - create and store the unique id for this application and user
+     * @param store NGRX store
      */
-    constructor(private httpClient: HttpClient,private guidService: GuidService, private store: Store&lt;AppState&gt;) {
-        store.select(buildConfigSelector(&#x27;security.oauth2&#x27;))
-            .subscribe(oauth2Conf&#x3D;&gt;{
-               this.clientId&#x3D; oauth2Conf[&#x27;client-id&#x27;];
-               this.clientSecret&#x3D; oauth2Conf[&#x27;client-secret&#x27;];
+    constructor(private httpClient: HttpClient, private guidService: GuidService, private store: Store&lt;AppState&gt;) {
+        store.select(buildConfigSelector(&#x27;security&#x27;))
+            .subscribe(oauth2Conf &#x3D;&gt; {
+                this.assignConfigurationProperties(oauth2Conf);
+
             });
+    }
+
+    assignConfigurationProperties(oauth2Conf) {
+        this.clientId &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-id&#x27;, null);
+        this.clientSecret &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-secret&#x27;, null);
+        this.loginClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.login-claim&#x27;, &#x27;sub&#x27;);
+        this.expireClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.expire-claim&#x27;, &#x27;exp&#x27;);
     }
 
     /**
@@ -292,55 +304,82 @@ export class AuthenticationService {
      * an error is thrown otherwise
      */
     checkAuthentication(token: string): Observable&lt;CheckTokenResponse&gt; {
-        const postData &#x3D; new FormData();
-        postData.append(&#x27;token&#x27;, token);
-        return this.httpClient.post&lt;CheckTokenResponse&gt;(this.checkTokenUrl, postData).pipe(
-            map(check &#x3D;&gt; check),
-            catchError(this.handleError)
-        );
+        if (!!token) {
+            // const postData &#x3D; new FormData();
+            const postData &#x3D;  new URLSearchParams();
+            postData.append(&#x27;token&#x27;, token);
+            const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
+            return this.httpClient.post&lt;CheckTokenResponse&gt;(this.checkTokenUrl, postData.toString(),{headers:headers}).pipe(
+                map(check &#x3D;&gt; check),
+                catchError(AuthenticationService.handleError)
+            );
+        }
+        return of(null);
     }
 
     /**
      * Given a pair of connection, ask the web service generating jwt authentication token a token if the pair is
      * a registered one.
-     * @param login 
+     * @param code OIDC code from code flow
+     */
+    askTokenFromCode(code:string):
+        Observable&lt;any&gt; {
+        if (!
+            this.clientId || !this.clientSecret || !this.loginClaim
+        )
+            return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
+        const params &#x3D; new URLSearchParams();
+        params.append(&#x27;code&#x27;, code);
+        params.append(&#x27;grant_type&#x27;, &#x27;authorization_code&#x27;);
+// beware clientId for token defines a type of authentication
+        params.append(&#x27;client_id&#x27;, this.clientId);
+        params.append(&#x27;redirect_uri&#x27;, window.location.origin);
+
+        const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
+        return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl, params.toString(), {headers: headers}));
+    }
+
+    /**
+     * Given a pair of connection, ask the web service generating jwt authentication token a token if the pair is
+     * a registered one.
+     * @param login
      * @param password
      */
-    askToken(login: string, password: string): Observable&lt;any&gt; {
-        if(!this.clientId||!this.clientSecret)
+    askTokenFromPassword(login
+                             :
+                             string, password
+                             :
+                             string
+    ):
+        Observable&lt;any&gt; {
+        if (!
+            this.clientId || !this.clientSecret
+        )
             return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
         const params &#x3D; new URLSearchParams();
         params.append(&#x27;username&#x27;, login);
         params.append(&#x27;password&#x27;, password);
         params.append(&#x27;grant_type&#x27;, &#x27;password&#x27;);
-        // beware clientId for token defines a type of authentication
+// beware clientId for token defines a type of authentication
         params.append(&#x27;client_id&#x27;, this.clientId);
         params.append(&#x27;client_secret&#x27;, this.clientSecret);
 
         const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
-        return this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl
-            , params.toString()
-            , {headers: headers}).pipe(
-            map(data &#x3D;&gt; {
-                const trackism &#x3D; {...data};
-
-                trackism.identifier &#x3D; login;
-                // this clientId is used to identify unequivocally the session
-                trackism.clientId &#x3D; this.guidService.getCurrentGuid();
-                return trackism;
-            }),
-            map(authObjt &#x3D;&gt; {
-                    let successfulAuth &#x3D; this.convert(authObjt);
-                    this.saveAuthenticationInformation(successfulAuth)
-                    return successfulAuth;
-                }
-            ),
-            catchError(this.handleError)
-        );
-
+        return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl, params.toString(), {headers: headers}));
     }
 
-    private handleError(error: any) {
+    private handleNewToken(call: Observable&lt;AuthObject&gt;): Observable&lt;PayloadForSuccessfulAuthentication&gt; {
+        return call.pipe(
+            map(data &#x3D;&gt; {
+                return {...data, clientId: this.guidService.getCurrentGuid()}
+            }),
+            map((auth:AuthObject)&#x3D;&gt;this.convert(auth)),
+            tap(AuthenticationService.saveAuthenticationInformation),
+            catchError(AuthenticationService.handleError)
+        );
+    }
+
+    private static handleError(error: any) {
         console.error(error);
         return throwError(error);
     }
@@ -348,32 +387,32 @@ export class AuthenticationService {
     /**
      * extract the jwt authentication token from the localstorage
      */
-    public extractToken(): string {
+    static extractToken(): string {
         return localStorage.getItem(LocalStorageAuthContent.token);
     }
 
     /**
      * @return true if the expiration date stored in the &#x60;localestorage&#x60; is still running, false otherwise.
      */
-    public verifyExpirationDate(): boolean {
+    static verifyExpirationDate():boolean {
         // + to convert the stored number as a string back to number
         const expirationDate &#x3D; +localStorage.getItem(LocalStorageAuthContent.expirationDate);
         const isNotANumber &#x3D; isNaN(expirationDate);
         const stillValid &#x3D; isInTheFuture(expirationDate);
-        const finalResult &#x3D; !isNotANumber &amp;&amp; stillValid;
-        return finalResult;
+        return !isNotANumber &amp;&amp; stillValid;
     }
 
     /**
      * @return true if the expiration date stored in the &#x60;localstorage&#x60; is over, false otherwise
      */
-    public isExpirationDateOver(): boolean {
-        return !this.verifyExpirationDate();
+    static isExpirationDateOver(): boolean {
+        return !AuthenticationService.verifyExpirationDate();
     }
+
     /**
      * clear the &#x60;localstorage&#x60; from all its content.
      */
-    public clearAuthenticationInformation(): void {
+    static clearAuthenticationInformation(): void {
         localStorage.clear();
     }
 
@@ -382,7 +421,7 @@ export class AuthenticationService {
      * &#x60;localstorage&#x60;.
      * @param payload
      */
-    public saveAuthenticationInformation(payload: PayloadForSuccessfulAuthentication) {
+    static saveAuthenticationInformation(payload: PayloadForSuccessfulAuthentication) {
         localStorage.setItem(LocalStorageAuthContent.identifier, payload.identifier);
         localStorage.setItem(LocalStorageAuthContent.token, payload.token);
         localStorage.setItem(LocalStorageAuthContent.expirationDate, payload.expirationDate.getTime().toString());
@@ -394,7 +433,7 @@ export class AuthenticationService {
      * expiration date and clientId
      * @return {PayloadForSuccessfulAuthentication}
      */
-    public extractIdentificationInformation(): PayloadForSuccessfulAuthentication {
+    static extractIdentificationInformation(): PayloadForSuccessfulAuthentication {
         return new PayloadForSuccessfulAuthentication(
             localStorage.getItem(LocalStorageAuthContent.identifier),
             Guid.parse(localStorage.getItem(LocalStorageAuthContent.clientId)),
@@ -408,9 +447,18 @@ export class AuthenticationService {
      * helper method to convert an {AuthObject} instance into a {PayloadForSuccessfulAuthentication} instance.
      * @param payload
      */
-    public convert(payload: AuthObject): PayloadForSuccessfulAuthentication {
-        const expirationDate &#x3D; Date.now() + ONE_SECOND * payload.expires_in;
-        return new PayloadForSuccessfulAuthentication(payload.identifier,
+    public convert(payload: AuthObject):
+        PayloadForSuccessfulAuthentication {
+        let expirationDate;
+        const jwt &#x3D; AuthenticationService.decodeToken(payload.access_token);
+        if (!!payload.expires_in)
+            expirationDate &#x3D; Date.now() + ONE_SECOND * payload.expires_in;
+        else if (!!this.expireClaim)
+            expirationDate &#x3D; jwt[this.expireClaim];
+        else
+            expirationDate &#x3D; 0;
+
+        return new PayloadForSuccessfulAuthentication(jwt[this.loginClaim],
             payload.clientId,
             payload.access_token,
             new Date(expirationDate)
@@ -420,8 +468,23 @@ export class AuthenticationService {
     /**
      * helper method to put the jwt token into an appropriate string usable as an http header
      */
-    public getSecurityHeader() {
-        return {&#x27;Authorization&#x27;: &#x60;Bearer ${this.extractToken()}&#x60;};
+    static getSecurityHeader() {
+        return {&#x27;Authorization&#x27;: &#x60;Bearer ${AuthenticationService.extractToken()}&#x60;};
+    }
+
+    public moveToCodeFlowLoginPage() {
+        if (!this.clientId || !this.clientSecret)
+            return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
+        window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${location.origin}&#x60;;
+    }
+
+    static decodeToken(token: string): any {
+        try {
+            return jwt_decode(token);
+        }
+        catch (Error) {
+            return null;
+        }
     }
 }
 

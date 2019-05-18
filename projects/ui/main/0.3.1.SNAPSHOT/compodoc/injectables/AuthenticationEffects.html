@@ -111,9 +111,6 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#handleLogInAttempt">handleLogInAttempt</a>
-                            </li>
-                            <li>
                                 <a href="#handleRejectedLogin">handleRejectedLogin</a>
                             </li>
                         </ul>
@@ -139,7 +136,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/store/effects/authentication.effects.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/store/effects/authentication.effects.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -244,75 +241,6 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="handleLogInAttempt"></a>
-                        <span class="name">
-                            <b>
-                            handleLogInAttempt
-                            </b>
-                            <a href="#handleLogInAttempt"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-<code>handleLogInAttempt(payload: <a href="../classes/CheckTokenResponse.html">CheckTokenResponse</a>)</code>
-                    </td>
-                </tr>
-
-
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/store/effects/authentication.effects.ts:193</a></div>
-                            </td>
-                        </tr>
-
-
-                <tr>
-                    <td class="col-md-4">
-
-                            <div class="io-description">
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>payload</td>
-                                                        <td>
-                                                                    <code><a href="../classes/CheckTokenResponse.html" target="_self" >CheckTokenResponse</a></code>
-                                                        </td>
-                                                    
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div>
-                            </div>
-                            <div class="io-description">
-                                <b>Returns : </b>    <code><a href="../classes/Action.html" target="_self" >AuthenticationActions</a></code>
-
-                            </div>
-                                <div class="io-description">
-                                    
-                                </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="handleRejectedLogin"></a>
                         <span class="name">
                             <b>
@@ -331,7 +259,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">src/app/store/effects/authentication.effects.ts:187</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/store/effects/authentication.effects.ts:205</a></div>
                             </td>
                         </tr>
 
@@ -409,7 +337,7 @@
             ofType(AuthenticationActionTypes.AcceptLogOut),
             map((action: AcceptLogOut) &#x3D;&gt; {
                 this.router.navigate([&#x27;/login&#x27;])
-                return new  AcceptLogOutSuccess();
+                return new AcceptLogOutSuccess();
             })
         )</code>
                         </td>
@@ -425,7 +353,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/store/effects/authentication.effects.ts:123</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/store/effects/authentication.effects.ts:125</a></div>
                             </td>
                         </tr>
 
@@ -464,19 +392,35 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
             .pipe(
                 ofType(AuthenticationActionTypes.CheckAuthenticationStatus),
                 switchMap(() &#x3D;&gt; {
-                    return this.authService.checkAuthentication(this.authService.extractToken());
-                }),
-                map((payload: CheckTokenResponse) &#x3D;&gt; {
-                    if (this.authService.isExpirationDateOver()) {
-                        return this.handleRejectedLogin(&#x27;expiration date exceeded&#x27;);
-                    }
+                        return this.authService.checkAuthentication(AuthenticationService.extractToken())
+                            .pipe(catchError(()&#x3D;&gt;of(null)));
 
-                    return this.handleLogInAttempt(payload);
                 }),
+                withLatestFrom(this.store.select(selectCode)),
+                switchMap(([payload, code]) &#x3D;&gt; {
+                        //no token stored or token invalid
+                        if (!payload) {
+                            if (!!code)
+                                return this.authService.askTokenFromCode(code).pipe(
+                                    map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
+                                    catchError(error &#x3D;&gt; {
+                                            console.error(&#x27;error while trying log in&#x27;, error);
+                                            return of(this.handleRejectedLogin( &#x27;unable to authenticate the user&#x27;));
+                                        }
+                                    ));
+                            return of(this.handleRejectedLogin(&#x27;invalid token&#x27;));
+                        } else {
+                            if (!AuthenticationService.isExpirationDateOver()) {
+                                const authInfo &#x3D; AuthenticationService.extractIdentificationInformation();
+                                return of(new AcceptLogIn(authInfo));
+                            }
+                            return of(this.handleRejectedLogin(&#x27;expiration date exceeded&#x27;));
+                        }
+                    }
+                ),
                 catchError((err, caught) &#x3D;&gt; {
                     console.error(err);
-                    this.store.dispatch(new RejectLogIn({denialReason: err}));
-                    return caught;
+                    return of(this.handleRejectedLogin(err));
                 })
             )</code>
                         </td>
@@ -492,7 +436,7 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/store/effects/authentication.effects.ts:166</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/app/store/effects/authentication.effects.ts:168</a></div>
                             </td>
                         </tr>
 
@@ -534,7 +478,7 @@ current authentication state.</p>
                             <i>Default value : </i><code>this.actions$
             .pipe(
                 ofType(ConfigActionTypes.LoadConfigSuccess),
-                map(()&#x3D;&gt; new CheckAuthenticationStatus())
+                map(() &#x3D;&gt; new CheckAuthenticationStatus())
             )</code>
                         </td>
                     </tr>
@@ -549,7 +493,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/store/effects/authentication.effects.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/store/effects/authentication.effects.ts:54</a></div>
                             </td>
                         </tr>
 
@@ -584,7 +528,7 @@ current authentication state.</p>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(ofType(AuthenticationActionTypes.RejectLogIn),
             tap(() &#x3D;&gt; {
-                this.authService.clearAuthenticationInformation();
+                AuthenticationService.clearAuthenticationInformation();
             }),
             map(action &#x3D;&gt; new AcceptLogOut()))</code>
                         </td>
@@ -600,7 +544,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/store/effects/authentication.effects.ts:142</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">src/app/store/effects/authentication.effects.ts:144</a></div>
                             </td>
                         </tr>
 
@@ -640,7 +584,7 @@ It tells the {AuthenticationService} to clear authentication information from th
                 ofType(AuthenticationActionTypes.TryToLogIn),
                 switchMap((action: TryToLogIn) &#x3D;&gt; {
                     const payload &#x3D; action.payload;
-                    return this.authService.askToken(payload.username, payload.password).pipe(
+                    return this.authService.askTokenFromPassword(payload.username, payload.password).pipe(
                         map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
                         catchError(error &#x3D;&gt; {
                                 console.error(&#x27;error while trying log in&#x27;, error);
@@ -662,7 +606,7 @@ It tells the {AuthenticationService} to clear authentication information from th
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/store/effects/authentication.effects.ts:74</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/store/effects/authentication.effects.ts:76</a></div>
                             </td>
                         </tr>
 
@@ -704,7 +648,7 @@ on the login button.</p>
                             <i>Default value : </i><code>this.actions$.pipe(
             ofType(AuthenticationActionTypes.TryToLogOut),
             map((action: TryToLogOut) &#x3D;&gt; {
-                this.authService.clearAuthenticationInformation();
+                AuthenticationService.clearAuthenticationInformation();
                 return new AcceptLogOut();
             })
         )</code>
@@ -721,7 +665,7 @@ on the login button.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/store/effects/authentication.effects.ts:102</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/store/effects/authentication.effects.ts:104</a></div>
                             </td>
                         </tr>
 
@@ -752,16 +696,18 @@ import {
     AcceptLogOut,
     AcceptLogOutSuccess,
     AuthenticationActions,
-    AuthenticationActionTypes, CheckAuthenticationStatus,
+    AuthenticationActionTypes,
+    CheckAuthenticationStatus,
     RejectLogIn,
     TryToLogIn,
     TryToLogOut
 } from &#x27;@ofActions/authentication.actions&#x27;;
-import {AuthenticationService, CheckTokenResponse} from &#x27;../../services/authentication.service&#x27;;
-import {catchError, map, switchMap, tap} from &#x27;rxjs/operators&#x27;;
+import {AuthenticationService} from &#x27;../../services/authentication.service&#x27;;
+import {catchError, map, switchMap, tap, withLatestFrom} from &#x27;rxjs/operators&#x27;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {Router} from &quot;@angular/router&quot;;
-import {ConfigActions, ConfigActionTypes} from &quot;@ofActions/config.actions&quot;;
+import {ConfigActionTypes} from &quot;@ofActions/config.actions&quot;;
+import {selectCode} from &quot;@ofSelectors/authentication.selectors&quot;;
 
 /**
  * Management of the authentication of the current user
@@ -791,7 +737,7 @@ export class AuthenticationEffects {
         this.actions$
             .pipe(
                 ofType(ConfigActionTypes.LoadConfigSuccess),
-                map(()&#x3D;&gt; new CheckAuthenticationStatus())
+                map(() &#x3D;&gt; new CheckAuthenticationStatus())
             );
 
     /**
@@ -815,7 +761,7 @@ export class AuthenticationEffects {
                 ofType(AuthenticationActionTypes.TryToLogIn),
                 switchMap((action: TryToLogIn) &#x3D;&gt; {
                     const payload &#x3D; action.payload;
-                    return this.authService.askToken(payload.username, payload.password).pipe(
+                    return this.authService.askTokenFromPassword(payload.username, payload.password).pipe(
                         map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
                         catchError(error &#x3D;&gt; {
                                 console.error(&#x27;error while trying log in&#x27;, error);
@@ -841,7 +787,7 @@ export class AuthenticationEffects {
         this.actions$.pipe(
             ofType(AuthenticationActionTypes.TryToLogOut),
             map((action: TryToLogOut) &#x3D;&gt; {
-                this.authService.clearAuthenticationInformation();
+                AuthenticationService.clearAuthenticationInformation();
                 return new AcceptLogOut();
             })
         );
@@ -863,7 +809,7 @@ export class AuthenticationEffects {
             ofType(AuthenticationActionTypes.AcceptLogOut),
             map((action: AcceptLogOut) &#x3D;&gt; {
                 this.router.navigate([&#x27;/login&#x27;])
-                return new  AcceptLogOutSuccess();
+                return new AcceptLogOutSuccess();
             })
         );
     /**
@@ -880,7 +826,7 @@ export class AuthenticationEffects {
     RejectLogInAttempt: Observable&lt;AuthenticationActions&gt; &#x3D;
         this.actions$.pipe(ofType(AuthenticationActionTypes.RejectLogIn),
             tap(() &#x3D;&gt; {
-                this.authService.clearAuthenticationInformation();
+                AuthenticationService.clearAuthenticationInformation();
             }),
             map(action &#x3D;&gt; new AcceptLogOut()));
 
@@ -906,36 +852,52 @@ export class AuthenticationEffects {
             .pipe(
                 ofType(AuthenticationActionTypes.CheckAuthenticationStatus),
                 switchMap(() &#x3D;&gt; {
-                    return this.authService.checkAuthentication(this.authService.extractToken());
-                }),
-                map((payload: CheckTokenResponse) &#x3D;&gt; {
-                    if (this.authService.isExpirationDateOver()) {
-                        return this.handleRejectedLogin(&#x27;expiration date exceeded&#x27;);
-                    }
+                        return this.authService.checkAuthentication(AuthenticationService.extractToken())
+                            .pipe(catchError(()&#x3D;&gt;of(null)));
 
-                    return this.handleLogInAttempt(payload);
                 }),
+                withLatestFrom(this.store.select(selectCode)),
+                switchMap(([payload, code]) &#x3D;&gt; {
+                        //no token stored or token invalid
+                        if (!payload) {
+                            if (!!code)
+                                return this.authService.askTokenFromCode(code).pipe(
+                                    map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
+                                    catchError(error &#x3D;&gt; {
+                                            console.error(&#x27;error while trying log in&#x27;, error);
+                                            return of(this.handleRejectedLogin( &#x27;unable to authenticate the user&#x27;));
+                                        }
+                                    ));
+                            return of(this.handleRejectedLogin(&#x27;invalid token&#x27;));
+                        } else {
+                            if (!AuthenticationService.isExpirationDateOver()) {
+                                const authInfo &#x3D; AuthenticationService.extractIdentificationInformation();
+                                return of(new AcceptLogIn(authInfo));
+                            }
+                            return of(this.handleRejectedLogin(&#x27;expiration date exceeded&#x27;));
+                        }
+                    }
+                ),
                 catchError((err, caught) &#x3D;&gt; {
                     console.error(err);
-                    this.store.dispatch(new RejectLogIn({denialReason: err}));
-                    return caught;
+                    return of(this.handleRejectedLogin(err));
                 })
             );
 
     handleRejectedLogin(errorMsg: string): AuthenticationActions {
-        this.authService.clearAuthenticationInformation();
+        AuthenticationService.clearAuthenticationInformation();
         return new RejectLogIn({denialReason: errorMsg});
 
     }
 
-    handleLogInAttempt(payload: CheckTokenResponse): AuthenticationActions {
-        if (payload) {
-            const authInfo &#x3D; this.authService.extractIdentificationInformation();
-            return new AcceptLogIn(authInfo);
-
-        }
-        return this.handleRejectedLogin(&#x27;invalid token&#x27;);
-    }
+    // handleLogInAttempt(payload: CheckTokenResponse): AuthenticationActions {
+    //     if (payload) {
+    //         const authInfo &#x3D; this.authService.extractIdentificationInformation();
+    //         return new AcceptLogIn(authInfo);
+    //
+    //     }
+    //     return this.handleRejectedLogin(&#x27;invalid token&#x27;);
+    // }
 
 
 }
