@@ -100,10 +100,6 @@
                                 <a href="#getCardOperation">getCardOperation</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#handleHeaders">handleHeaders</a>
-                            </li>
-                            <li>
                                 <a href="#loadCard">loadCard</a>
                             </li>
                             <li>
@@ -222,7 +218,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/services/card.service.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/services/card.service.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -301,46 +297,6 @@
 
                             <div class="io-description">
                                 <b>Returns : </b>    <code><a href="../classes/Card.html" target="_self" >Observable&lt;CardOperation&gt;</a></code>
-
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="handleHeaders"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            handleHeaders
-                            </b>
-                            <a href="#handleHeaders"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                            <span class="modifier-icon icon ion-ios-reset"></span>
-                        <code>handleHeaders()</code>
-                    </td>
-                </tr>
-
-
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/services/card.service.ts:73</a></div>
-                            </td>
-                        </tr>
-
-
-                <tr>
-                    <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Returns : </b>    <code>{ headers: any; heartbeatTimeout: number; }</code>
 
                             </div>
                     </td>
@@ -440,7 +396,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/services/card.service.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/services/card.service.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -596,9 +552,11 @@ export class CardService {
     getCardOperation(): Observable&lt;CardOperation&gt; {
         let minus2Hour &#x3D; new Date(new Date().valueOf()-2*60*60*1000);
         let plus48Hours &#x3D; new Date(minus2Hour.valueOf()+48*60*60*1000);
+        //security header needed here as SSE request are not intercepted by our header interceptor
         return this.fetchCardOperation(new EventSourcePolyfill(
             &#x60;${this.cardOperationsUrl}&amp;notification&#x3D;true&amp;rangeStart&#x3D;${minus2Hour.valueOf()}&amp;rangeEnd&#x3D;${plus48Hours.valueOf()}&#x60;
-            , this.handleHeaders()));
+            , {headers: AuthenticationService.getSecurityHeader(),
+                heartbeatTimeout: 600000}));
     }
 
     fetchCardOperation(eventSource: EventSourcePolyfill): Observable&lt;CardOperation&gt; {
@@ -628,15 +586,7 @@ export class CardService {
     public updateCardSubscriptionWithDates(rangeStart:number,rangeEnd:number):Observable&lt;any&gt;{
         return this.httpClient.post&lt;any&gt;(
             &#x60;${this.cardOperationsUrl}&#x60;,
-            {rangeStart:rangeStart,rangeEnd: rangeEnd},
-            {headers: AuthenticationService.getSecurityHeader()});
-    }
-
-// sse request not intercepted by core/services/interceptors.services/TokenInjector
-    private handleHeaders() {
-        return {headers: AuthenticationService.getSecurityHeader(),
-            heartbeatTimeout: 600000}
-            ;
+            {rangeStart:rangeStart,rangeEnd: rangeEnd});
     }
 }
 </code></pre>

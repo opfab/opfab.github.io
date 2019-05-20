@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/services/thirds.service.ts:198</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/services/thirds.service.ts:193</a></div>
                             </td>
                         </tr>
 
@@ -178,7 +178,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="202" class="link-to-prism">src/app/services/thirds.service.ts:202</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">src/app/services/thirds.service.ts:197</a></div>
                             </td>
                         </tr>
 
@@ -283,8 +283,7 @@ export class ThirdsService {
         const params &#x3D; new HttpParams()
             .set(&quot;version&quot;, version);
         return this.httpClient.get&lt;Third&gt;(&#x60;${this.thirdsUrl}/${publisher}/&#x60;,{
-            params,
-            headers: AuthenticationService.getSecurityHeader()
+            params
         });
     }
 
@@ -294,7 +293,6 @@ export class ThirdsService {
                 .set(&quot;version&quot;, version);
         return this.httpClient.get(&#x60;${this.thirdsUrl}/${publisher}/templates/${name}&#x60;,{
             params,
-            headers: AuthenticationService.getSecurityHeader(),
             responseType: &#x27;text&#x27;
         });
     }
@@ -313,8 +311,7 @@ export class ThirdsService {
                 .set(&quot;locale&quot;, locale)
                 .set(&quot;version&quot;, version);
             const httpCall &#x3D; this.httpClient.get(&#x60;${this.thirdsUrl}/${publisher}/i18n&#x60;, {
-                params,
-                headers: AuthenticationService.getSecurityHeader()
+                params
             }).pipe(
                 map(r &#x3D;&gt; {
                         const object &#x3D; {};
@@ -341,9 +338,7 @@ export class ThirdsService {
     }
 
     computeThirdsMenu(): Observable&lt;ThirdMenu[]&gt;{
-        return this.httpClient.get&lt;Third[]&gt;(&#x60;${this.thirdsUrl}/&#x60;, {
-            headers: AuthenticationService.getSecurityHeader()
-        }).pipe(
+        return this.httpClient.get&lt;Third[]&gt;(&#x60;${this.thirdsUrl}/&#x60;).pipe(
             switchMap(ts&#x3D;&gt;from(ts)),
             filter((t:Third)&#x3D;&gt;!(!t.menuEntries)),
             map(t&#x3D;&gt;
