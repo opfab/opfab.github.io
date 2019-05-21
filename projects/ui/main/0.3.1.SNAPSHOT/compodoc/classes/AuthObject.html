@@ -127,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="258" class="link-to-prism">src/app/services/authentication.service.ts:258</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="266" class="link-to-prism">src/app/services/authentication.service.ts:266</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +227,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="261" class="link-to-prism">src/app/services/authentication.service.ts:261</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="269" class="link-to-prism">src/app/services/authentication.service.ts:269</a></div>
                             </td>
                         </tr>
 
@@ -255,7 +255,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="263" class="link-to-prism">src/app/services/authentication.service.ts:263</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="271" class="link-to-prism">src/app/services/authentication.service.ts:271</a></div>
                             </td>
                         </tr>
 
@@ -283,7 +283,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="262" class="link-to-prism">src/app/services/authentication.service.ts:262</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="270" class="link-to-prism">src/app/services/authentication.service.ts:270</a></div>
                             </td>
                         </tr>
 
@@ -312,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="264" class="link-to-prism">src/app/services/authentication.service.ts:264</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="272" class="link-to-prism">src/app/services/authentication.service.ts:272</a></div>
                             </td>
                         </tr>
 
@@ -423,7 +423,7 @@ export class AuthenticationService {
         params.append(&#x27;grant_type&#x27;, &#x27;authorization_code&#x27;);
 // beware clientId for token defines a type of authentication
         params.append(&#x27;clientId&#x27;, this.clientId);
-        params.append(&#x27;redirect_uri&#x27;, window.location.origin);
+        params.append(&#x27;redirect_uri&#x27;, AuthenticationService.computeRedirectUri());
 
         const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
         return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl, params.toString(), {headers: headers}));
@@ -533,6 +533,8 @@ export class AuthenticationService {
         );
     }
 
+
+
     /**
      * helper method to convert an {AuthObject} instance into a {PayloadForSuccessfulAuthentication} instance.
      * @param payload
@@ -565,7 +567,13 @@ export class AuthenticationService {
     public moveToCodeFlowLoginPage() {
         if (!this.clientId || !this.clientSecret)
             return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
-        window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${location.origin}&#x60;;
+        window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${AuthenticationService.computeRedirectUri()}&#x60;;
+    }
+
+    static computeRedirectUri(){
+        const uriBase &#x3D; location.origin;
+        const pathEnd &#x3D; (location.pathname.length &gt; 1)?location.pathname:&#x27;&#x27;;
+        return &#x60;${uriBase}${pathEnd}&#x60;
     }
 
     static decodeToken(token: string): any {

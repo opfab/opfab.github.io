@@ -126,6 +126,10 @@
                                 <a href="#clearAuthenticationInformation">clearAuthenticationInformation</a>
                             </li>
                             <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#computeRedirectUri">computeRedirectUri</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#convert">convert</a>
                             </li>
@@ -630,6 +634,46 @@ an error is thrown otherwise</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="computeRedirectUri"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                            computeRedirectUri
+                            </b>
+                            <a href="#computeRedirectUri"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>computeRedirectUri()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="247" class="link-to-prism">src/app/services/authentication.service.ts:247</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="convert"></a>
                         <span class="name">
                             <b>
@@ -650,7 +694,7 @@ an error is thrown otherwise</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="214" class="link-to-prism">src/app/services/authentication.service.ts:214</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">src/app/services/authentication.service.ts:216</a></div>
                             </td>
                         </tr>
 
@@ -723,7 +767,7 @@ an error is thrown otherwise</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="245" class="link-to-prism">src/app/services/authentication.service.ts:245</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="253" class="link-to-prism">src/app/services/authentication.service.ts:253</a></div>
                             </td>
                         </tr>
 
@@ -884,7 +928,7 @@ expiration date and clientId</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="235" class="link-to-prism">src/app/services/authentication.service.ts:235</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="237" class="link-to-prism">src/app/services/authentication.service.ts:237</a></div>
                             </td>
                         </tr>
 
@@ -1115,7 +1159,7 @@ expiration date and clientId</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="239" class="link-to-prism">src/app/services/authentication.service.ts:239</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="241" class="link-to-prism">src/app/services/authentication.service.ts:241</a></div>
                             </td>
                         </tr>
 
@@ -1534,7 +1578,7 @@ export class AuthenticationService {
         params.append(&#x27;grant_type&#x27;, &#x27;authorization_code&#x27;);
 // beware clientId for token defines a type of authentication
         params.append(&#x27;clientId&#x27;, this.clientId);
-        params.append(&#x27;redirect_uri&#x27;, window.location.origin);
+        params.append(&#x27;redirect_uri&#x27;, AuthenticationService.computeRedirectUri());
 
         const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
         return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl, params.toString(), {headers: headers}));
@@ -1644,6 +1688,8 @@ export class AuthenticationService {
         );
     }
 
+
+
     /**
      * helper method to convert an {AuthObject} instance into a {PayloadForSuccessfulAuthentication} instance.
      * @param payload
@@ -1676,7 +1722,13 @@ export class AuthenticationService {
     public moveToCodeFlowLoginPage() {
         if (!this.clientId || !this.clientSecret)
             return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
-        window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${location.origin}&#x60;;
+        window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${AuthenticationService.computeRedirectUri()}&#x60;;
+    }
+
+    static computeRedirectUri(){
+        const uriBase &#x3D; location.origin;
+        const pathEnd &#x3D; (location.pathname.length &gt; 1)?location.pathname:&#x27;&#x27;;
+        return &#x60;${uriBase}${pathEnd}&#x60;
     }
 
     static decodeToken(token: string): any {
