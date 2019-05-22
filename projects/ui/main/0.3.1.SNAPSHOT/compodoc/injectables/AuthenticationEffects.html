@@ -136,7 +136,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/store/effects/authentication.effects.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/store/effects/authentication.effects.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -252,14 +252,14 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-<code>handleRejectedLogin(errorMsg: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>handleRejectedLogin(errorMsg: <a href="../classes/Message.html">Message</a>)</code>
                     </td>
                 </tr>
 
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/store/effects/authentication.effects.ts:205</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="251" class="link-to-prism">src/app/store/effects/authentication.effects.ts:251</a></div>
                             </td>
                         </tr>
 
@@ -281,7 +281,7 @@
                                                 <tr>
                                                         <td>errorMsg</td>
                                                         <td>
-                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                                    <code><a href="../classes/Message.html" target="_self" >Message</a></code>
                                                         </td>
                                                     
                                                     <td>
@@ -353,7 +353,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/store/effects/authentication.effects.ts:125</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/store/effects/authentication.effects.ts:145</a></div>
                             </td>
                         </tr>
 
@@ -392,8 +392,8 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
             .pipe(
                 ofType(AuthenticationActionTypes.CheckAuthenticationStatus),
                 switchMap(() &#x3D;&gt; {
-                        return this.authService.checkAuthentication(AuthenticationService.extractToken())
-                            .pipe(catchError(()&#x3D;&gt;of(null)));
+                    return this.authService.checkAuthentication(AuthenticationService.extractToken())
+                        .pipe(catchError(() &#x3D;&gt; of(null)));
 
                 }),
                 withLatestFrom(this.store.select(selectCode)),
@@ -403,24 +403,50 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                             if (!!code)
                                 return this.authService.askTokenFromCode(code).pipe(
                                     map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
-                                    catchError(error &#x3D;&gt; {
-                                            console.error(&#x27;error while trying log in&#x27;, error);
-                                            return of(this.handleRejectedLogin( &#x27;unable to authenticate the user&#x27;));
+                                    catchError(errorResponse &#x3D;&gt; {
+                                        let message, key;
+                                        let params &#x3D; new Map&lt;string&gt;()
+                                        switch (errorResponse.status) {
+                                            case 401:
+                                                message &#x3D; &#x27;Unable to authenticate the user&#x27;;
+                                                key &#x3D; &#x27;login.error.code&#x27;;
+                                                break;
+                                            case 0:
+                                            case 500:
+                                                message &#x3D; &#x27;Authentication service currently unavailable&#x27;;
+                                                key &#x3D; &#x27;login.error.unavailable&#x27;;
+                                                break;
+                                            default:
+                                                message &#x3D; &#x27;Unexpected error&#x27;;
+                                                key &#x3D; &#x27;login.error.unexpected&#x27;;
+                                                params[&#x27;error&#x27;] &#x3D; errorResponse.message;
+                                        }
+                                        console.error(message, errorResponse);
+                                        return of(new RejectLogIn({error: new Message(message, MessageLevel.ERROR, new I18n(key, params))}));
                                         }
                                     ));
-                            return of(this.handleRejectedLogin(&#x27;invalid token&#x27;));
+                            return of(this.handleRejectedLogin(new Message(&#x27;The stored token is invalid&#x27;,
+                                MessageLevel.ERROR,
+                                new I18n(&#x27;login.error.token.invalid&#x27;))));
                         } else {
                             if (!AuthenticationService.isExpirationDateOver()) {
                                 const authInfo &#x3D; AuthenticationService.extractIdentificationInformation();
                                 return of(new AcceptLogIn(authInfo));
                             }
-                            return of(this.handleRejectedLogin(&#x27;expiration date exceeded&#x27;));
+                            return of(this.handleRejectedLogin(new Message(&#x27;The stored token has expired&#x27;,
+                                MessageLevel.ERROR,
+                                new I18n(&#x27;login.error.token.expiration&#x27;))));
                         }
                     }
                 ),
                 catchError((err, caught) &#x3D;&gt; {
                     console.error(err);
-                    return of(this.handleRejectedLogin(err));
+                    const parameters &#x3D; new Map&lt;string&gt;();
+                    parameters[&#x27;message&#x27;] &#x3D; err;
+                    return of(this.handleRejectedLogin(new Message(err,
+                        MessageLevel.ERROR,
+                        new I18n(&#x27;login.error.unexpected&#x27;, parameters)
+                    )));
                 })
             )</code>
                         </td>
@@ -436,7 +462,7 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/app/store/effects/authentication.effects.ts:168</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">src/app/store/effects/authentication.effects.ts:188</a></div>
                             </td>
                         </tr>
 
@@ -493,7 +519,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/store/effects/authentication.effects.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/store/effects/authentication.effects.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -544,7 +570,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">src/app/store/effects/authentication.effects.ts:144</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/store/effects/authentication.effects.ts:164</a></div>
                             </td>
                         </tr>
 
@@ -586,9 +612,26 @@ It tells the {AuthenticationService} to clear authentication information from th
                     const payload &#x3D; action.payload;
                     return this.authService.askTokenFromPassword(payload.username, payload.password).pipe(
                         map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
-                        catchError(error &#x3D;&gt; {
-                                console.error(&#x27;error while trying log in&#x27;, error);
-                                return of(new RejectLogIn({denialReason: &#x27;unable to authenticate the user&#x27;}));
+                        catchError(errorResponse &#x3D;&gt; {
+                                let message, key;
+                                let params &#x3D; new Map&lt;string&gt;()
+                                switch (errorResponse.status) {
+                                    case 401:
+                                        message &#x3D; &#x27;Unable to authenticate the user&#x27;;
+                                        key &#x3D; &#x27;login.error.authenticate&#x27;;
+                                        break;
+                                    case 0:
+                                    case 500:
+                                        message &#x3D; &#x27;Authentication service currently unavailable&#x27;;
+                                        key &#x3D; &#x27;login.error.unavailable&#x27;;
+                                        break;
+                                    default:
+                                        message &#x3D; &#x27;Unexpected error&#x27;;
+                                        key &#x3D; &#x27;login.error.unexpected&#x27;;
+                                        params[&#x27;error&#x27;] &#x3D; errorResponse.message;
+                                }
+                                console.error(message, errorResponse);
+                                return of(new RejectLogIn({error: new Message(message, MessageLevel.ERROR, new I18n(key, params))}));
                             }
                         ));
                 })
@@ -606,7 +649,7 @@ It tells the {AuthenticationService} to clear authentication information from th
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/store/effects/authentication.effects.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/store/effects/authentication.effects.ts:79</a></div>
                             </td>
                         </tr>
 
@@ -665,7 +708,7 @@ on the login button.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/store/effects/authentication.effects.ts:104</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">src/app/store/effects/authentication.effects.ts:124</a></div>
                             </td>
                         </tr>
 
@@ -708,6 +751,9 @@ import {AppState} from &quot;@ofStore/index&quot;;
 import {Router} from &quot;@angular/router&quot;;
 import {ConfigActionTypes} from &quot;@ofActions/config.actions&quot;;
 import {selectCode} from &quot;@ofSelectors/authentication.selectors&quot;;
+import {Message, MessageLevel} from &quot;@ofModel/message.model&quot;;
+import {I18n} from &quot;@ofModel/i18n.model&quot;;
+import {Map} from &quot;@ofModel/map&quot;;
 
 /**
  * Management of the authentication of the current user
@@ -763,9 +809,26 @@ export class AuthenticationEffects {
                     const payload &#x3D; action.payload;
                     return this.authService.askTokenFromPassword(payload.username, payload.password).pipe(
                         map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
-                        catchError(error &#x3D;&gt; {
-                                console.error(&#x27;error while trying log in&#x27;, error);
-                                return of(new RejectLogIn({denialReason: &#x27;unable to authenticate the user&#x27;}));
+                        catchError(errorResponse &#x3D;&gt; {
+                                let message, key;
+                                let params &#x3D; new Map&lt;string&gt;()
+                                switch (errorResponse.status) {
+                                    case 401:
+                                        message &#x3D; &#x27;Unable to authenticate the user&#x27;;
+                                        key &#x3D; &#x27;login.error.authenticate&#x27;;
+                                        break;
+                                    case 0:
+                                    case 500:
+                                        message &#x3D; &#x27;Authentication service currently unavailable&#x27;;
+                                        key &#x3D; &#x27;login.error.unavailable&#x27;;
+                                        break;
+                                    default:
+                                        message &#x3D; &#x27;Unexpected error&#x27;;
+                                        key &#x3D; &#x27;login.error.unexpected&#x27;;
+                                        params[&#x27;error&#x27;] &#x3D; errorResponse.message;
+                                }
+                                console.error(message, errorResponse);
+                                return of(new RejectLogIn({error: new Message(message, MessageLevel.ERROR, new I18n(key, params))}));
                             }
                         ));
                 })
@@ -852,8 +915,8 @@ export class AuthenticationEffects {
             .pipe(
                 ofType(AuthenticationActionTypes.CheckAuthenticationStatus),
                 switchMap(() &#x3D;&gt; {
-                        return this.authService.checkAuthentication(AuthenticationService.extractToken())
-                            .pipe(catchError(()&#x3D;&gt;of(null)));
+                    return this.authService.checkAuthentication(AuthenticationService.extractToken())
+                        .pipe(catchError(() &#x3D;&gt; of(null)));
 
                 }),
                 withLatestFrom(this.store.select(selectCode)),
@@ -863,30 +926,56 @@ export class AuthenticationEffects {
                             if (!!code)
                                 return this.authService.askTokenFromCode(code).pipe(
                                     map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
-                                    catchError(error &#x3D;&gt; {
-                                            console.error(&#x27;error while trying log in&#x27;, error);
-                                            return of(this.handleRejectedLogin( &#x27;unable to authenticate the user&#x27;));
+                                    catchError(errorResponse &#x3D;&gt; {
+                                        let message, key;
+                                        let params &#x3D; new Map&lt;string&gt;()
+                                        switch (errorResponse.status) {
+                                            case 401:
+                                                message &#x3D; &#x27;Unable to authenticate the user&#x27;;
+                                                key &#x3D; &#x27;login.error.code&#x27;;
+                                                break;
+                                            case 0:
+                                            case 500:
+                                                message &#x3D; &#x27;Authentication service currently unavailable&#x27;;
+                                                key &#x3D; &#x27;login.error.unavailable&#x27;;
+                                                break;
+                                            default:
+                                                message &#x3D; &#x27;Unexpected error&#x27;;
+                                                key &#x3D; &#x27;login.error.unexpected&#x27;;
+                                                params[&#x27;error&#x27;] &#x3D; errorResponse.message;
+                                        }
+                                        console.error(message, errorResponse);
+                                        return of(new RejectLogIn({error: new Message(message, MessageLevel.ERROR, new I18n(key, params))}));
                                         }
                                     ));
-                            return of(this.handleRejectedLogin(&#x27;invalid token&#x27;));
+                            return of(this.handleRejectedLogin(new Message(&#x27;The stored token is invalid&#x27;,
+                                MessageLevel.ERROR,
+                                new I18n(&#x27;login.error.token.invalid&#x27;))));
                         } else {
                             if (!AuthenticationService.isExpirationDateOver()) {
                                 const authInfo &#x3D; AuthenticationService.extractIdentificationInformation();
                                 return of(new AcceptLogIn(authInfo));
                             }
-                            return of(this.handleRejectedLogin(&#x27;expiration date exceeded&#x27;));
+                            return of(this.handleRejectedLogin(new Message(&#x27;The stored token has expired&#x27;,
+                                MessageLevel.ERROR,
+                                new I18n(&#x27;login.error.token.expiration&#x27;))));
                         }
                     }
                 ),
                 catchError((err, caught) &#x3D;&gt; {
                     console.error(err);
-                    return of(this.handleRejectedLogin(err));
+                    const parameters &#x3D; new Map&lt;string&gt;();
+                    parameters[&#x27;message&#x27;] &#x3D; err;
+                    return of(this.handleRejectedLogin(new Message(err,
+                        MessageLevel.ERROR,
+                        new I18n(&#x27;login.error.unexpected&#x27;, parameters)
+                    )));
                 })
             );
 
-    handleRejectedLogin(errorMsg: string): AuthenticationActions {
+    handleRejectedLogin(errorMsg: Message): AuthenticationActions {
         AuthenticationService.clearAuthenticationInformation();
-        return new RejectLogIn({denialReason: errorMsg});
+        return new RejectLogIn({error: errorMsg});
 
     }
 

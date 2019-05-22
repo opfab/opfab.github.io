@@ -34,7 +34,7 @@
 
 <ol class="breadcrumb">
     <li>Modules</li>
-    <li>AppRoutingModule</li>
+    <li>ThirdpartyRoutingModule</li>
 </ol>
 
 
@@ -54,7 +54,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/app-routing.module.ts</code>
+            <code>src/app/modules/thirdparty/thirdparty-routing.module.ts</code>
         </p>
 
 
@@ -78,46 +78,23 @@
  */
 
 import {NgModule} from &#x27;@angular/core&#x27;;
-import {PreloadAllModules, RouterModule, Routes} from &#x27;@angular/router&#x27;;
-// import {AuthenticationGuard} from &#x27;@ofServices/guard.service&#x27;;
-import {LoginComponent} from &#x27;./components/login/login.component&#x27;;
-import {environment} from &quot;@env/environment&quot;;
+import {RouterModule, Routes} from &#x27;@angular/router&#x27;;
+// import {AuthenticationGuard} from &quot;@ofServices/guard.service&quot;;
+import {IframeDisplayComponent} from &quot;./iframedisplay.component&quot;;
 
 const routes: Routes &#x3D; [
-    // {
-    //     path: &#x27;login&#x27;,
-    //     component: LoginComponent
-    // },
     {
-        path: &#x27;feed&#x27;,
-        loadChildren: &#x27;./modules/feed/feed.module#FeedModule&#x27;,
+        path: &#x27;&#x27;,
+        component: IframeDisplayComponent,
         // canActivate: [AuthenticationGuard]
     },
-    {
-        path: &#x27;archives&#x27;,
-        loadChildren: &#x27;./modules/archives/archives.module#ArchivesModule&#x27;,
-        // canActivate: [AuthenticationGuard]
-    },
-    {
-        path: &#x27;thirdparty&#x27;,
-        loadChildren: &#x27;./modules/thirdparty/thirdparty.module#ThirdpartyModule&#x27;,
-        // canActivate: [AuthenticationGuard]
-    },
-    {
-        path: &#x27;navbar&#x27;,
-        component: LoginComponent
-    },
-    {path: &#x27;**&#x27;, redirectTo: &#x27;/feed&#x27;}
 ];
-// TODO manage visible path more gently
-export const navigationRoutes: Routes &#x3D; routes.slice(0, 2);
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes,{ enableTracing: !environment.production, preloadingStrategy: PreloadAllModules })],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class ThirdpartyRoutingModule { }
 </code></pre>
     </div>
 </div>
@@ -152,7 +129,7 @@ export class AppRoutingModule {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
-            var COMPODOC_CURRENT_PAGE_URL = 'AppRoutingModule.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ThirdpartyRoutingModule.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
