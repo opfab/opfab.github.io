@@ -161,6 +161,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#configureL10nWithEnglishAsDefault">configureL10nWithEnglishAsDefault</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnInit">ngOnInit</a>
                             </li>
                         </ul>
@@ -249,6 +253,46 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="configureL10nWithEnglishAsDefault"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            configureL10nWithEnglishAsDefault
+                            </b>
+                            <a href="#configureL10nWithEnglishAsDefault"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>configureL10nWithEnglishAsDefault()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/app.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="ngOnInit"></a>
                         <span class="name">
                             <b>
@@ -267,7 +311,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/app.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/app.component.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -486,7 +530,7 @@ Once the subscription done, send an Action to Check the current authentication s
 import {select, Store} from &#x27;@ngrx/store&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
 import {map} from &#x27;rxjs/operators&#x27;;
-import {CheckAuthenticationStatus, InitAuthStatus} from &#x27;@ofActions/authentication.actions&#x27;;
+import {InitAuthStatus} from &#x27;@ofActions/authentication.actions&#x27;;
 import {AppState} from &#x27;@ofStore/index&#x27;;
 import {selectCurrentUrl, selectRouterState} from &#x27;@ofSelectors/router.selectors&#x27;;
 import {selectExpirationTime} from &#x27;@ofSelectors/authentication.selectors&#x27;;
@@ -510,9 +554,14 @@ export class AppComponent implements OnInit {
 
     constructor(private store: Store&lt;AppState&gt;,
                 private translate: TranslateService) {
-
         this.getRoutePE &#x3D; this.store.pipe(select(selectRouterState));
+        this.configureL10nWithEnglishAsDefault();
+    }
+
+    private configureL10nWithEnglishAsDefault() {
         this.translate.setDefaultLang(&#x27;en&#x27;);
+        const browserLang &#x3D; this.translate.getBrowserLang();
+        this.translate.use(browserLang);
     }
 
     /**
