@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>LoadLightCardsExtendedData</li>
+  <li>ClearCard</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/light-card.actions.ts</code>
+            <code>src/app/store/actions/card.actions.ts</code>
         </p>
 
 
@@ -102,24 +102,6 @@
     </table>
 </section>
 
-            <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor()</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/store/actions/light-card.actions.ts:42</a></div>
-                            </td>
-                        </tr>
-
-            </tbody>
-        </table>
-</section>
 
             <section>
     
@@ -141,12 +123,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>LightCardActionTypes.LoadLightCardsExtendedData</code>
+                            <i>Default value : </i><code>CardActionTypes.ClearCard</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/store/actions/light-card.actions.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/store/actions/card.actions.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -166,96 +148,53 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &#x27;@ngrx/store&#x27;;
-import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
+import {Card} from &#x27;@ofModel/card.model&#x27;;
 
-export enum LightCardActionTypes {
-    LoadLightCards &#x3D; &#x27;[LCard] Load&#x27;,
-    EmptyLightCards &#x3D; &#x27;[LCard] Empty&#x27;,
-    LoadLightCardsSuccess &#x3D; &#x27;[LCard] Load Success&#x27;,
-    LoadLightCardsExtendedData &#x3D; &#x27;[LCard] Load Extended Data&#x27;,
-    LoadLightCardsFailure &#x3D; &#x27;[LCard] Load Fail&#x27;,
-    SelectLightCard &#x3D; &#x27;[LCard] Select One&#x27;,
-    AddLightCardFailure &#x3D; &#x27;[LCard] Add Light Card Fail&#x27;,
-    UpdatedSubscription &#x3D; &#x27;[LCard] UpdateSubscription&#x27;,
-    HandleUnexpectedError &#x3D; &#x27;[LCard] Handle unexpected error related to authentication issue&#x27;,
+export enum CardActionTypes {
+    ClearCard &#x3D; &#x27;[Card] Clear&#x27;,
+    LoadCard &#x3D; &#x27;[Card] Load Card&#x27;,
+    LoadCardSuccess &#x3D; &#x27;[Card] Load Card Success&#x27;,
+    LoadCardFailure &#x3D; &#x27;[Card] Load Card Fail&#x27;,
+    HandleUnexpectedError &#x3D; &#x27;[Card] Handle unexpected error related to card issue&#x27;
 }
 // needed by NGRX entities
-export class LoadLightCards implements Action {
+export class ClearCard implements Action {
+    readonly type &#x3D; CardActionTypes.ClearCard;
+}
+export class LoadCard implements Action {
+    readonly type &#x3D; CardActionTypes.LoadCard;
+
     /* istanbul ignore next */
-    readonly type &#x3D; LightCardActionTypes.LoadLightCards;
+    constructor(public payload: { id: string }) {}
+}
+export class LoadCardFailure implements Action {
+    readonly type &#x3D; CardActionTypes.LoadCardFailure;
+
+    /* istanbul ignore next */
+    constructor(public payload: { error: Error }) {}
 }
 
-export class EmptyLightCards implements Action {
-    /* istanbul ignore next */
-    readonly type &#x3D; LightCardActionTypes.EmptyLightCards;
-}
-
-export class LoadLightCardsSuccess implements Action {
-    readonly type &#x3D; LightCardActionTypes.LoadLightCardsSuccess;
+export class LoadCardSuccess implements Action {
+    readonly type &#x3D; CardActionTypes.LoadCardSuccess;
 
     /* istanbul ignore next */
-    constructor(public payload: { lightCards: LightCard[] }) {
-    }
-}
-
-export class LoadLightCardsExtendedData implements Action {
-    readonly type &#x3D; LightCardActionTypes.LoadLightCardsExtendedData;
-
-    /* istanbul ignore next */
-    constructor() {
-    }
-}
-
-export class LoadLightCardsFailure implements Action {
-    readonly type &#x3D; LightCardActionTypes.LoadLightCardsFailure;
-
-    /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
-    }
-}
-
-export class SelectLightCard implements Action {
-    /* istanbul ignore next */
-    readonly type &#x3D; LightCardActionTypes.SelectLightCard;
-    /* istanbul ignore next */
-    constructor(public payload: {selectedCardId:string}){}
-
-}
-
-export class AddLightCardFailure implements Action {
-    readonly type &#x3D; LightCardActionTypes.AddLightCardFailure;
-
-    /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
-    }
-}
-
-export class UpdatedSubscription implements Action {
-    readonly type &#x3D; LightCardActionTypes.UpdatedSubscription;
-
-    /* istanbul ignore next */
-    constructor() {
-    }
+    constructor(public payload: { card: Card }) {}
 }
 
 export class HandleUnexpectedError implements Action {
     /* istanbul ignore next */
-    readonly type &#x3D; LightCardActionTypes.HandleUnexpectedError;
-    /* istanbul ignore next */
-    constructor(public payload: {error: Error}) {
+    readonly type &#x3D; CardActionTypes.HandleUnexpectedError;
 
-    }
+    /* istanbul ignore next */
+    constructor(public payload: {error: Error}) {}
 }
 
-export type LightCardActions &#x3D;
-    LoadLightCards
-    | LoadLightCardsSuccess
-    | LoadLightCardsFailure
-    | SelectLightCard
-    | AddLightCardFailure
-    | UpdatedSubscription
-    | HandleUnexpectedError
-    | EmptyLightCards;
+export type CardActions &#x3D;
+    ClearCard
+    | LoadCard
+    | LoadCardSuccess
+    | LoadCardFailure
+    | HandleUnexpectedError;
 </code></pre>
     </div>
 </div>
@@ -283,7 +222,7 @@ export type LightCardActions &#x3D;
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'LoadLightCardsExtendedData.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ClearCard.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -209,7 +209,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -277,7 +277,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -298,12 +298,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>true</code>
+                        <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -339,7 +339,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -379,7 +379,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -423,7 +423,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -450,7 +450,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -479,7 +479,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/modules/cards/components/card/card.component.ts:53</a></div>
                                 </td>
                             </tr>
 
@@ -496,6 +496,8 @@ import {Router} from &#x27;@angular/router&#x27;;
 import {selectCurrentUrl} from &#x27;@ofStore/selectors/router.selectors&#x27;;
 import {Store} from &#x27;@ngrx/store&#x27;;
 import {AppState} from &#x27;@ofStore/index&#x27;;
+import {selectCardStateSelectedId} from &quot;@ofSelectors/card.selectors&quot;;
+import {map} from &quot;rxjs/operators&quot;;
 
 @Component({
     selector: &#x27;of-card&#x27;,
@@ -504,11 +506,12 @@ import {AppState} from &#x27;@ofStore/index&#x27;;
 })
 export class CardComponent implements OnInit{
 
-    @Input() public open: boolean &#x3D; true;
+    @Input() public open: boolean &#x3D; false;
     @Input() public lightCard: LightCard;
     currentPath: any;
     private _i18nPrefix: string;
 
+    /* istanbul ignore next */
     constructor(private router: Router,
                 private store: Store&lt;AppState&gt;) {
 
@@ -524,8 +527,12 @@ export class CardComponent implements OnInit{
         this.store.select(selectCurrentUrl).subscribe(url&#x3D;&gt;{
             if(url)
                 this.currentPath &#x3D; url.split(&#x27;/&#x27;)[1];
-        })
-        this.open&#x3D;true;
+        });
+        this.store.select(selectCardStateSelectedId)
+            .pipe(
+                map(id&#x3D;&gt;this.lightCard.id &#x3D;&#x3D; id)
+            ).subscribe(open&#x3D;&gt;this.open &#x3D; open)
+        ;
     }
 
     get i18nPrefix(): string {
@@ -543,7 +550,7 @@ export class CardComponent implements OnInit{
 &lt;!-- License, v. 2.0. If a copy of the MPL was not distributed with this --&gt;
 &lt;!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --&gt;
 
-&lt;div class&#x3D;&quot;card light-card-detail bg-dark rounded&quot; (click)&#x3D;&quot;select()&quot;&gt;
+&lt;div class&#x3D;&quot;card light-card-detail bg-dark rounded&quot; [class.border-light]&#x3D;&quot;open&quot; (click)&#x3D;&quot;select()&quot;&gt;
     &lt;div class&#x3D;&quot;d-flex card-header p-0 border-0&quot;&gt;
         &lt;div class&#x3D;&quot;badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}}&quot;
              [class.rounded-left]&#x3D;&quot;!open&quot;&gt;
@@ -626,7 +633,7 @@ export class CardComponent implements OnInit{
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="card light-card-detail bg-dark rounded" (click)="select()">    <div class="d-flex card-header p-0 border-0">        <div class="badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}}"             [class.rounded-left]="!open">        </div>        <div class="p-1">            <p class="card-title" translate [translateParams]="lightCard.title.parameters">{{i18nPrefix+lightCard.title.key}}</p>            <p class="card-subtitle">({{lightCard.startDate|date:\'short\'}} - {{lightCard.endDate|date:\'short\'}})</p>        </div>    </div>    <div class="d-flex card-body p-0 border-0" *ngIf="open">        <div class="badge-border rounded-bottom-left bg-sev-{{lightCard.severity.toString()|lowercase}}"></div>        <div class="card-text p-1" translate [translateParams]="lightCard.summary.parameters">            {{i18nPrefix+lightCard.summary.key}}        </div>    </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="card light-card-detail bg-dark rounded" [class.border-light]="open" (click)="select()">    <div class="d-flex card-header p-0 border-0">        <div class="badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}}"             [class.rounded-left]="!open">        </div>        <div class="p-1">            <p class="card-title" translate [translateParams]="lightCard.title.parameters">{{i18nPrefix+lightCard.title.key}}</p>            <p class="card-subtitle">({{lightCard.startDate|date:\'short\'}} - {{lightCard.endDate|date:\'short\'}})</p>        </div>    </div>    <div class="d-flex card-body p-0 border-0" *ngIf="open">        <div class="badge-border rounded-bottom-left bg-sev-{{lightCard.severity.toString()|lowercase}}"></div>        <div class="card-text p-1" translate [translateParams]="lightCard.summary.parameters">            {{i18nPrefix+lightCard.summary.key}}        </div>    </div></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'CardComponent'};

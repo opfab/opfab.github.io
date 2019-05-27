@@ -351,11 +351,15 @@ export class CardDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.select(cardSelectors.selectCardStateSelection)
+        this.store.select(cardSelectors.selectCardStateSelected)
             .subscribe(card &#x3D;&gt; {
                 this.card &#x3D; card;
                 if(card) {
-                    this.details &#x3D; [...&lt;Detail[]&gt;card.details];
+                    if(card.details) {
+                        this.details &#x3D; [...&lt;Detail[]&gt;card.details];
+                    }else{
+                        this.details &#x3D; [];
+                    }
                     this.thirdsService.queryThird(this.card.publisher, this.card.publisherVersion)
                         .subscribe(third &#x3D;&gt; {
                             const state &#x3D; third.extractState(this.card)

@@ -197,6 +197,7 @@
             ofType(AuthenticationActionTypes.AcceptLogIn),
             switchMap(() &#x3D;&gt; this.service.getCardOperation()
                 .pipe(
+                    takeUntil(this.service.unsubscribe$),
                     map(operation &#x3D;&gt; {
                         if (operation.type &amp;&amp; operation.type.toString() &#x3D;&#x3D;&#x3D; &#x27;ADD&#x27;) {
                             const opCards &#x3D; operation.cards;
@@ -289,7 +290,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -306,7 +307,7 @@
 import {Actions, Effect, ofType} from &#x27;@ngrx/effects&#x27;;
 import {CardService} from &#x27;@ofServices/card.service&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
-import {catchError, filter, map, switchMap} from &#x27;rxjs/operators&#x27;;
+import {catchError, filter, map, switchMap, takeUntil} from &#x27;rxjs/operators&#x27;;
 import {
     AddLightCardFailure,
     HandleUnexpectedError,
@@ -336,6 +337,7 @@ export class CardOperationEffects {
             ofType(AuthenticationActionTypes.AcceptLogIn),
             switchMap(() &#x3D;&gt; this.service.getCardOperation()
                 .pipe(
+                    takeUntil(this.service.unsubscribe$),
                     map(operation &#x3D;&gt; {
                         if (operation.type &amp;&amp; operation.type.toString() &#x3D;&#x3D;&#x3D; &#x27;ADD&#x27;) {
                             const opCards &#x3D; operation.cards;

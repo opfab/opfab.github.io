@@ -293,10 +293,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/CheckTokenResponse.html" data-type="entity-link">CheckTokenResponse</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ClearCard.html" data-type="entity-link">ClearCard</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/CustomRouterStateSerializer.html" data-type="entity-link">CustomRouterStateSerializer</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Detail.html" data-type="entity-link">Detail</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/EmptyLightCards.html" data-type="entity-link">EmptyLightCards</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Filter.html" data-type="entity-link">Filter</a>
