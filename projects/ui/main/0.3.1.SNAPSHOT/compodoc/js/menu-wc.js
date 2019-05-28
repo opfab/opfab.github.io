@@ -424,6 +424,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <li class="link">
                                 <a href="classes/UpdatedSubscription.html" data-type="entity-link">UpdatedSubscription</a>
                             </li>
+                            <li class="link">
+                                <a href="classes/UpdateSelectedMenu.html" data-type="entity-link">UpdateSelectedMenu</a>
+                            </li>
                         </ul>
                     </li>
                         <li class="chapter">
@@ -457,9 +460,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/FilterService.html" data-type="entity-link">FilterService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="injectables/IframeService.html" data-type="entity-link">IframeService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/LightCardEffects.html" data-type="entity-link">LightCardEffects</a>
