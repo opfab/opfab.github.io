@@ -125,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="281" class="link-to-prism">src/app/services/authentication.service.ts:281</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="287" class="link-to-prism">src/app/services/authentication.service.ts:287</a></div>
                             </td>
                         </tr>
 
@@ -214,7 +214,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="285" class="link-to-prism">src/app/services/authentication.service.ts:285</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="291" class="link-to-prism">src/app/services/authentication.service.ts:291</a></div>
                             </td>
                         </tr>
 
@@ -243,7 +243,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="284" class="link-to-prism">src/app/services/authentication.service.ts:284</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/services/authentication.service.ts:290</a></div>
                             </td>
                         </tr>
 
@@ -272,7 +272,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="283" class="link-to-prism">src/app/services/authentication.service.ts:283</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="289" class="link-to-prism">src/app/services/authentication.service.ts:289</a></div>
                             </td>
                         </tr>
 
@@ -325,6 +325,7 @@ export class AuthenticationService {
     private clientSecret: string;
     private loginClaim: string;
     private expireClaim: string;
+    private delegateUrl: string;
 
     /**
      * @constructor
@@ -343,6 +344,7 @@ export class AuthenticationService {
     assignConfigurationProperties(oauth2Conf) {
         this.clientId &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-id&#x27;, null);
         this.clientSecret &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-secret&#x27;, null);
+        this.delegateUrl &#x3D; _.get(oauth2Conf, &#x27;oauth2.flow.delagate-url&#x27;, null);
         this.loginClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.login-claim&#x27;, &#x27;sub&#x27;);
         this.expireClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.expire-claim&#x27;, &#x27;exp&#x27;);
     }
@@ -527,7 +529,11 @@ export class AuthenticationService {
     public moveToCodeFlowLoginPage() {
         if (!this.clientId || !this.clientSecret)
             return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
-        window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${AuthenticationService.computeRedirectUri()}&#x60;;
+        if(!this.delegateUrl)
+            window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${AuthenticationService.computeRedirectUri()}&#x60;;
+        else{
+            window.location.href &#x3D; &#x60;${this.delegateUrl}&amp;redirect_uri&#x3D;${AuthenticationService.computeRedirectUri()}&#x60;;
+        }
     }
 
     static computeRedirectUri(){

@@ -553,9 +553,13 @@ deployment as a docker-compose file
 <h2 id="_configuration">2. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As a microservice architectured solution, Operator Fabric as multiple services
+<p>As a micro service architectured solution, Operator Fabric has multiple services
 to configure. These configuration are gathered by a Configuration Service that
 can be redunded for safety.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://opfab.github.io/documentation/0.4.1.SNAPSHOT/architecture/">Operator Fabric Architecture</a> for more information
+on the different services.</p>
 </div>
 <div class="paragraph">
 <p>All services are springboot application and share some common configuration and
@@ -579,7 +583,47 @@ references describes Springboot configuration.</p>
 <h3 id="_global_configuration">2.1. Global configuration</h3>
 <div class="paragraph">
 <p>Aside from the configuration service, all configurations are gathered in the
-configuration service environment backend (see <a href="#_cloud_configuration_service">Cloud Configuration service</a>)</p>
+configuration service environment backend (see <a href="#_cloud_configuration_service">Cloud Configuration service</a>).</p>
+</div>
+<div class="paragraph">
+<p>Note that a few things cannot be set in the global configuration backend and
+must be set in each services bootstrap configuration file. In this regard,
+<a href="#_cloud_configuration_service">Cloud Configuration service</a>[Configuration] and <a href="#_cloud_registry_service">Cloud Registry service</a>[Registry]
+services have specific configuration but for other services, they all require
+the same minimal information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>mandatory</strong> service name(spring.application.name)</p>
+</li>
+<li>
+<p><strong>mandatory</strong> configuration name (spring.cloud.config.name)</p>
+</li>
+<li>
+<p><strong>mandatory</strong> configuration fetch from registry enabled (spring.cloud.config.discovery.enabled: true)</p>
+</li>
+<li>
+<p><strong>mandatory</strong> configuration service name in registry (spring.cloud.config.discovery.service-id)</p>
+</li>
+<li>
+<p><strong>mandatory</strong> eureka registration (eureka.client.register-with-eureka: true and
+eureka.client.fetch-registry: true)</p>
+</li>
+<li>
+<p>mandatory eureka registry urls (eureka.client.service-url.defaultZone)</p>
+</li>
+<li>
+<p>configuration fail fast (spring.cloud.config.fail-fast)</p>
+</li>
+<li>
+<p>configuration fetch maximum retry (spring.cloud.config.retry.max-attempts)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In most situation, you do not need to change the default bootstrap
+configuration for those services.</p>
 </div>
 </div>
 <div class="sect2">
@@ -790,7 +834,7 @@ properties or yml available.</p>
 The default profiles activated are docker and native.</p>
 </div>
 <div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image">available environment variables for docker image</h6>
+<h6 id="_available_environment_variables_for_docker_image">Available environment variables for docker image</h6>
 <div class="ulist">
 <ul>
 <li>
@@ -821,7 +865,7 @@ The default profiles activated are docker and native.</p>
 <p>In progress</p>
 </div>
 <div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes">available environment variables when launching on Kubernetes</h6>
+<h6 id="_available_environment_variables_when_launching_on_kubernetes">Available environment variables when launching on Kubernetes</h6>
 <div class="ulist">
 <ul>
 <li>
@@ -854,7 +898,7 @@ The default profiles activated are docker and native.</p>
 bootstrapped using SpringBoot.</p>
 </div>
 <div class="paragraph">
-<p>In our spring micro service architecture Eureka Rgistry instances are the second
+<p>In our spring micro service architecture Eureka Registry instances are the second
 services to bootstrap, its configuration relies on the <a href="#_cloud_configuration_service">Cloud Configuration service</a>.</p>
 </div>
 <div class="sect4">
@@ -886,19 +930,13 @@ properties:</p>
 </div>
 </li>
 <li>
-<p>In a local application property file</p>
-<div class="ulist">
-<ul>
-<li>
-<p>The application may deactivate eureka registration to avoid self registration</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
 <p>In a configuration service registry.yml file</p>
 <div class="ulist">
 <ul>
+<li>
+<p>The application may deactivate eureka registration to avoid self registration
+(deactivated by default in internal application.yml file)</p>
+</li>
 <li>
 <p>The application must set the Eureka instance hostname (eureka.instance.hostname)</p>
 </li>
@@ -911,7 +949,7 @@ properties:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.1.0.RELEASE/single/spring-cloud-config.html">spring cloud config documentation</a>.</p>
+<p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.1.0.RC3/single/spring-cloud-netflix.html">spring cloud netflix documentation</a>.</p>
 </div>
 <div class="sect5">
 <h6 id="_default_properties_2">default properties</h6>
@@ -1020,7 +1058,7 @@ eureka:
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>eureka:
-#  instance.hostname: registry
+  instance.hostname: registry
   client:
     serviceUrl.defaultZone: http://registry:8080/eureka/
     registerWithEureka: false
@@ -1053,7 +1091,7 @@ properties or yml available.</p>
 The default profiles activated are docker and native.</p>
 </div>
 <div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_2">available environment variables for docker image</h6>
+<h6 id="_available_environment_variables_for_docker_image_2">Available environment variables for docker image</h6>
 <div class="ulist">
 <ul>
 <li>
@@ -1072,7 +1110,7 @@ The default profiles activated are docker and native.</p>
 <p>In progress</p>
 </div>
 <div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_2">available environment variables when launching on Kubernetes</h6>
+<h6 id="_available_environment_variables_when_launching_on_kubernetes_2">Available environment variables when launching on Kubernetes</h6>
 <div class="ulist">
 <ul>
 <li>
@@ -1082,6 +1120,9 @@ The default profiles activated are docker and native.</p>
 <p>CONFIG_PORT: Configuration service port</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 02_configuration.adoc - include::../../../../services/client-gateway/src/docs/asciidoc/configuration.adoc[leveloffset=+2]</p>
 </div>
 </div>
 </div>
