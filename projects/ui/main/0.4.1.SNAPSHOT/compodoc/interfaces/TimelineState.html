@@ -64,21 +64,6 @@
             <code>src/app/store/states/timeline.state.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>The Feed State consist of:</p>
-<ul>
-<li>EntityState of LightCard</li>
-<li>selectedCardId: the currently selected card id</li>
-<li>lastCards the last cards added / updated to the feed</li>
-<li>loading: weather there is an ongoing state modification</li>
-<li>error: last error during state processing</li>
-<li>filters: a collection of filter to apply to the rendered feed</li>
-</ul>
-
-            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -277,16 +262,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {createEntityAdapter, EntityAdapter, EntityState} from &#x27;@ngrx/entity&#x27;;
 import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
+import {LightCardAdapter} from &quot;@ofStates/feed.state&quot;;
 
-/**
- * The Feed State consist of:
- *  * EntityState of LightCard
- *  * selectedCardId: the currently selected card id
- *  * lastCards the last cards added / updated to the feed
- *  * loading: weather there is an ongoing state modification
- *  * error: last error during state processing
- *  * filters: a collection of filter to apply to the rendered feed
- */
 export interface TimelineState extends EntityState&lt;LightCard&gt; {
     selectedCardId: string;
     lastCards: LightCard[];
@@ -295,13 +272,13 @@ export interface TimelineState extends EntityState&lt;LightCard&gt; {
     data: any[];
 }
 
-export function sortByStartDate(card1: LightCard, card2: LightCard){
+/*export function sortByStartDate(card1: LightCard, card2: LightCard){
     return card1.startDate - card2.startDate;
 }
 
 export const LightCardAdapter: EntityAdapter&lt;LightCard&gt; &#x3D; createEntityAdapter&lt;LightCard&gt;({
     sortComparer:sortByStartDate
-});
+});*/
 
 export const timelineInitialState: TimelineState &#x3D; LightCardAdapter.getInitialState(
     {
