@@ -210,9 +210,12 @@ font-style: italic;
   <li><a href="#createUser"><code><span class="http-method">post</span> /users</code></a></li>
   <li><a href="#deleteGroupUsers"><code><span class="http-method">delete</span> /groups/{name}/users</code></a></li>
   <li><a href="#fetchUser"><code><span class="http-method">get</span> /users/{login}</code></a></li>
+  <li><a href="#fetchUserSetting"><code><span class="http-method">get</span> /users/{login}/settings</code></a></li>
   <li><a href="#fetchUsers"><code><span class="http-method">get</span> /users</code></a></li>
+  <li><a href="#patchUserSettings"><code><span class="http-method">patch</span> /users/{login}/settings</code></a></li>
   <li><a href="#updateGroupUsers"><code><span class="http-method">put</span> /groups/{name}/users</code></a></li>
   <li><a href="#updateUser"><code><span class="http-method">put</span> /users/{login}</code></a></li>
+  <li><a href="#updateUserSettings"><code><span class="http-method">put</span> /users/{login}/settings</code></a></li>
   </ul>
 
   <h1><a name="Groups">Groups</a></h1>
@@ -883,6 +886,67 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="fetchUserSetting"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /users/{login}/settings</code></pre></div>
+    <div class="method-summary">Fetch an existing user's settings (<span class="nickname">fetchUserSetting</span>)</div>
+    <div class="method-notes">Fetch existing user's settings from their login</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">login (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; user login </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UserSettings">UserSettings</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "dateFormat" : "dateFormat",
+  "timeFormat" : "timeFormat",
+  "description" : "description",
+  "timeZone" : "timeZone",
+  "login" : "login",
+  "locale" : "locale",
+  "defaultTags" : [ "defaultTags", "defaultTags" ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UserSettings">UserSettings</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Authenticated users who are not admins can only access their own data
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Required user not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="fetchUsers"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -937,6 +1001,79 @@ font-style: italic;
         <a href="#"></a>
     <h4 class="field-label">403</h4>
     Authenticated users who are not admins can only access their own data
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="patchUserSettings"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /users/{login}/settings</code></pre></div>
+    <div class="method-summary">Patch existing user settings (<span class="nickname">patchUserSettings</span>)</div>
+    <div class="method-notes">Patch existing user settions</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">login (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; user login </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">userSettings <a href="#UserSettings">UserSettings</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; User settings to be updated </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UserSettings">UserSettings</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "dateFormat" : "dateFormat",
+  "timeFormat" : "timeFormat",
+  "description" : "description",
+  "timeZone" : "timeZone",
+  "login" : "login",
+  "locale" : "locale",
+  "defaultTags" : [ "defaultTags", "defaultTags" ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UserSettings">UserSettings</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Authenticated users who are not admins can only update their own data
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    User not found
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -1072,6 +1209,82 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="updateUserSettings"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /users/{login}/settings</code></pre></div>
+    <div class="method-summary">Update existing user settings (<span class="nickname">updateUserSettings</span>)</div>
+    <div class="method-notes">Update existing user settiogs</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">login (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; user login (should match login in request body) </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">userSettings <a href="#UserSettings">UserSettings</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; User settings to be updated (login should match path parameter) </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UserSettings">UserSettings</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "dateFormat" : "dateFormat",
+  "timeFormat" : "timeFormat",
+  "description" : "description",
+  "timeZone" : "timeZone",
+  "login" : "login",
+  "locale" : "locale",
+  "defaultTags" : [ "defaultTags", "defaultTags" ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UserSettings">UserSettings</a>
+    <h4 class="field-label">400</h4>
+    Bad request (body doesn't match login path parameter)
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Authenticated users who are not admins can only update their own data
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    User not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
 
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
@@ -1081,13 +1294,14 @@ font-style: italic;
     <li><a href="#Group"><code>Group</code> - </a></li>
     <li><a href="#SimpleUser"><code>SimpleUser</code> - </a></li>
     <li><a href="#User"><code>User</code> - </a></li>
+    <li><a href="#UserSettings"><code>UserSettings</code> - </a></li>
   </ol>
 
   <div class="model">
     <h3><a name="Group"><code>Group</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
-      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
@@ -1104,10 +1318,23 @@ font-style: italic;
     <h3><a name="User"><code>User</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>User</div>
     <div class="field-items">
-      <div class="param">login (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      <div class="param">login </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">lastName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="UserSettings"><code>UserSettings</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>User associated settings</div>
+    <div class="field-items">
+      <div class="param">login (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">timeZone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">locale (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">timeFormat (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">dateFormat (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">defaultTags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

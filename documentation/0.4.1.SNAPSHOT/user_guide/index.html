@@ -489,6 +489,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_time_business_service">2.4.7. Time Business service</a></li>
 </ul>
 </li>
+<li><a href="#_web_ui">2.5. Web UI</a>
+<ul class="sectlevel3">
+<li><a href="#_mandatory_configuration_profiles_and_default_properties_9">2.5.1. Mandatory configuration, Profiles and default properties</a></li>
+<li><a href="#_specifying_external_configuration_properties_when_lauching_a_jar_file_9">2.5.2. Specifying external configuration properties when lauching a jar file</a></li>
+<li><a href="#_specifying_configuration_properties_when_lauching_a_docker_image_9">2.5.3. Specifying configuration properties when lauching a docker image</a></li>
+<li><a href="#_specifying_configuration_properties_when_lauching_on_kubernetes_9">2.5.4. Specifying configuration properties when lauching on Kubernetes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_reference_guide_per_business_service">3. Reference Guide Per Business Service</a>
@@ -1337,6 +1345,33 @@ the deployment domain</p>
 <p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.1.0.RELEASE/single/spring-cloud-gateway.html">spring cloud gateway documentation</a>.</p>
 </div>
 <div class="sect5">
+<h6 id="_service_specific_properties">Service specific properties</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.gateway.configs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">an array of string for each allowed config entries</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
 <h6 id="_default_properties_3">default properties</h6>
 <div class="paragraph">
 <p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
@@ -1461,6 +1496,8 @@ spring:
             allowedOrigins: "*"
             allowedMethods: "*"
             allowedHeaders: "Authorization, Content-Type"
+operatorfabric.gateway.configs:
+  - web-ui.json
 #logging.level.root: debug</code></pre>
 </div>
 </div>
@@ -1487,7 +1524,9 @@ spring:
           '[/**]':
             allowedOrigins: "*"
             allowedMethods: "*"
-            allowedHeaders: "Authorization, Content-Type"</code></pre>
+            allowedHeaders: "Authorization, Content-Type"
+operatorfabric.authorized.configs:
+  - web-ui.json</code></pre>
 </div>
 </div>
 </div>
@@ -1584,7 +1623,7 @@ usual bootstrap configuration.</p>
 </ul>
 </div>
 <div class="sect4">
-<h5 id="_service_specific_properties">Service specific properties</h5>
+<h5 id="_service_specific_properties_2">Service specific properties</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1835,7 +1874,7 @@ usual bootstrap configuration.</p>
 </ul>
 </div>
 <div class="sect4">
-<h5 id="_service_specific_properties_2">Service specific properties</h5>
+<h5 id="_service_specific_properties_3">Service specific properties</h5>
 
 </div>
 <div class="sect4">
@@ -2045,7 +2084,7 @@ usual bootstrap configuration.</p>
 </ul>
 </div>
 <div class="sect5">
-<h6 id="_service_specific_properties_3">Service specific properties</h6>
+<h6 id="_service_specific_properties_4">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2284,7 +2323,7 @@ usual bootstrap configuration.</p>
 </ul>
 </div>
 <div class="sect5">
-<h6 id="_service_specific_properties_4">Service specific properties</h6>
+<h6 id="_service_specific_properties_5">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2566,7 +2605,7 @@ usual bootstrap configuration.</p>
 </ul>
 </div>
 <div class="sect5">
-<h6 id="_service_specific_properties_5">Service specific properties</h6>
+<h6 id="_service_specific_properties_6">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2771,6 +2810,289 @@ The default profiles activated are docker and native.</p>
 </li>
 </ul>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_web_ui">2.5. Web UI</h3>
+<div class="paragraph">
+<p>Operator Fabric Web UI service is a Spring MVC application bootstrapped using
+SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
+</div>
+<div class="paragraph">
+<p>In our spring micro service architecture this service depends on Eureka
+Registry.</p>
+</div>
+<div class="sect3">
+<h4 id="_mandatory_configuration_profiles_and_default_properties_9">2.5.1. Mandatory configuration, Profiles and default properties</h4>
+<div class="paragraph">
+<p>The service has no mandatory configuration besside global configuration and
+usual bootstrap configuration.</p>
+</div>
+<div class="paragraph">
+<p>For other configuration see:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.</p>
+</li>
+<li>
+<p><a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_service_specific_properties_7">Service specific properties</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PASSWORD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">authentication mode (CODE: Authorization Code Flow, PASSWORD: Direct Password Flow)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provider name to display on log in button</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.delegate-url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Url to redirect the browser to for authentication, mandatory with CODE flow</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.subscription.timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milliseconds between card subscription renewal</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.time.display</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BUSINESS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">card time display mode in the feed (BUSINESS: display card with entire business period,BUSINESS_START: display card with business start, PUBLICATION: display card with publication date,LTTD: : display card with lttd date,NONE: date is hidden)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_default_properties_9">default properties</h5>
+<div class="paragraph">
+<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
+</div>
+<div class="paragraph">
+<p><em>bootstrap.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  application:
+    name: web-ui
+  cloud:
+    config:
+      name: web-ui
+      fail-fast: true
+      retry:
+        max-attempts: 20
+      discovery:
+        service-id: config
+        enabled: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>bootstrap-docker.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  application:
+    name: web-ui
+  cloud:
+    config:
+      name: web-ui
+      failFast: true
+      retry:
+        maxAttempts: 20
+      discovery:
+        service-id: config
+        enabled: true
+#  level.root: debug
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>bootstrap-dev.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  application:
+    name: web-ui
+  cloud:
+    config:
+      name: web-ui
+      fail-fast: true
+      retry:
+        max-attempts: 20
+      discovery:
+        service-id: config
+        enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: 'http://localhost:2001/eureka'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
+docker images configuration.</p>
+</div>
+<div class="paragraph">
+<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
+development environment</p>
+</div>
+<div class="paragraph">
+<p>The above embedded configurations are the basic settings of the application:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>it sets its service name</p>
+</li>
+<li>
+<p>it sets the configuration name to use (which configuration file to retrieve)</p>
+</li>
+<li>
+<p>it must set the registry service (example in bootstrap-docker.yml)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sample_developpement_configuration_8">Sample developpement configuration</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>server:
+  port: 2200
+operatorfabric:
+  security:
+    oauth2:
+      flow:
+        mode: CODE
+        provider: Opfab Keycloak
+        delagate-url: http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
+  feed:
+    subscription:
+      timeout: 600000
+    card:
+      time:
+        display: BUSINESS</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sample_docker_image_configuration_8">Sample docker image configuration</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>operatorfabric:
+  security:
+    oauth2:
+      flow:
+        mode: CODE
+        provider: Opfab Keycloak
+        delagate-url: http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
+  feed:
+    subscription:
+      timeout: 600000
+    card:
+      time:
+        display: BUSINESS</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_specifying_external_configuration_properties_when_lauching_a_jar_file_9">2.5.2. Specifying external configuration properties when lauching a jar file</h4>
+<div class="paragraph">
+<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
+on how to setup an external spring properties or yml file.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_specifying_configuration_properties_when_lauching_a_docker_image_9">2.5.3. Specifying configuration properties when lauching a docker image</h4>
+<div class="paragraph">
+<p>Our docker image expects optional property file to be stored in the container
+/service-config folder. You can bind so docker volume to this path to make
+properties or yml available.</p>
+</div>
+<div class="paragraph">
+<p>At time of writing, you cannot specify an alternate profile at runCards-Publication.
+The default profiles activated are docker and native.</p>
+</div>
+<div class="sect4">
+<h5 id="_available_environment_variables_for_docker_image_9">Available environment variables for docker image</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>REGISTRY_HOST: Registry service host</p>
+</li>
+<li>
+<p>REGISTRY_PORT: Registry service port</p>
+</li>
+<li>
+<p>JAVA_OPTIONS: Additional java options</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_specifying_configuration_properties_when_lauching_on_kubernetes_9">2.5.4. Specifying configuration properties when lauching on Kubernetes</h4>
+<div class="paragraph">
+<p>In progress</p>
+</div>
+<div class="sect4">
+<h5 id="_available_environment_variables_when_launching_on_kubernetes_9">Available environment variables when launching on Kubernetes</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>REGISTRY_HOST: Registry service host</p>
+</li>
+<li>
+<p>REGISTRY_PORT: Registry service port</p>
+</li>
+<li>
+<p>JAVA_OPTIONS: Additional java options</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
