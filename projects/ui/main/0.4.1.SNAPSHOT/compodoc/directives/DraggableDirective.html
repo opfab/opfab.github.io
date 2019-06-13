@@ -241,11 +241,18 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/modules/feed/components/time-line/app-draggable.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/modules/feed/components/time-line/app-draggable.ts:18</a></div>
                             </td>
                         </tr>
 
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>if drag is true emit drag start event</p>
+</div>
+
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -275,11 +282,18 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/modules/feed/components/time-line/app-draggable.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/feed/components/time-line/app-draggable.ts:28</a></div>
                             </td>
                         </tr>
 
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>if drag is true emit drag move event</p>
+</div>
+
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -309,11 +323,18 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/modules/feed/components/time-line/app-draggable.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/modules/feed/components/time-line/app-draggable.ts:40</a></div>
                             </td>
                         </tr>
 
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>if drag is true emit drag end event</p>
+</div>
+
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -370,27 +391,37 @@ export class DraggableDirective {
 
   private dragging &#x3D; false;
 
+  /**
+   * if drag is true emit drag start event
+   * @param event
+   */
   @HostListener(&#x27;pointerdown&#x27;, [&#x27;$event&#x27;])
   onPointerDown(event: PointerEvent): void {
     this.dragging &#x3D; true;
     this.dragStart.emit(event);
   }
 
+  /**
+   * if drag is true emit drag move event
+   * @param event
+   */
   @HostListener(&#x27;pointermove&#x27;, [&#x27;$event&#x27;])
   onPointerMove(event: PointerEvent): void {
     if (!this.dragging) {
       return;
     }
-
     this.dragMove.emit(event);
   }
 
+  /**
+   * if drag is true emit drag end event
+   * @param event
+   */
   @HostListener(&#x27;pointerup&#x27;, [&#x27;$event&#x27;])
   onPointerUp(event: PointerEvent): void {
     if (!this.dragging) {
       return;
     }
-
     this.dragging &#x3D; false;
     this.dragEnd.emit(event);
   }

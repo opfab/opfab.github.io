@@ -252,7 +252,7 @@
         switchMap(action&#x3D;&gt;{
             const routerState:any &#x3D; action.payload.routerState;
             return [
-                new UpdateSelectedMenu({menu_id: routerState.params[&#x27;menu_id&#x27;],menu_entry_id: routerState.params[&#x27;menu_entry_id&#x27;]})
+                new SelectMenuLink({menu_id: routerState.params[&#x27;menu_id&#x27;], menu_version: routerState.params[&#x27;menu_version&#x27;],menu_entry_id: routerState.params[&#x27;menu_entry_id&#x27;]})
             ];
         })
     )</code>
@@ -269,10 +269,18 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:51</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>This {Observable} listens for {ROUTER_NAVIGATION} type, filtering only actions navigating to an url containing &quot;/thirdparty/&quot;.
+This will typically be triggered when clicking on a third-party menu link.
+It then fires a {SelectMenuLink} action containing the route parameters (identifying the third-party menu entry that was clicked) as payload.</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -292,7 +300,7 @@ import {ROUTER_NAVIGATION, RouterNavigationAction} from &quot;@ngrx/router-store
 import {filter, switchMap} from &quot;rxjs/operators&quot;;
 import {LoadCard} from &quot;@ofActions/card.actions&quot;;
 import {SelectLightCard} from &quot;@ofActions/light-card.actions&quot;;
-import {UpdateSelectedMenu} from &quot;@ofActions/menu.actions&quot;;
+import {SelectMenuLink} from &quot;@ofActions/menu.actions&quot;;
 
 @Injectable()
 export class CustomRouterEffects {
@@ -317,6 +325,13 @@ export class CustomRouterEffects {
         })
     );
 
+    /**
+     * This {Observable} listens for {ROUTER_NAVIGATION} type, filtering only actions navigating to an url containing &quot;/thirdparty/&quot;.
+     * This will typically be triggered when clicking on a third-party menu link.
+     * It then fires a {SelectMenuLink} action containing the route parameters (identifying the third-party menu entry that was clicked) as payload.
+
+     * @name navigateToMenuURL
+     */
     @Effect()
     navigateToMenuURL: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
         ofType(ROUTER_NAVIGATION),
@@ -326,7 +341,7 @@ export class CustomRouterEffects {
         switchMap(action&#x3D;&gt;{
             const routerState:any &#x3D; action.payload.routerState;
             return [
-                new UpdateSelectedMenu({menu_id: routerState.params[&#x27;menu_id&#x27;],menu_entry_id: routerState.params[&#x27;menu_entry_id&#x27;]})
+                new SelectMenuLink({menu_id: routerState.params[&#x27;menu_id&#x27;], menu_version: routerState.params[&#x27;menu_version&#x27;],menu_entry_id: routerState.params[&#x27;menu_entry_id&#x27;]})
             ];
         })
     );

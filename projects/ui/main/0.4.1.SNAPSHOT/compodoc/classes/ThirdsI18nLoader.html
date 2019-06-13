@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/services/thirds.service.ts:193</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">src/app/services/thirds.service.ts:212</a></div>
                             </td>
                         </tr>
 
@@ -178,7 +178,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">src/app/services/thirds.service.ts:197</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">src/app/services/thirds.service.ts:216</a></div>
                             </td>
                         </tr>
 
@@ -242,12 +242,12 @@ import {environment} from &quot;../../environments/environment&quot;;
 import {AuthenticationService} from &quot;@ofServices/authentication.service&quot;;
 import {EMPTY, from, merge, Observable, of, throwError} from &quot;rxjs&quot;;
 import {TranslateLoader, TranslateService} from &quot;@ngx-translate/core&quot;;
-import {catchError, filter, map, mergeMap, reduce, switchMap, tap} from &quot;rxjs/operators&quot;;
+import {catchError, filter, map, mergeMap, reduce, switchMap, take, tap} from &quot;rxjs/operators&quot;;
 import * as _ from &#x27;lodash&#x27;;
 import {Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;../store/index&quot;;
 import {LightCard} from &quot;../model/light-card.model&quot;;
-import {Third, ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
+import {Third, ThirdMenu, ThirdMenuEntry} from &quot;@ofModel/thirds.model&quot;;
 
 @Injectable()
 export class ThirdsService {
@@ -287,10 +287,29 @@ export class ThirdsService {
         });
     }
 
+    queryMenuEntryURL(thirdMenuId: string, thirdMenuVersion: string, thirdMenuEntryId: string): Observable&lt;string&gt; {
+        return this.queryThird(thirdMenuId,thirdMenuVersion).pipe(
+            //filter((third :Third)&#x3D;&gt;!(!third.menuEntries)),
+            switchMap(third &#x3D;&gt; {
+                const entry &#x3D; third.menuEntries.filter(entry &#x3D;&gt; entry.id &#x3D;&#x3D;&#x3D; thirdMenuEntryId)
+                if(entry.length&#x3D;&#x3D;1){
+                    return entry;
+                } else {
+                    throwError(new Error(&#x27;No such menu entry.&#x27;))
+                }
+            }),
+            catchError((err, caught) &#x3D;&gt; {
+                console.log(err)
+                return throwError(err);
+            }),
+            map( menuEntry &#x3D;&gt; menuEntry.url)
+        )
+    }
+
     fetchHbsTemplate(publisher: string, version: string, name: string, locale: string): Observable&lt;string&gt; {
         const params &#x3D; new HttpParams()
-                .set(&quot;locale&quot;, locale)
-                .set(&quot;version&quot;, version);
+            .set(&quot;locale&quot;, locale)
+            .set(&quot;version&quot;, version);
         return this.httpClient.get(&#x60;${this.thirdsUrl}/${publisher}/templates/${name}&#x60;,{
             params,
             responseType: &#x27;text&#x27;

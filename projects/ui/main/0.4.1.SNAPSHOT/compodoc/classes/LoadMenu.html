@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/store/actions/menu.actions.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/store/actions/menu.actions.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -146,7 +146,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/store/actions/menu.actions.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/store/actions/menu.actions.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -173,7 +173,9 @@ export enum MenuActionTypes {
     LoadMenuSuccess &#x3D; &#x27;[Menu] Load Menu Success&#x27;,
     LoadMenuFailure &#x3D; &#x27;[Menu] Load Menu Fail&#x27;,
     HandleUnexpectedError &#x3D; &#x27;[Menu] Handle unexpected error&#x27;,
-    UpdateSelectedMenu &#x3D; &#x27;[Menu] Update Selected Menu&#x27;,
+    SelectMenuLink &#x3D; &#x27;[Menu] Select Menu Link&#x27;,
+    SelectMenuLinkSuccess &#x3D; &#x27;[Menu] Select Menu Link Success&#x27;,
+    SelectMenuLinkFailure &#x3D; &#x27;[Menu] Select Menu Link Failure&#x27;,
 }
 // needed by NGRX entities
 export class LoadMenu implements Action {
@@ -209,14 +211,38 @@ export class HandleUnexpectedError implements Action {
 }
 
 /**
- * Action used to update the state with the selected menu
+ * Action triggered by navigation to /thirparty/*** (for example by clicking on a third-party menu link)
+ * Payload contains route parameters identifying the clicked menu entry (menu id, menu version and menu entry id)
+ * Emitted by {CustomRouterEffects} in the following {Observable} @member: navigateToMenuURL
  */
-//TODO Describe usage (cf authentication example)
-export class UpdateSelectedMenu implements Action {
-    readonly type &#x3D; MenuActionTypes.UpdateSelectedMenu;
+export class SelectMenuLink implements Action {
+    readonly type &#x3D; MenuActionTypes.SelectMenuLink;
 
     /* istanbul ignore next */
-    constructor(public payload: {menu_id: string, menu_entry_id: string}) {}
+    constructor(public payload: {menu_id: string, menu_version: string, menu_entry_id: string}) {}
+}
+
+/**
+ * Action triggered if menu link url was correctly computed from the given parameters (menu_id, menu_version and menu_entry_id)
+ * Payload contains the computed url
+ */
+export class SelectMenuLinkSuccess implements Action {
+    readonly type &#x3D; MenuActionTypes.SelectMenuLinkSuccess;
+
+    /* istanbul ignore next */
+    constructor(public payload: {iframe_url: string}) {}
+}
+
+/**
+ * Action triggered if no menu entry was found for the given parameters (menu_id, menu_version and menu_entry_id)
+ * Payload contains the error
+ */
+export class SelectMenuLinkFailure implements Action {
+    readonly type &#x3D; MenuActionTypes.SelectMenuLinkFailure;
+
+    /* istanbul ignore next */
+    constructor(public payload: { error: Error }) {
+    }
 }
 
 export type MenuActions &#x3D;
@@ -224,7 +250,9 @@ export type MenuActions &#x3D;
     | LoadMenuSuccess
     | LoadMenuFailure
     | HandleUnexpectedError
-    | UpdateSelectedMenu;
+    | SelectMenuLink
+    | SelectMenuLinkSuccess
+    | SelectMenuLinkFailure;
 </code></pre>
     </div>
 </div>

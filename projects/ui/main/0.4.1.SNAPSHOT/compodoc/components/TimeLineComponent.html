@@ -171,7 +171,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -240,7 +240,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -284,7 +284,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -312,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -339,7 +339,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -353,17 +353,16 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
-import {Observable, of} from &quot;rxjs&quot;;
-import {LightCard} from &quot;@ofModel/light-card.model&quot;;
-import {select, Store} from &quot;@ngrx/store&quot;;
-import * as timelineSelectors from &#x27;@ofSelectors/timeline.selectors&#x27;;
-import {catchError} from &quot;rxjs/operators&quot;;
-import {AppState} from &quot;@ofStore/index&quot;;
-import {InitTimeline} from &quot;@ofActions/timeline.actions&quot;;
-import {AddCardDataTimeline} from &quot;@ofActions/timeline.actions&quot;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { LightCard } from &#x27;@ofModel/light-card.model&#x27;;
+import { select, Store } from &#x27;@ngrx/store&#x27;;
+import { catchError } from &#x27;rxjs/operators&#x27;;
+import { AppState } from &#x27;@ofStore/index&#x27;;
+import { InitTimeline } from &#x27;@ofActions/timeline.actions&#x27;;
+import { AddCardDataTimeline } from &#x27;@ofActions/timeline.actions&#x27;;
 import * as _ from &#x27;lodash&#x27;;
 import * as moment from &#x27;moment&#x27;;
-import * as feedSelectors from &quot;@ofSelectors/feed.selectors&quot;;
+import * as feedSelectors from &#x27;@ofSelectors/feed.selectors&#x27;;
 
 @Component({
   selector: &#x27;of-time-line&#x27;,
@@ -378,11 +377,13 @@ export class TimeLineComponent implements OnInit {
     constructor(private store: Store&lt;AppState&gt;) {}
 
     ngOnInit() {
-        // check le ticket correspondant, pour savoir si
-        // on set la start et end domain par un dictionnaire
-        // W/M/Y ou autre
+        // set start of Week to saturday on moment locale used
+        moment.updateLocale(&#x27;en&#x27;, { week: {
+                dow: 6, // First day of week is Saturday
+                doy: 12 // First week of year must contain 1 January (7 + 6 - 1)
+            }});
 
-        // conf 1
+        // conf 1 &#x3D;&#x3D;&#x3D; end of the actual week + next week
         const startDomain &#x3D; moment();
         startDomain.hours(0).minutes(0).seconds(0).millisecond(0);
         const endDomain &#x3D; _.cloneDeep(startDomain);
@@ -392,30 +393,24 @@ export class TimeLineComponent implements OnInit {
         endDomain.add(7, &#x27;days&#x27;);
         // endDomain.add(5, &#x27;days&#x27;); // example
 
-        // conf 2
+        // conf 2 &#x3D;&#x3D;&#x3D; actual month + next month
         const startDomain2 &#x3D; moment();
         startDomain2.hours(0).minutes(0).seconds(0).millisecond(0);
-        startDomain2.startOf(&#x27;month&#x27;);
-        /*
-        // pas obligatoire
-        startDomain2.subtract(2, &#x27;days&#x27;); // deux jours avant
-        startDomain2.hours(0);*/
         const endDomain2 &#x3D; _.cloneDeep(startDomain2);
         endDomain2.startOf(&#x27;month&#x27;);
         endDomain2.add(2, &#x27;months&#x27;);
         // endDomain2.add(1, &#x27;months&#x27;); // example
         // endDomain2.date(15); // example
 
-        // conf 3
+        // conf 3 &#x3D;&#x3D;&#x3D; from start of actual month to end of the year + 1 year
         const startDomain3 &#x3D; moment();
         startDomain3.startOf(&#x27;month&#x27;);
         startDomain3.hours(0);
         const endDomain3 &#x3D; _.cloneDeep(startDomain3);
         endDomain3.add(2, &#x27;years&#x27;);
-        // endDomain3.add(1, &#x27;years&#x27;); // example
         endDomain3.startOf(&#x27;year&#x27;); // Voir avec Guillaume
+        // endDomain3.add(1, &#x27;years&#x27;); // example
         // endDomain3.month(10); // example
-        const forwardLevel &#x3D; &#x27;W&#x27;;
         this.conf &#x3D; {
             enableDrag: false,
             enableZoom: true,
@@ -428,7 +423,7 @@ export class TimeLineComponent implements OnInit {
         this.confZoom &#x3D; [{
             startDomain: startDomain.valueOf(),
             endDomain: endDomain.valueOf(),
-            forwardLevel,
+            forwardLevel: &#x27;W&#x27;,
             followCloackTick: false,
         },
         {
@@ -444,16 +439,19 @@ export class TimeLineComponent implements OnInit {
             followCloackTick: false,
         }];
 
-        // this.lastCards$ &#x3D; this.store.select(timelineSelectors.selectLastCardsSelection);
+        // timeline state is same than feed state (not filtered Feed)
+        // select all the feed
         this.lightCards$ &#x3D; this.store.pipe(
-            select(feedSelectors.selectFilteredFeed),
+            select(feedSelectors.selectFeed),
             catchError(err &#x3D;&gt; of([]))
         );
 
+        // init timeline state
         this.store.dispatch(new InitTimeline({
             data: [],
         }));
 
+        // add a card data to the timeline state for each new card received
         this.lightCards$.subscribe(value &#x3D;&gt; {
             this.store.dispatch(new InitTimeline({
                 data: [],
@@ -470,6 +468,25 @@ export class TimeLineComponent implements OnInit {
                 }));
             }
         });
+
+        // this.lastCards$ &#x3D; this.store.select(timelineSelectors.selectLastCardsSelection);
+        /* // TRY ON TIMELINE
+         this.lightCards$ &#x3D; this.store.pipe(
+             select(timelineSelectors.selectFeed),
+             catchError(err &#x3D;&gt; of([]))
+         );*/
+        /* // TRY ON FEED
+        this.lightCards$ &#x3D; this.store.pipe(
+            select(feedSelectors.selectFeed),
+            catchError(err &#x3D;&gt; of([]))
+        );*/
+
+        /*
+        // TRY selectUnFilteredFeed
+        this.lightCards$ &#x3D; this.store.pipe(
+            select(feedSelectors.selectUnFilteredFeed),
+            catchError(err &#x3D;&gt; of([]))
+        );*/
     }
 }
 </code></pre>
@@ -482,12 +499,9 @@ export class TimeLineComponent implements OnInit {
 &lt;!-- License, v. 2.0. If a copy of the MPL was not distributed with this --&gt;
 &lt;!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --&gt;
 
-&lt;p&gt;
-  timeline works!
-&lt;/p&gt;
-&lt;p class&#x3D;&quot;bg-light text-dark container-fluid&quot;&gt;
+&lt;div class&#x3D;&quot;bg-light text-dark container-fluid&quot; style&#x3D;&quot;height: 100%;&quot;&gt;
   &lt;of-init-chart *ngIf&#x3D;&quot;conf&quot; [conf]&#x3D;&quot;conf&quot; [confZoom]&#x3D;&quot;confZoom&quot;&gt;&lt;/of-init-chart&gt;
-&lt;/p&gt;
+&lt;/div&gt;
 </code></pre>
     </div>
 
@@ -517,7 +531,7 @@ export class TimeLineComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><p>  timeline works!</p><p class="bg-light text-dark container-fluid">  <of-init-chart *ngIf="conf" [conf]="conf" [confZoom]="confZoom"></of-init-chart></p></div>'
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="bg-light text-dark container-fluid" style="height: 100%;">  <of-init-chart *ngIf="conf" [conf]="conf" [confZoom]="confZoom"></of-init-chart></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'TimeLineComponent'};

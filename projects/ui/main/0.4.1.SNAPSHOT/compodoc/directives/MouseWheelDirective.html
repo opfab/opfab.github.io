@@ -173,7 +173,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:13</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -194,7 +194,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:11</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -229,7 +229,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -263,7 +263,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -297,7 +297,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -333,13 +333,15 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/modules/feed/components/time-line/mouse-wheel.directive.ts:34</a></div>
                             </td>
                         </tr>
 
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>emit mouse wheel up or down event</p>
+</div>
 
                             <div class="io-description">
                                     <b>Parameters :</b>
@@ -393,7 +395,6 @@
 /**
  * Mousewheel directive
  * https://github.com/SodhanaLibrary/angular2-examples/blob/master/app/mouseWheelDirective/mousewheel.directive.ts
- *
  * @export
  */
 @Directive({ selector: &#x27;[appMouseWheel]&#x27; })
@@ -418,12 +419,17 @@ export class MouseWheelDirective {
     this.mouseWheelFunc(event);
   }
 
+  /**
+   * emit mouse wheel up or down event
+   * @param event
+   */
   mouseWheelFunc(event: any): void {
     if (window.event) {
       event &#x3D; window.event;
     }
 
-    const delta &#x3D; Math.max(-1, Math.min(1, event.wheelDelta || -event.detail));
+    let delta &#x3D; 0;
+    delta &#x3D; Math.max(-1, Math.min(1, event.wheelDelta || -event.detail));
     if (delta &gt; 0) {
       this.mouseWheelUp.emit(event);
     } else if (delta &lt; 0) {
@@ -431,7 +437,9 @@ export class MouseWheelDirective {
     }
 
     // for IE
-    event.returnValue &#x3D; false;
+    if (event) {
+      event.returnValue &#x3D; false;
+    }
 
     // for Chrome and Firefox
     if (event.preventDefault) {
