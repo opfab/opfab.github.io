@@ -2287,6 +2287,30 @@ export class InitChartComponent implements OnInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;timeline&quot;&gt;
+  &lt;div class&#x3D;&quot;menu-timeline&quot;&gt;
+    &lt;button class&#x3D;&quot;home-btn&quot; *ngIf&#x3D;&quot;checkButtonHomeDisplay()&quot; (click)&#x3D;&quot;homeClick(buttonHome[0], buttonHome[1])&quot;&gt;
+      &lt;em class&#x3D;&quot;fas fa-home&quot;&gt;&lt;/em&gt;
+    &lt;/button&gt;
+    &lt;div id&#x3D;&quot;btn-menu-timeline&quot;&gt;
+      &lt;ul *ngIf&#x3D;&quot;zoomButtonsActive&quot;&gt;
+        &lt;li style&#x3D;&quot;margin-right: 1rem;&quot;&gt;
+          &lt;button class&#x3D;&quot;circle-btn&quot; (click)&#x3D;&quot;moveDomain(false)&quot;&gt;
+            &lt;em class&#x3D;&quot;fas fa-angle-double-left&quot;&gt;&lt;/em&gt;
+          &lt;/button&gt;
+        &lt;/li&gt;
+        &lt;li *ngFor&#x3D;&quot;let button of buttonList&quot;&gt;
+          &lt;button [ngClass]&#x3D;&quot;button.selected ? &#x27;btn-selected&#x27; : &#x27;btn-unselect&#x27;&quot; (click)&#x3D;&quot;changeGraphConf(button)&quot;&gt;
+            {{button.forwardLevel}}
+          &lt;/button&gt;
+        &lt;/li&gt;
+        &lt;li style&#x3D;&quot;margin-left: 1rem&quot;&gt;
+          &lt;button class&#x3D;&quot;circle-btn&quot; (click)&#x3D;&quot;moveDomain(true)&quot;&gt;
+            &lt;em class&#x3D;&quot;fas fa-angle-double-right&quot;&gt;&lt;/em&gt;
+          &lt;/button&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
   &lt;!--
    [results] is the basic input for data on ngx-charts
    [autoScale] make the yScale start at 0 ( and end at 5 if the value is not higher)
@@ -2322,30 +2346,6 @@ export class InitChartComponent implements OnInit {
                              (zoomChange)&#x3D;&quot;applyNewZoom($event)&quot;&gt;
   &lt;/of-custom-timeline-chart&gt;
 &lt;/div&gt;
-&lt;div class&#x3D;&quot;menu-timeline&quot;&gt;
-  &lt;button class&#x3D;&quot;home-btn&quot; *ngIf&#x3D;&quot;checkButtonHomeDisplay()&quot; (click)&#x3D;&quot;homeClick(buttonHome[0], buttonHome[1])&quot;&gt;
-    &lt;em class&#x3D;&quot;fas fa-home&quot;&gt;&lt;/em&gt;
-  &lt;/button&gt;
-  &lt;div id&#x3D;&quot;btn-menu-timeline&quot;&gt;
-    &lt;ul *ngIf&#x3D;&quot;zoomButtonsActive&quot;&gt;
-      &lt;li style&#x3D;&quot;margin-right: 1rem;&quot;&gt;
-        &lt;button class&#x3D;&quot;circle-btn&quot; (click)&#x3D;&quot;moveDomain(false)&quot;&gt;
-          &lt;em class&#x3D;&quot;fas fa-angle-double-left&quot;&gt;&lt;/em&gt;
-        &lt;/button&gt;
-      &lt;/li&gt;
-      &lt;li *ngFor&#x3D;&quot;let button of buttonList&quot;&gt;
-        &lt;button [ngClass]&#x3D;&quot;button.selected ? &#x27;btn-selected&#x27; : &#x27;btn-unselect&#x27;&quot; (click)&#x3D;&quot;changeGraphConf(button)&quot;&gt;
-          {{button.forwardLevel}}
-        &lt;/button&gt;
-      &lt;/li&gt;
-      &lt;li style&#x3D;&quot;margin-left: 1rem&quot;&gt;
-        &lt;button class&#x3D;&quot;circle-btn&quot; (click)&#x3D;&quot;moveDomain(true)&quot;&gt;
-          &lt;em class&#x3D;&quot;fas fa-angle-double-right&quot;&gt;&lt;/em&gt;
-        &lt;/button&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
 </code></pre>
     </div>
 
@@ -2362,7 +2362,7 @@ export class InitChartComponent implements OnInit {
   width: 98%;
   margin-left: auto;
   margin-right: auto;
-  // margin-bottom: 50px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -2373,6 +2373,7 @@ export class InitChartComponent implements OnInit {
   }
 
   .menu-timeline {
+    position: relative;
     max-height: 40px;
     padding-top: 5px;
     margin-bottom: 5px;
@@ -2381,15 +2382,19 @@ export class InitChartComponent implements OnInit {
     justify-content: flex-end;
 
     .home-btn {
+      position: absolute;
       align-self: flex-start;
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
       border-radius: 50%;
       border: none;
       opacity:0.7;
+      left: -25px;
+      padding: 1px;
     }
 
     #btn-menu-timeline {
+      position: absolute;
       flex-grow: 1;
       right: 30px;
       font-size: 12px;
@@ -2406,9 +2411,11 @@ export class InitChartComponent implements OnInit {
         li {
           button {
             list-style: none;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
+            padding: 1px;
             color: black;
+            font-weight: bold;
           }
 
           .btn-selected {
@@ -2456,7 +2463,7 @@ export class InitChartComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="timeline">  <!--   [results] is the basic input for data on ngx-charts   [autoScale] make the yScale start at 0 ( and end at 5 if the value is not higher)   [myData] is the data used by our timeline   [xAxis] allow to show xAxis (xAxis show the vertical line of the grid)   [yAxis] allow to show yAxis (yAxis show the horizontal line of the grid)   [valueDomain] preDefine the Domain of timeline   [showGridLines] allow to show grid and ticks Label automatic   [enableZoom] allow to zoom on timeline   [zoomOnButton] if zoom is allowed, mouse wheel movements follow zoom buttons   [enableDrag] allow to drag on timeline   [realTimeBar] show vertical blue bar at currently time   [clusterLevel] define the clusterLevel (zoomLevel) of timeline   [centeredOnTicks] position of circle centered on Ticks\' timeline   [circleDiameter] circle diameter size   (zoomChange) call when custom timeline chart change his domain  -->  <of-custom-timeline-chart *ngIf="arrayChartData"                             [animations]="animations"                             [autoScale]="autoScale"                             [myData]="arrayChartData"                             [xAxis]="true"                             [yAxis]="true"                             [valueDomain]="myDomain"                             [showGridLines]="showGridLines"                             [enableZoom]="enableZoom"                             [zoomOnButton]="true"                             [enableDrag]="enableDrag"                             [realTimeBar]="realTimeBar"                             [clusterLevel]="forwardButtonType"                             [centeredOnTicks]="centeredOnTicks"                             [circleDiameter]="circleDiameter"                             (zoomChange)="applyNewZoom($event)">  </of-custom-timeline-chart></div><div class="menu-timeline">  <button class="home-btn" *ngIf="checkButtonHomeDisplay()" (click)="homeClick(buttonHome[0], buttonHome[1])">    <em class="fas fa-home"></em>  </button>  <div id="btn-menu-timeline">    <ul *ngIf="zoomButtonsActive">      <li style="margin-right: 1rem;">        <button class="circle-btn" (click)="moveDomain(false)">          <em class="fas fa-angle-double-left"></em>        </button>      </li>      <li *ngFor="let button of buttonList">        <button [ngClass]="button.selected ? \'btn-selected\' : \'btn-unselect\'" (click)="changeGraphConf(button)">          {{button.forwardLevel}}        </button>      </li>      <li style="margin-left: 1rem">        <button class="circle-btn" (click)="moveDomain(true)">          <em class="fas fa-angle-double-right"></em>        </button>      </li>    </ul>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="timeline">  <div class="menu-timeline">    <button class="home-btn" *ngIf="checkButtonHomeDisplay()" (click)="homeClick(buttonHome[0], buttonHome[1])">      <em class="fas fa-home"></em>    </button>    <div id="btn-menu-timeline">      <ul *ngIf="zoomButtonsActive">        <li style="margin-right: 1rem;">          <button class="circle-btn" (click)="moveDomain(false)">            <em class="fas fa-angle-double-left"></em>          </button>        </li>        <li *ngFor="let button of buttonList">          <button [ngClass]="button.selected ? \'btn-selected\' : \'btn-unselect\'" (click)="changeGraphConf(button)">            {{button.forwardLevel}}          </button>        </li>        <li style="margin-left: 1rem">          <button class="circle-btn" (click)="moveDomain(true)">            <em class="fas fa-angle-double-right"></em>          </button>        </li>      </ul>    </div>  </div>  <!--   [results] is the basic input for data on ngx-charts   [autoScale] make the yScale start at 0 ( and end at 5 if the value is not higher)   [myData] is the data used by our timeline   [xAxis] allow to show xAxis (xAxis show the vertical line of the grid)   [yAxis] allow to show yAxis (yAxis show the horizontal line of the grid)   [valueDomain] preDefine the Domain of timeline   [showGridLines] allow to show grid and ticks Label automatic   [enableZoom] allow to zoom on timeline   [zoomOnButton] if zoom is allowed, mouse wheel movements follow zoom buttons   [enableDrag] allow to drag on timeline   [realTimeBar] show vertical blue bar at currently time   [clusterLevel] define the clusterLevel (zoomLevel) of timeline   [centeredOnTicks] position of circle centered on Ticks\' timeline   [circleDiameter] circle diameter size   (zoomChange) call when custom timeline chart change his domain  -->  <of-custom-timeline-chart *ngIf="arrayChartData"                             [animations]="animations"                             [autoScale]="autoScale"                             [myData]="arrayChartData"                             [xAxis]="true"                             [yAxis]="true"                             [valueDomain]="myDomain"                             [showGridLines]="showGridLines"                             [enableZoom]="enableZoom"                             [zoomOnButton]="true"                             [enableDrag]="enableDrag"                             [realTimeBar]="realTimeBar"                             [clusterLevel]="forwardButtonType"                             [centeredOnTicks]="centeredOnTicks"                             [circleDiameter]="circleDiameter"                             (zoomChange)="applyNewZoom($event)">  </of-custom-timeline-chart></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'InitChartComponent'};
