@@ -127,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="272" class="link-to-prism">src/app/services/authentication.service.ts:272</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="287" class="link-to-prism">src/app/services/authentication.service.ts:287</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +227,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="275" class="link-to-prism">src/app/services/authentication.service.ts:275</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/services/authentication.service.ts:290</a></div>
                             </td>
                         </tr>
 
@@ -255,7 +255,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="277" class="link-to-prism">src/app/services/authentication.service.ts:277</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="292" class="link-to-prism">src/app/services/authentication.service.ts:292</a></div>
                             </td>
                         </tr>
 
@@ -283,7 +283,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="276" class="link-to-prism">src/app/services/authentication.service.ts:276</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="291" class="link-to-prism">src/app/services/authentication.service.ts:291</a></div>
                             </td>
                         </tr>
 
@@ -312,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="278" class="link-to-prism">src/app/services/authentication.service.ts:278</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="293" class="link-to-prism">src/app/services/authentication.service.ts:293</a></div>
                             </td>
                         </tr>
 
@@ -334,7 +334,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import {HttpClient, HttpHeaders} from &#x27;@angular/common/http&#x27;;
 import {Observable, of, throwError} from &#x27;rxjs&#x27;;
-import {catchError, map, tap} from &#x27;rxjs/operators&#x27;;
+import {catchError, map, switchMap, tap} from &#x27;rxjs/operators&#x27;;
 import {Guid} from &#x27;guid-typescript&#x27;;
 import {PayloadForSuccessfulAuthentication} from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &quot;@env/environment&quot;;
@@ -344,6 +344,7 @@ import {Store} from &quot;@ngrx/store&quot;;
 import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
 import * as jwt_decode from &quot;jwt-decode&quot;;
 import * as _ from &quot;lodash&quot;;
+import {User} from &quot;@ofModel/user.model&quot;;
 
 export enum LocalStorageAuthContent {
     token &#x3D; &#x27;token&#x27;,
@@ -361,6 +362,7 @@ export class AuthenticationService {
     private checkTokenUrl &#x3D; &#x60;${environment.urls.auth}/check_token&#x60;;
     /** url to ask for an authentication token (jwt) */
     private askTokenUrl &#x3D; &#x60;${environment.urls.auth}/token&#x60;;
+    private userDataUrl &#x3D; &#x60;${environment.urls.users}/users&#x60;;
     private clientId: string;
     private clientSecret: string;
     private loginClaim: string;
@@ -467,8 +469,21 @@ export class AuthenticationService {
             }),
             map((auth: AuthObject) &#x3D;&gt; this.convert(auth)),
             tap(AuthenticationService.saveAuthenticationInformation),
-            catchError(AuthenticationService.handleError)
+            catchError(AuthenticationService.handleError),
+            switchMap((auth)&#x3D;&gt;this.loadUserData(auth))
         );
+    }
+
+    private loadUserData(auth:PayloadForSuccessfulAuthentication):Observable&lt;PayloadForSuccessfulAuthentication&gt;{
+        return this.httpClient.get&lt;User&gt;(&#x60;${this.userDataUrl}/${auth.identifier}&#x60;)
+            .pipe(
+                map(u &#x3D;&gt; {
+                    auth.firstName &#x3D; u.firstName;
+                    auth.lastName &#x3D; u.lastName;
+                    return auth;
+                }),
+                catchError(e&#x3D;&gt;of(auth))
+            );
     }
 
     private static handleError(error: any) {

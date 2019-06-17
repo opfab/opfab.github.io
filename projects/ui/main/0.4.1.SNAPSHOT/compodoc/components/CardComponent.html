@@ -789,16 +789,16 @@ export class CardComponent implements OnInit{
 
 &lt;div class&#x3D;&quot;card light-card-detail bg-dark rounded&quot; [class.border-light]&#x3D;&quot;open&quot; (click)&#x3D;&quot;select()&quot;&gt;
     &lt;div class&#x3D;&quot;d-flex card-header p-0 border-0&quot;&gt;
-        &lt;div class&#x3D;&quot;badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}}&quot;
+        &lt;div class&#x3D;&quot;badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}} col-1&quot;
              [class.rounded-left]&#x3D;&quot;!open&quot;&gt;
         &lt;/div&gt;
-        &lt;div class&#x3D;&quot;p-1&quot;&gt;
+        &lt;div class&#x3D;&quot;p-1&quot; [class.text-truncate]&#x3D;&quot;!open&quot;&gt;
             &lt;p class&#x3D;&quot;card-title&quot; translate [translateParams]&#x3D;&quot;lightCard.title.parameters&quot;&gt;{{i18nPrefix+lightCard.title.key}}&lt;/p&gt;
             &lt;p *ngIf&#x3D;&quot;this.dateToDisplay&quot; class&#x3D;&quot;card-subtitle&quot;&gt;({{this.dateToDisplay}})&lt;/p&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class&#x3D;&quot;d-flex card-body p-0 border-0&quot; *ngIf&#x3D;&quot;open&quot;&gt;
-        &lt;div class&#x3D;&quot;badge-border rounded-bottom-left bg-sev-{{lightCard.severity.toString()|lowercase}}&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;badge-border rounded-bottom-left bg-sev-{{lightCard.severity.toString()|lowercase}} col-1&quot;&gt;&lt;/div&gt;
         &lt;div class&#x3D;&quot;card-text p-1&quot; translate [translateParams]&#x3D;&quot;lightCard.summary.parameters&quot;&gt;
             {{i18nPrefix+lightCard.summary.key}}
         &lt;/div&gt;
@@ -824,6 +824,7 @@ export class CardComponent implements OnInit{
 
 .card {
   margin-bottom: 5px;
+  word-break: break-all;
 }
 
 .card-title {
@@ -842,7 +843,8 @@ export class CardComponent implements OnInit{
 .badge-border {
   width: 30px;
   text-align: center;
-}</code></pre>
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -870,8 +872,8 @@ export class CardComponent implements OnInit{
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="card light-card-detail bg-dark rounded" [class.border-light]="open" (click)="select()">    <div class="d-flex card-header p-0 border-0">        <div class="badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}}"             [class.rounded-left]="!open">        </div>        <div class="p-1">            <p class="card-title" translate [translateParams]="lightCard.title.parameters">{{i18nPrefix+lightCard.title.key}}</p>            <p *ngIf="this.dateToDisplay" class="card-subtitle">({{this.dateToDisplay}})</p>        </div>    </div>    <div class="d-flex card-body p-0 border-0" *ngIf="open">        <div class="badge-border rounded-bottom-left bg-sev-{{lightCard.severity.toString()|lowercase}}"></div>        <div class="card-text p-1" translate [translateParams]="lightCard.summary.parameters">            {{i18nPrefix+lightCard.summary.key}}        </div>    </div></div></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="card light-card-detail bg-dark rounded" [class.border-light]="open" (click)="select()">    <div class="d-flex card-header p-0 border-0">        <div class="badge-border rounded-top-left bg-sev-{{lightCard.severity.toString()|lowercase}} col-1"             [class.rounded-left]="!open">        </div>        <div class="p-1" [class.text-truncate]="!open">            <p class="card-title" translate [translateParams]="lightCard.title.parameters">{{i18nPrefix+lightCard.title.key}}</p>            <p *ngIf="this.dateToDisplay" class="card-subtitle">({{this.dateToDisplay}})</p>        </div>    </div>    <div class="d-flex card-body p-0 border-0" *ngIf="open">        <div class="badge-border rounded-bottom-left bg-sev-{{lightCard.severity.toString()|lowercase}} col-1"></div>        <div class="card-text p-1" translate [translateParams]="lightCard.summary.parameters">            {{i18nPrefix+lightCard.summary.key}}        </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'CardComponent'};
 </script>
