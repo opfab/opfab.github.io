@@ -196,8 +196,9 @@ font-style: italic;
   <div class="method-summary"></div>
   <h4><a href="#Groups">Groups</a></h4>
   <ul>
-  <li><a href="#addGroupUsers"><code><span class="http-method">post</span> /groups/{name}/users</code></a></li>
+  <li><a href="#addGroupUsers"><code><span class="http-method">patch</span> /groups/{name}/users</code></a></li>
   <li><a href="#createGroup"><code><span class="http-method">post</span> /groups</code></a></li>
+  <li><a href="#deleteGroupUser"><code><span class="http-method">delete</span> /groups/{name}/users/{login}</code></a></li>
   <li><a href="#deleteGroupUsers"><code><span class="http-method">delete</span> /groups/{name}/users</code></a></li>
   <li><a href="#fetchGroup"><code><span class="http-method">get</span> /groups/{name}</code></a></li>
   <li><a href="#fetchGroups"><code><span class="http-method">get</span> /groups</code></a></li>
@@ -206,8 +207,9 @@ font-style: italic;
   </ul>
   <h4><a href="#Users">Users</a></h4>
   <ul>
-  <li><a href="#addGroupUsers"><code><span class="http-method">post</span> /groups/{name}/users</code></a></li>
+  <li><a href="#addGroupUsers"><code><span class="http-method">patch</span> /groups/{name}/users</code></a></li>
   <li><a href="#createUser"><code><span class="http-method">post</span> /users</code></a></li>
+  <li><a href="#deleteGroupUser"><code><span class="http-method">delete</span> /groups/{name}/users/{login}</code></a></li>
   <li><a href="#deleteGroupUsers"><code><span class="http-method">delete</span> /groups/{name}/users</code></a></li>
   <li><a href="#fetchUser"><code><span class="http-method">get</span> /users/{login}</code></a></li>
   <li><a href="#fetchUserSetting"><code><span class="http-method">get</span> /users/{login}/settings</code></a></li>
@@ -222,7 +224,7 @@ font-style: italic;
   <div class="method"><a name="addGroupUsers"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /groups/{name}/users</code></pre></div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /groups/{name}/users</code></pre></div>
     <div class="method-summary">Add users to group (<span class="nickname">addGroupUsers</span>)</div>
     <div class="method-notes">ONLY add users to group (no deletions)</div>
 
@@ -327,11 +329,66 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Updated
+        <a href="#Group">Group</a>
     <h4 class="field-label">201</h4>
     Created
         <a href="#Group">Group</a>
     <h4 class="field-label">400</h4>
     Bad request (duplicate key)
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - ADMIN role necessary
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="deleteGroupUser"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users/{login}</code></pre></div>
+    <div class="method-summary">Remove users from group (<span class="nickname">deleteGroupUser</span>)</div>
+    <div class="method-notes">ONLY remove users from group (no additions)</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div><div class="param">login (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; User login </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Deleted
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request
         <a href="#"></a>
     <h4 class="field-label">401</h4>
     Authentication required
@@ -348,8 +405,8 @@ font-style: italic;
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Remove users from group (<span class="nickname">deleteGroupUsers</span>)</div>
-    <div class="method-notes">ONLY remove users from group (no additions)</div>
+    <div class="method-summary">Remove all users from group (<span class="nickname">deleteGroupUsers</span>)</div>
+    <div class="method-notes">remove all users from group</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -364,13 +421,6 @@ font-style: italic;
       <li><code>application/json</code></li>
     </ul>
 
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">users <a href="#string">string</a> (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins to be removed from group </div>
-
-    </div>  <!-- field-items -->
 
 
 
@@ -567,8 +617,11 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">201</h4>
+    <h4 class="field-label">200</h4>
     Updated
+        <a href="#Group">Group</a>
+    <h4 class="field-label">201</h4>
+    Created
         <a href="#Group">Group</a>
     <h4 class="field-label">400</h4>
     Bad request (body doesn't match name path parameter)
@@ -578,9 +631,6 @@ font-style: italic;
         <a href="#"></a>
     <h4 class="field-label">403</h4>
     Forbidden - ADMIN role necessary
-        <a href="#"></a>
-    <h4 class="field-label">404</h4>
-    Group not found
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -648,7 +698,7 @@ font-style: italic;
   <div class="method"><a name="addGroupUsers"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /groups/{name}/users</code></pre></div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /groups/{name}/users</code></pre></div>
     <div class="method-summary">Add users to group (<span class="nickname">addGroupUsers</span>)</div>
     <div class="method-notes">ONLY add users to group (no deletions)</div>
 
@@ -757,6 +807,9 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#SimpleUser">SimpleUser</a>
+    <h4 class="field-label">201</h4>
+    Created
+        <a href="#SimpleUser">SimpleUser</a>
     <h4 class="field-label">400</h4>
     Bad request (duplicate key)
         <a href="#"></a>
@@ -768,12 +821,67 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="deleteGroupUser"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users/{login}</code></pre></div>
+    <div class="method-summary">Remove users from group (<span class="nickname">deleteGroupUser</span>)</div>
+    <div class="method-notes">ONLY remove users from group (no additions)</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Group name </div><div class="param">login (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; User login </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Deleted
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - ADMIN role necessary
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Required group not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="deleteGroupUsers"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /groups/{name}/users</code></pre></div>
-    <div class="method-summary">Remove users from group (<span class="nickname">deleteGroupUsers</span>)</div>
-    <div class="method-notes">ONLY remove users from group (no additions)</div>
+    <div class="method-summary">Remove all users from group (<span class="nickname">deleteGroupUsers</span>)</div>
+    <div class="method-notes">remove all users from group</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -788,13 +896,6 @@ font-style: italic;
       <li><code>application/json</code></li>
     </ul>
 
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">users <a href="#string">string</a> (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Array of user logins to be removed from group </div>
-
-    </div>  <!-- field-items -->
 
 
 
@@ -1197,6 +1298,9 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#SimpleUser">SimpleUser</a>
+    <h4 class="field-label">201</h4>
+    Created
+        <a href="#SimpleUser">SimpleUser</a>
     <h4 class="field-label">400</h4>
     Bad request (body doesn't match login path parameter)
         <a href="#"></a>
@@ -1205,9 +1309,6 @@ font-style: italic;
         <a href="#"></a>
     <h4 class="field-label">403</h4>
     Authenticated users who are not admins can only update their own data
-        <a href="#"></a>
-    <h4 class="field-label">404</h4>
-    User not found
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
@@ -1273,6 +1374,9 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
+        <a href="#UserSettings">UserSettings</a>
+    <h4 class="field-label">201</h4>
+    Created
         <a href="#UserSettings">UserSettings</a>
     <h4 class="field-label">400</h4>
     Bad request (body doesn't match login path parameter)
