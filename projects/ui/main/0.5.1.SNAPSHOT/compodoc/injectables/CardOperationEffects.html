@@ -74,6 +74,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#refreshIfSelectedCard">refreshIfSelectedCard</a>
+                            </li>
+                            <li>
                                 <a href="#subscribe">subscribe</a>
                             </li>
                             <li>
@@ -103,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -175,6 +178,54 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="refreshIfSelectedCard"></a>
+                        <span class="name">
+                            <b>
+                            refreshIfSelectedCard</b>
+                            <a href="#refreshIfSelectedCard"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../classes/Action.html" target="_self" >Observable&lt;Action&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$
+        .pipe(
+            ofType(LightCardActionTypes.LoadLightCardsSuccess),
+            map((a:LoadLightCardsSuccess) &#x3D;&gt; a.payload.lightCards), //retrieve list of added light cards from action payload
+            withLatestFrom(this.store.select(selectCardStateSelectedId)), //retrieve currently selected card
+            switchMap(([lightCards, selectedCardId]) &#x3D;&gt; lightCards.filter (card &#x3D;&gt; card.id.indexOf(selectedCardId) &gt;&#x3D; 0)), //keep only lightCards matching the process id of current selected card
+            map( lightCard &#x3D;&gt; new LoadCard({id: lightCard.id})) //if any, trigger refresh by firing LoadCard
+        )</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Effect()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:88</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="subscribe"></a>
                         <span class="name">
                             <b>
@@ -233,7 +284,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -290,7 +341,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:69</a></div>
                             </td>
                         </tr>
 
@@ -307,19 +358,21 @@
 import {Actions, Effect, ofType} from &#x27;@ngrx/effects&#x27;;
 import {CardService} from &#x27;@ofServices/card.service&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
-import {catchError, filter, map, switchMap, takeUntil} from &#x27;rxjs/operators&#x27;;
+import {catchError, filter, map, switchMap, takeUntil, withLatestFrom} from &#x27;rxjs/operators&#x27;;
 import {
     AddLightCardFailure,
     HandleUnexpectedError,
-    LightCardActions,
+    LightCardActions, LightCardActionTypes,
     LoadLightCardsSuccess,
     UpdatedSubscription
 } from &#x27;@ofActions/light-card.actions&#x27;;
 import {AuthenticationActionTypes} from &#x27;@ofActions/authentication.actions&#x27;;
-import {Store} from &quot;@ngrx/store&quot;;
+import {Action, Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {ApplyFilter, FeedActionTypes} from &quot;@ofActions/feed.actions&quot;;
 import {FilterType} from &quot;@ofServices/filter.service&quot;;
+import {selectCardStateSelectedId} from &quot;@ofSelectors/card.selectors&quot;;
+import {LoadCard} from &quot;@ofActions/card.actions&quot;;
 
 @Injectable()
 export class CardOperationEffects {
@@ -380,6 +433,16 @@ export class CardOperationEffects {
             })
         );
 
+    @Effect()
+    refreshIfSelectedCard: Observable&lt;Action&gt; &#x3D; this.actions$
+        .pipe(
+            ofType(LightCardActionTypes.LoadLightCardsSuccess),
+            map((a:LoadLightCardsSuccess) &#x3D;&gt; a.payload.lightCards), //retrieve list of added light cards from action payload
+            withLatestFrom(this.store.select(selectCardStateSelectedId)), //retrieve currently selected card
+            switchMap(([lightCards, selectedCardId]) &#x3D;&gt; lightCards.filter (card &#x3D;&gt; card.id.indexOf(selectedCardId) &gt;&#x3D; 0)), //keep only lightCards matching the process id of current selected card
+            map( lightCard &#x3D;&gt; new LoadCard({id: lightCard.id})) //if any, trigger refresh by firing LoadCard
+        )
+    ;
 }
 </code></pre>
     </div>
