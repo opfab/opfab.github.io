@@ -194,7 +194,7 @@
                                 <a href="#myDomain">myDomain</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Public</span>
                                 <a href="#realCaseActivate">realCaseActivate</a>
                             </li>
                             <li>
@@ -572,7 +572,7 @@ select the button from the conf received</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="476" class="link-to-prism">src/app/modules/feed/components/init-chart/init-chart.component.ts:476</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="466" class="link-to-prism">src/app/modules/feed/components/init-chart/init-chart.component.ts:466</a></div>
                             </td>
                         </tr>
 
@@ -1026,7 +1026,7 @@ or move 1 day backward the week selected</p>
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="455" class="link-to-prism">src/app/modules/feed/components/init-chart/init-chart.component.ts:455</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="445" class="link-to-prism">src/app/modules/feed/components/init-chart/init-chart.component.ts:445</a></div>
                             </td>
                         </tr>
 
@@ -1930,7 +1930,7 @@ feed arrayChartData with values from data Observable</p>
                         <a name="realCaseActivate"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Public</span>
                             realCaseActivate</b>
                             <a href="#realCaseActivate"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -2106,7 +2106,7 @@ export class InitChartComponent implements OnInit, OnDestroy {
   public circleDiameter: number;
 
   // required for domain movements specifications
-  private realCaseActivate: boolean;
+  public realCaseActivate: boolean;
   private continuousForward: number;
 
   // buttons
@@ -2432,7 +2432,7 @@ export class InitChartComponent implements OnInit, OnDestroy {
     this.myDomain &#x3D; [valueStart, valueEnd];
     // apply zoom on feed
     this.store.dispatch(new ApplyFilter({
-      name: FilterType.TIME_FILTER, active: false,
+      name: FilterType.TIME_FILTER, active: true,
       status: {start: startDomain, end: endDomain}
     }));
   }
@@ -2489,30 +2489,20 @@ export class InitChartComponent implements OnInit, OnDestroy {
    * @param forward
    */
   moveDomainByDay(forward: boolean): void {
-    const startDomain &#x3D; moment(this.myDomain[0]);
-    const endDomain &#x3D; moment(startDomain);
-    endDomain.add(7, &#x27;days&#x27;);
-    if (forward) {
-      this.continuousForward++;
-      // extend domain by one day
-      if (this.continuousForward &gt; 0) {
-        endDomain.add(this.continuousForward, &#x27;days&#x27;);
-      } else {
-        // progress 1 day in time on the domain
-        startDomain.add(1, &#x27;days&#x27;);
-        endDomain.add(1, &#x27;days&#x27;);
-      }
-    } else {
-      this.continuousForward--;
-      // decrease domain by one day
-      if (this.continuousForward &gt; 0) {
-        endDomain.add(this.continuousForward, &#x27;days&#x27;);
-      } else {
-        // move 1 day back in time on the domain
-        startDomain.subtract(1, &#x27;days&#x27;);
-        endDomain.subtract(1, &#x27;days&#x27;);
-      }
-    }
+   const startDomain &#x3D; moment(this.myDomain[0]);
+   if (this.realCaseActivate) {
+     startDomain.hours(0);
+     this.realCaseActivate &#x3D; false;
+   }
+   const endDomain &#x3D; moment(startDomain);
+   endDomain.add(7, &#x27;days&#x27;);
+   if (forward) {
+     startDomain.add(1, &#x27;days&#x27;);
+     endDomain.add(1, &#x27;days&#x27;);
+   } else {
+     startDomain.subtract(1, &#x27;days&#x27;);
+     endDomain.subtract(1, &#x27;days&#x27;);
+   }
    this.setStartAndEndDomain(startDomain.valueOf(), endDomain.valueOf());
   }
 
@@ -2744,7 +2734,7 @@ export class InitChartComponent implements OnInit, OnDestroy {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="timeline">  <div class="menu-timeline">    <button class="home-btn" *ngIf="checkButtonHomeDisplay()" (click)="homeClick(buttonHome[0], buttonHome[1])">      <em class="fas fa-home"></em>    </button>    <div id="btn-menu-timeline">      <ul *ngIf="zoomButtonsActive">        <li style="margin-right: 1rem;">          <button class="circle-btn" (click)="moveDomain(false)">            <em class="fas fa-angle-double-left"></em>          </button>        </li>        <li *ngFor="let button of buttonList">          <button [ngClass]="button.selected ? \'btn-selected\' : \'btn-unselect\'" (click)="changeGraphConf(button)">            {{button.forwardLevel}}          </button>        </li>        <li style="margin-left: 1rem">          <button class="circle-btn" (click)="moveDomain(true)">            <em class="fas fa-angle-double-right"></em>          </button>        </li>      </ul>    </div>  </div>  <!--   [results] is the basic input for data on ngx-charts   [autoScale] make the yScale start at 0 ( and end at 5 if the value is not higher)   [myData] is the data used by our timeline   [xAxis] allow to show xAxis (xAxis show the vertical line of the grid)   [yAxis] allow to show yAxis (yAxis show the horizontal line of the grid)   [valueDomain] preDefine the Domain of timeline   [showGridLines] allow to show grid and ticks Label automatic   [enableZoom] allow to zoom on timeline   [zoomOnButton] if zoom is allowed, mouse wheel movements follow zoom buttons   [enableDrag] allow to drag on timeline   [realTimeBar] show vertical blue bar at currently time   [clusterLevel] define the clusterLevel (zoomLevel) of timeline   [centeredOnTicks] position of circle centered on Ticks\' timeline   [clusterTicksToTicks] algo used for group circles   [circleDiameter] circle diameter size   (zoomChange) call when custom timeline chart change his domain  -->  <of-custom-timeline-chart class="of-custom-timeline-chart"                              *ngIf="arrayChartData"                             [animations]="animations"                             [autoScale]="autoScale"                             [myData]="arrayChartData"                             [xAxis]="true"                             [yAxis]="true"                             [valueDomain]="myDomain"                             [showGridLines]="showGridLines"                             [enableZoom]="enableZoom"                             [zoomOnButton]="true"                             [enableDrag]="enableDrag"                             [realTimeBar]="realTimeBar"                             [clusterLevel]="forwardButtonType"                             [centeredOnTicks]="centeredOnTicks"                             [clusterTicksToTicks]="clusterTicksToTicks"                             [circleDiameter]="circleDiameter"                             [realCaseActivate]="realCaseActivate"                             (zoomChange)="applyNewZoom($event)">  </of-custom-timeline-chart></div></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'InitChartComponent'};
 </script>
