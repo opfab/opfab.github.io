@@ -390,6 +390,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Card.html" data-type="entity-link">Card</a>
                             </li>
                             <li class="link">
+                                <a href="classes/CardOperation.html" data-type="entity-link">CardOperation</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/CheckAuthenticationStatus.html" data-type="entity-link">CheckAuthenticationStatus</a>
                             </li>
                             <li class="link">
@@ -523,6 +526,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/RejectLogIn.html" data-type="entity-link">RejectLogIn</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/RemoveLightCard.html" data-type="entity-link">RemoveLightCard</a>
                             </li>
                             <li class="link">
                                 <a href="classes/RouterStateUrl.html" data-type="entity-link">RouterStateUrl</a>

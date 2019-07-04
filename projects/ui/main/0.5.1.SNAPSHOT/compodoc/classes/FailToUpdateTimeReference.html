@@ -67,7 +67,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Notify thate something went wrong while changing the virtual time.
+                <p>Notify that something went wrong while changing the virtual time.
 Nothing has been done and an error is reported</p>
 
             </p>
@@ -125,7 +125,7 @@ Nothing has been done and an error is reported</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/store/actions/time.actions.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/store/actions/time.actions.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -189,7 +189,7 @@ Nothing has been done and an error is reported</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/store/actions/time.actions.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/actions/time.actions.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -216,7 +216,7 @@ Nothing has been done and an error is reported</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/store/actions/time.actions.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/store/actions/time.actions.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -242,16 +242,18 @@ import * as moment from &quot;moment-timezone&quot;;
 
 export enum TimeActionTypes{
     Tick&#x3D;&#x27;[Time] tick&#x27;,
-    UpdateTimeReference&#x3D;&#x27;[Time] try to upadate the time reference&#x27;,
+    UpdateTimeReference&#x3D;&#x27;[Time] try to update the time reference&#x27;,
     FailToUpdateTimeReference&#x3D;&#x27;[Time] fail to update the time reference&#x27;
 }
 
 /**
  * Heart beat of the application change current date
+ * Contains the elapsed virtual time since the previous heart beat so any components following the clock
+ * can shift their timespan accordingly
  */
 export class Tick implements  Action{
     readonly type&#x3D;TimeActionTypes.Tick;
-    constructor(public payload:{currentTime:moment.Moment}){}
+    constructor(public payload:{currentTime:moment.Moment, elapsedSinceLast:number}){}
 }
 
 /**
@@ -265,7 +267,7 @@ export class UpdateTimeReference implements Action{
 
 
 /**
- * Notify thate something went wrong while changing the virtual time.
+ * Notify that something went wrong while changing the virtual time.
  * Nothing has been done and an error is reported
  */
 export class FailToUpdateTimeReference implements Action{

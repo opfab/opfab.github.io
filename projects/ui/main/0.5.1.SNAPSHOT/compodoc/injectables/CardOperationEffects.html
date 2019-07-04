@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -198,10 +198,10 @@
                             <i>Default value : </i><code>this.actions$
         .pipe(
             ofType(LightCardActionTypes.LoadLightCardsSuccess),
-            map((a:LoadLightCardsSuccess) &#x3D;&gt; a.payload.lightCards), //retrieve list of added light cards from action payload
+            map((a: LoadLightCardsSuccess) &#x3D;&gt; a.payload.lightCards), //retrieve list of added light cards from action payload
             withLatestFrom(this.store.select(selectCardStateSelectedId)), //retrieve currently selected card
-            switchMap(([lightCards, selectedCardId]) &#x3D;&gt; lightCards.filter (card &#x3D;&gt; card.id.indexOf(selectedCardId) &gt;&#x3D; 0)), //keep only lightCards matching the process id of current selected card
-            map( lightCard &#x3D;&gt; new LoadCard({id: lightCard.id})) //if any, trigger refresh by firing LoadCard
+            switchMap(([lightCards, selectedCardId]) &#x3D;&gt; lightCards.filter(card &#x3D;&gt; card.id.indexOf(selectedCardId) &gt;&#x3D; 0)), //keep only lightCards matching the process id of current selected card
+            map(lightCard &#x3D;&gt; new LoadCard({id: lightCard.id})) //if any, trigger refresh by firing LoadCard
         )</code>
                         </td>
                     </tr>
@@ -216,7 +216,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:88</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:92</a></div>
                             </td>
                         </tr>
 
@@ -251,15 +251,16 @@
                 .pipe(
                     takeUntil(this.service.unsubscribe$),
                     map(operation &#x3D;&gt; {
-                        if (operation.type &amp;&amp; operation.type.toString() &#x3D;&#x3D;&#x3D; &#x27;ADD&#x27;) {
-                            const opCards &#x3D; operation.cards;
-                            return new LoadLightCardsSuccess({lightCards: opCards});
+                        switch (operation.type) {
+                            case CardOperationType.ADD:
+                                return new LoadLightCardsSuccess({lightCards: operation.cards});
+                            case CardOperationType.DELETE:
+                                return new RemoveLightCard({cards: operation.cardIds});
+                            default:
+                                return new AddLightCardFailure(
+                                    {error: new Error(&#x60;unhandled action type &#x27;${operation.type}&#x27;&#x60;)}
+                                );
                         }
-                        return new AddLightCardFailure(
-                            {
-                                error:
-                                    new Error(&#x60;unhandled action type &#x27;${operation.type}&#x27;&#x60;)
-                            });
                     }),
                     catchError((error, caught) &#x3D;&gt; {
                         this.store.dispatch(new AddLightCardFailure({error: error}));
@@ -268,7 +269,7 @@
                 )
             ),
 
-            catchError((error,caught )&#x3D;&gt; {
+            catchError((error, caught) &#x3D;&gt; {
                 this.store.dispatch(new HandleUnexpectedError({error: error}));
                 return caught;
             }))</code>
@@ -285,7 +286,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -316,15 +317,15 @@
         .pipe(
             // loads card operations only after authentication of a default user ok.
             ofType(FeedActionTypes.ApplyFilter),
-            filter((af:ApplyFilter)&#x3D;&gt;af.payload.name &#x3D;&#x3D; FilterType.TIME_FILTER),
-            switchMap((af:ApplyFilter) &#x3D;&gt; this.service.updateCardSubscriptionWithDates(af.payload.status.start,af.payload.status.end)
+            filter((af: ApplyFilter) &#x3D;&gt; af.payload.name &#x3D;&#x3D; FilterType.TIME_FILTER),
+            switchMap((af: ApplyFilter) &#x3D;&gt; this.service.updateCardSubscriptionWithDates(af.payload.status.start, af.payload.status.end)
                 .pipe(
-                    map(()&#x3D;&gt; {
+                    map(() &#x3D;&gt; {
                         return new UpdatedSubscription();
                     })
                 )
             ),
-            catchError((error,caught )&#x3D;&gt; {
+            catchError((error, caught) &#x3D;&gt; {
                 this.store.dispatch(new HandleUnexpectedError({error: error}))
                 return caught;
             })
@@ -342,7 +343,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:69</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/store/effects/card-operation.effects.ts:73</a></div>
                             </td>
                         </tr>
 
@@ -363,8 +364,10 @@ import {catchError, filter, map, switchMap, takeUntil, withLatestFrom} from &#x2
 import {
     AddLightCardFailure,
     HandleUnexpectedError,
-    LightCardActions, LightCardActionTypes,
+    LightCardActions,
+    LightCardActionTypes,
     LoadLightCardsSuccess,
+    RemoveLightCard,
     UpdatedSubscription
 } from &#x27;@ofActions/light-card.actions&#x27;;
 import {AuthenticationActionTypes} from &#x27;@ofActions/authentication.actions&#x27;;
@@ -374,6 +377,7 @@ import {ApplyFilter, FeedActionTypes} from &quot;@ofActions/feed.actions&quot;;
 import {FilterType} from &quot;@ofServices/filter.service&quot;;
 import {selectCardStateSelectedId} from &quot;@ofSelectors/card.selectors&quot;;
 import {LoadCard} from &quot;@ofActions/card.actions&quot;;
+import {CardOperationType} from &quot;@ofModel/card-operation.model&quot;;
 
 @Injectable()
 export class CardOperationEffects {
@@ -393,15 +397,16 @@ export class CardOperationEffects {
                 .pipe(
                     takeUntil(this.service.unsubscribe$),
                     map(operation &#x3D;&gt; {
-                        if (operation.type &amp;&amp; operation.type.toString() &#x3D;&#x3D;&#x3D; &#x27;ADD&#x27;) {
-                            const opCards &#x3D; operation.cards;
-                            return new LoadLightCardsSuccess({lightCards: opCards});
+                        switch (operation.type) {
+                            case CardOperationType.ADD:
+                                return new LoadLightCardsSuccess({lightCards: operation.cards});
+                            case CardOperationType.DELETE:
+                                return new RemoveLightCard({cards: operation.cardIds});
+                            default:
+                                return new AddLightCardFailure(
+                                    {error: new Error(&#x60;unhandled action type &#x27;${operation.type}&#x27;&#x60;)}
+                                );
                         }
-                        return new AddLightCardFailure(
-                            {
-                                error:
-                                    new Error(&#x60;unhandled action type &#x27;${operation.type}&#x27;&#x60;)
-                            });
                     }),
                     catchError((error, caught) &#x3D;&gt; {
                         this.store.dispatch(new AddLightCardFailure({error: error}));
@@ -410,7 +415,7 @@ export class CardOperationEffects {
                 )
             ),
 
-            catchError((error,caught )&#x3D;&gt; {
+            catchError((error, caught) &#x3D;&gt; {
                 this.store.dispatch(new HandleUnexpectedError({error: error}));
                 return caught;
             }));
@@ -420,15 +425,15 @@ export class CardOperationEffects {
         .pipe(
             // loads card operations only after authentication of a default user ok.
             ofType(FeedActionTypes.ApplyFilter),
-            filter((af:ApplyFilter)&#x3D;&gt;af.payload.name &#x3D;&#x3D; FilterType.TIME_FILTER),
-            switchMap((af:ApplyFilter) &#x3D;&gt; this.service.updateCardSubscriptionWithDates(af.payload.status.start,af.payload.status.end)
+            filter((af: ApplyFilter) &#x3D;&gt; af.payload.name &#x3D;&#x3D; FilterType.TIME_FILTER),
+            switchMap((af: ApplyFilter) &#x3D;&gt; this.service.updateCardSubscriptionWithDates(af.payload.status.start, af.payload.status.end)
                 .pipe(
-                    map(()&#x3D;&gt; {
+                    map(() &#x3D;&gt; {
                         return new UpdatedSubscription();
                     })
                 )
             ),
-            catchError((error,caught )&#x3D;&gt; {
+            catchError((error, caught) &#x3D;&gt; {
                 this.store.dispatch(new HandleUnexpectedError({error: error}))
                 return caught;
             })
@@ -438,10 +443,10 @@ export class CardOperationEffects {
     refreshIfSelectedCard: Observable&lt;Action&gt; &#x3D; this.actions$
         .pipe(
             ofType(LightCardActionTypes.LoadLightCardsSuccess),
-            map((a:LoadLightCardsSuccess) &#x3D;&gt; a.payload.lightCards), //retrieve list of added light cards from action payload
+            map((a: LoadLightCardsSuccess) &#x3D;&gt; a.payload.lightCards), //retrieve list of added light cards from action payload
             withLatestFrom(this.store.select(selectCardStateSelectedId)), //retrieve currently selected card
-            switchMap(([lightCards, selectedCardId]) &#x3D;&gt; lightCards.filter (card &#x3D;&gt; card.id.indexOf(selectedCardId) &gt;&#x3D; 0)), //keep only lightCards matching the process id of current selected card
-            map( lightCard &#x3D;&gt; new LoadCard({id: lightCard.id})) //if any, trigger refresh by firing LoadCard
+            switchMap(([lightCards, selectedCardId]) &#x3D;&gt; lightCards.filter(card &#x3D;&gt; card.id.indexOf(selectedCardId) &gt;&#x3D; 0)), //keep only lightCards matching the process id of current selected card
+            map(lightCard &#x3D;&gt; new LoadCard({id: lightCard.id})) //if any, trigger refresh by firing LoadCard
         )
     ;
 }
