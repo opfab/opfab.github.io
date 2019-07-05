@@ -276,8 +276,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">src/app/modules/feed/components/card-list/filters/time-filter/time-filter.component.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/app/modules/feed/components/card-list/filters/time-filter/time-filter.component.ts:94</a></div>
                 </td>
             </tr>
 
@@ -531,27 +531,31 @@ export class TimeFilterComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._filter$ &#x3D; this.store.select(buildFilterSelector(FilterType.TIME_FILTER));
+
+        //Update the values of the filter form if the state of the filter has been changed by other means (timeline, followClockTick, etc.)
+        //With {emitEvent:false}, this update won&#x27;t trigger a valueChanges, so no ApplyFilter action will be dispatched
         this._filter$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((next: Filter) &#x3D;&gt; {
             if (next) {
                 if (this.timeService.parseString(this.timeFilterForm.get(&#x27;start&#x27;).value).valueOf() !&#x3D; next.status.start) {
                     if(!!next.status.start)
-                        this.timeFilterForm.get(&#x27;start&#x27;).setValue(this.timeService.asInputString(next.status.start));
+                        this.timeFilterForm.get(&#x27;start&#x27;).setValue(this.timeService.asInputString(next.status.start), {emitEvent:false});
                     else
-                        this.timeFilterForm.get(&#x27;start&#x27;).setValue(null);
+                        this.timeFilterForm.get(&#x27;start&#x27;).setValue(null, {emitEvent: false});
                 }
                 if (this.timeService.parseString(this.timeFilterForm.get(&#x27;end&#x27;).value).valueOf() !&#x3D; next.status.end) {
                     if(!!next.status.end)
-                        this.timeFilterForm.get(&#x27;end&#x27;).setValue(this.timeService.asInputString(next.status.end));
+                        this.timeFilterForm.get(&#x27;end&#x27;).setValue(this.timeService.asInputString(next.status.end), {emitEvent: false});
                     else
-                        this.timeFilterForm.get(&#x27;end&#x27;).setValue(null);
+                        this.timeFilterForm.get(&#x27;end&#x27;).setValue(null, {emitEvent: false});
                 }
             } else {
                 if (!!this.timeFilterForm.get(&#x27;start&#x27;).value)
-                    this.timeFilterForm.get(&#x27;start&#x27;).setValue(null);
+                    this.timeFilterForm.get(&#x27;start&#x27;).setValue(null, {emitEvent: false});
                 if (!!this.timeFilterForm.get(&#x27;end&#x27;).value)
-                    this.timeFilterForm.get(&#x27;end&#x27;).setValue(null);
+                    this.timeFilterForm.get(&#x27;end&#x27;).setValue(null, {emitEvent: false});
             }
         });
+
         this._filter$.pipe(first(), takeUntil(this.ngUnsubscribe$)).subscribe(() &#x3D;&gt; {
             this.timeFilterForm
                 .valueChanges
@@ -560,7 +564,7 @@ export class TimeFilterComponent implements OnInit, OnDestroy {
                     distinctUntilChanged((formA, formB) &#x3D;&gt; {
                         return _.isEqual(formA, formB);
                     }),
-                    debounce(() &#x3D;&gt; timer(500))) //TODO Filter so it doesn&#x27;t fire ApplyFilter actions that wouldn&#x27;t change current filter
+                    debounce(() &#x3D;&gt; timer(500)))
                 .subscribe(form &#x3D;&gt; this.store.dispatch(
                     new ApplyFilter({
                         name: FilterType.TIME_FILTER,

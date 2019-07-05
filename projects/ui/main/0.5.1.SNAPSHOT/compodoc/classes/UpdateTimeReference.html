@@ -124,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/store/actions/time.actions.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/store/actions/time.actions.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -188,7 +188,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/store/actions/time.actions.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/actions/time.actions.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -215,7 +215,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/store/actions/time.actions.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/store/actions/time.actions.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -238,6 +238,7 @@
 import {TimeReference} from &quot;@ofModel/time.model&quot;;
 import {Message} from &quot;@ofModel/message.model&quot;;
 import * as moment from &quot;moment-timezone&quot;;
+import {Guid} from &quot;guid-typescript&quot;;
 
 export enum TimeActionTypes{
     Tick&#x3D;&#x27;[Time] tick&#x27;,
@@ -252,7 +253,16 @@ export enum TimeActionTypes{
  */
 export class Tick implements  Action{
     readonly type&#x3D;TimeActionTypes.Tick;
-    constructor(public payload:{currentTime:moment.Moment, elapsedSinceLast:number}){}
+    constructor(public payload:TickPayload){}
+}
+
+/**
+ * Clock tick (heart beat) payload
+ */
+export class TickPayload {
+    constructor(public currentTime: moment.Moment,
+                public elapsedSinceLast: number) {
+    }
 }
 
 /**

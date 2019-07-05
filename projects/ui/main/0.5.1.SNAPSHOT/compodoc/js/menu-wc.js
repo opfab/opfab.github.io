@@ -570,6 +570,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Tick.html" data-type="entity-link">Tick</a>
                             </li>
                             <li class="link">
+                                <a href="classes/TickPayload.html" data-type="entity-link">TickPayload</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/TimeReference.html" data-type="entity-link">TimeReference</a>
                             </li>
                             <li class="link">

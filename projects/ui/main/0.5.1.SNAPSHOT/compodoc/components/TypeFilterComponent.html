@@ -542,15 +542,15 @@ export class TypeFilterComponent implements OnInit, OnDestroy {
         this._filter$ &#x3D; this.store.select(buildFilterSelector(FilterType.TYPE_FILTER));
         this._filter$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((next: Filter) &#x3D;&gt; {
             if (next) {
-                this.typeFilterForm.get(&#x27;alarm&#x27;).setValue(!next.active || next.status.alarm);
-                this.typeFilterForm.get(&#x27;action&#x27;).setValue(!next.active || next.status.action);
-                this.typeFilterForm.get(&#x27;question&#x27;).setValue(!next.active || next.status.question);
-                this.typeFilterForm.get(&#x27;notification&#x27;).setValue(!next.active || next.status.notification);
+                this.typeFilterForm.get(&#x27;alarm&#x27;).setValue(!next.active || next.status.alarm, {emitEvent: false});
+                this.typeFilterForm.get(&#x27;action&#x27;).setValue(!next.active || next.status.action, {emitEvent: false});
+                this.typeFilterForm.get(&#x27;question&#x27;).setValue(!next.active || next.status.question, {emitEvent: false});
+                this.typeFilterForm.get(&#x27;notification&#x27;).setValue(!next.active || next.status.notification, {emitEvent: false});
             } else {
-                this.typeFilterForm.get(&#x27;alarm&#x27;).setValue(true);
-                this.typeFilterForm.get(&#x27;action&#x27;).setValue(true);
-                this.typeFilterForm.get(&#x27;question&#x27;).setValue(true);
-                this.typeFilterForm.get(&#x27;notification&#x27;).setValue(true);
+                this.typeFilterForm.get(&#x27;alarm&#x27;).setValue(true,{emitEvent: false});
+                this.typeFilterForm.get(&#x27;action&#x27;).setValue(true,{emitEvent: false});
+                this.typeFilterForm.get(&#x27;question&#x27;).setValue(true,{emitEvent: false});
+                this.typeFilterForm.get(&#x27;notification&#x27;).setValue(true,{emitEvent: false});
             }
         });
         this._filter$.pipe(first(),takeUntil(this.ngUnsubscribe$)).subscribe(()&#x3D;&gt;{

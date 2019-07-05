@@ -511,11 +511,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_card_consultation_service_reference_documentation">3.2. Card Consultation Service Reference Documentation</a></li>
 <li><a href="#_operatorfabric_third_service">3.3. OperatorFabric Third service</a>
 <ul class="sectlevel3">
-<li><a href="#_customization_example">3.3.1. Customization Example</a></li>
-<li><a href="#_requirements">3.3.2. Requirements</a></li>
-<li><a href="#_bundle">3.3.3. Bundle</a></li>
-<li><a href="#_technical_overview">3.3.4. Technical overview</a></li>
-<li><a href="#TroubleShooting">3.3.5. Troubleshooting</a></li>
+<li><a href="#_declaring_a_third_party_service">3.3.1. Declaring a Third Party Service</a></li>
+<li><a href="#_technical_overview">3.3.2. Technical overview</a></li>
+<li><a href="#TroubleShooting">3.3.3. Troubleshooting</a></li>
 </ul>
 </li>
 <li><a href="#_operatorfabric_user_service">3.4. OperatorFabric User Service</a>
@@ -2955,7 +2953,8 @@ usual bootstrap configuration.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeFilter.followClockTick</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time filter on the feed will shift with every clock tick</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time filter on the feed will shift
+to reflect elapsed time</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.i18n.supported.locales</p></td>
@@ -3892,48 +3891,64 @@ as a line in the time line.</p>
 <div class="sect2">
 <h3 id="_operatorfabric_third_service">3.3. OperatorFabric Third service</h3>
 <div class="paragraph">
-<p>Third service is used by third parties to customize some parts of OperatorFabric to fit their needs. There are two possibilities of customization:</p>
+<p>Third service is used by third party service to customize some parts of OperatorFabric to fit their needs.
+It allows to refine Operator Fabric behavior regarding:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>add to OperatorFabric some entries in the main menu to access external services provided by third parties;</p>
+<p>Published card details rendering</p>
 </li>
 <li>
-<p>the way card details are displayed.</p>
+<p>Card available actions and rendering</p>
+</li>
+<li>
+<p>I18n resources for card rendering</p>
+</li>
+<li>
+<p>Additional menu entries</p>
+</li>
+<li>
+<p>Notification sound (not yet implemented)</p>
 </li>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_customization_example">3.3.1. Customization Example</h4>
+<h4 id="_declaring_a_third_party_service">3.3.1. Declaring a Third Party Service</h4>
 <div class="paragraph">
-<p>In the section, are explained main menu customization as well as Cards details customization.</p>
-</div>
-<div class="paragraph">
-<p>The third customizations are configured using a bundle which is described below. Once this bundle fully created, it&#8217;s uploaded to the server which applies this customizations into current instance of OperatorFabric UI.</p>
+<p>This sections explains Third Party Service Configuration</p>
 </div>
 <div class="paragraph">
-<p>The way customization is done is explained throughout examples before more technical details. The following instructions describe tests to perform on OperatorFabric to understand how customization is working in it. The card data used here are send automatically using a script as describe here <a href="#CardSendingScript">Cards sending script</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_requirements">3.3.2. Requirements</h4>
-<div class="paragraph">
-<p>Those tests are played in an environment where an OperatorFabric instance (all micro-services) is running along a MongoDB Database and a RabbitMQ instances.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_bundle">3.3.3. Bundle</h4>
-<div class="paragraph">
-<p>Third bundles customize the way third card details are displayed. Those <code>tar.gz</code> archives contain a describing file named <code>config.json</code>, eventually some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> to do so.</p>
+<p>The third party service configuration is declaredusing a bundle which is described below.
+Once this bundle fully created, it must be uploaded to the server which will apply this configuration into current
+for further web UI calls</p>
 </div>
 <div class="paragraph">
-<p>For didactic purposes, in this section, the third name is <code>BUNDLE_TEST</code> (to match the parameters used by the script). This bundle is localized for <code>en</code> and <code>fr</code>.</p>
+<p>The way configuration is done is explained throughout examples before a more technical review of the configuration details.
+The following instructions describe tests to perform on OperatorFabric to understand how customization is working in it.
+The card data used here are send automatically using a script as describe here <a href="#CardSendingScript">Cards sending script</a>.</p>
 </div>
 <div class="sect4">
-<h5 id="_create">Create</h5>
+<h5 id="_requirements">Requirements</h5>
 <div class="paragraph">
-<p>As detailed in the <code>Third core service README</code> the bundle contains at least a metadata file called <code>config.json</code>, a <code>css</code> folder, an <code>media</code> folder(not create in this example), an <code>i18n</code> folder and a <code>template</code> folder. All, but <code>config.json file</code>, elements are optional.</p>
+<p>Those examples are played in an environment where an OperatorFabric instance (all micro-services) is running along
+a MongoDB Database and a RabbitMQ instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_bundle">Bundle</h5>
+<div class="paragraph">
+<p>Third bundles customize the way third card details are displayed. Those <code>tar.gz</code> archives contain a descriptor file
+named <code>config.json</code>, eventually some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> to do so.</p>
+</div>
+<div class="paragraph">
+<p>For didactic purposes, in this section, the third name is <code>BUNDLE_TEST</code> (to match the parameters used by the script).
+This bundle is localized for <code>en</code> and <code>fr</code>.</p>
+</div>
+<div class="paragraph">
+<p>As detailed in the <code>Third core service README</code> the bundle contains at least a metadata file called <code>config.json</code>,
+a <code>css</code> folder, an <code>media</code> folder(not create in this example), an <code>i18n</code> folder and a <code>template</code> folder.
+ All, but <code>config.json file</code>, elements are optional.</p>
 </div>
 <div class="paragraph">
 <p>The files of this example are organized as below:</p>
@@ -3960,39 +3975,9 @@ as a line in the time line.</p>
 <p>To summarize, there are 5 directories and 8 files.</p>
 </div>
 <div class="sect5">
-<h6 id="_config_json_file">config.json file</h6>
+<h6 id="_the_config_json_file">The config.json file</h6>
 <div class="paragraph">
 <p>It&#8217;s a description file in <code>json</code> format. It lists the content of the bundle.</p>
-</div>
-<div class="sect6">
-<h7 id="_declaration_content">Declaration content</h7>
-<div class="ulist">
-<ul>
-<li>
-<p>third name as <code>name</code>;</p>
-</li>
-<li>
-<p>format version as <code>version</code>: enable the correct display even the old ones as all version are stored by the server;</p>
-</li>
-<li>
-<p>handlebars template list as <code>template</code>: the application serves only the templates declared in this array;</p>
-</li>
-<li>
-<p>css file template list as <code>csses</code>;</p>
-</li>
-<li>
-<p>third name in the main bar menu as <code>i18nLabelKey</code>: optional, used if the third service add one or several entry in the OperatorFabric main menu bar,cf <a href="#MenuEntries">menu entries section for details</a>;</p>
-</li>
-<li>
-<p>extra menu entries as <code>menuEntries</code>: optional, see below for the declaration format of objects of this array, cf <a href="#MenuEntries">menu entries section for details</a>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The mandatory declaration are <code>name</code> and <code>version</code> attributes.</p>
-</div>
-<div class="paragraph">
-<p><a href="../api/#Third">related api details</a></p>
 </div>
 <div class="paragraph">
 <p><strong>example</strong></p>
@@ -4002,10 +3987,6 @@ as a line in the time line.</p>
 <pre>{
   "name": "BUNDLE_TEST",
   "version": "1",
-  "templates": [
-    "template1",
-    "template2"
-  ],
   "csses": [
     "bundleTest"
   ],
@@ -4026,15 +4007,89 @@ as a line in the time line.</p>
       "url": "https://github.com/opfab/opfab.github.io",
       "label": "the-other-menu-entry"
     }
-  ]
+  ],
+  "processes" : {
+      "simpleProcess" : {
+        "start" : {
+          "details" : [ {
+            "title" : {
+              "key" : "start.first.title"
+            },
+            "titleStyle" : "startTitle text-danger",
+            "templateName" : "template1"
+          } ],
+          "actions" : {
+            "finish" : {
+              "type" : "URI",
+              "url": "http://somewher.org/simpleProcess/finish
+              "lockAction" : true,
+              "lockCard" : true,
+              "needsConfirm" : false,
+              "called" : false,
+              "updateState" : false,
+              "updateStateBeforeAction" : false,
+              "hidden" : true,
+              "contentStyle" : "buttonContentClass",
+              "buttonStyle" : "buttonClass",
+              "label" : {
+                "key" : "my.card.my.action.label"
+              },
+              "inputs" : [ {
+                "type" : "TEXT",
+                "label" : { "key" : "simple-process.finsih.comment" },
+                "mandatory" : true,
+                "name" : "comment"
+              } ]
+            }
+          }
+        },
+        "end" : {
+          "details" : [ {
+            "title" : {
+              "key" : "end.first.title"
+            },
+            "titleStyle" : "startTitle text-info",
+            "templateName" : "template2",
+            "styles" : [ "bundleTest.css" ]
+          } ]
+        }
+      }
+    }
 }</pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>name: third name;</p>
+</li>
+<li>
+<p>version: enable the correct display even the old ones as all version are stored by the server you <strong>card</strong> as a version
+field that will be matched to third configuration for correct rendering ;</p>
+</li>
+<li>
+<p>processes : list the available processes and their possible states; actions and templates are associated to states</p>
+</li>
+<li>
+<p>css file template list as <code>csses</code>;</p>
+</li>
+<li>
+<p>third name in the main bar menu as <code>i18nLabelKey</code>: optional, used if the third service add one or several entry in the OperatorFabric main menu bar,cf <a href="#MenuEntries">menu entries section for details</a>;</p>
+</li>
+<li>
+<p>extra menu entries as <code>menuEntries</code>: optional, see below for the declaration format of objects of this array, cf <a href="#MenuEntries">menu entries section for details</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The mandatory declaration are <code>name</code> and <code>version</code> attributes.</p>
+</div>
+<div class="paragraph">
+<p><a href="../api/#Third">related api details</a></p>
 </div>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_i18n">i18n</h5>
+<div class="sect5">
+<h6 id="_i18n">i18n</h6>
 <div class="paragraph">
 <p>There are two ways of i18n for third service. The first one is done using l10n files which are located in the <code>i18n</code> folder, the second one throuhougt l10n name folder nested in the <code>template</code> folder or in the <code>media</code> folder.</p>
 </div>
@@ -4044,14 +4099,14 @@ as a line in the time line.</p>
 <div class="paragraph">
 <p>These localisation is used for integration of the third service into OperatorFabric, i.e. the label displayed for the third service, the label displayed for each tab of the details of the third card, the label of the actions in cards if any or the additionnal third entries in OperatorFabric(more on that at the chapter ????).</p>
 </div>
-<div class="sect5">
-<h6 id="_template_and_media_folders">Template and Media folders</h6>
+<div class="sect6">
+<h7 id="_template_and_media_folders">Template and Media folders</h7>
 <div class="paragraph">
 <p>The <code>template</code> and the <code>media</code> folder must contain localized folder for the i18n of the card details. This is why in our example, as the bundle is localized for <code>en</code> and <code>fr</code> language, the <code>template</code> folder contains a <code>en</code> and a <code>fr</code> folder.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_i18n_file">i18n file</h6>
+<div class="sect6">
+<h7 id="_i18n_file">i18n file</h7>
 <div class="paragraph">
 <p>If there is no i18n file or key is missing, the i18n key is desplayed in OperatorFabric.</p>
 </div>
@@ -4177,16 +4232,16 @@ The service response with a 200 status and with the json correpsonding to the d
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="MenuEntries">Menu Entries</h5>
+<div class="sect5">
+<h6 id="MenuEntries">Menu Entries</h6>
 <div class="paragraph">
 <p>Those elements are declared  in the <code>config.json</code> file of the bundle.</p>
 </div>
 <div class="paragraph">
 <p>If there are several items to declare for a third service, a title for the third menu section need to be declared within the <code>i18nLabelKey</code> attribut, otherwise the first and only <code>menu entry</code> item is used to create an entry in the menu nav bar of OperatorFabric.</p>
 </div>
-<div class="sect5">
-<h6 id="_config_json_declaration">config.json declaration</h6>
+<div class="sect6">
+<h7 id="_config_json_declaration">config.json declaration</h7>
 <div class="paragraph">
 <p>This kind of objects contains the following attributes :</p>
 </div>
@@ -4203,13 +4258,14 @@ The service response with a 200 status and with the json correpsonding to the d
 </li>
 </ul>
 </div>
-<div class="sect6">
-<h7 id="_examples">Examples</h7>
+<div class="sect7">
+<h8 id="_examples">Examples</h8>
 <div class="paragraph">
 <p>In the following examples, only the part relative to menu entries in the <code>config.json</code> file is detailed, the other parts are omitted and represent with a '…'.</p>
 </div>
-<div class="sect7">
-<h8 id="_single_menu_entry">Single menu entry</h8>
+<div class="paragraph">
+<p><strong>Single menu entry</strong></p>
+</div>
 <div class="literalblock">
 <div class="content">
 <pre>{
@@ -4222,9 +4278,9 @@ The service response with a 200 status and with the json correpsonding to the d
 }</pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Several menu entries</strong></p>
 </div>
-<div class="sect7">
-<h8 id="_several_menu_entries">Several menu entries</h8>
 <div class="paragraph">
 <p>Here a sample with 3 menu entries.</p>
 </div>
@@ -4254,9 +4310,12 @@ The service response with a 200 status and with the json correpsonding to the d
 </div>
 </div>
 </div>
+<div class="sect5">
+<h6 id="_processes_and_states">Processes and States</h6>
+<div class="paragraph">
+<p>Processes and their states allows to match a Third Party service process specific state to a list of templates for card details and
+actions allowing specific card rendering for each state of the business process.</p>
 </div>
-<div class="sect4">
-<h5 id="_card_details">Card details</h5>
 <div class="paragraph">
 <p>The purpose of this section is to display elements of third card data in a custom format.</p>
 </div>
@@ -4284,8 +4343,128 @@ The service response with a 200 status and with the json correpsonding to the d
 </li>
 </ul>
 </div>
-<div class="sect5">
-<h6 id="_templates">templates</h6>
+<div class="sect6">
+<h7 id="_configuration_2">configuration</h7>
+<div class="paragraph">
+<p>The process entry in the configuration file is a dictionary of processes, each key maps to a process definition.
+A process definition is itself a dictionary of states, each key maps to a state definition. A state is define by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a list of details: details are a combination of an internationnalized title (tile), css class styling element
+(titleStyle) and a template reference</p>
+</li>
+<li>
+<p>a dictionary of actions: actions are described in the bellow <a href="#ActionsThirdsDesfription">Actions</a> section.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect6">
+<h7 id="ActionsThirdsDesfription">Actions</h7>
+<div class="literalblock">
+<div class="content">
+<pre>{
+  "type" : "URI",
+  "url": "http://somewher.org/simpleProcess/finish
+  "lockAction" : true,
+  "lockCard" : true,
+  "needsConfirm" : false,
+  "called" : false,
+  "updateState" : false,
+  "updateStateBeforeAction" : false,
+  "hidden" : true,
+  "contentStyle" : "buttonContentClass",
+  "buttonStyle" : "buttonClass",
+  "label" : {
+    "key" : "my.card.my.action.label"
+  },
+  "inputs" : [ {
+    "type" : "TEXT",
+    "label" : { "key" : "simple-process.finsih.comment" },
+    "mandatory" : true,
+    "name" : "comment"
+  } ]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An action aggregates both the mean to trigger action on the third party and data for an action button rendering:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>type - mandatory: for now only URL type is supported:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>URL: this action triggers a call to an external REST end point</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>url - mandatory: a templated url for URL type action. this url may be injected with data before actions call, data are
+specified using curly brackets. Available parameters:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>processInstance: the name/id of the process instance</p>
+</li>
+<li>
+<p>process: the name of the process</p>
+</li>
+<li>
+<p>state: the state name of the process</p>
+</li>
+<li>
+<p>token: the jwt token of the user</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>hidden: if true, action won&#8217;t be visible on the card but will be available to templates</p>
+</li>
+<li>
+<p>contentStyle: css style classes to apply to the content of the action button</p>
+</li>
+<li>
+<p>buttonStyle: css style classes to apply to the action button</p>
+</li>
+<li>
+<p>label: an i18n key and parameters used to display a tooltip over the button</p>
+</li>
+<li>
+<p>lockAction: not yet implemented</p>
+</li>
+<li>
+<p>lockCard: not yet implemented</p>
+</li>
+<li>
+<p>updateState: not yet implemented</p>
+</li>
+<li>
+<p>updateState: not yet implemented</p>
+</li>
+<li>
+<p>updateStateBeforeAction: not yet implemented</p>
+</li>
+<li>
+<p>called: not yet implemented</p>
+</li>
+<li>
+<p>inputs: input parameters for action submission. Not yet implemented.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For in depth information on the behavior needed for the third party rest endpoints refer to the Actions service reference.</p>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_templates">Templates</h7>
 <div class="paragraph">
 <p>For demonstration purposes, there will be two simple templates. For more advance feature go to the section detailing the handlebars templates in general and helpers available in OperatorFabric.
 As the card used in this example are created <a href="#CardSendingScript">above</a>, the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
@@ -4344,14 +4523,14 @@ As the card used in this example are created <a href="#CardSendingScript">above<
 <p>Those templates display also a l10n title and a list of numeric values from 1 to 3.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_css">CSS</h6>
+<div class="sect6">
+<h7 id="_css">CSS</h7>
 <div class="paragraph">
 <p>This folder contains regular css files.
 The file name must be declared in the <code>config.json</code> file in order to be used in the templates and applyed to them.</p>
 </div>
-<div class="sect6">
-<h7 id="_examples_2">Examples</h7>
+<div class="sect7">
+<h8 id="_examples_2">Examples</h8>
 <div class="paragraph">
 <p>As above, all parts of files unreleavant for our example are symbolise by a <code>…</code> character.</p>
 </div>
@@ -4402,8 +4581,8 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_upload">Upload</h5>
+<div class="sect5">
+<h6 id="_upload">Upload</h6>
 <div class="paragraph">
 <p>For this, the bundle is submitted to the OperatorFabric server using a POST http method as describe in <a href="../api/<mark>uploadBundle">the Third Service API documentation</a>.
 It&#8217;s possible for test purposes to use the swagger documentation of the OperatorFabric using the folling url <code>https//:$OPERATOR_FABRIC_ROOT_URL:2100/swagger-ui.html</mark>/thirds/uploadBundle</code></p>
@@ -4459,10 +4638,6 @@ curl -X POST "http://localhost:2100/thirds/TEST" -H  "accept: application/json" 
   ],
   "name": "BUNDLE_TEST",
   "version": "1",
-  "templates": [
-    "template1",
-    "template2"
-  ],
   "csses": [
     "bundleTest"
   ],
@@ -4484,7 +4659,54 @@ curl -X POST "http://localhost:2100/thirds/TEST" -H  "accept: application/json" 
       "url": "https://github.com/opfab/opfab.github.io",
       "label": "the-other-menu-entry"
     }
-  ]
+  ],
+  "processes" : {
+        "simpleProcess" : {
+          "start" : {
+            "details" : [ {
+              "title" : {
+                "key" : "start.first.title"
+              },
+              "titleStyle" : "startTitle text-danger",
+              "templateName" : "template1"
+            } ],
+            "actions" : {
+              "finish" : {
+                "type" : "URI",
+                "url": "http://somewher.org/simpleProcess/finish
+                "lockAction" : true,
+                "lockCard" : true,
+                "needsConfirm" : false,
+                "called" : false,
+                "updateState" : false,
+                "updateStateBeforeAction" : false,
+                "hidden" : true,
+                "contentStyle" : "buttonContentClass",
+                "buttonStyle" : "buttonClass",
+                "label" : {
+                  "key" : "my.card.my.action.label"
+                },
+                "inputs" : [ {
+                  "type" : "TEXT",
+                  "label" : { "key" : "simple-process.finsih.comment" },
+                  "mandatory" : true,
+                  "name" : "comment"
+                } ]
+              }
+            }
+          },
+          "end" : {
+            "details" : [ {
+              "title" : {
+                "key" : "end.first.title"
+              },
+              "titleStyle" : "startTitle text-info",
+              "templateName" : "template2",
+              "styles" : [ "bundleTest.css" ]
+            } ]
+          }
+        }
+      }
 }</pre>
 </div>
 </div>
@@ -4493,8 +4715,9 @@ curl -X POST "http://localhost:2100/thirds/TEST" -H  "accept: application/json" 
 </div>
 </div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_technical_overview">3.3.4. Technical overview</h4>
+<h4 id="_technical_overview">3.3.2. Technical overview</h4>
 <div class="paragraph">
 <p>See <a href="../api/#__Models">the model section of the swagger generated documentation</a> for data layout</p>
 </div>
@@ -5006,7 +5229,7 @@ users :
 </div>
 </div>
 <div class="sect3">
-<h4 id="TroubleShooting">3.3.5. Troubleshooting</h4>
+<h4 id="TroubleShooting">3.3.3. Troubleshooting</h4>
 <div class="sect4">
 <h5 id="_my_bundle_is_not_load">My bundle is not load</h5>
 <div class="paragraph">
