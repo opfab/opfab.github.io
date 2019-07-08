@@ -22,5 +22,6 @@ tags: [Documentation]
         <td><a class="text-dark" href="{{baseUrl | append: "/architecture" | relative_url }}">Architecture</a></td>
         <td><a class="text-dark" href="{{baseUrl | append: "/start" | relative_url }}">Getting Started</a></td>
         <td><a class="text-dark" href="{{baseUrl | append: "/user_guide" | relative_url }}">User Guide</a></td></tr>
+        <td><a class="text-dark" href="{{baseUrl | append: "/developer_guide" | relative_url }}">Developer Guide</a></td></tr>
     {% endfor %}
 </table>
