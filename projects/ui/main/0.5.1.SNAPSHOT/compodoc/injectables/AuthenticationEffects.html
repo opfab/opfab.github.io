@@ -285,8 +285,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="224"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:224</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:228</a></div>
                 </td>
             </tr>
 
@@ -366,8 +366,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="246"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:246</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:250</a></div>
                 </td>
             </tr>
 
@@ -561,7 +561,11 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                         } else {
                             if (!AuthenticationService.isExpirationDateOver()) {
                                 const authInfo &#x3D; AuthenticationService.extractIdentificationInformation();
-                                return of(new AcceptLogIn(authInfo));
+                                return this.authService.loadUserData(authInfo)
+                                    .pipe(
+                                        map(auth &#x3D;&gt; new AcceptLogIn(auth))
+                                    );
+                                // return of(new AcceptLogIn(authInfo));
                             }
                             return of(this.handleRejectedLogin(new Message(&#x27;The stored token has expired&#x27;,
                                 MessageLevel.ERROR,
@@ -1039,7 +1043,11 @@ export class AuthenticationEffects {
                         } else {
                             if (!AuthenticationService.isExpirationDateOver()) {
                                 const authInfo &#x3D; AuthenticationService.extractIdentificationInformation();
-                                return of(new AcceptLogIn(authInfo));
+                                return this.authService.loadUserData(authInfo)
+                                    .pipe(
+                                        map(auth &#x3D;&gt; new AcceptLogIn(auth))
+                                    );
+                                // return of(new AcceptLogIn(authInfo));
                             }
                             return of(this.handleRejectedLogin(new Message(&#x27;The stored token has expired&#x27;,
                                 MessageLevel.ERROR,
