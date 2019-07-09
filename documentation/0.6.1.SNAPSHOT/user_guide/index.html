@@ -501,7 +501,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_reference_guide_per_business_service">3. Reference Guide Per Business Service</a>
 <ul class="sectlevel2">
-<li><a href="#_card_consultation_service_reference_documentation">3.1. Card Consultation Service Reference Documentation</a></li>
+<li><a href="#_card_consultation_service_reference_documentation">3.1. Card Consultation Service Reference Documentation</a>
+<ul class="sectlevel3">
+<li><a href="#_third_party_endpoint_specification">3.1.1. Third Party Endpoint Specification</a></li>
+</ul>
+</li>
 <li><a href="#_operatorfabric_card_publication_service">3.2. OperatorFabric Card Publication Service</a>
 <ul class="sectlevel3">
 <li><a href="#_cards_examples">3.2.1. Cards Examples</a></li>
@@ -2967,7 +2971,8 @@ to reflect elapsed time</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.i10n.supported.time-zones</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported time zones, for instance 'Europe/Paris'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported time zones, for instance 'Europe/Paris'.
+Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeZone</p></td>
@@ -3146,21 +3151,8 @@ operatorfabric:
   - Europe/Lisbon
   - Europe/Amsterdam
   - Europe/Athens
-  - BST
-  - CEST
-  - CET
-  - EEST
-  - EET
-  - FET
-  - GMT
-  - IST
-  - KUYT
-  - MSD
-  - MSK
-  - SAMT
-  - TRT
-  - WEST
-  - WET
+  - Australia/Melbourne
+  - Pacific/Samoa
   i18n.supported.locales:
     - fr
     - en
@@ -3197,21 +3189,8 @@ operatorfabric:
   - Europe/Lisbon
   - Europe/Amsterdam
   - Europe/Athens
-  - BST
-  - CEST
-  - CET
-  - EEST
-  - EET
-  - FET
-  - GMT
-  - IST
-  - KUYT
-  - MSD
-  - MSK
-  - SAMT
-  - TRT
-  - WEST
-  - WET
+  - Australia/Melbourne
+  - Pacific/Samoa
   i18n.supported.locales:
   - fr
   - en</code></pre>
@@ -3287,8 +3266,108 @@ The default profiles activated are docker and native.</p>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_card_consultation_service_reference_documentation">3.1. Card Consultation Service Reference Documentation</h3>
+<div class="sect3">
+<h4 id="_third_party_endpoint_specification">3.1.1. Third Party Endpoint Specification</h4>
 <div class="paragraph">
-<p>Work in progress</p>
+<p>URL Action may specify any url as action to trigger but those resourse must
+comply to certain constraints</p>
+</div>
+<div class="sect4">
+<h5 id="_get">GET</h5>
+<div class="paragraph">
+<p>An access to the resource using GET method allow to gather information to
+update the corresponding action.</p>
+</div>
+<div class="sect5">
+<h6 id="_return_codes">return codes</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">payload</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ok</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">payload is an action status</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">204</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">action is not updated</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no action associated with URL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_response_payload">response payload</h6>
+
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post">POST</h5>
+<div class="paragraph">
+<p>An access to the resource using POST method allow to submit the action
+to trigger business behavior.</p>
+</div>
+<div class="sect5">
+<h6 id="_return_codes_2">return codes</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">payload</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ok</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">payload is an action status</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">204</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">action is not updated on submission</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no action associated with URL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_submission_payload">submission payload</h6>
+<div class="paragraph">
+<p>(Not implemented)</p>
+</div>
+<div class="paragraph">
+<p>Submission payload is a json object containing information submitted by
+the operator. The structure of the object reflects</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_response_payload_2">response payload</h6>
+
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -4427,6 +4506,9 @@ specified using curly brackets. Available parameters:</p>
 </li>
 <li>
 <p>token: the jwt token of the user</p>
+</li>
+<li>
+<p>data.[path]: a path to object in card data structure</p>
 </li>
 </ul>
 </div>
