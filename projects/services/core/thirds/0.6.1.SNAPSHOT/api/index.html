@@ -196,6 +196,7 @@ font-style: italic;
   <div class="method-summary"></div>
   <h4><a href="#Thirds">Thirds</a></h4>
   <ul>
+  <li><a href="#getAction"><code><span class="http-method">get</span> /thirds/{thirdName}/{process}/{state}/actions/{actionKey}</code></a></li>
   <li><a href="#getActions"><code><span class="http-method">get</span> /thirds/{thirdName}/{process}/{state}/actions</code></a></li>
   <li><a href="#getCss"><code><span class="http-method">get</span> /thirds/{thirdName}/css/{cssFileName}</code></a></li>
   <li><a href="#getDetails"><code><span class="http-method">get</span> /thirds/{thirdName}/{process}/{state}/details</code></a></li>
@@ -208,6 +209,141 @@ font-style: italic;
   </ul>
 
   <h1><a name="Thirds">Thirds</a></h1>
+  <div class="method"><a name="getAction"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /thirds/{thirdName}/{process}/{state}/actions/{actionKey}</code></pre></div>
+    <div class="method-summary">Get actions associated to thirds (<span class="nickname">getAction</span>)</div>
+    <div class="method-notes">Get actions associated with Third+process+state, returns an array of actions (application/json)</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">thirdName (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of Third to retrieve </div><div class="param">process (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of state </div><div class="param">state (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of state </div><div class="param">actionKey (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of state </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">apiVersion (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Expected version of third </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Action">Action</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "type" : "URL",
+  "lockAction" : true,
+  "lockCard" : true,
+  "needsConfirm" : false,
+  "called" : false,
+  "updateState" : false,
+  "updateStateBeforeAction" : false,
+  "hidden" : true,
+  "contentStyle" : "buttonContentClass",
+  "buttonStyle" : "buttonClass",
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Choose colour",
+      "FR" : "Choisir une couleur"
+    }
+  },
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Action">Action</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    No such third
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="getActions"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
