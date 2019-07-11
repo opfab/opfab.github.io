@@ -5086,7 +5086,7 @@ value operand</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{#if (bool v1 '&lt;' v2}}
+<pre>{{#if (bool v1 '&lt;' v2)}}
   v1 is strictly lower than v2
 {{else}}
  V2 is lower or equal to v1
@@ -5330,19 +5330,23 @@ users :
 <div class="sect3">
 <h4 id="TroubleShooting">3.4.3. Troubleshooting</h4>
 <div class="sect4">
-<h5 id="_my_bundle_is_not_load">My bundle is not load</h5>
+<h5 id="_my_bundle_is_not_loaded">My bundle is not loaded</h5>
 <div class="paragraph">
-<p>The server send a <code>{"status":"BAD_REQUEST","message":"unable to open submitted file","errors":["Error detected parsing the header"]}</code>, despite http headers are correct.</p>
+<p>The server send a <code>{"status":"BAD_REQUEST","message":"unable to open submitted
+file","errors":["Error detected parsing the header"]}</code>, despite correct http
+headers.</p>
 </div>
 <div class="paragraph">
-<p>Your bundle is corrupted. Test your bundle in a terminal (Linux solution)</p>
+<p>The uploaded bundle is corrupted. Test your bundle in a terminal (Linux
+solution)</p>
 </div>
 <div class="paragraph">
-<p>example for a bundle archive named `MyBundleToTest.tar.gz' giving the mentionned error when uploaded :</p>
+<p>example for a bundle archive named <code>MyBundleToTest.tar.gz</code> giving the
+mentionned error when uploaded :</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>tar -tzf MyBundleToTest.tar.gz &gt;/dev/null ...  which should return: ...
+<pre>tar -tzf MyBundleToTest.tar.gz &gt;/dev/null
 tar: This does not look like a tar archive
 tar: Skipping to next header
 tar: Exiting with failure status due to previous errors</pre>
@@ -5351,24 +5355,28 @@ tar: Exiting with failure status due to previous errors</pre>
 <div class="sect5">
 <h6 id="_solution">Solution</h6>
 <div class="paragraph">
-<p>Extract content if possible and compress it in a correct form.</p>
+<p>Extract content if possible and compress it to a correct compressed archive
+format.</p>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_i_cant_upload_my_bundle">I can&#8217;t upload my bundle</h5>
 <div class="paragraph">
-<p>The server repsonds by <code>{"status":"BAD_REQUEST","message":"unable to open submitted file","errors":["Input is not in the .gz format"]}</code></p>
+<p>The server repsonds with a message like the following:
+<code>{"status":"BAD_REQUEST","message":"unable to open submitted
+file","errors":["Input is not in the .gz format"]}</code></p>
 </div>
 <div class="paragraph">
-<p>The bundle has be compressed with in an unmanaged format.</p>
+<p>The bundle has been compressed using an unmanaged format.</p>
 </div>
 <div class="sect5">
 <h6 id="_format_verification">Format verification</h6>
 <div class="sect6">
 <h7 id="_linux_solution">Linux solution</h7>
 <div class="paragraph">
-<p>Command line example to verify the format of a bundle archive named <code>MyBundleToTest.tar.gz</code>(which gives the mentionned error when uploaded):</p>
+<p>Command line example to verify the format of a bundle archive named
+<code>MyBundleToTest.tar.gz</code>(which gives the mentionned error when uploaded):</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -5376,7 +5384,7 @@ tar: Exiting with failure status due to previous errors</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>which should return the following response</p>
+<p>which should return in such case the following messages:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -5390,52 +5398,68 @@ tar: Error is not recoverable: exiting now</pre>
 <div class="sect5">
 <h6 id="_solution_2">Solution</h6>
 <div class="paragraph">
-<p>Use <code>tar.gz</code> format for archive. Shell command is <code>tar -czvf MyBundleToTest.tar.gz config.json template/ css/</code> for a bundle containing templates and css files.</p>
+<p>Use <code>tar.gz</code> format for the archive compression. Shell command is <code>tar -czvf
+MyBundleToTest.tar.gz config.json template/ css/</code> for a bundle containing
+templates and css files.</p>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_my_bundle_is_rejected_due_to_internal_structure">My bundle is rejected due to internal structure</h5>
 <div class="paragraph">
-<p>The server send <code>{"status":"BAD_REQUEST","message":"Incorrect inner file structure","errors":["$OPERATOR_FABRIC_INSTANCE_PATH/d91ba68c-de6b-4635-a8e8-b58fff77dfd2/config.json (Aucun fichier ou dossier de ce type)"]}</code></p>
+<p>The server sends <code>{"status":"BAD_REQUEST","message":"Incorrect inner file
+structure","errors":["$OPERATOR_FABRIC_INSTANCE_PATH/d91ba68c-de6b-4635-a8e8-b58
+fff77dfd2/config.json (Aucun fichier ou dossier de ce type)"]}</code></p>
 </div>
 <div class="paragraph">
-<p>Where <code>$OPERATOR_FABRIC_INSTANCE_PATH</code> is the folder where thirds files are stored server side.</p>
+<p>Where <code>$OPERATOR_FABRIC_INSTANCE_PATH</code> is the folder where thirds files are
+stored server side.</p>
 </div>
 <div class="sect5">
 <h6 id="_reason">Reason</h6>
 <div class="paragraph">
-<p>The internal file structure of your bundle is incorrect. <code>config.json</code> file and folders need to be at the first level.</p>
+<p>The internal file structure of your bundle is incorrect. <code>config.json</code> file and
+folders need to be at the first level.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_solution_3">Solution</h6>
 <div class="paragraph">
-<p>Add or organize the files and folders of the bundle to fit the Third bundle requierements.</p>
+<p>Add or organize the files and folders of the bundle to fit the Third bundle
+requierements.</p>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_no_template_display">No template display</h5>
 <div class="paragraph">
-<p>The server send 404 for requested template with a repsonse like <code>{"status":"NOT_FOUND","message":"The specified resource does not exist","errors":["$OPERATOR_FABRIC_INSTANCE_PATH/thirds-storage/BUNDLE_TEST/1/template/fr/template1.handlebars (Aucun fichier ou dossier de ce type)"]}</code></p>
+<p>The server send 404 for requested template with a repsonse like
+<code>{"status":"NOT_FOUND","message":"The specified resource does not
+exist","errors":["$OPERATOR_FABRIC_INSTANCE_PATH/thirds-storage/BUNDLE_TEST/1/te
+mplate/fr/template1.handlebars (Aucun fichier ou dossier de ce type)"]}</code></p>
 </div>
 <div class="sect5">
 <h6 id="_verification">Verification</h6>
 <div class="paragraph">
-<p>The previous server response is return for a request like: <code>http://localhost:2002/thirds/BUNDLE_TEST/templates/template1?locale=fr&amp;version=1</code></p>
+<p>The previous server response is return for a request like:
+<code>http://localhost:2002/thirds/BUNDLE_TEST/templates/template1?locale=fr&amp;version
+=1</code></p>
 </div>
 <div class="paragraph">
-<p>The bundle is lacking localized folder and doesn&#8217;t contain the requested localization.</p>
+<p>The bundle is lacking localized folder and doesn&#8217;t contain the requested
+localization.</p>
 </div>
 <div class="paragraph">
-<p>If you have access to the <code>card-publication</code> micro service souce code you should list the content of <code>$CARDS_PUBLICATION_PROJECT/build/docker-volume/third-storage</code></p>
+<p>If you have access to the <code>card-publication</code> micro service souce code you
+should list the content of
+<code>$CARDS_PUBLICATION_PROJECT/build/docker-volume/third-storage</code></p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_solution_4">Solution</h6>
 <div class="paragraph">
-<p>Either request another l10n or add the requested one to the bundle and re-upload it.</p>
+<p>Either request another l10n or add the requested one to the bundle and
+re-upload it.</p>
 </div>
 </div>
 </div>
@@ -5447,7 +5471,8 @@ tar: Error is not recoverable: exiting now</pre>
 <div class="sect5">
 <h6 id="_solution_5">Solution</h6>
 <div class="paragraph">
-<p>Add or verify the name of the templates declared in the <code>config.json</code> file of the bundle.</p>
+<p>Add or verify the name of the templates declared in the <code>config.json</code> file of
+the bundle.</p>
 </div>
 </div>
 </div>

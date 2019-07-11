@@ -250,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:204</a></div>
                 </td>
             </tr>
 
@@ -328,8 +328,8 @@ each cluster level had a different treatment</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="240"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:240</a></div>
                 </td>
             </tr>
 
@@ -649,14 +649,28 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             }*/
             const myCardsTimeline &#x3D; [];
             for (const val of tmp) {
-                // val.endDate val.startDate val.severity
-                const myCardTimeline &#x3D; {
-                    startDate: val.startDate,
-                    endDate: val.endDate,
-                    severity: val.severity,
-                    summary: val.summary.parameters.value
-                };
-                myCardsTimeline.push(myCardTimeline);
+                if (val.timeSpans &amp;&amp; val.timeSpans.length &gt; 0) {
+                    val.timeSpans.forEach(d &#x3D;&gt; {
+                        const myCardTimelineTimespans &#x3D; {
+                            publishDate: d.start,
+                            startDate: d.start, // useless
+                            endDate: d.end, // useless
+                            severity: val.severity,
+                            summary: val.summary.parameters.value,
+                        };
+                        myCardsTimeline.push(myCardTimelineTimespans);
+                    });
+                } else {
+                    // val.endDate val.startDate val.severity
+                    const myCardTimeline &#x3D; {
+                        publishDate: val.publishDate,
+                        startDate: val.startDate, // useless
+                        endDate: val.endDate, // useless
+                        severity: val.severity,
+                        summary: val.summary.parameters.value,
+                    };
+                    myCardsTimeline.push(myCardTimeline);
+                }
             }
             this.store.dispatch(new SetCardDataTimeline({
                 cardsTimeline: myCardsTimeline,
