@@ -196,15 +196,15 @@ font-style: italic;
   <div class="method-summary"></div>
   <h4><a href="#Actions">Actions</a></h4>
   <ul>
-  <li><a href="#getAction"><code><span class="http-method">get</span> /process/{processInstanceId}/states/{state}/actions/{actionKey}</code></a></li>
-  <li><a href="#triggerAction"><code><span class="http-method">post</span> /process/{processInstanceId}/states/{state}/actions/{actionKey}</code></a></li>
+  <li><a href="#getAction"><code><span class="http-method">get</span> /publisher/{publisher}/process/{processInstanceId}/states/{state}/actions/{actionKey}</code></a></li>
+  <li><a href="#triggerAction"><code><span class="http-method">post</span> /publisher/{publisher}/process/{processInstanceId}/states/{state}/actions/{actionKey}</code></a></li>
   </ul>
 
   <h1><a name="Actions">Actions</a></h1>
   <div class="method"><a name="getAction"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /process/{processInstanceId}/states/{state}/actions/{actionKey}</code></pre></div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /publisher/{publisher}/process/{processInstanceId}/states/{state}/actions/{actionKey}</code></pre></div>
     <div class="method-summary">Get action associated to process with updated status (<span class="nickname">getAction</span>)</div>
     <div class="method-notes">Get action associated with Third+process+state, returns an array of actions (application/json)</div>
 
@@ -226,7 +226,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      map[<a href="#ActionStatus">ActionStatus</a>]
+      <a href="#ActionStatus">ActionStatus</a>
       
     </div>
 
@@ -235,80 +235,76 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "key" : {
-    "type" : "URL",
-    "lockAction" : true,
-    "lockCard" : true,
-    "needsConfirm" : false,
-    "called" : false,
-    "updateState" : false,
-    "updateStateBeforeAction" : false,
-    "hidden" : true,
-    "contentStyle" : "buttonContentClass",
-    "buttonStyle" : "buttonClass",
+  "lockAction" : true,
+  "lockCard" : true,
+  "needsConfirm" : false,
+  "updateState" : false,
+  "updateStateBeforeAction" : false,
+  "hidden" : true,
+  "contentStyle" : "buttonContentClass",
+  "buttonStyle" : "buttonClass",
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Choose colour",
+      "FR" : "Choisir une couleur"
+    }
+  },
+  "inputs" : [ {
+    "type" : "LIST",
     "label" : {
-      "key" : "myCard.myAction.label",
+      "key" : "myCard.myAction.myInput1.label",
       "parameters" : {
-        "EN" : "Choose colour",
-        "FR" : "Choisir une couleur"
+        "EN" : "Colours",
+        "FR" : "Couleurs"
       }
     },
-    "inputs" : [ {
-      "type" : "LIST",
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
       "label" : {
-        "key" : "myCard.myAction.myInput1.label",
+        "key" : "black",
         "parameters" : {
-          "EN" : "Colours",
-          "FR" : "Couleurs"
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
         }
-      },
-      "mandatory" : true,
-      "name" : "selectedColour",
-      "value" : {
-        "value" : "#000000",
-        "label" : {
-          "key" : "black",
-          "parameters" : {
-            "EN" : "Paint It Black",
-            "FR" : "Broyer du noir"
-          }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
         }
-      },
-      "values" : [ {
-        "value" : "#000000",
-        "label" : {
-          "key" : "black",
-          "parameters" : {
-            "EN" : "Paint It Black",
-            "FR" : "Broyer du noir"
-          }
-        }
-      }, {
-        "value" : "#51CE1E",
-        "label" : {
-          "key" : "green",
-          "parameters" : {
-            "EN" : "Go Green",
-            "FR" : "Se mettre au vert"
-          }
-        }
-      } ]
+      }
     }, {
-      "type" : "LONGTEXT",
+      "value" : "#51CE1E",
       "label" : {
-        "key" : "myCard.myAction.myInput2.label",
+        "key" : "green",
         "parameters" : {
-          "EN" : "Comment",
-          "FR" : "Commentaire"
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
         }
-      },
-      "mandatory" : false,
-      "name" : "comment",
-      "value" : "",
-      "maxLength" : 250,
-      "rows" : 10
+      }
     } ]
-  }
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -321,7 +317,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        
+        <a href="#ActionStatus">ActionStatus</a>
     <h4 class="field-label">401</h4>
     Authentication required
         <a href="#"></a>
@@ -333,7 +329,7 @@ font-style: italic;
   <div class="method"><a name="triggerAction"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /process/{processInstanceId}/states/{state}/actions/{actionKey}</code></pre></div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /publisher/{publisher}/process/{processInstanceId}/states/{state}/actions/{actionKey}</code></pre></div>
     <div class="method-summary">Post action associated to process (<span class="nickname">triggerAction</span>)</div>
     <div class="method-notes">Post action associated with process and state return action with updated status</div>
 
@@ -355,7 +351,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      map[<a href="#ActionStatus">ActionStatus</a>]
+      <a href="#ActionStatus">ActionStatus</a>
       
     </div>
 
@@ -364,80 +360,76 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "key" : {
-    "type" : "URL",
-    "lockAction" : true,
-    "lockCard" : true,
-    "needsConfirm" : false,
-    "called" : false,
-    "updateState" : false,
-    "updateStateBeforeAction" : false,
-    "hidden" : true,
-    "contentStyle" : "buttonContentClass",
-    "buttonStyle" : "buttonClass",
+  "lockAction" : true,
+  "lockCard" : true,
+  "needsConfirm" : false,
+  "updateState" : false,
+  "updateStateBeforeAction" : false,
+  "hidden" : true,
+  "contentStyle" : "buttonContentClass",
+  "buttonStyle" : "buttonClass",
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Choose colour",
+      "FR" : "Choisir une couleur"
+    }
+  },
+  "inputs" : [ {
+    "type" : "LIST",
     "label" : {
-      "key" : "myCard.myAction.label",
+      "key" : "myCard.myAction.myInput1.label",
       "parameters" : {
-        "EN" : "Choose colour",
-        "FR" : "Choisir une couleur"
+        "EN" : "Colours",
+        "FR" : "Couleurs"
       }
     },
-    "inputs" : [ {
-      "type" : "LIST",
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
       "label" : {
-        "key" : "myCard.myAction.myInput1.label",
+        "key" : "black",
         "parameters" : {
-          "EN" : "Colours",
-          "FR" : "Couleurs"
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
         }
-      },
-      "mandatory" : true,
-      "name" : "selectedColour",
-      "value" : {
-        "value" : "#000000",
-        "label" : {
-          "key" : "black",
-          "parameters" : {
-            "EN" : "Paint It Black",
-            "FR" : "Broyer du noir"
-          }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
         }
-      },
-      "values" : [ {
-        "value" : "#000000",
-        "label" : {
-          "key" : "black",
-          "parameters" : {
-            "EN" : "Paint It Black",
-            "FR" : "Broyer du noir"
-          }
-        }
-      }, {
-        "value" : "#51CE1E",
-        "label" : {
-          "key" : "green",
-          "parameters" : {
-            "EN" : "Go Green",
-            "FR" : "Se mettre au vert"
-          }
-        }
-      } ]
+      }
     }, {
-      "type" : "LONGTEXT",
+      "value" : "#51CE1E",
       "label" : {
-        "key" : "myCard.myAction.myInput2.label",
+        "key" : "green",
         "parameters" : {
-          "EN" : "Comment",
-          "FR" : "Commentaire"
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
         }
-      },
-      "mandatory" : false,
-      "name" : "comment",
-      "value" : "",
-      "maxLength" : 250,
-      "rows" : 10
+      }
     } ]
-  }
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -450,7 +442,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        
+        <a href="#ActionStatus">ActionStatus</a>
     <h4 class="field-label">401</h4>
     Authentication required
         <a href="#"></a>

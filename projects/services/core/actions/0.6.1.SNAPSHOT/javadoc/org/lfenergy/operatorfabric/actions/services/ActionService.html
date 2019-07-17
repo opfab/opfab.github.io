@@ -128,8 +128,10 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/actions/services/ActionService.html#ActionService-org.lfenergy.operatorfabric.actions.services.feign.CardConsultationServiceProxy-org.lfenergy.operatorfabric.actions.services.feign.ThirdsServiceProxy-">ActionService</a></span>(<a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/CardConsultationServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">CardConsultationServiceProxy</a>&nbsp;cardService,
-             <a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/ThirdsServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">ThirdsServiceProxy</a>&nbsp;thirdsService)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/actions/services/ActionService.html#ActionService-org.lfenergy.operatorfabric.actions.services.feign.CardConsultationServiceProxy-org.lfenergy.operatorfabric.actions.services.feign.ThirdsServiceProxy-com.fasterxml.jackson.databind.ObjectMapper-org.springframework.web.client.RestTemplate-">ActionService</a></span>(<a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/CardConsultationServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">CardConsultationServiceProxy</a>&nbsp;cardService,
+             <a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/ThirdsServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">ThirdsServiceProxy</a>&nbsp;thirdsService,
+             com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+             org.springframework.web.client.RestTemplate&nbsp;restTemplate)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -148,14 +150,20 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/lfenergy/operatorfabric/actions/model/ActionStatus.html" title="interface in org.lfenergy.operatorfabric.actions.model">ActionStatus</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/actions/services/ActionService.html#lookUpActionStatus-java.lang.String-java.lang.String-">lookUpActionStatus</a></span>(java.lang.String&nbsp;cardId,
-                  java.lang.String&nbsp;actionKey)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/actions/services/ActionService.html#lookUpActionStatus-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-">lookUpActionStatus</a></span>(java.lang.String&nbsp;publisher,
+                  java.lang.String&nbsp;process,
+                  java.lang.String&nbsp;state,
+                  java.lang.String&nbsp;actionKey,
+                  java.lang.String&nbsp;jwt)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/lfenergy/operatorfabric/actions/model/ActionStatus.html" title="interface in org.lfenergy.operatorfabric.actions.model">ActionStatus</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/actions/services/ActionService.html#submitAction-java.lang.String-java.lang.String-java.lang.String-">submitAction</a></span>(java.lang.String&nbsp;cardId,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/lfenergy/operatorfabric/actions/services/ActionService.html#submitAction-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-">submitAction</a></span>(java.lang.String&nbsp;publisher,
+            java.lang.String&nbsp;process,
+            java.lang.String&nbsp;state,
             java.lang.String&nbsp;actionKey,
-            java.lang.String&nbsp;jwt)</code>&nbsp;</td>
+            java.lang.String&nbsp;jwt,
+            java.lang.String&nbsp;body)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -179,7 +187,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ActionService-org.lfenergy.operatorfabric.actions.services.feign.CardConsultationServiceProxy-org.lfenergy.operatorfabric.actions.services.feign.ThirdsServiceProxy-">
+<a name="ActionService-org.lfenergy.operatorfabric.actions.services.feign.CardConsultationServiceProxy-org.lfenergy.operatorfabric.actions.services.feign.ThirdsServiceProxy-com.fasterxml.jackson.databind.ObjectMapper-org.springframework.web.client.RestTemplate-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -187,7 +195,9 @@ extends java.lang.Object</pre>
 <h4>ActionService</h4>
 <pre>@Autowired
 public&nbsp;ActionService(<a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/CardConsultationServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">CardConsultationServiceProxy</a>&nbsp;cardService,
-                                <a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/ThirdsServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">ThirdsServiceProxy</a>&nbsp;thirdsService)</pre>
+                                <a href="../../../../../org/lfenergy/operatorfabric/actions/services/feign/ThirdsServiceProxy.html" title="interface in org.lfenergy.operatorfabric.actions.services.feign">ThirdsServiceProxy</a>&nbsp;thirdsService,
+                                com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper,
+                                org.springframework.web.client.RestTemplate&nbsp;restTemplate)</pre>
 </li>
 </ul>
 </li>
@@ -198,25 +208,31 @@ public&nbsp;ActionService(<a href="../../../../../org/lfenergy/operatorfabric/ac
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="lookUpActionStatus-java.lang.String-java.lang.String-">
+<a name="lookUpActionStatus-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>lookUpActionStatus</h4>
-<pre>public&nbsp;<a href="../../../../../org/lfenergy/operatorfabric/actions/model/ActionStatus.html" title="interface in org.lfenergy.operatorfabric.actions.model">ActionStatus</a>&nbsp;lookUpActionStatus(java.lang.String&nbsp;cardId,
-                                       java.lang.String&nbsp;actionKey)</pre>
+<pre>public&nbsp;<a href="../../../../../org/lfenergy/operatorfabric/actions/model/ActionStatus.html" title="interface in org.lfenergy.operatorfabric.actions.model">ActionStatus</a>&nbsp;lookUpActionStatus(java.lang.String&nbsp;publisher,
+                                       java.lang.String&nbsp;process,
+                                       java.lang.String&nbsp;state,
+                                       java.lang.String&nbsp;actionKey,
+                                       java.lang.String&nbsp;jwt)</pre>
 </li>
 </ul>
-<a name="submitAction-java.lang.String-java.lang.String-java.lang.String-">
+<a name="submitAction-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>submitAction</h4>
-<pre>public&nbsp;<a href="../../../../../org/lfenergy/operatorfabric/actions/model/ActionStatus.html" title="interface in org.lfenergy.operatorfabric.actions.model">ActionStatus</a>&nbsp;submitAction(java.lang.String&nbsp;cardId,
+<pre>public&nbsp;<a href="../../../../../org/lfenergy/operatorfabric/actions/model/ActionStatus.html" title="interface in org.lfenergy.operatorfabric.actions.model">ActionStatus</a>&nbsp;submitAction(java.lang.String&nbsp;publisher,
+                                 java.lang.String&nbsp;process,
+                                 java.lang.String&nbsp;state,
                                  java.lang.String&nbsp;actionKey,
-                                 java.lang.String&nbsp;jwt)</pre>
+                                 java.lang.String&nbsp;jwt,
+                                 java.lang.String&nbsp;body)</pre>
 </li>
 </ul>
 </li>
