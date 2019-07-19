@@ -1064,7 +1064,7 @@ As the card used in this example are created <a href="#CardSendingScript">above<
 <div class="literalblock">
 <div class="content">
 <pre>&lt;h2&gt;Template Number One&lt;/h2&gt;
-&lt;div class="bundle-test"&gt;'{{data.level1.level1Prop}}'&lt;/div&gt;</pre>
+&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1073,11 +1073,11 @@ As the card used in this example are created <a href="#CardSendingScript">above<
 <div class="literalblock">
 <div class="content">
 <pre>&lt;h2&gt;Patron numéro Un&lt;/h2&gt;
-&lt;div class="bundle-test"&gt;'{{data.level1.level1Prop}}'&lt;/div&gt;</pre>
+&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Those templates display a l10n title and an line containing the value of the card property <code>level1.level1Prop</code> which is <code>This is a root property</code>.</p>
+<p>Those templates display a l10n title and an line containing the value of the scope property <code>card.level1.level1Prop</code> which is <code>This is a root property</code>.</p>
 </div>
 <div class="paragraph">
 <p><code>/template/en/template2.handelbars</code></p>
@@ -1086,7 +1086,7 @@ As the card used in this example are created <a href="#CardSendingScript">above<
 <div class="content">
 <pre>&lt;h2&gt;Second Template&lt;/h2&gt;
 &lt;ul class="bundle-test-list"&gt;
-	{{#each data.level1.level1Array}}
+	{{#each card.data.level1.level1Array}}
 		&lt;li class="bunle-test-list-item"&gt;{{this.level1ArrayProp}}&lt;/li&gt;
 	{{/each}}
 &lt;/ul&gt;</pre>
@@ -1099,7 +1099,7 @@ As the card used in this example are created <a href="#CardSendingScript">above<
 <div class="content">
 <pre>&lt;h2&gt;Second patron&lt;/h2&gt;
 &lt;ul class="bundle-test-list"&gt;
-	{{#each data.level1.level1Array}}
+	{{#each card.data.level1.level1Array}}
 		&lt;li class="bunle-test-list-item"&gt;{{this.level1ArrayProp}}&lt;/li&gt;
 	{{/each}}
 &lt;/ul&gt;</pre>
@@ -1138,12 +1138,12 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <div class="literalblock">
 <div class="content">
 <pre>	…
-	&lt;div class="bundle-test"&gt;'{{data.level1.level1Prop}}'&lt;/div&gt;
+	&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;
 	…</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As seen abow, the value of <code>{{data.level1.level1Prop}}</code> of a test card is <code>This is a level1 property</code></p>
+<p>As seen abow, the value of <code>{{card.data.level1.level1Prop}}</code> of a test card is <code>This is a level1 property</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Style declaration in <code>./css/bundleTest.css</code></strong></p>
@@ -1377,9 +1377,33 @@ favor the lightest file formats (ogg,mp3, &#8230;&#8203;)</p>
 <h4 id="templates">2.1.4. Templates</h4>
 <div class="paragraph">
 <p>Templates are <a href="https://handlebarsjs.com/">Handlebars</a> template files. Templates
-are fuelled with a data structure contained in the card data (See
-<a href="../api/#__Models">card
-data model</a> for more information)</p>
+are fuelled with a scope structure composed of</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <strong>card</strong> property (See <a href="../api/#__Models">card data model</a> for more information)</p>
+</li>
+<li>
+<p>a <strong>userContext</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>login</strong>: user login</p>
+</li>
+<li>
+<p><strong>token</strong>: user jwt token</p>
+</li>
+<li>
+<p><strong>firstName</strong>: user first name</p>
+</li>
+<li>
+<p><strong>lastName</strong>: user last name</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>In addition to Handlebars basic syntax and helpers, Operator Fabric defines the
@@ -1396,7 +1420,7 @@ parameters (<a href="https://handlebarsjs.com/">see Handlebars doc Literals sect
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{numberFormat data.price style="currency" currency="EUR"}}</pre>
+<pre>{{numberFormat card.data.price style="currency" currency="EUR"}}</pre>
 </div>
 </div>
 </div>
@@ -1410,7 +1434,7 @@ selected one, the format is "format" hash parameter
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{dateFormat data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
+<pre>{{dateFormat card.data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
 </div>
 </div>
 </div>
@@ -1515,7 +1539,7 @@ bellow example, we simply pass an empty string.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{preserveSpace data.businessId}}</pre>
+<pre>{{preserveSpace card.data.businessId}}</pre>
 </div>
 </div>
 </div>
@@ -1706,7 +1730,7 @@ configuration :</p>
 and an optional parameter field (map of parameterKey &#8658; value)</p>
 <div class="literalblock">
 <div class="content">
-<pre>{{i18n data.i18nTitle}}</pre>
+<pre>{{i18n card.data.i18nTitle}}</pre>
 </div>
 </div>
 </li>
