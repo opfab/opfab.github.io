@@ -104,15 +104,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:75</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>return a string formatted from value by the according cluster level</p>
+                    <div class="io-description"><p>return a string formatted from value by the according cluster level
+else return an empty string</p>
 </div>
 
                     <div class="io-description">
@@ -188,17 +189,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:51</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>special format function used for week ticks formatting, display only hours for each ticks
-if cluster level is W return a string formatted from value
-else return a empty string</p>
+                    <div class="io-description"><p>special format function used for wrote all ticks on one horizontal line
+if cluster level is correct return a string formatted from value
+else return an empty string</p>
 </div>
 
                     <div class="io-description">
@@ -358,24 +359,37 @@ export class XAxisTickFormatPipe implements PipeTransform {
     if (typeof value &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
       return value;
     }
-    const date &#x3D; moment(value);
-    switch (clusterLevel) {
-      case &#x27;W&#x27;: case &#x27;7D&#x27;: {
-        return date.format(&#x27;ddd DD MMM HH&#x27;) + &#x27;h&#x27;;
+    if (clusterLevel) {
+      const date &#x3D; moment(value);
+      switch (clusterLevel) {
+        case &#x27;Min&#x27;:
+        case &#x27;Sec&#x27;: {
+          return date.format(&#x27;ddd DD MMM HH&#x27;) + &#x27;h&#x27; + date.format(&#x27;mm&#x27;);
+        }
+        case &#x27;Hou&#x27;: {
+          return date.format(&#x27;ddd DD MMM HH&#x27;) + &#x27;h&#x27;;
+        }
+        case &#x27;Day&#x27;:
+        case &#x27;Dat&#x27;:
+        case &#x27;Wee&#x27;:
+        case &#x27;Mon&#x27;:
+        case &#x27;Yea&#x27;:
+        case &#x27;nbW&#x27;: {
+          return date.format(&#x27;ddd DD MMM YYYY&#x27;);
+        }
+        default: {
+          return date.format(clusterLevel);
+        }
       }
-      case &#x27;M&#x27;: case &#x27;Y&#x27;: {
-        return date.format(&#x27;ddd DD MMM YYYY&#x27;);
-      }
-      default: {
-        return value;
-      }
+    } else {
+      return &#x27;&#x27;;
     }
   }
 
   /**
-   * special format function used for week ticks formatting, display only hours for each ticks
-   * if cluster level is W return a string formatted from value
-   * else return a empty string
+   * special format function used for wrote all ticks on one horizontal line
+   * if cluster level is correct return a string formatted from value
+   * else return an empty string
    * @param value
    * @param clusterLevel
    */
@@ -383,7 +397,15 @@ export class XAxisTickFormatPipe implements PipeTransform {
     if (clusterLevel) {
       const date &#x3D; moment(value);
       if (date) {
-        return date.format(&#x27;HH&#x27;) + &#x27;h&#x27;;
+        if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;Hou&#x27;) {
+          return date.format(&#x27;HH&#x27;) + &#x27;h&#x27;;
+        } else if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;Min&#x27;) {
+          return date.format(&#x27;mm&#x27;);
+        } else if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;Sec&#x27;) {
+          return date.format(&#x27;ss&#x27;);
+        } else if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;nbW&#x27;) {
+          return date.format(&#x27;ww&#x27;);
+        }
       }
     }
     return &#x27;&#x27;;
@@ -391,48 +413,81 @@ export class XAxisTickFormatPipe implements PipeTransform {
 
   /**
    * return a string formatted from value by the according cluster level
+   * else return an empty string
    * @param value
    * @param clusterLevel
    */
   transform(value: any, clusterLevel: string): string {
-    // if (languageTag) {
-    /*if (value instanceof moment) {*/
-    // const datePipe &#x3D; moment.locale(languageTag);
     if (typeof value &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
       return value;
     }
+    if (clusterLevel) {
     const date &#x3D; moment(value);
     const startYear &#x3D; moment(date).startOf(&#x27;year&#x27;);
-    switch (clusterLevel) {
-      case &#x27;W&#x27; : case &#x27;7D&#x27;: {
-        if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
-          return date.format(&#x27;ddd DD MMM YYYY&#x27;);
+      switch (clusterLevel) {
+        case &#x27;Hou&#x27; : {
+          if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
+            return date.format(&#x27;ddd DD MMM YYYY&#x27;);
+          }
+          if (date.hours() &#x3D;&#x3D;&#x3D; 0) {
+            return date.format(&#x27;ddd DD MMM&#x27;);
+          } else {
+            return date.format(&#x27;HH&#x27;);
+          }
         }
-        if (date.hours() &#x3D;&#x3D;&#x3D; 0) {
+        case &#x27;Min&#x27;: {
+          if (date.minutes() &#x3D;&#x3D;&#x3D; 0) {
+            if (date.hour() &#x3D;&#x3D;&#x3D; 0) {
+              return date.format(&#x27;ddd DD MMM&#x27;);
+            } else {
+              return date.format(&#x27;HH&#x27;);
+            }
+          }
+        }
+        case &#x27;Sec&#x27;: {
+          if (date.seconds() &#x3D;&#x3D;&#x3D; 0) {
+            if (date.minutes() &#x3D;&#x3D;&#x3D; 0) {
+              if (date.hour() &#x3D;&#x3D;&#x3D; 0) {
+                return date.format(&#x27;ddd DD MMM&#x27;);
+              } else {
+                return date.format(&#x27;HH&#x27;) + &#x27;h&#x27;;
+              }
+            } else {
+              return date.format(&#x27;mm&#x27;);
+            }
+          }
+        }
+        case &#x27;Day&#x27;: {
+          if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
+            return date.format(&#x27;DD MMM YY&#x27;);
+          }
           return date.format(&#x27;ddd DD MMM&#x27;);
-        } else {
-          return date.format(&#x27;HH&#x27;);
+        }
+        case &#x27;Dat&#x27;: {
+          if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
+            return date.format(&#x27;D MMM YY&#x27;);
+          }
+          return date.format(&#x27;D MMM&#x27;);
+        }
+        case &#x27;Wee&#x27;: {
+          return date.format(&#x27;DD/MM/YY&#x27;);
+        }
+        case &#x27;Mon&#x27;: {
+          return date.format(&#x27;MMM YY&#x27;);
+        }
+        case &#x27;Yea&#x27;: {
+          return date.format(&#x27;YYYY&#x27;);
+        }
+        case &#x27;nbW&#x27;: {
+          return date.format(&#x27;YYYY&#x27;);
+        }
+        default: {
+          return date.format(clusterLevel);
         }
       }
-      case &#x27;M&#x27;: {
-        if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
-          return date.format(&#x27;DD MMM YY&#x27;);
-        }
-        return date.format(&#x27;ddd DD MMM&#x27;);
-      }
-      case &#x27;Y&#x27;: {
-        if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
-          return date.format(&#x27;D MMM YY&#x27;);
-        }
-        return date.format(&#x27;D MMM&#x27;);
-      }
-      default: {
-        return value;
-      }
+    } else {
+      return &#x27;&#x27;;
     }
-        // else {
-        // return value.toString();
-        // }
   }
 }
 </code></pre>

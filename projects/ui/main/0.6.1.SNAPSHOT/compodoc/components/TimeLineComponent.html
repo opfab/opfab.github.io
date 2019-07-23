@@ -158,6 +158,9 @@
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
                             </li>
+                            <li>
+                                <a href="#periodStartToEnd">periodStartToEnd</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -250,15 +253,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:204</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="346"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:346</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>make start of domain begin 4 ticks before actual date (moment())
+                    <div class="io-description"><p>make start of domain begins 4 ticks before actual date (moment())
 each cluster level had a different treatment</p>
 </div>
 
@@ -328,8 +331,8 @@ each cluster level had a different treatment</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="240"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:240</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="383"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:383</a></div>
                 </td>
             </tr>
 
@@ -379,6 +382,91 @@ each cluster level had a different treatment</p>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="periodStartToEnd"></a>
+                    <span class="name">
+                        <b>
+                            periodStartToEnd
+                        </b>
+                        <a href="#periodStartToEnd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>periodStartToEnd(conf, future: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="322"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:322</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>return an array of two moments
+first moment equal to start of domain, second moment equal to end of domain
+set spaceBeforeMoment to true for start the domain 4 ticks before the actual moment</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>conf</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>future</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>moment.Moment</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -537,48 +625,182 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                 doy: 12 // First week of year must contain 1 January (7 + 6 - 1)
             }});
 
-        const actualMoment &#x3D; moment();
+        // DOMAIN CONF from moment() to our conf
 
-        // conf 1 &#x3D;&#x3D;&#x3D; end of the actual week + next week
-        /*const startDomain &#x3D; moment();
-        startDomain.hours(0).minutes(0).seconds(0).millisecond(0);*/
-        const startDomain &#x3D; this.dateWithSpaceBeforeMoment(moment(actualMoment), &#x27;W&#x27;);
-        const endDomain &#x3D; _.cloneDeep(startDomain);
-        endDomain.add(1, &#x27;week&#x27;);
-        endDomain.startOf(&#x27;week&#x27;);
-        endDomain.hours(0).minutes(0).seconds(0).millisecond(0);
-        endDomain.add(7, &#x27;days&#x27;);
-        // endDomain.add(5, &#x27;days&#x27;); // example
+        const domainYearConf &#x3D; {
+            year: 2,
+            month: 0,
+            week: 0,
+            day: 0,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            startOf: [&#x27;year&#x27;],
+        };
 
-        // conf 4 &#x3D;&#x3D;&#x3D; end of the actual day + 7 days
-        /*const startDomain4 &#x3D; moment();
-        startDomain4.hours(0).minutes(0).seconds(0).millisecond(0);*/
-        const startDomain4 &#x3D; this.dateWithSpaceBeforeMoment(moment(actualMoment), &#x27;W&#x27;);
-        const endDomain4 &#x3D; _.cloneDeep(startDomain4);
-        endDomain4.hours(0).minutes(0).seconds(0).millisecond(0);
-        endDomain4.add(8, &#x27;days&#x27;);
-        // endDomain.add(5, &#x27;days&#x27;); // example
+        const domainMonthConf &#x3D; {
+            year: 0,
+            month: 2,
+            week: 0,
+            day: 0,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            startOf: [&#x27;month&#x27;],
+        };
 
-        // conf 2 &#x3D;&#x3D;&#x3D; actual month + next month
-        /*const startDomain2 &#x3D; moment();
-        startDomain2.hours(0).minutes(0).seconds(0).millisecond(0);*/
-        const startDomain2 &#x3D; this.dateWithSpaceBeforeMoment(moment(actualMoment), &#x27;M&#x27;);
-        const endDomain2 &#x3D; _.cloneDeep(startDomain2);
-        endDomain2.startOf(&#x27;month&#x27;);
-        endDomain2.add(2, &#x27;months&#x27;);
-        // endDomain2.add(1, &#x27;months&#x27;); // example
-        // endDomain2.date(15); // example
+        const domainWeekConf &#x3D; {
+            year: 0,
+            month: 0,
+            week: 2,
+            day: 0,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            startOf: [&#x27;week&#x27;],
+        };
 
-        // conf 3 &#x3D;&#x3D;&#x3D; from start of actual month to end of the year + 1 year
-        /*const startDomain3 &#x3D; moment();
-        startDomain3.startOf(&#x27;month&#x27;);
-        startDomain3.hours(0);*/
-        const startDomain3 &#x3D; this.dateWithSpaceBeforeMoment(moment(actualMoment), &#x27;Y&#x27;);
-        const endDomain3 &#x3D; _.cloneDeep(startDomain3);
-        endDomain3.add(2, &#x27;years&#x27;);
-        endDomain3.startOf(&#x27;year&#x27;); // Voir avec Guillaume
-        // endDomain3.add(1, &#x27;years&#x27;); // example
-        // endDomain3.month(10); // example
+        const domain7DayConf &#x3D; {
+            year: 0,
+            month: 0,
+            week: 0,
+            day: 8,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            startOf: [&#x27;day&#x27;],
+        };
+
+        const currentMoment &#x3D; moment();
+
+        const startDomain &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;W&#x27;);
+        const endDomain &#x3D; this.periodStartToEnd(domainWeekConf, true);
+        const startDomain2 &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;M&#x27;);
+        const endDomain2 &#x3D; this.periodStartToEnd(domainMonthConf, true);
+        const startDomain3 &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;Y&#x27;);
+        const endDomain3 &#x3D; this.periodStartToEnd(domainYearConf, true);
+        const startDomain4 &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;7D&#x27;);
+        const endDomain4 &#x3D; this.periodStartToEnd(domain7DayConf, true);
+
+        // FORWARD CONF (movement on domain)
+
+        const forwardYearConf &#x3D; {
+            start: {
+                year: 1,
+                month: 0,
+                week: 0,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+            end: {
+                year: 1,
+                month: 0,
+                week: 0,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+        };
+
+        const forwardMonthConf &#x3D; {
+            start: {
+                year: 0,
+                month: 1,
+                week: 0,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+            end: {
+                year: 0,
+                month: 1,
+                week: 0,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+        };
+
+        const forwardWeekConf &#x3D; {
+            start: {
+                year: 0,
+                month: 0,
+                week: 1,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+            end: {
+                year: 0,
+                month: 0,
+                week: 1,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+        };
+
+        const forwardDayConf &#x3D; {
+            start: {
+                year: 0,
+                month: 0,
+                week: 0,
+                day: 1,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+            end: {
+                year: 0,
+                month: 0,
+                week: 0,
+                day: 1,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+        };
+
+        // TICKS CONF
+
+        const ticks4HoursConf &#x3D; {
+            year: 0,
+            month: 0,
+            week: 0,
+            day: 0,
+            hour: 4,
+            minute: 0,
+            second: 0,
+        };
+
+        const ticksDayConf &#x3D; {
+            year: 0,
+            month: 0,
+            week: 0,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0,
+        };
+
+        const ticksHalfMonthConf &#x3D; {
+            year: 0,
+            month: 0,
+            week: 0,
+            day: 0,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            date: [1, 16],
+        };
+
         this.conf &#x3D; {
             enableDrag: false,
             enableZoom: true,
@@ -592,26 +814,41 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         this.confZoom &#x3D; [{
             startDomain: startDomain.valueOf(),
             endDomain: endDomain.valueOf(),
-            forwardLevel: &#x27;W&#x27;,
-            followCloackTick: false,
+            buttonTitle: &#x27;W&#x27;,
+            forwardConf: forwardWeekConf,
+            backwardConf: forwardWeekConf,
+            ticksConf: ticks4HoursConf,
+            followClockTick: true,
+            firstMoveStartOfUnit: true,
         },
         {
             startDomain: startDomain4.valueOf(),
             endDomain: endDomain4.valueOf(),
-            forwardLevel: &#x27;7D&#x27;,
-            followCloackTick: true,
+            buttonTitle: &#x27;7D&#x27;,
+            forwardConf: forwardDayConf,
+            ticksConf: ticks4HoursConf,
+            followClockTick: true,
+            firstMoveStartOfUnit: true,
         },
         {
             startDomain: startDomain2.valueOf(),
             endDomain: endDomain2.valueOf(),
-            forwardLevel: &#x27;M&#x27;,
-            followCloackTick: false,
+            buttonTitle: &#x27;M&#x27;,
+            forwardConf: forwardMonthConf,
+            ticksConf: ticksDayConf,
+            // formatTicks: &#x27;DD&#x27;,
+            // formatTooltipsDate: &#x27;DD/MM&#x27;,
+            followClockTick: true,
+            firstMoveStartOfUnit: true,
         },
         {
             startDomain: startDomain3.valueOf(),
             endDomain: endDomain3.valueOf(),
-            forwardLevel: &#x27;Y&#x27;,
-            followCloackTick: false,
+            buttonTitle: &#x27;Y&#x27;,
+            forwardConf: forwardYearConf,
+            ticksConf: ticksHalfMonthConf,
+            followClockTick: true,
+            firstMoveStartOfUnit: true,
         }];
 
         // timeline state is same than feed state (not filtered Feed)
@@ -629,24 +866,10 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         // add a card data to the timeline state for each new card received
         this.subscription &#x3D; this.lightCards$.pipe(debounceTime(300), distinctUntilChanged())
             .subscribe(value &#x3D;&gt; {
-            // console.log(&#x27;timeline subscribe&#x27;);
             const tmp &#x3D; _.cloneDeep(value);
             this.store.dispatch(new InitTimeline({
                 data: [],
             }));
-            /*for (const val of tmp) {
-                // val.endDate val.startDate val.severity
-                const myCardTimeline &#x3D; {
-                    startDate: val.startDate,
-                    endDate: val.endDate,
-                    severity: val.severity
-                };
-                this.store.dispatch(new AddCardDataTimeline({
-
-                    cardTimeline: myCardTimeline,
-                }));
-                // console.log(&#x27;timeline subscribe&#x27;);
-            }*/
             const myCardsTimeline &#x3D; [];
             for (const val of tmp) {
                 if (val.timeSpans &amp;&amp; val.timeSpans.length &gt; 0) {
@@ -656,7 +879,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                             startDate: d.start, // useless
                             endDate: d.end, // useless
                             severity: val.severity,
-                            summary: val.summary.parameters.value,
+                            summary: val.title.parameters.value,
                         };
                         myCardsTimeline.push(myCardTimelineTimespans);
                     });
@@ -667,7 +890,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                         startDate: val.startDate, // useless
                         endDate: val.endDate, // useless
                         severity: val.severity,
-                        summary: val.summary.parameters.value,
+                        summary: val.title.parameters.value,
                     };
                     myCardsTimeline.push(myCardTimeline);
                 }
@@ -676,29 +899,36 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                 cardsTimeline: myCardsTimeline,
             }));
         });
-
-        // this.lastCards$ &#x3D; this.store.select(timelineSelectors.selectLastCardsSelection);
-        /* // TRY ON TIMELINE
-         this.lightCards$ &#x3D; this.store.pipe(
-             select(timelineSelectors.selectFeed),
-             catchError(err &#x3D;&gt; of([]))
-         );*/
-        /* // TRY ON FEED
-        this.lightCards$ &#x3D; this.store.pipe(
-            select(feedSelectors.selectFeed),
-            catchError(err &#x3D;&gt; of([]))
-        );*/
-
-        /*
-        // TRY selectUnFilteredFeed
-        this.lightCards$ &#x3D; this.store.pipe(
-            select(feedSelectors.selectUnFilteredFeed),
-            catchError(err &#x3D;&gt; of([]))
-        );*/
     }
 
     /**
-     * make start of domain begin 4 ticks before actual date (moment())
+     * return an array of two moments
+     * first moment equal to start of domain, second moment equal to end of domain
+     * set spaceBeforeMoment to true for start the domain 4 ticks before the actual moment
+     * @param level
+     * @param spaceBeforeMoment
+     */
+    periodStartToEnd(conf, future: boolean): moment.Moment {
+        const tmpMoment &#x3D; moment();
+        const newDate &#x3D; _.cloneDeep(tmpMoment);
+        Object.keys(conf).forEach(key &#x3D;&gt; {
+            if (key &#x3D;&#x3D;&#x3D; &#x27;startOf&#x27;) {
+                conf[key].forEach(value &#x3D;&gt; {
+                    newDate.startOf(value);
+                });
+            } else if (conf[key] &gt; 0) {
+                if (future) {
+                    newDate.add(conf[key], key);
+                } else {
+                    newDate.subtract(conf[key], key);
+                }
+            }
+        });
+        return newDate;
+    }
+
+    /**
+     * make start of domain begins 4 ticks before actual date (moment())
      * each cluster level had a different treatment
      * @param clusterLevel
      */
@@ -706,7 +936,8 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         date.minutes(0).seconds(0).millisecond(0);
         switch (clusterLevel) {
             case &#x27;W&#x27; : case &#x27;7D&#x27;: {
-                for (let i &#x3D; 0; i &lt; 35; i++) {
+                // align date hours by subtract exceeded hours for stay on ticks (every 4 hours)
+                for (let i &#x3D; 0; i &lt; 10; i++) {
                     if (((date.hours() - i) % 4) &#x3D;&#x3D;&#x3D; 0) {
                         date.subtract(i, &#x27;hours&#x27;);
                         break;
@@ -727,7 +958,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                 // start at begin of month
                 if (date.date() &gt;&#x3D; 16) {
                     date.startOf(&#x27;month&#x27;);
-                    date.subtract(1, &#x27;months&#x27;);
+                        date.subtract(1, &#x27;months&#x27;);
                 } else {
                     // start at middle of month (16th)
                     date.date(16);
@@ -743,8 +974,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
-}
-</code></pre>
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
