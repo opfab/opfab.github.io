@@ -1,0 +1,2892 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Card Management API</title>
+    <style type="text/css">
+      body {
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>Card Management API</h1>
+    <div class="app-desc">OperatorFabric Card Consumer Service</div>
+    <div class="app-desc">More information: <a href="https://opfab.github.io/">https://opfab.github.io/</a></div>
+    <div class="app-desc">Contact Info: <a href="boris.dolley_AT_rte-france.com">boris.dolley_AT_rte-france.com</a></div>
+    <div class="app-desc">Version: 0.6.1.RELEASE</div>
+    <div class="app-desc">BasePath:/apis</div>
+    <div class="license-info">Mozilla Public License V2.0</div>
+    <div class="license-url">http://mozilla.org/MPL/2.0/</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Actions">Actions</a></h4>
+  <ul>
+  <li><a href="#fetchProcessCardAction"><code><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></a></li>
+  <li><a href="#triggerProcessCardAction"><code><span class="http-method">put</span> /cards/{processId}/actions/{actionKey}</code></a></li>
+  </ul>
+  <h4><a href="#Cards">Cards</a></h4>
+  <ul>
+  <li><a href="#deleteProcessCard"><code><span class="http-method">delete</span> /cards/{processId}</code></a></li>
+  <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
+  <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
+  <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
+  <li><a href="#fetchProcessCardAction"><code><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></a></li>
+  <li><a href="#getCardSubscription"><code><span class="http-method">get</span> /cardSubscription</code></a></li>
+  <li><a href="#publishCards"><code><span class="http-method">post</span> /cards</code></a></li>
+  <li><a href="#publishCardsAsync"><code><span class="http-method">post</span> /async/cards</code></a></li>
+  <li><a href="#triggerProcessCardAction"><code><span class="http-method">put</span> /cards/{processId}/actions/{actionKey}</code></a></li>
+  <li><a href="#updateCardSubscription"><code><span class="http-method">put</span> /cardSubscription/{uiId}</code></a></li>
+  </ul>
+  <h4><a href="#Creation">Creation</a></h4>
+  <ul>
+  <li><a href="#publishCards"><code><span class="http-method">post</span> /cards</code></a></li>
+  <li><a href="#publishCardsAsync"><code><span class="http-method">post</span> /async/cards</code></a></li>
+  </ul>
+  <h4><a href="#Deletion">Deletion</a></h4>
+  <ul>
+  <li><a href="#deleteProcessCard"><code><span class="http-method">delete</span> /cards/{processId}</code></a></li>
+  </ul>
+  <h4><a href="#Read">Read</a></h4>
+  <ul>
+  <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
+  <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
+  <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
+  <li><a href="#fetchProcessCardAction"><code><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></a></li>
+  <li><a href="#getCardSubscription"><code><span class="http-method">get</span> /cardSubscription</code></a></li>
+  </ul>
+  <h4><a href="#Subscription">Subscription</a></h4>
+  <ul>
+  <li><a href="#getCardSubscription"><code><span class="http-method">get</span> /cardSubscription</code></a></li>
+  <li><a href="#updateCardSubscription"><code><span class="http-method">put</span> /cardSubscription/{uiId}</code></a></li>
+  </ul>
+
+  <h1><a name="Actions">Actions</a></h1>
+  <div class="method"><a name="fetchProcessCardAction"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></pre></div>
+    <div class="method-summary">Fetch action status (<span class="nickname">fetchProcessCardAction</span>)</div>
+    <div class="method-notes">Fetch an updated action status for action to update client side representation</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div><div class="param">actionKey (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#ActionStatus">ActionStatus</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+}, {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+} ]</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="triggerProcessCardAction"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /cards/{processId}/actions/{actionKey}</code></pre></div>
+    <div class="method-summary">Trigger action (<span class="nickname">triggerProcessCardAction</span>)</div>
+    <div class="method-notes">Trigger corresponding action in OperatorFabric, returns ActionStatus upon action realization</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div><div class="param">actionKey (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#ActionStatus">ActionStatus</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+}, {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+} ]</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Cards">Cards</a></h1>
+  <div class="method"><a name="deleteProcessCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /cards/{processId}</code></pre></div>
+    <div class="method-summary">delete current card (<span class="nickname">deleteProcessCard</span>)</div>
+    <div class="method-notes">delete current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchNextCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/next</code></pre></div>
+    <div class="method-summary">fetch next card after specified time if any (<span class="nickname">fetchNextCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchPreviousCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/previous</code></pre></div>
+    <div class="method-summary">fetch previous card before specified time if any (<span class="nickname">fetchPreviousCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchProcessCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards/{processId}</code></pre></div>
+    <div class="method-summary">fetch current card (<span class="nickname">fetchProcessCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchProcessCardAction"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></pre></div>
+    <div class="method-summary">Fetch action status (<span class="nickname">fetchProcessCardAction</span>)</div>
+    <div class="method-notes">Fetch an updated action status for action to update client side representation</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div><div class="param">actionKey (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#ActionStatus">ActionStatus</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+}, {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+} ]</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getCardSubscription"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cardSubscription</code></pre></div>
+    <div class="method-summary">fetch card operations (<span class="nickname">getCardSubscription</span>)</div>
+    <div class="method-notes">fetch cards restricted to calling user. Fetched cards all come with empty data and details. requesting this end point opens an SSE connection</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">rangeStart (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; start of time range to get published card format: date-time</div><div class="param">rangeEnd (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; end of time range to get published card format: date-time</div><div class="param">notification (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If true, connection is kept for notification of new cards (not related to the specified range) default: false </div><div class="param">clientId (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A unique id to identify client to allow for reconnection (an autogenerated UUID is the best solution) </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#CardOperation">CardOperation</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "number" : 3,
+  "publishDate" : 1546300800000,
+  "type" : "DELETE",
+  "cardIds" : [ 12345, 12346, 12347 ]
+}, {
+  "number" : 3,
+  "publishDate" : 1546300800000,
+  "type" : "DELETE",
+  "cardIds" : [ 12345, 12346, 12347 ]
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    ok
+        
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="publishCards"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /cards</code></pre></div>
+    <div class="method-summary">publish cards (<span class="nickname">publishCards</span>)</div>
+    <div class="method-notes">publish one or more card to OperatorFabric</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">cards <a href="#Card">Card</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#CardCreationReport">CardCreationReport</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 10,
+  "message" : "Cards successfully created."
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    created
+        <a href="#CardCreationReport">CardCreationReport</a>
+    <h4 class="field-label">400</h4>
+    erroneous payload
+        <a href="#CardCreationReport">CardCreationReport</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="publishCardsAsync"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /async/cards</code></pre></div>
+    <div class="method-summary">publish cards (<span class="nickname">publishCardsAsync</span>)</div>
+    <div class="method-notes">Publish one or more cards to OperatorFabric</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">cards <a href="#Card">Card</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">202</h4>
+    accepted
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="triggerProcessCardAction"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /cards/{processId}/actions/{actionKey}</code></pre></div>
+    <div class="method-summary">Trigger action (<span class="nickname">triggerProcessCardAction</span>)</div>
+    <div class="method-notes">Trigger corresponding action in OperatorFabric, returns ActionStatus upon action realization</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div><div class="param">actionKey (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#ActionStatus">ActionStatus</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+}, {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+} ]</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateCardSubscription"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /cardSubscription/{uiId}</code></pre></div>
+    <div class="method-summary">Update existing subscription (<span class="nickname">updateCardSubscription</span>)</div>
+    <div class="method-notes">Update existing subscription</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uiId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; unique ui client id associated to subscription </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">subscription <a href="#Subscription">Subscription</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; updated subscription </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Subscription">Subscription</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "loadedCards" : [ "loadedCards", "loadedCards" ],
+  "rangeStart" : "1551868290379",
+  "rangeEnd" : "1551868290379"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Subscription">Subscription</a>
+    <h4 class="field-label">400</h4>
+    Bad request (body doesn't match login path parameter)
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Subscription not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Creation">Creation</a></h1>
+  <div class="method"><a name="publishCards"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /cards</code></pre></div>
+    <div class="method-summary">publish cards (<span class="nickname">publishCards</span>)</div>
+    <div class="method-notes">publish one or more card to OperatorFabric</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">cards <a href="#Card">Card</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#CardCreationReport">CardCreationReport</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 10,
+  "message" : "Cards successfully created."
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    created
+        <a href="#CardCreationReport">CardCreationReport</a>
+    <h4 class="field-label">400</h4>
+    erroneous payload
+        <a href="#CardCreationReport">CardCreationReport</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="publishCardsAsync"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /async/cards</code></pre></div>
+    <div class="method-summary">publish cards (<span class="nickname">publishCardsAsync</span>)</div>
+    <div class="method-notes">Publish one or more cards to OperatorFabric</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">cards <a href="#Card">Card</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">202</h4>
+    accepted
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Deletion">Deletion</a></h1>
+  <div class="method"><a name="deleteProcessCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /cards/{processId}</code></pre></div>
+    <div class="method-summary">delete current card (<span class="nickname">deleteProcessCard</span>)</div>
+    <div class="method-notes">delete current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Read">Read</a></h1>
+  <div class="method"><a name="fetchNextCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/next</code></pre></div>
+    <div class="method-summary">fetch next card after specified time if any (<span class="nickname">fetchNextCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchPreviousCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /{millisTime}/previous</code></pre></div>
+    <div class="method-summary">fetch previous card before specified time if any (<span class="nickname">fetchPreviousCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">millisTime (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; time in milliseconds from epoch </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">404</h4>
+    no card found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchProcessCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards/{processId}</code></pre></div>
+    <div class="method-summary">fetch current card (<span class="nickname">fetchProcessCard</span>)</div>
+    <div class="method-notes">fetch current card for process id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchProcessCardAction"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></pre></div>
+    <div class="method-summary">Fetch action status (<span class="nickname">fetchProcessCardAction</span>)</div>
+    <div class="method-notes">Fetch an updated action status for action to update client side representation</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">processId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div><div class="param">actionKey (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#ActionStatus">ActionStatus</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+}, {
+  "unlock" : true,
+  "disabled" : false,
+  "label" : {
+    "key" : "myCard.myAction.label",
+    "parameters" : {
+      "EN" : "Update colour",
+      "FR" : "Choisir une nouvelle couleur"
+    }
+  },
+  "contentStyle" : "buttonContent.css",
+  "buttonStyle" : "button.css",
+  "inputs" : [ {
+    "type" : "LIST",
+    "label" : {
+      "key" : "myCard.myAction.myInput1.label",
+      "parameters" : {
+        "EN" : "Colours",
+        "FR" : "Couleurs"
+      }
+    },
+    "mandatory" : true,
+    "name" : "selectedColour",
+    "value" : {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    },
+    "values" : [ {
+      "value" : "#000000",
+      "label" : {
+        "key" : "black",
+        "parameters" : {
+          "EN" : "Paint It Black",
+          "FR" : "Broyer du noir"
+        }
+      }
+    }, {
+      "value" : "#51CE1E",
+      "label" : {
+        "key" : "green",
+        "parameters" : {
+          "EN" : "Go Green",
+          "FR" : "Se mettre au vert"
+        }
+      }
+    } ]
+  }, {
+    "type" : "LONGTEXT",
+    "label" : {
+      "key" : "myCard.myAction.myInput2.label",
+      "parameters" : {
+        "EN" : "Comment",
+        "FR" : "Commentaire"
+      }
+    },
+    "mandatory" : false,
+    "name" : "comment",
+    "value" : "",
+    "maxLength" : 250,
+    "rows" : 10
+  } ]
+} ]</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getCardSubscription"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cardSubscription</code></pre></div>
+    <div class="method-summary">fetch card operations (<span class="nickname">getCardSubscription</span>)</div>
+    <div class="method-notes">fetch cards restricted to calling user. Fetched cards all come with empty data and details. requesting this end point opens an SSE connection</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">rangeStart (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; start of time range to get published card format: date-time</div><div class="param">rangeEnd (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; end of time range to get published card format: date-time</div><div class="param">notification (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If true, connection is kept for notification of new cards (not related to the specified range) default: false </div><div class="param">clientId (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A unique id to identify client to allow for reconnection (an autogenerated UUID is the best solution) </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#CardOperation">CardOperation</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "number" : 3,
+  "publishDate" : 1546300800000,
+  "type" : "DELETE",
+  "cardIds" : [ 12345, 12346, 12347 ]
+}, {
+  "number" : 3,
+  "publishDate" : 1546300800000,
+  "type" : "DELETE",
+  "cardIds" : [ 12345, 12346, 12347 ]
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    ok
+        
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Subscription">Subscription</a></h1>
+  <div class="method"><a name="getCardSubscription"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cardSubscription</code></pre></div>
+    <div class="method-summary">fetch card operations (<span class="nickname">getCardSubscription</span>)</div>
+    <div class="method-notes">fetch cards restricted to calling user. Fetched cards all come with empty data and details. requesting this end point opens an SSE connection</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">rangeStart (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; start of time range to get published card format: date-time</div><div class="param">rangeEnd (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; end of time range to get published card format: date-time</div><div class="param">notification (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If true, connection is kept for notification of new cards (not related to the specified range) default: false </div><div class="param">clientId (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A unique id to identify client to allow for reconnection (an autogenerated UUID is the best solution) </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#CardOperation">CardOperation</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "number" : 3,
+  "publishDate" : 1546300800000,
+  "type" : "DELETE",
+  "cardIds" : [ 12345, 12346, 12347 ]
+}, {
+  "number" : 3,
+  "publishDate" : 1546300800000,
+  "type" : "DELETE",
+  "cardIds" : [ 12345, 12346, 12347 ]
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    ok
+        
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateCardSubscription"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /cardSubscription/{uiId}</code></pre></div>
+    <div class="method-summary">Update existing subscription (<span class="nickname">updateCardSubscription</span>)</div>
+    <div class="method-notes">Update existing subscription</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uiId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; unique ui client id associated to subscription </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">subscription <a href="#Subscription">Subscription</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; updated subscription </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Subscription">Subscription</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "loadedCards" : [ "loadedCards", "loadedCards" ],
+  "rangeStart" : "1551868290379",
+  "rangeEnd" : "1551868290379"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Subscription">Subscription</a>
+    <h4 class="field-label">400</h4>
+    Bad request (body doesn't match login path parameter)
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Subscription not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#ActionEnum"><code>ActionEnum</code> - </a></li>
+    <li><a href="#ActionStatus"><code>ActionStatus</code> - </a></li>
+    <li><a href="#Card"><code>Card</code> - </a></li>
+    <li><a href="#CardCreationReport"><code>CardCreationReport</code> - </a></li>
+    <li><a href="#CardOperation"><code>CardOperation</code> - </a></li>
+    <li><a href="#CardOperationTypeEnum"><code>CardOperationTypeEnum</code> - </a></li>
+    <li><a href="#Detail"><code>Detail</code> - </a></li>
+    <li><a href="#EpochDate"><code>EpochDate</code> - </a></li>
+    <li><a href="#I18n"><code>I18n</code> - </a></li>
+    <li><a href="#Input"><code>Input</code> - </a></li>
+    <li><a href="#InputEnum"><code>InputEnum</code> - </a></li>
+    <li><a href="#LightCard"><code>LightCard</code> - </a></li>
+    <li><a href="#LongInteger"><code>LongInteger</code> - </a></li>
+    <li><a href="#ParameterListItem"><code>ParameterListItem</code> - </a></li>
+    <li><a href="#Recipient"><code>Recipient</code> - </a></li>
+    <li><a href="#RecipientEnum"><code>RecipientEnum</code> - </a></li>
+    <li><a href="#SeverityEnum"><code>SeverityEnum</code> - </a></li>
+    <li><a href="#Subscription"><code>Subscription</code> - </a></li>
+    <li><a href="#TimeSpan"><code>TimeSpan</code> - </a></li>
+    <li><a href="#TimeSpanDisplayModeEnum"><code>TimeSpanDisplayModeEnum</code> - </a></li>
+    <li><a href="#TitlePositionEnum"><code>TitlePositionEnum</code> - </a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="ActionEnum"><code>ActionEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Action type &gt;</p>
+<ul>
+<li>INTERNAL - Internal OperatorFabric action</li>
+<li>URL - Uri based action</li>
+<li>JNLP - Uri based jnlp action</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ActionStatus"><code>ActionStatus</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">unlock (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Unlock action button upon client return after action submission </div>
+<div class="param">disabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> disable action button upon client return </div>
+<div class="param">label (optional)</div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> updated button label, if null no change </div>
+<div class="param">contentStyle (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> css classes of action button content (a &lt;i&gt; tag) </div>
+<div class="param">buttonStyle (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> css classes of action button </div>
+<div class="param">inputs (optional)</div><div class="param-desc"><span class="param-type"><a href="#Input">array[Input]</a></span> list of action input parameters, generate a popup form upon action call </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Card"><code>Card</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A Card sums up information about the status of a given process instance of the publishing service</div>
+    <div class="field-items">
+      <div class="param">uid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique card ID </div>
+<div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique card ID (as defined in the associated process) </div>
+<div class="param">publisher </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Publishing service unique ID </div>
+<div class="param">publisherVersion </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Publishing service version </div>
+<div class="param">process (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> associated process name </div>
+<div class="param">processId </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique process ID of the associated process instance </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> associated process state name </div>
+<div class="param">publishDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> The date the card was published (meaning created by the card service) </div>
+<div class="param">deletionDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> The date the card was deleted </div>
+<div class="param">lttd (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Last time to decide, after this date no action can be triggered on the card </div>
+<div class="param">startDate </div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Card validity start time </div>
+<div class="param">endDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Card validity end time </div>
+<div class="param">severity </div><div class="param-desc"><span class="param-type"><a href="#SeverityEnum">SeverityEnum</a></span> Card severity </div>
+<div class="param">media (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Media unique ID for audio notification </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tags associated with the card </div>
+<div class="param">timeSpans (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeSpan">array[TimeSpan]</a></span> List of business time span associated to card </div>
+<div class="param">details (optional)</div><div class="param-desc"><span class="param-type"><a href="#Detail">array[Detail]</a></span> List of card associated details </div>
+<div class="param">title </div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Card i18n title </div>
+<div class="param">summary </div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Card i18n summary </div>
+<div class="param">recipient (optional)</div><div class="param-desc"><span class="param-type"><a href="#Recipient">Recipient</a></span> Recipient computation rule </div>
+<div class="param">mainRecipient (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Main user recipient id (if any) </div>
+<div class="param">userRecipients (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Complete list of user recipients at computation time </div>
+<div class="param">groupRecipients (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Complete list of group recipients at computation time </div>
+<div class="param">data (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">Object</a></span> Business data </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CardCreationReport"><code>CardCreationReport</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of created cards </div>
+<div class="param">message </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CardOperation"><code>CardOperation</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>This object holds an operation to be performed as well as a collection of cards (published in the same second) so as to be able to perform the operation on a batch of cards rather than on a single card.</div>
+    <div class="field-items">
+      <div class="param">number (optional)</div><div class="param-desc"><span class="param-type"><a href="#LongInteger">LongInteger</a></span>  </div>
+<div class="param">publishDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span>  </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#CardOperationTypeEnum">CardOperationTypeEnum</a></span>  </div>
+<div class="param">cardIds (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> IDs of cards to be deleted. Only used for CardOperations of DELETE type. </div>
+<div class="param">cards (optional)</div><div class="param-desc"><span class="param-type"><a href="#LightCard">array[LightCard]</a></span> Card objects to be added or updated. Only used for CardOperations of ADD or UPDATE type. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CardOperationTypeEnum"><code>CardOperationTypeEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Type of operation &gt;</p>
+<ul>
+<li>ADD - Operation lists cards object to be added</li>
+<li>UPDATE - Operation lists cards object to be updated</li>
+<li>DELETE - Operation lists card ids to be deleted</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Detail"><code>Detail</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>detail defines html data rendering</div>
+    <div class="field-items">
+      <div class="param">title (optional)</div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Card i18n title </div>
+<div class="param">titleStyle (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> css classes applied to title </div>
+<div class="param">titlePosition (optional)</div><div class="param-desc"><span class="param-type"><a href="#TitlePositionEnum">TitlePositionEnum</a></span> Title position </div>
+<div class="param">templateName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> template unique name as defined by Third Party Bundle in Third Party Service </div>
+<div class="param">styles (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> css files names to load as defined by Third Party Bundle in Third Party Service </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="EpochDate"><code>EpochDate</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Number of milliseconds since Epoch (long integer)</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="I18n"><code>I18n</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>describes an i18n label</div>
+    <div class="field-items">
+      <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> i18n client side key </div>
+<div class="param">parameters (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">map[String, String]</a></span> Optional parameters </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Input"><code>Input</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Describe an input parameter for an Action</div>
+    <div class="field-items">
+      <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#InputEnum">InputEnum</a></span> Parameter type, may imply some mandatory attributes, see description </div>
+<div class="param">label </div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> internationalized label </div>
+<div class="param">mandatory (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Is the parameter required </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Parameter name (unique in action scope) </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Parameter default value </div>
+<div class="param">maxLength (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Only for TEXT and LONGTEXT parameters. Specifies the maximum allowed character count </div>
+<div class="param">rows (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> LONGTEXT parameter. Specifies the maximum number of displayed rows </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#ParameterListItem">array[ParameterListItem]</a></span> Only for LIST,MULTI_LIST and SWITCH_LIST parameters. Specifies the selectable items in a list </div>
+<div class="param">selectedValues (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Only for MULTI_LIST and SWITCH_LIST parameters. List selected value. Order matters. </div>
+<div class="param">unSelectedValues (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Only for SWITCH_LIST parameters. List unselected values. Order matters. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="InputEnum"><code>InputEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Input type &gt;</p>
+<ul>
+<li>TEXT - A simple text input (size not limited)</li>
+<li>LONGTEXT - A long text input (size not limited)</li>
+<li>BOOLEAN - A boolean input</li>
+<li>LIST - A list with one selectable value</li>
+<li>MULTI_LIST - A list with multiple selectable values</li>
+<li>SWITCH_LIST - Two lists with exchangeable values</li>
+<li>STATIC - A static non editable parameter</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="LightCard"><code>LightCard</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>LightCard bears the essential information of a Card, to be aggregated in CardOperations.</div>
+    <div class="field-items">
+      <div class="param">uid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique card ID </div>
+<div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique card ID for associated process </div>
+<div class="param">publisher (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Publishing service unique ID </div>
+<div class="param">publisherVersion (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Publishing service version </div>
+<div class="param">process (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> associated process name </div>
+<div class="param">processId (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique process ID of the associated process instance </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> associated process state name </div>
+<div class="param">lttd (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Last time to decide, after this date no action can be triggered on the card </div>
+<div class="param">startDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Card validity start time </div>
+<div class="param">endDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Card validity end time </div>
+<div class="param">publishDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Publication time of the Card </div>
+<div class="param">severity (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeverityEnum">SeverityEnum</a></span> Card severity </div>
+<div class="param">media (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Media unique ID for audio notification </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tags associated with the card </div>
+<div class="param">title (optional)</div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Card i18n title </div>
+<div class="param">summary (optional)</div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Card i18n summary </div>
+<div class="param">mainRecipient (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Main user recipient ID (if any) </div>
+<div class="param">timeSpans (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeSpan">array[TimeSpan]</a></span> List of business time span associated to card </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="LongInteger"><code>LongInteger</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Number of items</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ParameterListItem"><code>ParameterListItem</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An item of list input parameter</div>
+    <div class="field-items">
+      <div class="param">value </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> parameter technical value </div>
+<div class="param">label (optional)</div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Value i18n label </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Recipient"><code>Recipient</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Recipient object defines rules for recipient computation</div>
+    <div class="field-items">
+      <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#RecipientEnum">RecipientEnum</a></span> Specifies the recipient type. Please note that BROADCAST and DEADEND do not expose any other properties </div>
+<div class="param">recipients (optional)</div><div class="param-desc"><span class="param-type"><a href="#Recipient">array[Recipient]</a></span> Used by INTERSECT, UNION with multiple Recipients. Used by FAVORITE, RANDOM, WEIGHTED for single Recipient </div>
+<div class="param">identity (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Used by USER, GROUP, FAVORITE </div>
+<div class="param">preserveMain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If main users from the underlying recipients are to be propagated. Used by INTERSECT and UNION recipients. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="RecipientEnum"><code>RecipientEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Recipient type &gt;</p>
+<ul>
+<li>BROADCAST - Card is sent to everybody</li>
+<li>DEADEND - Card is sent to no one (mostly for testing purposes)</li>
+<li>GROUP - Card is sent to every user belonging to a group (identity)</li>
+<li>USER - Card is sent to a single user (identity)</li>
+<li>UNION - Card is sent to users according to the union of a recipient list  (recipients)</li>
+<li>INTERSECT - Card is sent to users according to the intersection of a recipient list (recipients)</li>
+<li>RANDOM - Card is sent to user as defined by underlying recipient (recipient) a random user is picked as the main recipient</li>
+<li>WEIGHTED - Card is sent to users as defined by underlying recipient (recipient) a random user is picked as the main recipient. A favorite user (favorite) may be specified and is favored in the random choosing process.</li>
+<li>FAVORITE - Card is sent to user as defined by underlying recipient (recipient), if favorite user (favorite) is in the computed users list it will be set as main recipient</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="SeverityEnum"><code>SeverityEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Severity of the card subject &gt;</p>
+<ul>
+<li>ALARM - The process instance behind the card is in critical condition</li>
+<li>ACTION - The process instance behind the card is expecting an action from the user</li>
+<li>QUESTION - The process instance behind the card needs information from the user</li>
+<li>NOTIFICATION - Purely informational card</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Subscription"><code>Subscription</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>LightCard Subscription object</div>
+    <div class="field-items">
+      <div class="param">rangeStart (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> subscription range start time </div>
+<div class="param">rangeEnd (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> subscription range end time </div>
+<div class="param">loadedCards (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TimeSpan"><code>TimeSpan</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object to define a business time span</div>
+    <div class="field-items">
+      <div class="param">start </div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Span start </div>
+<div class="param">end (optional)</div><div class="param-desc"><span class="param-type"><a href="#EpochDate">EpochDate</a></span> Span start </div>
+<div class="param">display (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeSpanDisplayModeEnum">TimeSpanDisplayModeEnum</a></span> defaults to BUBBLE if only start is set and to LINE if start and end are set </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TimeSpanDisplayModeEnum"><code>TimeSpanDisplayModeEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Time span disply mode &gt;</p>
+<ul>
+<li>BUBBLE: Only displays Time span start</li>
+<li>LINE: displays start and end with a junction line</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="TitlePositionEnum"><code>TitlePositionEnum</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'><p>Possible title positions &gt;</p>
+<ul>
+<li>UP - At the top of the detail</li>
+<li>DOWN - At the bottom of the detail</li>
+<li>NONE - Not displayed</li>
+</ul>
+</div>
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
