@@ -104,8 +104,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:79</a></div>
                 </td>
             </tr>
 
@@ -189,8 +189,8 @@ else return an empty string</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:55</a></div>
                 </td>
             </tr>
 
@@ -275,8 +275,8 @@ else return an empty string</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/x-axis-tick-format.pipe.ts:16</a></div>
                 </td>
             </tr>
 
@@ -345,11 +345,14 @@ else return an empty string</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, PipeTransform} from &#x27;@angular/core&#x27;;
 import * as moment from &#x27;moment&#x27;;
+import {TimeService} from &quot;@ofServices/time.service&quot;;
 
 @Pipe({
   name: &#x27;xAxisTickFormat&#x27;
 })
 export class XAxisTickFormatPipe implements PipeTransform {
+  constructor(private timeService: TimeService) {
+  }
   /**
    * return a string formatted from value by the according cluster level
    * @param value
@@ -364,10 +367,11 @@ export class XAxisTickFormatPipe implements PipeTransform {
       switch (clusterLevel) {
         case &#x27;Min&#x27;:
         case &#x27;Sec&#x27;: {
-          return date.format(&#x27;ddd DD MMM HH&#x27;) + &#x27;h&#x27; + date.format(&#x27;mm&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateInsideTooltipsWeek&#x27;) +
+              &#x27;h&#x27; + this.timeService.predefinedFormat(date, &#x27;minutesOnly&#x27;);
         }
         case &#x27;Hou&#x27;: {
-          return date.format(&#x27;ddd DD MMM HH&#x27;) + &#x27;h&#x27;;
+          return this.timeService.predefinedFormat(date, &#x27;dateInsideTooltipsWeek&#x27;) + &#x27;h&#x27;;
         }
         case &#x27;Day&#x27;:
         case &#x27;Dat&#x27;:
@@ -375,7 +379,7 @@ export class XAxisTickFormatPipe implements PipeTransform {
         case &#x27;Mon&#x27;:
         case &#x27;Yea&#x27;:
         case &#x27;nbW&#x27;: {
-          return date.format(&#x27;ddd DD MMM YYYY&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateInsideTooltipsMonth&#x27;);
         }
         default: {
           return date.format(clusterLevel);
@@ -398,13 +402,13 @@ export class XAxisTickFormatPipe implements PipeTransform {
       const date &#x3D; moment(value);
       if (date) {
         if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;Hou&#x27;) {
-          return date.format(&#x27;HH&#x27;) + &#x27;h&#x27;;
+          return this.timeService.predefinedFormat(date, &#x27;hoursOnly&#x27;) + &#x27;h&#x27;;
         } else if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;Min&#x27;) {
-          return date.format(&#x27;mm&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;minutesOnly&#x27;);
         } else if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;Sec&#x27;) {
-          return date.format(&#x27;ss&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;secondedsOnly&#x27;);
         } else if (clusterLevel &#x3D;&#x3D;&#x3D; &#x27;nbW&#x27;) {
-          return date.format(&#x27;ww&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;weekNumberOnly&#x27;);
         }
       }
     }
@@ -427,20 +431,20 @@ export class XAxisTickFormatPipe implements PipeTransform {
       switch (clusterLevel) {
         case &#x27;Hou&#x27; : {
           if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
-            return date.format(&#x27;ddd DD MMM YYYY&#x27;);
+            return this.timeService.predefinedFormat(date, &#x27;dateInsideTooltipsMonth&#x27;);
           }
           if (date.hours() &#x3D;&#x3D;&#x3D; 0) {
-            return date.format(&#x27;ddd DD MMM&#x27;);
+            return this.timeService.predefinedFormat(date, &#x27;dateOnDay&#x27;);
           } else {
-            return date.format(&#x27;HH&#x27;);
+            return this.timeService.predefinedFormat(date, &#x27;hoursOnly&#x27;);
           }
         }
         case &#x27;Min&#x27;: {
           if (date.minutes() &#x3D;&#x3D;&#x3D; 0) {
             if (date.hour() &#x3D;&#x3D;&#x3D; 0) {
-              return date.format(&#x27;ddd DD MMM&#x27;);
+              return this.timeService.predefinedFormat(date, &#x27;dateOnDay&#x27;);
             } else {
-              return date.format(&#x27;HH&#x27;);
+              return this.timeService.predefinedFormat(date, &#x27;hoursOnly&#x27;);
             }
           }
         }
@@ -448,38 +452,38 @@ export class XAxisTickFormatPipe implements PipeTransform {
           if (date.seconds() &#x3D;&#x3D;&#x3D; 0) {
             if (date.minutes() &#x3D;&#x3D;&#x3D; 0) {
               if (date.hour() &#x3D;&#x3D;&#x3D; 0) {
-                return date.format(&#x27;ddd DD MMM&#x27;);
+                return this.timeService.predefinedFormat(date, &#x27;dateOnDay&#x27;);
               } else {
-                return date.format(&#x27;HH&#x27;) + &#x27;h&#x27;;
+                return this.timeService.predefinedFormat(date, &#x27;hoursOnly&#x27;) + &#x27;h&#x27;;
               }
             } else {
-              return date.format(&#x27;mm&#x27;);
+              return this.timeService.predefinedFormat(date, &#x27;minutesOnly&#x27;);
             }
           }
         }
         case &#x27;Day&#x27;: {
           if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
-            return date.format(&#x27;DD MMM YY&#x27;);
+            return this.timeService.predefinedFormat(date, &#x27;dateOnDayNewYear&#x27;);
           }
-          return date.format(&#x27;ddd DD MMM&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateOnDay&#x27;);
         }
         case &#x27;Dat&#x27;: {
           if (date.valueOf() &#x3D;&#x3D;&#x3D; startYear.valueOf()) {
-            return date.format(&#x27;D MMM YY&#x27;);
+            return this.timeService.predefinedFormat(date, &#x27;dateSimplifliedOnDayNewYear&#x27;);
           }
-          return date.format(&#x27;D MMM&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateSimplifliedOnDay&#x27;);
         }
         case &#x27;Wee&#x27;: {
-          return date.format(&#x27;DD/MM/YY&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateOnWeek&#x27;);
         }
         case &#x27;Mon&#x27;: {
-          return date.format(&#x27;MMM YY&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateOnMonth&#x27;);
         }
         case &#x27;Yea&#x27;: {
-          return date.format(&#x27;YYYY&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateOnYear&#x27;);
         }
         case &#x27;nbW&#x27;: {
-          return date.format(&#x27;YYYY&#x27;);
+          return this.timeService.predefinedFormat(date, &#x27;dateOnYear&#x27;);
         }
         default: {
           return date.format(clusterLevel);

@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>HandleUnexpectedError</li>
+  <li>ArchiveQuerySuccess</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/config.actions.ts</code>
+            <code>src/app/store/actions/archive.actions.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/actions/config.actions.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/store/actions/archive.actions.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/store/actions/config.actions.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/store/actions/archive.actions.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -203,12 +203,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>ConfigActionTypes.HandleUnexpectedError</code>
+                            <i>Default value : </i><code>ArchiveActionTypes.ArchiveQuerySuccess</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/actions/config.actions.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/store/actions/archive.actions.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -228,47 +228,47 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &#x27;@ngrx/store&#x27;;
+import {CardActionTypes} from &quot;@ofActions/card.actions&quot;;
+import {LightCard} from &quot;@ofModel/light-card.model&quot;;
 
-export enum ConfigActionTypes {
-    LoadConfig &#x3D; &#x27;[Config] Load Config&#x27;,
-    LoadConfigSuccess &#x3D; &#x27;[Config] Load Config Success&#x27;,
-    LoadConfigFailure &#x3D; &#x27;[Config] Load Config Fail&#x27;,
-    HandleUnexpectedError &#x3D; &#x27;[Config] Handle unexpected error related to configuration issue&#x27;
+export enum ArchiveActionTypes {
+    UpdateArchiveFilter &#x3D; &#x27;[Archive] Update Filter&#x27;,
+    SendArchiveQuery &#x3D; &#x27;[Archive] Send Query&#x27;,
+    ArchiveQuerySuccess &#x3D; &#x27;[Archive] Query was successful&#x27;,
+    HandleUnexpectedError &#x3D; &#x27;[Card] Handle unexpected error related to archived card issue&#x27;
 }
-// needed by NGRX entities
-export class LoadConfig implements Action {
-    readonly type &#x3D; ConfigActionTypes.LoadConfig;
-}
-export class LoadConfigFailure implements Action {
-    readonly type &#x3D; ConfigActionTypes.LoadConfigFailure;
 
+export class UpdateArchiveFilter implements Action {
+    readonly type &#x3D; ArchiveActionTypes.UpdateArchiveFilter;
     /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
-    }
+    constructor(public payload:{filterPath: string, filterValues: string[]}){}
 }
 
-export class LoadConfigSuccess implements Action {
-    readonly type &#x3D; ConfigActionTypes.LoadConfigSuccess;
-
+export class SendArchiveQuery implements Action {
+    readonly type &#x3D; ArchiveActionTypes.SendArchiveQuery;
     /* istanbul ignore next */
-    constructor(public payload: { config: any }) {
-    }
+    constructor(public payload:{params: Map&lt;string,string[]&gt;}){}
 }
 
 export class HandleUnexpectedError implements Action {
     /* istanbul ignore next */
-    readonly type &#x3D; ConfigActionTypes.HandleUnexpectedError;
-    /* istanbul ignore next */
-    constructor(public payload: {error: Error}) {
+    readonly type &#x3D; ArchiveActionTypes.HandleUnexpectedError;
 
-    }
+    /* istanbul ignore next */
+    constructor(public payload: {error: Error}) {}
 }
 
-export type ConfigActions &#x3D;
-    LoadConfig
-    | LoadConfigSuccess
-    | LoadConfigFailure
-    | HandleUnexpectedError;
+export class ArchiveQuerySuccess implements Action {
+    readonly type &#x3D; ArchiveActionTypes.ArchiveQuerySuccess;
+    /* istanbul ignore next */
+    constructor(public payload:{lightCards: LightCard[]}){}
+}
+
+export type ArchiveActions &#x3D;
+    UpdateArchiveFilter
+    | SendArchiveQuery
+    | HandleUnexpectedError
+    | ArchiveQuerySuccess;
 </code></pre>
     </div>
 </div>
@@ -296,7 +296,7 @@ export type ConfigActions &#x3D;
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'HandleUnexpectedError-2.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ArchiveQuerySuccess.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

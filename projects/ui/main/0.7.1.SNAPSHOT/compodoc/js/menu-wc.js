@@ -87,16 +87,32 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ArchivesModule.html" data-type="entity-link">ArchivesModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-ArchivesModule-5878b81c82b862e17a0b9201f74aa828"' : 'data-target="#xs-components-links-module-ArchivesModule-5878b81c82b862e17a0b9201f74aa828"' }>
+                                            'data-target="#components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' : 'data-target="#xs-components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ArchivesModule-5878b81c82b862e17a0b9201f74aa828"' :
-                                            'id="xs-components-links-module-ArchivesModule-5878b81c82b862e17a0b9201f74aa828"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' :
+                                            'id="xs-components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' }>
+                                            <li class="link">
+                                                <a href="components/ArchiveFiltersComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchiveFiltersComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/ArchiveListComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchiveListComponent</a>
+                                            </li>
                                             <li class="link">
                                                 <a href="components/ArchivesComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchivesComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/BaseFilterComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BaseFilterComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/ListFilterComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ListFilterComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -402,6 +418,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ApplyFilter.html" data-type="entity-link">ApplyFilter</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ArchiveQuerySuccess.html" data-type="entity-link">ArchiveQuerySuccess</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/AuthObject.html" data-type="entity-link">AuthObject</a>
                             </li>
                             <li class="link">
@@ -457,6 +476,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/HandleUnexpectedError-4.html" data-type="entity-link">HandleUnexpectedError</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/HandleUnexpectedError-5.html" data-type="entity-link">HandleUnexpectedError</a>
                             </li>
                             <li class="link">
                                 <a href="classes/I18n.html" data-type="entity-link">I18n</a>
@@ -567,6 +589,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/SelectMenuLinkSuccess.html" data-type="entity-link">SelectMenuLinkSuccess</a>
                             </li>
                             <li class="link">
+                                <a href="classes/SendArchiveQuery.html" data-type="entity-link">SendArchiveQuery</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/SetCardDataTimeline.html" data-type="entity-link">SetCardDataTimeline</a>
                             </li>
                             <li class="link">
@@ -606,6 +631,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/TryToLogOut.html" data-type="entity-link">TryToLogOut</a>
                             </li>
                             <li class="link">
+                                <a href="classes/UpdateArchiveFilter.html" data-type="entity-link">UpdateArchiveFilter</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/UpdatedSubscription.html" data-type="entity-link">UpdatedSubscription</a>
                             </li>
                             <li class="link">
@@ -627,6 +655,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span class="icon ion-ios-arrow-down"></span>
                             </div>
                             <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links"' : 'id="xs-injectables-links"' }>
+                                <li class="link">
+                                    <a href="injectables/ArchiveEffects.html" data-type="entity-link">ArchiveEffects</a>
+                                </li>
                                 <li class="link">
                                     <a href="injectables/AuthenticationEffects.html" data-type="entity-link">AuthenticationEffects</a>
                                 </li>
@@ -700,6 +731,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         <ul class="links collapse" ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
                             <li class="link">
                                 <a href="interfaces/AppState.html" data-type="entity-link">AppState</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ArchiveState.html" data-type="entity-link">ArchiveState</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/AuthState.html" data-type="entity-link">AuthState</a>

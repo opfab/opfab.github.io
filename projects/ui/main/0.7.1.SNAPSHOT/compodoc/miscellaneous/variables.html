@@ -66,6 +66,9 @@
                             <a href="#appReducer" title="src/app/store/index.ts"><b>appReducer</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
                         </li>
                         <li>
+                            <a href="#archiveInitialState" title="src/app/store/states/archive.state.ts"><b>archiveInitialState</b>&nbsp;&nbsp;&nbsp;(src/.../archive.state.ts)</a>
+                        </li>
+                        <li>
                             <a href="#authInitialState" title="src/app/store/states/authentication.state.ts"><b>authInitialState</b>&nbsp;&nbsp;&nbsp;(src/.../authentication.state.ts)</a>
                         </li>
                         <li>
@@ -123,6 +126,9 @@
                             <a href="#LightCardAdapter" title="src/app/store/states/feed.state.ts"><b>LightCardAdapter</b>&nbsp;&nbsp;&nbsp;(src/.../feed.state.ts)</a>
                         </li>
                         <li>
+                            <a href="#LightCardAdapter" title="src/app/store/states/archive.state.ts"><b>LightCardAdapter</b>&nbsp;&nbsp;&nbsp;(src/.../archive.state.ts)</a>
+                        </li>
+                        <li>
                             <a href="#menuInitialState" title="src/app/store/states/menu.state.ts"><b>menuInitialState</b>&nbsp;&nbsp;&nbsp;(src/.../menu.state.ts)</a>
                         </li>
                         <li>
@@ -145,6 +151,18 @@
                         </li>
                         <li>
                             <a href="#selectActiveFiltersArray" title="src/app/store/selectors/feed.selectors.ts"><b>selectActiveFiltersArray</b>&nbsp;&nbsp;&nbsp;(src/.../feed.selectors.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#selectArchive" title="src/app/store/selectors/archive.selectors.ts"><b>selectArchive</b>&nbsp;&nbsp;&nbsp;(src/.../archive.selectors.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#selectArchiveFilters" title="src/app/store/selectors/archive.selectors.ts"><b>selectArchiveFilters</b>&nbsp;&nbsp;&nbsp;(src/.../archive.selectors.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#selectArchiveLightCards" title="src/app/store/selectors/archive.selectors.ts"><b>selectArchiveLightCards</b>&nbsp;&nbsp;&nbsp;(src/.../archive.selectors.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#selectArchiveLightCardSelection" title="src/app/store/selectors/archive.selectors.ts"><b>selectArchiveLightCardSelection</b>&nbsp;&nbsp;&nbsp;(src/.../archive.selectors.ts)</a>
                         </li>
                         <li>
                             <a href="#selectAuthenticationState" title="src/app/store/selectors/authentication.selectors.ts"><b>selectAuthenticationState</b>&nbsp;&nbsp;&nbsp;(src/.../authentication.selectors.ts)</a>
@@ -309,7 +327,8 @@
     MenuEffects,
     LightCardEffects,
     FeedFiltersEffects,
-    TimeEffects]</code>
+    TimeEffects,
+    ArchiveEffects]</code>
                         </td>
                     </tr>
 
@@ -374,7 +393,8 @@
     menu: menuReducer,
     config: configReducer,
     settings: settingsReducer,
-    time: timeReducer
+    time: timeReducer,
+    archive: archiveReducer
 }</code>
                         </td>
                     </tr>
@@ -408,6 +428,70 @@
     //     router: routerInitialState,
     // }
 }</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/app/store/states/archive.state.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="archiveInitialState"></a>
+                        <span class="name">
+                            <b>
+                            archiveInitialState</b>
+                            <a href="#archiveInitialState"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/ArchiveState.html" target="_self" >ArchiveState</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>LightCardAdapter.getInitialState(
+    {
+        selectedCardId: null,
+        lastCards: [],
+        filters: new Map()
+    })</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="LightCardAdapter"></a>
+                        <span class="name">
+                            <b>
+                            LightCardAdapter</b>
+                            <a href="#LightCardAdapter"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Card.html" target="_self" >EntityAdapter&lt;LightCard&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createEntityAdapter&lt;LightCard&gt;({
+    sortComparer:compareByPublishDate
+})</code>
                         </td>
                     </tr>
 
@@ -1465,6 +1549,93 @@ of the UTC time which should be always in the past.</p>
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>(state:AppState) &#x3D;&gt; state.feed</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/app/store/selectors/archive.selectors.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectArchive"></a>
+                        <span class="name">
+                            <b>
+                            selectArchive</b>
+                            <a href="#selectArchive"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>(state:AppState) &#x3D;&gt; state.archive</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectArchiveFilters"></a>
+                        <span class="name">
+                            <b>
+                            selectArchiveFilters</b>
+                            <a href="#selectArchiveFilters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createSelector(selectArchive, (archiveState:ArchiveState)&#x3D;&gt; archiveState.filters)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectArchiveLightCards"></a>
+                        <span class="name">
+                            <b>
+                            selectArchiveLightCards</b>
+                            <a href="#selectArchiveLightCards"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createSelector(selectArchive, (archiveState:ArchiveState)&#x3D;&gt; archiveState.lastCards)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectArchiveLightCardSelection"></a>
+                        <span class="name">
+                            <b>
+                            selectArchiveLightCardSelection</b>
+                            <a href="#selectArchiveLightCardSelection"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createSelector(selectArchive, (archiveState:ArchiveState)&#x3D;&gt; archiveState.selectedCardId)</code>
                         </td>
                     </tr>
 

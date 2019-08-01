@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/menu.actions.ts</code>
+            <code>src/app/store/actions/light-card.actions.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/actions/menu.actions.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/store/actions/light-card.actions.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/actions/menu.actions.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/store/actions/light-card.actions.ts:95</a></div>
                             </td>
                         </tr>
 
@@ -203,12 +203,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>MenuActionTypes.HandleUnexpectedError</code>
+                            <i>Default value : </i><code>LightCardActionTypes.HandleUnexpectedError</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/actions/menu.actions.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/store/actions/light-card.actions.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -228,93 +228,120 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &#x27;@ngrx/store&#x27;;
-import {ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
+import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
 
-export enum MenuActionTypes {
-    LoadMenu &#x3D; &#x27;[Menu] Load Menu&#x27;,
-    LoadMenuSuccess &#x3D; &#x27;[Menu] Load Menu Success&#x27;,
-    LoadMenuFailure &#x3D; &#x27;[Menu] Load Menu Fail&#x27;,
-    HandleUnexpectedError &#x3D; &#x27;[Menu] Handle unexpected error&#x27;,
-    SelectMenuLink &#x3D; &#x27;[Menu] Select Menu Link&#x27;,
-    SelectMenuLinkSuccess &#x3D; &#x27;[Menu] Select Menu Link Success&#x27;,
-    SelectMenuLinkFailure &#x3D; &#x27;[Menu] Select Menu Link Failure&#x27;,
+export enum LightCardActionTypes {
+    LoadLightCards &#x3D; &#x27;[LCard] Load&#x27;,
+    EmptyLightCards &#x3D; &#x27;[LCard] Empty&#x27;,
+    LoadLightCardsSuccess &#x3D; &#x27;[LCard] Load Success&#x27;,
+    LoadLightCardsExtendedData &#x3D; &#x27;[LCard] Load Extended Data&#x27;,
+    LoadLightCardsFailure &#x3D; &#x27;[LCard] Load Fail&#x27;,
+    SelectLightCard &#x3D; &#x27;[LCard] Select One&#x27;,
+    ClearLightCardSelection &#x3D; &#x27;[LCard] Clear Light Card Selection&#x27;,
+    AddLightCardFailure &#x3D; &#x27;[LCard] Add Light Card Fail&#x27;,
+    UpdatedSubscription &#x3D; &#x27;[LCard] UpdateSubscription&#x27;,
+    HandleUnexpectedError &#x3D; &#x27;[LCard] Handle unexpected error related to authentication issue&#x27;,
+    RemoveLightCard &#x3D; &#x27;[LCard] Remove a card&#x27;
 }
+
 // needed by NGRX entities
-export class LoadMenu implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenu;
+export class LoadLightCards implements Action {
+    /* istanbul ignore next */
+    readonly type &#x3D; LightCardActionTypes.LoadLightCards;
+}
+
+export class EmptyLightCards implements Action {
+    /* istanbul ignore next */
+    readonly type &#x3D; LightCardActionTypes.EmptyLightCards;
+}
+
+export class LoadLightCardsSuccess implements Action {
+    readonly type &#x3D; LightCardActionTypes.LoadLightCardsSuccess;
+
+    /* istanbul ignore next */
+    constructor(public payload: { lightCards: LightCard[] }) {
+    }
+}
+
+export class LoadLightCardsExtendedData implements Action {
+    readonly type &#x3D; LightCardActionTypes.LoadLightCardsExtendedData;
 
     /* istanbul ignore next */
     constructor() {
     }
 }
-export class LoadMenuFailure implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenuFailure;
+
+export class LoadLightCardsFailure implements Action {
+    readonly type &#x3D; LightCardActionTypes.LoadLightCardsFailure;
 
     /* istanbul ignore next */
     constructor(public payload: { error: Error }) {
     }
 }
 
-export class LoadMenuSuccess implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenuSuccess;
+export class SelectLightCard implements Action {
+    /* istanbul ignore next */
+    readonly type &#x3D; LightCardActionTypes.SelectLightCard;
+    /* istanbul ignore next */
+    constructor(public payload: {selectedCardId:string}){}
+
+}
+
+export class ClearLightCardSelection implements Action {
+
+    readonly type &#x3D; LightCardActionTypes.ClearLightCardSelection;
+    constructor() {
+    }
+}
+
+export class AddLightCardFailure implements Action {
+    readonly type &#x3D; LightCardActionTypes.AddLightCardFailure;
 
     /* istanbul ignore next */
-    constructor(public payload: { menu: ThirdMenu[] }) {
+    constructor(public payload: { error: Error }) {
+    }
+}
+
+export class UpdatedSubscription implements Action {
+    readonly type &#x3D; LightCardActionTypes.UpdatedSubscription;
+
+    /* istanbul ignore next */
+    constructor() {
     }
 }
 
 export class HandleUnexpectedError implements Action {
-    readonly type &#x3D; MenuActionTypes.HandleUnexpectedError;
-
+    /* istanbul ignore next */
+    readonly type &#x3D; LightCardActionTypes.HandleUnexpectedError;
     /* istanbul ignore next */
     constructor(public payload: {error: Error}) {
 
     }
+
+
 }
 
-/**
- * Action triggered by navigation to /thirparty/*** (for example by clicking on a third-party menu link)
- * Payload contains route parameters identifying the clicked menu entry (menu id, menu version and menu entry id)
- * Emitted by {CustomRouterEffects} in the following {Observable} @member: navigateToMenuURL
- */
-export class SelectMenuLink implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLink;
+export class RemoveLightCard implements Action {
 
-    /* istanbul ignore next */
-    constructor(public payload: {menu_id: string, menu_version: string, menu_entry_id: string}) {}
-}
+    readonly  type &#x3D; LightCardActionTypes.RemoveLightCard;
 
-/**
- * Action triggered if menu link url was correctly computed from the given parameters (menu_id, menu_version and menu_entry_id)
- * Payload contains the computed url
- */
-export class SelectMenuLinkSuccess implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLinkSuccess;
+    constructor(public  payload: {cards: string[]}){
 
-    /* istanbul ignore next */
-    constructor(public payload: {iframe_url: string}) {}
-}
-
-/**
- * Action triggered if no menu entry was found for the given parameters (menu_id, menu_version and menu_entry_id)
- * Payload contains the error
- */
-export class SelectMenuLinkFailure implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLinkFailure;
-
-    /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
     }
 }
 
-export type MenuActions &#x3D;
-    LoadMenu
-    | LoadMenuSuccess
-    | LoadMenuFailure
+
+export type LightCardActions &#x3D;
+    LoadLightCards
+    | LoadLightCardsSuccess
+    | LoadLightCardsFailure
+    | SelectLightCard
+    | ClearLightCardSelection
+    | AddLightCardFailure
+    | UpdatedSubscription
     | HandleUnexpectedError
-    | SelectMenuLink
-    | SelectMenuLinkSuccess
-    | SelectMenuLinkFailure;
+    | EmptyLightCards
+    | RemoveLightCard;
 </code></pre>
     </div>
 </div>
