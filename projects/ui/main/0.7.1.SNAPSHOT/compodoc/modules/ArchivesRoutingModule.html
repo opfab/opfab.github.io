@@ -81,12 +81,39 @@ import {NgModule} from &#x27;@angular/core&#x27;;
 import {RouterModule, Routes} from &#x27;@angular/router&#x27;;
 // import {AuthenticationGuard} from &quot;@ofServices/guard.service&quot;;
 import {ArchivesComponent} from &quot;./archives.component&quot;;
+import {CardDetailsComponent} from &quot;../cards/components/card-details/card-details.component&quot;;
+import {DetailComponent} from &quot;../cards/components/detail/detail.component&quot;;
 
 const routes: Routes &#x3D; [
     {
         path: &#x27;&#x27;,
         component: ArchivesComponent,
         // canActivate: [AuthenticationGuard]
+        children: [
+            // {
+            //     path: &#x27;&#x27;,
+            //     pathMatch: &#x27;full&#x27;,
+            //     redirectTo: &#x27;cards&#x27;
+            // },
+            {
+                path: &#x27;cards&#x27;,
+                children : [
+                    {
+                        path: &#x27;&#x27;,
+                        component: CardDetailsComponent,
+                    },
+                    {
+                        path: &#x27;:cid&#x27;,
+                        component: CardDetailsComponent,
+                        children: [
+                            {
+                                path: &#x27;details/:did&#x27;,
+                                component: DetailComponent
+                            }
+                        ]
+                    }]
+            },
+        ]
     },
 ];
 
@@ -108,6 +135,7 @@ export class ArchivesRoutingModule { }
 
 
 
+                   
 
 
 

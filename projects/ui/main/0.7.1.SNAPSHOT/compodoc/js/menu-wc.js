@@ -29,11 +29,11 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span class="icon ion-ios-keypad"></span>Overview
                             </a>
                         </li>
-                        <li class="link">
-                            <a href="dependencies.html" data-type="chapter-link">
-                                <span class="icon ion-ios-list"></span>Dependencies
-                            </a>
-                        </li>
+                                <li class="link">
+                                    <a href="dependencies.html" data-type="chapter-link">
+                                        <span class="icon ion-ios-list"></span>Dependencies
+                                    </a>
+                                </li>
                     </ul>
                 </li>
                     <li class="chapter modules">
@@ -45,7 +45,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span class="icon ion-ios-arrow-down"></span>
                             </div>
                         </a>
-                        <ul class="links collapse" ${ isNormalMode ? 'id="modules-links"' : 'id="xs-modules-links"' }>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="modules-links"' : 'id="xs-modules-links"' }>
                             <li class="link">
                                 <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
                                     <li class="chapter inner">
@@ -398,7 +398,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span>Classes</span>
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
-                        <ul class="links collapse" ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
                             <li class="link">
                                 <a href="classes/AcceptLogIn.html" data-type="entity-link">AcceptLogIn</a>
                             </li>
@@ -496,6 +496,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Input.html" data-type="entity-link">Input</a>
                             </li>
                             <li class="link">
+                                <a href="classes/LoadArchivedCard.html" data-type="entity-link">LoadArchivedCard</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/LoadArchivedCardFailure.html" data-type="entity-link">LoadArchivedCardFailure</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/LoadArchivedCardSuccess.html" data-type="entity-link">LoadArchivedCardSuccess</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/LoadCard.html" data-type="entity-link">LoadCard</a>
                             </li>
                             <li class="link">
@@ -577,6 +586,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/RouterStateUrl.html" data-type="entity-link">RouterStateUrl</a>
                             </li>
                             <li class="link">
+                                <a href="classes/SelectArchivedLightCard.html" data-type="entity-link">SelectArchivedLightCard</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/SelectLightCard.html" data-type="entity-link">SelectLightCard</a>
                             </li>
                             <li class="link">
@@ -654,7 +666,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span>Injectables</span>
                                 <span class="icon ion-ios-arrow-down"></span>
                             </div>
-                            <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links"' : 'id="xs-injectables-links"' }>
+                            <ul class="links collapse " ${ isNormalMode ? 'id="injectables-links"' : 'id="xs-injectables-links"' }>
                                 <li class="link">
                                     <a href="injectables/ArchiveEffects.html" data-type="entity-link">ArchiveEffects</a>
                                 </li>
@@ -715,7 +727,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span>Interceptors</span>
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
-                        <ul class="links collapse" ${ isNormalMode ? 'id="interceptors-links"' : 'id="xs-interceptors-links"' }>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="interceptors-links"' : 'id="xs-interceptors-links"' }>
                             <li class="link">
                                 <a href="interceptors/TokenInjector.html" data-type="entity-link">TokenInjector</a>
                             </li>
@@ -728,7 +740,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span>Interfaces</span>
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
-                        <ul class="links collapse" ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
+                        <ul class="links collapse " ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
                             <li class="link">
                                 <a href="interfaces/AppState.html" data-type="entity-link">AppState</a>
                             </li>
@@ -768,7 +780,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span>Miscellaneous</span>
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
-                        <ul class="links collapse" ${ isNormalMode ? 'id="miscellaneous-links"' : 'id="xs-miscellaneous-links"' }>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="miscellaneous-links"' : 'id="xs-miscellaneous-links"' }>
                             <li class="link">
                                 <a href="miscellaneous/enumerations.html" data-type="entity-link">Enums</a>
                             </li>

@@ -78,6 +78,9 @@
                                 <a href="#navigateAwayFromFeed">navigateAwayFromFeed</a>
                             </li>
                             <li>
+                                <a href="#navigateToArchivedCard">navigateToArchivedCard</a>
+                            </li>
+                            <li>
                                 <a href="#navigateToCard">navigateToCard</a>
                             </li>
                             <li>
@@ -107,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -203,7 +206,60 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:69</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:85</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navigateToArchivedCard"></a>
+                        <span class="name">
+                            <b>
+                            navigateToArchivedCard</b>
+                            <a href="#navigateToArchivedCard"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Action.html" target="_self" >Observable&lt;Action&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$.pipe(
+        ofType(ROUTER_NAVIGATION),
+        filter((action: RouterNavigationAction, index)&#x3D;&gt; {
+            return action.payload.event.url.indexOf(&quot;/archives/cards/&quot;)&gt;&#x3D;0;
+        }),
+        switchMap(action&#x3D;&gt;{
+            const routerState:any &#x3D; action.payload.routerState;
+            return [
+                new LoadArchivedCard({id: routerState.params[&#x27;cid&#x27;]}),
+                new SelectArchivedLightCard({selectedCardId: routerState.params[&#x27;cid&#x27;]})
+            ];
+        })
+    )</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Effect()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -256,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -308,7 +364,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/store/effects/custom-router.effects.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -342,9 +398,10 @@ import {
     RouterRequestAction
 } from &quot;@ngrx/router-store&quot;;
 import {filter, map, switchMap} from &quot;rxjs/operators&quot;;
-import {LoadCard} from &quot;@ofActions/card.actions&quot;;
+import {LoadArchivedCard, LoadCard} from &quot;@ofActions/card.actions&quot;;
 import {ClearLightCardSelection, SelectLightCard} from &quot;@ofActions/light-card.actions&quot;;
 import {SelectMenuLink} from &quot;@ofActions/menu.actions&quot;;
+import {SelectArchivedLightCard} from &quot;@ofActions/archive.actions&quot;;
 
 @Injectable()
 export class CustomRouterEffects {
@@ -364,6 +421,21 @@ export class CustomRouterEffects {
             return [
                 new LoadCard({id: routerState.params[&#x27;cid&#x27;]}),
                 new SelectLightCard({selectedCardId: routerState.params[&#x27;cid&#x27;]})
+            ];
+        })
+    );
+
+    @Effect()
+    navigateToArchivedCard: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
+        ofType(ROUTER_NAVIGATION),
+        filter((action: RouterNavigationAction, index)&#x3D;&gt; {
+            return action.payload.event.url.indexOf(&quot;/archives/cards/&quot;)&gt;&#x3D;0;
+        }),
+        switchMap(action&#x3D;&gt;{
+            const routerState:any &#x3D; action.payload.routerState;
+            return [
+                new LoadArchivedCard({id: routerState.params[&#x27;cid&#x27;]}),
+                new SelectArchivedLightCard({selectedCardId: routerState.params[&#x27;cid&#x27;]})
             ];
         })
     );
@@ -410,6 +482,7 @@ export class CustomRouterEffects {
 
 
 
+                   
 
 
 

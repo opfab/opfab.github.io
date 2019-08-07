@@ -138,6 +138,9 @@
                             <li>
                                 <a href="#publishers$">publishers$</a>
                             </li>
+                            <li>
+                                <a href="#tags$">tags$</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -179,7 +182,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -248,8 +251,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:33</a></div>
                 </td>
             </tr>
 
@@ -287,8 +290,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:41</a></div>
                 </td>
             </tr>
 
@@ -330,7 +333,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -391,6 +394,33 @@
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tags$"></a>
+                        <span class="name">
+                            <b>
+                            tags$</b>
+                            <a href="#tags$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;string[]&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/archives/components/archive-list/filters/archive-filters.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
 </div>
@@ -402,9 +432,9 @@ import {Observable} from &quot;rxjs&quot;;
 import {Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
-import {TryToLogIn} from &quot;@ofActions/authentication.actions&quot;;
 import {SendArchiveQuery} from &quot;@ofActions/archive.actions&quot;;
 import {selectArchiveFilters} from &quot;@ofSelectors/archive.selectors&quot;;
+import {ThirdsService} from &quot;@ofServices/thirds.service&quot;;
 
 @Component({
   selector: &#x27;of-archive-filters&#x27;,
@@ -415,6 +445,7 @@ export class ArchiveFiltersComponent implements OnInit {
 
   publishers$:Observable&lt;string []&gt;;
   processes$:Observable&lt;string []&gt;;
+  tags$:Observable&lt;string []&gt;; //TODO Not necessarily strings, could be value/ labels or i18n but it doesn&#x27;t seem to be a problem
 
   filters: Map&lt;string,string[]&gt;;
 
@@ -424,6 +455,7 @@ export class ArchiveFiltersComponent implements OnInit {
   ngOnInit() {
     this.publishers$ &#x3D; this.store.select(buildConfigSelector(&#x27;archive.filters.publisher.list&#x27;));
     this.processes$ &#x3D; this.store.select(buildConfigSelector(&#x27;archive.filters.process.list&#x27;));
+    this.tags$ &#x3D; this.store.select(buildConfigSelector(&#x27;archive.filters.tags.list&#x27;));
 
     this.store.select(selectArchiveFilters).subscribe( next &#x3D;&gt; this.filters &#x3D; next);
   }
@@ -450,6 +482,9 @@ export class ArchiveFiltersComponent implements OnInit {
     &lt;/div&gt;
     &lt;div class&#x3D;&quot;col-md-2&quot;&gt;
       &lt;of-list-filter filterPath&#x3D;&quot;process&quot; [values]&#x3D;&quot;processes$|async&quot; &gt;&lt;/of-list-filter&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;col-md-2&quot;&gt;
+      &lt;of-list-filter filterPath&#x3D;&quot;tags&quot; [values]&#x3D;&quot;tags$|async&quot; &gt;&lt;/of-list-filter&gt;
     &lt;/div&gt;
     &lt;div class&#x3D;&quot;col-md-2&quot;&gt;
       &lt;div class&#x3D;&quot;form-group&quot;&gt;
@@ -499,7 +534,7 @@ export class ArchiveFiltersComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="container-fluid">  <div class="form-row">    <div class="col-md-2">      <of-list-filter filterPath="publisher" [values]="publishers$|async" ></of-list-filter>    </div>    <div class="col-md-2">      <of-list-filter filterPath="process" [values]="processes$|async" ></of-list-filter>    </div>    <div class="col-md-2">      <div class="form-group">        <button type="button" class="btn btn-primary" (click)="sendQuery()" translate >archive.search</button>      </div>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="container-fluid">  <div class="form-row">    <div class="col-md-2">      <of-list-filter filterPath="publisher" [values]="publishers$|async" ></of-list-filter>    </div>    <div class="col-md-2">      <of-list-filter filterPath="process" [values]="processes$|async" ></of-list-filter>    </div>    <div class="col-md-2">      <of-list-filter filterPath="tags" [values]="tags$|async" ></of-list-filter>    </div>    <div class="col-md-2">      <div class="form-group">        <button type="button" class="btn btn-primary" (click)="sendQuery()" translate >archive.search</button>      </div>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseFilterComponent', 'selector': 'of-base-filter'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListFilterComponent', 'selector': 'of-list-filter'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'CalcHeightDirective', 'selector': '[calcHeightDirective]'},{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'ArchiveFiltersComponent'};
@@ -515,6 +550,7 @@ export class ArchiveFiltersComponent implements OnInit {
 
 
 
+                   
 
 
 

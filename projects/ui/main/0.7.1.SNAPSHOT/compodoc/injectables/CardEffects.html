@@ -75,6 +75,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#loadArchivedById">loadArchivedById</a>
+                            </li>
+                            <li>
                                 <a href="#loadById">loadById</a>
                             </li>
                         </ul>
@@ -101,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/store/effects/card.effects.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/store/effects/card.effects.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -173,6 +176,58 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="loadArchivedById"></a>
+                        <span class="name">
+                            <b>
+                            loadArchivedById</b>
+                            <a href="#loadArchivedById"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Action.html" target="_self" >Observable&lt;Action&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$
+        .pipe(
+            ofType&lt;LoadArchivedCard&gt;(CardActionTypes.LoadArchivedCard),
+            switchMap(action &#x3D;&gt; this.service.loadArchivedCard(action.payload.id)),
+            map((card: Card) &#x3D;&gt; {
+                return new LoadArchivedCardSuccess({card: card});
+            }),
+            catchError((err, caught) &#x3D;&gt; {
+                this.store.dispatch(new LoadArchivedCardFailure(err));
+                return caught;
+            })
+        )</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Effect()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/store/effects/card.effects.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="loadById"></a>
                         <span class="name">
                             <b>
@@ -214,7 +269,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/store/effects/card.effects.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/store/effects/card.effects.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -234,7 +289,14 @@ import {Observable} from &#x27;rxjs&#x27;;
 import {catchError, map, switchMap} from &#x27;rxjs/operators&#x27;;
 import {CardService} from &#x27;@ofServices/card.service&#x27;;
 import {AppState} from &quot;@ofStore/index&quot;;
-import {CardActionTypes, LoadCard, LoadCardFailure, LoadCardSuccess} from &quot;@ofActions/card.actions&quot;;
+import {
+    CardActionTypes,
+    LoadArchivedCard, LoadArchivedCardFailure,
+    LoadArchivedCardSuccess,
+    LoadCard,
+    LoadCardFailure,
+    LoadCardSuccess
+} from &quot;@ofActions/card.actions&quot;;
 import {Card} from &quot;@ofModel/card.model&quot;;
 
 // those effects are unused for the moment
@@ -261,6 +323,20 @@ export class CardEffects {
                 return caught;
             })
         );
+
+    @Effect()
+    loadArchivedById: Observable&lt;Action&gt; &#x3D; this.actions$
+        .pipe(
+            ofType&lt;LoadArchivedCard&gt;(CardActionTypes.LoadArchivedCard),
+            switchMap(action &#x3D;&gt; this.service.loadArchivedCard(action.payload.id)),
+            map((card: Card) &#x3D;&gt; {
+                return new LoadArchivedCardSuccess({card: card});
+            }),
+            catchError((err, caught) &#x3D;&gt; {
+                this.store.dispatch(new LoadArchivedCardFailure(err));
+                return caught;
+            })
+        );
 }
 </code></pre>
     </div>
@@ -273,6 +349,7 @@ export class CardEffects {
 
 
 
+                   
 
 
 
