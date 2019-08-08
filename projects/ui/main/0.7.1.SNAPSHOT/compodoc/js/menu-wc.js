@@ -87,13 +87,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ArchivesModule.html" data-type="entity-link">ArchivesModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' : 'data-target="#xs-components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' }>
+                                            'data-target="#components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' : 'data-target="#xs-components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' :
-                                            'id="xs-components-links-module-ArchivesModule-057b84c013731d71b069714a5af15a52"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' :
+                                            'id="xs-components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' }>
                                             <li class="link">
                                                 <a href="components/ArchiveFiltersComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchiveFiltersComponent</a>
@@ -101,6 +101,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <li class="link">
                                                 <a href="components/ArchiveListComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchiveListComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/ArchiveListPageComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchiveListPageComponent</a>
                                             </li>
                                             <li class="link">
                                                 <a href="components/ArchivesComponent.html"
@@ -644,6 +648,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/UpdateArchiveFilter.html" data-type="entity-link">UpdateArchiveFilter</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/UpdateArchivePage.html" data-type="entity-link">UpdateArchivePage</a>
                             </li>
                             <li class="link">
                                 <a href="classes/UpdatedSubscription.html" data-type="entity-link">UpdatedSubscription</a>
