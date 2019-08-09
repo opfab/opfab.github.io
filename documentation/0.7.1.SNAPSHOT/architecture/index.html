@@ -2979,16 +2979,53 @@ interfaces as REST endpoints either leveraging Spring MVC or Spring Webflux.</p>
 </div>
 <div class="paragraph">
 <p>The Web UI architecture is a combination of the standard Angular Architecture and NGRX framework structure,
-a simplified implementation of the Redux pattern.</p>
+a simplified implementation of the Redux pattern. On the above diagram green components are provide by Angular and NGRX
+frameworks, yellow components are implemented as needed following the rules of these frameworks.</p>
 </div>
 <div class="sect3">
-<h4 id="_architecture_components">4.3.1. Architecture Components</h4>
+<h4 id="_angular_architecture_components">4.3.1. Angular Architecture Components</h4>
 <div class="sect4">
 <h5 id="_components">Components</h5>
 <div class="paragraph">
 <p>Components are angular basic unit of UX representation, they allow interaction with Angular Services through calls and
 NGRX State through action dispatch (state mutation) and selector observables (state consultation/state change
 notification)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_views">Views</h5>
+<div class="paragraph">
+<p>Views are Components themselves, they agregate components are target  of Routes (Router)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_router">Router</h5>
+<div class="paragraph">
+<p>The Angular Router allows to configure Navigation through router modules (modules that declare routes and allow for
+lazy loading). Routes msut be kept resource compatible as needed. The Angular Router is coupled with NGRX State so that
+route change dispatch actions that can be captured by NGRX Effects and special routing actions can be dispatched to
+trigger Angular Router.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_service">4.3.2. Service</h4>
+<div class="paragraph">
+<p>Business or Technical services for UX these are singletons injected into Components, Effects and other Services</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ngrx_architecture">4.3.3. NGRX Architecture</h4>
+<div class="sect4">
+<h5 id="_store">Store</h5>
+<div class="paragraph">
+<p>The Store is the global entry to manipulate NGRX components.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_dispatcher">Dispatcher</h5>
+<div class="paragraph">
+<p>Accessed thought Store this NGRX provided component that</p>
 </div>
 <div class="exampleblock">
 <div class="content">
