@@ -377,15 +377,30 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="modules/UtilitiesModule.html" data-type="entity-link">UtilitiesModule</a>
+                                    <li class="chapter inner">
+                                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                            'data-target="#components-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' : 'data-target="#xs-components-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' }>
+                                            <span class="icon ion-md-cog"></span>
+                                            <span>Components</span>
+                                            <span class="icon ion-ios-arrow-down"></span>
+                                        </div>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' :
+                                            'id="xs-components-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' }>
+                                            <li class="link">
+                                                <a href="components/ResizableComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ResizableComponent</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-UtilitiesModule-4cd30a2dcd8e19dc9010dc2fdff8525a"' : 'data-target="#xs-directives-links-module-UtilitiesModule-4cd30a2dcd8e19dc9010dc2fdff8525a"' }>
+                                        'data-target="#directives-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' : 'data-target="#xs-directives-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-UtilitiesModule-4cd30a2dcd8e19dc9010dc2fdff8525a"' :
-                                        'id="xs-directives-links-module-UtilitiesModule-4cd30a2dcd8e19dc9010dc2fdff8525a"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' :
+                                        'id="xs-directives-links-module-UtilitiesModule-eef988d851bb391560786fb8bd9062ec"' }>
                                         <li class="link">
                                             <a href="directives/CalcHeightDirective.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules">CalcHeightDirective</a>
