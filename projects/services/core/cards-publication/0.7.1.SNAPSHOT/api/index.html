@@ -182,7 +182,7 @@ font-style: italic;
   <h1>Card Management API</h1>
     <div class="app-desc">OperatorFabric Card Consumer Service</div>
     <div class="app-desc">More information: <a href="https://opfab.github.io/">https://opfab.github.io/</a></div>
-    <div class="app-desc">Contact Info: <a href="boris.dolley_AT_rte-france.com">boris.dolley_AT_rte-france.com</a></div>
+    <div class="app-desc">Contact Info: <a href="opfab-maintainers_AT_rte-france.com">opfab-maintainers_AT_rte-france.com</a></div>
     <div class="app-desc">Version: 0.7.1.SNAPSHOT</div>
     <div class="app-desc">BasePath:/apis</div>
     <div class="license-info">Mozilla Public License V2.0</div>
@@ -198,6 +198,11 @@ font-style: italic;
   <ul>
   <li><a href="#fetchProcessCardAction"><code><span class="http-method">get</span> /cards/{processId}/actions/{actionKey}</code></a></li>
   <li><a href="#triggerProcessCardAction"><code><span class="http-method">put</span> /cards/{processId}/actions/{actionKey}</code></a></li>
+  </ul>
+  <h4><a href="#Archives">Archives</a></h4>
+  <ul>
+  <li><a href="#fetchArchivedCard"><code><span class="http-method">get</span> /archives/{id}</code></a></li>
+  <li><a href="#fetchArchivedCardsWithParams"><code><span class="http-method">get</span> /archives</code></a></li>
   </ul>
   <h4><a href="#Cards">Cards</a></h4>
   <ul>
@@ -223,6 +228,8 @@ font-style: italic;
   </ul>
   <h4><a href="#Read">Read</a></h4>
   <ul>
+  <li><a href="#fetchArchivedCard"><code><span class="http-method">get</span> /archives/{id}</code></a></li>
+  <li><a href="#fetchArchivedCardsWithParams"><code><span class="http-method">get</span> /archives</code></a></li>
   <li><a href="#fetchNextCard"><code><span class="http-method">get</span> /{millisTime}/next</code></a></li>
   <li><a href="#fetchPreviousCard"><code><span class="http-method">get</span> /{millisTime}/previous</code></a></li>
   <li><a href="#fetchProcessCard"><code><span class="http-method">get</span> /cards/{processId}</code></a></li>
@@ -588,6 +595,292 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Archives">Archives</a></h1>
+  <div class="method"><a name="fetchArchivedCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /archives/{id}</code></pre></div>
+    <div class="method-summary">fetch archived card (<span class="nickname">fetchArchivedCard</span>)</div>
+    <div class="method-notes">fetch archived card with the given id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">id (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchArchivedCardsWithParams"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /archives</code></pre></div>
+    <div class="method-summary">get archived cards matching given criteria (<span class="nickname">fetchArchivedCardsWithParams</span>)</div>
+    <div class="method-notes">get archived cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients).</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Page number of the page to retrieve. If &quot;size&quot; is set but &quot;page&quot; isn't, the default page returned will be the first (number 0). If &quot;page&quot; is set but &quot;size&quot; isn't, the default size will be 10 items. If neither &quot;page&quot; nor &quot;size&quot; is set, the response will contain a single page containing all matching cards. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">size (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Size of the results pages. If &quot;size&quot; is set but &quot;page&quot; isn't, the default page returned will be the first (number 0). If &quot;page&quot; is set but &quot;size&quot; isn't, the default size will be 10 items. If neither &quot;page&quot; nor &quot;size&quot; is set, the response will contain a single page containing all matching cards. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">publishDateFrom (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with a publishDate that is after this date will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">publishDateTo (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with a publishDate that is before this date will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">activeFrom (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with an active period (as defined by their startDate and endDate properties) that overlaps the range [activeFrom, activeTo] will be returned. If no parameter activeTo is set, only cards with at least part of their active period after activeFrom will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">activeTo (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with an active period (as defined by their startDate and endDate properties) that overlaps the range [activeFrom, activeTo] will be returned. If no parameter activeFrom is set, only cards with at least part of their active period before activeTo will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">publisher (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If this parameter is set, results will be limited to cards from this publisher. This parameter can be set multiple times to filter cards from several publishers, using the following syntax: ?publisher=publisher1&amp;publisher=publisher2 </div><div class="param">process (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If this parameter is set, results will be limited to cards from this process. This parameter can be set multiple times to filter cards from several processes, using the following syntax: ?process=process1&amp;process=process2 </div><div class="param">tags (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If this parameter is set, results will be limited to cards containing this tag. This parameter can be set multiple times to filter cards with several tags, using the following syntax: ?tags=tag1&amp;tags=tag2. In this example, cards bearing either tag1 or tag2 (or both) will be returned. </div><div class="param">XXXX (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; In addition to the query parameters described above, any query parameter of the form ?key=value, where &quot;key&quot; is the name of a card field, will filter cards to return only cards where the field &quot;key&quot; is either equal to the string &quot;value&quot; or to an array containing &quot;value&quot;. If key isn't a card property, the filter will have no effect. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#LightCardPage">LightCardPage</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "number" : 5.63737665663332876420099637471139430999755859375,
+  "last" : true,
+  "numberOfElements" : 1.46581298050294517310021547018550336360931396484375,
+  "size" : 5.962133916683182377482808078639209270477294921875,
+  "totalPages" : 0.80082819046101150206595775671303272247314453125,
+  "content" : [ {
+    "uid" : 12345,
+    "id" : "cardIdFromMyProcess",
+    "publisher" : "MyService",
+    "publisherVersion" : "0.0.1",
+    "processId" : "MyProcess_001",
+    "lttd" : 1546387230000,
+    "startDate" : 1546387200000,
+    "endDate" : 1546387250000,
+    "severity" : "ACTION",
+    "media" : "sound1.wav",
+    "tags" : [ "MyService", "MyProcess" ],
+    "title" : {
+      "key" : "myservice.myprocess.title",
+      "parameters" : {
+        "EN" : "My process name",
+        "FR" : "Mon nom de processus"
+      }
+    },
+    "summary" : {
+      "key" : "myservice.myprocess.title.summary",
+      "parameters" : {
+        "EN" : "Summary of card content",
+        "FR" : "Resume du contenu de la carte"
+      }
+    },
+    "mainRecipient" : "givenUser"
+  }, {
+    "uid" : 12345,
+    "id" : "cardIdFromMyProcess",
+    "publisher" : "MyService",
+    "publisherVersion" : "0.0.1",
+    "processId" : "MyProcess_001",
+    "lttd" : 1546387230000,
+    "startDate" : 1546387200000,
+    "endDate" : 1546387250000,
+    "severity" : "ACTION",
+    "media" : "sound1.wav",
+    "tags" : [ "MyService", "MyProcess" ],
+    "title" : {
+      "key" : "myservice.myprocess.title",
+      "parameters" : {
+        "EN" : "My process name",
+        "FR" : "Mon nom de processus"
+      }
+    },
+    "summary" : {
+      "key" : "myservice.myprocess.title.summary",
+      "parameters" : {
+        "EN" : "Summary of card content",
+        "FR" : "Resume du contenu de la carte"
+      }
+    },
+    "mainRecipient" : "givenUser"
+  } ],
+  "first" : true,
+  "totalElements" : 6.02745618307040320615897144307382404804229736328125
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#LightCardPage">LightCardPage</a>
+    <h4 class="field-label">400</h4>
+    Bad request
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Cards">Cards</a></h1>
@@ -1765,6 +2058,291 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
   <h1><a name="Read">Read</a></h1>
+  <div class="method"><a name="fetchArchivedCard"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /archives/{id}</code></pre></div>
+    <div class="method-summary">fetch archived card (<span class="nickname">fetchArchivedCard</span>)</div>
+    <div class="method-notes">fetch archived card with the given id</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">id (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Card">Card</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "uid" : 12345,
+  "id" : "cardIdFromMyProcess",
+  "publisher" : "MyService",
+  "publisherVersion" : "0.0.1",
+  "process" : "MyProcess",
+  "processId" : "MyProcess_001",
+  "state" : "started",
+  "publishDate" : 1546300800000,
+  "deletionDate" : 1546388200000,
+  "lttd" : 1546387230000,
+  "startDate" : 1546387200000,
+  "endDate" : 1546387250000,
+  "severity" : "ACTION",
+  "media" : "sound1.wav",
+  "tags" : [ "MyService", "MyProcess", "ACTION" ],
+  "actions" : [ {
+    "type" : "URL",
+    "lockAction" : true,
+    "lockCard" : true,
+    "needsConfirm" : false,
+    "called" : false,
+    "updateState" : false,
+    "updateStateBeforeAction" : false,
+    "hidden" : true,
+    "contentStyle" : "buttonContent.css",
+    "buttonStyle" : "button.css",
+    "label" : {
+      "key" : "myCard.myAction.label",
+      "parameters" : {
+        "EN" : "My actions label",
+        "FR" : "Mon intitule d'actions"
+      }
+    },
+    "inputs" : [ {
+      "type" : "LIST",
+      "label" : {
+        "key" : "myCard.myAction.myInput1.label",
+        "parameters" : {
+          "EN" : "Available options",
+          "FR" : "Options disponibles"
+        }
+      },
+      "mandatory" : true,
+      "name" : "selectedOption",
+      "value" : "plan B",
+      "values" : [ "plan A", "plan B", "plan C" ]
+    }, {
+      "type" : "LONGTEXT",
+      "label" : {
+        "key" : "myCard.myAction.myInput2.label",
+        "parameters" : {
+          "EN" : "Comment",
+          "FR" : "Commentaire"
+        }
+      },
+      "mandatory" : false,
+      "name" : "comment",
+      "value" : "",
+      "maxLength" : 250,
+      "rows" : 10
+    } ]
+  } ],
+  "details" : {
+    "title" : {
+      "key" : "myCard.title",
+      "parameters" : {
+        "EN" : "My card title",
+        "FR" : "Mon titre de carte"
+      }
+    },
+    "titlePosition" : "UP",
+    "titleStyle" : "myTitleStyle.css",
+    "templateName" : "template1",
+    "styles" : [ "bundleTest.css", "otherStyle.css" ]
+  },
+  "title" : {
+    "key" : "myservice.myprocess.title",
+    "parameters" : {
+      "EN" : "My process name",
+      "FR" : "Mon nom de processus"
+    }
+  },
+  "summary" : {
+    "key" : "myservice.myprocess.title.summary",
+    "parameters" : {
+      "EN" : "Summary of card content",
+      "FR" : "Resume du contenu de la carte"
+    }
+  },
+  "recipient" : {
+    "type" : "UNION",
+    "recipients" : [ {
+      "type" : "INTERSECT",
+      "recipients" : [ {
+        "type" : "GROUP",
+        "identity" : "myGroupA"
+      }, {
+        "type" : "GROUP",
+        "identity" : "myGroupB"
+      } ],
+      "preserveMain" : true
+    }, {
+      "type" : "USER",
+      "identity" : "aGivenUser"
+    } ],
+    "preserveMain" : true
+  }
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Card">Card</a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="fetchArchivedCardsWithParams"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /archives</code></pre></div>
+    <div class="method-summary">get archived cards matching given criteria (<span class="nickname">fetchArchivedCardsWithParams</span>)</div>
+    <div class="method-notes">get archived cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients).</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Page number of the page to retrieve. If &quot;size&quot; is set but &quot;page&quot; isn't, the default page returned will be the first (number 0). If &quot;page&quot; is set but &quot;size&quot; isn't, the default size will be 10 items. If neither &quot;page&quot; nor &quot;size&quot; is set, the response will contain a single page containing all matching cards. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">size (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Size of the results pages. If &quot;size&quot; is set but &quot;page&quot; isn't, the default page returned will be the first (number 0). If &quot;page&quot; is set but &quot;size&quot; isn't, the default size will be 10 items. If neither &quot;page&quot; nor &quot;size&quot; is set, the response will contain a single page containing all matching cards. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">publishDateFrom (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with a publishDate that is after this date will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">publishDateTo (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with a publishDate that is before this date will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">activeFrom (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with an active period (as defined by their startDate and endDate properties) that overlaps the range [activeFrom, activeTo] will be returned. If no parameter activeTo is set, only cards with at least part of their active period after activeFrom will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">activeTo (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Date as number of milliseconds since epoch. If this query parameter is set, only cards with an active period (as defined by their startDate and endDate properties) that overlaps the range [activeFrom, activeTo] will be returned. If no parameter activeFrom is set, only cards with at least part of their active period before activeTo will be returned. This parameter should be unique or a BAD REQUEST will be returned. </div><div class="param">publisher (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If this parameter is set, results will be limited to cards from this publisher. This parameter can be set multiple times to filter cards from several publishers, using the following syntax: ?publisher=publisher1&amp;publisher=publisher2 </div><div class="param">process (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If this parameter is set, results will be limited to cards from this process. This parameter can be set multiple times to filter cards from several processes, using the following syntax: ?process=process1&amp;process=process2 </div><div class="param">tags (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; If this parameter is set, results will be limited to cards containing this tag. This parameter can be set multiple times to filter cards with several tags, using the following syntax: ?tags=tag1&amp;tags=tag2. In this example, cards bearing either tag1 or tag2 (or both) will be returned. </div><div class="param">XXXX (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; In addition to the query parameters described above, any query parameter of the form ?key=value, where &quot;key&quot; is the name of a card field, will filter cards to return only cards where the field &quot;key&quot; is either equal to the string &quot;value&quot; or to an array containing &quot;value&quot;. If key isn't a card property, the filter will have no effect. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#LightCardPage">LightCardPage</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "number" : 5.63737665663332876420099637471139430999755859375,
+  "last" : true,
+  "numberOfElements" : 1.46581298050294517310021547018550336360931396484375,
+  "size" : 5.962133916683182377482808078639209270477294921875,
+  "totalPages" : 0.80082819046101150206595775671303272247314453125,
+  "content" : [ {
+    "uid" : 12345,
+    "id" : "cardIdFromMyProcess",
+    "publisher" : "MyService",
+    "publisherVersion" : "0.0.1",
+    "processId" : "MyProcess_001",
+    "lttd" : 1546387230000,
+    "startDate" : 1546387200000,
+    "endDate" : 1546387250000,
+    "severity" : "ACTION",
+    "media" : "sound1.wav",
+    "tags" : [ "MyService", "MyProcess" ],
+    "title" : {
+      "key" : "myservice.myprocess.title",
+      "parameters" : {
+        "EN" : "My process name",
+        "FR" : "Mon nom de processus"
+      }
+    },
+    "summary" : {
+      "key" : "myservice.myprocess.title.summary",
+      "parameters" : {
+        "EN" : "Summary of card content",
+        "FR" : "Resume du contenu de la carte"
+      }
+    },
+    "mainRecipient" : "givenUser"
+  }, {
+    "uid" : 12345,
+    "id" : "cardIdFromMyProcess",
+    "publisher" : "MyService",
+    "publisherVersion" : "0.0.1",
+    "processId" : "MyProcess_001",
+    "lttd" : 1546387230000,
+    "startDate" : 1546387200000,
+    "endDate" : 1546387250000,
+    "severity" : "ACTION",
+    "media" : "sound1.wav",
+    "tags" : [ "MyService", "MyProcess" ],
+    "title" : {
+      "key" : "myservice.myprocess.title",
+      "parameters" : {
+        "EN" : "My process name",
+        "FR" : "Mon nom de processus"
+      }
+    },
+    "summary" : {
+      "key" : "myservice.myprocess.title.summary",
+      "parameters" : {
+        "EN" : "Summary of card content",
+        "FR" : "Resume du contenu de la carte"
+      }
+    },
+    "mainRecipient" : "givenUser"
+  } ],
+  "first" : true,
+  "totalElements" : 6.02745618307040320615897144307382404804229736328125
+}</code></pre>
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#LightCardPage">LightCardPage</a>
+    <h4 class="field-label">400</h4>
+    Bad request
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authentication required
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden - User doesn't have any group
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="fetchNextCard"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -2615,6 +3193,7 @@ font-style: italic;
     <li><a href="#Input"><code>Input</code> - </a></li>
     <li><a href="#InputEnum"><code>InputEnum</code> - </a></li>
     <li><a href="#LightCard"><code>LightCard</code> - </a></li>
+    <li><a href="#LightCardPage"><code>LightCardPage</code> - </a></li>
     <li><a href="#LongInteger"><code>LongInteger</code> - </a></li>
     <li><a href="#ParameterListItem"><code>ParameterListItem</code> - </a></li>
     <li><a href="#Recipient"><code>Recipient</code> - </a></li>
@@ -2790,6 +3369,20 @@ font-style: italic;
 <div class="param">summary (optional)</div><div class="param-desc"><span class="param-type"><a href="#I18n">I18n</a></span> Card i18n summary </div>
 <div class="param">mainRecipient (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Main user recipient ID (if any) </div>
 <div class="param">timeSpans (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeSpan">array[TimeSpan]</a></span> List of business time span associated to card </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="LightCardPage"><code>LightCardPage</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>This object contains the result of a paginated query returning LightCards: a list of LightCards as well as additional information on the result: total number of items, page number, page size, etc.</div>
+    <div class="field-items">
+      <div class="param">content (optional)</div><div class="param-desc"><span class="param-type"><a href="#LightCard">array[LightCard]</a></span> LightCard objects making up the required result page </div>
+<div class="param">first (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Is true for the first page (page number = 0) </div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Is true for the last page </div>
+<div class="param">totalPages (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Total number of pages returned by the query </div>
+<div class="param">totalElements (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Total number of elements returned by the query </div>
+<div class="param">numberOfElements (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Number of elements in the current page (&lt;= size) </div>
+<div class="param">size (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Page size (max number of items in page) </div>
+<div class="param">number (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Page number </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
