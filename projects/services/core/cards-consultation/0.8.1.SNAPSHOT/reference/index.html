@@ -443,7 +443,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Architecture</div>
 <ul class="sectlevel1">
-<li><a href="#_archived_cards">1. Archived Cards</a></li>
+<li><a href="#_archived_cards">1. Archived Cards</a>
+<ul class="sectlevel2">
+<li><a href="#_key_concepts">1.1. Key concepts</a></li>
+<li><a href="#_archives_screen_in_the_ui">1.2. Archives screen in the UI</a></li>
+<li><a href="#_archive_endpoints_in_the_card_consultation_api">1.3. Archive endpoints in the card-consultation API</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -458,10 +464,50 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_archived_cards">1. Archived Cards</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_key_concepts">1.1. Key concepts</h3>
 <div class="paragraph">
 <p>Every time a card is published, in addition to being delivered to the users
 and persisted as a "current" card in MongoDB, it is also immediately
 persisted in the archived cards.</p>
+</div>
+<div class="paragraph">
+<p>Archived cards are similar in structure to current cards, but they are managed differently.
+Current cards are uniquely identified by their id (made up of the publisher and the process id).
+That is because if a new card is published with id as an existing card, it will replace it in the
+card collection. This way, the current card reflects the current state of a process instance.
+In the archived cards collection however, both cards will be kept, so that the archived cards
+show all the states that a given process instance went through.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_archives_screen_in_the_ui">1.2. Archives screen in the UI</h3>
+<div class="paragraph">
+<p>The Archives screen in the UI allows the users to query these archives with different filters.
+The layout of this screen is very similar to the Feed screen: the results are displayed in a
+(paginated) card list, and the user can display the associated card details by clicking a card in the list.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The results of these queries are limited to cards that the user is allowed to see, either
+because they are direct recipient of the card or because they belong to a group that is a recipient
+of the card.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_archive_endpoints_in_the_card_consultation_api">1.3. Archive endpoints in the card-consultation API</h3>
+<div class="paragraph">
+<p>This Archives screen relies on dedicated endpoints in the card-consultation API, as described
+<a href="https://opfab.github.io/projects/services/core/cards-consultation/0.8.1.SNAPSHOT/api/#Archives">here</a>.</p>
+</div>
 </div>
 </div>
 </div>
