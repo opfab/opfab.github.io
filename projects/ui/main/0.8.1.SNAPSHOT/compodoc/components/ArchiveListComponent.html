@@ -66,6 +66,12 @@
 
 
 
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
 
 
 <section>
@@ -116,6 +122,20 @@
     <table class="table table-sm table-bordered index-table">
         <tbody>
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -148,15 +168,45 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor()</code>
+<code>constructor(store: <a href="../interfaces/AppState.html">Store<AppState></a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:24</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>store</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/AppState.html" target="_self" >Store&lt;AppState&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -179,7 +229,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -200,7 +250,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -209,32 +259,81 @@
 
 
 
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/modules/archives/components/archive-list/archive-list.component.ts:28</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnInit} from &#x27;@angular/core&#x27;;
 import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
-import {Observable} from &quot;rxjs&quot;;
+import {Observable, of} from &#x27;rxjs&#x27;;
+import { AppState } from &#x27;@ofStore/index&#x27;;
+import { Store, select } from &#x27;@ngrx/store&#x27;;
+import { catchError, tap } from &#x27;rxjs/operators&#x27;;
+import { selectArchiveLightCards } from &#x27;@ofStore/selectors/archive.selectors&#x27;;
 
 @Component({
   selector: &#x27;of-archive-list&#x27;,
   templateUrl: &#x27;./archive-list.component.html&#x27;,
   styleUrls: [&#x27;./archive-list.component.scss&#x27;]
 })
-export class ArchiveListComponent  {
+export class ArchiveListComponent implements OnInit {
 
   @Input() public lightCards: LightCard[];
   @Input() public selection: Observable&lt;string&gt;;
 
-  constructor() { }
+  constructor(private store: Store&lt;AppState&gt;) { }
+
+  ngOnInit(): void {
+  }
 
 
 }
-
-//TODO pages should only be displayed if card list isn&#x27;t empty (or even better, if there are several pages)
 </code></pre>
     </div>
 
@@ -305,7 +404,7 @@ export class ArchiveListComponent  {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><div class="container-fluid">    <div class="row" *ngFor="let currentLightCard of lightCards">      <div class="col-12">        <of-card [lightCard]="currentLightCard" [open]="currentLightCard.id === (selection|async)"></of-card>      </div>    </div>    <of-archive-list-page></of-archive-list-page></div></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchiveListPageComponent', 'selector': 'of-archive-list-page'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseFilterComponent', 'selector': 'of-base-filter'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListFilterComponent', 'selector': 'of-list-filter'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'ResizableComponent', 'selector': 'of-resizable'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchiveListPageComponent', 'selector': 'of-archive-list-page'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DatetimeFilterComponent', 'selector': 'of-datetime-filter'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MultiFilterComponent', 'selector': 'of-multi-filter'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'ResizableComponent', 'selector': 'of-resizable'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'CalcHeightDirective', 'selector': '[calcHeightDirective]'},{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'ArchiveListComponent'};
 </script>

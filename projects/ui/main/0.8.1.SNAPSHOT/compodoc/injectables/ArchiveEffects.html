@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/store/effects/archive.effects.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/store/effects/archive.effects.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -192,17 +192,20 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.actions$
-        .pipe(
-            ofType(ArchiveActionTypes.SendArchiveQuery),
-            switchMap((action: SendArchiveQuery) &#x3D;&gt; this.service.fetchArchivedCards(action.payload.params)),
-            map((resultPage: Page&lt;LightCard&gt;) &#x3D;&gt; {
-                return new ArchiveQuerySuccess({resultPage: resultPage});
-            }),
-            catchError((error, caught) &#x3D;&gt; {
-                this.store.dispatch(new HandleUnexpectedError({error: error}));
-                return caught;
-            }))</code>
+                            <i>Default value : </i><code>this.actions$.pipe(
+        ofType(ArchiveActionTypes.SendArchiveQuery),
+        // update the filter state and the archive list
+        switchMap((action: SendArchiveQuery) &#x3D;&gt; {
+            const {params} &#x3D; action.payload;
+            this.store.dispatch(new UpdateArchiveFilter({filters: params}));
+            return this.service.fetchArchivedCards(new Map(params));
+        }),
+        map((resultPage: Page&lt;LightCard&gt;) &#x3D;&gt; new ArchiveQuerySuccess({resultPage})),
+        catchError((error, caught) &#x3D;&gt; {
+            this.store.dispatch(new HandleUnexpectedError({error: error}));
+            return caught;
+        })
+    )</code>
                         </td>
                     </tr>
                     <tr>
@@ -243,19 +246,21 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.actions$ //TODO Maybe it&#x27;s not necessary anymore to have a distinct action for the page button, search &amp; pages trigger the same
-        .pipe(
-            ofType&lt;UpdateArchivePage&gt;(ArchiveActionTypes.UpdateArchivePage),
-            withLatestFrom(this.store.select(selectArchiveFilters)),
-            map(([action,filters]) &#x3D;&gt; {
-                filters.set(&quot;page&quot;,[(action.payload.pageNumber).toString()]);
-                return new SendArchiveQuery({params: filters});
-            }),
-            //
-            catchError((error, caught) &#x3D;&gt; {
-                this.store.dispatch(new HandleUnexpectedError({error: error}));
-                return caught;
-            }))</code>
+                            <i>Default value : </i><code>this.actions$.pipe(
+        ofType(ArchiveActionTypes.UpdateArchivePage),
+        withLatestFrom(this.store.select(selectArchiveFilters)),
+        map(([action, filters]) &#x3D;&gt; {
+            // get the current page
+            const page &#x3D; (action as UpdateArchivePage).payload.page;
+            // modify the filters page
+            filters.set(&#x27;page&#x27;, [page.toString()]);
+            return new SendArchiveQuery({params: filters});
+        }),
+        catchError((error, caught) &#x3D;&gt; {
+            this.store.dispatch(new HandleUnexpectedError({error: error}));
+            return caught;
+        })
+    )</code>
                         </td>
                     </tr>
                     <tr>
@@ -269,7 +274,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/effects/archive.effects.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/store/effects/archive.effects.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -287,54 +292,58 @@ import {Actions, Effect, ofType} from &#x27;@ngrx/effects&#x27;;
 import {CardService} from &#x27;@ofServices/card.service&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
 import {catchError, map, switchMap, withLatestFrom} from &#x27;rxjs/operators&#x27;;
-import {Action, Store} from &quot;@ngrx/store&quot;;
-import {AppState} from &quot;@ofStore/index&quot;;
+import {Action, Store} from &#x27;@ngrx/store&#x27;;
+import {AppState} from &#x27;@ofStore/index&#x27;;
 import {
     ArchiveActionTypes,
     ArchiveQuerySuccess,
     HandleUnexpectedError,
-    SendArchiveQuery, UpdateArchivePage
-} from &quot;@ofActions/archive.actions&quot;;
-import {LightCard} from &quot;@ofModel/light-card.model&quot;;
-import {selectArchiveFilters} from &quot;@ofSelectors/archive.selectors&quot;;
-import {Page} from &quot;@ofModel/page.model&quot;;
+    SendArchiveQuery,
+    UpdateArchivePage
+} from &#x27;@ofActions/archive.actions&#x27;;
+import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
+import {selectArchiveFilters} from &#x27;@ofSelectors/archive.selectors&#x27;;
+import {Page} from &#x27;@ofModel/page.model&#x27;;
+import {UpdateArchiveFilter} from &#x27;../actions/archive.actions&#x27;;
 
 @Injectable()
 export class ArchiveEffects {
 
     /* istanbul ignore next */
-    constructor(private store: Store&lt;AppState&gt;,
-                private actions$: Actions,
-                private service: CardService) {
+    constructor(private store: Store&lt;AppState&gt;, private actions$: Actions, private service: CardService) {
     }
 
     @Effect()
-    queryArchivedCards: Observable&lt;Action&gt; &#x3D; this.actions$
-        .pipe(
-            ofType(ArchiveActionTypes.SendArchiveQuery),
-            switchMap((action: SendArchiveQuery) &#x3D;&gt; this.service.fetchArchivedCards(action.payload.params)),
-            map((resultPage: Page&lt;LightCard&gt;) &#x3D;&gt; {
-                return new ArchiveQuerySuccess({resultPage: resultPage});
-            }),
-            catchError((error, caught) &#x3D;&gt; {
-                this.store.dispatch(new HandleUnexpectedError({error: error}));
-                return caught;
-            }));
-
+    queryArchivedCards: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
+        ofType(ArchiveActionTypes.SendArchiveQuery),
+        // update the filter state and the archive list
+        switchMap((action: SendArchiveQuery) &#x3D;&gt; {
+            const {params} &#x3D; action.payload;
+            this.store.dispatch(new UpdateArchiveFilter({filters: params}));
+            return this.service.fetchArchivedCards(new Map(params));
+        }),
+        map((resultPage: Page&lt;LightCard&gt;) &#x3D;&gt; new ArchiveQuerySuccess({resultPage})),
+        catchError((error, caught) &#x3D;&gt; {
+            this.store.dispatch(new HandleUnexpectedError({error: error}));
+            return caught;
+        })
+    );
     @Effect()
-    queryArchivedCardsPage: Observable&lt;Action&gt; &#x3D; this.actions$ //TODO Maybe it&#x27;s not necessary anymore to have a distinct action for the page button, search &amp; pages trigger the same
-        .pipe(
-            ofType&lt;UpdateArchivePage&gt;(ArchiveActionTypes.UpdateArchivePage),
-            withLatestFrom(this.store.select(selectArchiveFilters)),
-            map(([action,filters]) &#x3D;&gt; {
-                filters.set(&quot;page&quot;,[(action.payload.pageNumber).toString()]);
-                return new SendArchiveQuery({params: filters});
-            }),
-            //
-            catchError((error, caught) &#x3D;&gt; {
-                this.store.dispatch(new HandleUnexpectedError({error: error}));
-                return caught;
-            }));
+    queryArchivedCardsPage: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
+        ofType(ArchiveActionTypes.UpdateArchivePage),
+        withLatestFrom(this.store.select(selectArchiveFilters)),
+        map(([action, filters]) &#x3D;&gt; {
+            // get the current page
+            const page &#x3D; (action as UpdateArchivePage).payload.page;
+            // modify the filters page
+            filters.set(&#x27;page&#x27;, [page.toString()]);
+            return new SendArchiveQuery({params: filters});
+        }),
+        catchError((error, caught) &#x3D;&gt; {
+            this.store.dispatch(new HandleUnexpectedError({error: error}));
+            return caught;
+        })
+    );
 
 
 }

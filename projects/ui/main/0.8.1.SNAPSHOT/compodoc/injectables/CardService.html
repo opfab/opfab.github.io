@@ -142,12 +142,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(httpClient: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authenticationService: <a href="../injectables/AuthenticationService.html">AuthenticationService</a>, guidService: <a href="../classes/GuidService.html">GuidService</a>)</code>
+<code>constructor(httpClient: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, guidService: <a href="../classes/GuidService.html">GuidService</a>, timeService: <a href="../injectables/TimeService.html">TimeService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/card.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/card.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -177,10 +177,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authenticationService</td>
+                                                        <td>guidService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthenticationService.html" target="_self" >AuthenticationService</a></code>
+                                                                        <code><a href="../classes/GuidService.html" target="_self" >GuidService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -189,10 +189,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>guidService</td>
+                                                        <td>timeService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/GuidService.html" target="_self" >GuidService</a></code>
+                                                                        <code><a href="../injectables/TimeService.html" target="_self" >TimeService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -683,7 +683,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/card.service.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/card.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -711,7 +711,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/card.service.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/card.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -739,7 +739,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/services/card.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/services/card.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -766,7 +766,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/services/card.service.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/services/card.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -784,14 +784,13 @@ import {Observable, of, Subject} from &#x27;rxjs&#x27;;
 import {CardOperation} from &#x27;@ofModel/card-operation.model&#x27;;
 import {EventSourcePolyfill} from &#x27;ng-event-source&#x27;;
 import {AuthenticationService} from &#x27;./authentication.service&#x27;;
-import {Card} from &quot;@ofModel/card.model&quot;;
-import {HttpClient, HttpParams} from &quot;@angular/common/http&quot;;
-import {environment} from &quot;@env/environment&quot;;
-import {GuidService} from &quot;@ofServices/guid.service&quot;;
-import {LightCard} from &quot;@ofModel/light-card.model&quot;;
-import {forEach} from &quot;@angular/router/src/utils/collection&quot;;
-import {Page} from &quot;@ofModel/page.model&quot;;
-import {map} from &quot;rxjs/operators&quot;;
+import {Card} from &#x27;@ofModel/card.model&#x27;;
+import {HttpClient, HttpParams} from &#x27;@angular/common/http&#x27;;
+import {environment} from &#x27;@env/environment&#x27;;
+import {GuidService} from &#x27;@ofServices/guid.service&#x27;;
+import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
+import {Page} from &#x27;@ofModel/page.model&#x27;;
+import { TimeService } from &#x27;./time.service&#x27;;
 
 @Injectable()
 export class CardService {
@@ -801,7 +800,8 @@ export class CardService {
     readonly archivesUrl: string;
 
 
-    constructor(private httpClient:HttpClient, private authenticationService: AuthenticationService,private guidService: GuidService) {
+    constructor(private httpClient: HttpClient,
+        private guidService: GuidService, private timeService: TimeService) {
         const clientId &#x3D; this.guidService.getCurrentGuidString();
         this.cardOperationsUrl &#x3D; &#x60;${environment.urls.cards}/cardSubscription?clientId&#x3D;${clientId}&#x60;;
         this.cardsUrl &#x3D; &#x60;${environment.urls.cards}/cards&#x60;;
@@ -847,7 +847,7 @@ export class CardService {
                     eventSource.close();
                 }
             };
-        })
+        });
     }
 
     public updateCardSubscriptionWithDates(rangeStart:number,rangeEnd:number):Observable&lt;any&gt;{
@@ -860,23 +860,14 @@ export class CardService {
         return this.httpClient.get&lt;Card&gt;(&#x60;${this.archivesUrl}/${id}&#x60;);
     }
 
-    fetchArchivedCards(filters: Map&lt;string,string[]&gt;):Observable&lt;Page&lt;LightCard&gt;&gt; {
-
+    fetchArchivedCards(filters: Map&lt;string, string[]&gt;): Observable&lt;Page&lt;LightCard&gt;&gt; {
         let params &#x3D; new HttpParams();
-
-        filters.forEach((values, key) &#x3D;&gt; {
-            values.forEach(
-                value &#x3D;&gt; {
-                    params &#x3D; params.append(key,value);
-                }
-            );
-        }
-        );
-
-        return this.httpClient.get&lt;Page&lt;LightCard&gt;&gt;(&#x60;${this.archivesUrl}/&#x60;,{params: params});
+        filters.forEach((values, key) &#x3D;&gt; values.forEach(value &#x3D;&gt; params &#x3D; params.append(key, value)));
+        console.log(params);
+        // const tmp &#x3D; new HttpParams().set(&#x27;publisher&#x27;, &#x27;defaultPublisher&#x27;).set(&#x27;size&#x27;, &#x27;10&#x27;);
+        return this.httpClient.get&lt;Page&lt;LightCard&gt;&gt;(&#x60;${this.archivesUrl}/&#x60;, {params});
     }
-}
-</code></pre>
+}</code></pre>
     </div>
 
 </div>

@@ -87,13 +87,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ArchivesModule.html" data-type="entity-link">ArchivesModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' : 'data-target="#xs-components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' }>
+                                            'data-target="#components-links-module-ArchivesModule-0e739823eae66849ac868227df4cf585"' : 'data-target="#xs-components-links-module-ArchivesModule-0e739823eae66849ac868227df4cf585"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' :
-                                            'id="xs-components-links-module-ArchivesModule-c606f3d225efa0e9de916afd9e6b58d3"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ArchivesModule-0e739823eae66849ac868227df4cf585"' :
+                                            'id="xs-components-links-module-ArchivesModule-0e739823eae66849ac868227df4cf585"' }>
                                             <li class="link">
                                                 <a href="components/ArchiveFiltersComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchiveFiltersComponent</a>
@@ -111,12 +111,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ArchivesComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/BaseFilterComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BaseFilterComponent</a>
+                                                <a href="components/DatetimeFilterComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">DatetimeFilterComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/ListFilterComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">ListFilterComponent</a>
+                                                <a href="components/MultiFilterComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MultiFilterComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -462,6 +462,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/CustomRouterStateSerializer.html" data-type="entity-link">CustomRouterStateSerializer</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/DateTimeNgb.html" data-type="entity-link">DateTimeNgb</a>
                             </li>
                             <li class="link">
                                 <a href="classes/Detail.html" data-type="entity-link">Detail</a>
