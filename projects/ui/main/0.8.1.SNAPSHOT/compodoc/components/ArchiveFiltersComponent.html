@@ -302,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">src/app/modules/archives/components/archive-filters/archive-filters.component.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/app/modules/archives/components/archive-filters/archive-filters.component.ts:93</a></div>
                 </td>
             </tr>
 
@@ -515,10 +515,12 @@ export class ArchiveFiltersComponent implements OnInit {
       if (element) {
         if (checkElement(FilterDateTypes, key)) {
           const {date, time} &#x3D; element;
-          const dateString &#x3D; transformToTimestamp(date, time);
-          params.set(key, [this.timeService.toNgBTimestamp(dateString)]);
+          if (date) {
+            const dateString &#x3D; transformToTimestamp(date, time);
+            params.set(key, [this.timeService.toNgBTimestamp(dateString)]);
+          }
         } else {
-          if(element.length) {
+          if (element.length) {
             params.set(key, element);
           }
         }
@@ -532,7 +534,6 @@ export class ArchiveFiltersComponent implements OnInit {
     const params &#x3D; this.filtersToMap(value);
     params.set(&#x27;page&#x27;, [&#x27;1&#x27;]);
     params.set(&#x27;size&#x27;, [&#x27;10&#x27;]);
-    console.log(params);
     this.store.dispatch(new SendArchiveQuery({params}));
   }
 
@@ -549,33 +550,33 @@ export class ArchiveFiltersComponent implements OnInit {
 &lt;!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --&gt;
 &lt;form [formGroup]&#x3D;&quot;archiveForm&quot;&gt;
   &lt;div class&#x3D;&quot;container-fluid&quot;&gt;
-    &lt;div class&#x3D;&quot;form-row&quot;&gt;
-      &lt;div class&#x3D;&quot;col-md-3 pr-1&quot;&gt;
-        &lt;div class&#x3D;&quot;row&quot;&gt;
-          &lt;div class&#x3D;&quot;col-md-6 pr-1&quot;&gt;
+    &lt;div class&#x3D;&quot;form-row nomarginrow&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-3 nopaddingrow&quot;&gt;
+        &lt;div class&#x3D;&quot;row&quot; style&#x3D;&#x27;margin-right:0;margin-left:0;&#x27;&gt;
+          &lt;div class&#x3D;&quot;col-md-6 archive-filter&quot;&gt;
             &lt;of-multi-filter [parentForm]&#x3D;&quot;archiveForm&quot; filterPath&#x3D;&quot;tags&quot; [values]&#x3D;&quot;tags$|async&quot;&gt;&lt;/of-multi-filter&gt;
           &lt;/div&gt;
-          &lt;div class&#x3D;&quot;col-md-6 pl-1&quot;&gt;
+          &lt;div class&#x3D;&quot;col-md-6 archive-filter&quot;&gt;
             &lt;of-multi-filter [parentForm]&#x3D;&quot;archiveForm&quot; filterPath&#x3D;&quot;process&quot; [values]&#x3D;&quot;processes$|async&quot;&gt;&lt;/of-multi-filter&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;col-md-2 pr-1&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-2 archive-filter&quot;&gt;
         &lt;of-datetime-filter filterPath&#x3D;&quot;publishDateFrom&quot; formControlName&#x3D;&quot;publishDateFrom&quot;&gt;&lt;/of-datetime-filter&gt;
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;col-md-2 pr-1&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-2 archive-filter&quot;&gt;
         &lt;of-datetime-filter filterPath&#x3D;&quot;publishDateTo&quot; formControlName&#x3D;&quot;publishDateTo&quot;&gt;&lt;/of-datetime-filter&gt;
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;col-md-2 pr-1&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-2 archive-filter&quot;&gt;
         &lt;of-datetime-filter filterPath&#x3D;&quot;activeFrom&quot; formControlName&#x3D;&quot;activeFrom&quot;&gt;&lt;/of-datetime-filter&gt;
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;col-md-2 pr-1&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-2 archive-filter&quot;&gt;
         &lt;of-datetime-filter filterPath&#x3D;&quot;activeTo&quot; formControlName&#x3D;&quot;activeTo&quot;&gt;&lt;/of-datetime-filter&gt;
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;col-md-1 pr-1&quot; style&#x3D;&quot;margin-top:30px;&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-1 nopaddingrow&quot; style&#x3D;&quot;margin-top:30px;&quot;&gt;
         &lt;div class&#x3D;&quot;form-group login-form&quot;&gt;
           &lt;div class&#x3D;&quot;form-group&quot;&gt;
-            &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary w-100&quot; (click)&#x3D;&quot;sendQuery()&quot; translate &gt;archive.search&lt;/button&gt;
+            &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-primary w-100 archive-radius&quot; (click)&#x3D;&quot;sendQuery()&quot; translate&gt;archive.search&lt;/button&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
@@ -594,10 +595,21 @@ export class ArchiveFiltersComponent implements OnInit {
                 <p class="comment">
                     <code>./archive-filters.component.css</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">.no-padding-row {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}</code></pre>
+                <pre class="line-numbers"><code class="language-scss">.nomarginrow {
+    margin-left:0;
+    margin-right:0;
+  }
+  .nopaddingrow {
+    padding-right:0;
+    padding-left:0;
+  }
+  .archive-filter {
+    padding-right:7px;
+    padding-left:0;
+  }
+  .archive-radius {
+    border-radius:1px;
+  }</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -625,7 +637,7 @@ export class ArchiveFiltersComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><form [formGroup]="archiveForm">  <div class="container-fluid">    <div class="form-row">      <div class="col-md-3 pr-1">        <div class="row">          <div class="col-md-6 pr-1">            <of-multi-filter [parentForm]="archiveForm" filterPath="tags" [values]="tags$|async"></of-multi-filter>          </div>          <div class="col-md-6 pl-1">            <of-multi-filter [parentForm]="archiveForm" filterPath="process" [values]="processes$|async"></of-multi-filter>          </div>        </div>      </div>      <div class="col-md-2 pr-1">        <of-datetime-filter filterPath="publishDateFrom" formControlName="publishDateFrom"></of-datetime-filter>      </div>      <div class="col-md-2 pr-1">        <of-datetime-filter filterPath="publishDateTo" formControlName="publishDateTo"></of-datetime-filter>      </div>      <div class="col-md-2 pr-1">        <of-datetime-filter filterPath="activeFrom" formControlName="activeFrom"></of-datetime-filter>      </div>      <div class="col-md-2 pr-1">        <of-datetime-filter filterPath="activeTo" formControlName="activeTo"></of-datetime-filter>      </div>      <div class="col-md-1 pr-1" style="margin-top:30px;">        <div class="form-group login-form">          <div class="form-group">            <button type="button" class="btn btn-primary w-100" (click)="sendQuery()" translate >archive.search</button>          </div>        </div>      </div>    </div>          </div></form></div>'
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2018, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><form [formGroup]="archiveForm">  <div class="container-fluid">    <div class="form-row nomarginrow">      <div class="col-md-3 nopaddingrow">        <div class="row" style=\'margin-right:0;margin-left:0;\'>          <div class="col-md-6 archive-filter">            <of-multi-filter [parentForm]="archiveForm" filterPath="tags" [values]="tags$|async"></of-multi-filter>          </div>          <div class="col-md-6 archive-filter">            <of-multi-filter [parentForm]="archiveForm" filterPath="process" [values]="processes$|async"></of-multi-filter>          </div>        </div>      </div>      <div class="col-md-2 archive-filter">        <of-datetime-filter filterPath="publishDateFrom" formControlName="publishDateFrom"></of-datetime-filter>      </div>      <div class="col-md-2 archive-filter">        <of-datetime-filter filterPath="publishDateTo" formControlName="publishDateTo"></of-datetime-filter>      </div>      <div class="col-md-2 archive-filter">        <of-datetime-filter filterPath="activeFrom" formControlName="activeFrom"></of-datetime-filter>      </div>      <div class="col-md-2 archive-filter">        <of-datetime-filter filterPath="activeTo" formControlName="activeTo"></of-datetime-filter>      </div>      <div class="col-md-1 nopaddingrow" style="margin-top:30px;">        <div class="form-group login-form">          <div class="form-group">            <button type="button" class="btn btn-primary w-100 archive-radius" (click)="sendQuery()" translate>archive.search</button>          </div>        </div>      </div>    </div>          </div></form></div>'
     var COMPONENTS = [{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchiveListPageComponent', 'selector': 'of-archive-list-page'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DatetimeFilterComponent', 'selector': 'of-datetime-filter'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MultiFilterComponent', 'selector': 'of-multi-filter'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'ResizableComponent', 'selector': 'of-resizable'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'CalcHeightDirective', 'selector': '[calcHeightDirective]'},{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'ArchiveFiltersComponent'};
