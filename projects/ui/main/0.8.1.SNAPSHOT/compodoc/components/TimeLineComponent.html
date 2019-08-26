@@ -150,9 +150,6 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#dateWithSpaceBeforeMoment">dateWithSpaceBeforeMoment</a>
-                            </li>
-                            <li>
                                 <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
@@ -235,84 +232,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="dateWithSpaceBeforeMoment"></a>
-                    <span class="name">
-                        <b>
-                            dateWithSpaceBeforeMoment
-                        </b>
-                        <a href="#dateWithSpaceBeforeMoment"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>dateWithSpaceBeforeMoment(date, clusterLevel)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="352"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:352</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>make start of domain begins 4 ticks before actual date (moment())
-each cluster level had a different treatment</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>date</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>clusterLevel</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
                         <b>
@@ -331,8 +250,8 @@ each cluster level had a different treatment</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="389"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:389</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:364</a></div>
                 </td>
             </tr>
 
@@ -409,17 +328,18 @@ each cluster level had a different treatment</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="328"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:328</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:340</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>return an array of two moments
-first moment equal to start of domain, second moment equal to end of domain
-set spaceBeforeMoment to true for start the domain 4 ticks before the actual moment</p>
+                    <div class="io-description"><p>return a moment
+add time to moment depending of configue object when future is true
+subtract time when future is false
+use startOf function on each time&#39;s unit pass in list</p>
 </div>
 
                     <div class="io-description">
@@ -620,10 +540,11 @@ export class TimeLineComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // set start of Week to saturday on moment locale used
-        moment.updateLocale(&#x27;en&#x27;, { week: {
+        /*moment.updateLocale(&#x27;en&#x27;, { week: {
                 dow: 6, // First day of week is Saturday
                 doy: 12 // First week of year must contain 1 January (7 + 6 - 1)
             }});
+            */
 
         // DOMAIN CONF from moment() to our conf
 
@@ -672,14 +593,20 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         };
 
         const currentMoment &#x3D; moment();
-
-        const startDomain &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;W&#x27;);
+        const startDomain &#x3D; moment(currentMoment);
+        startDomain.minutes(0).second(0).millisecond(0);
         const endDomain &#x3D; this.periodStartToEnd(domainWeekConf, true);
-        const startDomain2 &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;M&#x27;);
+
+        const startDomain2 &#x3D; moment(currentMoment);
+        startDomain2.minutes(0).second(0).millisecond(0);
         const endDomain2 &#x3D; this.periodStartToEnd(domainMonthConf, true);
-        const startDomain3 &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;Y&#x27;);
+
+        const startDomain3 &#x3D; moment(currentMoment);
+        startDomain3.hour(0).minutes(0).second(0).millisecond(0);
         const endDomain3 &#x3D; this.periodStartToEnd(domainYearConf, true);
-        const startDomain4 &#x3D; this.dateWithSpaceBeforeMoment(moment(currentMoment), &#x27;7D&#x27;);
+        
+        const startDomain4 &#x3D; moment(currentMoment);
+        startDomain4.minutes(0).second(0).millisecond(0);
         const endDomain4 &#x3D; this.periodStartToEnd(domain7DayConf, true);
 
         // FORWARD CONF (movement on domain)
@@ -820,6 +747,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             ticksConf: ticks4HoursConf,
             followClockTick: true,
             firstMoveStartOfUnit: true,
+            startDomainWith3Ticks: true,
         },
         {
             startDomain: startDomain4.valueOf(),
@@ -831,6 +759,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             ticksConf: ticks4HoursConf,
             followClockTick: true,
             firstMoveStartOfUnit: true,
+            startDomainWith3Ticks: true,
         },
         {
             startDomain: startDomain2.valueOf(),
@@ -844,6 +773,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             // formatTooltipsDate: &#x27;DD/MM&#x27;,
             followClockTick: true,
             firstMoveStartOfUnit: true,
+            startDomainWith3Ticks: true,
         },
         {
             startDomain: startDomain3.valueOf(),
@@ -855,6 +785,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             ticksConf: ticksHalfMonthConf,
             followClockTick: true,
             firstMoveStartOfUnit: true,
+            startDomainWith3Ticks: true,
         }];
 
         // timeline state is same than feed state (not filtered Feed)
@@ -908,14 +839,20 @@ export class TimeLineComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * return an array of two moments
-     * first moment equal to start of domain, second moment equal to end of domain
-     * set spaceBeforeMoment to true for start the domain 4 ticks before the actual moment
-     * @param level
-     * @param spaceBeforeMoment
+     * return a moment
+     * add time to moment depending of configue object when future is true
+     * subtract time when future is false
+     * use startOf function on each time&#x27;s unit pass in list
+     * @param conf
+     * @param future
      */
     periodStartToEnd(conf, future: boolean): moment.Moment {
         const tmpMoment &#x3D; moment();
+        
+        // Test bug
+        // tmpMoment.date(2);
+        
+        
         const newDate &#x3D; _.cloneDeep(tmpMoment);
         Object.keys(conf).forEach(key &#x3D;&gt; {
             if (key &#x3D;&#x3D;&#x3D; &#x27;startOf&#x27;) {
@@ -931,48 +868,6 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             }
         });
         return newDate;
-    }
-
-    /**
-     * make start of domain begins 4 ticks before actual date (moment())
-     * each cluster level had a different treatment
-     * @param clusterLevel
-     */
-    dateWithSpaceBeforeMoment(date, clusterLevel) {
-        date.minutes(0).seconds(0).millisecond(0);
-        switch (clusterLevel) {
-            case &#x27;W&#x27; : case &#x27;7D&#x27;: {
-                // align date hours by subtract exceeded hours for stay on ticks (every 4 hours)
-                for (let i &#x3D; 0; i &lt; 10; i++) {
-                    if (((date.hours() - i) % 4) &#x3D;&#x3D;&#x3D; 0) {
-                        date.subtract(i, &#x27;hours&#x27;);
-                        break;
-                    }
-                }
-                // start 12 hours before date
-                date.subtract(3 * 4, &#x27;hours&#x27;);
-                return date;
-            }
-            case &#x27;M&#x27;: {
-                // start 3 days before moment()
-                date.startOf(&#x27;day&#x27;);
-                date.subtract(3, &#x27;days&#x27;);
-                return date;
-            }
-            case &#x27;Y&#x27;: {
-                date.startOf(&#x27;day&#x27;);
-                // start at begin of month
-                if (date.date() &gt;&#x3D; 16) {
-                    date.startOf(&#x27;month&#x27;);
-                        date.subtract(1, &#x27;months&#x27;);
-                } else {
-                    // start at middle of month (16th)
-                    date.date(16);
-                    date.subtract(2, &#x27;months&#x27;);
-                }
-                return date;
-            }
-        }
     }
 
     ngOnDestroy() {
