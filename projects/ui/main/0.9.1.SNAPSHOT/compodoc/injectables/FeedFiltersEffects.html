@@ -330,7 +330,7 @@
         .pipe(
             // loads card operations only after authentication of a default user ok.
             // tap(v&#x3D;&gt;console.log(&quot;loadFeedFilterOnAuthenticationSuccess: action start&quot;, v)),
-            ofType(AuthenticationActionTypes.AcceptLogIn),
+            ofType(UserActionsTypes.UserApplicationRegistered),
             map((action) &#x3D;&gt; {
                 return new InitFilters({filters:this.service.defaultFilters()});
             }))</code>
@@ -467,7 +467,6 @@
 import {Actions, Effect, ofType} from &#x27;@ngrx/effects&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
 import {filter, map, withLatestFrom} from &#x27;rxjs/operators&#x27;;
-import {AuthenticationActionTypes} from &#x27;@ofActions/authentication.actions&#x27;;
 import {Action, Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {FilterService, FilterType} from &quot;@ofServices/filter.service&quot;;
@@ -476,6 +475,7 @@ import {LoadSettingsSuccess, SettingsActionTypes} from &quot;@ofActions/settings
 import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
 import {Tick, TimeActionTypes} from &quot;@ofActions/time.actions&quot;;
 import {buildFilterSelector} from &quot;@ofSelectors/feed.selectors&quot;;
+import { UserActionsTypes } from &#x27;@ofStore/actions/user.actions&#x27;;
 
 @Injectable()
 export class FeedFiltersEffects {
@@ -503,7 +503,7 @@ export class FeedFiltersEffects {
         .pipe(
             // loads card operations only after authentication of a default user ok.
             // tap(v&#x3D;&gt;console.log(&quot;loadFeedFilterOnAuthenticationSuccess: action start&quot;, v)),
-            ofType(AuthenticationActionTypes.AcceptLogIn),
+            ofType(UserActionsTypes.UserApplicationRegistered),
             map((action) &#x3D;&gt; {
                 return new InitFilters({filters:this.service.defaultFilters()});
             }));

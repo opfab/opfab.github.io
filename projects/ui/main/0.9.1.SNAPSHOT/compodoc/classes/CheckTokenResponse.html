@@ -125,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="303" class="link-to-prism">src/app/services/authentication.service.ts:303</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="309" class="link-to-prism">src/app/services/authentication.service.ts:309</a></div>
                             </td>
                         </tr>
 
@@ -214,7 +214,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="307" class="link-to-prism">src/app/services/authentication.service.ts:307</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="313" class="link-to-prism">src/app/services/authentication.service.ts:313</a></div>
                             </td>
                         </tr>
 
@@ -243,7 +243,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="306" class="link-to-prism">src/app/services/authentication.service.ts:306</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="312" class="link-to-prism">src/app/services/authentication.service.ts:312</a></div>
                             </td>
                         </tr>
 
@@ -272,7 +272,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="305" class="link-to-prism">src/app/services/authentication.service.ts:305</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="311" class="link-to-prism">src/app/services/authentication.service.ts:311</a></div>
                             </td>
                         </tr>
 
@@ -328,6 +328,8 @@ export class AuthenticationService {
     private loginClaim: string;
     private expireClaim: string;
     private delegateUrl: string;
+    private givenNameClaim: string;
+    private familyNameClaim: string;
 
     /**
      * @constructor
@@ -348,6 +350,8 @@ export class AuthenticationService {
         this.clientSecret &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-secret&#x27;, null);
         this.delegateUrl &#x3D; _.get(oauth2Conf, &#x27;oauth2.flow.delagate-url&#x27;, null);
         this.loginClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.login-claim&#x27;, &#x27;sub&#x27;);
+        this.givenNameClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.given-name-claim&#x27;, &#x27;given_name&#x27;);
+        this.familyNameClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.family-name-claim&#x27;, &#x27;family_name&#x27;);
         this.expireClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.expire-claim&#x27;, &#x27;exp&#x27;);
     }
 
@@ -531,7 +535,9 @@ export class AuthenticationService {
         return new PayloadForSuccessfulAuthentication(jwt[this.loginClaim],
             payload.clientId,
             payload.access_token,
-            new Date(expirationDate)
+            new Date(expirationDate),
+            jwt[this.givenNameClaim],
+            jwt[this.familyNameClaim]
         );
     }
 

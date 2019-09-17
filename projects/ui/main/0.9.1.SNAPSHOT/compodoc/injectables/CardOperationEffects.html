@@ -246,7 +246,7 @@
                             <i>Default value : </i><code>this.actions$
         .pipe(
             // loads card operations only after authentication of a default user ok.
-            ofType(AuthenticationActionTypes.AcceptLogIn),
+            ofType(UserActionsTypes.UserApplicationRegistered),
             switchMap(() &#x3D;&gt; this.service.getCardOperation()
                 .pipe(
                     takeUntil(this.service.unsubscribe$),
@@ -370,7 +370,6 @@ import {
     RemoveLightCard,
     UpdatedSubscription
 } from &#x27;@ofActions/light-card.actions&#x27;;
-import {AuthenticationActionTypes} from &#x27;@ofActions/authentication.actions&#x27;;
 import {Action, Store} from &quot;@ngrx/store&quot;;
 import {AppState} from &quot;@ofStore/index&quot;;
 import {ApplyFilter, FeedActionTypes} from &quot;@ofActions/feed.actions&quot;;
@@ -378,6 +377,7 @@ import {FilterType} from &quot;@ofServices/filter.service&quot;;
 import {selectCardStateSelectedId} from &quot;@ofSelectors/card.selectors&quot;;
 import {LoadCard} from &quot;@ofActions/card.actions&quot;;
 import {CardOperationType} from &quot;@ofModel/card-operation.model&quot;;
+import { UserActionsTypes } from &#x27;@ofStore/actions/user.actions&#x27;;
 
 @Injectable()
 export class CardOperationEffects {
@@ -392,7 +392,7 @@ export class CardOperationEffects {
     subscribe: Observable&lt;LightCardActions&gt; &#x3D; this.actions$
         .pipe(
             // loads card operations only after authentication of a default user ok.
-            ofType(AuthenticationActionTypes.AcceptLogIn),
+            ofType(UserActionsTypes.UserApplicationRegistered),
             switchMap(() &#x3D;&gt; this.service.getCardOperation()
                 .pipe(
                     takeUntil(this.service.unsubscribe$),

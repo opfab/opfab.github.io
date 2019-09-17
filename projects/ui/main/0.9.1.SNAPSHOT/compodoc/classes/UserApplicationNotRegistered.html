@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>HandleUnexpectedError</li>
+  <li>UserApplicationNotRegistered</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/menu.actions.ts</code>
+            <code>src/app/store/actions/user.actions.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/actions/menu.actions.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/store/actions/user.actions.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/actions/menu.actions.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/store/actions/user.actions.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -203,12 +203,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>MenuActionTypes.HandleUnexpectedError</code>
+                            <i>Default value : </i><code>UserActionsTypes.UserApplicationNotRegistered</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/actions/menu.actions.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/store/actions/user.actions.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -227,94 +227,67 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &#x27;@ngrx/store&#x27;;
-import {ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { User } from &#x27;@ofModel/user.model&#x27;;
+import { Action } from &#x27;@ngrx/store&#x27;;
+import { PayloadForSuccessfulAuthentication } from &#x27;./authentication.actions&#x27;;
 
-export enum MenuActionTypes {
-    LoadMenu &#x3D; &#x27;[Menu] Load Menu&#x27;,
-    LoadMenuSuccess &#x3D; &#x27;[Menu] Load Menu Success&#x27;,
-    LoadMenuFailure &#x3D; &#x27;[Menu] Load Menu Fail&#x27;,
-    HandleUnexpectedError &#x3D; &#x27;[Menu] Handle unexpected error&#x27;,
-    SelectMenuLink &#x3D; &#x27;[Menu] Select Menu Link&#x27;,
-    SelectMenuLinkSuccess &#x3D; &#x27;[Menu] Select Menu Link Success&#x27;,
-    SelectMenuLinkFailure &#x3D; &#x27;[Menu] Select Menu Link Failure&#x27;,
-}
-// needed by NGRX entities
-export class LoadMenu implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenu;
 
-    /* istanbul ignore next */
-    constructor() {
-    }
-}
-export class LoadMenuFailure implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenuFailure;
 
-    /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
-    }
+export enum UserActionsTypes {
+
+    UserApplicationRegistered &#x3D;         &#x27;[User] User application registered&#x27;,
+    UserApplicationNotRegistered &#x3D;      &#x27;[User] User application not registered&#x27;,
+    CreateUserApplication &#x3D;             &#x27;[User] Create the User in the application&#x27;,
+    CreateUserApplicationOnSuccess &#x3D;    &#x27;[User] Create the User in the application on success&#x27;,
+    CreateUserApplicationOnFailure &#x3D;    &#x27;[User] Create the User in the application on failure&#x27;,
+    HandleUnexpectedError &#x3D;             &#x27;[User] Handle unexpected error related to user creation issue&#x27;
 }
 
-export class LoadMenuSuccess implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenuSuccess;
-
-    /* istanbul ignore next */
-    constructor(public payload: { menu: ThirdMenu[] }) {
-    }
+export class UserApplicationRegistered implements Action {
+    /* istanbul ignore next */ 
+    readonly type &#x3D; UserActionsTypes.UserApplicationRegistered;
+    constructor(public payload : {user : User}) {}
 }
+
+export class UserApplicationNotRegistered implements Action {
+    /* istanbul ignore next */ 
+    readonly type &#x3D; UserActionsTypes.UserApplicationNotRegistered;
+    constructor(public payload : {error : Error, user : User}) {}
+}
+
+export class CreateUserApplication implements Action {
+    /* istanbul ignore next */ 
+    readonly type &#x3D; UserActionsTypes.CreateUserApplication;
+    constructor(public payload : {user : User}) {}
+}
+
+
+export class CreateUserApplicationOnSuccess implements Action {
+    /* istanbul ignore next */ 
+    readonly type &#x3D; UserActionsTypes.CreateUserApplicationOnSuccess;
+    constructor(public payload : {user : User}) {}
+}
+
+export class CreateUserApplicationOnFailure implements Action {
+    /* istanbul ignore next */ 
+    readonly type &#x3D; UserActionsTypes.CreateUserApplicationOnFailure;
+    constructor(public payload : {error : Error}) {}
+}
+
 
 export class HandleUnexpectedError implements Action {
-    readonly type &#x3D; MenuActionTypes.HandleUnexpectedError;
-
-    /* istanbul ignore next */
-    constructor(public payload: {error: Error}) {
-
-    }
+    /* istanbul ignore next */ 
+    readonly type &#x3D; UserActionsTypes.HandleUnexpectedError;
+    constructor(public payload : {error : Error}) {}
 }
 
-/**
- * Action triggered by navigation to /thirparty/*** (for example by clicking on a third-party menu link)
- * Payload contains route parameters identifying the clicked menu entry (menu id, menu version and menu entry id)
- * Emitted by {CustomRouterEffects} in the following {Observable} @member: navigateToMenuURL
- */
-export class SelectMenuLink implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLink;
+export type UserActions &#x3D; UserApplicationRegistered
+    | UserApplicationNotRegistered
+    | CreateUserApplication
+    | CreateUserApplicationOnSuccess
+    | CreateUserApplicationOnFailure
+    | HandleUnexpectedError;
 
-    /* istanbul ignore next */
-    constructor(public payload: {menu_id: string, menu_version: string, menu_entry_id: string}) {}
-}
-
-/**
- * Action triggered if menu link url was correctly computed from the given parameters (menu_id, menu_version and menu_entry_id)
- * Payload contains the computed url
- */
-export class SelectMenuLinkSuccess implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLinkSuccess;
-
-    /* istanbul ignore next */
-    constructor(public payload: {iframe_url: string}) {}
-}
-
-/**
- * Action triggered if no menu entry was found for the given parameters (menu_id, menu_version and menu_entry_id)
- * Payload contains the error
- */
-export class SelectMenuLinkFailure implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLinkFailure;
-
-    /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
-    }
-}
-
-export type MenuActions &#x3D;
-    LoadMenu
-    | LoadMenuSuccess
-    | LoadMenuFailure
-    | HandleUnexpectedError
-    | SelectMenuLink
-    | SelectMenuLinkSuccess
-    | SelectMenuLinkFailure;
 </code></pre>
     </div>
 </div>
@@ -343,7 +316,7 @@ export type MenuActions &#x3D;
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'HandleUnexpectedError-4.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'UserApplicationNotRegistered.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
