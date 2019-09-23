@@ -180,7 +180,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/feed.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/feed.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -249,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/modules/feed/feed.component.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/app/modules/feed/feed.component.ts:49</a></div>
                 </td>
             </tr>
 
@@ -288,8 +288,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/app/modules/feed/feed.component.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/app/modules/feed/feed.component.ts:32</a></div>
                 </td>
             </tr>
 
@@ -331,7 +331,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/feed.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/feed.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -358,7 +358,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/feed/feed.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/feed/feed.component.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -385,7 +385,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/feed/feed.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/feed.component.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -406,6 +406,7 @@ import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
 import * as feedSelectors from &#x27;@ofSelectors/feed.selectors&#x27;;
 import {catchError} from &quot;rxjs/operators&quot;;
 import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
+import * as moment from &#x27;moment&#x27;;
 
 @Component({
     selector: &#x27;of-cards&#x27;,
@@ -429,6 +430,12 @@ export class FeedComponent implements OnInit, AfterViewInit {
         this.selection$ &#x3D; this.store.select(feedSelectors.selectLightCardSelection);
         this.store.select(buildConfigSelector(&#x27;feed.timeline.hide&#x27;))
             .subscribe(v&#x3D;&gt;this.hideTimeLine &#x3D; v);
+    
+            moment.updateLocale(&#x27;en&#x27;, { week: {
+                dow: 6, // First day of week is Saturday
+                doy: 12 // First week of year must contain 1 January (7 + 6 - 1)
+            }});
+    
     }
 
 

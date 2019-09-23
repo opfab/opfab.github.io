@@ -453,6 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_preparing_next_version">1.3. Preparing next version</a></li>
+<li><a href="#_updating_demonstration_docker_compose_files_operatorfabric_core_repository">1.4. Updating demonstration docker-compose files (operatorfabric-core repository)</a></li>
 </ul>
 </li>
 </ul>
@@ -667,10 +668,10 @@ should be updated to X.X.X.RELEASE.
 <div class="ulist">
 <ul>
 <li>
-<p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT.</p>
+<p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT</p>
 </li>
 <li>
-<p>In the dockerhub documentation (src/docs/dockerhub/service_template.md), replace the two occurences of X.X.X.SNAPSHOT
+<p>In the dockerhub documentation (src/docs/dockerhub/service_template.md), replace the two occurrences of X.X.X.SNAPSHOT
 by Y.Y.Y.RELEASE.</p>
 </li>
 <li>
@@ -718,6 +719,32 @@ by Y.Y.Y.RELEASE.</p>
 <p>In the "Releases" screen create a  Y.Y.Y.RELEASE version.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_demonstration_docker_compose_files_operatorfabric_core_repository">1.4. Updating demonstration docker-compose files (operatorfabric-core repository)</h3>
+<div class="paragraph">
+<p>The demo and deploy docker-compose files should always rely on the latest RELEASE version
+available on DockerHub. Once the CI pipeline triggered by the previous steps has completed successfully,
+and you can see X.X.X.RELEASE images for all services on DockerHub, you should update the following files
+by replacing all occurrences of W.W.W.RELEASE (the previous release version) by X.X.X.RELEASE:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>src/main/docker/demo/docker-compose.yml</p>
+</li>
+<li>
+<p>src/main/docker/deploy/docker-compose.yml</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Remove your locally built X.X.X.RELEASE images if any, then run each of the two docker-compose files
+to make sure they pull the images from DockerHub and behave as intended.</p>
+</div>
+<div class="paragraph">
+<p>Then, commit and push changes.</p>
 </div>
 </div>
 </div>

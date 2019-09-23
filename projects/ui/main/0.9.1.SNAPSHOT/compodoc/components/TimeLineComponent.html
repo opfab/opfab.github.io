@@ -250,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="364"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:364</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="437"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:437</a></div>
                 </td>
             </tr>
 
@@ -328,8 +328,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="340"
-                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:340</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="415"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/time-line.component.ts:415</a></div>
                 </td>
             </tr>
 
@@ -597,6 +597,12 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         startDomain.minutes(0).second(0).millisecond(0);
         const endDomain &#x3D; this.periodStartToEnd(domainWeekConf, true);
 
+        const startDomainUSE &#x3D; moment(currentMoment);
+        startDomainUSE.date(4);
+        startDomainUSE.hour(0).minutes(0).second(0).millisecond(0);
+        const endDomainUSE &#x3D; moment(startDomainUSE);
+        endDomainUSE.add(16, &#x27;week&#x27;);
+
         const startDomain2 &#x3D; moment(currentMoment);
         startDomain2.minutes(0).second(0).millisecond(0);
         const endDomain2 &#x3D; this.periodStartToEnd(domainMonthConf, true);
@@ -604,7 +610,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         const startDomain3 &#x3D; moment(currentMoment);
         startDomain3.hour(0).minutes(0).second(0).millisecond(0);
         const endDomain3 &#x3D; this.periodStartToEnd(domainYearConf, true);
-        
+
         const startDomain4 &#x3D; moment(currentMoment);
         startDomain4.minutes(0).second(0).millisecond(0);
         const endDomain4 &#x3D; this.periodStartToEnd(domain7DayConf, true);
@@ -697,6 +703,39 @@ export class TimeLineComponent implements OnInit, OnDestroy {
 
         // TICKS CONF
 
+        const myticksResponsiveConf &#x3D; [{ width_min: 1400,
+            conf: {
+                year: 0,
+                month: 0,
+                week: 0,
+                day: 0,
+                hour: 4,
+                minute: 0,
+                second: 0,
+            }
+        }, { width_min: 1100,
+            conf: {
+                year: 0,
+                month: 0,
+                week: 0,
+                day: 0,
+                hour: 1,
+                minute: 0,
+                second: 0,
+            }
+        }, {
+            width_min: 0,
+            conf: {
+                year: 0,
+                month: 0,
+                week: 0,
+                day: 0,
+                hour: 0,
+                minute: 20,
+                second: 0,
+            }
+        }];
+
         const ticks4HoursConf &#x3D; {
             year: 0,
             month: 0,
@@ -728,15 +767,40 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             date: [1, 16],
         };
 
+        const ticksInUseConf &#x3D; {
+            year: 0,
+            month: 0,
+            week: 0,
+            day: 0,
+            hour: 6,
+            minute: 0,
+            second: 0,
+        };
+
         this.conf &#x3D; {
             enableDrag: false,
             enableZoom: true,
+            zoomOnButton: true,
             autoScale: false,
             animations: false,
             showGridLines: true,
             realTimeBar: true,
         };
         this.confZoom &#x3D; [{
+            startDomain: startDomainUSE.valueOf(),
+            endDomain: endDomainUSE.valueOf(),
+            centeredOnTicks: true,
+            clusterTicksToTicks: true,
+            buttonTitle: &#x27;USE&#x27;,
+            forwardConf: forwardDayConf,
+            backwardConf: forwardDayConf,
+            // ticksConf: ticksInUseConf,
+            autonomousTicks: true,
+            followClockTick: false,
+            firstMoveStartOfUnit: false,
+            homeDomainExtraTicks: false,
+            },
+            {
             startDomain: startDomain4.valueOf(),
             endDomain: endDomain4.valueOf(),
             centeredOnTicks: true,
@@ -746,8 +810,8 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             ticksConf: ticks4HoursConf,
             followClockTick: true,
             firstMoveStartOfUnit: true,
-            startDomainWith3Ticks: true,
-        },
+            homeDomainExtraTicks: true,
+            },
         {
             startDomain: startDomain.valueOf(),
             endDomain: endDomain.valueOf(),
@@ -759,8 +823,19 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             ticksConf: ticks4HoursConf,
             followClockTick: true,
             firstMoveStartOfUnit: true,
-            startDomainWith3Ticks: true,
-        },
+            homeDomainExtraTicks: true,
+            },
+        /*{
+            startDomain: startDomain.valueOf(),
+            endDomain: endDomain.valueOf(),
+            centeredOnTicks: true,
+            clusterTicksToTicks: true,
+            buttonTitle: &#x27;USE&#x27;,
+            forwardConf: forwardDayConf,
+            ticksConf: myticksResponsiveConf, // myticksYearConf,
+            followClockTick: false,
+            firstMoveStartOfUnit: false,
+        },*/
         {
             startDomain: startDomain2.valueOf(),
             endDomain: endDomain2.valueOf(),
@@ -773,7 +848,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             // formatTooltipsDate: &#x27;DD/MM&#x27;,
             followClockTick: true,
             firstMoveStartOfUnit: true,
-            startDomainWith3Ticks: true,
+            homeDomainExtraTicks: true,
         },
         {
             startDomain: startDomain3.valueOf(),
@@ -785,7 +860,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             ticksConf: ticksHalfMonthConf,
             followClockTick: true,
             firstMoveStartOfUnit: true,
-            startDomainWith3Ticks: true,
+            homeDomainExtraTicks: true,
         }];
 
         // timeline state is same than feed state (not filtered Feed)
@@ -848,11 +923,9 @@ export class TimeLineComponent implements OnInit, OnDestroy {
      */
     periodStartToEnd(conf, future: boolean): moment.Moment {
         const tmpMoment &#x3D; moment();
-        
+
         // Test bug
         // tmpMoment.date(2);
-        
-        
         const newDate &#x3D; _.cloneDeep(tmpMoment);
         Object.keys(conf).forEach(key &#x3D;&gt; {
             if (key &#x3D;&#x3D;&#x3D; &#x27;startOf&#x27;) {
