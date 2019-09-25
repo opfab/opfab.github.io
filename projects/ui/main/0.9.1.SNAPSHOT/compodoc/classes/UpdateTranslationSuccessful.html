@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>UserApplicationNotRegistered</li>
+  <li>UpdateTranslationSuccessful</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/user.actions.ts</code>
+            <code>src/app/store/actions/translate.actions.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/store/actions/user.actions.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/store/actions/translate.actions.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/store/actions/user.actions.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/store/actions/translate.actions.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -203,12 +203,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>UserActionsTypes.UserApplicationNotRegistered</code>
+                            <i>Default value : </i><code>TranslateActionsTypes.UpdateTranslationSuccessful</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/store/actions/user.actions.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/store/actions/translate.actions.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -227,64 +227,48 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {User} from &#x27;@ofModel/user.model&#x27;;
-import {Action} from &#x27;@ngrx/store&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &quot;@ngrx/store&quot;;
+import {Map} from &quot;@ofModel/map&quot;;
 
-export enum UserActionsTypes {
-
-    UserApplicationRegistered &#x3D;         &#x27;[User] User application registered&#x27;,
-    UserApplicationNotRegistered &#x3D;      &#x27;[User] User application not registered&#x27;,
-    CreateUserApplication &#x3D;             &#x27;[User] Create the User in the application&#x27;,
-    CreateUserApplicationOnSuccess &#x3D;    &#x27;[User] Create the User in the application on success&#x27;,
-    CreateUserApplicationOnFailure &#x3D;    &#x27;[User] Create the User in the application on failure&#x27;,
-    HandleUnexpectedError &#x3D;             &#x27;[User] Handle unexpected error related to user creation issue&#x27;
+export enum TranslateActionsTypes {
+    UpdateTranslation &#x3D; &#x27;[i18n] Translation need an update&#x27;,
+    UpdateTranslationSuccessful &#x3D; &#x27;[i18n] Translation successfully updated&#x27;,
+    UpdateTranslationFailed &#x3D; &#x27;[i18n] Translation update failed&#x27;,
+    TranslationUpToDate &#x3D; &#x27;[i18n] all Translation materials are already loaded&#x27;,
+    RefreshTranslation &#x3D;&#x27;[i18n] translate handler has been refreshed&#x27;
 }
 
-export class UserApplicationRegistered implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.UserApplicationRegistered;
-    constructor(public payload : {user : User}) {}
+export class UpdateTranslation implements Action {
+    readonly type &#x3D; TranslateActionsTypes.UpdateTranslation;
+
+    constructor(public payload: { versions: Map&lt;Set&lt;string&gt;&gt; }) {
+    }
 }
 
-export class UserApplicationNotRegistered implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.UserApplicationNotRegistered;
-    constructor(public payload : {error : Error, user : User}) {}
+export class TranslationUpToDate implements Action {
+    readonly type &#x3D; TranslateActionsTypes.TranslationUpToDate;
 }
 
-export class CreateUserApplication implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.CreateUserApplication;
-    constructor(public payload : {user : User}) {}
+export class UpdateTranslationSuccessful implements Action {
+    readonly type &#x3D; TranslateActionsTypes.UpdateTranslationSuccessful;
+
+    constructor(public payload: { language: string }) {
+    }
 }
 
+export class UpdateTranslationFailed implements Action {
+    readonly type &#x3D; TranslateActionsTypes.UpdateTranslationFailed;
 
-export class CreateUserApplicationOnSuccess implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.CreateUserApplicationOnSuccess;
-    constructor(public payload : {user : User}) {}
-}
-
-export class CreateUserApplicationOnFailure implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.CreateUserApplicationOnFailure;
-    constructor(public payload : {error : Error}) {}
+    constructor(public payload: { error: Error }) {
+    }
 }
 
 
-export class HandleUnexpectedError implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.HandleUnexpectedError;
-    constructor(public payload : {error : Error}) {}
+export class RefreshTranslation implements Action {
+    readonly type &#x3D; TranslateActionsTypes.RefreshTranslation;
 }
-
-export type UserActions &#x3D; UserApplicationRegistered
-    | UserApplicationNotRegistered
-    | CreateUserApplication
-    | CreateUserApplicationOnSuccess
-    | CreateUserApplicationOnFailure
-    | HandleUnexpectedError;
-
+export type TranslateActions &#x3D; UpdateTranslation |
+    UpdateTranslationSuccessful | UpdateTranslationFailed | TranslationUpToDate | RefreshTranslation;
 </code></pre>
     </div>
 </div>
@@ -313,7 +297,7 @@ export type UserActions &#x3D; UserApplicationRegistered
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'UserApplicationNotRegistered.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'UpdateTranslationSuccessful.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

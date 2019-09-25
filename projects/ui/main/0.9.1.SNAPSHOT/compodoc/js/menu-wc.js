@@ -645,6 +645,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Process.html" data-type="entity-link">Process</a>
                             </li>
                             <li class="link">
+                                <a href="classes/RefreshTranslation.html" data-type="entity-link">RefreshTranslation</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/RejectLogIn.html" data-type="entity-link">RejectLogIn</a>
                             </li>
                             <li class="link">
@@ -711,6 +714,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/TimeSpan.html" data-type="entity-link">TimeSpan</a>
                             </li>
                             <li class="link">
+                                <a href="classes/TransitionalThirdWithItSVersion.html" data-type="entity-link">TransitionalThirdWithItSVersion</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/TranslationUpToDate.html" data-type="entity-link">TranslationUpToDate</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/TryToLogIn.html" data-type="entity-link">TryToLogIn</a>
                             </li>
                             <li class="link">
@@ -736,6 +745,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/UpdateTimeReference.html" data-type="entity-link">UpdateTimeReference</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/UpdateTranslation.html" data-type="entity-link">UpdateTranslation</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/UpdateTranslationFailed.html" data-type="entity-link">UpdateTranslationFailed</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/UpdateTranslationSuccessful.html" data-type="entity-link">UpdateTranslationSuccessful</a>
                             </li>
                             <li class="link">
                                 <a href="classes/User.html" data-type="entity-link">User</a>
@@ -814,6 +832,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/TimeService.html" data-type="entity-link">TimeService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/TranslateEffects.html" data-type="entity-link">TranslateEffects</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/UserEffects.html" data-type="entity-link">UserEffects</a>
                                 </li>
                             </ul>
@@ -868,6 +889,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/TimeState.html" data-type="entity-link">TimeState</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TranslationState.html" data-type="entity-link">TranslationState</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/UserState.html" data-type="entity-link">UserState</a>

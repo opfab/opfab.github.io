@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/store/effects/user.effects.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/store/effects/user.effects.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -207,7 +207,6 @@
                     .pipe(
                         map((user: User) &#x3D;&gt; new UserApplicationRegistered({user})),
                         catchError((error, caught) &#x3D;&gt; {
-                            // console.log(&quot;askUserApplicationRegistered ---------&quot;, error, &quot;caught : &quot; + caught, &quot;payload.identifier : &quot; + userPayload.identifier);
                             const userData : User &#x3D; new User(userPayload.identifier, userPayload.firstName, userPayload.lastName);
                             this.store.dispatch(new UserApplicationNotRegistered({error :error, user : userData }));
                             return caught;
@@ -229,7 +228,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/store/effects/user.effects.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/store/effects/user.effects.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -296,7 +295,7 @@ if not, set the creation user workflow</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/store/effects/user.effects.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/store/effects/user.effects.ts:69</a></div>
                             </td>
                         </tr>
 
@@ -352,7 +351,7 @@ raise an CreateUserApplicationOnSuccess action or CreateUserApplicationOnFailure
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/store/effects/user.effects.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/store/effects/user.effects.ts:54</a></div>
                             </td>
                         </tr>
 
@@ -406,7 +405,7 @@ raise an CreateUserApplicationOnSuccess action or CreateUserApplicationOnFailure
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/store/effects/user.effects.ts:88</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/store/effects/user.effects.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -425,18 +424,24 @@ raise an CreateUserApplicationOnSuccess action or CreateUserApplicationOnFailure
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Store } from &#x27;@ngrx/store&#x27;;
-import { AppState } from &quot;@ofStore/index&quot;;
-import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
-import { UserService } from &#x27;@ofServices/user.service&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { UserActions, UserActionsTypes, CreateUserApplicationOnSuccess, CreateUserApplicationOnFailure, UserApplicationRegistered, UserApplicationNotRegistered,  CreateUserApplication } from &#x27;@ofStore/actions/user.actions&#x27;;
-import { AuthenticationActionTypes, AcceptLogIn } from &#x27;@ofStore/actions/authentication.actions&#x27;;
-// import { UserActionsTypes } from &#x27;@ofStore/actions/user.actions&#x27;;
-import { tap, switchMap, map, catchError } from &#x27;rxjs/operators&#x27;;
-import { User } from &#x27;@ofModel/user.model&#x27;;
-import { AuthenticationService } from &#x27;@ofServices/authentication.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
+import {Store} from &#x27;@ngrx/store&#x27;;
+import {AppState} from &quot;@ofStore/index&quot;;
+import {Actions, Effect, ofType} from &#x27;@ngrx/effects&#x27;;
+import {UserService} from &#x27;@ofServices/user.service&#x27;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {
+    CreateUserApplication,
+    CreateUserApplicationOnFailure,
+    CreateUserApplicationOnSuccess,
+    UserActions,
+    UserActionsTypes,
+    UserApplicationNotRegistered,
+    UserApplicationRegistered
+} from &#x27;@ofStore/actions/user.actions&#x27;;
+import {AcceptLogIn, AuthenticationActionTypes} from &#x27;@ofStore/actions/authentication.actions&#x27;;
+import {catchError, map, switchMap} from &#x27;rxjs/operators&#x27;;
+import {User} from &#x27;@ofModel/user.model&#x27;;
 
 
 @Injectable()
@@ -459,7 +464,6 @@ export class UserEffects {
                     .pipe(
                         map((user: User) &#x3D;&gt; new UserApplicationRegistered({user})),
                         catchError((error, caught) &#x3D;&gt; {
-                            // console.log(&quot;askUserApplicationRegistered ---------&quot;, error, &quot;caught : &quot; + caught, &quot;payload.identifier : &quot; + userPayload.identifier);
                             const userData : User &#x3D; new User(userPayload.identifier, userPayload.firstName, userPayload.lastName);
                             this.store.dispatch(new UserApplicationNotRegistered({error :error, user : userData }));
                             return caught;
@@ -521,7 +525,8 @@ export class UserEffects {
             })
         );    
         
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>

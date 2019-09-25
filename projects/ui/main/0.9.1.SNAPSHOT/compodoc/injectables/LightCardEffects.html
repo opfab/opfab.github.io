@@ -78,9 +78,6 @@
                                 <a href="#delayUpdateLightCard">delayUpdateLightCard</a>
                             </li>
                             <li>
-                                <a href="#loadById">loadById</a>
-                            </li>
-                            <li>
                                 <a href="#updateAThirdAction">updateAThirdAction</a>
                             </li>
                             <li>
@@ -113,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/store/effects/light-card.effects.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/store/effects/light-card.effects.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -232,64 +229,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/store/effects/light-card.effects.ts:140</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="loadById"></a>
-                        <span class="name">
-                            <b>
-                            loadById</b>
-                            <a href="#loadById"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/Action.html" target="_self" >Observable&lt;Action&gt;</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>this.actions$
-        .pipe(
-            ofType&lt;LoadLightCardsSuccess&gt;(LightCardActionTypes.LoadLightCardsSuccess),
-            switchMap((action: LoadLightCardsSuccess) &#x3D;&gt;
-                this.thirdService.loadI18nForLightCards(action.payload.lightCards)
-                    .pipe(
-                        catchError(err &#x3D;&gt; {
-                            console.error(&#x60;i18 loading failed for card publishers&#x60;, err);
-                            return of(false);
-                        })
-                    )),
-            map(
-                () &#x3D;&gt; {
-                    return new LoadLightCardsExtendedData();
-                }
-            )
-        )</code>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <b>Decorators : </b>
-                            <br />
-                            <code>
-                                @Effect()<br />
-                            </code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/effects/light-card.effects.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/store/effects/light-card.effects.ts:117</a></div>
                             </td>
                         </tr>
 
@@ -362,7 +302,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/store/effects/light-card.effects.ts:79</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/store/effects/light-card.effects.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -413,7 +353,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/store/effects/light-card.effects.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/store/effects/light-card.effects.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -478,7 +418,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/store/effects/light-card.effects.ts:114</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/store/effects/light-card.effects.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -502,8 +442,6 @@ import {
     DelayedLightCardUpdate,
     LightCardActionTypes,
     LightCardAlreadyUpdated,
-    LoadLightCardsExtendedData,
-    LoadLightCardsSuccess,
     ThirdActionAlreadyLoaded,
     ThirdActionAlreadyUpdated,
     UpdateALightCard,
@@ -514,10 +452,7 @@ import {ThirdsService} from &quot;@ofServices/thirds.service&quot;;
 import {LightCard} from &quot;@ofModel/light-card.model&quot;;
 import {fetchLightCard} from &quot;@ofSelectors/feed.selectors&quot;;
 import {CardActionTypes, LoadCard} from &quot;@ofActions/card.actions&quot;;
-import {
-    Action as ThirdAction, ActionStatus,
-    extractActionStatusFromPseudoActionStatus
-} from &quot;@ofModel/thirds.model&quot;;
+import {Action as ThirdAction, ActionStatus, extractActionStatusFromPseudoActionStatus} from &quot;@ofModel/thirds.model&quot;;
 import * as _ from &#x27;lodash&#x27;;
 
 @Injectable()
@@ -530,24 +465,6 @@ export class LightCardEffects {
     ) {
     }
 
-    @Effect()
-    loadById: Observable&lt;Action&gt; &#x3D; this.actions$
-        .pipe(
-            ofType&lt;LoadLightCardsSuccess&gt;(LightCardActionTypes.LoadLightCardsSuccess),
-            switchMap((action: LoadLightCardsSuccess) &#x3D;&gt;
-                this.thirdService.loadI18nForLightCards(action.payload.lightCards)
-                    .pipe(
-                        catchError(err &#x3D;&gt; {
-                            console.error(&#x60;i18 loading failed for card publishers&#x60;, err);
-                            return of(false);
-                        })
-                    )),
-            map(
-                () &#x3D;&gt; {
-                    return new LoadLightCardsExtendedData();
-                }
-            )
-        );
     @Effect()
     updateThirdActions: Observable&lt;Action&gt; &#x3D; this.actions$
         .pipe(
