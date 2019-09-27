@@ -46,6 +46,9 @@
             <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
         <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
             <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
         </li>
         <li >
@@ -58,7 +61,7 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts</code>
+    <code>src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts</code>
 </p>
 
 
@@ -107,99 +110,11 @@
             </tr>
 
 
+
             <tr>
-                <td class="col-md-3">template</td>
-                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;ngx-charts-chart    [view]&#x3D;&quot;[width, height]&quot; xmlns:svg&#x3D;&quot;http://www.w3.org/1999/svg&quot;
-    [showLegend]&#x3D;&quot;false&quot;
-    appMouseWheel
-    (mouseWheelUp)&#x3D;&quot;onZoom($event, &#x27;in&#x27;)&quot;
-    (mouseWheelDown)&#x3D;&quot;onZoom($event, &#x27;out&#x27;)&quot;
-    appDraggable
-    (dragStart)&#x3D;&quot;onDragStart($event)&quot;
-    (dragMove)&#x3D;&quot;onDragMove($event)&quot;
-    class&#x3D;&quot;&quot;&gt;
-    &lt;svg:g [attr.transform]&#x3D;&quot;transform&quot; class&#x3D;&quot;chart&quot;&gt;
-      &lt;svg:g ngx-charts-x-axis
-             *ngIf&#x3D;&quot;xAxis&quot;
-             [xScale]&#x3D;&quot;timeScale&quot;
-             [dims]&#x3D;&quot;dims&quot;
-             [showGridLines]&#x3D;&quot;showGridLines&quot;
-             [tickFormatting]&#x3D;&quot;fctTickFormattingAdvanced&quot;
-             [ticks]&#x3D;&quot;xTicksOne&quot;
-             (dimensionsChanged)&#x3D;&quot;updateXAxisHeight($event)&quot;&gt;
-      &lt;/svg:g&gt;
-
-      &lt;svg:g [attr.transform]&#x3D;&quot;transform2&quot;&gt;
-        &lt;svg:g ngx-charts-x-axis-ticks
-               *ngIf&#x3D;&quot;xAxis&quot;
-               [scale]&#x3D;&quot;timeScale&quot;
-               [showGridLines]&#x3D;&quot;showGridLines&quot;
-               [gridLineHeight]&#x3D;&quot;dims.height&quot;
-               [tickFormatting]&#x3D;&quot;fctTickFormatting&quot;
-               [width]&#x3D;&quot;dims.width&quot;
-               [tickValues]&#x3D;&quot;xTicksTwo&quot;
-               (dimensionsChanged)&#x3D;&quot;updateXAxisHeight($event)&quot;
-        /&gt;
-      &lt;/svg:g&gt;
-      &lt;svg:g ngx-charts-y-axis
-                    *ngIf&#x3D;&quot;yAxis&quot;
-                    [yScale]&#x3D;&quot;yScale&quot;
-                    [dims]&#x3D;&quot;dims&quot;
-                    [tickFormatting]&#x3D;&quot;hideLabelsTicks&quot;
-                    [ticks]&#x3D;&quot;yTicks&quot;
-                    [showGridLines]&#x3D;&quot;showGridLines&quot;
-                    (dimensionsChanged)&#x3D;&quot;updateYAxisWidth($event)&quot;&gt;
-      &lt;/svg:g&gt;
-      &lt;text *ngIf&#x3D;&quot;realTimeBar &amp;&amp; checkInsideDomain(xRealTimeLine) &amp;&amp; !underDayPeriod&quot;
-            [attr.x]&#x3D;&quot;timeScale(xRealTimeLine)&quot;
-            [attr.y]&#x3D;&quot;-10&quot; stroke&#x3D;&quot;&#x27;grey&#x27;&quot;
-            [attr.fill]&#x3D;&quot;&#x27;grey&#x27;&quot;
-            text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot;
-            [attr.font-size]&#x3D;&quot;11&quot; dy&#x3D;&quot;.3em&quot;&gt; {{timeService.predefinedFormat(xRealTimeLine, &#x27;realTimeBarFormat&#x27;)}}&lt;/text&gt;
-      &lt;text *ngIf&#x3D;&quot;underDayPeriod&quot;
-            [attr.x]&#x3D;&quot;50&quot;
-            [attr.y]&#x3D;&quot;-10&quot; stroke&#x3D;&quot;&#x27;black&#x27;&quot;
-            [attr.fill]&#x3D;&quot;&#x27;black&#x27;&quot;
-            text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot;
-            [attr.font-size]&#x3D;&quot;12&quot; dy&#x3D;&quot;.3em&quot;&gt; {{dateFirstTick}}&lt;/text&gt;
-      &lt;svg:rect *ngIf&#x3D;&quot;realTimeBar &amp;&amp; checkInsideDomain(xRealTimeLine)&quot;
-                [attr.x]&#x3D;&quot;timeScale(xRealTimeLine)&quot;
-                [attr.width]&#x3D;&quot;5&quot;
-                y&#x3D;&quot;0&quot;
-                [attr.fill]&#x3D;&quot;&#x27;grey&#x27;&quot;
-                [attr.height]&#x3D;&quot;dims.height&quot;
-                class&#x3D;&quot;realTimeLine&quot;
-      &gt;&lt;/svg:rect&gt;
-      &lt;svg:g *ngFor&#x3D;&quot;let series of dataClustered&quot;&gt;
-        &lt;svg:g *ngFor&#x3D;&quot;let myCircle of series&quot;
-               (mouseenter)&#x3D;&quot;feedCircleHovered(myCircle)&quot;
-               ngx-tooltip
-               [tooltipTemplate]&#x3D;&quot;tooltipTemplate2&quot;&gt;
-          &lt;svg:circle *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date)&quot;
-                      [attr.cx]&#x3D;&quot;timeScale(myCircle.date)&quot;
-                      [attr.cy]&#x3D;&quot;yScale(myCircle.value)&quot;
-                      [attr.r]&#x3D;&quot;myCircle.r&quot;
-                      [attr.fill]&#x3D;myCircle.color
-                      [attr.stroke]&#x3D;&quot;myCircle.stroke&quot;
-                      [attr.opacity]&#x3D;&quot;0.7&quot;
-          /&gt;
-          &lt;text *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date) &amp;&amp; myCircle.count &lt; 100&quot;
-                [attr.x]&#x3D;&quot;timeScale(myCircle.date)&quot; [attr.y]&#x3D;&quot;yScale(myCircle.value)&quot;
-                stroke&#x3D;&quot;#000000&quot; text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot; [attr.font-size]&#x3D;&quot;13&quot; dy&#x3D;&quot;.3em&quot;&gt; {{myCircle.count}} &lt;/text&gt;
-          &lt;text *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date) &amp;&amp; myCircle.count &gt; 99&quot;
-                [attr.x]&#x3D;&quot;timeScale(myCircle.date)&quot; [attr.y]&#x3D;&quot;yScale(myCircle.value)&quot;
-                stroke&#x3D;&quot;#000000&quot; text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot; [attr.font-size]&#x3D;&quot;13&quot; dy&#x3D;&quot;.3em&quot;&gt; +99 &lt;/text&gt;
-        &lt;/svg:g&gt;
-      &lt;/svg:g&gt;
-    &lt;/svg:g&gt;
-    &lt;ng-template #tooltipTemplate2&gt;
-      {{circleHovered.period}} &lt;br/&gt;
-      Count: {{circleHovered.count}} &lt;br/&gt;
-      Summary: &lt;p *ngFor&#x3D;&quot;let title of circleHovered.summary&quot;style&#x3D;&quot;padding: 0px;margin: 0px;line-height: 10px&quot;&gt;{{title}}&lt;/p&gt;
-    &lt;/ng-template&gt;
-  &lt;/ngx-charts-chart&gt;</code></pre></td>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./custom-timeline-chart.component.html</code></td>
             </tr>
-
 
 
 
@@ -578,7 +493,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:115</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -667,7 +582,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:178</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:89</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -682,7 +597,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:203</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:114</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -697,7 +612,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:200</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:111</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -712,7 +627,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:170</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:81</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -727,7 +642,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="204" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:204</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:115</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -742,7 +657,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:198</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:109</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -757,7 +672,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="184" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:184</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:95</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -772,7 +687,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="196" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:196</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:107</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -787,7 +702,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:205</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:116</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -802,7 +717,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="206" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:206</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:117</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -817,7 +732,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="182" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:182</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:93</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -838,7 +753,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:163</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:74</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -853,7 +768,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="176" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:176</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:87</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -868,7 +783,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:180</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:91</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -889,7 +804,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:56</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -904,7 +819,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:173</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:84</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -919,7 +834,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:174</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:85</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -934,7 +849,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:187</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:98</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -949,7 +864,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="185" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:185</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:96</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -973,7 +888,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="202" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:202</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:113</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -994,7 +909,7 @@ init all variables</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="194" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:194</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:105</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -1029,8 +944,8 @@ init all variables</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="329"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:329</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="240"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:240</a></div>
                 </td>
             </tr>
 
@@ -1071,8 +986,8 @@ if moment is equal to the 4th tick return true</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="347"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:347</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="258"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:258</a></div>
                 </td>
             </tr>
 
@@ -1139,8 +1054,8 @@ if moment is equal to the 4th tick return true</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="533"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:533</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="445"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:445</a></div>
                 </td>
             </tr>
 
@@ -1208,8 +1123,8 @@ and push a tick for the end of domain</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="937"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:937</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="849"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:849</a></div>
                 </td>
             </tr>
 
@@ -1281,8 +1196,8 @@ two differents algos :</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="504"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:504</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="416"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:416</a></div>
                 </td>
             </tr>
 
@@ -1349,8 +1264,8 @@ two differents algos :</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="358"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:358</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:269</a></div>
                 </td>
             </tr>
 
@@ -1419,8 +1334,8 @@ with summary propriety (card title)</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="519"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:519</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="431"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:431</a></div>
                 </td>
             </tr>
 
@@ -1492,8 +1407,8 @@ date key is skipped</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="583"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:583</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="495"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:495</a></div>
                 </td>
             </tr>
 
@@ -1569,8 +1484,8 @@ date key is skipped</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="609"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:609</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="521"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:521</a></div>
                 </td>
             </tr>
 
@@ -1612,8 +1527,8 @@ return a domain with the minimum and Maximum date inside the arrays of this.myDa
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="644"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:644</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="556"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:556</a></div>
                 </td>
             </tr>
 
@@ -1655,8 +1570,8 @@ return a domain with rows equal to the number of array inside this.myData</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="596"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:596</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="508"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:508</a></div>
                 </td>
             </tr>
 
@@ -1732,8 +1647,8 @@ return a domain with rows equal to the number of array inside this.myData</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="706"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:706</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="618"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:618</a></div>
                 </td>
             </tr>
 
@@ -1811,8 +1726,8 @@ return a domain with rows equal to the number of array inside this.myData</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="247"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:247</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:158</a></div>
                 </td>
             </tr>
 
@@ -1855,8 +1770,8 @@ return a domain with rows equal to the number of array inside this.myData</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="390"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:390</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="301"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:301</a></div>
                 </td>
             </tr>
 
@@ -1927,8 +1842,8 @@ return a domain with rows equal to the number of array inside this.myData</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="377"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:377</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="288"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:288</a></div>
                 </td>
             </tr>
 
@@ -1999,8 +1914,8 @@ return a domain with rows equal to the number of array inside this.myData</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="437"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:437</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="348"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:348</a></div>
                 </td>
             </tr>
 
@@ -2084,8 +1999,8 @@ on chart : using static multiplicator for zooming or unzooming, a maximal and mi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="824"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:824</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="736"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:736</a></div>
                 </td>
             </tr>
 
@@ -2128,8 +2043,8 @@ other case just use formatTicks (string)</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="851"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:851</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="763"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:763</a></div>
                 </td>
             </tr>
 
@@ -2199,8 +2114,8 @@ other case just use clusterConf (Object)</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="774"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:774</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="686"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:686</a></div>
                 </td>
             </tr>
 
@@ -2241,8 +2156,8 @@ run through ticks configuration for find the format moment needed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="880"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:880</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="792"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:792</a></div>
                 </td>
             </tr>
 
@@ -2313,8 +2228,8 @@ call clusterize function</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="552"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:552</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="464"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:464</a></div>
                 </td>
             </tr>
 
@@ -2387,8 +2302,8 @@ call clusterize function</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="916"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:916</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="828"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:828</a></div>
                 </td>
             </tr>
 
@@ -2429,8 +2344,8 @@ one ticks by severity</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="266"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:266</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:177</a></div>
                 </td>
             </tr>
 
@@ -2473,8 +2388,8 @@ set chart scales and translate (add margin arround chart)</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="311"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:311</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:222</a></div>
                 </td>
             </tr>
 
@@ -2516,8 +2431,8 @@ update the domain if check follow clock tick is true</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="690"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:690</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="602"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:602</a></div>
                 </td>
             </tr>
 
@@ -2584,8 +2499,8 @@ set new x axis height and call update function</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="680"
-                            class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:680</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="592"
+                            class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:592</a></div>
                 </td>
             </tr>
 
@@ -2651,7 +2566,7 @@ set new y axis width and call update function</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="231" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:231</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:142</a></div>
                             </td>
                         </tr>
 
@@ -2673,7 +2588,7 @@ set new y axis width and call update function</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="236" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:236</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:147</a></div>
                             </td>
                         </tr>
 
@@ -2709,7 +2624,7 @@ set new y axis width and call update function</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:216</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:127</a></div>
                             </td>
                         </tr>
 
@@ -2731,7 +2646,7 @@ set new y axis width and call update function</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:229</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:140</a></div>
                             </td>
                         </tr>
 
@@ -2753,7 +2668,7 @@ set new y axis width and call update function</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="171" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:171</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:82</a></div>
                             </td>
                         </tr>
 
@@ -2775,7 +2690,7 @@ set new y axis width and call update function</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="232" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:232</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:143</a></div>
                             </td>
                         </tr>
 
@@ -2803,7 +2718,7 @@ set new y axis width and call update function</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:213</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:124</a></div>
                             </td>
                         </tr>
 
@@ -2831,7 +2746,7 @@ set new y axis width and call update function</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="217" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:217</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:128</a></div>
                             </td>
                         </tr>
 
@@ -2853,7 +2768,7 @@ set new y axis width and call update function</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:240</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:151</a></div>
                             </td>
                         </tr>
 
@@ -2879,7 +2794,7 @@ set new y axis width and call update function</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="483" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:483</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="395" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:395</a></div>
                             </td>
                         </tr>
 
@@ -2911,7 +2826,7 @@ set new y axis width and call update function</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="492" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:492</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="404" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:404</a></div>
                             </td>
                         </tr>
 
@@ -2946,7 +2861,7 @@ in special zoom level (D, Min...) format differently the ticks string</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:211</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:122</a></div>
                             </td>
                         </tr>
 
@@ -2972,7 +2887,7 @@ in special zoom level (D, Min...) format differently the ticks string</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="298" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:298</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:209</a></div>
                             </td>
                         </tr>
 
@@ -3027,7 +2942,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="224" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:224</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:135</a></div>
                             </td>
                         </tr>
 
@@ -3049,7 +2964,7 @@ or return the value received</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:234</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:145</a></div>
                             </td>
                         </tr>
 
@@ -3071,7 +2986,7 @@ or return the value received</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="235" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:235</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:146</a></div>
                             </td>
                         </tr>
 
@@ -3099,7 +3014,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="214" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:214</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:125</a></div>
                             </td>
                         </tr>
 
@@ -3121,7 +3036,7 @@ or return the value received</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="241" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:241</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:152</a></div>
                             </td>
                         </tr>
 
@@ -3143,7 +3058,7 @@ or return the value received</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="239" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:239</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:150</a></div>
                             </td>
                         </tr>
 
@@ -3165,7 +3080,7 @@ or return the value received</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="238" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:238</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:149</a></div>
                             </td>
                         </tr>
 
@@ -3193,7 +3108,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="223" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:223</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:134</a></div>
                             </td>
                         </tr>
 
@@ -3221,7 +3136,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:124</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -3249,7 +3164,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="225" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:225</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:136</a></div>
                             </td>
                         </tr>
 
@@ -3277,7 +3192,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="226" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:226</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:137</a></div>
                             </td>
                         </tr>
 
@@ -3305,7 +3220,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:212</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:123</a></div>
                             </td>
                         </tr>
 
@@ -3333,7 +3248,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="221" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:221</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:132</a></div>
                             </td>
                         </tr>
 
@@ -3361,7 +3276,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="218" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:218</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:129</a></div>
                             </td>
                         </tr>
 
@@ -3389,7 +3304,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="227" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:227</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:138</a></div>
                             </td>
                         </tr>
 
@@ -3417,7 +3332,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:207</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:118</a></div>
                             </td>
                         </tr>
 
@@ -3445,7 +3360,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:208</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:119</a></div>
                             </td>
                         </tr>
 
@@ -3473,7 +3388,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="209" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:209</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:120</a></div>
                             </td>
                         </tr>
 
@@ -3501,7 +3416,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="222" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:222</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:133</a></div>
                             </td>
                         </tr>
 
@@ -3529,7 +3444,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:219</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:130</a></div>
                             </td>
                         </tr>
 
@@ -3557,7 +3472,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="220" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:220</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:131</a></div>
                             </td>
                         </tr>
 
@@ -3585,7 +3500,7 @@ or return the value received</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:210</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:121</a></div>
                             </td>
                         </tr>
 
@@ -3614,7 +3529,7 @@ or return the value received</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:158</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:69</a></div>
                                 </td>
                             </tr>
 
@@ -3625,7 +3540,7 @@ or return the value received</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:56</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3683,7 +3598,7 @@ or return the value received</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:166</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:77</a></div>
                                 </td>
                             </tr>
 
@@ -3694,7 +3609,7 @@ or return the value received</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:163</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:74</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3752,7 +3667,7 @@ or return the value received</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:190</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:101</a></div>
                                 </td>
                             </tr>
 
@@ -3763,7 +3678,7 @@ or return the value received</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">src/app/modules/feed/components/custom-timeline-chart/custom-timeline-chart.component.ts:187</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/modules/feed/components/time-line/custom-timeline-chart/custom-timeline-chart.component.ts:98</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3822,101 +3737,12 @@ import {scaleLinear, scaleTime} from &#x27;d3-scale&#x27;;
 import * as _ from &#x27;lodash&#x27;;
 import {BaseChartComponent, calculateViewDimensions, ChartComponent, ViewDimensions} from &#x27;@swimlane/ngx-charts&#x27;;
 import * as moment from &#x27;moment&#x27;;
-import {XAxisTickFormatPipe} from &#x27;../time-line/x-axis-tick-format.pipe&#x27;;
+import {XAxisTickFormatPipe} from &#x27;../tick-format-pipe/x-axis-tick-format.pipe&#x27;;
 import {TimeService} from &#x27;@ofServices/time.service&#x27;;
 
 @Component({
   selector: &#x27;of-custom-timeline-chart&#x27;,
-  template: &#x60;&lt;ngx-charts-chart
-    [view]&#x3D;&quot;[width, height]&quot; xmlns:svg&#x3D;&quot;http://www.w3.org/1999/svg&quot;
-    [showLegend]&#x3D;&quot;false&quot;
-    appMouseWheel
-    (mouseWheelUp)&#x3D;&quot;onZoom($event, &#x27;in&#x27;)&quot;
-    (mouseWheelDown)&#x3D;&quot;onZoom($event, &#x27;out&#x27;)&quot;
-    appDraggable
-    (dragStart)&#x3D;&quot;onDragStart($event)&quot;
-    (dragMove)&#x3D;&quot;onDragMove($event)&quot;
-    class&#x3D;&quot;&quot;&gt;
-    &lt;svg:g [attr.transform]&#x3D;&quot;transform&quot; class&#x3D;&quot;chart&quot;&gt;
-      &lt;svg:g ngx-charts-x-axis
-             *ngIf&#x3D;&quot;xAxis&quot;
-             [xScale]&#x3D;&quot;timeScale&quot;
-             [dims]&#x3D;&quot;dims&quot;
-             [showGridLines]&#x3D;&quot;showGridLines&quot;
-             [tickFormatting]&#x3D;&quot;fctTickFormattingAdvanced&quot;
-             [ticks]&#x3D;&quot;xTicksOne&quot;
-             (dimensionsChanged)&#x3D;&quot;updateXAxisHeight($event)&quot;&gt;
-      &lt;/svg:g&gt;
-
-      &lt;svg:g [attr.transform]&#x3D;&quot;transform2&quot;&gt;
-        &lt;svg:g ngx-charts-x-axis-ticks
-               *ngIf&#x3D;&quot;xAxis&quot;
-               [scale]&#x3D;&quot;timeScale&quot;
-               [showGridLines]&#x3D;&quot;showGridLines&quot;
-               [gridLineHeight]&#x3D;&quot;dims.height&quot;
-               [tickFormatting]&#x3D;&quot;fctTickFormatting&quot;
-               [width]&#x3D;&quot;dims.width&quot;
-               [tickValues]&#x3D;&quot;xTicksTwo&quot;
-               (dimensionsChanged)&#x3D;&quot;updateXAxisHeight($event)&quot;
-        /&gt;
-      &lt;/svg:g&gt;
-      &lt;svg:g ngx-charts-y-axis
-                    *ngIf&#x3D;&quot;yAxis&quot;
-                    [yScale]&#x3D;&quot;yScale&quot;
-                    [dims]&#x3D;&quot;dims&quot;
-                    [tickFormatting]&#x3D;&quot;hideLabelsTicks&quot;
-                    [ticks]&#x3D;&quot;yTicks&quot;
-                    [showGridLines]&#x3D;&quot;showGridLines&quot;
-                    (dimensionsChanged)&#x3D;&quot;updateYAxisWidth($event)&quot;&gt;
-      &lt;/svg:g&gt;
-      &lt;text *ngIf&#x3D;&quot;realTimeBar &amp;&amp; checkInsideDomain(xRealTimeLine) &amp;&amp; !underDayPeriod&quot;
-            [attr.x]&#x3D;&quot;timeScale(xRealTimeLine)&quot;
-            [attr.y]&#x3D;&quot;-10&quot; stroke&#x3D;&quot;&#x27;grey&#x27;&quot;
-            [attr.fill]&#x3D;&quot;&#x27;grey&#x27;&quot;
-            text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot;
-            [attr.font-size]&#x3D;&quot;11&quot; dy&#x3D;&quot;.3em&quot;&gt; {{timeService.predefinedFormat(xRealTimeLine, &#x27;realTimeBarFormat&#x27;)}}&lt;/text&gt;
-      &lt;text *ngIf&#x3D;&quot;underDayPeriod&quot;
-            [attr.x]&#x3D;&quot;50&quot;
-            [attr.y]&#x3D;&quot;-10&quot; stroke&#x3D;&quot;&#x27;black&#x27;&quot;
-            [attr.fill]&#x3D;&quot;&#x27;black&#x27;&quot;
-            text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot;
-            [attr.font-size]&#x3D;&quot;12&quot; dy&#x3D;&quot;.3em&quot;&gt; {{dateFirstTick}}&lt;/text&gt;
-      &lt;svg:rect *ngIf&#x3D;&quot;realTimeBar &amp;&amp; checkInsideDomain(xRealTimeLine)&quot;
-                [attr.x]&#x3D;&quot;timeScale(xRealTimeLine)&quot;
-                [attr.width]&#x3D;&quot;5&quot;
-                y&#x3D;&quot;0&quot;
-                [attr.fill]&#x3D;&quot;&#x27;grey&#x27;&quot;
-                [attr.height]&#x3D;&quot;dims.height&quot;
-                class&#x3D;&quot;realTimeLine&quot;
-      &gt;&lt;/svg:rect&gt;
-      &lt;svg:g *ngFor&#x3D;&quot;let series of dataClustered&quot;&gt;
-        &lt;svg:g *ngFor&#x3D;&quot;let myCircle of series&quot;
-               (mouseenter)&#x3D;&quot;feedCircleHovered(myCircle)&quot;
-               ngx-tooltip
-               [tooltipTemplate]&#x3D;&quot;tooltipTemplate2&quot;&gt;
-          &lt;svg:circle *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date)&quot;
-                      [attr.cx]&#x3D;&quot;timeScale(myCircle.date)&quot;
-                      [attr.cy]&#x3D;&quot;yScale(myCircle.value)&quot;
-                      [attr.r]&#x3D;&quot;myCircle.r&quot;
-                      [attr.fill]&#x3D;myCircle.color
-                      [attr.stroke]&#x3D;&quot;myCircle.stroke&quot;
-                      [attr.opacity]&#x3D;&quot;0.7&quot;
-          /&gt;
-          &lt;text *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date) &amp;&amp; myCircle.count &lt; 100&quot;
-                [attr.x]&#x3D;&quot;timeScale(myCircle.date)&quot; [attr.y]&#x3D;&quot;yScale(myCircle.value)&quot;
-                stroke&#x3D;&quot;#000000&quot; text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot; [attr.font-size]&#x3D;&quot;13&quot; dy&#x3D;&quot;.3em&quot;&gt; {{myCircle.count}} &lt;/text&gt;
-          &lt;text *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date) &amp;&amp; myCircle.count &gt; 99&quot;
-                [attr.x]&#x3D;&quot;timeScale(myCircle.date)&quot; [attr.y]&#x3D;&quot;yScale(myCircle.value)&quot;
-                stroke&#x3D;&quot;#000000&quot; text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot; [attr.font-size]&#x3D;&quot;13&quot; dy&#x3D;&quot;.3em&quot;&gt; +99 &lt;/text&gt;
-        &lt;/svg:g&gt;
-      &lt;/svg:g&gt;
-    &lt;/svg:g&gt;
-    &lt;ng-template #tooltipTemplate2&gt;
-      {{circleHovered.period}} &lt;br/&gt;
-      Count: {{circleHovered.count}} &lt;br/&gt;
-      Summary: &lt;p *ngFor&#x3D;&quot;let title of circleHovered.summary&quot;style&#x3D;&quot;padding: 0px;margin: 0px;line-height: 10px&quot;&gt;{{title}}&lt;/p&gt;
-    &lt;/ng-template&gt;
-  &lt;/ngx-charts-chart&gt;&#x60;,
+  templateUrl: &#x27;./custom-timeline-chart.component.html&#x27;,
   styleUrls: [&#x27;./custom-timeline-chart.component.scss&#x27;],
   encapsulation: ViewEncapsulation.None,
 })
@@ -4279,6 +4105,7 @@ export class CustomTimelineChartComponent extends BaseChartComponent implements 
           myDomain2 &#x3D; [newStart, newEnd];
         }
       }
+      // Add an output for send the new xDomain to init-chart if you want to got autonomousTicks treatment used
       this.xDomain &#x3D; [myDomain2[0], myDomain2[1]];
       // change the domain on xAxis
       this.timeScale &#x3D; this.getTimeScale(this.xDomain, this.dims.width);*/
@@ -4848,6 +4675,99 @@ export class CustomTimelineChartComponent extends BaseChartComponent implements 
 </code></pre>
     </div>
 
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ngx-charts-chart
+        [view]&#x3D;&quot;[width, height]&quot; xmlns:svg&#x3D;&quot;http://www.w3.org/1999/svg&quot;
+        [showLegend]&#x3D;&quot;false&quot;
+        appMouseWheel
+        (mouseWheelUp)&#x3D;&quot;onZoom($event, &#x27;in&#x27;)&quot;
+        (mouseWheelDown)&#x3D;&quot;onZoom($event, &#x27;out&#x27;)&quot;
+        appDraggable
+        (dragStart)&#x3D;&quot;onDragStart($event)&quot;
+        (dragMove)&#x3D;&quot;onDragMove($event)&quot;
+        class&#x3D;&quot;&quot;&gt;
+    &lt;svg:g [attr.transform]&#x3D;&quot;transform&quot; class&#x3D;&quot;chart&quot;&gt;
+        &lt;svg:g ngx-charts-x-axis
+               *ngIf&#x3D;&quot;xAxis&quot;
+               [xScale]&#x3D;&quot;timeScale&quot;
+               [dims]&#x3D;&quot;dims&quot;
+               [showGridLines]&#x3D;&quot;showGridLines&quot;
+               [tickFormatting]&#x3D;&quot;fctTickFormattingAdvanced&quot;
+               [ticks]&#x3D;&quot;xTicksOne&quot;
+               (dimensionsChanged)&#x3D;&quot;updateXAxisHeight($event)&quot;&gt;
+        &lt;/svg:g&gt;
+
+        &lt;svg:g [attr.transform]&#x3D;&quot;transform2&quot;&gt;
+            &lt;svg:g ngx-charts-x-axis-ticks
+                   *ngIf&#x3D;&quot;xAxis&quot;
+                   [scale]&#x3D;&quot;timeScale&quot;
+                   [showGridLines]&#x3D;&quot;showGridLines&quot;
+                   [gridLineHeight]&#x3D;&quot;dims.height&quot;
+                   [tickFormatting]&#x3D;&quot;fctTickFormatting&quot;
+                   [width]&#x3D;&quot;dims.width&quot;
+                   [tickValues]&#x3D;&quot;xTicksTwo&quot;
+                   (dimensionsChanged)&#x3D;&quot;updateXAxisHeight($event)&quot;
+            /&gt;
+        &lt;/svg:g&gt;
+        &lt;svg:g ngx-charts-y-axis
+               *ngIf&#x3D;&quot;yAxis&quot;
+               [yScale]&#x3D;&quot;yScale&quot;
+               [dims]&#x3D;&quot;dims&quot;
+               [tickFormatting]&#x3D;&quot;hideLabelsTicks&quot;
+               [ticks]&#x3D;&quot;yTicks&quot;
+               [showGridLines]&#x3D;&quot;showGridLines&quot;
+               (dimensionsChanged)&#x3D;&quot;updateYAxisWidth($event)&quot;&gt;
+        &lt;/svg:g&gt;
+        &lt;text *ngIf&#x3D;&quot;realTimeBar &amp;&amp; checkInsideDomain(xRealTimeLine) &amp;&amp; !underDayPeriod&quot;
+              [attr.x]&#x3D;&quot;timeScale(xRealTimeLine)&quot;
+              [attr.y]&#x3D;&quot;-10&quot; stroke&#x3D;&quot;&#x27;grey&#x27;&quot;
+              [attr.fill]&#x3D;&quot;&#x27;grey&#x27;&quot;
+              text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot;
+              [attr.font-size]&#x3D;&quot;11&quot; dy&#x3D;&quot;.3em&quot;&gt; {{timeService.predefinedFormat(xRealTimeLine, &#x27;realTimeBarFormat&#x27;)}}&lt;/text&gt;
+        &lt;text *ngIf&#x3D;&quot;underDayPeriod&quot;
+              [attr.x]&#x3D;&quot;50&quot;
+              [attr.y]&#x3D;&quot;-10&quot; stroke&#x3D;&quot;&#x27;black&#x27;&quot;
+              [attr.fill]&#x3D;&quot;&#x27;black&#x27;&quot;
+              text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot;
+              [attr.font-size]&#x3D;&quot;12&quot; dy&#x3D;&quot;.3em&quot;&gt; {{dateFirstTick}}&lt;/text&gt;
+        &lt;svg:rect *ngIf&#x3D;&quot;realTimeBar &amp;&amp; checkInsideDomain(xRealTimeLine)&quot;
+                  [attr.x]&#x3D;&quot;timeScale(xRealTimeLine)&quot;
+                  [attr.width]&#x3D;&quot;5&quot;
+                  y&#x3D;&quot;0&quot;
+                  [attr.fill]&#x3D;&quot;&#x27;grey&#x27;&quot;
+                  [attr.height]&#x3D;&quot;dims.height&quot;
+                  class&#x3D;&quot;realTimeLine&quot;
+        &gt;&lt;/svg:rect&gt;
+        &lt;svg:g *ngFor&#x3D;&quot;let series of dataClustered&quot;&gt;
+            &lt;svg:g *ngFor&#x3D;&quot;let myCircle of series&quot;
+                   (mouseenter)&#x3D;&quot;feedCircleHovered(myCircle)&quot;
+                   ngx-tooltip
+                   [tooltipTemplate]&#x3D;&quot;tooltipTemplate2&quot;&gt;
+                &lt;svg:circle *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date)&quot;
+                            [attr.cx]&#x3D;&quot;timeScale(myCircle.date)&quot;
+                            [attr.cy]&#x3D;&quot;yScale(myCircle.value)&quot;
+                            [attr.r]&#x3D;&quot;myCircle.r&quot;
+                            [attr.fill]&#x3D;myCircle.color
+                            [attr.stroke]&#x3D;&quot;myCircle.stroke&quot;
+                            [attr.opacity]&#x3D;&quot;0.7&quot;
+                /&gt;
+                &lt;text *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date) &amp;&amp; myCircle.count &lt; 100&quot;
+                      [attr.x]&#x3D;&quot;timeScale(myCircle.date)&quot; [attr.y]&#x3D;&quot;yScale(myCircle.value)&quot;
+                      stroke&#x3D;&quot;#000000&quot; text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot; [attr.font-size]&#x3D;&quot;13&quot; dy&#x3D;&quot;.3em&quot;&gt; {{myCircle.count}} &lt;/text&gt;
+                &lt;text *ngIf&#x3D;&quot;checkInsideDomain(myCircle.date) &amp;&amp; myCircle.count &gt; 99&quot;
+                      [attr.x]&#x3D;&quot;timeScale(myCircle.date)&quot; [attr.y]&#x3D;&quot;yScale(myCircle.value)&quot;
+                      stroke&#x3D;&quot;#000000&quot; text-anchor&#x3D;&quot;middle&quot; stroke-width&#x3D;&quot;1px&quot; [attr.font-size]&#x3D;&quot;13&quot; dy&#x3D;&quot;.3em&quot;&gt; +99 &lt;/text&gt;
+            &lt;/svg:g&gt;
+        &lt;/svg:g&gt;
+    &lt;/svg:g&gt;
+    &lt;ng-template #tooltipTemplate2&gt;
+        {{circleHovered.period}} &lt;br/&gt;
+        Count: {{circleHovered.count}} &lt;br/&gt;
+        Summary: &lt;p *ngFor&#x3D;&quot;let title of circleHovered.summary&quot;style&#x3D;&quot;padding: 0px;margin: 0px;line-height: 10px&quot;&gt;{{title}}&lt;/p&gt;
+    &lt;/ng-template&gt;
+&lt;/ngx-charts-chart&gt;
+</code></pre>
+    </div>
 
     <div class="tab-pane fade " id="c-styleData">
                 <p class="comment">
@@ -4906,7 +4826,7 @@ export class CustomTimelineChartComponent extends BaseChartComponent implements 
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ngx-charts-chart    [view]="[width, height]" xmlns:svg="http://www.w3.org/1999/svg"    [showLegend]="false"    appMouseWheel    (mouseWheelUp)="onZoom($event, \'in\')"    (mouseWheelDown)="onZoom($event, \'out\')"    appDraggable    (dragStart)="onDragStart($event)"    (dragMove)="onDragMove($event)"    class="">    <svg:g [attr.transform]="transform" class="chart">      <svg:g ngx-charts-x-axis             *ngIf="xAxis"             [xScale]="timeScale"             [dims]="dims"             [showGridLines]="showGridLines"             [tickFormatting]="fctTickFormattingAdvanced"             [ticks]="xTicksOne"             (dimensionsChanged)="updateXAxisHeight($event)">      </svg:g>      <svg:g [attr.transform]="transform2">        <svg:g ngx-charts-x-axis-ticks               *ngIf="xAxis"               [scale]="timeScale"               [showGridLines]="showGridLines"               [gridLineHeight]="dims.height"               [tickFormatting]="fctTickFormatting"               [width]="dims.width"               [tickValues]="xTicksTwo"               (dimensionsChanged)="updateXAxisHeight($event)"        />      </svg:g>      <svg:g ngx-charts-y-axis                    *ngIf="yAxis"                    [yScale]="yScale"                    [dims]="dims"                    [tickFormatting]="hideLabelsTicks"                    [ticks]="yTicks"                    [showGridLines]="showGridLines"                    (dimensionsChanged)="updateYAxisWidth($event)">      </svg:g>      <text *ngIf="realTimeBar && checkInsideDomain(xRealTimeLine) && !underDayPeriod"            [attr.x]="timeScale(xRealTimeLine)"            [attr.y]="-10" stroke="\'grey\'"            [attr.fill]="\'grey\'"            text-anchor="middle" stroke-width="1px"            [attr.font-size]="11" dy=".3em"> {{timeService.predefinedFormat(xRealTimeLine, \'realTimeBarFormat\')}}</text>      <text *ngIf="underDayPeriod"            [attr.x]="50"            [attr.y]="-10" stroke="\'black\'"            [attr.fill]="\'black\'"            text-anchor="middle" stroke-width="1px"            [attr.font-size]="12" dy=".3em"> {{dateFirstTick}}</text>      <svg:rect *ngIf="realTimeBar && checkInsideDomain(xRealTimeLine)"                [attr.x]="timeScale(xRealTimeLine)"                [attr.width]="5"                y="0"                [attr.fill]="\'grey\'"                [attr.height]="dims.height"                class="realTimeLine"      ></svg:rect>      <svg:g *ngFor="let series of dataClustered">        <svg:g *ngFor="let myCircle of series"               (mouseenter)="feedCircleHovered(myCircle)"               ngx-tooltip               [tooltipTemplate]="tooltipTemplate2">          <svg:circle *ngIf="checkInsideDomain(myCircle.date)"                      [attr.cx]="timeScale(myCircle.date)"                      [attr.cy]="yScale(myCircle.value)"                      [attr.r]="myCircle.r"                      [attr.fill]=myCircle.color                      [attr.stroke]="myCircle.stroke"                      [attr.opacity]="0.7"          />          <text *ngIf="checkInsideDomain(myCircle.date) && myCircle.count < 100"                [attr.x]="timeScale(myCircle.date)" [attr.y]="yScale(myCircle.value)"                stroke="#000000" text-anchor="middle" stroke-width="1px" [attr.font-size]="13" dy=".3em"> {{myCircle.count}} </text>          <text *ngIf="checkInsideDomain(myCircle.date) && myCircle.count > 99"                [attr.x]="timeScale(myCircle.date)" [attr.y]="yScale(myCircle.value)"                stroke="#000000" text-anchor="middle" stroke-width="1px" [attr.font-size]="13" dy=".3em"> +99 </text>        </svg:g>      </svg:g>    </svg:g>    <ng-template #tooltipTemplate2>      {{circleHovered.period}} <br/>      Count: {{circleHovered.count}} <br/>      Summary: <p *ngFor="let title of circleHovered.summary"style="padding: 0px;margin: 0px;line-height: 10px">{{title}}</p>    </ng-template>  </ngx-charts-chart></div>'
+        var COMPONENT_TEMPLATE = '<div><ngx-charts-chart        [view]="[width, height]" xmlns:svg="http://www.w3.org/1999/svg"        [showLegend]="false"        appMouseWheel        (mouseWheelUp)="onZoom($event, \'in\')"        (mouseWheelDown)="onZoom($event, \'out\')"        appDraggable        (dragStart)="onDragStart($event)"        (dragMove)="onDragMove($event)"        class="">    <svg:g [attr.transform]="transform" class="chart">        <svg:g ngx-charts-x-axis               *ngIf="xAxis"               [xScale]="timeScale"               [dims]="dims"               [showGridLines]="showGridLines"               [tickFormatting]="fctTickFormattingAdvanced"               [ticks]="xTicksOne"               (dimensionsChanged)="updateXAxisHeight($event)">        </svg:g>        <svg:g [attr.transform]="transform2">            <svg:g ngx-charts-x-axis-ticks                   *ngIf="xAxis"                   [scale]="timeScale"                   [showGridLines]="showGridLines"                   [gridLineHeight]="dims.height"                   [tickFormatting]="fctTickFormatting"                   [width]="dims.width"                   [tickValues]="xTicksTwo"                   (dimensionsChanged)="updateXAxisHeight($event)"            />        </svg:g>        <svg:g ngx-charts-y-axis               *ngIf="yAxis"               [yScale]="yScale"               [dims]="dims"               [tickFormatting]="hideLabelsTicks"               [ticks]="yTicks"               [showGridLines]="showGridLines"               (dimensionsChanged)="updateYAxisWidth($event)">        </svg:g>        <text *ngIf="realTimeBar && checkInsideDomain(xRealTimeLine) && !underDayPeriod"              [attr.x]="timeScale(xRealTimeLine)"              [attr.y]="-10" stroke="\'grey\'"              [attr.fill]="\'grey\'"              text-anchor="middle" stroke-width="1px"              [attr.font-size]="11" dy=".3em"> {{timeService.predefinedFormat(xRealTimeLine, \'realTimeBarFormat\')}}</text>        <text *ngIf="underDayPeriod"              [attr.x]="50"              [attr.y]="-10" stroke="\'black\'"              [attr.fill]="\'black\'"              text-anchor="middle" stroke-width="1px"              [attr.font-size]="12" dy=".3em"> {{dateFirstTick}}</text>        <svg:rect *ngIf="realTimeBar && checkInsideDomain(xRealTimeLine)"                  [attr.x]="timeScale(xRealTimeLine)"                  [attr.width]="5"                  y="0"                  [attr.fill]="\'grey\'"                  [attr.height]="dims.height"                  class="realTimeLine"        ></svg:rect>        <svg:g *ngFor="let series of dataClustered">            <svg:g *ngFor="let myCircle of series"                   (mouseenter)="feedCircleHovered(myCircle)"                   ngx-tooltip                   [tooltipTemplate]="tooltipTemplate2">                <svg:circle *ngIf="checkInsideDomain(myCircle.date)"                            [attr.cx]="timeScale(myCircle.date)"                            [attr.cy]="yScale(myCircle.value)"                            [attr.r]="myCircle.r"                            [attr.fill]=myCircle.color                            [attr.stroke]="myCircle.stroke"                            [attr.opacity]="0.7"                />                <text *ngIf="checkInsideDomain(myCircle.date) && myCircle.count < 100"                      [attr.x]="timeScale(myCircle.date)" [attr.y]="yScale(myCircle.value)"                      stroke="#000000" text-anchor="middle" stroke-width="1px" [attr.font-size]="13" dy=".3em"> {{myCircle.count}} </text>                <text *ngIf="checkInsideDomain(myCircle.date) && myCircle.count > 99"                      [attr.x]="timeScale(myCircle.date)" [attr.y]="yScale(myCircle.value)"                      stroke="#000000" text-anchor="middle" stroke-width="1px" [attr.font-size]="13" dy=".3em"> +99 </text>            </svg:g>        </svg:g>    </svg:g>    <ng-template #tooltipTemplate2>        {{circleHovered.period}} <br/>        Count: {{circleHovered.count}} <br/>        Summary: <p *ngFor="let title of circleHovered.summary"style="padding: 0px;margin: 0px;line-height: 10px">{{title}}</p>    </ng-template></ngx-charts-chart></div>'
     var COMPONENTS = [{'name': 'ActionComponent', 'selector': 'of-action'},{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchiveListPageComponent', 'selector': 'of-archive-list-page'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'ConfirmModalComponent', 'selector': 'confirm-modal-component'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DatetimeFilterComponent', 'selector': 'of-datetime-filter'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MultiFilterComponent', 'selector': 'of-multi-filter'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'ResizableComponent', 'selector': 'of-resizable'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'CalcHeightDirective', 'selector': '[calcHeightDirective]'},{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'CustomTimelineChartComponent'};

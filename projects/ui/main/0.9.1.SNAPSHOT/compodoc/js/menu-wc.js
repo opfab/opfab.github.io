@@ -181,13 +181,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/FeedModule.html" data-type="entity-link">FeedModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' : 'data-target="#xs-components-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' }>
+                                            'data-target="#components-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' : 'data-target="#xs-components-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' :
-                                            'id="xs-components-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' :
+                                            'id="xs-components-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' }>
                                             <li class="link">
                                                 <a href="components/CardListComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">CardListComponent</a>
@@ -232,13 +232,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' : 'data-target="#xs-directives-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' }>
+                                        'data-target="#directives-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' : 'data-target="#xs-directives-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' :
-                                        'id="xs-directives-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' :
+                                        'id="xs-directives-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' }>
                                         <li class="link">
                                             <a href="directives/DraggableDirective.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules">DraggableDirective</a>
@@ -251,13 +251,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#pipes-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' : 'data-target="#xs-pipes-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' }>
+                                            'data-target="#pipes-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' : 'data-target="#xs-pipes-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' }>
                                             <span class="icon ion-md-add"></span>
                                             <span>Pipes</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' :
-                                            'id="xs-pipes-links-module-FeedModule-3d1222d6faceac0f7661ed331c8ff5be"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' :
+                                            'id="xs-pipes-links-module-FeedModule-06319b8e7646b8e9805806ff61aacdc0"' }>
                                             <li class="link">
                                                 <a href="pipes/XAxisTickFormatPipe.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">XAxisTickFormatPipe</a>
