@@ -450,10 +450,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_in_the_source_repository_operatorfabric_core">1.2.1. In the source repository (operatorfabric-core)</a></li>
 <li><a href="#_in_the_documentation_repository_opfab_github_io">1.2.2. In the documentation repository (opfab.github.io)</a></li>
+<li><a href="#_in_jira">1.2.3. In Jira</a></li>
 </ul>
 </li>
-<li><a href="#_preparing_next_version">1.3. Preparing next version</a></li>
-<li><a href="#_updating_demonstration_docker_compose_files_operatorfabric_core_repository">1.4. Updating demonstration docker-compose files (operatorfabric-core repository)</a></li>
+<li><a href="#_updating_demonstration_docker_compose_files_operatorfabric_core_repository">1.3. Updating demonstration docker-compose files (operatorfabric-core repository)</a></li>
+<li><a href="#_advertising_the_new_release_opfab_github_io">1.4. Advertising the new release (opfab.github.io)</a></li>
+<li><a href="#_preparing_next_version">1.5. Preparing next version</a>
+<ul class="sectlevel3">
+<li><a href="#_in_the_source_repository_operatorfabric_core_2">1.5.1. In the source repository (operatorfabric-core)</a></li>
+<li><a href="#_in_the_documentation_repository_opfab_github_io_2">1.5.2. In the documentation repository (opfab.github.io)</a></li>
+<li><a href="#_in_jira_2">1.5.3. In Jira</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -466,7 +474,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_version_numbers">1.1. Version numbers</h3>
 <div class="paragraph">
-<p>version numbers X.Y.Z.label should be understood like this:</p>
+<p>Version numbers X.Y.Z.label should be understood like this:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -481,7 +489,7 @@ the same major version.</p>
 <p>Z: Patch, a patch version only contains bug fixes of current minor version</p>
 </li>
 <li>
-<p>label: pre-release or build metadata:</p>
+<p>Label: pre-release or build metadata:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -506,13 +514,6 @@ the same major version.</p>
 </div>
 <div class="sect3">
 <h4 id="_in_the_source_repository_operatorfabric_core">1.2.1. In the source repository (operatorfabric-core)</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>replace X.X.X.SNAPSHOT with X.X.X.RELEASE</p>
-</li>
-</ul>
-</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -527,51 +528,29 @@ should be updated to X.X.X.RELEASE.
 </tr>
 </table>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Replace X.X.X.SNAPSHOT with X.X.X.RELEASE (see exception above)</p>
+</li>
 <li>
 <p>Update the revision date in *.adoc files:</p>
-</li>
-</ul>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>:revdate: September 30, 2019</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>commit with the model message:</p>
 </li>
-</ul>
-</div>
+<li>
+<p>Commit with the model message:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>[RELEASE] X.X.X.RELEASE (ci_docker,ci_latest,ci_documentation)</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>tag the commit with the version</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>git tag X.X.X.RELEASE</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>push both the commit and the tag</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
-<p>The commit comment leverages three keywords to trigger the delivery of documentation and docker images:</p>
+<p>The commit comment leverages these three keywords to trigger the delivery of documentation and docker images, so you should
+check that they are correctly spelt.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -586,19 +565,73 @@ should be updated to X.X.X.RELEASE.
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p>Tag the commit with the version</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>git tag X.X.X.RELEASE</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the commit</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>git push</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the tag</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>git push origin X.X.X.RELEASE</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Check that the build is correctly triggered</p>
+<div class="paragraph">
+<p>You can check the status of the build job triggered by the commit on <a href="https://travis-ci.org/opfab/operatorfabric-core/branches">Travis CI</a>.
+The build job should have the following three stages:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/running_build.png" alt="Running build status page screenshot">
+</div>
+</div>
+<div class="paragraph">
+<p>Wait for the build to complete (around 30 minutes).</p>
+</div>
+</li>
+<li>
+<p>Check that the X.X.X.RELEASE images have been generated and pushed to DockerHub.</p>
+</li>
+<li>
+<p>Delete the X.X.X.SNAPSHOT image for each service.</p>
+</li>
+<li>
+<p>Check that the documentation has been generated and pushed to the GitHub pages website (check version and revision
+date at the top of document)</p>
+</li>
+<li>
+<p>Check that the tag was correctly pushed to GitHub and is visible under the
+<a href="https://github.com/opfab/operatorfabric-core/releases">releases page</a> for the repository.</p>
+</li>
+</ol>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_in_the_documentation_repository_opfab_github_io">1.2.2. In the documentation repository (opfab.github.io)</h4>
-<div class="paragraph">
-<p><strong>In the _data/versions.yml file</strong>:</p>
-</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the _data/versions.yml file:</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Change:</p>
-</li>
-</ul>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>- name: X.X.X
@@ -622,113 +655,50 @@ should be updated to X.X.X.RELEASE.
     style: badge-current</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Remove the following lines from the previous release version:</p>
 </li>
-</ul>
-</div>
+<li>
+<p>Then remove the following lines from the previous release version:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>  - name: CURRENT
     style: badge-current</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Commit and push changes.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><strong>In Jira</strong></p>
+</li>
+<li>
+<p>Commit and push changes</p>
+</li>
+</ol>
 </div>
-<div class="ulist">
-<ul>
+</div>
+<div class="sect3">
+<h4 id="_in_jira">1.2.3. In Jira</h4>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Set all concerned tickets (US, BUG, FR) and set fix version to X.X.X.RELEASE</p>
 </li>
 <li>
-<p>In the "Releases" screen release X.X.X.RELEASE version;</p>
+<p>In the "Releases" screen release X.X.X.RELEASE version</p>
 </li>
-</ul>
+</ol>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_preparing_next_version">1.3. Preparing next version</h3>
-<div class="paragraph">
-<p>To prepare a next version you simply need to increment the version after a release (see <a href="#_version_numbers">Version numbers</a>).</p>
-</div>
-<div class="paragraph">
-<p><strong>In operatorfabric-core</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT</p>
-</li>
-<li>
-<p>In the dockerhub documentation (src/docs/dockerhub/service_template.md), replace the two occurrences of X.X.X.SNAPSHOT
-by Y.Y.Y.RELEASE.</p>
-</li>
-<li>
-<p>Commit changes for the following message:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>[PREPARE] next version: Y.Y.Y.SNAPSHOT</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>In operatorfabric documentation project _data/versions.yml file*:</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Add the Y.Y.Y.SNAPSHOT version</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>- name: Y.Y.Y
-  fullname: Y.Y.Y.SNAPSHOT
-  badges:
-  - name: SNAPSHOT
-    style: badge-snapshot</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Commit and push changes.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>In Jira</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>In the "Releases" screen create a  Y.Y.Y.RELEASE version.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_updating_demonstration_docker_compose_files_operatorfabric_core_repository">1.4. Updating demonstration docker-compose files (operatorfabric-core repository)</h3>
+<h3 id="_updating_demonstration_docker_compose_files_operatorfabric_core_repository">1.3. Updating demonstration docker-compose files (operatorfabric-core repository)</h3>
 <div class="paragraph">
 <p>The demo and deploy docker-compose files should always rely on the latest RELEASE version
 available on DockerHub. Once the CI pipeline triggered by the previous steps has completed successfully,
-and you can see X.X.X.RELEASE images for all services on DockerHub, you should update the following files
-by replacing all occurrences of W.W.W.RELEASE (the previous release version) by X.X.X.RELEASE:</p>
+and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update the following files by replacing all occurrences of W.W.W.RELEASE (the previous release version) by X.X.X.RELEASE:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -739,12 +709,104 @@ by replacing all occurrences of W.W.W.RELEASE (the previous release version) by 
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Remove your locally built X.X.X.RELEASE images if any, then run each of the two docker-compose files
-to make sure they pull the images from DockerHub and behave as intended.</p>
+</li>
+<li>
+<p>Remove your locally built X.X.X.RELEASE images if any</p>
+</li>
+<li>
+<p>Run each of the two docker-compose files to make sure they pull the images from DockerHub and behave as intended.</p>
+</li>
+<li>
+<p>Commit and push changes.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_advertising_the_new_release_opfab_github_io">1.4. Advertising the new release (opfab.github.io)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Take the "release notes" text generated by JIRA (accessible from the X.X.X.RELEASE page) and use it
+to create a short post on the opfab.github.io website announcing the release.
+This post should highlight new features and necessary upgrade actions if any.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_preparing_next_version">1.5. Preparing next version</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You should wait for all the tasks associated with creating the X.X.X.RELEASE
+version to finish and make sure that they&#8217;ve had the expected output before starting the
+preparation of the next version. This is because any commited/pushed changes preparing the
+new version will make rolling back or correcting any mistake on the release more complicated.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Then, commit and push changes.</p>
+<p>To prepare a next version you simply need to increment the version after a release (see <a href="#_version_numbers">Version numbers</a>).</p>
+</div>
+<div class="sect3">
+<h4 id="_in_the_source_repository_operatorfabric_core_2">1.5.1. In the source repository (operatorfabric-core)</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT</p>
+</li>
+<li>
+<p>In the DockerHub documentation (src/docs/dockerhub/service_template.md), replace the two occurrences of X.X.X.SNAPSHOT
+by Y.Y.Y.RELEASE.</p>
+</li>
+<li>
+<p>Commit changes with the following message:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>[PREPARE] next version: Y.Y.Y.SNAPSHOT</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_in_the_documentation_repository_opfab_github_io_2">1.5.2. In the documentation repository (opfab.github.io)</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the _data/versions.yml file, add the Y.Y.Y.SNAPSHOT version</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>- name: Y.Y.Y
+  fullname: Y.Y.Y.SNAPSHOT
+  badges:
+  - name: SNAPSHOT
+    style: badge-snapshot</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Commit and push changes.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_in_jira_2">1.5.3. In Jira</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the "Releases" screen create a  Y.Y.Y.RELEASE version.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
