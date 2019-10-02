@@ -386,10 +386,20 @@ for some reasons lodash equals take attribute order declaration in account to co
 needed by LightCardEffects updateAThirdAction Effect and by checkIfReceivedStatusIsDifferentFromCurrentOne method of ThirdActionService .
  */
 export function extractActionStatusFromPseudoActionStatus(tAction:object):ActionStatus{
-    const params &#x3D; tAction[&#x27;label&#x27;][&#x27;parameters&#x27;];
-    if(params) Object.setPrototypeOf(params,OfMap.prototype);
+    let label&#x3D;new I18n(&#x27;&#x27;);
+    const i18n &#x3D; tAction[&#x27;label&#x27;];
+    if(i18n){
+        const params &#x3D; i18n[&#x27;parameters&#x27;];
+        if(params) {
+            Object.setPrototypeOf(params,OfMap.prototype);
+            label &#x3D; new I18n(i18n[&#x27;key&#x27;],params);
+        }else{
+            label &#x3D; new I18n(i18n[&#x27;key&#x27;]);
+        }
+
+    }
     const result &#x3D; new ActionStatus(
-        new I18n(tAction[&#x27;label&#x27;][&#x27;key&#x27;],params)
+        label
         , tAction[&#x27;hidden&#x27;]
         ,tAction[&#x27;buttonStyle&#x27;]
         ,tAction[&#x27;contentStyle&#x27;]
