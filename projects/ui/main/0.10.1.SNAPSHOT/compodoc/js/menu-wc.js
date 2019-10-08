@@ -450,6 +450,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ActionStatus.html" data-type="entity-link">ActionStatus</a>
                             </li>
                             <li class="link">
+                                <a href="classes/AddActionsAppear.html" data-type="entity-link">AddActionsAppear</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/AddLightCardFailure.html" data-type="entity-link">AddLightCardFailure</a>
                             </li>
                             <li class="link">

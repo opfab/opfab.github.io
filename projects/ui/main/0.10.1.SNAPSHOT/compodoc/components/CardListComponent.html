@@ -72,6 +72,12 @@
                 <code><a href="../components/ResizableComponent.html" target="_self" >ResizableComponent</a></code>
     </p>
 
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
 
 
 <section>
@@ -145,6 +151,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
                                 <a href="#ngAfterViewInit">ngAfterViewInit</a>
                             </li>
                         </ul>
@@ -196,15 +205,45 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor()</code>
+<code>constructor(store: <a href="../interfaces/AppState.html">Store<AppState></a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:25</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>store</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/AppState.html" target="_self" >Store&lt;AppState&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -227,7 +266,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -248,7 +287,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -299,6 +338,45 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/modules/feed/components/card-list/card-list.component.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -390,25 +468,39 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnInit} from &#x27;@angular/core&#x27;;
 import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
 import { ResizableComponent } from &#x27;app/modules/utilities/components/resizable/resizable.component&#x27;;
+import { Store } from &#x27;@ngrx/store&#x27;;
+import { AppState } from &#x27;@ofStore/index&#x27;;
+import { selectCurrentUrl } from &#x27;@ofStore/selectors/router.selectors&#x27;;
+import { AddActionsAppear } from &#x27;@ofStore/actions/card.actions&#x27;;
 
 @Component({
   selector: &#x27;of-card-list&#x27;,
   templateUrl: &#x27;./card-list.component.html&#x27;,
   styleUrls: [&#x27;./card-list.component.scss&#x27;]
 })
-export class CardListComponent extends ResizableComponent {
+export class CardListComponent extends ResizableComponent implements OnInit {
 
   @Input() public lightCards: LightCard[];
   @Input() public selection: Observable&lt;string&gt;;
 
-  constructor() {
+  constructor(private store: Store&lt;AppState&gt;) {
     super();
   }
 
+  ngOnInit(): void {
+    this.store.select(selectCurrentUrl).subscribe(url &#x3D;&gt; {
+      if (url) {
+          const urlParts &#x3D; url.split(&#x27;/&#x27;);
+          if (urlParts[3]) {
+              this.store.dispatch(new AddActionsAppear(urlParts[3]));
+          }
+      }
+    });
+  }
 }
 </code></pre>
     </div>
