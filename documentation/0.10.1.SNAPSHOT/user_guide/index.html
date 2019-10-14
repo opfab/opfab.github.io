@@ -453,6 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_run_the_jars">1.2. Run the jars</a></li>
 <li><a href="#_kubernetes_deployment">1.3. Kubernetes deployment</a></li>
+<li><a href="#_administration">1.4. Administration</a></li>
 </ul>
 </li>
 <li><a href="#_configuration">2. Configuration</a>
@@ -564,6 +565,52 @@ deployment as a docker-compose file
 <h3 id="_kubernetes_deployment">1.3. Kubernetes deployment</h3>
 <div class="paragraph">
 <p>In Progress</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_administration">1.4. Administration</h3>
+<div class="paragraph">
+<p>Some operations are restricted to users with the <strong>ADMIN</strong> role, either because they are administration
+operations with the potential to impact the OperatorFabric instance as a whole, or because they
+give access to information that should be private to a user.</p>
+</div>
+<div class="paragraph">
+<p>Below is a quick recap of these restricted operations.</p>
+</div>
+<div class="paragraph">
+<div class="title">Users Service</div>
+<p>Any action (read, create/update or delete) regarding a single user&#8217;s data (their personal info such as their first and
+last name, as well as their settings) can be performed either by the user in question or by a user with the ADMIN role.</p>
+</div>
+<div class="paragraph">
+<p>Any action on a list of users or on the groups (if authorization is managed in OperatorFabric) can only be performed by
+a user with the ADMIN role.</p>
+</div>
+<div class="paragraph">
+<div class="title">Thirds Service</div>
+<p>Any write (create, update or delete) action on bundles can only be performed by a user with the ADMIN role. As such,
+administrators are responsible for the quality and security of the provided bundles.
+In particular, as it is possible to use scripts in templates, they should perform a security check to make sure that
+there is no XSS risk.</p>
+</div>
+<div class="paragraph">
+<div class="title">Time Service (for demonstration purposes only)</div>
+<p>Any user can get the current state of simulated time but acting on it (changing the speed of time flow, setting
+the reference for simulated time or resetting it entirely) requires the ADMIN role.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The ADMIN role doesn&#8217;t grant any special privileges when it comes to card consultation (be they current or
+archived), so an user with the ADMIN role will only see cards that have been addressed to them or to one of their
+groups), just like any other user.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
