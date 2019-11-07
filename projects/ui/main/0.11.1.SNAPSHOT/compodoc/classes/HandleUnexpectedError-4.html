@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/menu.actions.ts</code>
+            <code>src/app/store/actions/settings.actions.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/actions/menu.actions.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/store/actions/settings.actions.ts:64</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/actions/menu.actions.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/store/actions/settings.actions.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -203,12 +203,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>MenuActionTypes.HandleUnexpectedError</code>
+                            <i>Default value : </i><code>SettingsActionTypes.HandleUnexpectedError</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/actions/menu.actions.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/store/actions/settings.actions.ts:64</a></div>
                             </td>
                         </tr>
 
@@ -228,93 +228,76 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &#x27;@ngrx/store&#x27;;
-import {ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
 
-export enum MenuActionTypes {
-    LoadMenu &#x3D; &#x27;[Menu] Load Menu&#x27;,
-    LoadMenuSuccess &#x3D; &#x27;[Menu] Load Menu Success&#x27;,
-    LoadMenuFailure &#x3D; &#x27;[Menu] Load Menu Fail&#x27;,
-    HandleUnexpectedError &#x3D; &#x27;[Menu] Handle unexpected error&#x27;,
-    SelectMenuLink &#x3D; &#x27;[Menu] Select Menu Link&#x27;,
-    SelectMenuLinkSuccess &#x3D; &#x27;[Menu] Select Menu Link Success&#x27;,
-    SelectMenuLinkFailure &#x3D; &#x27;[Menu] Select Menu Link Failure&#x27;,
+export enum SettingsActionTypes {
+    LoadSettings &#x3D; &#x27;[Settings] Load Settings&#x27;,
+    LoadSettingsSuccess &#x3D; &#x27;[Settings] Load Settings Success&#x27;,
+    LoadSettingsFailure &#x3D; &#x27;[Settings] Load Settings Fail&#x27;,
+
+    PatchSettings &#x3D; &#x27;[Settings] Patch Settings&#x27;,
+    PatchSettingsSuccess &#x3D; &#x27;[Settings] Patch Settings Success&#x27;,
+    PatchSettingsFailure &#x3D; &#x27;[Settings] Patch Settings Fail&#x27;,
+
+    HandleUnexpectedError &#x3D; &#x27;[Settings] Handle unexpected error related to user settings issue&#x27;
 }
 // needed by NGRX entities
-export class LoadMenu implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenu;
 
-    /* istanbul ignore next */
-    constructor() {
-    }
+export class LoadSettings implements Action {
+    readonly type &#x3D; SettingsActionTypes.LoadSettings;
 }
-export class LoadMenuFailure implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenuFailure;
+export class LoadSettingsFailure implements Action {
+    readonly type &#x3D; SettingsActionTypes.LoadSettingsFailure;
 
     /* istanbul ignore next */
     constructor(public payload: { error: Error }) {
     }
 }
 
-export class LoadMenuSuccess implements Action {
-    readonly type &#x3D; MenuActionTypes.LoadMenuSuccess;
+export class LoadSettingsSuccess implements Action {
+    readonly type &#x3D; SettingsActionTypes.LoadSettingsSuccess;
 
     /* istanbul ignore next */
-    constructor(public payload: { menu: ThirdMenu[] }) {
+    constructor(public payload: { settings: any }) {
+    }
+}
+
+export class PatchSettings implements Action {
+    readonly type &#x3D; SettingsActionTypes.PatchSettings;
+    constructor(public payload: {settings:any}){}
+}
+export class PatchSettingsFailure implements Action {
+    readonly type &#x3D; SettingsActionTypes.PatchSettingsFailure;
+
+    /* istanbul ignore next */
+    constructor(public payload: { error: Error }) {
+    }
+}
+
+export class PatchSettingsSuccess implements Action {
+    readonly type &#x3D; SettingsActionTypes.PatchSettingsSuccess;
+
+    /* istanbul ignore next */
+    constructor(public payload: { settings: any }) {
     }
 }
 
 export class HandleUnexpectedError implements Action {
-    readonly type &#x3D; MenuActionTypes.HandleUnexpectedError;
-
+    /* istanbul ignore next */
+    readonly type &#x3D; SettingsActionTypes.HandleUnexpectedError;
     /* istanbul ignore next */
     constructor(public payload: {error: Error}) {
 
     }
 }
 
-/**
- * Action triggered by navigation to /thirparty/*** (for example by clicking on a third-party menu link)
- * Payload contains route parameters identifying the clicked menu entry (menu id, menu version and menu entry id)
- * Emitted by {CustomRouterEffects} in the following {Observable} @member: navigateToMenuURL
- */
-export class SelectMenuLink implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLink;
-
-    /* istanbul ignore next */
-    constructor(public payload: {menu_id: string, menu_version: string, menu_entry_id: string}) {}
-}
-
-/**
- * Action triggered if menu link url was correctly computed from the given parameters (menu_id, menu_version and menu_entry_id)
- * Payload contains the computed url
- */
-export class SelectMenuLinkSuccess implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLinkSuccess;
-
-    /* istanbul ignore next */
-    constructor(public payload: {iframe_url: string}) {}
-}
-
-/**
- * Action triggered if no menu entry was found for the given parameters (menu_id, menu_version and menu_entry_id)
- * Payload contains the error
- */
-export class SelectMenuLinkFailure implements Action {
-    readonly type &#x3D; MenuActionTypes.SelectMenuLinkFailure;
-
-    /* istanbul ignore next */
-    constructor(public payload: { error: Error }) {
-    }
-}
-
-export type MenuActions &#x3D;
-    LoadMenu
-    | LoadMenuSuccess
-    | LoadMenuFailure
-    | HandleUnexpectedError
-    | SelectMenuLink
-    | SelectMenuLinkSuccess
-    | SelectMenuLinkFailure;
+export type SettingsActions &#x3D;
+    LoadSettings
+    | LoadSettingsSuccess
+    | LoadSettingsFailure
+    | PatchSettings
+    | PatchSettingsSuccess
+    | PatchSettingsFailure
+    | HandleUnexpectedError;
 </code></pre>
     </div>
 </div>
