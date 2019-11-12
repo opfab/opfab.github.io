@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/store/actions/user.actions.ts</code>
+            <code>src/app/store/actions/settings.actions.ts</code>
         </p>
 
 
@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/actions/user.actions.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/store/actions/settings.actions.ts:64</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/store/actions/user.actions.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/store/actions/settings.actions.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -203,12 +203,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>UserActionsTypes.HandleUnexpectedError</code>
+                            <i>Default value : </i><code>SettingsActionTypes.HandleUnexpectedError</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/store/actions/user.actions.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/store/actions/settings.actions.ts:64</a></div>
                             </td>
                         </tr>
 
@@ -227,64 +227,77 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {User} from &#x27;@ofModel/user.model&#x27;;
-import {Action} from &#x27;@ngrx/store&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action} from &#x27;@ngrx/store&#x27;;
 
-export enum UserActionsTypes {
+export enum SettingsActionTypes {
+    LoadSettings &#x3D; &#x27;[Settings] Load Settings&#x27;,
+    LoadSettingsSuccess &#x3D; &#x27;[Settings] Load Settings Success&#x27;,
+    LoadSettingsFailure &#x3D; &#x27;[Settings] Load Settings Fail&#x27;,
 
-    UserApplicationRegistered &#x3D;         &#x27;[User] User application registered&#x27;,
-    UserApplicationNotRegistered &#x3D;      &#x27;[User] User application not registered&#x27;,
-    CreateUserApplication &#x3D;             &#x27;[User] Create the User in the application&#x27;,
-    CreateUserApplicationOnSuccess &#x3D;    &#x27;[User] Create the User in the application on success&#x27;,
-    CreateUserApplicationOnFailure &#x3D;    &#x27;[User] Create the User in the application on failure&#x27;,
-    HandleUnexpectedError &#x3D;             &#x27;[User] Handle unexpected error related to user creation issue&#x27;
+    PatchSettings &#x3D; &#x27;[Settings] Patch Settings&#x27;,
+    PatchSettingsSuccess &#x3D; &#x27;[Settings] Patch Settings Success&#x27;,
+    PatchSettingsFailure &#x3D; &#x27;[Settings] Patch Settings Fail&#x27;,
+
+    HandleUnexpectedError &#x3D; &#x27;[Settings] Handle unexpected error related to user settings issue&#x27;
+}
+// needed by NGRX entities
+
+export class LoadSettings implements Action {
+    readonly type &#x3D; SettingsActionTypes.LoadSettings;
+}
+export class LoadSettingsFailure implements Action {
+    readonly type &#x3D; SettingsActionTypes.LoadSettingsFailure;
+
+    /* istanbul ignore next */
+    constructor(public payload: { error: Error }) {
+    }
 }
 
-export class UserApplicationRegistered implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.UserApplicationRegistered;
-    constructor(public payload : {user : User}) {}
+export class LoadSettingsSuccess implements Action {
+    readonly type &#x3D; SettingsActionTypes.LoadSettingsSuccess;
+
+    /* istanbul ignore next */
+    constructor(public payload: { settings: any }) {
+    }
 }
 
-export class UserApplicationNotRegistered implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.UserApplicationNotRegistered;
-    constructor(public payload : {error : Error, user : User}) {}
+export class PatchSettings implements Action {
+    readonly type &#x3D; SettingsActionTypes.PatchSettings;
+    constructor(public payload: {settings:any}){}
+}
+export class PatchSettingsFailure implements Action {
+    readonly type &#x3D; SettingsActionTypes.PatchSettingsFailure;
+
+    /* istanbul ignore next */
+    constructor(public payload: { error: Error }) {
+    }
 }
 
-export class CreateUserApplication implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.CreateUserApplication;
-    constructor(public payload : {user : User}) {}
+export class PatchSettingsSuccess implements Action {
+    readonly type &#x3D; SettingsActionTypes.PatchSettingsSuccess;
+
+    /* istanbul ignore next */
+    constructor(public payload: { settings: any }) {
+    }
 }
-
-
-export class CreateUserApplicationOnSuccess implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.CreateUserApplicationOnSuccess;
-    constructor(public payload : {user : User}) {}
-}
-
-export class CreateUserApplicationOnFailure implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.CreateUserApplicationOnFailure;
-    constructor(public payload : {error : Error}) {}
-}
-
 
 export class HandleUnexpectedError implements Action {
-    /* istanbul ignore next */ 
-    readonly type &#x3D; UserActionsTypes.HandleUnexpectedError;
-    constructor(public payload : {error : Error}) {}
+    /* istanbul ignore next */
+    readonly type &#x3D; SettingsActionTypes.HandleUnexpectedError;
+    /* istanbul ignore next */
+    constructor(public payload: {error: Error}) {
+
+    }
 }
 
-export type UserActions &#x3D; UserApplicationRegistered
-    | UserApplicationNotRegistered
-    | CreateUserApplication
-    | CreateUserApplicationOnSuccess
-    | CreateUserApplicationOnFailure
+export type SettingsActions &#x3D;
+    LoadSettings
+    | LoadSettingsSuccess
+    | LoadSettingsFailure
+    | PatchSettings
+    | PatchSettingsSuccess
+    | PatchSettingsFailure
     | HandleUnexpectedError;
-
 </code></pre>
     </div>
 </div>
