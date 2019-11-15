@@ -11,7 +11,7 @@
         crossorigin="anonymous">
 
     <title>NPM Audit Report</title>
-    <meta name="description" content="14 known vulnerabilities found.">
+    <meta name="description" content="19 known vulnerabilities found.">
 
     <style>
         .card {
@@ -26,8 +26,8 @@
             <div class="col-md text-center">
                 <h1>NPM Audit Report</h1>
 
-                <h2>14 known vulnerabilities | 30890 dependencies |
-                    November 14th 2019, 9:43:53 am</h2>
+                <h2>19 known vulnerabilities | 30890 dependencies |
+                    November 15th 2019, 9:46:41 am</h2>
                 </p>
             </div>
         </div>
@@ -267,6 +267,65 @@
 </p>
                           
                         <a href="https://npmjs.com/advisories/1300" class="btn btn-primary">More about this vulnerability</a>
+                    </div>
+                </div>
+            </div>            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">
+                            <span class="badge badge-warning">high</span>
+                            Arbitrary Code Execution
+                        </h1>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>Module:
+                                        <a href="https://npmjs.com/package/handlebars">handlebars</a>
+                                    </li>
+                                    <li>Published: November 14th 2019 </li>
+                                    <li>Reported by: François Lajeunesse-Robert</li>
+                                    <li>CWE-79</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>Vulnerable: &lt;4.5.2</li>
+                                    <li>Patched: &gt;&#x3D;4.5.2</li>
+                                    <li>CVSS: 6</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h3>Overview</h3>
+                        <p class="card-text"><p>Versions of <code>handlebars</code> prior to 4.5.2 are vulnerable to Arbitrary Code Execution The package&#39;s lookup helper fails to properly validate templates, allowing attackers to submit templates that execute arbitrary JavaScript in the system. It can be used to run arbitrary code in a server processing Handlebars templates or on a victim&#39;s browser (effectively serving as Cross-Site Scripting).</p>
+<p>The following template can be used to demonstrate the vulnerability:  </p>
+<p><code>{{#with &quot;constructor&quot;}}
+    {{#with split as |a|}}
+        {{pop (push &quot;alert(&#39;Vulnerable Handlebars JS&#39;);&quot;)}}
+        {{#with (concat (lookup join (slice 0 1)))}}
+            {{#each (slice 2 3)}}
+                {{#with (apply 0 a)}}
+                    {{.}}
+                {{/with}}
+            {{/each}}
+        {{/with}}
+    {{/with}}
+{{/with}}</code></p>
+</p>
+
+                        <h3>Findings</h3>
+							<ul>
+								<li>handlebars </li>
+								<li>@angular-devkit/build-angular&gt;istanbul&gt;handlebars </li>
+								<li>@compodoc/compodoc&gt;handlebars </li>
+								<li>karma-coverage-istanbul-reporter&gt;istanbul-api&gt;istanbul-reports&gt;handlebars </li>
+								<li>npm-audit-html&gt;handlebars </li>
+							</ul>
+
+                        <h3>Remediation</h3>
+                        <p class="card-text"><p>Upgrade to version 4.5.2 or later.</p>
+</p>
+                          
+                        <a href="https://npmjs.com/advisories/1316" class="btn btn-primary">More about this vulnerability</a>
                     </div>
                 </div>
             </div>
