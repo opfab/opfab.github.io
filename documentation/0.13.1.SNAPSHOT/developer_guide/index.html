@@ -460,6 +460,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_in_the_source_repository_operatorfabric_core_2">1.5.1. In the source repository (operatorfabric-core)</a></li>
 <li><a href="#_in_the_documentation_repository_opfab_github_io_2">1.5.2. In the documentation repository (opfab.github.io)</a></li>
 <li><a href="#_in_jira_2">1.5.3. In Jira</a></li>
+<li><a href="#_checking_dockerhub_the_following_day">1.5.4. Checking DockerHub the following day</a></li>
 </ul>
 </li>
 </ul>
@@ -506,14 +507,6 @@ the same major version.</p>
 </div>
 <div class="sect2">
 <h3 id="_releasing_version">1.2. Releasing Version</h3>
-<div class="paragraph">
-<p>To release a version we use some Travis dedicated jobs. Before releasing a version, you need to prepare the release.</p>
-</div>
-<div class="paragraph">
-<p>Considering a version X.X.X.SNAPSHOT.</p>
-</div>
-<div class="sect3">
-<h4 id="_in_the_source_repository_operatorfabric_core">1.2.1. In the source repository (operatorfabric-core)</h4>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -521,17 +514,38 @@ the same major version.</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-In the dockerhub documentation (src/docs/dockerhub/service_template.md), no replacement should be made.
-Instead, the X.X.X.RELEASE version should be added to the "RELEASES" list, and under "shortcuts" the "latest" tag
-should be updated to X.X.X.RELEASE.
+To release a version we use some Travis dedicated jobs. These jobs are triggered by specific commit keywords and rely
+on the VERSION file at the root of this repository to know which version is being produced.
+It is thus crucial to double-check the content of this file before any push (triggering the Travis jobs) is made.
 </td>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Before releasing a version, you need to prepare the release.</p>
+</div>
+<div class="paragraph">
+<p>Considering a version X.X.X.SNAPSHOT.</p>
+</div>
+<div class="sect3">
+<h4 id="_in_the_source_repository_operatorfabric_core">1.2.1. In the source repository (operatorfabric-core)</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Replace X.X.X.SNAPSHOT with X.X.X.RELEASE, files concerned are *.adoc, swagger.yaml, docker-compose.yml (the one for demo and deploy) and VERSION file at the root operator-fabric folder (see exception above)</p>
+<p>Replace X.X.X.SNAPSHOT with X.X.X.RELEASE, files concerned are *.adoc, swagger.yaml files and the VERSION file at the root operator-fabric folder.</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The VERSION file is particularly important as the CI/CD pipeline tasks
+(building the documentation and the docker images for example) are based on it.
+</td>
+</tr>
+</table>
+</div>
 </li>
 <li>
 <p>Update the revision date in *.adoc files:</p>
@@ -542,7 +556,7 @@ should be updated to X.X.X.RELEASE.
 </div>
 </li>
 <li>
-<p>Commit with the model message:</p>
+<p>Commit with the template message:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>[RELEASE] X.X.X.RELEASE (ci_docker,ci_latest,ci_documentation)</code></pre>
@@ -733,17 +747,15 @@ This post should highlight new features and necessary upgrade actions if any.</p
 </li>
 </ol>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-To find the new features in the Release note, from jira, go version, find the current version and click on "note de publication" to retrieve all the developped features, fixed bugs etc&#8230;&#8203; include::./images/note_publication.png
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Click the appropriate version from
+<a href="https://opfab.atlassian.net/projects/OC?orderField=RANK&amp;selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&amp;status=all">JIRA the release list</a>
+to get the release notes (click "Release notes" under the version name at the top) listing new features, fixed bugs etc&#8230;&#8203;</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/release_notes.png" alt="Release notes link">
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -757,7 +769,7 @@ To find the new features in the Release note, from jira, go version, find the cu
 <td class="content">
 You should wait for all the tasks associated with creating the X.X.X.RELEASE
 version to finish and make sure that they&#8217;ve had the expected output before starting the
-preparation of the next version. This is because any commited/pushed changes preparing the
+preparation of the next version. This is because any committed/pushed changes preparing the
 new version will make rolling back or correcting any mistake on the release more complicated.
 </td>
 </tr>
@@ -771,21 +783,22 @@ new version will make rolling back or correcting any mistake on the release more
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT <strong>EXCEPT</strong></p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>In the DockerHub documentation (src/docs/dockerhub/service_template.md)</p>
-</li>
-<li>
-<p>In the demonstration docker-compose files (src/main/docker/demo/docker-compose.yml and src/main/docker/deploy/docker-compose.yml)</p>
-</li>
-</ol>
+<p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT <strong>EXCEPT</strong> in the demonstration docker-compose files
+(src/main/docker/demo/docker-compose.yml and src/main/docker/deploy/docker-compose.yml). The files concerned are *.adoc,
+swagger.yaml files and the VERSION file at the root operator-fabric folder.</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The VERSION file is particularly important as the CI/CD pipeline tasks
+(building the documentation and the docker images for example) are based on it.
+</td>
+</tr>
+</table>
 </div>
-</li>
-<li>
-<p>In the DockerHub documentation (src/docs/dockerhub/service_template.md), replace the two occurrences of X.X.X.SNAPSHOT
-by Y.Y.Y.RELEASE.</p>
 </li>
 <li>
 <p>Commit and push changes with the following message:</p>
@@ -828,6 +841,14 @@ by Y.Y.Y.RELEASE.</p>
 <p>In the "Releases" screen create a  Y.Y.Y.RELEASE version.</p>
 </li>
 </ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_checking_dockerhub_the_following_day">1.5.4. Checking DockerHub the following day</h4>
+<div class="paragraph">
+<p>A CRON Travis job runs daily (the time of the day may vary) and generates the documentation and docker images.
+After you have finished switching to the Y.Y.Y.SNAPSHOT version, you should wait for such a job to run and check that
+the Y.Y.Y.SNAPSHOT images are correctly generated and pushed on DockerHub.</p>
 </div>
 </div>
 </div>
