@@ -460,8 +460,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_chart_configuration">11. Chart Configuration</a></li>
 <li><a href="#_zoom_configuration">12. Zoom Configuration</a></li>
 <li><a href="#_format_ticks">13. Format Ticks</a></li>
-<li><a href="#_lets_co_example">14. Let&#8217;s Co example</a></li>
-<li><a href="#_sea_domain_tr_and_j">15. SEA Domain (TR and J)</a></li>
+<li><a href="#_lets_co_and_sea_examples">14. Let&#8217;s Co and SEA examples</a></li>
 </ul>
 </div>
 </div>
@@ -1240,10 +1239,10 @@ With this special display it easier to locate a bubble time position.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_lets_co_example">14. Let&#8217;s Co example</h2>
+<h2 id="_lets_co_and_sea_examples">14. Let&#8217;s Co and SEA examples</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Let&#8217;s Co project is the first application to use a specific timeline configuration. It&#8217;s using the realtime bar display and active zoom only on the buttons.</p>
+<p>Let&#8217;s Co and SEA projects are the first applications to use a specific timeline configuration. It&#8217;s using the realtime bar display and active zoom only on the buttons.</p>
 </div>
 <div class="paragraph">
 <p>On all their zooms level: followClockTicks, clusterTicksToTicks, centeredOnTicks and startDomainWith3Ticks are true.
@@ -1252,6 +1251,26 @@ As well as property firstMoveStartOfUnit, allowing to pass the visualization fro
 <div class="paragraph">
 <p>They made 4 zooms level:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>J and TR zooms: to illustrate these two domains, see the example below:
+For instance, today is 9th Dec, 10:44 (H:10 and J: 9th Dec)</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Name,Start Domain,End Domain,Graduation,Forward,Backward
+TR,9 Dec 8:00,10 Dec 00:00,30min,+2h(9 Dec 10:00 to 10 Dec 2:00),-2h(9 Dec 6:00 to 9 Dec 10:00)
+J,9 Dec 00:00,11 Dec 00:00,1h,+1J(10 Dec 00:00 to 12 Dec 00:00),-1J(8 Dec 00:00 to 10 Dec 00:00)</p></td>
+</tr>
+</tbody>
+</table>
 <div class="ulist">
 <ul>
 <li>
@@ -1340,7 +1359,7 @@ Its yearly visualization when you move domain, and you move by one year.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Finally set the two objects with the data prepared and their booleans to configures timeline.</p>
+<p>Set the two objects with the data prepared and their booleans to configure timeline.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1352,67 +1371,47 @@ Its yearly visualization when you move domain, and you move by one year.</p>
             showGridLines: true,
             realTimeBar: true,
         };
-        this.confZoom = [{
-            startDomain: startDomain.valueOf(),
-            endDomain: endDomain.valueOf(),
-            centeredOnTicks: true,
-            clusterTicksToTicks: true,
-            buttonTitle: 'W',
-            forwardConf: forwardWeekConf,
-            backwardConf: forwardWeekConf,
-            ticksConf: ticks4HoursConf,
-            followClockTick: true,
-            firstMoveStartOfUnit: true,
-        }]</code></pre>
+        this.domains = {
+            'W': {
+                startDomain: startDomainWeek.valueOf(),
+                endDomain: endDomainWeek.valueOf(),
+                centeredOnTicks: true,
+                clusterTicksToTicks: true,
+                buttonTitle: 'W',
+                forwardConf: forwardWeekConf,
+                backwardConf: forwardWeekConf,
+                ticksConf: ticks4HoursConf,
+                followClockTick: false,
+                firstMoveStartOfUnit: false,
+                homeDomainExtraTicks: false
+            }
+        }</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sea_domain_tr_and_j">15. SEA Domain (TR and J)</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>In the case of SEA Team, we need to create two new domains TR and J.
-For instance, today is 9th Dec, 10:44 (H:10 and J: 9th Dec)</p>
+<p>Finally, to add or remove a domain, change the corresponding letter for domain name in <em>web-ui.json</em> file:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Domain Name</th>
-<th class="tableblock halign-left valign-top">Start Domain</th>
-<th class="tableblock halign-left valign-top">End Domain</th>
-<th class="tableblock halign-left valign-top">Graduation</th>
-<th class="tableblock halign-left valign-top">Forward</th>
-<th class="tableblock halign-left valign-top">Backward</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TR</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9 Dec 8:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10 Dec 00:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30min</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">+2h(9 Dec 10:00 to 10 Dec 2:00)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-2h(9 Dec 6:00 to 9 Dec 10:00)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">J</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9 Dec 00:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11 Dec 00:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1h</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">+1J(10 Dec 00:00 to 12 Dec 00:00)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1J(8 Dec 00:00 to 10 Dec 00:00)</p></td>
-</tr>
-</tbody>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>	feed:
+    subscription:
+      timeout: 600000
+    card:
+      time:
+        display: BUSINESS
+    timeline:
+      domains:
+        - "J"
+        - "TR"
+        - "7D"
+        - "W"
+        - "M"
+        - "Y"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Defined domains are: J, TR, 7D, W, M and Y.</p>
+</div>
 </div>
 </div>
 </div>
