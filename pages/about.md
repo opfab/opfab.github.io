@@ -32,7 +32,7 @@ When a card is selected in the feed, the right-hand pane displays the **details*
 In addition, the cards will also translate as events displayed on a **timeline** (its design is still under discussion) at the top of the screen. 
 This view will be complimentary to the card feed in that it will allow the operator to see at a glance the status of processes for a given period, when the feed is more like a "To Do" list.
 
-![Feed screen layout](../assets/img/ui_schema/feed_details_1.png)
+![Feed screen layout](../assets/img/of_screenshots/feed_screenshot.png)
 
 Part of the value of OperatorFabric is that it makes the integration very simple on the part of the third-party applications. 
 To start publishing cards to users in an OperatorFabric instance, all they have to do is:
