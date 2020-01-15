@@ -175,12 +175,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: <a href="../interfaces/AppState.html">Store<AppState></a>)</code>
+<code>constructor(store: <a href="../interfaces/AppState.html">Store<AppState></a>, notifyService: <a href="../injectables/NotifyService.html">NotifyService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/feed.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/feed/feed.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -202,6 +202,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../interfaces/AppState.html" target="_self" >Store&lt;AppState&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notifyService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/NotifyService.html" target="_self" >NotifyService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -249,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/app/modules/feed/feed.component.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/modules/feed/feed.component.ts:54</a></div>
                 </td>
             </tr>
 
@@ -288,8 +300,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/app/modules/feed/feed.component.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/app/modules/feed/feed.component.ts:33</a></div>
                 </td>
             </tr>
 
@@ -331,7 +343,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/feed.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/modules/feed/feed.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -358,7 +370,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/modules/feed/feed.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/feed.component.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -385,7 +397,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/modules/feed/feed.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/modules/feed/feed.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -404,9 +416,10 @@ import {AppState} from &#x27;@ofStore/index&#x27;;
 import {Observable, of} from &#x27;rxjs&#x27;;
 import {LightCard} from &#x27;@ofModel/light-card.model&#x27;;
 import * as feedSelectors from &#x27;@ofSelectors/feed.selectors&#x27;;
-import {catchError} from &quot;rxjs/operators&quot;;
-import {buildConfigSelector} from &quot;@ofSelectors/config.selectors&quot;;
+import {catchError} from &#x27;rxjs/operators&#x27;;
+import {buildConfigSelector} from &#x27;@ofSelectors/config.selectors&#x27;;
 import * as moment from &#x27;moment&#x27;;
+import { NotifyService } from &#x27;@ofServices/notify.service&#x27;;
 
 @Component({
     selector: &#x27;of-cards&#x27;,
@@ -419,7 +432,7 @@ export class FeedComponent implements OnInit, AfterViewInit {
     selection$: Observable&lt;string&gt;;
     hideTimeLine: boolean;
 
-    constructor(private store: Store&lt;AppState&gt;) {
+    constructor(private store: Store&lt;AppState&gt;, private notifyService: NotifyService) {
     }
 
     ngOnInit() {
@@ -428,17 +441,21 @@ export class FeedComponent implements OnInit, AfterViewInit {
             catchError(err &#x3D;&gt; of([]))
         );
         this.selection$ &#x3D; this.store.select(feedSelectors.selectLightCardSelection);
-        this.store.select(buildConfigSelector(&#x27;feed.timeline.hide&#x27;))
-            .subscribe(v&#x3D;&gt;this.hideTimeLine &#x3D; v);
-    
-            moment.updateLocale(&#x27;en&#x27;, { week: {
-                dow: 6, // First day of week is Saturday
-                doy: 12 // First week of year must contain 1 January (7 + 6 - 1)
-            }});
-    
+        this.store.select(buildConfigSelector(&#x27;feed.timeline.hide&#x27;)).subscribe(
+            v &#x3D;&gt; this.hideTimeLine &#x3D; v
+        );
+        moment.updateLocale(&#x27;en&#x27;, { week: {
+            dow: 6, // First day of week is Saturday
+            doy: 12 // First week of year must contain 1 January (7 + 6 - 1)
+        }});
+        this.store.select(buildConfigSelector(&#x27;feed.notify&#x27;)).subscribe(
+            (notif) &#x3D;&gt; {
+                if (notif) {
+                    this.notifyService.requestPermission();
+                }
+            }
+        );
     }
-
-
     ngAfterViewInit() {
     }
 }
