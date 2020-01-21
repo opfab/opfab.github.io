@@ -4,7 +4,7 @@ title: 3 Days of Open Source Development for Asset Monitoring
 tags: [Event, LF Energy, TenneT, Alliander, RTE, Asset Monitoring]
 excerpt_separator: <!--more-->
 ---
-OperatorFabric was participated in 3 Days of Open Source Development for Asset Monitoring use cases.
+OperatorFabric participated in 3 Days of Open Source Development for Asset Monitoring use cases.
 <!--more-->
 
 On January 13-15, 2020 in Paris, France, a team of IT specialists from Alliander, TenneT and RTE took part in a 
