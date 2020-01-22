@@ -78,8 +78,11 @@
  */
 
 import {NgModule} from &#x27;@angular/core&#x27;;
-import {PreloadAllModules, RouterModule, Routes} from &#x27;@angular/router&#x27;;
+import {PreloadAllModules, Router, RouterModule, Routes} from &#x27;@angular/router&#x27;;
 import {LoginComponent} from &#x27;./components/login/login.component&#x27;;
+
+const defaultPath &#x3D; &#x27;/feed&#x27;;
+const archivePath &#x3D; &#x27;archives&#x27;;
 
 const routes: Routes &#x3D; [
     {
@@ -88,7 +91,7 @@ const routes: Routes &#x3D; [
         // canActivate: [AuthenticationGuard]
     },
     {
-        path: &#x27;archives&#x27;,
+        path: archivePath,
         loadChildren: &#x27;./modules/archives/archives.module#ArchivesModule&#x27;,
         // canActivate: [AuthenticationGuard]
     },
@@ -106,10 +109,24 @@ const routes: Routes &#x3D; [
         path: &#x27;navbar&#x27;,
         component: LoginComponent
     },
-    {path: &#x27;**&#x27;, redirectTo: &#x27;/feed&#x27;}
+    {path: &#x27;**&#x27;, redirectTo: defaultPath}
 ];
 // TODO manage visible path more gently
 export const navigationRoutes: Routes &#x3D; routes.slice(0, 2);
+
+/**
+ * Redirect the page to the same place.
+ * Useful for page refresh action
+ * @param currentRouter - the router configured in the object calling this function
+ */
+export function redirectToCurrentLocation(currentRouter: Router): void {
+    const pathname &#x3D; window.location.hash;
+    const hashLength &#x3D; pathname.length;
+    const destination &#x3D; (hashLength &gt; 2) ? pathname.substr(1, hashLength - 1) : defaultPath;
+    // as archive searches are not stored need to got back to archives root path
+    const lastDestination &#x3D; (destination.includes(archivePath)) ? archivePath : destination;
+    currentRouter.navigate([lastDestination]);
+}
 
 @NgModule({
     imports: [

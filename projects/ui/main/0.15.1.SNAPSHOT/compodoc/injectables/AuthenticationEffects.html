@@ -147,7 +147,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/store/effects/authentication.effects.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/store/effects/authentication.effects.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -292,8 +292,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="255"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:255</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="259"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:259</a></div>
                 </td>
             </tr>
 
@@ -373,8 +373,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="277"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:277</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="281"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:281</a></div>
                 </td>
             </tr>
 
@@ -445,8 +445,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="283"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:283</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="287"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:287</a></div>
                 </td>
             </tr>
 
@@ -508,7 +508,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/store/effects/authentication.effects.ts:140</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">src/app/store/effects/authentication.effects.ts:141</a></div>
                             </td>
                         </tr>
 
@@ -558,7 +558,7 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                             if (!!code) {
                                 return this.authService.askTokenFromCode(code).pipe(
                                     tap(() &#x3D;&gt; {
-                                        this.router.navigate([&#x27;/feed&#x27;]);
+                                        redirectToCurrentLocation(this.router);
                                     }),
                                     map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
                                     catchError(errorResponse &#x3D;&gt; {
@@ -574,7 +574,10 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                                 const authInfo &#x3D; this.authService.extractIdentificationInformation();
                                 return this.authService.loadUserData(authInfo)
                                     .pipe(
-                                        map(auth &#x3D;&gt; new AcceptLogIn(auth))
+                                        map(auth &#x3D;&gt; {
+                                            redirectToCurrentLocation(this.router);
+                                            return new AcceptLogIn(auth);
+                                        })
                                     );
                                 // return of(new AcceptLogIn(authInfo));
                             }
@@ -607,7 +610,7 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">src/app/store/effects/authentication.effects.ts:183</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="184" class="link-to-prism">src/app/store/effects/authentication.effects.ts:184</a></div>
                             </td>
                         </tr>
 
@@ -670,7 +673,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/store/effects/authentication.effects.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/store/effects/authentication.effects.ts:65</a></div>
                             </td>
                         </tr>
 
@@ -714,7 +717,7 @@ current authentication state.</p>
                     })
                 )),
                 // due to implicit flow mode an explicit rerouting to &#x60;/feed&#x60; is needed once authenticated
-                tap ( () &#x3D;&gt; this.router.navigate([&#x27;/feed&#x27;])),
+                tap ( () &#x3D;&gt; redirectToCurrentLocation(this.router)),
                 map(() &#x3D;&gt; {
                     return new  AcceptLogIn(this.authService.providePayloadForSuccessfulAuthenticationFromImplicitFlow());
                 }))</code>
@@ -731,7 +734,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="238" class="link-to-prism">src/app/store/effects/authentication.effects.ts:238</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="242" class="link-to-prism">src/app/store/effects/authentication.effects.ts:242</a></div>
                             </td>
                         </tr>
 
@@ -776,7 +779,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">src/app/store/effects/authentication.effects.ts:159</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">src/app/store/effects/authentication.effects.ts:160</a></div>
                             </td>
                         </tr>
 
@@ -837,7 +840,7 @@ It tells the {AuthenticationService} to clear authentication information from th
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/store/effects/authentication.effects.ts:92</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/store/effects/authentication.effects.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -896,7 +899,7 @@ on the login button.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/store/effects/authentication.effects.ts:119</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/store/effects/authentication.effects.ts:120</a></div>
                             </td>
                         </tr>
 
@@ -947,6 +950,7 @@ import {EmptyLightCards} from &#x27;@ofActions/light-card.actions&#x27;;
 import {ClearCard} from &#x27;@ofActions/card.actions&#x27;;
 import {environment} from &#x27;@env/environment&#x27;;
 import { buildConfigSelector } from &#x27;@ofStore/selectors/config.selectors&#x27;;
+import {redirectToCurrentLocation} from &quot;../../app-routing.module&quot;;
 
 /**
  * Management of the authentication of the current user
@@ -1109,7 +1113,7 @@ export class AuthenticationEffects {
                             if (!!code) {
                                 return this.authService.askTokenFromCode(code).pipe(
                                     tap(() &#x3D;&gt; {
-                                        this.router.navigate([&#x27;/feed&#x27;]);
+                                        redirectToCurrentLocation(this.router);
                                     }),
                                     map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
                                     catchError(errorResponse &#x3D;&gt; {
@@ -1125,7 +1129,10 @@ export class AuthenticationEffects {
                                 const authInfo &#x3D; this.authService.extractIdentificationInformation();
                                 return this.authService.loadUserData(authInfo)
                                     .pipe(
-                                        map(auth &#x3D;&gt; new AcceptLogIn(auth))
+                                        map(auth &#x3D;&gt; {
+                                            redirectToCurrentLocation(this.router);
+                                            return new AcceptLogIn(auth);
+                                        })
                                     );
                                 // return of(new AcceptLogIn(authInfo));
                             }
@@ -1160,7 +1167,7 @@ export class AuthenticationEffects {
                     })
                 )),
                 // due to implicit flow mode an explicit rerouting to &#x60;/feed&#x60; is needed once authenticated
-                tap ( () &#x3D;&gt; this.router.navigate([&#x27;/feed&#x27;])),
+                tap ( () &#x3D;&gt; redirectToCurrentLocation(this.router)),
                 map(() &#x3D;&gt; {
                     return new  AcceptLogIn(this.authService.providePayloadForSuccessfulAuthenticationFromImplicitFlow());
                 }));
