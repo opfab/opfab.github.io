@@ -1573,7 +1573,7 @@ Registry.</p>
 properties:</p>
 </div>
 <div class="paragraph">
-<p>In a configuration service client-gateway.yml file</p>
+<p>In a configuration service <code>client-gateway.yml</code> file</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1582,14 +1582,24 @@ properties:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>/auth/token(?&lt;path&gt;.*) must match the oauth2 token entry point</p>
+<p><code>/auth/token(?&lt;path&gt;.*)</code>: must match the oauth2 token entry point;</p>
 </li>
 <li>
-<p>/auth/code/(?&lt;params&gt;.*) must match the auth entry point with specific query
-parameters : response_type=code&amp;client_id=[client id]&amp;${params}</p>
+<p><code>/auth/code/(?&lt;params&gt;.*)</code>: must match the auth entry point with specific query
+parameters like <code>response_type=code&amp;client_id=[client id]&amp;${params}</code>;</p>
 </li>
 <li>
-<p>/auth/check_token must match token introspection entry point</p>
+<p><code>/auth/check_token</code>: must match token introspection entry point</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The application must add request header for each request:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AddRequestHeader: Authorization, Basic</code>: followed, separated with a space, by the <code>OAuth2 client-id</code> and the <code>OAuth2 client-secret</code> encoded in base64.</p>
 </li>
 </ul>
 </div>
@@ -1597,6 +1607,35 @@ parameters : response_type=code&amp;client_id=[client id]&amp;${params}</p>
 <li>
 <p>The application may set up CORS rules if api are to be accessed outside of
 the deployment domain</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Configuration example of the filters, for the docker dev keycloak:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring.cloud.gateway.routes[0].filters:
+        - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
+        - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
+        - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
+        - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
+</li>
+<li>
+<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
+</li>
+<li>
+<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
+<code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
 </li>
 </ul>
 </div>
