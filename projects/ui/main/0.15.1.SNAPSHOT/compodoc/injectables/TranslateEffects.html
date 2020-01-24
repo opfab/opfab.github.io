@@ -259,8 +259,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="153"
-                            class="link-to-prism">src/app/store/effects/translate.effects.ts:153</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">src/app/store/effects/translate.effects.ts:156</a></div>
                 </td>
             </tr>
 
@@ -403,8 +403,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">src/app/store/effects/translate.effects.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/app/store/effects/translate.effects.ts:147</a></div>
                 </td>
             </tr>
 
@@ -547,8 +547,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">src/app/store/effects/translate.effects.ts:166</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">src/app/store/effects/translate.effects.ts:172</a></div>
                 </td>
             </tr>
 
@@ -877,8 +877,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">src/app/store/effects/translate.effects.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">src/app/store/effects/translate.effects.ts:200</a></div>
                 </td>
             </tr>
 
@@ -1138,7 +1138,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/app/store/effects/translate.effects.ts:132</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/store/effects/translate.effects.ts:135</a></div>
                             </td>
                         </tr>
 
@@ -1275,9 +1275,12 @@ export class TranslateEffects {
     }
 
     static extractPublisherAssociatedWithDistinctVersionsFromCards(cards: LightCard[]): Map&lt;Set&lt;string&gt;&gt; {
-        const thirdsAndVersions &#x3D; cards.map(card &#x3D;&gt; {
+        let thirdsAndVersions: TransitionalThirdWithItSVersion[];
+        // See OC-555 to avoid the infinite loop
+        thirdsAndVersions &#x3D; cards.map(card &#x3D;&gt; {
             return new TransitionalThirdWithItSVersion(card.publisher,card.publisherVersion);
         });
+        
         return this.consolidateThirdAndVersions(thirdsAndVersions);
     };
 
@@ -1307,11 +1310,14 @@ export class TranslateEffects {
         const result &#x3D; new Map&lt;Set&lt;string&gt;&gt;();
         thirdsAndVersions.forEach(u &#x3D;&gt; {
             const versions &#x3D; result[u.third];
+            versions.add(u.version)
+            /*
             if (versions) {
                 versions.add(u.version)
             } else {
                 result[u.third] &#x3D; new Set([u.version]);
             }
+            */
         });
         return result;
     }
@@ -1351,7 +1357,7 @@ export class TranslateEffects {
 }
 
 class TransitionalThirdWithItSVersion {
-    constructor(public third:string,public version:string){}
+    constructor(public third:string, public version:string){}
 };
 
 </code></pre>

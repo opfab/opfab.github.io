@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">src/app/store/effects/translate.effects.ts:200</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="206" class="link-to-prism">src/app/store/effects/translate.effects.ts:206</a></div>
                             </td>
                         </tr>
 
@@ -187,7 +187,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/store/effects/translate.effects.ts:201</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/app/store/effects/translate.effects.ts:207</a></div>
                             </td>
                         </tr>
 
@@ -215,7 +215,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/store/effects/translate.effects.ts:201</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/app/store/effects/translate.effects.ts:207</a></div>
                             </td>
                         </tr>
 
@@ -358,9 +358,12 @@ export class TranslateEffects {
     }
 
     static extractPublisherAssociatedWithDistinctVersionsFromCards(cards: LightCard[]): Map&lt;Set&lt;string&gt;&gt; {
-        const thirdsAndVersions &#x3D; cards.map(card &#x3D;&gt; {
+        let thirdsAndVersions: TransitionalThirdWithItSVersion[];
+        // See OC-555 to avoid the infinite loop
+        thirdsAndVersions &#x3D; cards.map(card &#x3D;&gt; {
             return new TransitionalThirdWithItSVersion(card.publisher,card.publisherVersion);
         });
+        
         return this.consolidateThirdAndVersions(thirdsAndVersions);
     };
 
@@ -390,11 +393,14 @@ export class TranslateEffects {
         const result &#x3D; new Map&lt;Set&lt;string&gt;&gt;();
         thirdsAndVersions.forEach(u &#x3D;&gt; {
             const versions &#x3D; result[u.third];
+            versions.add(u.version)
+            /*
             if (versions) {
                 versions.add(u.version)
             } else {
                 result[u.third] &#x3D; new Set([u.version]);
             }
+            */
         });
         return result;
     }
@@ -434,7 +440,7 @@ export class TranslateEffects {
 }
 
 class TransitionalThirdWithItSVersion {
-    constructor(public third:string,public version:string){}
+    constructor(public third:string, public version:string){}
 };
 
 </code></pre>
