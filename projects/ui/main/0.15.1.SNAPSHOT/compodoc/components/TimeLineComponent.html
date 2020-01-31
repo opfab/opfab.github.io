@@ -700,7 +700,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
 
         // Adding two domains required by SEA Team
         const startDomainTR &#x3D; moment().minutes(0).second(0).millisecond(0).subtract(2, &#x27;hours&#x27;);
-        const endDomainTR &#x3D; moment().hours(0).minutes(0).second(0).millisecond(0).add(1, &#x27;days&#x27;);
+        const endDomainTR &#x3D; moment().minutes(0).second(0).millisecond(0).add(10, &#x27;hours&#x27;);
 
         const startDomainJ &#x3D; moment().hours(0).minutes(0).second(0).millisecond(0);
         const endDomainJ &#x3D; moment().hours(0).minutes(0).second(0).millisecond(0).add(1, &#x27;days&#x27;);
@@ -731,8 +731,9 @@ export class TimeLineComponent implements OnInit, OnDestroy {
         const ticksDayConf &#x3D; this.constructMomentObj([0, 0, 0, 1, 0, 0, 0]);
         const ticksHalfMonthConf &#x3D; this.constructMomentObj([0, 0, 0, 0, 0, 0, 0], null, [1, 16]);
 
+        const ticks15minConf &#x3D; this.constructMomentObj([0, 0, 0, 0, 0, 15, 0]);
         const ticks30minConf &#x3D; this.constructMomentObj([0, 0, 0, 0, 0, 30, 0]);
-        const ticks1hConf &#x3D; this.constructMomentObj([0, 0, 0, 0, 1, 0, 0]);
+
         this.conf &#x3D; {
             enableDrag: false,
             enableZoom: true,
@@ -751,8 +752,8 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                 buttonTitle: &#x27;J&#x27;,
                 forwardConf: forwardDayConf,
                 backwardConf: forwardDayConf,
-                ticksConf: ticks1hConf,
-                formatTicks: &#x27;dd - h:mm a&#x27;
+                ticksConf: ticks30minConf,
+                formatTicks: &#x27;HH[h]mm&#x27;
             }, TR: {
                 startDomain: startDomainTR.valueOf(),
                 endDomain: endDomainTR.valueOf(),
@@ -761,8 +762,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
                 buttonTitle: &#x27;TR&#x27;,
                 forwardConf: forwardTRConf,
                 backwardConf: forwardTRConf,
-                ticksConf: ticks30minConf,
-                formatTicks: &#x27;dd - h:mm a&#x27;
+                ticksConf: ticks15minConf
             }, &#x27;7D&#x27;: {
                 startDomain: startDomain7Day.valueOf(),
                 endDomain: endDomain7Day.valueOf(),

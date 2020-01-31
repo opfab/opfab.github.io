@@ -561,10 +561,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/I18n.html" data-type="entity-link">I18n</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ImplicitallyAuthenticated.html" data-type="entity-link">ImplicitallyAuthenticated</a>
+                                <a href="classes/ImplicitAuthenticationHandler.html" data-type="entity-link">ImplicitAuthenticationHandler</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ImplicitAuthenticationHandler.html" data-type="entity-link">ImplicitAuthenticationHandler</a>
+                                <a href="classes/ImplicitlyAuthenticated.html" data-type="entity-link">ImplicitlyAuthenticated</a>
                             </li>
                             <li class="link">
                                 <a href="classes/InitAuthStatus.html" data-type="entity-link">InitAuthStatus</a>
@@ -919,6 +919,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/MenuState.html" data-type="entity-link">MenuState</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/SettingsInputs.html" data-type="entity-link">SettingsInputs</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/SettingsState.html" data-type="entity-link">SettingsState</a>

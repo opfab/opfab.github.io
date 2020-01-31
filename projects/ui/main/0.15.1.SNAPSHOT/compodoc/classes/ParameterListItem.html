@@ -79,7 +79,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/app/model/thirds.model.ts:178</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="185" class="link-to-prism">src/app/model/thirds.model.ts:185</a></div>
                             </td>
                         </tr>
 
@@ -144,67 +144,72 @@
 import {I18n} from &quot;@ofModel/i18n.model&quot;;
 import {Map as OfMap} from &quot;@ofModel/map&quot;;
 
-export class Third{
+export class Third {
     /* istanbul ignore next */
     constructor(
-        readonly name:string,
-        readonly version:string,
+        readonly name: string,
+        readonly version: string,
         readonly i18nLabelKey: string,
-        readonly templates?:string[],
-        readonly csses?:string[],
-        readonly locales?:string[],
-        readonly menuEntries?:ThirdMenuEntry[],
-        readonly processes?:OfMap&lt;Process&gt;
-    ){}
+        readonly templates?: string[],
+        readonly csses?: string[],
+        readonly locales?: string[],
+        readonly menuEntries?: ThirdMenuEntry[],
+        readonly processes?: OfMap&lt;Process&gt;
+    ) {
+    }
 
-    public extractState(card:Card):State{
-        if(card.process &amp;&amp; this.processes[card.process]) {
+    public extractState(card: Card): State {
+        if (card.process &amp;&amp; this.processes[card.process]) {
             const process &#x3D; this.processes[card.process];
-            if(card.state &amp;&amp; process.states[card.state]) {
-               return process.states[card.state];
+            if (card.state &amp;&amp; process.states[card.state]) {
+                return process.states[card.state];
             }
         }
         return null;
     }
 }
 
-export class ThirdMenuEntry{
+export class ThirdMenuEntry {
     /* istanbul ignore next */
     constructor(
-        readonly id:string,
+        readonly id: string,
         readonly label: string,
         readonly url: string
-    ){}
+    ) {
+    }
 }
 
-export class ThirdMenu{
+export class ThirdMenu {
     /* istanbul ignore next */
     constructor(
         readonly id: string,
         readonly version: string,
         readonly label: string,
-        readonly entries: ThirdMenuEntry[]){}
+        readonly entries: ThirdMenuEntry[]) {
+    }
 }
 
-export class Process{
+export class Process {
     /* istanbul ignore next */
     constructor(
-        readonly states?:OfMap&lt;State&gt;
-    ){}
+        readonly states?: OfMap&lt;State&gt;
+    ) {
+    }
 }
 
-export class State{
+export class State {
     /* istanbul ignore next */
     constructor(
-        readonly details?:Detail[],
-        readonly actions?:OfMap&lt;Action&gt;
-    ){}
+        readonly details?: Detail[],
+        readonly actions?: OfMap&lt;Action&gt;
+    ) {
+    }
 }
 
 export enum ActionType {
-    EXTERNAL&#x3D;&#x27;EXTERNAL&#x27;,
-    JNLP&#x3D;&#x27;JNLP&#x27;,
-    URL&#x3D;&#x27;URL&#x27;
+    EXTERNAL &#x3D; &#x27;EXTERNAL&#x27;,
+    JNLP &#x3D; &#x27;JNLP&#x27;,
+    URL &#x3D; &#x27;URL&#x27;
 
 }
 
@@ -223,28 +228,30 @@ export class Action {
         readonly updateStateBeforeAction: boolean &#x3D; false,
         readonly called: boolean &#x3D; false,
         readonly needsConfirm: boolean &#x3D; false,
-        readonly key?:string
-    ) {}
+        readonly key?: string
+    ) {
+    }
 
 }
 
-export const emptyAction&#x3D;new Action(null,null);
+export const emptyAction &#x3D; new Action(null, null);
 
-type Omit&lt;T, K extends keyof T&gt; &#x3D; Pick&lt;T,Exclude&lt;keyof T,K&gt;&gt;;
+type Omit&lt;T, K extends keyof T&gt; &#x3D; Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;;
 
-export class ActionStatus{
+export class ActionStatus {
     constructor(
-                        readonly label: I18n,
-                        readonly hidden:boolean&#x3D;false,
-                        readonly buttonStyle: string &#x3D; &#x27;&#x27;,
-                        readonly contentStyle: string &#x3D; &#x27;&#x27;,
-                        readonly inputs: Input[] &#x3D; [],
-                        readonly lockCard: boolean &#x3D; false,
-                        readonly updateState: boolean &#x3D; false,
-                        readonly updateStateBeforeAction: boolean &#x3D; false,
-                        readonly needsConfirm: boolean &#x3D; false,
-                        readonly lockAction: boolean &#x3D; false,
-    ){}
+        readonly label: I18n,
+        readonly hidden: boolean &#x3D; false,
+        readonly buttonStyle: string &#x3D; &#x27;&#x27;,
+        readonly contentStyle: string &#x3D; &#x27;&#x27;,
+        readonly inputs: Input[] &#x3D; [],
+        readonly lockCard: boolean &#x3D; false,
+        readonly updateState: boolean &#x3D; false,
+        readonly updateStateBeforeAction: boolean &#x3D; false,
+        readonly needsConfirm: boolean &#x3D; false,
+        readonly lockAction: boolean &#x3D; false,
+    ) {
+    }
 }
 
 export const emptyActionStatus &#x3D; new ActionStatus(null);
@@ -253,15 +260,15 @@ export const emptyActionStatus &#x3D; new ActionStatus(null);
 for some reasons lodash equals take attribute order declaration in account to compute object equality
 needed by LightCardEffects updateAThirdAction Effect and by checkIfReceivedStatusIsDifferentFromCurrentOne method of ThirdActionService .
  */
-export function extractActionStatusFromPseudoActionStatus(tAction:object):ActionStatus{
-    let label&#x3D;new I18n(&#x27;&#x27;);
+export function extractActionStatusFromPseudoActionStatus(tAction: object): ActionStatus {
+    let label &#x3D; new I18n(&#x27;&#x27;);
     const i18n &#x3D; tAction[&#x27;label&#x27;];
-    if(i18n){
+    if (i18n) {
         const params &#x3D; i18n[&#x27;parameters&#x27;];
-        if(params) {
-            Object.setPrototypeOf(params,OfMap.prototype);
-            label &#x3D; new I18n(i18n[&#x27;key&#x27;],params);
-        }else{
+        if (params) {
+            Object.setPrototypeOf(params, OfMap.prototype);
+            label &#x3D; new I18n(i18n[&#x27;key&#x27;], params);
+        } else {
             label &#x3D; new I18n(i18n[&#x27;key&#x27;]);
         }
 
@@ -269,9 +276,9 @@ export function extractActionStatusFromPseudoActionStatus(tAction:object):Action
     const result &#x3D; new ActionStatus(
         label
         , tAction[&#x27;hidden&#x27;]
-        ,tAction[&#x27;buttonStyle&#x27;]
-        ,tAction[&#x27;contentStyle&#x27;]
-        ,tAction[&#x27;inputs&#x27;]//TODO Need proper prototype handling
+        , tAction[&#x27;buttonStyle&#x27;]
+        , tAction[&#x27;contentStyle&#x27;]
+        , tAction[&#x27;inputs&#x27;] // TODO Need proper prototype handling
         , tAction[&#x27;lockCard&#x27;]
         , tAction[&#x27;updateState&#x27;]
         , tAction[&#x27;updateStateBeforeAction&#x27;]
