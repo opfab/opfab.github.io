@@ -5,7 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>OperatorFabric Get Started</title>
+<meta name="author" content="David Binder; Boris Dolley; Alexandra Guironnet; Ronan Le Gall">
+<title>OperatorFabric Release Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,669 +434,156 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>OperatorFabric Get Started</h1>
+<h1>OperatorFabric Release Notes</h1>
 <div class="details">
+<span id="author" class="author">David Binder; Boris Dolley; Alexandra Guironnet; Ronan Le Gall</span><br>
 <span id="revnumber">version 0.15.1.SNAPSHOT,</span>
-<span id="revdate">17 January 2020</span>
+<span id="revdate">6 February 2020</span>
 </div>
 <div id="toc" class="toc2">
-<div id="toctitle">Get Started</div>
-<ul class="sectlevel1">
-<li><a href="#_prerequisites">1. Prerequisites</a></li>
-<li><a href="#_install_and_run_server">2. Install and run server</a></li>
-<li><a href="#_examples">3. Examples</a>
-<ul class="sectlevel2">
-<li><a href="#_example_1_send_and_update_a_basic_card">3.1. Example 1 : Send and update a basic card</a></li>
-<li><a href="#_example_2_publish_a_new_bundle">3.2. Example 2 : Publish a new bundle</a></li>
-<li><a href="#_example_3_process_with_state">3.3. Example 3 : Process with state</a></li>
-<li><a href="#_example_4_time_line">3.4. Example 4 : Time Line</a></li>
-</ul>
-</li>
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_version_0_15_1_release">Version 0.15.1.RELEASE</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
+<h1 id="_version_0_15_1_release" class="sect0">Version 0.15.1.RELEASE</h1>
 <div class="sect1">
-<h2 id="_prerequisites">1. Prerequisites</h2>
+<h2 id="_bug">1. Bug</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>To use OperatorFabric, you need a linux OS with the following :</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Docker install with 4Gb of space</p>
+<p>[OC-458] - Fix/test docker-compose</p>
+<div class="paragraph">
+<p><em>The containers created by test-environment and test-quality-environment docker-compose now have default
+docker-generated names rather than set names (e.g. <strong>test-environment_keycloak_1</strong> rather than <strong>keycloak</strong>). This is
+done to avoid conflicts.</em></p>
+</div>
 </li>
 <li>
-<p>16Gb of RAM minimal ,32 Gb recommended</p>
+<p>[OC-487] - Feed empty or unresponsive when changing user</p>
+</li>
+<li>
+<p>[OC-555] - Firefox request server in an infinite loop when receive card with a valid publisher name but an invalid publisherVersion</p>
+</li>
+<li>
+<p>[OC-615] - Once logged if the user reload the UI the navbar alone is displayed</p>
 </li>
 </ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_install_and_run_server">2. Install and run server</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To start OperatorFabric, you first need to clone the getting started git</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre> git clone https://github.com/opfab/operatorfabric-getting-started.git</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Launch the startserver.sh in the server directory. You need to wait for all the services to start (it usually takes one minute to start),it is done when no more logs are written on the output(It could continue to log  but slowly).</p>
-</div>
-<div class="paragraph">
-<p>Test the connection to the UI : To connect to OperatorFabric, open in a browser the following page: <a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a> and use tso1-operator as login and test as password.</p>
-</div>
-<div class="paragraph">
-<p>If you are not accessing the server from localhost, there is a bug with authentication redirection. Your must use the following URL ,replacing SERVER_IP by the IP adress of your server :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>http://SERVER_IP:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;redirect_uri=http://SERVER_IP:2002/ui/</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>After connection your shoud see the following screen</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/empty-opfab-page.jpg" alt="empty opfab screenshot">
-</div>
-</div>
-<div class="paragraph">
-<p>To stop the server , use :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>docker-compose down &amp;</pre>
-</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_examples">3. Examples</h2>
+<h2 id="_story">2. Story</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>For each example, useful files and scripts are in the directory "client/exampleX".</p>
-</div>
-<div class="paragraph">
-<p>All examples assume you connect to the server from localhost (if not, you will need to change the provided scripts)</p>
-</div>
-<div class="sect2">
-<h3 id="_example_1_send_and_update_a_basic_card">3.1. Example 1 : Send and update a basic card</h3>
-<div class="paragraph">
-<p>Go in directory "client/example1" and send a card :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @card.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use provided script</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh card.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result should be a 200 Http status and a json object such as:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{"count":1,"message":"All pushedCards were successfully handled"}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>See the result in the UI , you should see a card , if you click on it you&#8217;ll see the detail</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/formated-card-details.jpg" alt="detail card screenshot">
-</div>
-</div>
-<div class="sect3">
-<h4 id="_anatomy_of_the_card">3.1.1. Anatomy of the card :</h4>
-<div class="paragraph">
-<p>A card is containing information regarding the publisher, the recipients , the process , the data to show &#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<p>More information can be found on the user guide : <a href="https://opfab.github.io/documentation/0.15.1.RELEASE/user_guide/#_card_anatomy" class="bare">opfab.github.io/documentation/0.15.1.RELEASE/user_guide/#_card_anatomy</a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-	"publisher" : "message-publisher",
-	"publisherVersion" : "1",
-	"process"  :"defaultProcess",
-	"processId" : "hello-world-1",
-	"state": "messageState",
-	"recipient" : {
-				"type" : "GROUP",
-				"identity" : "TSO1"
-			},
-	"severity" : "INFORMATION",
-	"startDate" : 1553186770681,
-	"summary" : {"key" : "defaultProcess.summary"},
-	"title" : {"key" : "defaultProcess.title"},
-	"data" : {"message":"Hello World !!! That's my first message"}
-}</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_update_the_card">3.1.2. Update the card</h4>
-<div class="paragraph">
-<p>We can send a new version of the card (updateCard.json) :</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>change the message , field data.message in the JSON File</p>
+<p>[OC-616] - As a user I want clearer severity names</p>
 </li>
 <li>
-<p>the severity  , field severity in the JSON File</p>
+<p>[OC-618] - As an admin I want to hide some fields in settings page</p>
 </li>
 </ul>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-	"publisher" : "message-publisher",
-	"publisherVersion" : "1",
-	"process"  :"defaultProcess",
-	"processId" : "hello-world-1",
-	"state": "messageState",
-	"recipient" : {
-				"type" : "GROUP",
-				"identity" : "TSO1"
-			},
-	"severity" : "ALARM",
-	"startDate" : 1553186770681,
-	"summary" : {"key" : "defaultProcess.summary"},
-	"title" : {"key" : "defaultProcess.title"},
-	"data" : {"message":":That's my second message"}
-}</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>You can send the updated card with :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh cardUpdate.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The card should be updated on the UI.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_delete_the_card">3.1.3. Delete the card</h4>
-<div class="paragraph">
-<p>You can delete the card using DELETE HTTP code with reference to publisher and processId</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -s -X DELETE http://localhost:2102/cards/message-publisher_hello-world-1 -H "Content-type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use provided script:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./deleteCard.sh</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_example_2_publish_a_new_bundle">3.2. Example 2 : Publish a new bundle</h3>
-<div class="paragraph">
-<p>The way the card is display in the UI is defined via a Bundle containing templates and process description .</p>
-</div>
-<div class="paragraph">
-<p>The bundle is structured as follow :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>├── css : stylesheets files
-├── i18n :   internalization files
-└── template :
-    ├── en : handlebar templates for detail card rendering
-    ├── ....
-config.json : process description and global configuration</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bundle is provided in the bundle directory of example2. It contains a new version of the bundle used in example1 .</p>
-</div>
-<div class="paragraph">
-<p>We just change the template and the stylesheet instead of displaying :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>Message :  The message</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>we display :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>You received the following message
-
-The message</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you look at the template file (template/en/template.handlebars):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;h2&gt; You received the following message &lt;/h2&gt;
-
-{{card.data.message}}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In the stylesheet css/style.css we just change the color value to red (#ff0000):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>h2{
-	color:#ff0000;
-	font-weight: bold;
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The global configuration is defined in config.json :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-	"name":"message-publisher",
-	"version":"2",
-	"templates":["template"],
-	"csses":["style"],
-	"processes" : {
-		"defaultProcess" : {
-			"states":{
-				"messageState" : {
-					"details" : [{
-						"title" : { "key" : "defaultProcess.title"},
-						"templateName" : "template",
-						"styles" : [ "style.css" ]
-					}]
-				}
-			}
-		}
-	}
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To keep the old bundle , we create a new version by setting version to 2.</p>
-</div>
-<div class="sect3">
-<h4 id="_package_you_bundle">3.2.1. Package you bundle</h4>
-<div class="paragraph">
-<p>Your bundle need to be package in a tar.gz file, a script is available</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./packageBundle.sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A file name bundle.tar.gz will be created.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_get_a_token">3.2.2. Get a Token</h4>
-<div class="paragraph">
-<p>To send the bundle you need to be authentified . To do that you need to get a token with the following commande :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -s -X POST -d "username=admin&amp;password=test&amp;grant_type=password&amp;client_id=opfab-client" http://localhost:2002/auth/token</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use the provided script</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./getToken.sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should received JSON a reponse like this :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJSbXFOVTNLN0x4ck5SRmtIVTJxcTZZcTEya1RDaXNtRkw5U2NwbkNPeDBjIn0.eyJqdGkiOiIzZDhlODY3MS1jMDhjLTQ3NDktOTQyOC1hZTdhOTE5OWRmNjIiLCJleHAiOjE1NzU1ODQ0NTYsIm5iZiI6MCwiaWF0IjoxNTc1NTQ4NDU2LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA4MC9hdXRoL3JlYWxtcy9kZXYiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYTNhM2IxYTYtMWVlYi00NDI5LWE2OGItNWQ1YWI1YjNhMTI5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoib3BmYWItY2xpZW50IiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiODc3NzZjOTktYjA1MC00NmQxLTg5YjYtNDljYzIxNTQyMDBhIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic3ViIjoiYWRtaW4iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.XMLjdOJV-A-iZrtq7sobcvU9XtJVmKKv9Tnv921PjtvJ85CnHP-qXp2hYf5D8TXnn32lILVD3g8F9iXs0otMAbpA9j9Re2QPadwRnGNLIzmD5pLzjJ7c18PWZUVscbaqdP5PfVFA67-j-YmQBwxiys8psF8keJFvmg-ExOGh66lCayClceQaUUdxpeuKFDxOSkFVEJcVxdelFtrEbpoq0KNPtYk7vtoG74zO3KjNGrzLkSE_e4wR6MHVFrZVJwG9cEPd_dLGS-GmkYjB6lorXPyJJ9WYvig56CKDaFry3Vn8AjX_SFSgTB28WkWHYZknTwm9EKeRCsBQlU6MLe4Sng","expires_in":36000,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzZjdkZTM0OC05N2Q5LTRiOTUtYjViNi04MjExYTI3YjdlNzYifQ.eyJqdGkiOiJhZDY4ODQ4NS1hZGE0LTQwNWEtYjQ4MS1hNmNkMTM2YWY0YWYiLCJleHAiOjE1NzU1NTAyNTYsIm5iZiI6MCwiaWF0IjoxNTc1NTQ4NDU2LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA4MC9hdXRoL3JlYWxtcy9kZXYiLCJhdWQiOiJodHRwOi8va2V5Y2xvYWs6ODA4MC9hdXRoL3JlYWxtcy9kZXYiLCJzdWIiOiJhM2EzYjFhNi0xZWViLTQ0MjktYTY4Yi01ZDVhYjViM2ExMjkiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoib3BmYWItY2xpZW50IiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiODc3NzZjOTktYjA1MC00NmQxLTg5YjYtNDljYzIxNTQyMDBhIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.sHskPtatqlU9Z8Sfq6yvzUP_L6y-Rv26oPpykyPgzmk","token_type":"bearer","not-before-policy":0,"session_state":"87776c99-b050-46d1-89b6-49cc2154200a","scope":"email profile"}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Your token is the access_token value in the JSON. The token will be valid for 10 hours , after you will need to ask for a new one.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_send_the_bundle">3.2.3. Send the bundle</h4>
-<div class="paragraph">
-<p>Replace the value "THE TOKEN" with the token in the sendBundle.sh script :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>token=THE TOKEN
-curl -s -X POST "http://localhost:2100/thirds" -H  "accept: application/json" -H  "Content-Type: multipart/form-data" -H "Authorization:Bearer $token" -F "file=@bundle.tar.gz;type=application/gzip"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can now execute the script, it will send the bundle.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendBundle.sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should received the following JSON in response , describing your bundle.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{"name":"message-publisher","version":"2","templates":["template"],"csses":["style"],"i18nLabelKey":null,"processes":{"defaultProcess":{"statesData":{"messageState":{"detailsData":[{"title":{"key":"defaultProcess.title","parameters":null},"titleStyle":null,"templateName":"template","styles":null}],"actionsData":null,"details":[{"title":{"key":"defaultProcess.title","parameters":null},"titleStyle":null,"templateName":"template","styles":null}],"actions":null}},"states":{"messageState":{"detailsData":[{"title":{"key":"defaultProcess.title","parameters":null},"titleStyle":null,"templateName":"template","styles":null}],"actionsData":null,"details":[{"title":{"key":"defaultProcess.title","parameters":null},"titleStyle":null,"templateName":"template","styles":null}],"actions":null}}}},"medias":null,"menuEntries":null}</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_send_a_card">3.2.4. Send a card</h4>
-<div class="paragraph">
-<p>You can send the following card to test your new bundle :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-	"publisher" : "message-publisher",
-	"publisherVersion" : "2",
-	"process"  :"defaultProcess",
-	"processId" : "hello-world-1",
-	"state": "messageState",
-	"recipient" : {
-				"type" : "GROUP",
-				"identity" : "TSO1"
-			},
-	"severity" : "INFORMATION",
-	"startDate" : 1553186770681,
-	"summary" : {"key" : "defaultProcess.summary"},
-	"title" : {"key" : "defaultProcess.title"},
-	"data" : {"message":"Hello world in new version"}
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To use the new bundle , we set publisherVersion to "2"</p>
-</div>
-<div class="paragraph">
-<p>To send the card :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should see in the UI the detail card with the new template.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_internationalization">3.2.5. Internationalization</h4>
-<div class="paragraph">
-<p>If you switch langage to french in the UI (Settings menu on the top rigth of the screen), you should see the cards in french.</p>
-</div>
-<div class="paragraph">
-<p>Operator fabric will use templates define in repository "template/fr" and keys define in "i18n/fr.json".</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_example_3_process_with_state">3.3. Example 3 : Process with state</h3>
-<div class="paragraph">
-<p>For this example , we will set the following process :</p>
-</div>
+<div class="sect1">
+<h2 id="_task">3. Task</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>Step 1 : A critical situation arise on the HightVoltage grid</p>
+<p>[OC-496] - Verify that javascript embedded in card data is sanitized</p>
 </li>
 <li>
-<p>Step 2 : The critical situation evolve</p>
+<p>[OC-507] - CI/CD hooks should only be triggered on the master branch</p>
+<div class="paragraph">
+<p><em>No administration/user impact.</em></p>
+</div>
 </li>
 <li>
-<p>Step 3 : The critical situation ended</p>
+<p>[OC-552] - Network and service names should be consistent in docker-compose files</p>
+<div class="paragraph">
+<p><em>Creating the <strong>opfabnet</strong> and <strong>operatorfabricnet</strong> networks is no longer required, docker-compose files now rely on
+default docker-generated networks (such as <strong>deploy_default</strong>).</em></p>
+</div>
 </li>
-</ul>
-</div>
+<li>
+<p>[OC-560] - Fix SEVERE warnings in doc generation</p>
 <div class="paragraph">
-<p>To modelise this process in operator fabric, we will use a "Process" with "States"  , we will modelize this in the config.json of the bundle :</p>
+<p><em>No administration/user impact.</em></p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-  "name":"alert-publisher",
-  "version":"1",
-  "templates":["criticalSituationTemplate","endCriticalSituationTemplate"],
-  "csses":["style"],
-  "processes" : {
-    "criticalSituation" : {
-	  "states":{
-		"criticalSituation-begin" : {
-		  "details" : [{
-		    "title" : { "key" : "criticalSituation-begin.title"},
-			  "templateName" : "criticalSituationTemplate",
-			  "styles" : [ "style.css" ]
-			}]
-		},
-		"criticalSituation-update" : {
-		  "details" : [{
-		    "title" : { "key" : "criticalSituation-update.title"},
-			  "templateName" : "criticalSituationTemplate",
-			  "styles" : [ "style.css" ]
-			}]
-		},
-		"criticalSituation-end" : {
-		  "details" : [{
-		    "title" : { "key" : "criticalSituation-end.title"},
-			"templateName" : "endCriticalSituationTemplate",
-			"styles" : [ "style.css" ]
-		  }]
-		}
-	  }
-	}
-  }
-}</pre>
-</div>
-</div>
+</li>
+<li>
+<p>[OC-585] - Use generic error messages</p>
+</li>
+<li>
+<p>[OC-595] - Restrict cors for webflux - AUDIT E.</p>
+</li>
+<li>
+<p>[OC-600] - Minor code correction for security - AUDIT E.</p>
+</li>
+<li>
+<p>[OC-601] - Multiple unchecked CAST - AUDIT E.</p>
+</li>
+<li>
+<p>[OC-602] - Deprecated MongoClient constructor - AUDIT E.</p>
+</li>
+<li>
+<p>[OC-611] - Create missing Unit Test for Implicit flow in the UI</p>
+</li>
+<li>
+<p>[OC-612] - Document the dev keycloak configuration to test implicit flow authentication</p>
+</li>
+<li>
+<p>[OC-622] - Design the new feature of playing a sound when a card is received</p>
+</li>
+<li>
+<p>[OC-625] - Fix add_header script and update copyright headers</p>
 <div class="paragraph">
-<p>You can see in the JSON we define a process name "criticalSituation" with 3 states : criticalSituation-begin , criticalSituation-update and criticalSituation-end . For each state we define a title for the card and the template an stylesheets to use .</p>
+<p><em>Note to contributors: Copyright headers are up to date as of today, please make sure to add headers to any new file
+that you add.</em></p>
 </div>
+</li>
+<li>
+<p>[OC-630] - Delete demo docker-compose</p>
 <div class="paragraph">
-<p>The title is a key which refer to a i18n found in the coresponding i18n respository :</p>
+<p><em>The demo docker compose has been deprecated in favour of using the deploy docker-compose and the push_card_loop as
+described in the <a href="https://github.com/opfab/operatorfabric-core#8-docker-demo">README</a>.</em></p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-	"criticalSituation-begin":{
-		"title":"CRITICAL SITUATION",
-		"summary":" CRITICAL SITUATION ON THE GRID , SEE DETAIL FOR INSTRUCTION"
-	},
-        "criticalSituation-update":{
-                "title":"CRITICAL SITUATION - UPDATE",
-                "summary":" CRITICAL SITUATION ON THE GRID , SEE DETAIL FOR INSTRUCTION"
-        },
-        "criticalSituation-end":{
-                "title":"CRITICAL SITUATION - END",
-                "summary":" CRITICAL SITUATION ENDED"
-	}
-
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The templates can be found in the template directory.</p>
-</div>
-<div class="paragraph">
-<p>We can now send cards and simulate the process, first we send a card at the beginning of the critical situation :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-	"publisher" : "alert-publisher",
-	"publisherVersion" : "1",
-	"process"  :"criticalSituation",
-	"processId" : "alert1",
-	"state": "criticalSituation-begin",
-	"recipient" : {
-				"type" : "GROUP",
-				"identity" : "TSO1"
-			},
-	"severity" : "ALARM",
-	"startDate" : 1553186770681,
-	"summary" : {"key" : "criticalSituation-begin.summary"},
-	"title" : {"key" : "criticalSituation-begin.title"},
-	"data" : {"instruction":"Critical situation on the grid : stop immediatly all maintenance on the grid"}
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The card refer to the process "criticalSituation" as defined in the config.json, the state attribute is put to "criticalSituation-begin" which is the first step of the process, again as defined in the config.json. The card can be send via provided script :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh card.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Two other card have be provided to continu the process</p>
-</div>
+</li>
+<li>
+<p>[OC-641] - Correct deprecated warning in build</p>
+</li>
+<li>
+<p>[OC-650] - Title and summary in feed do not work</p>
 <div class="ulist">
 <ul>
 <li>
-<p>cardUpdate.json : the state is criticalSituation-update</p>
-</li>
-<li>
-<p>cardEnd.json : the state is criticalSituation-end and severity set to "information"</p>
+<p>Sub-task</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>You can send these cards :</p>
+</li>
+<li>
+<p>[OC-459] - Remove set container names from test-environment and test-quality-env as well to avoid conflicts?
+<em>See OC-458</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Feature Request</p>
+</li>
+</ul>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh cardUpdate.json</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh cardEnd.json</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_example_4_time_line">3.4. Example 4 : Time Line</h3>
-<div class="paragraph">
-<p>To view the card in the time line , you need to set times in the card using timeSpans attributes as in the following card :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre> {
-	"publisher" : "scheduledMaintenance-publisher",
-	"publisherVersion" : "1",
-	"process"  :"maintenanceProcess",
-	"processId" : "maintenance-1",
-	"state": "planned",
-	"recipient" : {
-				"type" : "GROUP",
-				"identity" : "TSO1"
-			},
-	"severity" : "INFORMATION",
-	"startDate" : 1553186770681,
-	"summary" : {"key" : "maintenanceProcess.summary"},
-	"title" : {"key" : "maintenanceProcess.title"},
-	"data" : {
-		"operationDescription":"Maintenance operation on the International France England (IFA) Hight Voltage line ",
-		"operationResponsible":"RTE",
-		"contactPoint":"By Phone : +33 1 23 45 67 89 ",
-		"comment":"Operation has no impact on service"
-		},
-	"timeSpans" : [
-        {"start" : 1576080876779},
-        {"start" : 1576104912066}
-    	]
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For this example, we use a new publisher called "scheduledMaintenance-publisher". You won&#8217;t need to post the
-corresponding bundle to the thirds service as it has been loaded in advance to be available out of the box (only for the
-getting started). If you want to take a look at its content you can find it under
-server/thirds-storage/scheduledMaintenance-publisher/1.</p>
-</div>
-<div class="paragraph">
-<p>Before sending the card provide , you need to set the good time values as epoch (ms)  (<a href="https://en.wikipedia.org/wiki/Epoch_(computing)" class="bare">en.wikipedia.org/wiki/Epoch_(computing)</a>) in the json . For each value you set , you will have a point in the timeline . In our example , the first point represent the beginning of the maintenance operation and the second the end of the maintenance operation.</p>
-</div>
-<div class="paragraph">
-<p>To get the dates in epoch , you can use the following  commandes</p>
-</div>
-<div class="paragraph">
-<p>For the first date:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>date -d "+ 600 minutes" +%s%N | cut -b1-13</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And for the second</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>date -d "+ 900 minutes" +%s%N | cut -b1-13</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To send the card use the provided script in example4 directory</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh card.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A second card (card2.json) is provided as example, you need again to set times values in the json file and then send it</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>./sendCard.sh card2.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This time the criticity of the card is ALERT, you should see the point in red in the timeline</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/example4.jpg" alt="example 4 screenshot">
-</div>
-</div>
+</li>
+<li>
+<p>[OC-581] - In user settings, all fields there should be maskable
+<em>See OC-618</em></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
