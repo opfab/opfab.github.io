@@ -886,6 +886,18 @@ It helps to avoid typos or missing to report some changes. An example could be f
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as token expiration timestamp</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.provider-url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak instance url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.provider-realm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The realm name within the keycloak instance</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -960,21 +972,12 @@ the deployment domain</p>
 </div>
 </div>
 <div class="paragraph">
-<p>where:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
-</li>
-<li>
-<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
-</li>
-<li>
-<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
+<p>where:
+- <code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance
+- <code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;
+- <code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.
+- <code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
 <code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
-</li>
-</ul>
 </div>
 </div>
 <div class="sect5">
@@ -989,7 +992,10 @@ There are two common properties:</p>
 <p><code>operatorfabric.security.oauth2.flow.provider</code> which corresponds to the OAuth2 provider.</p>
 </li>
 <li>
-<p><code>operatorfabric.keycloak.realm</code>: which is the OAuth2 realm provider under which the OpertaroFabric client is declared.</p>
+<p><code>operatorfabric.security.realm-url</code>: which is the OAuth2 realm provider under which the OpertaroFabric client is declared.</p>
+</li>
+<li>
+<p><code>operatorfabric.security.provider-url</code>: which is the The keycloak server instance.</p>
 </li>
 </ul>
 </div>
@@ -1877,21 +1883,12 @@ the deployment domain</p>
 </div>
 </div>
 <div class="paragraph">
-<p>where:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
-</li>
-<li>
-<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
-</li>
-<li>
-<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
+<p>where:
+- <code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance
+- <code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;
+- <code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.
+- <code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
 <code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
-</li>
-</ul>
 </div>
 <div class="paragraph">
 <p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.1.0.RELEASE/single/spring-cloud-gateway.html">spring cloud gateway documentation</a>.</p>
@@ -3420,10 +3417,16 @@ NONE
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.keycloak.realm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.realm-url</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The realm name in keycloak server settings page. This is used for the log out process to know which realm should be affected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.provider-url</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak server instance</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.mode</p></td>
@@ -3946,14 +3949,14 @@ development environment</p>
 <pre class="highlight"><code>server:
   port: 2200
 operatorfabric:
-  keycloak:
-    realm: dev
   security:
+    provider-url: http://localhost:89
+    provider-realm: dev
     oauth2:
       flow:
         mode: CODE
         provider: Opfab Keycloak
-        delagate-url: http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
+        delagate-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
   feed:
     subscription:
       timeout: 600000
