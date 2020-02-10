@@ -1,0 +1,375 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>operatorfabric-ui-main documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">operatorfabric-ui-main documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>Process</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/model/thirds.model.ts</code>
+        </p>
+
+
+
+
+
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(states?: OfMap<State>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/model/thirds.model.ts:58</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>states</td>
+                                                  
+                                                        <td>
+                                                                    <code>OfMap&lt;State&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Card, Detail} from &quot;@ofModel/card.model&quot;;
+import {I18n} from &quot;@ofModel/i18n.model&quot;;
+import {Map as OfMap} from &quot;@ofModel/map&quot;;
+
+export class Third {
+    /* istanbul ignore next */
+    constructor(
+        readonly name: string,
+        readonly version: string,
+        readonly i18nLabelKey: string,
+        readonly templates?: string[],
+        readonly csses?: string[],
+        readonly locales?: string[],
+        readonly menuEntries?: ThirdMenuEntry[],
+        readonly processes?: OfMap&lt;Process&gt;
+    ) {
+    }
+
+    public extractState(card: Card): State {
+        if (card.process &amp;&amp; this.processes[card.process]) {
+            const process &#x3D; this.processes[card.process];
+            if (card.state &amp;&amp; process.states[card.state]) {
+                return process.states[card.state];
+            }
+        }
+        return null;
+    }
+}
+
+export class ThirdMenuEntry {
+    /* istanbul ignore next */
+    constructor(
+        readonly id: string,
+        readonly label: string,
+        readonly url: string
+    ) {
+    }
+}
+
+export class ThirdMenu {
+    /* istanbul ignore next */
+    constructor(
+        readonly id: string,
+        readonly version: string,
+        readonly label: string,
+        readonly entries: ThirdMenuEntry[]) {
+    }
+}
+
+export class Process {
+    /* istanbul ignore next */
+    constructor(
+        readonly states?: OfMap&lt;State&gt;
+    ) {
+    }
+}
+
+export class State {
+    /* istanbul ignore next */
+    constructor(
+        readonly details?: Detail[],
+        readonly actions?: OfMap&lt;Action&gt;
+    ) {
+    }
+}
+
+export enum ActionType {
+    EXTERNAL &#x3D; &#x27;EXTERNAL&#x27;,
+    JNLP &#x3D; &#x27;JNLP&#x27;,
+    URL &#x3D; &#x27;URL&#x27;
+
+}
+
+export class Action {
+    /* istanbul ignore next */
+    constructor(
+        readonly type: ActionType,
+        readonly label: I18n,
+        readonly hidden: boolean &#x3D; false,
+        readonly buttonStyle: string &#x3D; &#x27;&#x27;,
+        readonly contentStyle: string &#x3D; &#x27;&#x27;,
+        readonly inputs: Input[] &#x3D; [],
+        readonly lockAction: boolean &#x3D; false,
+        readonly lockCard: boolean &#x3D; false,
+        readonly updateState: boolean &#x3D; false,
+        readonly updateStateBeforeAction: boolean &#x3D; false,
+        readonly called: boolean &#x3D; false,
+        readonly needsConfirm: boolean &#x3D; false,
+        readonly key?: string
+    ) {
+    }
+
+}
+
+export const emptyAction &#x3D; new Action(null, null);
+
+type Omit&lt;T, K extends keyof T&gt; &#x3D; Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;;
+
+export class ActionStatus {
+    constructor(
+        readonly label: I18n,
+        readonly hidden: boolean &#x3D; false,
+        readonly buttonStyle: string &#x3D; &#x27;&#x27;,
+        readonly contentStyle: string &#x3D; &#x27;&#x27;,
+        readonly inputs: Input[] &#x3D; [],
+        readonly lockCard: boolean &#x3D; false,
+        readonly updateState: boolean &#x3D; false,
+        readonly updateStateBeforeAction: boolean &#x3D; false,
+        readonly needsConfirm: boolean &#x3D; false,
+        readonly lockAction: boolean &#x3D; false,
+    ) {
+    }
+}
+
+export const emptyActionStatus &#x3D; new ActionStatus(null);
+
+/*
+for some reasons lodash equals take attribute order declaration in account to compute object equality
+needed by LightCardEffects updateAThirdAction Effect and by checkIfReceivedStatusIsDifferentFromCurrentOne method of ThirdActionService .
+ */
+export function extractActionStatusFromPseudoActionStatus(tAction: object): ActionStatus {
+    let label &#x3D; new I18n(&#x27;&#x27;);
+    const i18n &#x3D; tAction[&#x27;label&#x27;];
+    if (i18n) {
+        const params &#x3D; i18n[&#x27;parameters&#x27;];
+        if (params) {
+            Object.setPrototypeOf(params, OfMap.prototype);
+            label &#x3D; new I18n(i18n[&#x27;key&#x27;], params);
+        } else {
+            label &#x3D; new I18n(i18n[&#x27;key&#x27;]);
+        }
+
+    }
+    const result &#x3D; new ActionStatus(
+        label
+        , tAction[&#x27;hidden&#x27;]
+        , tAction[&#x27;buttonStyle&#x27;]
+        , tAction[&#x27;contentStyle&#x27;]
+        , tAction[&#x27;inputs&#x27;] // TODO Need proper prototype handling
+        , tAction[&#x27;lockCard&#x27;]
+        , tAction[&#x27;updateState&#x27;]
+        , tAction[&#x27;updateStateBeforeAction&#x27;]
+        , tAction[&#x27;needsConfirm&#x27;]
+        , tAction[&#x27;lockAction&#x27;]
+    );
+    return result;
+}
+
+
+export enum InputType {
+    TEXT,
+    LIST,
+    LIST_RADIO,
+    SWITCH_LIST,
+    LONGTEXT,
+    BOOLEAN,
+    STATIC
+}
+
+export class Input {
+    /* istanbul ignore next */
+    constructor(
+        readonly type: InputType,
+        readonly name: string,
+        readonly label: I18n,
+        readonly value: string,
+        readonly mandatory: boolean,
+        readonly maxLength: number,
+        readonly rows: number,
+        readonly values: ParameterListItem[],
+        readonly selectedValues: string[],
+        readonly unSelectedValues: string[],
+    ) {
+    }
+}
+
+export class ParameterListItem {
+    /* istanbul ignore next */
+    constructor(
+        readonly label: I18n,
+        readonly value: string,
+    ) {
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'Process.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
