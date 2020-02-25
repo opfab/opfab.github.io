@@ -131,8 +131,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="465"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:465</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="471"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:471</a></div>
                 </td>
             </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="461"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:461</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="467"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:467</a></div>
                 </td>
             </tr>
 
@@ -240,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="463"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:463</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="469"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:469</a></div>
                 </td>
             </tr>
 
@@ -310,8 +310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="467"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:467</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="473"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:473</a></div>
                 </td>
             </tr>
 
@@ -342,7 +342,8 @@ import {
     ImplicitlyAuthenticated,
     InitAuthStatus,
     PayloadForSuccessfulAuthentication,
-    UnAuthenticationFromImplicitFlow
+    UnAuthenticationFromImplicitFlow,
+    UnableToRefreshOrGetToken
 } from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &#x27;@env/environment&#x27;;
 import {GuidService} from &#x27;@ofServices/guid.service&#x27;;
@@ -703,13 +704,18 @@ export class AuthenticationService {
 
     dispatchAppStateActionFromOAuth2Events(event: OAuthEvent): void {
         const eventType: OAuthType &#x3D; event.type;
+        console.log(&quot;Authentification event&quot;,event);
         switch (eventType) {
             case (&#x27;token_received&#x27;): {
                 this.store.dispatch(new ImplicitlyAuthenticated());
                 break;
             }
-            case (&#x27;token_error&#x27;):
+            // We can have a token_error or token_refresh_error when it is not possible to refresh token 
+            // This case arise for example when using a SSO and the session is not valid anymore (session timeout)
+            case (&#x27;token_error&#x27;): 
             case(&#x27;token_refresh_error&#x27;):
+                this.store.dispatch(new UnableToRefreshOrGetToken());
+                break;
             case(&#x27;logout&#x27;): {
                 this.store.dispatch(new UnAuthenticationFromImplicitFlow());
                 break;

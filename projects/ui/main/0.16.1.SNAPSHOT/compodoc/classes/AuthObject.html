@@ -127,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="422" class="link-to-prism">src/app/services/authentication/authentication.service.ts:422</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="428" class="link-to-prism">src/app/services/authentication/authentication.service.ts:428</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +227,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="425" class="link-to-prism">src/app/services/authentication/authentication.service.ts:425</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="431" class="link-to-prism">src/app/services/authentication/authentication.service.ts:431</a></div>
                             </td>
                         </tr>
 
@@ -255,7 +255,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="427" class="link-to-prism">src/app/services/authentication/authentication.service.ts:427</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="433" class="link-to-prism">src/app/services/authentication/authentication.service.ts:433</a></div>
                             </td>
                         </tr>
 
@@ -283,7 +283,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="426" class="link-to-prism">src/app/services/authentication/authentication.service.ts:426</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="432" class="link-to-prism">src/app/services/authentication/authentication.service.ts:432</a></div>
                             </td>
                         </tr>
 
@@ -312,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="428" class="link-to-prism">src/app/services/authentication/authentication.service.ts:428</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="434" class="link-to-prism">src/app/services/authentication/authentication.service.ts:434</a></div>
                             </td>
                         </tr>
 
@@ -340,7 +340,8 @@ import {
     ImplicitlyAuthenticated,
     InitAuthStatus,
     PayloadForSuccessfulAuthentication,
-    UnAuthenticationFromImplicitFlow
+    UnAuthenticationFromImplicitFlow,
+    UnableToRefreshOrGetToken
 } from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &#x27;@env/environment&#x27;;
 import {GuidService} from &#x27;@ofServices/guid.service&#x27;;
@@ -701,13 +702,18 @@ export class AuthenticationService {
 
     dispatchAppStateActionFromOAuth2Events(event: OAuthEvent): void {
         const eventType: OAuthType &#x3D; event.type;
+        console.log(&quot;Authentification event&quot;,event);
         switch (eventType) {
             case (&#x27;token_received&#x27;): {
                 this.store.dispatch(new ImplicitlyAuthenticated());
                 break;
             }
-            case (&#x27;token_error&#x27;):
+            // We can have a token_error or token_refresh_error when it is not possible to refresh token 
+            // This case arise for example when using a SSO and the session is not valid anymore (session timeout)
+            case (&#x27;token_error&#x27;): 
             case(&#x27;token_refresh_error&#x27;):
+                this.store.dispatch(new UnableToRefreshOrGetToken());
+                break;
             case(&#x27;logout&#x27;): {
                 this.store.dispatch(new UnAuthenticationFromImplicitFlow());
                 break;

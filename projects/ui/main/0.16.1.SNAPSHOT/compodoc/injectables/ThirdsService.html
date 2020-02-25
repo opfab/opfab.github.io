@@ -1347,7 +1347,7 @@ export class ThirdsService {
         return this.httpClient.get&lt;Third[]&gt;(&#x60;${this.thirdsUrl}/&#x60;).pipe(
             switchMap(ts &#x3D;&gt; from(ts)),
             filter((t: Third) &#x3D;&gt; !(!t.menuEntries)),
-            map(t &#x3D;&gt;
+            map(t &#x3D;&gt; 
                 new ThirdMenu(t.name, t.version, t.i18nLabelKey, t.menuEntries)
             ),
             reduce((menus: ThirdMenu[], menu: ThirdMenu) &#x3D;&gt; {
@@ -1369,8 +1369,13 @@ export class ThirdsService {
             params,
             responseType: &#x27;text&#x27;
         }).pipe(map((json: string) &#x3D;&gt; {
-            const obj &#x3D; JSON.parse(json);
-            return new Map&lt;string, Action&gt;(Object.entries(obj));
+            // json empty in this case no action 
+            if (json.length&gt;1)
+                {
+                const obj &#x3D; JSON.parse(json);
+                return new Map&lt;string, Action&gt;(Object.entries(obj));
+                }
+            return new Map&lt;string,Action&gt;();
         }));
     }
 }

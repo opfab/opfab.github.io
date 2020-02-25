@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">src/app/services/thirds.service.ts:156</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">src/app/services/thirds.service.ts:161</a></div>
                             </td>
                         </tr>
 
@@ -178,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">src/app/services/thirds.service.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/app/services/thirds.service.ts:166</a></div>
                 </td>
             </tr>
 
@@ -355,7 +355,7 @@ export class ThirdsService {
         return this.httpClient.get&lt;Third[]&gt;(&#x60;${this.thirdsUrl}/&#x60;).pipe(
             switchMap(ts &#x3D;&gt; from(ts)),
             filter((t: Third) &#x3D;&gt; !(!t.menuEntries)),
-            map(t &#x3D;&gt;
+            map(t &#x3D;&gt; 
                 new ThirdMenu(t.name, t.version, t.i18nLabelKey, t.menuEntries)
             ),
             reduce((menus: ThirdMenu[], menu: ThirdMenu) &#x3D;&gt; {
@@ -377,8 +377,13 @@ export class ThirdsService {
             params,
             responseType: &#x27;text&#x27;
         }).pipe(map((json: string) &#x3D;&gt; {
-            const obj &#x3D; JSON.parse(json);
-            return new Map&lt;string, Action&gt;(Object.entries(obj));
+            // json empty in this case no action 
+            if (json.length&gt;1)
+                {
+                const obj &#x3D; JSON.parse(json);
+                return new Map&lt;string, Action&gt;(Object.entries(obj));
+                }
+            return new Map&lt;string,Action&gt;();
         }));
     }
 }

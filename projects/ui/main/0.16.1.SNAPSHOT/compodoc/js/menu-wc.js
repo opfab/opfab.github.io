@@ -50,13 +50,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-04c69eeef47adcceb3d661f4ff63fbfa"' : 'data-target="#xs-components-links-module-AppModule-04c69eeef47adcceb3d661f4ff63fbfa"' }>
+                                            'data-target="#components-links-module-AppModule-9d1ec2c2237b9b1d6166e4437787ad55"' : 'data-target="#xs-components-links-module-AppModule-9d1ec2c2237b9b1d6166e4437787ad55"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-04c69eeef47adcceb3d661f4ff63fbfa"' :
-                                            'id="xs-components-links-module-AppModule-04c69eeef47adcceb3d661f4ff63fbfa"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-9d1ec2c2237b9b1d6166e4437787ad55"' :
+                                            'id="xs-components-links-module-AppModule-9d1ec2c2237b9b1d6166e4437787ad55"' }>
                                             <li class="link">
                                                 <a href="components/AppComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">AppComponent</a>
@@ -753,6 +753,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/TryToLogOut.html" data-type="entity-link">TryToLogOut</a>
                             </li>
                             <li class="link">
+                                <a href="classes/UnableToRefreshOrGetToken.html" data-type="entity-link">UnableToRefreshOrGetToken</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/UnAuthenticationFromImplicitFlow.html" data-type="entity-link">UnAuthenticationFromImplicitFlow</a>
                             </li>
                             <li class="link">
@@ -931,9 +934,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/TimeState.html" data-type="entity-link">TimeState</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/TranslationState.html" data-type="entity-link">TranslationState</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/UserState.html" data-type="entity-link">UserState</a>

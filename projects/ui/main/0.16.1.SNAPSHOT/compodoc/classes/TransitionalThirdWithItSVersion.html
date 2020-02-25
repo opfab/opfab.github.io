@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">src/app/store/effects/translate.effects.ts:211</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">src/app/store/effects/translate.effects.ts:200</a></div>
                             </td>
                         </tr>
 
@@ -187,7 +187,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">src/app/store/effects/translate.effects.ts:212</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/store/effects/translate.effects.ts:201</a></div>
                             </td>
                         </tr>
 
@@ -215,7 +215,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">src/app/store/effects/translate.effects.ts:212</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/store/effects/translate.effects.ts:201</a></div>
                             </td>
                         </tr>
 
@@ -243,7 +243,6 @@ import {forkJoin, Observable, of} from &quot;rxjs&quot;;
 import {LightCardActionTypes, LoadLightCardsSuccess} from &quot;@ofActions/light-card.actions&quot;;
 import {catchError, concatAll, map, mergeMap, switchMap} from &quot;rxjs/operators&quot;;
 import {
-    RefreshTranslation,
     TranslateActions,
     TranslateActionsTypes,
     TranslationUpToDate,
@@ -254,13 +253,13 @@ import {
 import {LightCard} from &quot;@ofModel/light-card.model&quot;;
 import {Map} from &quot;@ofModel/map&quot;;
 import * as _ from &#x27;lodash&#x27;;
-import {selectI18nUpLoaded} from &quot;@ofSelectors/translation.selectors&quot;;
 import {ThirdsService} from &quot;@ofServices/thirds.service&quot;;
 import {ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
 import {LoadMenuSuccess, MenuActionTypes} from &quot;@ofActions/menu.actions&quot;;
 
 @Injectable()
 export class TranslateEffects {
+
 
     constructor(private store: Store&lt;AppState&gt;
         , private actions$: Actions
@@ -269,6 +268,7 @@ export class TranslateEffects {
     ) {
     }
 
+    private static i18nBundleVersionLoaded &#x3D; new Map&lt;Set&lt;string&gt;&gt;();
 
     @Effect()
     updateTranslateService: Observable&lt;TranslateActions&gt; &#x3D; this.actions$
@@ -324,16 +324,6 @@ export class TranslateEffects {
 
 
     @Effect()
-    refreshLanguageUsedByTranslation: Observable&lt;TranslateActions&gt; &#x3D; this.actions$
-        .pipe(
-            ofType(TranslateActionsTypes.UpdateTranslationSuccessful)
-            , map((action: UpdateTranslationSuccessful) &#x3D;&gt; {
-                this.translate.use(action.payload.language);
-                return new RefreshTranslation();
-            })
-        );
-
-    @Effect()
     verifyTranslationNeeded: Observable&lt;TranslateActions&gt; &#x3D; this.actions$
         .pipe(
             ofType(LightCardActionTypes.LoadLightCardsSuccess)
@@ -352,15 +342,11 @@ export class TranslateEffects {
         );
 
     private extractI18nToUpdate(versions: Map&lt;Set&lt;string&gt;&gt;) {
-        return this.store.select(selectI18nUpLoaded).pipe(
-            map((referencedTranslation: Map&lt;Set&lt;string&gt;&gt;) &#x3D;&gt; {
-                return TranslateEffects.extractThirdToUpdate(versions, referencedTranslation)
-            }));
+            return of(TranslateEffects.extractThirdToUpdate(versions, TranslateEffects.i18nBundleVersionLoaded));
     }
 
     static extractPublisherAssociatedWithDistinctVersionsFromCards(cards: LightCard[]): Map&lt;Set&lt;string&gt;&gt; {
         let thirdsAndVersions: TransitionalThirdWithItSVersion[];
-        // See OC-555 to avoid the infinite loop
         thirdsAndVersions &#x3D; cards.map(card &#x3D;&gt; {
             return new TransitionalThirdWithItSVersion(card.publisher,card.publisherVersion);
         });
@@ -382,7 +368,7 @@ export class TranslateEffects {
 
 
     static extractPublisherAssociatedWithDistinctVersionsFrom(menus: ThirdMenu[]):Map&lt;Set&lt;string&gt;&gt;{
-
+        
         const thirdsAndVersions &#x3D; menus.map(menu&#x3D;&gt;{
             return new TransitionalThirdWithItSVersion(menu.id,menu.version);
         })
@@ -432,7 +418,10 @@ export class TranslateEffects {
     }
 
     static sendTranslateAction(versionToUpdate: Map&lt;Set&lt;string&gt;&gt;): TranslateActions {
-        if (versionToUpdate) return new UpdateTranslation({versions: versionToUpdate});
+        if (versionToUpdate) {
+            TranslateEffects.i18nBundleVersionLoaded &#x3D; {...TranslateEffects.i18nBundleVersionLoaded, ...versionToUpdate};
+            return new UpdateTranslation({versions: versionToUpdate});
+            }
         return new TranslationUpToDate();
     }
 }

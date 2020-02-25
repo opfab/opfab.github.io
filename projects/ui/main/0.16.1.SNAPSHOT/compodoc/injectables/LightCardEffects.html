@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/store/effects/light-card.effects.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/store/effects/light-card.effects.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -229,7 +229,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/app/store/effects/light-card.effects.ts:118</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/store/effects/light-card.effects.ts:120</a></div>
                             </td>
                         </tr>
 
@@ -302,7 +302,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/store/effects/light-card.effects.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/store/effects/light-card.effects.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -353,7 +353,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/store/effects/light-card.effects.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/store/effects/light-card.effects.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -388,6 +388,7 @@
                 return this.store.select(fetchLightCard(lightCardId))
             }),
             switchMap((lightCard: LightCard) &#x3D;&gt; {
+                if (!lightCard) return of(new LoadLightCardsFailure({error: new Error(&quot;Light card not loaded in the store yet&quot;)}));
                 if (lightCard.actions) {
                     return of(new ThirdActionAlreadyLoaded());
                 }
@@ -418,7 +419,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/store/effects/light-card.effects.ts:92</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/store/effects/light-card.effects.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -442,6 +443,7 @@ import {
     DelayedLightCardUpdate,
     LightCardActionTypes,
     LightCardAlreadyUpdated,
+    LoadLightCardsFailure,
     ThirdActionAlreadyLoaded,
     ThirdActionAlreadyUpdated,
     UpdateALightCard,
@@ -522,6 +524,7 @@ export class LightCardEffects {
                 return this.store.select(fetchLightCard(lightCardId))
             }),
             switchMap((lightCard: LightCard) &#x3D;&gt; {
+                if (!lightCard) return of(new LoadLightCardsFailure({error: new Error(&quot;Light card not loaded in the store yet&quot;)}));
                 if (lightCard.actions) {
                     return of(new ThirdActionAlreadyLoaded());
                 }

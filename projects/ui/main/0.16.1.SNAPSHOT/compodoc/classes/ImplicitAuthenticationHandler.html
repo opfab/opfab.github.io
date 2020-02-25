@@ -130,7 +130,7 @@ use the Oidc Connect library to manage OAuth 2.0 implicit authentication mode</p
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="508" class="link-to-prism">src/app/services/authentication/authentication.service.ts:508</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="514" class="link-to-prism">src/app/services/authentication/authentication.service.ts:514</a></div>
                             </td>
                         </tr>
 
@@ -222,8 +222,8 @@ use the Oidc Connect library to manage OAuth 2.0 implicit authentication mode</p
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="524"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:524</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="530"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:530</a></div>
                 </td>
             </tr>
 
@@ -261,8 +261,8 @@ use the Oidc Connect library to manage OAuth 2.0 implicit authentication mode</p
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="514"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:514</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="520"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:520</a></div>
                 </td>
             </tr>
 
@@ -331,8 +331,8 @@ use the Oidc Connect library to manage OAuth 2.0 implicit authentication mode</p
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="520"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:520</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="526"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:526</a></div>
                 </td>
             </tr>
 
@@ -401,8 +401,8 @@ use the Oidc Connect library to manage OAuth 2.0 implicit authentication mode</p
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="528"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:528</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="534"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:534</a></div>
                 </td>
             </tr>
 
@@ -437,7 +437,8 @@ import {
     ImplicitlyAuthenticated,
     InitAuthStatus,
     PayloadForSuccessfulAuthentication,
-    UnAuthenticationFromImplicitFlow
+    UnAuthenticationFromImplicitFlow,
+    UnableToRefreshOrGetToken
 } from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &#x27;@env/environment&#x27;;
 import {GuidService} from &#x27;@ofServices/guid.service&#x27;;
@@ -798,13 +799,18 @@ export class AuthenticationService {
 
     dispatchAppStateActionFromOAuth2Events(event: OAuthEvent): void {
         const eventType: OAuthType &#x3D; event.type;
+        console.log(&quot;Authentification event&quot;,event);
         switch (eventType) {
             case (&#x27;token_received&#x27;): {
                 this.store.dispatch(new ImplicitlyAuthenticated());
                 break;
             }
-            case (&#x27;token_error&#x27;):
+            // We can have a token_error or token_refresh_error when it is not possible to refresh token 
+            // This case arise for example when using a SSO and the session is not valid anymore (session timeout)
+            case (&#x27;token_error&#x27;): 
             case(&#x27;token_refresh_error&#x27;):
+                this.store.dispatch(new UnableToRefreshOrGetToken());
+                break;
             case(&#x27;logout&#x27;): {
                 this.store.dispatch(new UnAuthenticationFromImplicitFlow());
                 break;
