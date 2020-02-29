@@ -76,6 +76,8 @@
 <li>loading: whether there is an ongoing state modification</li>
 <li>message: last message during state processing</li>
 <li>filters: a collection of filter to apply to the rendered feed</li>
+<li>sortBySeverity: Indicates whether the cards in the feed should be sorted by severity before being sorted by
+lttd (asc = earliest first) then publishDate (desc = latest first)</li>
 </ul>
 
             </p>
@@ -113,6 +115,9 @@
                                 </li>
                                 <li>
                                         <a href="#selectedCardId">selectedCardId</a>
+                                </li>
+                                <li>
+                                        <a href="#sortBySeverity">sortBySeverity</a>
                                 </li>
                             </ul>
                         </td>
@@ -270,6 +275,35 @@
 
                         </tbody>
                     </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="sortBySeverity"></a>
+                                        <span class="name"><b>sortBySeverity</b><a href="#sortBySeverity"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>sortBySeverity:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
             </section>
     </div>
 
@@ -288,6 +322,8 @@ import {FilterType} from &quot;@ofServices/filter.service&quot;;
  *  * loading: whether there is an ongoing state modification
  *  * message: last message during state processing
  *  * filters: a collection of filter to apply to the rendered feed
+ *  * sortBySeverity: Indicates whether the cards in the feed should be sorted by severity before being sorted by
+ *    lttd (asc &#x3D; earliest first) then publishDate (desc &#x3D; latest first)
  */
 export interface CardFeedState extends EntityState&lt;LightCard&gt; {
     selectedCardId: string;
@@ -295,6 +331,7 @@ export interface CardFeedState extends EntityState&lt;LightCard&gt; {
     loading: boolean;
     error: string;
     filters: Map&lt;FilterType,Filter&gt;;
+    sortBySeverity: boolean;
 }
 
 export function compareByStartDate(card1: LightCard, card2: LightCard){
@@ -322,8 +359,18 @@ export function compareBySeverityLttdPublishDate(card1: LightCard, card2: LightC
     return result;
 }
 
+export function compareByLttdPublishDate(card1: LightCard, card2: LightCard){
+    let result &#x3D; compareByLttd(card1,card2);
+    if(result &#x3D;&#x3D; 0)
+        result &#x3D; compareByPublishDate(card1,card2);
+    return result;
+}
+
 export const LightCardAdapter: EntityAdapter&lt;LightCard&gt; &#x3D; createEntityAdapter&lt;LightCard&gt;({
-    sortComparer:compareBySeverityLttdPublishDate
+    /* The sortComparer property can only be defined statically for performance optimization reasons.
+    * See https://github.com/ngrx/platform/issues/898
+    * So to implement a sort criteria chosen by the user, I switched to an unsorted EntityAdapter and did the sorting
+    * in the selectors (see selectSortedFilterLightCardIds) */
 });
 
 export const feedInitialState: CardFeedState &#x3D; LightCardAdapter.getInitialState(
@@ -332,7 +379,8 @@ export const feedInitialState: CardFeedState &#x3D; LightCardAdapter.getInitialS
         lastCards: [],
         loading: false,
         error: &#x27;&#x27;,
-        filters: new Map()
+        filters: new Map(),
+        sortBySeverity: true
     });
 </code></pre>
     </div>

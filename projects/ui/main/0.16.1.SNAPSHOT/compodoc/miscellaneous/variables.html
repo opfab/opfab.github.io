@@ -280,6 +280,15 @@
                             <a href="#selectSettingsLoaded" title="src/app/store/selectors/settings.selectors.ts"><b>selectSettingsLoaded</b>&nbsp;&nbsp;&nbsp;(src/.../settings.selectors.ts)</a>
                         </li>
                         <li>
+                            <a href="#selectSortBySeverity" title="src/app/store/selectors/feed.selectors.ts"><b>selectSortBySeverity</b>&nbsp;&nbsp;&nbsp;(src/.../feed.selectors.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#selectSortedFilteredLightCards" title="src/app/store/selectors/feed.selectors.ts"><b>selectSortedFilteredLightCards</b>&nbsp;&nbsp;&nbsp;(src/.../feed.selectors.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#selectSortedFilterLightCardIds" title="src/app/store/selectors/feed.selectors.ts"><b>selectSortedFilterLightCardIds</b>&nbsp;&nbsp;&nbsp;(src/.../feed.selectors.ts)</a>
+                        </li>
+                        <li>
                             <a href="#selectTimelineSelection" title="src/app/store/selectors/timeline.selectors.ts"><b>selectTimelineSelection</b>&nbsp;&nbsp;&nbsp;(src/.../timeline.selectors.ts)</a>
                         </li>
                         <li>
@@ -1038,7 +1047,8 @@
         lastCards: [],
         loading: false,
         error: &#x27;&#x27;,
-        filters: new Map()
+        filters: new Map(),
+        sortBySeverity: true
     })</code>
                         </td>
                     </tr>
@@ -1067,7 +1077,10 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>createEntityAdapter&lt;LightCard&gt;({
-    sortComparer:compareBySeverityLttdPublishDate
+    /* The sortComparer property can only be defined statically for performance optimization reasons.
+    * See https://github.com/ngrx/platform/issues/898
+    * So to implement a sort criteria chosen by the user, I switched to an unsorted EntityAdapter and did the sorting
+    * in the selectors (see selectSortedFilterLightCardIds) */
 })</code>
                         </td>
                     </tr>
@@ -1092,7 +1105,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>lightCardId &#x3D;&gt;(state:AppState) &#x3D;&gt; selecteFeedCardEntities(state)[lightCardId]</code>
+                            <i>Default value : </i><code>lightCardId &#x3D;&gt;(state:AppState) &#x3D;&gt; selectFeedCardEntities(state)[lightCardId]</code>
                         </td>
                     </tr>
 
@@ -1257,6 +1270,89 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>(state:AppState) &#x3D;&gt; state.feed</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectSortBySeverity"></a>
+                        <span class="name">
+                            <b>
+                            selectSortBySeverity</b>
+                            <a href="#selectSortBySeverity"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createSelector(selectLightCardsState,
+    state &#x3D;&gt; state.sortBySeverity)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectSortedFilteredLightCards"></a>
+                        <span class="name">
+                            <b>
+                            selectSortedFilteredLightCards</b>
+                            <a href="#selectSortedFilteredLightCards"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createSelector(
+    selectFeedCardEntities,
+    selectSortedFilterLightCardIds,
+    ( entities, sortedIds ) &#x3D;&gt; {
+        return sortedIds.map( id &#x3D;&gt; entities[id]);
+    })</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectSortedFilterLightCardIds"></a>
+                        <span class="name">
+                            <b>
+                            selectSortedFilterLightCardIds</b>
+                            <a href="#selectSortedFilterLightCardIds"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>createSelector(
+    selectFilteredFeed,
+    selectSortBySeverity,
+    ( entityArray, sortBySeverity ) &#x3D;&gt; {
+        function compareFn(sortBySeverity: boolean){
+            if(sortBySeverity) {
+                return compareBySeverityLttdPublishDate;
+            } else {
+                return compareByLttdPublishDate;
+            }
+        }
+        return entityArray
+            .sort( compareFn(sortBySeverity) )
+            .map( entity &#x3D;&gt; entity.id );
+    })</code>
                         </td>
                     </tr>
 
