@@ -1280,16 +1280,12 @@ export class AuthenticationEffects {
         return new RejectLogIn({error: errorMsg});
 
     }
-
+    
     private resetState() {
         this.authService.clearAuthenticationInformation();
-        combineLatest(
-            this.store.select(buildConfigSelector(&#x27;security.provider-realm&#x27;)),
-            this.store.select(buildConfigSelector(&#x27;security.provider-url&#x27;))
-        ).subscribe(([realm, url]) &#x3D;&gt; {
-            if(realm &amp;&amp; url) {
-                const redirect &#x3D; this.authService.computeRedirectUri();
-                window.location.href &#x3D; &#x60;${url}/auth/realms/${realm}/protocol/openid-connect/logout?redirect_uri&#x3D;${redirect}&#x60;;
+        this.store.select(buildConfigSelector(&#x27;security.logout-url&#x27;)).subscribe(url &#x3D;&gt; {
+            if (url) {
+                window.location.href &#x3D; url;
             }
         });
         this.cardService.unsubscribeCardOperation();

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -110,28 +110,43 @@ var activeTableTab = "activeTableTab";
 <pre>@Service
 public class <span class="typeNameLabel">CardWriteService</span>
 extends java.lang.Object</pre>
-<div class="block"><p>Responsible of Reactive Write of Cards in card mongo collection</p>
- <p>This service also generate an ArchiveCard object persisted in archivedCard mongo collection</p>
- <p>There is two way of pushing cards to this service:</p>
+<div class="block"><p>
+ Responsible of Reactive Write of Cards in card mongo collection
+ </p>
+ <p>
+ This service also generate an ArchiveCard object persisted in archivedCard
+ mongo collection
+ </p>
+ <p>
+ There is two way of pushing cards to this service:
+ </p>
  <ul>
  <li>Synchronous cards</li>
- <li>Asynchronous : Cards is pushed to an internal <code>FluxSink</code>, the cards treatment is windowed
- (see <code>Flux.windowTimeout(int, java.time.Duration)</code>)
- and each window is treated in parallel (see <code>Schedulers.parallel()</code>)</li>
+ <li>Asynchronous : Cards is pushed to an internal <code>FluxSink</code>, the cards
+ treatment is windowed (see <code>Flux.windowTimeout(int, java.time.Duration)</code>)
+ and each window is treated in parallel (see
+ <code>Schedulers.parallel()</code>)</li>
  </ul>
- <p>Treatments includes :</p>
+ <p>
+ Treatments includes :
+ </p>
  <ul>
  <li>Validate card data (Bean validation)</li>
- <li>Creating an <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/ArchivedCardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>ArchivedCardPublicationData</code></a> along the <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardPublicationData</code></a> (passed has tuple)</li>
- <li>Removing <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardPublicationData</code></a> with duplicate id (keeping only the latest one) through a reduce operation</li>
+ <li>Creating an <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/ArchivedCardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>ArchivedCardPublicationData</code></a> along the
+ <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardPublicationData</code></a> (passed has tuple)</li>
+ <li>Removing <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardPublicationData</code></a> with duplicate id (keeping only the
+ latest one) through a reduce operation</li>
  <li>Fuse cards to add into mongo bulk operations to avoid multiple IOs</li>
  <li>Execute bulk operations</li>
  </ul>
 
- <p>Configuration properties available in spring configuration</p>
+ <p>
+ Configuration properties available in spring configuration
+ </p>
  <ul>
  <li>operatorfabric.card-write.window: treatment window maximum size</li>
- <li>operatorfabric.write.timeout: maximum wait time before treatment window creation</li>
+ <li>operatorfabric.write.timeout: maximum wait time before treatment window
+ creation</li>
  </ul></div>
 </li>
 </ul>
@@ -151,12 +166,10 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#CardWriteService-org.lfenergy.operatorfabric.cards.publication.services.RecipientProcessor-org.springframework.data.mongodb.core.MongoTemplate-org.springframework.validation.beanvalidation.LocalValidatorFactoryBean-org.lfenergy.operatorfabric.cards.publication.services.CardNotificationService-int-long-">CardWriteService</a></span>(<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/RecipientProcessor.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">RecipientProcessor</a>&nbsp;recipientProcessor,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#CardWriteService-org.lfenergy.operatorfabric.cards.publication.services.RecipientProcessor-org.springframework.data.mongodb.core.MongoTemplate-org.springframework.validation.beanvalidation.LocalValidatorFactoryBean-org.lfenergy.operatorfabric.cards.publication.services.CardNotificationService-">CardWriteService</a></span>(<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/RecipientProcessor.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">RecipientProcessor</a>&nbsp;recipientProcessor,
                 org.springframework.data.mongodb.core.MongoTemplate&nbsp;template,
                 org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&nbsp;localValidatorFactoryBean,
-                <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardNotificationService.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">CardNotificationService</a>&nbsp;cardNotificationService,
-                int&nbsp;windowSize,
-                long&nbsp;windowTimeOut)</code>&nbsp;</td>
+                <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardNotificationService.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">CardNotificationService</a>&nbsp;cardNotificationService)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -175,9 +188,10 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>reactor.core.publisher.Mono&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardCreationReportData</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#createCardsWithResult-reactor.core.publisher.Flux-">createCardsWithResult</a></span>(reactor.core.publisher.Flux&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&gt;&nbsp;pushedCards)</code>
-<div class="block">Synchronous card push in the persisting/notification process use the same treatment as those associated to
- the internal <code>FluxSink</code> but adds a last step to prepare <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardCreationReportData</code></a></div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#createCards-reactor.core.publisher.Flux-">createCards</a></span>(reactor.core.publisher.Flux&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&gt;&nbsp;pushedCards)</code>
+<div class="block">cCard push in the persisting/notification process use the same
+ treatment as those associated to the internal <code>FluxSink</code> but adds a
+ last step to prepare <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardCreationReportData</code></a></div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -189,18 +203,6 @@ extends java.lang.Object</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#findCardToDelete-java.lang.String-">findCardToDelete</a></span>(java.lang.String&nbsp;processId)</code>&nbsp;</td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#pushCardAsyncParallel-org.lfenergy.operatorfabric.cards.publication.model.CardPublicationData-">pushCardAsyncParallel</a></span>(<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&nbsp;pushedCard)</code>
-<div class="block">Asynchronous fire and forget card push in the persisting/notification process</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardWriteService.html#pushCardsAsyncParallel-reactor.core.publisher.Flux-">pushCardsAsyncParallel</a></span>(reactor.core.publisher.Flux&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&gt;&nbsp;pushedCards)</code>
-<div class="block">Asynchronous fire and forget card push in the persisting/notification process</div>
-</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -224,7 +226,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="CardWriteService-org.lfenergy.operatorfabric.cards.publication.services.RecipientProcessor-org.springframework.data.mongodb.core.MongoTemplate-org.springframework.validation.beanvalidation.LocalValidatorFactoryBean-org.lfenergy.operatorfabric.cards.publication.services.CardNotificationService-int-long-">
+<a name="CardWriteService-org.lfenergy.operatorfabric.cards.publication.services.RecipientProcessor-org.springframework.data.mongodb.core.MongoTemplate-org.springframework.validation.beanvalidation.LocalValidatorFactoryBean-org.lfenergy.operatorfabric.cards.publication.services.CardNotificationService-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -234,11 +236,7 @@ extends java.lang.Object</pre>
 public&nbsp;CardWriteService(<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/RecipientProcessor.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">RecipientProcessor</a>&nbsp;recipientProcessor,
                                    org.springframework.data.mongodb.core.MongoTemplate&nbsp;template,
                                    org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&nbsp;localValidatorFactoryBean,
-                                   <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardNotificationService.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">CardNotificationService</a>&nbsp;cardNotificationService,
-                                   @Value(value="${operatorfabric.card-write.window.size:1000}")
-                                   int&nbsp;windowSize,
-                                   @Value(value="${operatorfabric.card-write.window.timeout:500}")
-                                   long&nbsp;windowTimeOut)</pre>
+                                   <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/services/CardNotificationService.html" title="class in org.lfenergy.operatorfabric.cards.publication.services">CardNotificationService</a>&nbsp;cardNotificationService)</pre>
 </li>
 </ul>
 </li>
@@ -249,43 +247,16 @@ public&nbsp;CardWriteService(<a href="../../../../../../org/lfenergy/operatorfab
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="pushCardsAsyncParallel-reactor.core.publisher.Flux-">
+<a name="createCards-reactor.core.publisher.Flux-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>pushCardsAsyncParallel</h4>
-<pre>public&nbsp;void&nbsp;pushCardsAsyncParallel(reactor.core.publisher.Flux&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&gt;&nbsp;pushedCards)</pre>
-<div class="block">Asynchronous fire and forget card push in the persisting/notification process</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pushedCards</code> - published cards to add</dd>
-</dl>
-</li>
-</ul>
-<a name="pushCardAsyncParallel-org.lfenergy.operatorfabric.cards.publication.model.CardPublicationData-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>pushCardAsyncParallel</h4>
-<pre>public&nbsp;void&nbsp;pushCardAsyncParallel(<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&nbsp;pushedCard)</pre>
-<div class="block">Asynchronous fire and forget card push in the persisting/notification process</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pushedCard</code> - published card to add</dd>
-</dl>
-</li>
-</ul>
-<a name="createCardsWithResult-reactor.core.publisher.Flux-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>createCardsWithResult</h4>
-<pre>public&nbsp;reactor.core.publisher.Mono&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardCreationReportData</a>&gt;&nbsp;createCardsWithResult(reactor.core.publisher.Flux&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&gt;&nbsp;pushedCards)</pre>
-<div class="block">Synchronous card push in the persisting/notification process use the same treatment as those associated to
- the internal <code>FluxSink</code> but adds a last step to prepare <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardCreationReportData</code></a></div>
+<h4>createCards</h4>
+<pre>public&nbsp;reactor.core.publisher.Mono&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardCreationReportData</a>&gt;&nbsp;createCards(reactor.core.publisher.Flux&lt;<a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardPublicationData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model">CardPublicationData</a>&gt;&nbsp;pushedCards)</pre>
+<div class="block">cCard push in the persisting/notification process use the same
+ treatment as those associated to the internal <code>FluxSink</code> but adds a
+ last step to prepare <a href="../../../../../../org/lfenergy/operatorfabric/cards/publication/model/CardCreationReportData.html" title="class in org.lfenergy.operatorfabric.cards.publication.model"><code>CardCreationReportData</code></a></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>pushedCards</code> - published cards to add</dd>

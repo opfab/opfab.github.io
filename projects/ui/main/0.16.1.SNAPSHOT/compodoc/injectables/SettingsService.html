@@ -79,7 +79,7 @@
                                 <a href="#userId">userId</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#usersUrl">usersUrl</a>
                             </li>
                         </ul>
@@ -328,7 +328,7 @@
                         <a name="usersUrl"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Readonly</span>
                             usersUrl</b>
                             <a href="#usersUrl"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -356,29 +356,29 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
-import {Observable} from &quot;rxjs&quot;;
-import {HttpClient} from &quot;@angular/common/http&quot;;
-import {Store} from &quot;@ngrx/store&quot;;
-import {AppState} from &quot;@ofStore/index&quot;;
-import {environment} from &quot;@env/environment&quot;;
-import {selectIdentifier} from &quot;@ofSelectors/authentication.selectors&quot;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {HttpClient} from &#x27;@angular/common/http&#x27;;
+import {Store} from &#x27;@ngrx/store&#x27;;
+import {AppState} from &#x27;@ofStore/index&#x27;;
+import {environment} from &#x27;@env/environment&#x27;;
+import {selectIdentifier} from &#x27;@ofSelectors/authentication.selectors&#x27;;
 
 @Injectable()
 export class SettingsService {
-    private usersUrl: string;
+    readonly usersUrl: string;
     private userId: string;
 
     constructor(private httpClient: HttpClient,
                 private store: Store&lt;AppState&gt;) {
         this.usersUrl &#x3D; &#x60;${environment.urls.users}&#x60;;
-        this.store.select(selectIdentifier).subscribe(id&#x3D;&gt;this.userId&#x3D;id);
+        this.store.select(selectIdentifier).subscribe(id &#x3D;&gt; this.userId &#x3D; id);
     }
 
     fetchUserSettings(): Observable&lt;any&gt; {
         return this.httpClient.get(&#x60;${this.usersUrl}/users/${this.userId}/settings&#x60;);
     }
 
-    patchUserSettings(settings:any): Observable&lt;any&gt; {
+    patchUserSettings(settings: any): Observable&lt;any&gt; {
         return this.httpClient.patch(&#x60;${this.usersUrl}/users/${this.userId}/settings&#x60;, settings);
     }
 }

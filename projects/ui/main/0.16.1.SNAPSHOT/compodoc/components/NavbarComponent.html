@@ -290,8 +290,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/app/components/navbar/navbar.component.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">src/app/components/navbar/navbar.component.ts:91</a></div>
                 </td>
             </tr>
 
@@ -368,8 +368,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">src/app/components/navbar/navbar.component.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/components/navbar/navbar.component.ts:99</a></div>
                 </td>
             </tr>
 
@@ -438,8 +438,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">src/app/components/navbar/navbar.component.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">src/app/components/navbar/navbar.component.ts:106</a></div>
                 </td>
             </tr>
 
@@ -756,7 +756,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/components/navbar/navbar.component.ts:86</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/components/navbar/navbar.component.ts:95</a></div>
                                 </td>
                             </tr>
 
@@ -773,18 +773,18 @@ import {Store} from &#x27;@ngrx/store&#x27;;
 import {TryToLogOut} from &#x27;@ofActions/authentication.actions&#x27;;
 import {AppState} from &#x27;@ofStore/index&#x27;;
 import {selectCurrentUrl} from &#x27;@ofSelectors/router.selectors&#x27;;
-import {LoadMenu} from &quot;@ofActions/menu.actions&quot;;
-import {selectMenuStateMenu} from &quot;@ofSelectors/menu.selectors&quot;;
-import {Observable} from &quot;rxjs&quot;;
-import {ThirdMenu} from &quot;@ofModel/thirds.model&quot;;
-import {tap} from &quot;rxjs/operators&quot;;
+import {LoadMenu} from &#x27;@ofActions/menu.actions&#x27;;
+import {selectMenuStateMenu} from &#x27;@ofSelectors/menu.selectors&#x27;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {ThirdMenu} from &#x27;@ofModel/thirds.model&#x27;;
+import {tap} from &#x27;rxjs/operators&#x27;;
 import * as _ from &#x27;lodash&#x27;;
-import { buildConfigSelector } from &#x27;@ofStore/selectors/config.selectors&#x27;;
+import {buildConfigSelector} from &#x27;@ofStore/selectors/config.selectors&#x27;;
 
 @Component({
-  selector: &#x27;of-navbar&#x27;,
-  templateUrl: &#x27;./navbar.component.html&#x27;,
-  styleUrls: [&#x27;./navbar.component.scss&#x27;]
+    selector: &#x27;of-navbar&#x27;,
+    templateUrl: &#x27;./navbar.component.html&#x27;,
+    styleUrls: [&#x27;./navbar.component.scss&#x27;]
 })
 export class NavbarComponent implements OnInit {
 
@@ -792,8 +792,8 @@ export class NavbarComponent implements OnInit {
     navigationRoutes &#x3D; navigationRoutes;
     currentPath: string[];
     private _thirdMenus: Observable&lt;ThirdMenu[]&gt;;
-    expandedMenu:boolean[]&#x3D;[];
-    expandedUserMenu&#x3D;false;
+    expandedMenu: boolean[] &#x3D; [];
+    expandedUserMenu &#x3D; false;
 
     customLogo: string;
     height: Number;
@@ -804,60 +804,71 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.select(selectCurrentUrl).subscribe(url&#x3D;&gt;{
-            if(url)
+        this.store.select(selectCurrentUrl).subscribe(url &#x3D;&gt; {
+            if (url) {
                 this.currentPath &#x3D; url.split(&#x27;/&#x27;);
+            }
         });
-        this._thirdMenus&#x3D;this.store.select(selectMenuStateMenu)
-            .pipe(tap(menus&#x3D;&gt;{
-                this.expandedMenu&#x3D;new Array&lt;boolean&gt;(menus.length);
-                _.fill(this.expandedMenu,false);
+        this._thirdMenus &#x3D; this.store.select(selectMenuStateMenu)
+            .pipe(tap(menus &#x3D;&gt; {
+                this.expandedMenu &#x3D; new Array&lt;boolean&gt;(menus.length);
+                _.fill(this.expandedMenu, false);
             }));
         this.store.dispatch(new LoadMenu());
 
         this.store.select(buildConfigSelector(&#x27;logo.base64&#x27;)).subscribe(
             data &#x3D;&gt; {
-              if (data) this.customLogo &#x3D; &#x60;data:image/svg+xml;base64,${data}&#x60;
+                if (data) {
+                    this.customLogo &#x3D; &#x60;data:image/svg+xml;base64,${data}&#x60;;
+                }
             }
         );
 
         this.store.select(buildConfigSelector(&#x27;logo.height&#x27;)).subscribe(
             height &#x3D;&gt; {
-              if (height) this.height &#x3D; height;
+                if (height) {
+                    this.height &#x3D; height;
+                }
             }
         );
 
         this.store.select(buildConfigSelector(&#x27;logo.width&#x27;)).subscribe(
             width &#x3D;&gt; {
-              if (width) this.width &#x3D; width;
+                if (width) {
+                    this.width &#x3D; width;
+                }
             }
         );
         this.store.select(buildConfigSelector(&#x27;logo.limitSize&#x27;)).subscribe(
-            (limitSize:boolean) &#x3D;&gt; {
+            (limitSize: boolean) &#x3D;&gt; {
                 // BE CAREFUL, as a boolean it has to be test with undefined value to know if it has been set.
-              if (limitSize!&#x3D;undefined &amp;&amp; typeof(limitSize) &#x3D;&#x3D;&#x27;boolean&#x27;) this.limitSize &#x3D; limitSize;
+                if (limitSize !&#x3D;&#x3D; undefined &amp;&amp; typeof (limitSize) &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
+                    this.limitSize &#x3D; limitSize;
+                }
             }
         );
     }
 
-    logOut(){
+    logOut() {
         this.store.dispatch(new TryToLogOut());
     }
 
-    get thirdMenus(){
+    get thirdMenus() {
         return this._thirdMenus;
     }
 
-    toggleMenu(index:number){
-        this.expandedMenu[index]&#x3D;!this.expandedMenu[index];
-        if(this.expandedMenu[index])
-            setTimeout(()&#x3D;&gt;this.expandedMenu[index]&#x3D;false,5000);
+    toggleMenu(index: number) {
+        this.expandedMenu[index] &#x3D; !this.expandedMenu[index];
+        if (this.expandedMenu[index]) {
+            setTimeout(() &#x3D;&gt; this.expandedMenu[index] &#x3D; false, 5000);
+        }
     }
 
-    toggleUserMenu(){
-        this.expandedUserMenu&#x3D;!this.expandedUserMenu;
-        if(this.expandedUserMenu)
-            setTimeout(()&#x3D;&gt;this.expandedUserMenu&#x3D;false,5000);
+    toggleUserMenu() {
+        this.expandedUserMenu &#x3D; !this.expandedUserMenu;
+        if (this.expandedUserMenu) {
+            setTimeout(() &#x3D;&gt; this.expandedUserMenu &#x3D; false, 5000);
+        }
     }
 }
 </code></pre>
@@ -900,7 +911,10 @@ export class NavbarComponent implements OnInit {
         &gt;{{&#x27;menu.&#x27;+link.path}}&lt;/a&gt;
       &lt;/li&gt;
       &lt;!-- Links from menus declared in third-party bundles--&gt;
-      &lt;li *ngFor&#x3D;&quot;let tMenu of (thirdMenus|async); let index &#x3D; index;&quot; class&#x3D;&quot;nav-item&quot; [class.dropdown]&#x3D;&quot;tMenu.entries.length&gt;1&quot; [class.thirds-dropdown]&#x3D;&quot;tMenu.entries.length&gt;1&quot;&gt;
+      &lt;li *ngFor&#x3D;&quot;let tMenu of (thirdMenus|async); let index &#x3D; index;&quot;
+          class&#x3D;&quot;nav-item&quot;
+          [class.dropdown]&#x3D;&quot;tMenu.entries.length&gt;1&quot;
+          [class.thirds-dropdown]&#x3D;&quot;tMenu.entries.length&gt;1&quot;&gt;
         &lt;!-- Dropdown menu if at least 2 entries--&gt;
         &lt;a
                 class&#x3D;&quot;nav-link dropdown-toggle&quot;
@@ -942,6 +956,14 @@ export class NavbarComponent implements OnInit {
                     routerLinkActive #rla&#x3D;&quot;routerLinkActive&quot;
                     translate
             &gt;menu.settings&lt;/a&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;dropdown-item&quot; [class.active]&#x3D;&quot;currentPath &amp;&amp; &#x27;about&#x27; &#x3D;&#x3D;&#x3D; currentPath[1]&quot;&gt;
+            &lt;a
+                    class&#x3D;&quot;nav-link text-dark text-decoration-none&quot;
+                    routerLink&#x3D;&quot;/about&quot;
+                    routerLinkActive #rla&#x3D;&quot;routerLinkActive&quot;
+                    translate
+            &gt;menu.about&lt;/a&gt;
           &lt;/div&gt;
           &lt;div class&#x3D;&quot;dropdown-item&quot;&gt;
             &lt;form&gt;
@@ -996,8 +1018,8 @@ export class NavbarComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2020, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark ">  <a class="navbar-brand">    <div *ngIf="this.customLogo; else opFabLogo">      <of-custom-logo [base64]="customLogo" [limitSize]="limitSize" [height]="height" [width]="width" ></of-custom-logo>     </div>    <ng-template #opFabLogo>      <div class="brand-bg-light">        <of-icon icon="operator-fabric" sizeIcon=\'medium\'></of-icon>      </div>    </ng-template>  </a>  <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed"          aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">    <span class="navbar-toggler-icon"></span>  </button>  <div class="collapse navbar-collapse" id="navbarContent" [ngbCollapse]="navbarCollapsed">    <ul class="navbar-nav mr-auto">      <!-- Links to OperatorFabric pages as defined in app-rooting.module.ts (e.g. Card Feed, Archive) -->      <li class="nav-item" *ngFor="let link of navigationRoutes, let i = index"          [class.active]="currentPath && link.path === currentPath[1]">        <a                class="nav-link"                [routerLink]="link.path"                routerLinkActive #rla="routerLinkActive"                (click)="activeLinkIndex = i"                translate        >{{\'menu.\'+link.path}}</a>      </li>      <!-- Links from menus declared in third-party bundles-->      <li *ngFor="let tMenu of (thirdMenus|async); let index = index;" class="nav-item" [class.dropdown]="tMenu.entries.length>1" [class.thirds-dropdown]="tMenu.entries.length>1">        <!-- Dropdown menu if at least 2 entries-->        <a                class="nav-link dropdown-toggle"                [id]="\'drop_\'+tMenu.id"                [attr.aria-expanded]="expandedMenu[index]"                (click)="toggleMenu(index)"                *ngIf="tMenu.entries.length>1"                translate                href="javascript:void(0)"        >{{tMenu.id}}.{{tMenu.version}}.{{tMenu.label}}</a>        <div class="dropdown-menu"             *ngIf="tMenu.entries.length>1"             [ngbCollapse]="!expandedMenu[index]">          <div class="dropdown-item" *ngFor="let entry of tMenu.entries">            <of-menu-link [menu]="tMenu" [menuEntry]="entry"></of-menu-link>          </div>        </div>        <!-- Navbar link if only one entry -->        <div class="nav-link" *ngIf="tMenu.entries.length==1">          <of-menu-link [menu]="tMenu" [menuEntry]="tMenu.entries[0]"></of-menu-link>        </div>      </li>    </ul>    <ul class="navbar-nav navbar-right">      <li class="nav-item dropdown align-middle">        <a                class="nav-link dropdown-toggle"                id="drop_user_menu"                [attr.aria-expanded]="expandedUserMenu"                (click)="toggleUserMenu()"                href="javascript:void(0)"        ><of-info></of-info></a>        <div class="dropdown-menu dropdown-menu-right"             [ngbCollapse]="!expandedUserMenu">          <div class="dropdown-item" [class.active]="currentPath && \'settings\' === currentPath[1]">            <a                    class="nav-link text-dark text-decoration-none"                    routerLink="/settings"                    routerLinkActive #rla="routerLinkActive"                    translate            >menu.settings</a>          </div>          <div class="dropdown-item">            <form>              <a class="nav-link text-dark text-decoration-none" (click)="logOut()" href="javascript:void(0)">                <span translate>menu.logout</span>&nbsp;<fa-icon icon="sign-out-alt"></fa-icon></a>            </form>          </div>        </div>      </li>    </ul>  </div></nav></div>'
-    var COMPONENTS = [{'name': 'ActionComponent', 'selector': 'of-action'},{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchiveListPageComponent', 'selector': 'of-archive-list-page'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'ConfirmModalComponent', 'selector': 'confirm-modal-component'},{'name': 'CustomLogoComponent', 'selector': 'of-custom-logo'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DatetimeFilterComponent', 'selector': 'of-datetime-filter'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MenuLinkComponent', 'selector': 'of-menu-link'},{'name': 'MultiFilterComponent', 'selector': 'of-multi-filter'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'ResizableComponent', 'selector': 'of-resizable'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'SeveritySortComponent', 'selector': 'of-severity-sort'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
+        var COMPONENT_TEMPLATE = '<div><!-- Copyright (c) 2020, RTE (http://www.rte-france.com)                 --><!--                                                                     --><!-- This Source Code Form is subject to the terms of the Mozilla Public --><!-- License, v. 2.0. If a copy of the MPL was not distributed with this --><!-- file, You can obtain one at http://mozilla.org/MPL/2.0/.            --><nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark ">  <a class="navbar-brand">    <div *ngIf="this.customLogo; else opFabLogo">      <of-custom-logo [base64]="customLogo" [limitSize]="limitSize" [height]="height" [width]="width" ></of-custom-logo>     </div>    <ng-template #opFabLogo>      <div class="brand-bg-light">        <of-icon icon="operator-fabric" sizeIcon=\'medium\'></of-icon>      </div>    </ng-template>  </a>  <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" [attr.aria-expanded]="!navbarCollapsed"          aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">    <span class="navbar-toggler-icon"></span>  </button>  <div class="collapse navbar-collapse" id="navbarContent" [ngbCollapse]="navbarCollapsed">    <ul class="navbar-nav mr-auto">      <!-- Links to OperatorFabric pages as defined in app-rooting.module.ts (e.g. Card Feed, Archive) -->      <li class="nav-item" *ngFor="let link of navigationRoutes, let i = index"          [class.active]="currentPath && link.path === currentPath[1]">        <a                class="nav-link"                [routerLink]="link.path"                routerLinkActive #rla="routerLinkActive"                (click)="activeLinkIndex = i"                translate        >{{\'menu.\'+link.path}}</a>      </li>      <!-- Links from menus declared in third-party bundles-->      <li *ngFor="let tMenu of (thirdMenus|async); let index = index;"          class="nav-item"          [class.dropdown]="tMenu.entries.length>1"          [class.thirds-dropdown]="tMenu.entries.length>1">        <!-- Dropdown menu if at least 2 entries-->        <a                class="nav-link dropdown-toggle"                [id]="\'drop_\'+tMenu.id"                [attr.aria-expanded]="expandedMenu[index]"                (click)="toggleMenu(index)"                *ngIf="tMenu.entries.length>1"                translate                href="javascript:void(0)"        >{{tMenu.id}}.{{tMenu.version}}.{{tMenu.label}}</a>        <div class="dropdown-menu"             *ngIf="tMenu.entries.length>1"             [ngbCollapse]="!expandedMenu[index]">          <div class="dropdown-item" *ngFor="let entry of tMenu.entries">            <of-menu-link [menu]="tMenu" [menuEntry]="entry"></of-menu-link>          </div>        </div>        <!-- Navbar link if only one entry -->        <div class="nav-link" *ngIf="tMenu.entries.length==1">          <of-menu-link [menu]="tMenu" [menuEntry]="tMenu.entries[0]"></of-menu-link>        </div>      </li>    </ul>    <ul class="navbar-nav navbar-right">      <li class="nav-item dropdown align-middle">        <a                class="nav-link dropdown-toggle"                id="drop_user_menu"                [attr.aria-expanded]="expandedUserMenu"                (click)="toggleUserMenu()"                href="javascript:void(0)"        ><of-info></of-info></a>        <div class="dropdown-menu dropdown-menu-right"             [ngbCollapse]="!expandedUserMenu">          <div class="dropdown-item" [class.active]="currentPath && \'settings\' === currentPath[1]">            <a                    class="nav-link text-dark text-decoration-none"                    routerLink="/settings"                    routerLinkActive #rla="routerLinkActive"                    translate            >menu.settings</a>          </div>          <div class="dropdown-item" [class.active]="currentPath && \'about\' === currentPath[1]">            <a                    class="nav-link text-dark text-decoration-none"                    routerLink="/about"                    routerLinkActive #rla="routerLinkActive"                    translate            >menu.about</a>          </div>          <div class="dropdown-item">            <form>              <a class="nav-link text-dark text-decoration-none" (click)="logOut()" href="javascript:void(0)">                <span translate>menu.logout</span>&nbsp;<fa-icon icon="sign-out-alt"></fa-icon></a>            </form>          </div>        </div>      </li>    </ul>  </div></nav></div>'
+    var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'of-about'},{'name': 'ActionComponent', 'selector': 'of-action'},{'name': 'AppComponent', 'selector': 'of-root'},{'name': 'ArchiveFiltersComponent', 'selector': 'of-archive-filters'},{'name': 'ArchiveListComponent', 'selector': 'of-archive-list'},{'name': 'ArchiveListPageComponent', 'selector': 'of-archive-list-page'},{'name': 'ArchivesComponent', 'selector': 'of-archives'},{'name': 'BaseSettingComponent', 'selector': 'of-base-setting'},{'name': 'CardComponent', 'selector': 'of-card'},{'name': 'CardDetailsComponent', 'selector': 'of-card-details'},{'name': 'CardListComponent', 'selector': 'of-card-list'},{'name': 'ConfirmModalComponent', 'selector': 'confirm-modal-component'},{'name': 'CustomLogoComponent', 'selector': 'of-custom-logo'},{'name': 'CustomTimelineChartComponent', 'selector': 'of-custom-timeline-chart'},{'name': 'DatetimeFilterComponent', 'selector': 'of-datetime-filter'},{'name': 'DetailComponent', 'selector': 'of-detail'},{'name': 'DetailsComponent', 'selector': 'of-details'},{'name': 'EmailSettingComponent', 'selector': 'of-email-setting'},{'name': 'FeedComponent', 'selector': 'of-cards'},{'name': 'FiltersComponent', 'selector': 'of-filters'},{'name': 'IconComponent', 'selector': 'of-icon'},{'name': 'IframeDisplayComponent', 'selector': 'of-iframedisplay'},{'name': 'InfoComponent', 'selector': 'of-info'},{'name': 'InitChartComponent', 'selector': 'of-init-chart'},{'name': 'ListSettingComponent', 'selector': 'of-list-setting'},{'name': 'LoginComponent', 'selector': 'of-login'},{'name': 'MenuLinkComponent', 'selector': 'of-menu-link'},{'name': 'MultiFilterComponent', 'selector': 'of-multi-filter'},{'name': 'MultiSettingsComponent', 'selector': 'of-multi-settings'},{'name': 'NavbarComponent', 'selector': 'of-navbar'},{'name': 'NoSelectionComponent', 'selector': 'of-no-selection'},{'name': 'ResizableComponent', 'selector': 'of-resizable'},{'name': 'SettingsComponent', 'selector': 'of-settings'},{'name': 'SeveritySortComponent', 'selector': 'of-severity-sort'},{'name': 'TagsFilterComponent', 'selector': 'of-tags-filter'},{'name': 'TextSettingComponent', 'selector': 'of-text-setting'},{'name': 'TimeFilterComponent', 'selector': 'of-time-filter'},{'name': 'TimeLineComponent', 'selector': 'of-time-line'},{'name': 'TypeAheadSettingsComponent', 'selector': 'of-type-ahead-settings'},{'name': 'TypeFilterComponent', 'selector': 'of-type-filter'}];
     var DIRECTIVES = [{'name': 'CalcHeightDirective', 'selector': '[calcHeightDirective]'},{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'MouseWheelDirective', 'selector': '[appMouseWheel]'}];
     var ACTUAL_COMPONENT = {'name': 'NavbarComponent'};
 </script>

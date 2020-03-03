@@ -3691,6 +3691,17 @@ NONE
 <td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak server instance</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.logout-url</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The keycloak logout URL. Is a composition of:
+ - Your keycloak instance and the <em>auth</em> keyword (ex: <a href="https://www.keycloakurl.com/auth" class="bare">www.keycloakurl.com/auth</a>), but we also support domains without <em>auth</em> (ex: <a href="https://www.keycloakurl.com/customPath" class="bare">www.keycloakurl.com/customPath</a>)
+ - The realm name (Ex: dev)
+ - The redirect URL (<em>redirect_uri</em>): The redirect URL after success authentification</p>
+</div></div></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.mode</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PASSWORD</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -3914,6 +3925,24 @@ while clicking the icon opens in a new tab.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the tags in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.about</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>operatorfabric:<br>
+     name:  'OperatorFabric'<br>
+     version:  ${currentVersion}<br>
+     rank: 0</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>no</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Declares application names and their version into web-ui about section.<br>
+Each entry is
+a free key value followed by its name (a string of characters), its version(a string of characters) and its rank of declaration(a number) cf the default value where the declared key is <code>operatorfabric'</code>.<br>
+For this default value, with <code>'OperatorFabric'</code> as <code>name</code> and <code>0</code> as <code>rank</code>, the value of <code>${currentVersion}</code> is the version of the current release. <code>0.16.1-RELEASE</code> for example.</p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logo.base64</p></td>
@@ -4214,6 +4243,7 @@ operatorfabric:
   security:
     provider-url: http://localhost:89
     provider-realm: dev
+    logout-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/
     oauth2:
       flow:
         mode: CODE
@@ -4275,6 +4305,18 @@ operatorfabric:
     locale: en
     infos:
       description: true
+    about:
+      firstapplication:
+        name: First application
+        version: v12.34.56
+        rank: 1
+      keycloack:
+        name: Keycloak
+        version: 6.0.1
+        rank: 2
+      lastapplication:
+          name: Wonderful Solution
+          version: 0.1.2-RELEASE
   time:
     pulse: 5000</code></pre>
 </div>
@@ -4341,7 +4383,19 @@ operatorfabric:
   settings:
     locale: en
     infos:
-      description: true</code></pre>
+      description: true
+    about:
+      firstapplication:
+        name: First application
+        version: v12.34.56
+        rank: 1
+      keycloack:
+        name: Keycloak
+        version: 6.0.1
+        rank: 2
+      lastapplication:
+        name: Wonderful Solution
+        version: 0.1.2-RELEASE</code></pre>
 </div>
 </div>
 </div>
@@ -4779,21 +4833,6 @@ number of cards.</p>
 <p><code>UNION</code></p>
 </li>
 <li>
-<p><code>INTERSECT</code></p>
-</li>
-<li>
-<p><code>RANDOM</code></p>
-</li>
-<li>
-<p><code>WEIGHTED</code></p>
-</li>
-<li>
-<p><code>FAVORITE</code></p>
-</li>
-<li>
-<p><code>BROADCAST</code></p>
-</li>
-<li>
 <p><code>DEADEND</code></p>
 </li>
 </ul>
@@ -4802,7 +4841,7 @@ number of cards.</p>
 <p>The simplest way to determine the recipient is to assign the card to a <code>user</code> or a <code>group</code> as seen <a href="#_minimal_card">previously in  "Minimal Card"</a>.</p>
 </div>
 <div class="paragraph">
-<p>But it&#8217;s possible to combine groups and potentially users using <code>UNION</code> and <code>INTERSECT</code> type to have a better control on whom should receive the card.</p>
+<p>But it&#8217;s possible to combine groups and potentially users using <code>UNION</code>  type to have a better control on whom should receive the card.</p>
 </div>
 <div class="sect6">
 <h7 id="_union">UNION</h7>
@@ -4816,22 +4855,6 @@ number of cards.</p>
 		{"type":"GROUP","identity":"TSO1"},
 		{"type":"GROUP","identity":"TSO2"},
 		{"type":"USER","identity":"admin"}
-		]
-	}</pre>
-</div>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_intersect">INTERSECT</h7>
-<div class="paragraph">
-<p>To target all users member of the <code>admin</code> group in the <code>TSO2</code> group, the recipient rule could be:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>"recipient":{"type":"INTERSECT",
-	"recipients":[
-		{"type":"GROUP","identity":"TSO1"},
-		{"type":"GROUP","identity":"ADMIN"}
 		]
 	}</pre>
 </div>

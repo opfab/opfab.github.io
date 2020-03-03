@@ -398,14 +398,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Inject, Injectable} from &#x27;@angular/core&#x27;;
 import {Actions, Effect, ofType} from &#x27;@ngrx/effects&#x27;;
 import {Action, Store} from &#x27;@ngrx/store&#x27;;
-import {TranslateService} from &quot;@ngx-translate/core&quot;;
+import {TranslateService} from &#x27;@ngx-translate/core&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
 import {catchError, delay, filter, map, switchMap, withLatestFrom} from &#x27;rxjs/operators&#x27;;
 import {ConfigService} from &#x27;@ofServices/config.service&#x27;;
-import {AppState} from &quot;@ofStore/index&quot;;
-import {ConfigActionTypes, LoadConfig, LoadConfigFailure, LoadConfigSuccess} from &quot;@ofActions/config.actions&quot;;
-import {selectConfigRetry} from &quot;@ofSelectors/config.selectors&quot;;
-import {CONFIG_LOAD_MAX_RETRIES} from &quot;@ofStates/config.state&quot;;
+import {AppState} from &#x27;@ofStore/index&#x27;;
+import {ConfigActionTypes, LoadConfig, LoadConfigFailure, LoadConfigSuccess} from &#x27;@ofActions/config.actions&#x27;;
+import {selectConfigRetry} from &#x27;@ofSelectors/config.selectors&#x27;;
+import {CONFIG_LOAD_MAX_RETRIES} from &#x27;@ofStates/config.state&#x27;;
 
 // those effects are unused for the moment
 @Injectable()
@@ -416,12 +416,11 @@ export class ConfigEffects {
                 private actions$: Actions,
                 private service: ConfigService,
                 private translate: TranslateService,
-
                 @Inject(&#x27;configRetryDelay&#x27;)
                 private retryDelay: number &#x3D; 5000,
     ) {
 
-        if (this.retryDelay &gt; 0)
+        if (this.retryDelay &gt; 0) {
             this.retryConfigurationLoading &#x3D; this.actions$
                 .pipe(
                     ofType&lt;LoadConfigFailure&gt;(ConfigActionTypes.LoadConfigFailure),
@@ -430,7 +429,7 @@ export class ConfigEffects {
                     map(() &#x3D;&gt; new LoadConfig()),
                     delay(this.retryDelay)
                 );
-        else
+        } else {
             this.retryConfigurationLoading &#x3D; this.actions$
                 .pipe(
                     ofType&lt;LoadConfigFailure&gt;(ConfigActionTypes.LoadConfigFailure),
@@ -438,6 +437,7 @@ export class ConfigEffects {
                     filter(([action, retry]) &#x3D;&gt; retry &lt; CONFIG_LOAD_MAX_RETRIES),
                     map(() &#x3D;&gt; new LoadConfig())
                 );
+        }
     }
 
     /**
@@ -465,9 +465,11 @@ export class ConfigEffects {
     retryConfigurationLoading: Observable&lt;Action&gt;;
 
     private initSupportedLocales(config: any) {
-        if (config.i18n.supported.locales) this.translate.addLangs(config.i18n.supported.locales);
+        if (config.i18n.supported.locales) {
+            this.translate.addLangs(config.i18n.supported.locales);
+        }
     }
-    
+
 }
 </code></pre>
     </div>
