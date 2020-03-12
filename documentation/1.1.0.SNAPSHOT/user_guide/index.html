@@ -471,8 +471,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_cards_consultation_business_service">2.2.5. Cards-Consultation Business service</a></li>
 <li><a href="#_thirds_business_service">2.2.6. Thirds Business service</a></li>
 <li><a href="#_users_business_service">2.2.7. Users Business service</a></li>
-<li><a href="#_time_business_service">2.2.8. Time Business service</a></li>
-<li><a href="#_web_ui">2.2.9. Web UI</a></li>
+<li><a href="#_web_ui">2.2.8. Web UI</a></li>
 </ul>
 </li>
 </ul>
@@ -507,14 +506,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_cookbook">3.5.1. Cookbook</a></li>
 <li><a href="#_users_and_groups">3.5.2. Users and Groups</a></li>
-</ul>
-</li>
-<li><a href="#_time_service_reference_documentation">3.6. Time Service Reference Documentation</a>
-<ul class="sectlevel3">
-<li><a href="#_introduction">3.6.1. Introduction</a></li>
-<li><a href="#_concepts">3.6.2. Concepts</a></li>
-<li><a href="#_api_endpoints">3.6.3. API Endpoints</a></li>
-<li><a href="#_demonstration">3.6.4. Demonstration</a></li>
 </ul>
 </li>
 </ul>
@@ -590,11 +581,6 @@ a user with the ADMIN role.</p>
 administrators are responsible for the quality and security of the provided bundles.
 In particular, as it is possible to use scripts in templates, they should perform a security check to make sure that
 there is no XSS risk.</p>
-</div>
-<div class="paragraph">
-<div class="title">Time Service (for demonstration purposes only)</div>
-<p>Any user can get the current state of simulated time but acting on it (changing the speed of time flow, setting
-the reference for simulated time or resetting it entirely) requires the ADMIN role.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -3401,10 +3387,10 @@ The default profiles activated are docker and native.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_time_business_service">2.2.8. Time Business service</h4>
+<h4 id="_web_ui">2.2.8. Web UI</h4>
 <div class="paragraph">
-<p>Operator Fabric Time Business service is a Spring MVC application
-bootstrapped using SpringBoot.</p>
+<p>Operator Fabric Web UI service is a Spring MVC application bootstrapped using
+SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
 </div>
 <div class="paragraph">
 <p>In our spring micro service architecture this service depends on Eureka
@@ -3417,251 +3403,13 @@ Registry.</p>
 usual bootstrap configuration.</p>
 </div>
 <div class="paragraph">
-<p>For other configuration see:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.</p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web.html#mvc">Spring MVC documentation</a>.</p>
-</li>
-</ul>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties_6">Service specific properties</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.time.default</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Forced time at startup in millis from epoch</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_default_properties_8">default properties</h6>
-<div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>spring:
-  application:
-    name: time
-  cloud:
-    config:
-      name: time
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>spring:
-  application:
-    name: time
-  cloud:
-    config:
-      name: time
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>spring:
-  application:
-    name: time
-  cloud:
-    config:
-      name: time
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka/'
-#  instance:
-#    ip-address: localhost
-#    non-secure-port: 2101</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_development_configuration_5">Sample development configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>server:
-  port: 2101
-operatorfabric.time.default: 1497484800000</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_7">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>operatorfabric.time.default: 1497484800000</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_5">Specifying external configuration properties when launching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_a_docker_image_5">Specifying configuration properties when launching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runtime.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_8">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_on_kubernetes_5">Specifying configuration properties when launching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_8">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_web_ui">2.2.9. Web UI</h4>
-<div class="paragraph">
-<p>Operator Fabric Web UI service is a Spring MVC application bootstrapped using
-SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_9">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
-</div>
-<div class="paragraph">
 <p>For other configuration see:
 NONE
 * <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.
 * <a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
 </div>
 <div class="sect5">
-<h6 id="_service_specific_properties_7">Service specific properties</h6>
+<h6 id="_service_specific_properties_6">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4135,7 +3883,7 @@ For this default value, with <code>'OperatorFabric'</code> as <code>name</code> 
 </table>
 </div>
 <div class="sect5">
-<h6 id="_default_properties_9">default properties</h6>
+<h6 id="_default_properties_8">default properties</h6>
 <div class="paragraph">
 <p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
 </div>
@@ -4234,7 +3982,7 @@ development environment</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_development_configuration_6">Sample development configuration</h6>
+<h6 id="_sample_development_configuration_5">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>server:
@@ -4323,7 +4071,7 @@ operatorfabric:
 </div>
 </div>
 <div class="sect5">
-<h6 id="_sample_docker_image_configuration_8">Sample docker image configuration</h6>
+<h6 id="_sample_docker_image_configuration_7">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>server:
@@ -4434,7 +4182,7 @@ properties or yml available.</p>
 The default profiles activated are docker and native.</p>
 </div>
 <div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_9">Available environment variables for docker image</h6>
+<h6 id="_available_environment_variables_for_docker_image_8">Available environment variables for docker image</h6>
 <div class="ulist">
 <ul>
 <li>
@@ -4456,7 +4204,7 @@ The default profiles activated are docker and native.</p>
 <p>In progress</p>
 </div>
 <div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_9">Available environment variables when launching on Kubernetes</h6>
+<h6 id="_available_environment_variables_when_launching_on_kubernetes_8">Available environment variables when launching on Kubernetes</h6>
 <div class="ulist">
 <ul>
 <li>
@@ -7309,536 +7057,6 @@ There is an alternative way to manage groups through the authentication token, t
 <div class="paragraph">
 <p>t</p>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_time_service_reference_documentation">3.6. Time Service Reference Documentation</h3>
-<div class="sect3">
-<h4 id="_introduction">3.6.1. Introduction</h4>
-<div class="paragraph">
-<p>The aim of this document is to describe the role of the Time Service in
-OperatorFabric as well as
-the features it provides.
-It also includes code snippets demonstrating how to interact with the Time
-Service through its API.</p>
-</div>
-<div class="paragraph">
-<p>OperatorFabric services rely on the Time Service to get their current time.
-This allows the reference time to be set anywhere in the past or the future.
-In addition, the speed of time flow can also easily be altered: for example, go
-twice as fast as real time.
-This is useful mostly for test and demonstration purposes.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-For test purpose at start the time service (i.e the
-<code>org.lfenergy.operatorfabric.time.services.TimeService</code> java class.) use a
-default value called <code>defaultStartTime</code>
-in the code, configured in the <code>resources/application.yml</code> and
-<code>resources/application-dev.yml</code> of the <code>OperatorFabric Time</code> project.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>We are also planning to add methods to the Time Services allowing to fast
-forward in time (or rewind) up to the next received card (or the last received
-card).
-See <a href="https://github.com/opfab/operatorfabric-core/issues/80">issue 80</a> for more
-details.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_concepts">3.6.2. Concepts</h4>
-<div class="sect4">
-<h5 id="_definitions">Definitions</h5>
-<div class="paragraph">
-<p>First of all, let us define the different "times" we will be discussing:</p>
-</div>
-<div class="hdlist">
-<table>
-<tr>
-<td class="hdlist1">
-Real time
-</td>
-<td class="hdlist2">
-<p>Time set by the server</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-Virtual time
-</td>
-<td class="hdlist2">
-<p>Time computed by the Time Service</p>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Each date handled by the Time Service belongs either to real time or to virtual time.</p>
-</div>
-<div class="hdlist">
-<table>
-<tr>
-<td class="hdlist1">
-<code>EpochDate</code>
-</td>
-<td class="hdlist2">
-<p>Dates are stored as a long integer representing the number of milliseconds since Epoch.</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<code>SpeedEnum</code>
-</td>
-<td class="hdlist2">
-<p>Speed of virtual time flow relatively to real time flow, represented by an enum value (e.g. <code>X2</code>, meaning virtual time flows twice as fast as real time).</p>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_virtual_time_computation">Virtual Time Computation</h5>
-<div class="paragraph">
-<p>The <code>TimeData</code> object stores the description of a time configuration,
-containing the current virtual time as well as the references used for computation. All requests made to the Time service API use this format.
-It is made up of the following properties:</p>
-</div>
-<div class="hdlist">
-<table>
-<tr>
-<td class="hdlist1">
-<code>referenceTime</code>
-</td>
-<td class="hdlist2">
-<p>Real server time at last time change</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<code>virtualTime</code>
-</td>
-<td class="hdlist2">
-<p>Chosen virtual time start at last time change</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<code>computedNow</code>
-</td>
-<td class="hdlist2">
-<p>Current virtual time computed by server as virtualTime + (now - referenceTime) * speed</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<code>speed</code>
-</td>
-<td class="hdlist2">
-<p>Speed of virtual time flow</p>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The Time service computes current virtual time (stored in computedNow) by</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>computing how much (real) time elapsed since we last "reset the clock"</p>
-</li>
-<li>
-<p>multiplying this duration by the virtual time speed</p>
-</li>
-<li>
-<p>adding it on top of the start time we had chosen for virtual time (virtualTime)</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>To make things less abstract, let&#8217;s say we want virtual time</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>to start one day ahead of real time</p>
-</li>
-<li>
-<p>to flow 60 times as fast (meaning one elapsed second in real time will be one minute in virtual time)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>We will send a request (more on that later) to the Time service API with the following <code>TimeData</code> object:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>referenceTime = current real time (as retrieved from the server), let&#8217;s say 10 000 000</p>
-</li>
-<li>
-<p>virtualTime = current real time + one day, 96 400 000 (that&#8217;s 10 000 000 + 86 400 000)</p>
-</li>
-<li>
-<p>computedNow = empty</p>
-</li>
-<li>
-<p>speed = <code>X60</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>We then wait two minutes (server time is now 10 000 000 + 2 * 60 000 = 10 060 000) and ask the Time service for the current time (using an API request).
- The Time service will return the following <code>TimeData</code>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>referenceTime = 10 000 000</p>
-</li>
-<li>
-<p>virtualTime = 86 400 000</p>
-</li>
-<li>
-<p>computedNow = 86 400 000 + (10 060 000 - 10 000 000) * 60 = 90 000 000</p>
-</li>
-<li>
-<p>speed = <code>X60</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_api_endpoints">3.6.3. API Endpoints</h4>
-<div class="paragraph">
-<p>Please see the <a href="../api/index.html">Time API documentation</a> for full details and examples of the Time data model and associated API endpoints.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_demonstration">3.6.4. Demonstration</h4>
-<div class="paragraph">
-<p>This section demonstrates how to interact with the Time service through its API
-by following a few simple scenarios.</p>
-</div>
-<div class="sect4">
-<h5 id="_prerequisites">Prerequisites</h5>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-For these examples to work, you need to have a running Time service.
-The requests below assume that the Time service is running on localhost on port
-2101 (see
-<a href="https://github.com/opfab/operatorfabric-core/blob/master/README.md">demo
-setup</a>).
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>You can choose from several ways to send requests to the API, among which:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Using curl (command line)</p>
-</li>
-<li>
-<p>Using API development tools such as <a href="https://www.getpostman.com/">Postman</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>We will use curl for our examples.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-In the following commands the <code>$token</code> is a valid authentication
-token from the <code>OAuth2</code> server used by the current <code>OperatorFabric</code> instance.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Another option would be to use the Swagger UI. Provided that you have the
-Time service running on localhost on port 2101,
-the Swagger UI for the Time API is available at <a href="http://localhost:2101/" class="bare">localhost:2101/</a> . It
-also displays documentation and examples next to each request.
-However, requests requiring authentication won&#8217;t work as it isn&#8217;t set up yet.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_scenario_1_getting_the_current_virtual_time">Scenario 1: Getting the current virtual time</h5>
-<div class="paragraph">
-<p>Let&#8217;s say we want to get the current virtual time, which we expect to be equal
-to real server time so far.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-No authentication is required for this request.
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="title">Curl command</div>
-<div class="content">
-<pre>curl -X GET "http://localhost:2101/time" \
-    -H "Authorization:Bearer $token" \
-    -H "accept: application/json"</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Response code</div>
-<div class="content">
-<pre>200 OK</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Response body</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>, <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>, <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="integer">1553617695195</span>, <i class="conum" data-value="2"></i><b>(2)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">X1</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="3"></i><b>(3)</b>
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Since the time hasn&#8217;t been changed yet, referenceTime and virtualTime
-haven&#8217;t been set.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The current virtual time (number of milliseconds since Epoch), for example
-this value converts to <em>March 26, 2019 4:28:15.195 PM GMT</em></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Speed of the virtual time flow relatively to real time flow. X1 means
-they&#8217;re the same.</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-You can use an <a href="https://www.epochconverter.com/">online converter</a> to
-switch between epochDate and human readable date.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_scenario_2_setting_virtual_time_to_be_10_minutes_ahead_of_real_time">Scenario 2: Setting virtual time to be 10 minutes ahead of real time</h5>
-<div class="paragraph">
-<p>To set virtual time to be 10 minutes ahead of time, we use the POST request and
-set the intended virtual time start (10 minutes from now) in the body:</p>
-</div>
-<div class="listingblock">
-<div class="title">Example body</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>, <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652000</span>, <i class="conum" data-value="2"></i><b>(2)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>, <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span> <i class="conum" data-value="1"></i><b>(1)</b>
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>These can be left blank as they won&#8217;t be used</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>This should be the intended start of virtual time, about 10 minutes ahead
-from now</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="title">Curl command</div>
-<div class="content">
-<pre>curl -X POST \
-    http://localhost:2101/time \
-    -H "Authorization:Bearer $token" \
-    -H "Content-Type:application/json" \
-    -d '{
-        "referenceTime": null,
-        "virtualTime": 1554111652000,
-        "computedNow": null,
-        "speed": null
-}'</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The response contains the current virtual time (computedNow) as well as the
-references used for the computation.</p>
-</div>
-<div class="listingblock">
-<div class="title">Response code</div>
-<div class="content">
-<pre>200 OK</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Response body</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111014449</span>, <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652000</span>, <i class="conum" data-value="2"></i><b>(2)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652009</span>, <i class="conum" data-value="3"></i><b>(3)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">X1</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="4"></i><b>(4)</b>
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Real time at the time of the time change = <em>April 1, 2019 9:30:14.449 AM
-GMT</em></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Chosen start of virtual time = <em>April 1, 2019 9:40:52 AM GMT</em></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Current virtual time = <em>April 1, 2019 9:40:52.009 AM</em> &#8594; 9 milliseconds
-have elapsed since server time change</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Speed hasn&#8217;t been changed.</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-PUT /time does the exact same thing as POST /time as there was no need for
-a different behaviour.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s ask for the current time again (using the GET request) a little while
-later (real time is <em>April 1, 2019 11:37:43 AM GMT</em>)</p>
-</div>
-<div class="listingblock">
-<div class="title">curl command</div>
-<div class="content">
-<pre>curl -X GET "http://localhost:2101/time" \
-    -H "Authorization:Bearer $token" \
-    -H "accept: application/json"</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Response code</div>
-<div class="content">
-<pre>200 OK</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Response body</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">referenceTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111014449</span>, <i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">virtualTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554111652000</span>, <i class="conum" data-value="2"></i><b>(2)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">computedNow</span><span class="delimiter">&quot;</span></span>: <span class="integer">1554119300367</span>, <i class="conum" data-value="3"></i><b>(3)</b>
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">X1</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="4"></i><b>(4)</b>
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Real time at the time of the time change = <em>April 1, 2019 9:30:14.449 AM
-GMT</em></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Chosen start of virtual time = <em>April 1, 2019 9:40:52 AM GMT</em></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Current virtual time = <em>April 1, 2019 11:48:20.367</em> &#8594; virtual time is
-about 10 minutes ahead from real time as expected</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Speed hasn&#8217;t been changed.</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Notice how referenceTime, virtualTime and speed haven&#8217;t changed from
-the response to the POST request to set the virtual time. They will only change
-the next time is set or reset.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Postman to get token</p>
 </div>
 </div>
 </div>
