@@ -440,371 +440,58 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Web UI Service</div>
+<ul class="sectlevel0">
+<li><a href="#_web_ui">Web UI</a>
 <ul class="sectlevel1">
-<li><a href="#_requirements">1. Requirements</a></li>
-<li><a href="#_timeline_fundamental">2. Timeline Fundamental</a></li>
-<li><a href="#_timeline_description">3. Timeline Description</a></li>
-<li><a href="#_data_structure">4. Data Structure</a></li>
-<li><a href="#_technical_data_stockage">5. Technical Data Stockage</a></li>
-<li><a href="#_clustering">6. Clustering</a></li>
-<li><a href="#_menu_buttons">7. Menu buttons</a></li>
-<li><a href="#_circle_hovered">8. Circle Hovered</a></li>
-<li><a href="#_structure_of_commune_timeline_configuration_objects_conf_objects">9. Structure of Commune Timeline Configuration Objects (conf objects)</a></li>
-<li><a href="#_main_timeline_configuration">10. Main Timeline Configuration</a></li>
-<li><a href="#_chart_configuration">11. Chart Configuration</a></li>
-<li><a href="#_zoom_configuration">12. Zoom Configuration</a></li>
-<li><a href="#_format_ticks">13. Format Ticks</a></li>
-<li><a href="#_lets_co_and_sea_examples">14. Let&#8217;s Co and SEA examples</a></li>
+<li><a href="#_mandatory_configuration_profiles_and_default_properties">1. Mandatory configuration, Profiles and default properties</a>
+<ul class="sectlevel2">
+<li><a href="#_service_specific_properties">1.1. Service specific properties</a></li>
+<li><a href="#_default_properties">1.2. default properties</a></li>
+<li><a href="#_sample_development_configuration">1.3. Sample development configuration</a></li>
+<li><a href="#_sample_docker_image_configuration">1.4. Sample docker image configuration</a></li>
+</ul>
+</li>
+<li><a href="#_specifying_external_configuration_properties_when_lauching_a_jar_file">2. Specifying external configuration properties when lauching a jar file</a></li>
+<li><a href="#_specifying_configuration_properties_when_lauching_a_docker_image">3. Specifying configuration properties when lauching a docker image</a>
+<ul class="sectlevel2">
+<li><a href="#_available_environment_variables_for_docker_image">3.1. Available environment variables for docker image</a></li>
+</ul>
+</li>
+<li><a href="#_specifying_configuration_properties_when_lauching_on_kubernetes">4. Specifying configuration properties when lauching on Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_available_environment_variables_when_launching_on_kubernetes">4.1. Available environment variables when launching on Kubernetes</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_requirements">1. Requirements</h2>
-<div class="sectionbody">
+<h1 id="_web_ui" class="sect0">Web UI</h1>
 <div class="paragraph">
-<p>All steps to install, build and test <code>OperatorFabric</code> into a Linux environment after clones repository.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_timeline_fundamental">2. Timeline Fundamental</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The timeline was created for a specific goal, give mandatory information quickly, permitting to operators to stay informed about the global situation during OperatorFabric use.</p>
+<p>Operator Fabric Web UI service is a Spring MVC application bootstrapped using
+SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
 </div>
 <div class="paragraph">
-<p>The timeline is composed of 4 important parts:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The y-axis, a vertical axis: contains Y coordinates (hide), distinguish by their values (Severity).</p>
-</li>
-<li>
-<p>The x-axis, a horizontal axis: represent a time scale, giving information on the time taken by a process or a sequence of events, distinguish by their date.</p>
-</li>
-</ul>
-</div>
-<div id="img-ticks" class="imageblock">
-<div class="content">
-<img src="file:images/label-timeline.png" alt="Labels">
-</div>
-<div class="title">Image 1: X-axis ticks</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Bubbles: show the number of events between a length of time, its color depends on its value (Severity).
-<span class="image"><img src="file:images/bubble-timeline.png" alt="Bubble"></span></p>
-</li>
-<li>
-<p>Menu buttons: only on the top part, composed by zooming buttons (the number and what buttons to display are configured), forward/backward buttons and a home button.
-<span class="image"><img src="file:images/homeButton-timeline.png" alt="Home button"></span></p>
-</li>
-</ul>
-</div>
-<div id="img-menu" class="imageblock">
-<div class="content">
-<img src="file:images/menuButton-timeline.png" alt="Menu buttons">
-</div>
-<div class="title">Image 2: Menu buttons</div>
-</div>
-<div class="paragraph">
-<p>A fast summary: x-axis shows the time information, y-axis show the severity, bubbles show the number of processes at a specific range of time and the buttons menu allow user to interact with the timeline.</p>
-</div>
-<div id="img-timeline-overview" class="imageblock text-center">
-<div class="content">
-<a class="image" href="file:images/timeline-overview.png"><img src="file:images/timeline-overview.png" alt="timeline overview"></a>
-</div>
-<div class="title">Image 3: Timeline overview</div>
-</div>
-</div>
+<p>In our spring micro service architecture this service depends on Eureka
+Registry.</p>
 </div>
 <div class="sect1">
-<h2 id="_timeline_description">3. Timeline Description</h2>
+<h2 id="_mandatory_configuration_profiles_and_default_properties">1. Mandatory configuration, Profiles and default properties</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This timeline is drawn by two axes and lines crossing space until graduation. Ticks are the marks of graduation, only x-axis ticks are visible.
-Ticks are used like landmark on a lot of functionality.</p>
+<p>The service has no mandatory configuration beside global configuration and
+usual bootstrap configuration.</p>
 </div>
 <div class="paragraph">
-<p>A domain is an area of value delimited by two dates. The y-axis is x-axis' first tick visualization, it starts the domain until the last tick of x-axis. Inside this domain the bubbles (information) are drawn at precise place depending on their dates and their severity. Bubble&#8217;s X position is a representation of its date on the time scale (x-axis). Bubble&#8217;s Y position is the representation of its value (severity) on the y-axis (linear scale).</p>
+<p>For other configuration see:
+NONE
+* {springboot_doc}/reference/htmlsingle/[Spring Boot documentation].
+* {spring_doc}spring-framework-reference/web-reactive.html#webflux[Spring MVC documentation].</p>
 </div>
-<div class="paragraph">
-<p>A Timescale data detection system is provided by moment library, moment is configured and used inside operatorfabric. Moment is a very powerful library allowing to use an object containing a date and handling this object. The major function used from moment is a formatting function transforming a date display. It requires only a string key and return the same key&#8217;s disposition with date&#8217;s values.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_data_structure">4. Data Structure</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The feed (cf OperatorFrabric doc) is made from an array of light card, timeline use light card for creating its own data card structure.
-This actual structure is simple, after timeline evolving this structure will change.</p>
-</div>
-<div class="paragraph">
-<p>Data Card Structure:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>displayDate: card date used</p>
-</li>
-<li>
-<p>publishDate: card publish date</p>
-</li>
-<li>
-<p>startDate: card start&#8217;s date</p>
-</li>
-<li>
-<p>endDate: card end&#8217;s date</p>
-</li>
-<li>
-<p>severity: card&#8217;s severity</p>
-</li>
-<li>
-<p>summary: card title</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_technical_data_stockage">5. Technical Data Stockage</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>A state is defined as stored inputs in a computer program, there are stored as variables or constants. Their values can change during software used, and will be automatically refreshed in all the software.</p>
-</div>
-<div class="paragraph">
-<p>Timeline data are linked at the cards reception feed, when the feed received a light card it&#8217;s automatically parse and save a data card on timeline state.
-Timeline state was created by precognition of future features.
-Actually timeline state is composed of one array (called data) composed by data card object describe above.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_clustering">6. Clustering</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For dodge overloading of chart, a clustering function is used at every new cards reception or on every domain movement.</p>
-</div>
-<div class="paragraph">
-<p>The algo is a loop on x Axis ticks, from the start of ticks to their end, each bubble between two ticks are grouped together in an unique bubble.</p>
-</div>
-<div id="img-timeline-september-month" class="imageblock">
-<div class="content">
-<a class="image" href="file:images/timeline-september-month.png"><img src="file:images/timeline-september-month.png" alt="timeline september 2019"></a>
-</div>
-<div class="title">Image 4: Timeline with ticks every day</div>
-</div>
-<div id="img-timeline-august19-january21" class="imageblock">
-<div class="content">
-<a class="image" href="file:images/timeline-september-month.png"><img src="file:images/timeline-august19-january21.png" alt="timeline august 2019 to january 2021"></a>
-</div>
-<div class="title">Image 5: Timeline with ticks every 1st and 16th of the month</div>
-</div>
-<div class="paragraph">
-<p>Above for pictures, events were grouped by ticks positioning. On first timeline screen, ticks are every day, by counting each bubble of the same severity from 1st September to 16th September,  you got the result write inside the bubble on the second timeline screen, having ticks every 1st and 16th of the month.</p>
-</div>
-<div class="paragraph">
-<p>A bubble is composed of:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a date: circle position date (in middle of ticks)</p>
-</li>
-<li>
-<p>a count: sum of each circle count</p>
-</li>
-<li>
-<p>a start date: the earliest start date from merged circles</p>
-</li>
-<li>
-<p>an end date: the later start date from merged circles</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-on the chart configuration you can change the active algo for merging circles on half interval ticks to next half interval ticks.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_menu_buttons">7. Menu buttons</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Timeline menu is composed of zoom level at the top-right corner, configured at start of application. Select a zoom level by click the respective button, the visualization will move to its respective home domain and load all its chart context. The active zoom level is toggled, its have a black background and white font.</p>
-</div>
-<div class="paragraph">
-<p>Around zoom level buttons, two movement buttons are represented by arrow buttons. They are called forward and backward buttons, in normal case one move the domain forward and the other backward in the time. Each one can be configured independently. As well as the movement from the start and the movement from the end can be configured separatly.</p>
-</div>
-<div class="paragraph">
-<p>When the domain got moved by clicking movement buttons or using drag feature, the home button appears at charts' top-left corner. By clicking home button, it&#8217;s same behavior than click it&#8217;s own zoom level button, back the domain to start and end value passed at begin of the configuration.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_circle_hovered">8. Circle Hovered</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The tooltip is activated on a bubble when user cursor overhead it. Its display is composed of:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>the period (start - end) of merged circles</p>
-</li>
-<li>
-<p>the count of circles inside itself</p>
-</li>
-<li>
-<p>the list of each circle summary</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_structure_of_commune_timeline_configuration_objects_conf_objects">9. Structure of Commune Timeline Configuration Objects (conf objects)</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Timeline&#8217;s main strength is the possibility to configure it before application start. A commune object structure was created for simplified configuration called conf object. Inspired by unit of time used on moment functions, object&#8217;s goal is to easily give a time duration. You need to choose for each unit the quantity with a number. Application functions will parsed conf object, each unit set will be treat with its value. List of time&#8217;s unit:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>year</p>
-</li>
-<li>
-<p>month</p>
-</li>
-<li>
-<p>week</p>
-</li>
-<li>
-<p>day</p>
-</li>
-<li>
-<p>hour</p>
-</li>
-<li>
-<p>minute</p>
-</li>
-<li>
-<p>second</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The current visualization on timeline called domain, can be set before launching the application. You just need to give 2 values on milliseconds, delimiting the start and end of the domain. A function was made for help to set the two values wanted, domain start and domain end. This function is using a conf object.
-It&#8217;s similar, on x-axi&#8217;s ticks you can choose the time separation between each ticks due to its own conf object. It&#8217;s same, for movement, you decide how much time will be added or removed to start and end domain limits, again thanks to conf object.</p>
-</div>
-<div class="paragraph">
-<p>The object structure has some keys which aren&#8217;t unit of time, they get their own use case. I will list these special keys:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On domain conf object 'startOf' key attending a list of time&#8217;s unit. From moment library using startOf function for each unit on the list. (cf moment doc)</p>
-</li>
-<li>
-<p>On forward or backward conf object 'weekDay' key waiting a number between 1 to 7. 1 is Sunday, then follow week order. The move will be until the next day targetted. (It&#8217;s possible to cumulate it with time&#8217;s unit week, allowing to move focus on the week day selected n weeks after)</p>
-</li>
-<li>
-<p>On ticks conf object 'date' key attending a list of numbers between 1 to 31. For each month, loops on the number&#8217;s list and add a tick on month day precised by a number. (It&#8217;s possible to cumulate it with time&#8217;s unit, applied for all month day on the list)</p>
-</li>
-<li>
-<p>On ticks conf object 'weekNb' key is activated only by passing its value to 1, ticks format displayed corresponding to week number and year.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>To facilitate some cases:
-When the domain duration is smaller than 24 hours the date of first tick is displayed on the timeline&#8217;s top-left corner.
-When the domain duration is smaller than 1 hour, hour is added to the date display at the top-left corner.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_main_timeline_configuration">10. Main Timeline Configuration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Actually timeline gets its configuration from two objects, received by input between components.
-One of them has few conf object. A precise composition of each one will be explain in the next parts.
-You choice to use or don&#8217;t use them before application start.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The first object is the chart configuration for timeline entirety, its control the majority of the main timeline&#8217;s behaviors.</p>
-</li>
-<li>
-<p>The second object is the zoom configuration a list of zoom Level Configuration. A zoom Level Configuration is an object composed of specific properties defining graph context of this zoom button.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In future we are thinking to pass configuration from an external file, deviating even further from development.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_chart_configuration">11. Chart Configuration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You can choose a lot of timeline options, many global features can be disabled.</p>
-</div>
-<div class="paragraph">
-<p>By default all features are deactivated. For use one feature you need to set its key to true when the object is set.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>	this.conf = {
-            enableDrag: true,
-            enableZoom: true,
-	    	zoomOnButton: true,
-            showGridLines: true,
-            realTimeBar: true,
-        };</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>These choices are made at startup of the application.
-List of features:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Real time bar: display a vertical grey bar following the current time systeme</p>
-</li>
-<li>
-<p>Show grid lines: display perpendicular lines for each ticks of axis (X and Y)</p>
-</li>
-<li>
-<p>Auto scale: y axis automatically size itself according to data passed on chart</p>
-</li>
-<li>
-<p>Enable drag: allow the chart to treat mouse continuous click to move on the left or right the domain</p>
-</li>
-<li>
-<p>Enable zoom: allow the chart to treat mouse wheel movement for change domain scale</p>
-</li>
-<li>
-<p>Zoom on button: define the type of zoom make by the mouse wheel, zooming only on zoom button conf or zoom on the mouse position (static zoom vector)</p>
-</li>
-</ul>
-</div>
+<div class="sect2">
+<h3 id="_service_specific_properties">1.1. Service specific properties</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -814,195 +501,338 @@ List of features:</p>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">True</th>
-<th class="tableblock halign-left valign-top">False (default)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">realTimeBar</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the real time bar is displayed and follow current time</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">real time bar isn&#8217;t displayed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">showGridLines</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">continuous lines from each ticks are displayed</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">lines from ticks aren&#8217;t displayed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">autoScale</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">display horizontal lines equal to the subtraction of maximal and minimal value find in data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">display 4 horizontal lines in the chart (values: 0-5)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">enableDrag</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">active drag functionality on the chart (mouse effect)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">drag deactivated</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">enableZoom</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">active zoom functionality on the chart (mouse effect)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">zoom deactivated</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">zoomOnButton</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">wheel movement from mouse will move on zoom levels configured (mouse effect)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">zoom will follow wheel movement at the current mouse position (mouse effect)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_zoom_configuration">12. Zoom Configuration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You can personalize your own zoom level and obtained the zoom level wanted, with many extra options.</p>
-</div>
-<div class="paragraph">
-<p>By default timeline is on a week zoom configuration. The movements buttons are always used for move domain ahead time or behind time.</p>
-</div>
-<div class="paragraph">
-<p>At application startup, we can provide zoom levels in an ordered array.
-Each zoom level is displayed with a button in same order.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>	const forwardMonthConf = {
-            start: {
-                month: 1,
-        	}
-	};
-	const startDomain = moment().hour(0).minutes(0).second(0).millisecond;
-	const endDomain = moment().hour(0).minutes(0).second(0).millisecond;
-	endDomain.add(3, 'month');
-
-    this.confZoom = [{
-            startDomain: startDomain.valueOf(),
-            endDomain: endDomain.valueOf(),
-            centeredOnTicks: true,
-            clusterTicksToTicks: true,
-            buttonTitle: 'W',
-            forwardConf: forwardMonthConf,
-            backwardConf: forwardMonthConf,
-	        autonomousTicks: true,
-            followClockTick: true,
-            firstMoveStartOfUnit: true
-        },
-		{
-		    startDomain: 1569328748,
-		    endDomain: 1579328748,
-		    buttonTitle: 'N',
-		    fowardConf: forwardMonthConf,
-		    autonomousTicks: true
-		}]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A zoom level is composed of mandatory properties:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Start Domain: define start home domain&#8217;s date</p>
-</li>
-<li>
-<p>End Domain: define end home domain&#8217;s date</p>
-</li>
-<li>
-<p>Centered on ticks: define the bubble position after clustering, bubble centered on ticks or on middle of ticks intervals</p>
-</li>
-<li>
-<p>Cluster ticks to ticks: define cluster algo used on bubbles to group them, grouped by tick to tick or on middle of ticks intervals to next one</p>
-</li>
-<li>
-<p>Autonomous ticks: ticks conf is calculated depending on the screen and the domain size (dynamic behavior)</p>
-</li>
-<li>
-<p>Button title: precise the name writes on button</p>
-</li>
-<li>
-<p>Forward Configuration: give a conf object for forward movement</p>
-</li>
-<li>
-<p>Backward Configuration: give a conf object for backward movement</p>
-</li>
-<li>
-<p>Ticks Configuration: give a conf ticks object, definined time interval between ticks. A list of objects composed by width_min and ticks conf object can be given too</p>
-</li>
-<li>
-<p>Format ticks: precise label format applied on each ticks. A list of objects composed by width_min and label format can be given too</p>
-</li>
-<li>
-<p>Format tooltips Date: precise label format applied on date inside tooltips</p>
-</li>
-<li>
-<p>Follow clock tick: on home domain when actual date is later than 4 ticks interval from the start, timeline move by one tick each second</p>
-</li>
-<li>
-<p>First move start of unit: on home domain when user click on the forward or backward button for the first time, make a startOf of unit set on its own conf object and set hour to 0</p>
-</li>
-<li>
-<p>Home Domain Extra Ticks: on home domain adding 4 ticks interval of selected conf on the domain begin (Autonomous  ticks not compatible)</p>
-</li>
-</ul>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
 <th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Default value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">startDomain</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value in miliseconds setting a date with moment</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actual moment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.realm-url</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The realm name in keycloak server settings page. This is used for the log out process to know which realm should be affected.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">endDomain</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value in miliseconds setting a date with moment</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actual moment + 7 days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.provider-url</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak server instance</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">buttonTitle</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value display on the button</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">W</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.logout-url</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>The keycloak logout URL. Is a composition of:
+ - Your keycloak instance and the <em>auth</em> keyword (ex: <a href="https://www.keycloakurl.com/auth" class="bare">www.keycloakurl.com/auth</a>), but we also support domains without <em>auth</em> (ex: <a href="https://www.keycloakurl.com/customPath" class="bare">www.keycloakurl.com/customPath</a>)
+ - The realm name (Ex: dev)
+ - The redirect URL (<em>redirect_uri</em>): The redirect URL after success authentification</p>
+</div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">forwardConf</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object of 2 properties 'start' and 'end': each one composed by one conf object for define its movement on the domain</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">{ start: { week: 1 } end: { week: 1 } }</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PASSWORD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>authentication mode, awailable options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>CODE: Authorization Code Flow;</p>
+</li>
+<li>
+<p>PASSWORD: Direct Password Flow (fallback);</p>
+</li>
+<li>
+<p>IMPLICIT: Implicit Flow.</p>
+</li>
+</ul>
+</div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">backwardConf</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object of 2 properties 'start' and 'end': each one composed by one conf object for define its movement on the domain</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">undefined</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provider name to display on log in button</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.flow.delegate-url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Url to redirect the browser to for authentication. Mandatory with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>CODE flow: must be the url with protocol choice and version as query parameters;</p>
+</li>
+<li>
+<p>IMPLICIT flow: must be the url part before <code>.well-known/openid-configuration</code> (for example in dev configuration it&#8217;s
+<code><a href="http://localhost:89/auth/realms/dev" class="bare">localhost:89/auth/realms/dev</a></code>).</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.subscription.timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milliseconds between card subscription renewal</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.time.display</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BUSINESS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>card time display mode in the feed. Values :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>BUSINESS: displays card with entire business period. It the fallback if the set value is none of the values listed here;</p>
+</li>
+<li>
+<p>BUSINESS_START: displays card with business start date;</p>
+</li>
+<li>
+<p>PUBLICATION: displays card with publication date;</p>
+</li>
+<li>
+<p>LTTD: displays card with lttd date;</p>
+</li>
+<li>
+<p>NONE: nothing displayed.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeline.hide</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeFilter.followClockTick</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time filter on the feed will shift
+to reflect elapsed time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.notify</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, new cards are notified in the OS through web-push notifications</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.sounds.alarm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Alarm cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.sounds.action</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Action cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.sounds.compliant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Compliant cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.sounds.information</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.i18n.supported.locales</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported locales (Only fr and en so far)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.i10n.supported.time-zones</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported time zones, for instance 'Europe/Paris'.
+Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.navbar.thirdmenus.type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOTH</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Defines how thirdparty menu links are displayed in the navigation bar and how
+they open. Possible values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TAB: Only a text link is displayed, and clicking it opens the link in a new tab.</p>
+</li>
+<li>
+<p>IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below
+the navigation bar.</p>
+</li>
+<li>
+<p>BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe
+while clicking the icon opens in a new tab.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.time.pulse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Duration between two ticks of the internal state of the User Interface</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.size</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The page size of archive filters</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.first</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The first page start of archiving module</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.process.list</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of processes to choose from in the corresponding filter in archives</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.tags.list</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in archives</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.tags.hide</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in settings and feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.disable</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to disable/enable editing user email, description in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the user email in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the user description in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.language</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the language in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.timezone</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timezone in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.timeformat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timeformat in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.dateformat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the dateformat in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.datetimeformat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the datetimeformat in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the tags in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.about</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>operatorfabric:<br>
+     name:  'OperatorFabric'<br>
+     version:  ${currentVersion}<br>
+     rank: 0</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>no</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Declares application names and their version into web-ui about section.<br>
+Each entry is
+a free key value followed by its name (a string of characters), its version(a string of characters) and its rank of declaration(a number) cf the default value where the declared key is <code>operatorfabric'</code>.<br>
+For this default value, with <code>'OperatorFabric'</code> as <code>name</code> and <code>0</code> as <code>rank</code>, the value of <code>${currentVersion}</code> is the version of the current release. <code>0.16.1-RELEASE</code> for example.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logo.base64</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">medium OperatorFabric icon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The encoding result of converting the svg logo to Base64, use this <a href="https://base64.guru/converter/encode/image/svg">online tool</a> to encode your svg. If it is not set, a medium (32px) OperatorFabric icon is displayed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logo.height</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The height of the logo (in px) (only taken into account if operatorfabric.logo.base64 is set).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logo.width</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">150</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The width of the logo (in px) (only taken into account if operatorfabric.logo.base64 is set).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logo.limitSize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If it is true, the height limit is 32(px) and the width limit is 200(px), it means that if the height is over than 32, it will be set to 32, if the width is over than 200, it is set to 200. If it is false, no limit restriction for the height and the width.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OperatorFabric</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of the application, displayed on the browser</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><strong>User Settings default values</strong></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1010,410 +840,270 @@ Each zoom level is displayed with a button in same order.</p>
 <col style="width: 25%;">
 <col style="width: 25%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Exemple</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ticksConf</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object or Array&lt;object&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">object compose by key relative to time unit. Defining the value add between each ticks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">{ hour: 1 } or [{ width_min: 1200. conf: {minute: 30}}. { width_min: 0. conf: { hour: 1}}]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mandatory?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">formatTicks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">string or Array&lt;object&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value used for format x-axis label</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DD/MM/YY or [{width_min: 1200. formatTicks: DD/MM/YY}. { width_min: 0. formatTicks: MM/YY}]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeZone</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user time zone for users (use</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">formatTooltips</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">value used for format date inside the tooltips</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">D MMM YY HH</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-ticksConf and formatTicks list must be order from the highest width_min conf to the smallest.
-</td>
-</tr>
-</table>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">True</th>
-<th class="tableblock halign-left valign-top">False (default)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">centeredOnTicks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">bubble have positioned on tick</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">bubble position in the middle of two ticks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user time format (moment)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">clusterTicksToTicks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">grouped data tick to tick</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">an interval of two ticks to the next interval</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.dateFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user date format (moment)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">autonomousTicks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">use handmade ticks conf <span class="big red">(True by default)</span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">use ticks conf defined</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.dateTimeFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LL LT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user date format (moment)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">followClockTick</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">visualization follow actual date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no effect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.locale</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">en</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user locale (use en if not set)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">firstMoveStartOfUnit</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">special move on first movement click</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no effect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.default-tags</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user list of filtered in tags</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">homeDomainExtraTicks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">subtract 4 ticks intervals of the zoom selected on the home domain</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no effect</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Like said above, a function is used for help to define the start and end of the domain:</p>
-</div>
-<div class="paragraph">
-<p>-periodStartToEnd: This function have two parameters a boolean and a conf object and return a moment. This conf object called domain Conf is parsed to add or subtract a time value at the current time. To add time, set the second param to true, otherwise the time value will be subtract.</p>
-</div>
-<div class="paragraph">
-<p>exemple:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>const domainWeekConf = {
-            week: 2,
-            startOf: ['week'],
-        };
-const startDomain = moment();
-startDomain.minutes(0).second(0).millisecond(0);
-const endDomain = this.periodStartToEnd(domainWeekConf, true);</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_format_ticks">13. Format Ticks</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The tick formatting will take the format pass by formatTicks property only when is set. Otherwise the timeline got predefined format value.
-One of them will be choosen according to the most precise unit of time given inside the conf ticks object.</p>
-</div>
-<div class="paragraph">
-<p>Show basic display top or bottom lines, one on two:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Unit of time</th>
-<th class="tableblock halign-left valign-top">Format apply</th>
-<th class="tableblock halign-left valign-top">Monday 29 July 2019</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Year</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">YYYY</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2019</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateInsideTooltipsWeek</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Month</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MMM YY</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jul 19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateInsideTooltipsWeek</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ddd DD MMM HH</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on date inside tooltips for time&#8217;s unit lower than hour</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Week</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateInsideTooltipsMonth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ddd DD MMM YYYY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on date inside tooltips for other case</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateOnDay</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ddd DD MMM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use for display a day and month informations with day name, number, and month</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateOnWeek</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DD/MM/YY</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">29/07/19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use for display a week information with day number, month number and two last year&#8217;s number</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Day</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ddd DD MMM</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mon 29 Jul</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateOnMonth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MMM YY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use for display a month information with month name and two last year&#8217;s number</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Date</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateOnYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">YYYY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use for display a year information</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.titleDateInsideTooltips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DD/MM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on first part of title inside tooltips showing day number and month number of its date</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.titleHourInsideTooltips</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HH:mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on second part of title inside tooltips showing hours and minutes of its date</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateOnDayNewYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DD MMM YY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use for display first year&#8217;s day on a day configuration display day number, month name and two last year&#8217;s number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.realTimeBarFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DD/MM/YY HH:mm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on real time bar date, show minutes, hours, day number, month number and two last year&#8217;s number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateSimplifliedOnDayNewYear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D MMM YY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on date configuration for first year&#8217;s day, show simplified day number, month name and last two year&#8217;s number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.dateSimplifliedOnDay</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">D MMM</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">29 Jul</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format use on date configuration, show simplified day number and month name</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>For a more precise unit of time another implementation is used.
-The top line shows the precise unit, and the bottom line displays a global information, less frequently.
-With this special display it easier to locate a bubble time position.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
 <tr>
-<th class="tableblock halign-left valign-top">Unit of time</th>
-<th class="tableblock halign-left valign-top">Top line format apply</th>
-<th class="tableblock halign-left valign-top">Bottom line format apply</th>
-<th class="tableblock halign-left valign-top">Top line: Monday 05:30 00s</th>
-<th class="tableblock halign-left valign-top">Bottom line: Monday 05:30 00s</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Hour</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.hoursOnly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">HH</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ddd DD MMM</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">05</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">nothing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format for show only hours</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Minute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.minutesOnly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mm</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HH</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format for show only minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Seconde</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.secondedsOnly</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ss</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">mm</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format for show only seconds</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.timeLineDefaultClusteringFormats.weekNumberOnly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ww</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default format for show only week number</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_default_properties">1.2. default properties</h3>
 <div class="paragraph">
-<p>If it&#8217;s day&#8217;s begin, hour 0, and unit of time used is equal to 0, the day&#8217;s date is displayed on "ddd DD MMM" format.</p>
-</div>
-<div class="paragraph">
-<p>In the year&#8217;s first day the year is displayed with 'YY' at the end of ordinary display.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_lets_co_and_sea_examples">14. Let&#8217;s Co and SEA examples</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Let&#8217;s Co and SEA projects are the first applications to use a specific timeline configuration. It&#8217;s using the realtime bar display and active zoom only on the buttons.</p>
+<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
 </div>
 <div class="paragraph">
-<p>On all their zooms level: followClockTicks, clusterTicksToTicks, centeredOnTicks and startDomainWith3Ticks are true.
-As well as property firstMoveStartOfUnit, allowing to pass the visualization from 2 units of time to 1 and stay with it.</p>
+<p><em>bootstrap.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  application:
+    name: web-ui
+  cloud:
+    config:
+      name: web-ui
+      fail-fast: true
+      retry:
+        max-attempts: 20
+      discovery:
+        service-id: config
+        enabled: true</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>They made 4 zooms level:</p>
+<p><em>bootstrap-docker.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  application:
+    name: web-ui
+  cloud:
+    config:
+      name: web-ui
+      failFast: true
+      retry:
+        maxAttempts: 20
+      discovery:
+        service-id: config
+        enabled: true
+#  level.root: debug
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>bootstrap-dev.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  application:
+    name: web-ui
+  cloud:
+    config:
+      name: web-ui
+      fail-fast: true
+      retry:
+        max-attempts: 20
+      discovery:
+        service-id: config
+        enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: 'http://localhost:2001/eureka'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
+docker images configuration.</p>
+</div>
+<div class="paragraph">
+<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
+development environment</p>
+</div>
+<div class="paragraph">
+<p>The above embedded configurations are the basic settings of the application:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>J and TR zooms: to illustrate these two domains, see the example below:
-For instance, today is 9th Dec, 10:44 (H:10 and J: 9th Dec)</p>
+<p>it sets its service name</p>
+</li>
+<li>
+<p>it sets the configuration name to use (which configuration file to retrieve)</p>
+</li>
+<li>
+<p>it must set the registry service (example in bootstrap-docker.yml)</p>
 </li>
 </ul>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Domain Name</th>
-<th class="tableblock halign-left valign-top">Start Domain</th>
-<th class="tableblock halign-left valign-top">End Domain</th>
-<th class="tableblock halign-left valign-top">Graduation</th>
-<th class="tableblock halign-left valign-top">Forward</th>
-<th class="tableblock halign-left valign-top">Backward</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TR</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9 Dec 8:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10 Dec 00:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30min</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">+2h(9 Dec 10:00 to 10 Dec 2:00)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-2h(9 Dec 6:00 to 9 Dec 10:00)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">J</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9 Dec 00:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11 Dec 00:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1h</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">+1J(10 Dec 00:00 to 12 Dec 00:00)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1J(8 Dec 00:00 to 10 Dec 00:00)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="ulist">
-<ul>
-<li>
-<p>7 days zoom: domain begins at actual day, and closes at the end of 7 days after.
-Its 7 days visualization when you move domain, and you move by one day.</p>
-</li>
-<li>
-<p>Week zoom : domain begins at the start day of the week regarding the current time, and closes at the end of next week.
-Its weekly visualization when you move domain, and you move by one week.</p>
-</li>
-<li>
-<p>Month zoom : domain begins at actual of the month regarding the current time, and closes at the end of next month.
-Its monthly visualization when you move domain, and you move by one month.</p>
-</li>
-<li>
-<p>Year zoom : domain begins at actual year regarding the current time, and closes at the end of next year.
-Its yearly visualization when you move domain, and you move by one year.</p>
-</li>
-</ul>
 </div>
-<div class="paragraph">
-<p>Below the code show, configures the timeline and only the Week zoom level:</p>
-</div>
-<div class="paragraph">
-<p>Firstly, you define the conf object for the domain and you use dateWithSpaceBeforeMoment and periodStartToEnd for obtains the start and the end home date of this zoom level visualization.</p>
-</div>
+<div class="sect2">
+<h3 id="_sample_development_configuration">1.3. Sample development configuration</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>	const domainWeekConf = {
-            year: 0,
-            month: 0,
-            week: 2,
-            day: 0,
-            hour: 0,
-            minute: 0,
-            second: 0,
-            startOf: ['week'],
-        };
-
-	const currentMoment = moment().startOf('week');
-	const startDomain = this.dateWithSpaceBeforeMoment(moment(currentMoment), 'W');
-	const endDomain = this.periodStartToEnd(domainWeekConf, true);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>After this, you define the conf object for the movements buttons.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>        const forwardWeekConf = {
-            start: {
-                year: 0,
-                month: 0,
-                week: 1,
-                day: 0,
-                hour: 0,
-                minute: 0,
-                second: 0,
-            },
-            end: {
-                year: 0,
-                month: 0,
-                week: 1,
-                day: 0,
-                hour: 0,
-                minute: 0,
-                second: 0,
-            },
-        };</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Missing only the conf ticks object to define, it&#8217;s the most important conf object.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>        const ticks4HoursConf = {
-            year: 0,
-            month: 0,
-            week: 0,
-            day: 0,
-            hour: 4,
-            minute: 0,
-            second: 0,
-        };</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Set the two objects with the data prepared and their booleans to configure timeline.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>	this.conf = {
-            enableDrag: false,
-            enableZoom: true,
-	    zoomOnButton: true,
-            autoScale: false,
-            showGridLines: true,
-            realTimeBar: true,
-        };
-        this.domains = {
-            'W': {
-                startDomain: startDomainWeek.valueOf(),
-                endDomain: endDomainWeek.valueOf(),
-                centeredOnTicks: true,
-                clusterTicksToTicks: true,
-                buttonTitle: 'W',
-                forwardConf: forwardWeekConf,
-                backwardConf: forwardWeekConf,
-                ticksConf: ticks4HoursConf,
-                followClockTick: false,
-                firstMoveStartOfUnit: false,
-                homeDomainExtraTicks: false
-            }
-        }</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Finally, to add or remove a domain, change the corresponding letter for domain name in <em>web-ui.json</em> file:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>	feed:
+<pre class="highlight"><code>server:
+  port: 2200
+operatorfabric:
+  security:
+    provider-url: http://localhost:89
+    provider-realm: dev
+    logout-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/
+    oauth2:
+      flow:
+        mode: CODE
+        provider: Opfab Keycloak
+        delagate-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
+  feed:
     subscription:
       timeout: 600000
     card:
@@ -1421,16 +1111,225 @@ Its yearly visualization when you move domain, and you move by one year.</p>
         display: BUSINESS
     timeline:
       domains:
-        - "J"
         - "TR"
+        - "J"
         - "7D"
         - "W"
         - "M"
-        - "Y"</code></pre>
+        - "Y"
+    notify: false
+  archive:
+    filters:
+      page.size:
+        - "10"
+      page.first:
+        - "0"
+      publisher.list:
+        - value: "TEST"
+          label: "Test Publisher"
+        - value: "TEST2"
+          label: "Test Publisher 2"
+      process.list:
+            - process
+            - someOtherProcess
+      tags.list:
+        - value: "tag1"
+          label: "Label for tag 1"
+        - value: "tag2"
+          label: "Label for tag 2"
+  i10n.supported.time-zones:
+    - value: "Europe/Paris"
+      label: "Headquarters timezone"
+    - value: "Australia/Melbourne"
+      label: "Down Under"
+    - Europe/London
+    - Europe/Dublin
+    - Europe/Brussel
+    - Europe/Berlin
+    - Europe/Rome
+    - Europe/Madrid
+    - Europe/Lisbon
+    - Europe/Amsterdam
+    - Europe/Athens
+    - Pacific/Samoa
+  i18n.supported.locales:
+    - en
+    - fr
+  settings:
+    locale: en
+    infos:
+      description: true
+    about:
+      firstapplication:
+        name: First application
+        version: v12.34.56
+        rank: 1
+      keycloack:
+        name: Keycloak
+        version: 6.0.1
+        rank: 2
+      lastapplication:
+          name: Wonderful Solution
+          version: 0.1.2-RELEASE
+  time:
+    pulse: 5000</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sample_docker_image_configuration">1.4. Sample docker image configuration</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>server:
+  port: 2200
+operatorfabric:
+  security:
+    provider-url: http://localhost:89
+    provider-realm: dev
+    logout-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/
+    oauth2:
+      flow:
+        mode: CODE
+        provider: Opfab Keycloak
+        delagate-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
+  feed:
+    subscription:
+      timeout: 600000
+    card:
+      time:
+        display: BUSINESS
+    timeline:
+      domains:
+        - "TR"
+        - "J"
+        - "7D"
+        - "W"
+        - "M"
+        - "Y"
+    notify: false
+  archive:
+    filters:
+      page.size:
+        - "10"
+      page.first:
+        - "0"
+      publisher.list:
+        - value: "TEST"
+          label: "Test Publisher"
+        - value: "TEST2"
+          label: "Test Publisher 2"
+      process.list:
+            - process
+            - someOtherProcess
+      tags.list:
+        - value: "tag1"
+          label: "Label for tag 1"
+        - value: "tag2"
+          label: "Label for tag 2"
+  i10n.supported.time-zones:
+    - value: "Europe/Paris"
+      label: "Headquarters timezone"
+    - value: "Australia/Melbourne"
+      label: "Down Under"
+    - Europe/London
+    - Europe/Dublin
+    - Europe/Brussel
+    - Europe/Berlin
+    - Europe/Rome
+    - Europe/Madrid
+    - Europe/Lisbon
+    - Europe/Amsterdam
+    - Europe/Athens
+    - Pacific/Samoa
+  i18n.supported.locales:
+    - en
+    - fr
+  settings:
+    locale: en
+    infos:
+      description: true
+    about:
+      firstapplication:
+        name: First application
+        version: v12.34.56
+        rank: 1
+      keycloack:
+        name: Keycloak
+        version: 6.0.1
+        rank: 2
+      lastapplication:
+          name: Wonderful Solution
+          version: 0.1.2-RELEASE
+  time:
+    pulse: 5000</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_specifying_external_configuration_properties_when_lauching_a_jar_file">2. Specifying external configuration properties when lauching a jar file</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>See {springboot_doc}/reference/htmlsingle/#boot-features-external-config-application-property-files[Application Property Files]
+on how to setup an external spring properties or yml file.</p>
 </div>
 <div class="paragraph">
-<p>Defined domains are: J, TR, 7D, W, M and Y.</p>
+<p>See {springboot_doc}/reference/htmlsingle/#howto-set-active-spring-profiles[Set the Active Spring Profiles] for specifying alternate profile.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_specifying_configuration_properties_when_lauching_a_docker_image">3. Specifying configuration properties when lauching a docker image</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our docker image expects optional property file to be stored in the container
+/service-config folder. You can bind so docker volume to this path to make
+properties or yml available.</p>
+</div>
+<div class="paragraph">
+<p>At time of writing, you cannot specify an alternate profile at runCards-Publication.
+The default profiles activated are docker and native.</p>
+</div>
+<div class="sect2">
+<h3 id="_available_environment_variables_for_docker_image">3.1. Available environment variables for docker image</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>REGISTRY_HOST: Registry service host</p>
+</li>
+<li>
+<p>REGISTRY_PORT: Registry service port</p>
+</li>
+<li>
+<p>JAVA_OPTIONS: Additional java options</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_specifying_configuration_properties_when_lauching_on_kubernetes">4. Specifying configuration properties when lauching on Kubernetes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In progress</p>
+</div>
+<div class="sect2">
+<h3 id="_available_environment_variables_when_launching_on_kubernetes">4.1. Available environment variables when launching on Kubernetes</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>REGISTRY_HOST: Registry service host</p>
+</li>
+<li>
+<p>REGISTRY_PORT: Registry service port</p>
+</li>
+<li>
+<p>JAVA_OPTIONS: Additional java options</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>

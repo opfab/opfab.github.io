@@ -438,8 +438,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_version_1_1_0_release">1. Version 1.1.0.RELEASE</a></li>
-<li><a href="#_version_1_0_0_release">2. Version 1.0.0.RELEASE</a></li>
-<li><a href="#_version_0_15_1_release">3. Version 0.15.1.RELEASE</a></li>
 </ul>
 </div>
 </div>
@@ -466,98 +464,90 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_version_1_0_0_release">2. Version 1.0.0.RELEASE</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_story">2.1. Story</h3>
+<h3 id="_bug">1.2. Bug</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-624] As a user I want to sort cards on the feed either by severity, lttd, publishDate or by lttd, publishDate only.</p>
+<p>[OC-730] Correct minors bugs in timeline and major refactoring</p>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p><em>In the feed, the cards remain sorted by default by severity, then by lttd (last time to decide) desc.
+<p>=== Issue
+* [OC-682] As a user I want sound to be played on cards arrival</p>
+</div>
+<div class="paragraph">
+<p>+
+<em>This feature allows (predefined) sounds to be played when cards of a given severity are added or updated in the feed.
+Only cards that are currently visible in the feed based on its filters (severity, tag, time) can trigger sounds.
+For sounds to be played for a given severity, the administrator needs to set the corresponding property to true.
+See operatorfabric.sounds.* properties in the
+<a href="https://opfab.github.io/documentation/1.1.0.RELEASE/user_guide/#_web_ui">configuration documentation</a> for more details.
+Depending on their browser default settings, users might also need to allow sounds (globally or for the OperatorFabric url)
+for this to work.</em></p>
+</div>
+<div class="paragraph">
+<p>+
+IMPORTANT: Due to the autoplay policy of some browsers (recent versions of Chrome for example), sounds won&#8217;t be played
+until the user has "interacted" with the application at least once: clicked a filter or menu, a card, etc. This is to
+prevent malicious sites to autoplay unwanted content.</p>
+</div>
+<div class="paragraph">
+<p>+
+<a href="https://www.zapsplat.com">Sound effects obtained from zapsplat.com</a></p>
+</div>
+<div class="paragraph">
+<p>== Version 1.0.0.RELEASE</p>
+</div>
+<div class="paragraph">
+<p>=== Story
+* [OC-624] As a user I want to sort cards on the feed either by severity, lttd, publishDate or by lttd, publishDate only.</p>
+</div>
+<div class="paragraph">
+<p>+
+<em>In the feed, the cards remain sorted by default by severity, then by lttd (last time to decide) desc.
 (i.e. closest lttd first), then by publication date asc. (i.e. latest cards first).</em></p>
 </div>
 <div class="paragraph">
-<p><em>This version adds a toggle to the feed buttons to switch to a second sort order that doesn&#8217;t take severity
+<p>+
+<em>This version adds a toggle to the feed buttons to switch to a second sort order that doesn&#8217;t take severity
 into account, so that cards are sorted by closest lttd then latest publication date.</em></p>
 </div>
 <div class="paragraph">
-<p><em>Note: No configuration is necessary.</em></p>
+<p>+
+<em>Note: No configuration is necessary.</em></p>
 </div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_bug">2.2. Bug</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-549] - Thirds API does&#8217;t return 404 when requested third doesn&#8217;t exist.</p>
-</li>
-<li>
-<p>[OC-325] - Put a long heartbeat timeout to avoid losing cards</p>
-</li>
-<li>
-<p>[OC-349] - Correct bug in token silent refresh (Implicit Mode)</p>
-</li>
-<li>
-<p>[OC-715] - [Cards-consultation][tests] : clean must be done after each unit test</p>
-</li>
-<li>
-<p>[OC-727] - regression in Action Service - feign.codec.DecodeException</p>
-</li>
-<li>
-<p>[OC-368] - Cards with an end date that is before their start date should be refused</p>
-</li>
-<li>
-<p>[OC-720] - CSS in card detail is not correctly applied until reload</p>
-</li>
-<li>
-<p>[OC-604] - On first opening the app, the feed filter isn&#8217;t synchronized with timeline time horizon</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_task_2">2.3. Task</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-669] Card publication service refactoring</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Remove unused and non working recipient options : INTERSECT , RANDOM, WEIGHTED and FAVORITE</p>
-</li>
-<li>
-<p>Remove unused field mainRecipient</p>
-</li>
-<li>
-<p>Remove internal asynchronous mecanism to push cards in Mongo and Rabbit</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>[OC-643] - Remove code regarding unused virtual time in frontend</p>
-</li>
-<li>
-<p>[OC-687] - Remove unused OAuth2 micro-service</p>
-</li>
-<li>
-<p>[OC-712] - When Token refresh is not possible redirect to login page (Implicit Mode)</p>
-</li>
-<li>
-<p>[OC-724] - Adding an Endpoint for the logout process</p>
 <div class="paragraph">
-<p><em>To successfully destroy the current session user in Keycloak, you need to provide a <strong>logout-url</strong> as explained in the <a href="https://opfab.github.io/documentation/0.16.1.SNAPSHOT/user_guide/#_web_ui">doc</a></em></p>
+<p>=== Bug
+* [OC-549] - Thirds API does&#8217;t return 404 when requested third doesn&#8217;t exist.
+* [OC-325] - Put a long heartbeat timeout to avoid losing cards
+* [OC-349] - Correct bug in token silent refresh (Implicit Mode)
+* [OC-715] - [Cards-consultation][tests] : clean must be done after each unit test
+* [OC-727] - regression in Action Service - feign.codec.DecodeException
+* [OC-368] - Cards with an end date that is before their start date should be refused
+* [OC-720] - CSS in card detail is not correctly applied until reload
+* [OC-604] - On first opening the app, the feed filter isn&#8217;t synchronized with timeline time horizon</p>
 </div>
-</li>
+<div class="paragraph">
+<p>=== Task
+* [OC-669] Card publication service refactoring
+           - Remove unused and non working recipient options : INTERSECT , RANDOM, WEIGHTED and FAVORITE
+           - Remove unused field mainRecipient
+           - Remove internal asynchronous mecanism to push cards in Mongo and Rabbit
+* [OC-643] - Remove code regarding unused virtual time in frontend
+* [OC-687] - Remove unused OAuth2 micro-service
+* [OC-712] - When Token refresh is not possible redirect to login page (Implicit Mode)
+* [OC-724] - Adding an Endpoint for the logout process</p>
+</div>
+<div class="paragraph">
+<p>+
+<em>To successfully destroy the current session user in Keycloak, you need to provide a <strong>logout-url</strong> as explained in the <a href="https://opfab.github.io/documentation/0.16.1.SNAPSHOT/user_guide/#_web_ui">doc</a></em></p>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p>[OC-649] - Upgrade the backend</p>
 </li>
@@ -573,82 +563,45 @@ into account, so that cards are sorted by closest lttd then latest publication d
 </li>
 </ul>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_feature">2.4. Feature</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-204] - As a Client, I need a about section "about" with a fixed value and a freely configurable value</p>
-<div class="ulist">
-<ul>
-<li>
-<p>adds release version and application name into jar manifests;</p>
-</li>
-<li>
-<p>displays current release version of <code>OperatorFabric</code> into the <code>UI about section</code>;</p>
-</li>
-<li>
-<p>enables new settings into <code>web-ui.yml</code> of <code>config service</code> to be displayed in the <code>UI about section</code>, cf user guide - web-ui section for more details.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_version_0_15_1_release">3. Version 0.15.1.RELEASE</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_bug_2">3.1. Bug</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-458] - Fix/test docker-compose</p>
 <div class="paragraph">
-<p><em>The containers created by test-environment and test-quality-environment docker-compose now have default
+<p>=== Feature
+* [OC-204] - As a Client, I need a about section "about" with a fixed value and a freely configurable value
+  <strong> adds release version and application name into jar manifests;
+  </strong> displays current release version of <code>OperatorFabric</code> into the <code>UI about section</code>;
+  ** enables new settings into <code>web-ui.yml</code> of <code>config service</code> to be displayed in the <code>UI about section</code>, cf user guide - web-ui section for more details.</p>
+</div>
+<div class="paragraph">
+<p>== Version 0.15.1.RELEASE</p>
+</div>
+<div class="paragraph">
+<p>=== Bug
+* [OC-458] - Fix/test docker-compose</p>
+</div>
+<div class="paragraph">
+<p>+
+<em>The containers created by test-environment and test-quality-environment docker-compose now have default
 docker-generated names rather than set names (e.g. <strong>test-environment_keycloak_1</strong> rather than <strong>keycloak</strong>). This is
-done to avoid conflicts.</em></p>
+done to avoid conflicts.</em>
+* [OC-442] - Cards in the feed aren&#8217;t no longer sorted according to their arrival
+* [OC-487] - Feed empty or unresponsive when changing user
+* [OC-615] - Once logged if the user reload the UI the navbar alone is displayed</p>
 </div>
-</li>
-<li>
-<p>[OC-442] - Cards in the feed aren&#8217;t no longer sorted according to their arrival</p>
-</li>
-<li>
-<p>[OC-487] - Feed empty or unresponsive when changing user</p>
-</li>
-<li>
-<p>[OC-615] - Once logged if the user reload the UI the navbar alone is displayed</p>
 <div class="paragraph">
-<p><em>See configuration <a href="https://opfab.github.io/documentation/0.16.1.SNAPSHOT/user_guide/#_web_ui">doc</a> and  see <a href="https://opfab.github.io/documentation/0.16.1.SNAPSHOT/user_guide/#_operator_fabric_specific_configuration">doc</a>: add the relam name and keycloak server instance ip address to web-ui.json and application.yml</em></p>
+<p>+
+<em>See configuration <a href="https://opfab.github.io/documentation/0.16.1.SNAPSHOT/user_guide/#_web_ui">doc</a> and  see <a href="https://opfab.github.io/documentation/0.16.1.SNAPSHOT/user_guide/#_operator_fabric_specific_configuration">doc</a>: add the relam name and keycloak server instance ip address to web-ui.json and application.yml</em></p>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>=== Story
+* [OC-579] -Now, for each microservice DockerHub will offer the following tags:</p>
 </div>
+<div class="paragraph">
+<p>+
+<strong> snapshot: Current snapshot version as generated by the daily CRON travis job.
+</strong> X.X.X.RELEASE: Image corresponding to the given release. Past releases are kept.
+** latest: Shortcut for the latest release.</p>
 </div>
-<div class="sect2">
-<h3 id="_story_2">3.2. Story</h3>
 <div class="ulist">
 <ul>
-<li>
-<p>[OC-579] -Now, for each microservice DockerHub will offer the following tags:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>snapshot: Current snapshot version as generated by the daily CRON travis job.</p>
-</li>
-<li>
-<p>X.X.X.RELEASE: Image corresponding to the given release. Past releases are kept.</p>
-</li>
-<li>
-<p>latest: Shortcut for the latest release.</p>
-</li>
-</ul>
-</div>
-</li>
 <li>
 <p>[OC-616] - Change severity names :</p>
 <div class="ulist">
@@ -673,9 +626,9 @@ done to avoid conflicts.</em></p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>=== Task</p>
 </div>
-<div class="sect2">
-<h3 id="_task_3">3.3. Task</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -736,6 +689,8 @@ described in the <a href="https://github.com/opfab/operatorfabric-core#8-docker-
 <p>[OC-641] - Correct deprecated warning in build</p>
 </li>
 </ul>
+</div>
+</div>
 </div>
 </div>
 </div>
