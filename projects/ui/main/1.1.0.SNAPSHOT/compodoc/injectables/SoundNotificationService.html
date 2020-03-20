@@ -313,8 +313,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/app/services/sound-notification.service.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/app/services/sound-notification.service.ts:100</a></div>
                 </td>
             </tr>
 
@@ -775,15 +775,14 @@ export class SoundNotificationService {
     this.informationSoundPath &#x3D; (baseHref?baseHref:&#x27;/&#x27;)+&#x27;assets/sounds/information.mp3&#x27;
     this.informationSound &#x3D; new Audio(this.informationSoundPath);
 
-    store.select(buildConfigSelector(&#x27;sounds.alarm&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForAlarm &#x3D; x;});
-    store.select(buildConfigSelector(&#x27;sounds.action&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForAction &#x3D; x;});
-    store.select(buildConfigSelector(&#x27;sounds.compliant&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForCompliant &#x3D; x;});
-    store.select(buildConfigSelector(&#x27;sounds.information&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForInformation &#x3D; x;});
+    store.select(buildSettingsOrConfigSelector(&#x27;playSoundForAlarm&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForAlarm &#x3D; x;});
+    store.select(buildSettingsOrConfigSelector(&#x27;playSoundForAction&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForAction &#x3D; x;});
+    store.select(buildSettingsOrConfigSelector(&#x27;playSoundForCompliant&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForCompliant &#x3D; x;});
+    store.select(buildSettingsOrConfigSelector(&#x27;playSoundForInformation&#x27;)).subscribe(x &#x3D;&gt; { this.playSoundForInformation &#x3D; x;});
 
   }
 
   handleCards(lightCards : LightCard[], currentlyVisibleIds : string[]) {
-
     from(lightCards).subscribe( //There is no need to unsubscribe because this is by essence a finite observable
         // TODO Possible improvement: all cards in an operation have the same publishDate (to be checked) so we could do this check only once by operation and either handle all cards or dismiss the batch entirely
         (card : LightCard) &#x3D;&gt; {

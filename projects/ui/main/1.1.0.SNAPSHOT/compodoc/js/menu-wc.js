@@ -349,16 +349,20 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/SettingsModule.html" data-type="entity-link">SettingsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-SettingsModule-da2847096889a6b5ab619557a4a03721"' : 'data-target="#xs-components-links-module-SettingsModule-da2847096889a6b5ab619557a4a03721"' }>
+                                            'data-target="#components-links-module-SettingsModule-a86c540801c65a15f9154f3650a8b063"' : 'data-target="#xs-components-links-module-SettingsModule-a86c540801c65a15f9154f3650a8b063"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-SettingsModule-da2847096889a6b5ab619557a4a03721"' :
-                                            'id="xs-components-links-module-SettingsModule-da2847096889a6b5ab619557a4a03721"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-SettingsModule-a86c540801c65a15f9154f3650a8b063"' :
+                                            'id="xs-components-links-module-SettingsModule-a86c540801c65a15f9154f3650a8b063"' }>
                                             <li class="link">
                                                 <a href="components/BaseSettingComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BaseSettingComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/CheckboxSettingComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">CheckboxSettingComponent</a>
                                             </li>
                                             <li class="link">
                                                 <a href="components/EmailSettingComponent.html"
