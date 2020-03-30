@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="revdate">27 March 2020</span>
 </div>
 <div id="toc" class="toc2">
-<div id="toctitle">User Guide</div>
+<div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_versioning">1. Versioning</a>
 <ul class="sectlevel2">
@@ -461,6 +461,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_checking_dockerhub_the_following_day">1.4.4. Checking DockerHub the following day</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#_deployment">2. Deployment</a>
+<ul class="sectlevel2">
+<li><a href="#_adding_certification_authorities_or_certificates_to_the_java_keystore">2.1. Adding certification authorities or certificates to the Java keystore</a></li>
 </ul>
 </li>
 </ul>
@@ -891,6 +896,110 @@ notes for next version.</p>
 <p>A CRON Travis job runs daily (the time of the day may vary) and generates the documentation and docker snapshot images.
 After you have finished switching to the Y.Y.Y.SNAPSHOT version, you should wait for such a job to run and check that
 the snapshot images are correctly generated and pushed on DockerHub.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deployment">2. Deployment</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_adding_certification_authorities_or_certificates_to_the_java_keystore">2.1. Adding certification authorities or certificates to the Java keystore</h3>
+<div class="paragraph">
+<p>If you&#8217;re using certificates (for example for Keycloak) that are not from a certification authority trusted by the JVM,
+this will cause errors such as this one:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/certificate_error.png" alt="Missing certificate error message">
+</div>
+</div>
+<div class="paragraph">
+<p>If that is the case, you can pass the additional authorities or certificates that you use to the containers at runtime.</p>
+</div>
+<div class="paragraph">
+<p>To do so, put the relevant files (*.der files for example) under <strong>src/main/docker/certificates</strong>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>This directory should only contain the files to be added to the keystore.</p>
+</li>
+<li>
+<p>The files can be nested inside directories.</p>
+</li>
+<li>
+<p>Each certificate will be added with its filename as alias. For example, the certificate in file mycertificate.der
+will be added under alias <strong>mycertificate</strong>. As a consequence, filenames should be unique or it will cause an error.</p>
+</li>
+<li>
+<p>If you need to add or remove certificates while the container is already running, the container will have to be
+restarted for the changes to be taken into account.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If you would like certificates to be sourced from a different location, replace the volumes declarations in the deploy
+docker-compose.yml file with the selected location:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>volumes:
+ - "path/to/my/selected/location:/certificates_to_add"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>instead of</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>volumes:
+ - "../../../../src/main/docker/certificates:/certificates_to_add"</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The steps described here assume you&#8217;re running OperatorFabric in docker mode using the deploy docker-compose,
+but they can be adapted for single container deployments and development mode.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you want to check that the certificates were correctly added, you can do so with the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a bash shell in the container you want to check</p>
+<div class="literalblock">
+<div class="content">
+<pre>docker exec -it deploy_thirds_1 bash</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the following command</p>
+<div class="literalblock">
+<div class="content">
+<pre>$JAVA_HOME/bin/keytool -list -v -keystore /tmp/cacerts -storepass changeit</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can also look at the default list of authorities and certificates trusted by the JVM with this command:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$JAVA_HOME/bin/keytool -list -v -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit</pre>
 </div>
 </div>
 </div>
