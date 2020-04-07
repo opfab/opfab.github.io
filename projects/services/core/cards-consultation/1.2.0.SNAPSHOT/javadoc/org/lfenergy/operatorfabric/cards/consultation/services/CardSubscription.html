@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -151,12 +151,12 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#CardSubscription-org.lfenergy.operatorfabric.users.model.User-java.lang.String-java.lang.Runnable-org.springframework.amqp.core.AmqpAdmin-org.springframework.amqp.core.DirectExchange-org.springframework.amqp.core.TopicExchange-org.springframework.amqp.rabbit.connection.ConnectionFactory-java.time.Instant-java.time.Instant-java.lang.Boolean-">CardSubscription</a></span>(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#CardSubscription-org.lfenergy.operatorfabric.users.model.User-java.lang.String-java.lang.Runnable-org.springframework.amqp.core.AmqpAdmin-org.springframework.amqp.core.DirectExchange-org.springframework.amqp.core.FanoutExchange-org.springframework.amqp.rabbit.connection.ConnectionFactory-java.time.Instant-java.time.Instant-java.lang.Boolean-">CardSubscription</a></span>(org.lfenergy.operatorfabric.users.model.User&nbsp;user,
                 java.lang.String&nbsp;clientId,
                 java.lang.Runnable&nbsp;doOnCancel,
                 org.springframework.amqp.core.AmqpAdmin&nbsp;amqpAdmin,
                 org.springframework.amqp.core.DirectExchange&nbsp;userExchange,
-                org.springframework.amqp.core.TopicExchange&nbsp;groupExchange,
+                org.springframework.amqp.core.FanoutExchange&nbsp;groupExchange,
                 org.springframework.amqp.rabbit.connection.ConnectionFactory&nbsp;connectionFactory,
                 java.time.Instant&nbsp;rangeStart,
                 java.time.Instant&nbsp;rangeEnd,
@@ -211,10 +211,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#isUserInGroupRecipients-java.lang.String-">isUserInGroupRecipients</a></span>(java.lang.String&nbsp;messageBody)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#publishInto-reactor.core.publisher.Flux-">publishInto</a></span>(reactor.core.publisher.Flux&lt;java.lang.String&gt;&nbsp;fetchOldCards)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#updateRange-java.time.Instant-java.time.Instant-">updateRange</a></span>(java.time.Instant&nbsp;rangeStart,
            java.time.Instant&nbsp;rangeEnd)</code>&nbsp;</td>
@@ -262,7 +266,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="CardSubscription-org.lfenergy.operatorfabric.users.model.User-java.lang.String-java.lang.Runnable-org.springframework.amqp.core.AmqpAdmin-org.springframework.amqp.core.DirectExchange-org.springframework.amqp.core.TopicExchange-org.springframework.amqp.rabbit.connection.ConnectionFactory-java.time.Instant-java.time.Instant-java.lang.Boolean-">
+<a name="CardSubscription-org.lfenergy.operatorfabric.users.model.User-java.lang.String-java.lang.Runnable-org.springframework.amqp.core.AmqpAdmin-org.springframework.amqp.core.DirectExchange-org.springframework.amqp.core.FanoutExchange-org.springframework.amqp.rabbit.connection.ConnectionFactory-java.time.Instant-java.time.Instant-java.lang.Boolean-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -273,7 +277,7 @@ extends java.lang.Object</pre>
                         java.lang.Runnable&nbsp;doOnCancel,
                         org.springframework.amqp.core.AmqpAdmin&nbsp;amqpAdmin,
                         org.springframework.amqp.core.DirectExchange&nbsp;userExchange,
-                        org.springframework.amqp.core.TopicExchange&nbsp;groupExchange,
+                        org.springframework.amqp.core.FanoutExchange&nbsp;groupExchange,
                         org.springframework.amqp.rabbit.connection.ConnectionFactory&nbsp;connectionFactory,
                         java.time.Instant&nbsp;rangeStart,
                         java.time.Instant&nbsp;rangeEnd,
@@ -383,10 +387,25 @@ extends java.lang.Object</pre>
 <a name="publishInto-reactor.core.publisher.Flux-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>publishInto</h4>
 <pre>public&nbsp;void&nbsp;publishInto(reactor.core.publisher.Flux&lt;java.lang.String&gt;&nbsp;fetchOldCards)</pre>
+</li>
+</ul>
+<a name="isUserInGroupRecipients-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>isUserInGroupRecipients</h4>
+<pre>public&nbsp;boolean&nbsp;isUserInGroupRecipients(java.lang.String&nbsp;messageBody)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>messageBody</code> - message body received from rabbitMQ</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the message received is intended for one of the user's groups</dd>
+</dl>
 </li>
 </ul>
 </li>

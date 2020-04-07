@@ -313,8 +313,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="273"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:273</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:278</a></div>
                 </td>
             </tr>
 
@@ -394,8 +394,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="295"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:295</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:300</a></div>
                 </td>
             </tr>
 
@@ -466,8 +466,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:301</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="306"
+                            class="link-to-prism">src/app/store/effects/authentication.effects.ts:306</a></div>
                 </td>
             </tr>
 
@@ -529,7 +529,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/store/effects/authentication.effects.ts:146</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/app/store/effects/authentication.effects.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -581,7 +581,10 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                                     tap(() &#x3D;&gt; {
                                         redirectToCurrentLocation(this.router);
                                     }),
-                                    map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
+                                    map(authenticationInfo &#x3D;&gt; {
+                                        this.authService.regularCheckTokenValidity();
+                                        return new AcceptLogIn(authenticationInfo)
+                                    }),
                                     catchError(errorResponse &#x3D;&gt; {
                                             return this.handleErrorOnTokenGeneration(errorResponse, &#x27;code&#x27;);
                                         }
@@ -593,6 +596,7 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                         } else {
                             if (!this.authService.isExpirationDateOver()) {
                                 const authInfo &#x3D; this.authService.extractIdentificationInformation();
+                               this.authService.regularCheckTokenValidity();
                                 return this.authService.loadUserData(authInfo)
                                     .pipe(
                                         map(auth &#x3D;&gt; {
@@ -600,7 +604,6 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                                             return new AcceptLogIn(auth);
                                         })
                                     );
-                                // return of(new AcceptLogIn(authInfo));
                             }
                             return of(this.handleRejectedLogin(new Message(&#x27;The stored token has expired&#x27;,
                                 MessageLevel.ERROR,
@@ -631,7 +634,7 @@ It tells the {Router} service to navigate to the Login page. and emit an {Accept
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="189" class="link-to-prism">src/app/store/effects/authentication.effects.ts:189</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="191" class="link-to-prism">src/app/store/effects/authentication.effects.ts:191</a></div>
                             </td>
                         </tr>
 
@@ -755,7 +758,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="247" class="link-to-prism">src/app/store/effects/authentication.effects.ts:247</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="252" class="link-to-prism">src/app/store/effects/authentication.effects.ts:252</a></div>
                             </td>
                         </tr>
 
@@ -800,7 +803,7 @@ current authentication state.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">src/app/store/effects/authentication.effects.ts:165</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/store/effects/authentication.effects.ts:167</a></div>
                             </td>
                         </tr>
 
@@ -920,7 +923,7 @@ on the login button.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/store/effects/authentication.effects.ts:125</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/store/effects/authentication.effects.ts:127</a></div>
                             </td>
                         </tr>
 
@@ -976,7 +979,7 @@ an {AcceptLogOut} Action.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="264" class="link-to-prism">src/app/store/effects/authentication.effects.ts:264</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="269" class="link-to-prism">src/app/store/effects/authentication.effects.ts:269</a></div>
                             </td>
                         </tr>
 
@@ -1093,6 +1096,8 @@ export class AuthenticationEffects {
                 })
             );
 
+
+
     /**
      * This {Observable} of {AuthenticationActions} listens for {AuthenticationActionTypes.TryToLogOut} type.
      * It tells the {AuthenticationService} to clear the authentication information from the system and emit
@@ -1187,7 +1192,10 @@ export class AuthenticationEffects {
                                     tap(() &#x3D;&gt; {
                                         redirectToCurrentLocation(this.router);
                                     }),
-                                    map(authenticationInfo &#x3D;&gt; new AcceptLogIn(authenticationInfo)),
+                                    map(authenticationInfo &#x3D;&gt; {
+                                        this.authService.regularCheckTokenValidity();
+                                        return new AcceptLogIn(authenticationInfo)
+                                    }),
                                     catchError(errorResponse &#x3D;&gt; {
                                             return this.handleErrorOnTokenGeneration(errorResponse, &#x27;code&#x27;);
                                         }
@@ -1199,6 +1207,7 @@ export class AuthenticationEffects {
                         } else {
                             if (!this.authService.isExpirationDateOver()) {
                                 const authInfo &#x3D; this.authService.extractIdentificationInformation();
+                               this.authService.regularCheckTokenValidity();
                                 return this.authService.loadUserData(authInfo)
                                     .pipe(
                                         map(auth &#x3D;&gt; {
@@ -1206,7 +1215,6 @@ export class AuthenticationEffects {
                                             return new AcceptLogIn(auth);
                                         })
                                     );
-                                // return of(new AcceptLogIn(authInfo));
                             }
                             return of(this.handleRejectedLogin(new Message(&#x27;The stored token has expired&#x27;,
                                 MessageLevel.ERROR,

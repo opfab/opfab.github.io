@@ -907,8 +907,10 @@ It helps to avoid typos or missing to report some changes. An example could be f
 </div>
 <div class="sect6">
 <h7 id="_client_gateway_yml">client-gateway.yml</h7>
+<div class="sect9">
+<h10 id="_authentication_server">Authentication Server</h10>
 <div class="paragraph">
-<p>In a configuration service <code>client-gateway.yml</code> file</p>
+<p>In the configuration service <code>client-gateway.yml</code> file:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -958,12 +960,59 @@ the deployment domain</p>
 </div>
 </div>
 <div class="paragraph">
-<p>where:
-- <code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance
-- <code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;
-- <code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.
-- <code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance</p>
+</li>
+<li>
+<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
+</li>
+<li>
+<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
+</li>
+<li>
+<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
 <code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect9">
+<h10 id="_action_service">Action Service</h10>
+<div class="paragraph">
+<p>In the  configuration service <code>client-gateway.yml</code> file, the application must set up the <code>URI</code> of the <code>Action Service</code>.</p>
+</div>
+<div class="paragraph">
+<p>To do so, the <code>spring.cloud.gateway.routes.id="action".uri</code> property is set with the actual value of this service.</p>
+</div>
+<div class="paragraph">
+<p>In the case of a development set-up, this value is <code><a href="http://localhost:2105" class="bare">localhost:2105</a></code> where <code>2105</code> 
+is the default port as set in the <code>application.yml</code> used by the <code>Action service</code> as configuration.</p>
+</div>
+<div class="paragraph">
+<p><code>client-gateway.yml</code> of the <code>dev-configuration</code> as example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: actions
+        uri: http://localhost:2105
+        predicates:
+        - Path=/actions/**
+        filters:
+        - RewritePath=/actions/(?&lt;path&gt;.*), /$\{path}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As explained earlier, the key to configure is <code>uri</code> of the <code>spring.cloud.gateway.routes</code> with the <code>id</code>
+equals to <code>actions</code>.</p>
+</div>
 </div>
 </div>
 <div class="sect6">
@@ -2080,8 +2129,10 @@ Registry.</p>
 <p>To get a working gateway service, there a few mandatory configuration
 properties:</p>
 </div>
+<div class="sect5">
+<h6 id="_authentication_server_2">Authentication Server</h6>
 <div class="paragraph">
-<p>In a configuration service <code>client-gateway.yml</code> file</p>
+<p>In the configuration service <code>client-gateway.yml</code> file:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2131,15 +2182,62 @@ the deployment domain</p>
 </div>
 </div>
 <div class="paragraph">
-<p>where:
-- <code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance
-- <code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;
-- <code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.
-- <code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance</p>
+</li>
+<li>
+<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
+</li>
+<li>
+<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
+</li>
+<li>
+<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
 <code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_action_service_2">Action Service</h6>
+<div class="paragraph">
+<p>In the  configuration service <code>client-gateway.yml</code> file, the application must set up the <code>URI</code> of the <code>Action Service</code>.</p>
+</div>
+<div class="paragraph">
+<p>To do so, the <code>spring.cloud.gateway.routes.id="action".uri</code> property is set with the actual value of this service.</p>
+</div>
+<div class="paragraph">
+<p>In the case of a development set-up, this value is <code><a href="http://localhost:2105" class="bare">localhost:2105</a></code> where <code>2105</code> 
+is the default port as set in the <code>application.yml</code> used by the <code>Action service</code> as configuration.</p>
+</div>
+<div class="paragraph">
+<p><code>client-gateway.yml</code> of the <code>dev-configuration</code> as example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: actions
+        uri: http://localhost:2105
+        predicates:
+        - Path=/actions/**
+        filters:
+        - RewritePath=/actions/(?&lt;path&gt;.*), /$\{path}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As explained earlier, the key to configure is <code>uri</code> of the <code>spring.cloud.gateway.routes</code> with the <code>id</code>
+equals to <code>actions</code>.</p>
 </div>
 <div class="paragraph">
 <p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.1.0.RELEASE/single/spring-cloud-gateway.html">spring cloud gateway documentation</a>.</p>
+</div>
 </div>
 <div class="sect5">
 <h6 id="_service_specific_properties">Service specific properties</h6>
@@ -2189,7 +2287,9 @@ the deployment domain</p>
         max-attempts: 20
       discovery:
         service-id: config
-        enabled: true</code></pre>
+        enabled: true
+logging:
+  level: debug</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2287,6 +2387,12 @@ spring:
         - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
         - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
         - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==
+      - id: actions
+        uri: http://localhost:2105
+        predicates:
+        - Path=/actions/**
+        filters:
+        - RewritePath=/actions/(?&lt;path&gt;.*), /$\{path}
 # WARNING : THIS CORS CONFIGURATION SHOULD NOT BE USED IN PRODUCTION
       globalcors:
         corsConfigurations:
@@ -2317,6 +2423,12 @@ operatorfabric.gateway.configs:
         - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
         - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
         - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==
+      - id: actions
+        uri: http://actions:2105
+        predicates:
+          - Path=/actions/**
+        filters:
+          - RewritePath=/actions/(?&lt;path&gt;.*), /$\{path}
 # WARNING : THIS CORS CONFIGURATION SHOULD NOT BE USED IN PRODUCTION
         globalcors:
          corsConfigurations:
@@ -3535,13 +3647,6 @@ NONE
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeFilter.followClockTick</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time filter on the feed will shift
-to reflect elapsed time</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.notify</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -3917,14 +4022,15 @@ development environment</p>
   port: 2200
 operatorfabric:
   security:
-    provider-url: http://localhost:89
+    provider-url: http://localhost:2002
     provider-realm: dev
-    logout-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/
+    base-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect
+    logout-url: ${operatorfabric.security.base-url}/logout?redirect_uri=http://localhost:2002/ui/
     oauth2:
       flow:
         mode: CODE
         provider: Opfab Keycloak
-        delagate-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
+        delagate-url: ${operatorfabric.security.base-url}/auth?response_type=code&amp;client_id=opfab-client
   feed:
     subscription:
       timeout: 600000

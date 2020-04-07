@@ -127,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="428" class="link-to-prism">src/app/services/authentication/authentication.service.ts:428</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="441" class="link-to-prism">src/app/services/authentication/authentication.service.ts:441</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +227,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="431" class="link-to-prism">src/app/services/authentication/authentication.service.ts:431</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="444" class="link-to-prism">src/app/services/authentication/authentication.service.ts:444</a></div>
                             </td>
                         </tr>
 
@@ -255,7 +255,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="433" class="link-to-prism">src/app/services/authentication/authentication.service.ts:433</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="446" class="link-to-prism">src/app/services/authentication/authentication.service.ts:446</a></div>
                             </td>
                         </tr>
 
@@ -283,7 +283,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="432" class="link-to-prism">src/app/services/authentication/authentication.service.ts:432</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="445" class="link-to-prism">src/app/services/authentication/authentication.service.ts:445</a></div>
                             </td>
                         </tr>
 
@@ -312,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="434" class="link-to-prism">src/app/services/authentication/authentication.service.ts:434</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="447" class="link-to-prism">src/app/services/authentication/authentication.service.ts:447</a></div>
                             </td>
                         </tr>
 
@@ -400,6 +400,19 @@ export class AuthenticationService {
                 this.assignConfigurationProperties(oauth2Conf);
                 this.authModeHandler &#x3D; this.instantiateAuthModeHandler(this.mode);
             });
+
+    }
+
+    regularCheckTokenValidity()
+    {
+        if (this.verifyExpirationDate()) {
+            setTimeout(() &#x3D;&gt; {
+                this.regularCheckTokenValidity();
+              }, 5000);
+        }
+        // Will send Logout if token is expired 
+        else this.store.dispatch(new UnableToRefreshOrGetToken());
+
     }
 
     /**

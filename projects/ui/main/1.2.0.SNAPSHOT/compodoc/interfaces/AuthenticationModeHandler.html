@@ -131,8 +131,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="471"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:471</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="484"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:484</a></div>
                 </td>
             </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="467"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:467</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="480"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:480</a></div>
                 </td>
             </tr>
 
@@ -240,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="469"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:469</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="482"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:482</a></div>
                 </td>
             </tr>
 
@@ -310,8 +310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="473"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:473</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="486"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:486</a></div>
                 </td>
             </tr>
 
@@ -402,6 +402,19 @@ export class AuthenticationService {
                 this.assignConfigurationProperties(oauth2Conf);
                 this.authModeHandler &#x3D; this.instantiateAuthModeHandler(this.mode);
             });
+
+    }
+
+    regularCheckTokenValidity()
+    {
+        if (this.verifyExpirationDate()) {
+            setTimeout(() &#x3D;&gt; {
+                this.regularCheckTokenValidity();
+              }, 5000);
+        }
+        // Will send Logout if token is expired 
+        else this.store.dispatch(new UnableToRefreshOrGetToken());
+
     }
 
     /**

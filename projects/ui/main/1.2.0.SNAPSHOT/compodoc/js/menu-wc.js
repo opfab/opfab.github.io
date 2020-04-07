@@ -723,12 +723,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ThirdsServiceMock.html" data-type="entity-link">ThirdsServiceMock</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Tick.html" data-type="entity-link">Tick</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/TickPayload.html" data-type="entity-link">TickPayload</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/TimeSpan.html" data-type="entity-link">TimeSpan</a>
                             </li>
                             <li class="link">
@@ -856,9 +850,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/ThirdsService.html" data-type="entity-link">ThirdsService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/TimeEffects.html" data-type="entity-link">TimeEffects</a>
-                                </li>
-                                <li class="link">
                                     <a href="injectables/TimeService.html" data-type="entity-link">TimeService</a>
                                 </li>
                                 <li class="link">
@@ -922,9 +913,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/TimelineState.html" data-type="entity-link">TimelineState</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/TimeState.html" data-type="entity-link">TimeState</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/UserState.html" data-type="entity-link">UserState</a>
