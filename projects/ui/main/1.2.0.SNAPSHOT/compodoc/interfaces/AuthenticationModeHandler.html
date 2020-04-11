@@ -131,8 +131,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="484"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:484</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="483"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:483</a></div>
                 </td>
             </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="480"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:480</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="479"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:479</a></div>
                 </td>
             </tr>
 
@@ -240,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="482"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:482</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="481"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:481</a></div>
                 </td>
             </tr>
 
@@ -310,8 +310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="486"
-                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:486</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="485"
+                            class="link-to-prism">src/app/services/authentication/authentication.service.ts:485</a></div>
                 </td>
             </tr>
 
@@ -342,8 +342,8 @@ import {
     ImplicitlyAuthenticated,
     InitAuthStatus,
     PayloadForSuccessfulAuthentication,
-    UnAuthenticationFromImplicitFlow,
-    UnableToRefreshOrGetToken
+    UnableToRefreshOrGetToken,
+    UnAuthenticationFromImplicitFlow
 } from &#x27;@ofActions/authentication.actions&#x27;;
 import {environment} from &#x27;@env/environment&#x27;;
 import {GuidService} from &#x27;@ofServices/guid.service&#x27;;
@@ -375,7 +375,6 @@ export class AuthenticationService {
     private askTokenUrl &#x3D; &#x60;${environment.urls.auth}/token&#x60;;
     private userDataUrl &#x3D; &#x60;${environment.urls.users}/users&#x60;;
     private clientId: string;
-    private clientSecret: string;
     private loginClaim: string;
     private expireClaim: string;
     private delegateUrl: string;
@@ -405,15 +404,14 @@ export class AuthenticationService {
 
     }
 
-    regularCheckTokenValidity()
-    {
+    regularCheckTokenValidity() {
         if (this.verifyExpirationDate()) {
             setTimeout(() &#x3D;&gt; {
                 this.regularCheckTokenValidity();
-              }, 5000);
+            }, 5000);
+        } else {// Will send Logout if token is expired
+            this.store.dispatch(new UnableToRefreshOrGetToken());
         }
-        // Will send Logout if token is expired 
-        else this.store.dispatch(new UnableToRefreshOrGetToken());
 
     }
 
@@ -437,7 +435,6 @@ export class AuthenticationService {
      */
     assignConfigurationProperties(oauth2Conf) {
         this.clientId &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-id&#x27;, null);
-        this.clientSecret &#x3D; _.get(oauth2Conf, &#x27;oauth2.client-secret&#x27;, null);
         this.delegateUrl &#x3D; _.get(oauth2Conf, &#x27;oauth2.flow.delagate-url&#x27;, null);
         this.loginClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.login-claim&#x27;, &#x27;sub&#x27;);
         this.givenNameClaim &#x3D; _.get(oauth2Conf, &#x27;jwt.given-name-claim&#x27;, &#x27;given_name&#x27;);
@@ -483,18 +480,20 @@ export class AuthenticationService {
      */
     askTokenFromCode(code: string):
         Observable&lt;PayloadForSuccessfulAuthentication&gt; {
-        if (!this.clientId || !this.clientSecret || !this.loginClaim) {
+        if (!this.clientId || !this.loginClaim) {
             return throwError(&#x27;The authentication service is no correctly initialized&#x27;);
         }
         const params &#x3D; new URLSearchParams();
         params.append(&#x27;code&#x27;, code);
         params.append(&#x27;grant_type&#x27;, &#x27;authorization_code&#x27;);
-// beware clientId for token defines a type of authentication
+        // beware clientId for token defines a type of authentication
         params.append(&#x27;clientId&#x27;, this.clientId);
         params.append(&#x27;redirect_uri&#x27;, this.computeRedirectUri());
 
         const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
-        return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl, params.toString(), {headers: headers}));
+        return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(    this.askTokenUrl
+                                                                   ,    params.toString()
+                                                                   ,    {headers: headers}));
     }
 
     /**
@@ -504,19 +503,19 @@ export class AuthenticationService {
      * @param password
      */
     askTokenFromPassword(login: string, password: string): Observable&lt;any&gt; {
-        if (!this.clientId || !this.clientSecret) {
+        if (!this.clientId) {
             return throwError(&#x27;The authentication service is no correctly initialized&#x27;);
         }
         const params &#x3D; new URLSearchParams();
         params.append(&#x27;username&#x27;, login);
         params.append(&#x27;password&#x27;, password);
         params.append(&#x27;grant_type&#x27;, &#x27;password&#x27;);
-// beware clientId for access_token is an oauth parameters
+        // beware clientId for access_token is an oauth parameters
         params.append(&#x27;clientId&#x27;, this.clientId);
-        params.append(&#x27;client_secret&#x27;, this.clientSecret);
-
         const headers &#x3D; new HttpHeaders({&#x27;Content-type&#x27;: &#x27;application/x-www-form-urlencoded; charset&#x3D;utf-8&#x27;});
-        return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(this.askTokenUrl, params.toString(), {headers: headers}));
+        return this.handleNewToken(this.httpClient.post&lt;AuthObject&gt;(    this.askTokenUrl
+                                                                   ,    params.toString()
+                                                                   ,    {headers: headers}));
     }
 
     private handleNewToken(call: Observable&lt;AuthObject&gt;): Observable&lt;PayloadForSuccessfulAuthentication&gt; {
@@ -641,8 +640,8 @@ export class AuthenticationService {
     }
 
     public moveToCodeFlowLoginPage() {
-        if (!this.clientId || !this.clientSecret) {
-            return throwError(&#x27;The authentication service is no correctly iniitialized&#x27;);
+        if (!this.clientId) {
+            return throwError(&#x27;The authentication service is no correctly initialized&#x27;);
         }
         if (!this.delegateUrl) {
             window.location.href &#x3D; &#x60;${environment.urls.auth}/code/redirect_uri&#x3D;${this.computeRedirectUri()}&#x60;;
@@ -717,15 +716,15 @@ export class AuthenticationService {
 
     dispatchAppStateActionFromOAuth2Events(event: OAuthEvent): void {
         const eventType: OAuthType &#x3D; event.type;
-        console.log(new Date(),&quot;Authentification event&quot;,event);
+        console.log(new Date(), &#x27;Authentication event&#x27;, event);
         switch (eventType) {
             case (&#x27;token_received&#x27;): {
                 this.store.dispatch(new ImplicitlyAuthenticated());
                 break;
             }
-            // We can have a token_error or token_refresh_error when it is not possible to refresh token 
+            // We can have a token_error or token_refresh_error when it is not possible to refresh token
             // This case arise for example when using a SSO and the session is not valid anymore (session timeout)
-            case (&#x27;token_error&#x27;): 
+            case (&#x27;token_error&#x27;):
             case(&#x27;token_refresh_error&#x27;):
                 this.store.dispatch(new UnableToRefreshOrGetToken());
                 break;
