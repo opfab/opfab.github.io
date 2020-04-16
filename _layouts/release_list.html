@@ -1,0 +1,37 @@
+---
+layout: default
+---
+
+<!-- Filtering and sorting pages ("where" liquid filters can't be used directly in for loops)-->
+{% assign archived_files = site.static_files | where_exp:"url", "url.path contains site.archives_path" | where_exp:"url", "url.path contains 'release_notes.html'" %}
+<!-- A version will only appear in the table if there is are release_notes.html file associated to it-->
+
+{% assign sorted_archived_files = archived_files | sort: "path" | reverse %}
+
+<table class="table">
+    <tbody>
+
+    {% for file in sorted_archived_files %}
+    {% assign path_elements = file.path | relative_url | split : "/" %}
+    {% assign version = path_elements[3] %}
+    {% assign version_elements = version | split : "." %}
+    {% assign version_type = version_elements[3] %}
+
+
+    <tr>
+        <th scope="row">{{ version }}
+            {% if version_type == "RELEASE" %}{% assign release_counter = release_counter | plus:1 %}{% endif %}
+            {% if release_counter == 1 %}<span class="badge badge-primary badge-pill">Current</span>{% endif %}
+            {% if version_type == "SNAPSHOT" %}<span class="badge badge-secondary badge-pill">Snapshot</span>{% endif %}
+        </th>
+        <td><a href="{{ file.path | relative_url }}">Release Notes</a></li></td>
+        <td><a href="{{ file.path | relative_url | replace: 'release_notes', 'single_page_doc' }}">Documentation</a></li></td>
+        <td><a href="{{ file.path | relative_url | replace: 'release_notes.html', 'api/actions/index.html' }}">Actions API</a></li></td>
+        <td><a href="{{ file.path | relative_url | replace: 'release_notes.html', 'api/cards/index.html' }}">Cards API</a></li></td>
+        <td><a href="{{ file.path | relative_url | replace: 'release_notes.html', 'api/thirds/index.html' }}">Thirds API</a></li></td>
+        <td><a href="{{ file.path | relative_url | replace: 'release_notes.html', 'api/users/index.html' }}">Users API</a></li></td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
