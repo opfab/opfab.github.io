@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":9,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -184,23 +184,27 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#checkActive--">checkActive</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#checkIfUserMustReceiveTheCard-java.lang.String-">checkIfUserMustReceiveTheCard</a></span>(java.lang.String&nbsp;messageBody)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#clearSubscription--">clearSubscription</a></span>()</code>
 <div class="block">Stops associated <code>MessageListenerContainer</code> and delete queues</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#computeSubscriptionId-java.lang.String-java.lang.String-">computeSubscriptionId</a></span>(java.lang.String&nbsp;prefix,
                      java.lang.String&nbsp;clientId)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>org.springframework.amqp.rabbit.listener.MessageListenerContainer</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#createMessageListenerContainer-java.lang.String-">createMessageListenerContainer</a></span>(java.lang.String&nbsp;queueName)</code>
 <div class="block">Create a <code>MessageListenerContainer</code> for the specified queue</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#initSubscription-java.lang.Runnable-">initSubscription</a></span>(java.lang.Runnable&nbsp;doOnCancel)</code>
 <div class="block">
@@ -209,10 +213,6 @@ extends java.lang.Object</pre>
  Creates a amqpPublisher <code>Flux</code> to publish AMQP messages to
  </div>
 </td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../org/lfenergy/operatorfabric/cards/consultation/services/CardSubscription.html#isUserInGroupRecipients-java.lang.String-">isUserInGroupRecipients</a></span>(java.lang.String&nbsp;messageBody)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -393,18 +393,21 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;void&nbsp;publishInto(reactor.core.publisher.Flux&lt;java.lang.String&gt;&nbsp;fetchOldCards)</pre>
 </li>
 </ul>
-<a name="isUserInGroupRecipients-java.lang.String-">
+<a name="checkIfUserMustReceiveTheCard-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>isUserInGroupRecipients</h4>
-<pre>public&nbsp;boolean&nbsp;isUserInGroupRecipients(java.lang.String&nbsp;messageBody)</pre>
+<h4>checkIfUserMustReceiveTheCard</h4>
+<pre>public&nbsp;boolean&nbsp;checkIfUserMustReceiveTheCard(java.lang.String&nbsp;messageBody)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>messageBody</code> - message body received from rabbitMQ</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if the message received is intended for one of the user's groups</dd>
+<dd>true if the message received is either :
+ 1) intended for one of the user's groups and there is no entityRecipients in the card
+ 2) or intended for one of the user's entities and there is no groupRecipients in the card
+ 3) or intended for one of the user's groups and also for one of the user's entities</dd>
 </dl>
 </li>
 </ul>
