@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Version 1.1.0.RELEASE</title>
+<title>Version 1.2.0.RELEASE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -433,111 +433,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
+<h1>Version 1.2.0.RELEASE</h1>
+<div class="details">
+<span id="revnumber">version 1.2.0.RELEASE,</span>
+<span id="revdate">17 April 2020</span>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_version_1_1_0_release">1. Version 1.1.0.RELEASE</a>
-<ul class="sectlevel2">
-<li><a href="#_task">1.1. Task</a></li>
-<li><a href="#_bug">1.2. Bug</a></li>
-<li><a href="#_issue">1.3. Issue</a></li>
-</ul>
-</li>
+<li><a href="#_issue">1. Issue</a></li>
+<li><a href="#_bug">2. Bug</a></li>
+<li><a href="#_task">3. Task</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_version_1_1_0_release">1. Version 1.1.0.RELEASE</h2>
+<div id="preamble">
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_task">1.1. Task</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-636] - Delete backend time service</p>
-<div class="paragraph">
-<p><em>The OperatorFabric deployment no longer requires a Time microservice.</em></p>
-</div>
-</li>
-<li>
-<p>[OC-749] Build is passing even though documentation wasn&#8217;t pushed</p>
-<div class="paragraph">
-<p><em>Builds with a documentation stage will now fail if the push to the website repository wasn&#8217;t successful.</em></p>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_bug">1.2. Bug</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-614] The possibility to associate sounds to cards is described in the card API but not implemented</p>
-<div class="paragraph">
-<p><em>The API described the possibility to associate sounds to cards and to provide them in bundles. However, this was never
-fully implemented. So in this release we removed all the existing code and API documentation regarding this feature.
-Instead, OC-682 (see above) implements instance-wide sound notifications (one sound by severity).</em></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Existing bundles and cards with media information will continue to work as before. Pushing a bundle or a card
-with media information won&#8217;t generate an error.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>[OC-730][OC-797] Correct bugs in timeline and major refactoring</p>
-<div class="paragraph">
-<p><em>Please note that configuration and settings under timeLineDefaultClusteringFormats, defining date and time formats for
-the timeline, no longer exist and have been replaced by hard-coded defaults.</em></p>
-</div>
-</li>
-<li>
-<p>[OC-783] Fix settingsOrConfig selector behaviour for booleans</p>
-</li>
-<li>
-<p>[OC-698] API testing - Get css - wrong response when fetching non-existing css file</p>
-</li>
-<li>
-<p>[OC-342] Set a new version of feed time filter to solve firefox incompatibility with datetime-local html5 attribute</p>
-</li>
-<li>
-<p>[OC-795] API testing - DELETE endpoints - deletion of "Content-Type:application/json" for header</p>
-</li>
-<li>
-<p>[OC-679] API testing- UserCreation - wrong response when the request body is erroneous</p>
-</li>
-<li>
-<p>[OC-779] API testing - Push cards - update documentation for return codes</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_issue">1.3. Issue</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-682] As a user I want sound to be played on cards arrival</p>
-<div class="paragraph">
-<p><em>This feature allows (predefined) sounds to be played when cards of a given severity are added or updated in the feed.
-Only cards that are currently visible in the feed based on its filters (severity, tag, time) can trigger sounds.
-For sounds to be played for a given severity, the administrator needs to set the corresponding property to true.
-See operatorfabric.sounds.* properties in the
-<a href="single_page_doc.html#_web_ui">web UI configuration documentation</a></em>
-for more details.
-Depending on their browser default settings, users might also need to allow sounds (globally or for the OperatorFabric url)
-for this to work._</p>
-</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -545,40 +457,119 @@ for this to work._</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Due to the autoplay policy of some browsers (recent versions of Chrome for example), sounds won&#8217;t be played
-until the user has "interacted" with the application at least once: clicked a filter or menu, a card, etc. This is to
-prevent malicious sites to autoplay unwanted content.
+Due to changes in the setup of queues in RabbitMQ (see OC-812), it&#8217;s best to completely remove the
+RabbitMQ docker container you were using with previous versions before running (either in dev or docker mode)
+version 1.2.0.RELEASE. This won&#8217;t cause any data loss as cards are stored in MongoDB.
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p><a href="https://www.zapsplat.com">Sound effects obtained from zapsplat.com</a></p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_issue">1. Issue</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-835] Remove lttd from feed sorts and make publication date sort (rather than severity then publication date)
+the default</p>
+<div class="paragraph">
+<p><em>Now, the toggle button introduced by OC-624 lets the users choose between :</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>by publication date (newest at the top) (default)</em></p>
 </li>
 <li>
-<p>[OC-773] As a user I want sound notifications to be manageable in my settings</p>
+<p><em>by severity then publication date</em></p>
 <div class="paragraph">
-<p><em>This feature allows the user to override the sound playing policy that has been defined in the configuration by the
-administrator (see OC-682) in the settings screen.</em></p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-To disable sounds for a given severity, you need to click the checkbox twice (check then uncheck) to set it
-to false, otherwise your settings for this severity will remain "undefined" an the instance-wide configuration value
-will be applied instead.
-</td>
-</tr>
-</table>
+<p><em>Resolved OC-771, OC-766 and OC-820</em></p>
 </div>
 </li>
 </ul>
 </div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bug">2. Bug</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-799] Show date when timeline is on 1 day</p>
+</li>
+<li>
+<p>[OC-791] Add translation mechanism for timeline buttons</p>
+</li>
+<li>
+<p>[OC-816] API testing - User update (PUT) - error "500" NullPointerException instead of "'400" BAD_REQUEST</p>
+</li>
+<li>
+<p>[OC-360] On very wide screens, the filter panel at the top of the feed appears wider than the cards below it.</p>
+</li>
+<li>
+<p>[OC-648] API testing - Group fetching - wrong response when fetching information about an existing group</p>
+</li>
+<li>
+<p>[OC-709] Change card update mechanism in Mongo : if we removed a field in the new card , for certain fields it was
+conserved from the old version in MongoDB , it is now deleted which is the wanted behavior</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_task">3. Task</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-753] Add API tests with karate DSL</p>
+</li>
+<li>
+<p>[OC-798] Remove Pulse mechanism in UI and unused UI option operatorfabric.feed.timeFilter.followClockTick</p>
+</li>
+<li>
+<p>[OC-801] Allow for custom certification authorities or certificates</p>
+<div class="paragraph">
+<p><em>See the relevant section of the
+<a href="../../../../documentation/current/deployment/index.html#custom_certificates">deployment documentation</a> for details</em></p>
+</div>
+</li>
+<li>
+<p>[OC-819] Solve Sonar Issues</p>
+</li>
+<li>
+<p>[OC-812] Refactor sending card via rabbit queue "GROUP"</p>
+</li>
+<li>
+<p>[OC-818] Implement automatic logout when token expired (code flow authentication mode )</p>
+</li>
+<li>
+<p>[OC-814] Remove registry and configuration microservice for action service</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em> <code>Actions service</code> is now configured with it&#8217;s own <code>application.yml</code> (or <code>application-docker.yml</code>) configuration file.</em></p>
+</li>
+<li>
+<p><em> <code>Client-gateway service</code> need to be configured manually to reach the <code>actions service</code>.
+See the <a href="../../../../documentation/current/deployment/index.html#cloud_gateway_service_config">client gateway configuration</a>
+for details.</em></p>
+</li>
+<li>
+<p><em>The deploy docker-compose now sets predefined names for its containers ("users" rather than "deploy_users_1"
+for example). These names match the ones defined in the application-docker.yml file of the Actions service.</em></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>

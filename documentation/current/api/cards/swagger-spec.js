@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric Card Consumer Service",
-    "version" : "1.1.0.RELEASE",
+    "version" : "1.2.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -364,6 +364,14 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           }
+        },
+        "entityRecipients" : {
+          "description" : "List of entity recipients",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "example" : [ "tso1", "tso2" ]
         },
         "data" : {
           "type" : "object",

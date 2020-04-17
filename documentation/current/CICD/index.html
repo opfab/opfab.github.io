@@ -435,8 +435,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 1.1.0.RELEASE,</span>
-<span id="revdate">16 April 2020</span>
+<span id="revnumber">version 1.2.0.RELEASE,</span>
+<span id="revdate">17 April 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -447,19 +447,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#version_numbers">2.1. Version numbers</a></li>
 <li><a href="#_releasing_version">2.2. Releasing Version</a>
 <ul class="sectlevel3">
-<li><a href="#_in_the_source_repository_operatorfabric_core">2.2.1. In the source repository (operatorfabric-core)</a></li>
-<li><a href="#_checking_deploy_docker_compose">2.2.2. Checking deploy docker-compose</a></li>
-<li><a href="#_in_the_documentation_repository_opfab_github_io">2.2.3. In the documentation repository (opfab.github.io)</a></li>
+<li><a href="#_check_the_release_notes">2.2.1. Check the release notes</a></li>
+<li><a href="#_in_the_source_repository_operatorfabric_core">2.2.2. In the source repository (operatorfabric-core)</a></li>
+<li><a href="#_checking_deploy_docker_compose">2.2.3. Checking deploy docker-compose</a></li>
 <li><a href="#_in_jira">2.2.4. In Jira</a></li>
 </ul>
 </li>
-<li><a href="#_advertising_the_new_release_opfab_github_io_and_mailing_list">2.3. Advertising the new release (opfab.github.io and mailing list)</a></li>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.3. Advertising the new release on the LFE mailing list</a></li>
 <li><a href="#_preparing_next_version">2.4. Preparing next version</a>
 <ul class="sectlevel3">
 <li><a href="#_in_the_source_repository_operatorfabric_core_2">2.4.1. In the source repository (operatorfabric-core)</a></li>
-<li><a href="#_in_the_documentation_repository_opfab_github_io_2">2.4.2. In the documentation repository (opfab.github.io)</a></li>
-<li><a href="#_in_jira_2">2.4.3. In Jira</a></li>
-<li><a href="#_checking_dockerhub_the_following_day">2.4.4. Checking DockerHub the following day</a></li>
+<li><a href="#_in_jira_2">2.4.2. In Jira</a></li>
+<li><a href="#_checking_dockerhub_the_following_day">2.4.3. Checking DockerHub the following day</a></li>
 </ul>
 </li>
 </ul>
@@ -536,7 +535,30 @@ It is thus crucial to double-check the content of this file before any push (tri
 <p>Considering a version X.X.X.SNAPSHOT.</p>
 </div>
 <div class="sect3">
-<h4 id="_in_the_source_repository_operatorfabric_core">2.2.1. In the source repository (operatorfabric-core)</h4>
+<h4 id="_check_the_release_notes">2.2.1. Check the release notes</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click the appropriate version from
+<a href="https://opfab.atlassian.net/projects/OC?orderField=RANK&amp;selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&amp;status=all">JIRA the release list</a>
+to get the release notes (click "Release notes" under the version name at the top) listing new features, fixed bugs etc&#8230;&#8203;</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/release_notes.png" alt="Release notes link">
+</div>
+</div>
+</li>
+<li>
+<p>Make sure that the
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/src/docs/asciidoc/docs/release_notes.adoc">release_notes.adoc</a>
+file lists all the issues, bugs, tags or feature requests that are relevant for OperatorFabric users along with
+explanations if need be.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_in_the_source_repository_operatorfabric_core">2.2.2. In the source repository (operatorfabric-core)</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -552,10 +574,7 @@ It is thus crucial to double-check the content of this file before any push (tri
 <div class="ulist">
 <ul>
 <li>
-<p>Replace X.X.X.SNAPSHOT with X.X.X.RELEASE in *.adoc, swagger.yaml files and the VERSION file at the root operator-fabric folder</p>
-</li>
-<li>
-<p>Update the revision date in *.adoc files (by default, the new revision date is today, but see the script usage for details)</p>
+<p>Replace X.X.X.SNAPSHOT with X.X.X.RELEASE in swagger.yaml files and the VERSION file at the root operator-fabric folder</p>
 </li>
 <li>
 <p>Change the version from W.W.W.RELEASE (previous release) to X.X.X.RELEASE in the deploy docker-compose file</p>
@@ -590,7 +609,7 @@ check that they are correctly spelt.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>ci_docker: triggers the build and upload of versioned docker images to dockerhub</p>
+<p>ci_docker: triggers the build and upload of versioned docker images to DockerHub</p>
 </li>
 <li>
 <p>ci_documentation: triggers the build and upload of the current documentation</p>
@@ -625,7 +644,8 @@ check that they are correctly spelt.</p>
 <li>
 <p>Check that the build is correctly triggered</p>
 <div class="paragraph">
-<p>You can check the status of the build job triggered by the commit on <a href="https://travis-ci.org/opfab/operatorfabric-core/branches">Travis CI</a>.
+<p>You can check the status of the build job triggered by the commit on
+<a href="https://travis-ci.org/opfab/operatorfabric-core/branches">Travis CI</a>.
 The build job should have the following three stages:</p>
 </div>
 <div class="imageblock">
@@ -644,20 +664,18 @@ The build job should have the following three stages:</p>
 <p>Check that the latest images have been updated on DockerHub.</p>
 </li>
 <li>
-<p>Check that the documentation has been generated and pushed to the GitHub pages website (check version and revision
-date at the top of document)</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-You won&#8217;t be able to access it from the homepage until you have updated the _version.yml file in the opfab.github.io
-repository, so instead you can just type <a href="https://opfab.github.io/documentation/X.X.X.RELEASE/developer_guide/" class="bare">opfab.github.io/documentation/X.X.X.RELEASE/developer_guide/</a> in your browser.
-</td>
-</tr>
-</table>
+<p>Check that the documentation has been generated and pushed to the GitHub pages website</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Check the version and revision date at the top of the documents in the current documentation
+(for example <a href="https://opfab.github.io/documentation/current/architecture/">the architecture documentation</a>)</p>
+</li>
+<li>
+<p>Check that you see the X.X.X.RELEASE under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>
+and that the links work.</p>
+</li>
+</ol>
 </div>
 </li>
 <li>
@@ -668,7 +686,7 @@ repository, so instead you can just type <a href="https://opfab.github.io/docume
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checking_deploy_docker_compose">2.2.2. Checking deploy docker-compose</h4>
+<h4 id="_checking_deploy_docker_compose">2.2.3. Checking deploy docker-compose</h4>
 <div class="paragraph">
 <p>The deploy docker-compose file should always rely on the latest RELEASE version
 available on DockerHub. Once the CI pipeline triggered by the previous steps has completed successfully,
@@ -680,59 +698,7 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 <p>Remove your locally built X.X.X.RELEASE images if any</p>
 </li>
 <li>
-<p>Run each of the two docker-compose files to make sure they pull the images from DockerHub and behave as intended.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_in_the_documentation_repository_opfab_github_io">2.2.3. In the documentation repository (opfab.github.io)</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>In the _data/versions.yml file:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Change:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>- name: X.X.X
-  fullname: X.X.X.SNAPSHOT
-  badges:
-  - name: SNAPSHOT
-    style: badge-snapshot</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>- name: X.X.X
-  fullname: X.X.X.RELEASE
-  badges:
-  - name: RELEASE
-    style: badge-release
-  - name: CURRENT
-    style: badge-current</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Then remove the following lines from the previous release version:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>  - name: CURRENT
-    style: badge-current</code></pre>
-</div>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Commit and push changes</p>
+<p>Run the deploy docker-compose file to make sure it pulls the images from DockerHub and behaves as intended.</p>
 </li>
 </ol>
 </div>
@@ -752,26 +718,11 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 </div>
 </div>
 <div class="sect2">
-<h3 id="_advertising_the_new_release_opfab_github_io_and_mailing_list">2.3. Advertising the new release (opfab.github.io and mailing list)</h3>
+<h3 id="_advertising_the_new_release_on_the_lfe_mailing_list">2.3. Advertising the new release on the LFE mailing list</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Click the appropriate version from
-<a href="https://opfab.atlassian.net/projects/OC?orderField=RANK&amp;selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&amp;status=all">JIRA the release list</a>
-to get the release notes (click "Release notes" under the version name at the top) listing new features, fixed bugs etc&#8230;&#8203;</p>
-<div class="imageblock">
-<div class="content">
-<img src="../images/release_notes.png" alt="Release notes link">
-</div>
-</div>
-</li>
-<li>
-<p>Take this text and use it
-to create a short post on the opfab.github.io repository (under _posts) announcing the release.
-This post should highlight new features and necessary upgrade actions if any.</p>
-</li>
-<li>
-<p>Send the same content as an email to the <a href="mailto:opfab-announce@lists.lfenergy.org">opfab-announce@lists.lfenergy.org</a> mailing list.</p>
+<p>Take the text from the release note and use it to send an email to the <a href="mailto:opfab-announce@lists.lfenergy.org">opfab-announce@lists.lfenergy.org</a> mailing list.</p>
 </li>
 </ol>
 </div>
@@ -816,8 +767,8 @@ new version will make rolling back or correcting any mistake on the release more
 <ul>
 <li>
 <p>Replace all occurrences of X.X.X.RELEASE by Y.Y.Y.SNAPSHOT <strong>EXCEPT</strong> in the deploy docker-compose file
-(src/main/docker/deploy/docker-compose.yml). The files concerned are *.adoc,
-swagger.yaml files and the VERSION file at the root operatorfabric-core folder.</p>
+(src/main/docker/deploy/docker-compose.yml). The files concerned are swagger.yaml files and the VERSION file at
+the root operatorfabric-core folder.</p>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -848,11 +799,9 @@ If no --version parameter is provided to the script, the new version will be the
 </div>
 </li>
 <li>
-<p>Add a Y.Y.Y.RELEASE.adoc file (blank except for copyright and title) under src/docs/asciidoc/release_notes to initialize the release
-notes for next version.</p>
-</li>
-<li>
-<p>Edit src/docs/asciidoc/release_notes/index.adoc to include this new file (before the previous versions so it appears on top).</p>
+<p>Modify the
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/src/docs/asciidoc/docs/release_notes.adoc">release_notes.adoc</a>
+file to initialize the release notes for version Y.Y.Y.RELEASE.</p>
 </li>
 <li>
 <p>Commit and push changes with the following message:</p>
@@ -866,29 +815,7 @@ notes for next version.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_the_documentation_repository_opfab_github_io_2">2.4.2. In the documentation repository (opfab.github.io)</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>In the _data/versions.yml file, add the Y.Y.Y.SNAPSHOT version</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>- name: Y.Y.Y
-  fullname: Y.Y.Y.SNAPSHOT
-  badges:
-  - name: SNAPSHOT
-    style: badge-snapshot</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Commit and push changes.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_in_jira_2">2.4.3. In Jira</h4>
+<h4 id="_in_jira_2">2.4.2. In Jira</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -898,7 +825,7 @@ notes for next version.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checking_dockerhub_the_following_day">2.4.4. Checking DockerHub the following day</h4>
+<h4 id="_checking_dockerhub_the_following_day">2.4.3. Checking DockerHub the following day</h4>
 <div class="paragraph">
 <p>A CRON Travis job runs daily (the time of the day may vary) and generates the documentation and docker snapshot images.
 After you have finished switching to the Y.Y.Y.SNAPSHOT version, you should wait for such a job to run and check that

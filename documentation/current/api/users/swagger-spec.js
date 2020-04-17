@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric User Management API",
-    "version" : "1.1.0.RELEASE",
+    "version" : "1.2.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -57,6 +57,13 @@ window.swaggerSpec={
         },
         "lastName" : {
           "type" : "string"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : true
+          }
         },
         "groups" : {
           "type" : "array",
@@ -575,7 +582,7 @@ window.swaggerSpec={
           "required" : true
         } ],
         "responses" : {
-          "201" : {
+          "200" : {
             "description" : "OK",
             "schema" : {
               "$ref" : "#/definitions/Group"

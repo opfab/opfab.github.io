@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric ThirdParty Management API",
-    "version" : "1.1.0.RELEASE",
+    "version" : "1.2.0.RELEASE",
     "title" : "Thirds Management",
     "termsOfService" : "",
     "contact" : {
@@ -47,7 +47,7 @@ window.swaggerSpec={
       "post" : {
         "tags" : [ "thirds" ],
         "summary" : "Uploads Third configuration bundle",
-        "description" : "Uploads Third configuration bundle. Bundle is a gzipped tarball (tar.gz) containing a config.json file and resource file using the following layout:\n```\n???css\n???i18n\n?   ???en.json\n?   ???fr.json\n?   ?...\n???template\n?   ???en\n?   |  ???emergency.handlebars\n?   |  ???info.handlebars\n?   ???fr\n?   |  ???emergency.handlebars\n?   |  ???info.handlebars\n?   ?...\n???config.json\n```\nThe config.json file contains a Third object in json notation (see [Models](#__Models))",
+        "description" : "Uploads Third configuration bundle. Bundle is a gzipped tarball (tar.gz) containing a config.json file and resource file using the following layout:\n```\n└──css\n└──i18n\n│   └──en.json\n│   └──fr.json\n│   └...\n└──template\n│   └──en\n│   |  └──emergency.handlebars\n│   |  └──info.handlebars\n│   └──fr\n│   |  └──emergency.handlebars\n│   |  └──info.handlebars\n│   └...\n└──config.json\n```\nThe config.json file contains a Third object in json notation (see [Models](#__Models))",
         "operationId" : "uploadBundle",
         "consumes" : [ "multipart/form-data" ],
         "produces" : [ "application/json" ],
