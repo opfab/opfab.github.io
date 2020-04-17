@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric ThirdParty Management API",
-    "version" : "1.2.0.SNAPSHOT",
+    "version" : "1.3.0.SNAPSHOT",
     "title" : "Action handling",
     "termsOfService" : "",
     "contact" : {
