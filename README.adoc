@@ -1,0 +1,63 @@
+:hide-uri-scheme:
+
+= README
+
+This repository holds the source for the website of the OperatorFabric project, https://opfab.github.io.
+
+To serve this website locally using the link:https://github.com/envygeeks/jekyll-docker/[Jekyll Docker image],
+run the following commands:
+
+----
+git clone https://github.com/opfab/opfab.github.io.git
+cd opfab.github.io
+./docker-compose.sh
+----
+
+This will set the appropriate environment variables and launch the docker-compose in detached mode.
+The first time, this can take a while as all the necessary gems are downloaded. You can monitor the progress of this
+process using the docker logs command:
+
+----
+docker logs opfab_website
+----
+
+NOTE: You can either run this command every time you want latest logs or use the --follow options for the logs to
+refresh automatically.
+
+After a while, you should see the following content in the logs
+
+----
+Configuration file: /srv/jekyll/_config.yml
+Source: /srv/jekyll
+Destination: /srv/jekyll/_site
+Incremental build: disabled. Enable with --incremental
+Generating...
+Jekyll Feed: Generating feed for posts
+done in 5.191 seconds.
+Auto-regeneration: enabled for '/srv/jekyll'
+Server address: http://0.0.0.0:4000/
+Server running... press ctrl-c to stop.
+----
+
+You should then be able to see the website at the following URL : http://localhost:4000.
+
+To stop the serve, run:
+
+----
+docker-compose stop
+----
+
+This will stop the container but not remove it. This way, the gems won't need to be downloaded again next time.
+Next time you need to serve the site, just run:
+
+----
+./docker-compose.sh
+----
+
+IMPORTANT: The behaviour regarding changes is just the same as with a regular `jekyll serve`: changes made to the
+website source files will be taken into account on the fly but changes to the config.yml file for example will require
+a restart.
+
+
+//TODO Test it from behind a proxy
+//TODO Test gem caching ?
