@@ -22,6 +22,9 @@ window.swaggerSpec={
   }, {
     "name" : "groups",
     "description" : "Everything concerning groups"
+  }, {
+    "name" : "entities",
+    "description" : "Everything concerning entities"
   } ],
   "schemes" : [ "http" ],
   "definitions" : {
@@ -58,14 +61,14 @@ window.swaggerSpec={
         "lastName" : {
           "type" : "string"
         },
-        "entities" : {
+        "groups" : {
           "type" : "array",
           "items" : {
             "type" : "string",
             "uniqueItems" : true
           }
         },
-        "groups" : {
+        "entities" : {
           "type" : "array",
           "items" : {
             "type" : "string",
@@ -78,7 +81,8 @@ window.swaggerSpec={
         "login" : "jcleese",
         "firstName" : "John",
         "lastName" : "Cleese",
-        "groups" : [ "Monty Python", "Wanda" ]
+        "groups" : [ "Monty Python", "Wanda" ],
+        "entities" : [ "ENTITY1", "ENTITY2" ]
       }
     },
     "Group" : {
@@ -95,6 +99,26 @@ window.swaggerSpec={
       "example" : {
         "name" : "Wanda",
         "description" : "They were not as successful in Fierce Creatures."
+      }
+    },
+    "Entity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "id" ],
+      "example" : {
+        "id" : "ENTITY1",
+        "name" : "Entity 1 name",
+        "description" : "Entity 1 short description"
       }
     },
     "UserSettings" : {
@@ -193,12 +217,14 @@ window.swaggerSpec={
                 "login" : "jcleese",
                 "firstName" : "John",
                 "lastName" : "Cleese",
-                "groups" : [ "Monty Python", "Wanda" ]
+                "groups" : [ "Monty Python", "Wanda" ],
+                "entities" : [ "ENITY1", "ENTITY2" ]
               }, {
                 "login" : "gchapman",
                 "firstName" : "Graham",
                 "lastName" : "Chapman",
-                "groups" : [ "Monty Python" ]
+                "groups" : [ "Monty Python" ],
+                "entities" : [ "ENITY1" ]
               } ]
             }
           },
@@ -752,6 +778,316 @@ window.swaggerSpec={
           },
           "404" : {
             "description" : "Required group not found"
+          }
+        }
+      }
+    },
+    "/entities" : {
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "Fetch a list of all existing entities",
+        "description" : "Fetch a list of all existing entities, with pagination and filter options",
+        "operationId" : "fetchEntities",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Entity"
+              }
+            },
+            "examples" : {
+              "application/json" : [ {
+                "id" : "ENTITY1",
+                "name" : "Enity 1 name",
+                "description" : "Entity 1 short description"
+              }, {
+                "id" : "ENTITY2",
+                "name" : "Entity 2 name",
+                "description" : "Entity 2 short description"
+              } ]
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "entities" ],
+        "summary" : "Create a new entity of users",
+        "description" : "Create a new entity of users",
+        "operationId" : "createEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "entity",
+          "description" : "Entity to be created",
+          "schema" : {
+            "$ref" : "#/definitions/Entity"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated",
+            "schema" : {
+              "$ref" : "#/definitions/Entity"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/Entity"
+            }
+          },
+          "400" : {
+            "description" : "Bad request (duplicate key)"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      }
+    },
+    "/entities/{id}" : {
+      "put" : {
+        "tags" : [ "entities" ],
+        "summary" : "Update existing entity",
+        "description" : "Update existing entity",
+        "operationId" : "updateEntity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Id of entity to be updated (should match id in request body)",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "entity",
+          "description" : "Updated entity data (should match id path parameter)",
+          "schema" : {
+            "$ref" : "#/definitions/Entity"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated",
+            "schema" : {
+              "$ref" : "#/definitions/Entity"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/Entity"
+            }
+          },
+          "400" : {
+            "description" : "Bad request (body doesn't match id path parameter)"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      },
+      "get" : {
+        "tags" : [ "entities" ],
+        "summary" : "Fetch an existing entity of users",
+        "description" : "Fetch an existing entity of users",
+        "operationId" : "fetchEntity",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Entity id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/Entity"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required entity not found"
+          }
+        }
+      }
+    },
+    "/entities/{id}/users" : {
+      "put" : {
+        "tags" : [ "entities", "users" ],
+        "summary" : "Update list of entity users",
+        "description" : "Update list of entity users, users not included in given list are removed from entity",
+        "operationId" : "updateEntityUsers",
+        "produces" : [ "application/json" ],
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Entity id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "users",
+          "description" : "Array of user logins representing exactly the intended list of entity users after update",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required entity not found"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "entities", "users" ],
+        "summary" : "Add users to entity",
+        "description" : "ONLY add users to entity (no deletions)",
+        "operationId" : "addEntityUsers",
+        "produces" : [ "application/json" ],
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Entity id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "users",
+          "description" : "Array of user logins to be added to entity",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required entity not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "entities", "users" ],
+        "summary" : "Remove all users from entity",
+        "description" : "remove all users from entity",
+        "operationId" : "deleteEntityUsers",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Entity id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required entity not found"
+          }
+        }
+      }
+    },
+    "/entities/{id}/users/{login}" : {
+      "delete" : {
+        "tags" : [ "entities", "users" ],
+        "summary" : "Remove user from entity",
+        "description" : "ONLY remove user from entity (no additions)",
+        "operationId" : "deleteEntityUser",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Entity id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "path",
+          "name" : "login",
+          "description" : "User login",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required entity not found"
           }
         }
       }
