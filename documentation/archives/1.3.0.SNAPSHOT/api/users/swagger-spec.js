@@ -81,13 +81,16 @@ window.swaggerSpec={
         "login" : "jcleese",
         "firstName" : "John",
         "lastName" : "Cleese",
-        "groups" : [ "Monty Python", "Wanda" ],
+        "groups" : [ "MONTY", "WANDA" ],
         "entities" : [ "ENTITY1", "ENTITY2" ]
       }
     },
     "Group" : {
       "type" : "object",
       "properties" : {
+        "id" : {
+          "type" : "string"
+        },
         "name" : {
           "type" : "string"
         },
@@ -95,8 +98,9 @@ window.swaggerSpec={
           "type" : "string"
         }
       },
-      "required" : [ "name" ],
+      "required" : [ "id" ],
       "example" : {
+        "id" : "WANDA",
         "name" : "Wanda",
         "description" : "They were not as successful in Fierce Creatures."
       }
@@ -217,13 +221,13 @@ window.swaggerSpec={
                 "login" : "jcleese",
                 "firstName" : "John",
                 "lastName" : "Cleese",
-                "groups" : [ "Monty Python", "Wanda" ],
+                "groups" : [ "MONTY", "WANDA" ],
                 "entities" : [ "ENITY1", "ENTITY2" ]
               }, {
                 "login" : "gchapman",
                 "firstName" : "Graham",
                 "lastName" : "Chapman",
-                "groups" : [ "Monty Python" ],
+                "groups" : [ "MONTY" ],
                 "entities" : [ "ENITY1" ]
               } ]
             }
@@ -492,9 +496,11 @@ window.swaggerSpec={
             },
             "examples" : {
               "application/json" : [ {
+                "id" : "WANDA",
                 "name" : "Wanda",
                 "description" : "They were not as successful in Fierce Creatures"
               }, {
+                "id" : "MARXB",
                 "name" : "Marx Brothers",
                 "description" : "Chico, Groucho and Harpo, forget about Zeppo and Gummo"
               } ]
@@ -548,7 +554,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{name}" : {
+    "/groups/{id}" : {
       "put" : {
         "tags" : [ "groups" ],
         "summary" : "Update existing group",
@@ -558,14 +564,14 @@ window.swaggerSpec={
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
-          "name" : "name",
-          "description" : "Name of group to be updated (should match name in request body)",
+          "name" : "id",
+          "description" : "Id of group to be updated (should match \"id group\" in request body)",
           "type" : "string",
           "required" : true
         }, {
           "in" : "body",
           "name" : "group",
-          "description" : "Updated group data (should match name path parameter)",
+          "description" : "Updated group data (should match \"id group\" path parameter)",
           "schema" : {
             "$ref" : "#/definitions/Group"
           }
@@ -584,7 +590,7 @@ window.swaggerSpec={
             }
           },
           "400" : {
-            "description" : "Bad request (body doesn't match name path parameter)"
+            "description" : "Bad request (body doesn't match \"id group\" path parameter)"
           },
           "401" : {
             "description" : "Authentication required"
@@ -602,8 +608,8 @@ window.swaggerSpec={
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
-          "name" : "name",
-          "description" : "Group name",
+          "name" : "id",
+          "description" : "Group id",
           "type" : "string",
           "required" : true
         } ],
@@ -626,7 +632,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{name}/users" : {
+    "/groups/{id}/users" : {
       "put" : {
         "tags" : [ "groups", "users" ],
         "summary" : "Update list of group users",
@@ -636,14 +642,14 @@ window.swaggerSpec={
         "consumes" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
-          "name" : "name",
-          "description" : "Group name",
+          "name" : "id",
+          "description" : "Group id",
           "type" : "string",
           "required" : true
         }, {
           "in" : "body",
           "name" : "users",
-          "description" : "Array of user logins representing exactly the intended list of group users after update",
+          "description" : "Array of user ids representing exactly the intended list of group users after update",
           "schema" : {
             "type" : "array",
             "items" : {
@@ -678,14 +684,14 @@ window.swaggerSpec={
         "consumes" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
-          "name" : "name",
-          "description" : "Group name",
+          "name" : "id",
+          "description" : "Group id",
           "type" : "string",
           "required" : true
         }, {
           "in" : "body",
           "name" : "users",
-          "description" : "Array of user logins to be added to group",
+          "description" : "Array of user ids to be added to group",
           "schema" : {
             "type" : "array",
             "items" : {
@@ -719,8 +725,8 @@ window.swaggerSpec={
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
-          "name" : "name",
-          "description" : "Group name",
+          "name" : "id",
+          "description" : "Group id",
           "type" : "string",
           "required" : true
         } ],
@@ -743,7 +749,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{name}/users/{login}" : {
+    "/groups/{id}/users/{login}" : {
       "delete" : {
         "tags" : [ "groups", "users" ],
         "summary" : "Remove user from group",
@@ -752,8 +758,8 @@ window.swaggerSpec={
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "path",
-          "name" : "name",
-          "description" : "Group name",
+          "name" : "id",
+          "description" : "Group id",
           "type" : "string",
           "required" : true
         }, {
