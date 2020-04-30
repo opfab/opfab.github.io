@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version 1.3.0.SNAPSHOT,</span>
-<span id="revdate">29 April 2020</span>
+<span id="revdate">30 April 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -889,7 +889,18 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_operatorfabric_cicd">OperatorFabric CICD</a>
 <ul class="sectlevel1">
-<li><a href="#_introduction_3">36. Introduction</a></li>
+<li><a href="#_pipeline_configuration">36. Pipeline Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#_cicd_pipeline">36.1. CICD Pipeline</a>
+<ul class="sectlevel3">
+<li><a href="#_travis_ci">36.1.1. Travis CI</a></li>
+<li><a href="#_sonarcloud">36.1.2. SonarCloud</a></li>
+<li><a href="#_github_documentation">36.1.3. GitHub (documentation)</a></li>
+<li><a href="#_dockerhub">36.1.4. DockerHub</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_release_process">37. Release process</a>
 <ul class="sectlevel2">
 <li><a href="#version_numbers">37.1. Version numbers</a></li>
@@ -910,7 +921,20 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_cicd_scripts">38. CICD Scripts</a></li>
+</ul>
+</li>
+<li><a href="#_resources">Resources</a>
+<ul class="sectlevel1">
+<li><a href="#mock_pipeline">38. Appendix A: Mock CICD Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_github">38.1. GitHub</a></li>
+<li><a href="#_travis_ci_2">38.2. Travis CI</a></li>
+<li><a href="#_sonarcloud_2">38.3. SonarCloud</a></li>
+<li><a href="#_github_documentation_2">38.4. GitHub (documentation)</a></li>
+<li><a href="#_dockerhub_2">38.5. DockerHub</a></li>
+<li><a href="#_updating_the_fork">38.6. Updating the fork</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -11006,7 +11030,8 @@ folders represent a document and contain an <strong>index.adoc</strong> file, op
 down into sections).</p>
 </div>
 <div class="paragraph">
-<p>In addition, an <strong>images</strong> folder contains images for all documents.</p>
+<p>In addition, an <strong>images</strong> folder contains images for all documents and a <strong>resources</strong> folder contains various appendices
+that might be of use to some people but that we felt weren&#8217;t part of the main documentation.</p>
 </div>
 <div class="paragraph">
 <p>The table below gives a short summary of the content of each document as well as advice on which ones you should focus
@@ -11686,11 +11711,105 @@ available at <a href="https://www.contributor-covenant.org/version/1/4/code-of-c
 </div>
 </div>
 <h1 id="_operatorfabric_cicd" class="sect0">OperatorFabric CICD</h1>
+<div class="openblock partintro">
+<div class="content">
+The aim of this document is to describe our CICD pipeline and our release process.
+</div>
+</div>
 <div class="sect1">
-<h2 id="_introduction_3">36. Introduction</h2>
+<h2 id="_pipeline_configuration">36. Pipeline Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The aim of this document is to describe our CICD pipeline and our release process.</p>
+<p>This section briefly describes the organization of our CICD pipeline. If you are looking for more detailed information,
+see
+<a href="#mock_pipeline">this document</a>
+describing the steps that were necessary to create our mock pipeline as well as the issues we ran into.</p>
+</div>
+<div class="paragraph">
+<p>Most of the access and permissions required by our CICD plateform (Travis) are managed by tokens that are created on
+each of the required services (SonarCloud, DockerHub, GitHub).
+A technical user account (opfabtech) has been created for each of these services so that these tokens are not linked
+to the account of any member of the team.</p>
+</div>
+<div class="sect2">
+<h3 id="_cicd_pipeline">36.1. CICD Pipeline</h3>
+<div class="sect3">
+<h4 id="_travis_ci">36.1.1. Travis CI</h4>
+<div class="paragraph">
+<p>We use Travis CI to manage our pipeline. As of today, it is composed of 3 stages:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+test-assemble
+</td>
+<td class="hdlist2">
+<p>Run on every push regardless of the branch, does the build and produces test reports.
+It also triggers a sonar-scanner analysis and pushes the results to SonarCloud (except for external pull requests).</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+doc
+</td>
+<td class="hdlist2">
+<p>Run only on the master branch, for the daily cron jobs or if a commit is push with a message containing
+ci_documentation. It generates the documentation (adoc, javadoc, compodoc, reports) and pushes it to the opfab.github.io
+repository to update the website.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+docker
+</td>
+<td class="hdlist2">
+<p>Run only on the master branch, for the daily cron jobs or if a commit is push with a message containing
+ci_docker. It generates the docker images for the current version and pushes them to DockerHub.</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sonarcloud">36.1.2. SonarCloud</h4>
+<div class="paragraph">
+<p>To be allowed to push results to SonarCloud, Travis needs to be authenticated. This is done by generating a token on
+SonarCloud with an account (opfabtech) that has admin rights to the organization, and then providing this token to Travis
+either through the .travis.yml file or as an environment variable through Travis settings.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_github_documentation">36.1.3. GitHub (documentation)</h4>
+<div class="paragraph">
+<p>To be allowed to push the generated documentation to the opfab.github.io, Travis needs write access to the repository.
+This is done by setting up a Personal Access Token in GitHub using the technical account.
+This token is then passed to Travis as an environment variable through Travis settings, and is used in the .travis.yml file.
+Right now the scope of this token is maximal, it can probably be reduced (see <a href="https://opfab.atlassian.net/browse/OC-755">OC-755</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After new content is pushed to the opfab.github.io repository, it can take a few minutes before this content is
+visible on the website because it needs to be built by GitHub pages, and this can take a short while
+depending on how busy the service is.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dockerhub">36.1.4. DockerHub</h4>
+<div class="paragraph">
+<p>To be allowed to push images to DockerHub, Travis needs to be authenticated. This is done by setting the dockerhub
+login and password of the technical account as environment variables through Travis settings and referencing them in
+the .travis.yml file.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -12059,20 +12178,358 @@ Y.Y.Y.SNAPSHOT under the <a href="https://opfab.github.io/pages/releases.html">r
 </div>
 </div>
 </div>
+<h1 id="_resources" class="sect0">Resources</h1>
 <div class="sect1">
-<h2 id="_cicd_scripts">38. CICD Scripts</h2>
+<h2 id="mock_pipeline">38. Appendix A: Mock CICD Pipeline</h2>
 <div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">CICD/prepare_release_version.sh</dt>
-<dd>
-<p>performs the changes necessary to tag a RELEASE version</p>
-</dd>
-<dt class="hdlist1">CICD/prepare_snapshot_version.sh</dt>
-<dd>
-<p>performs the changes necessary to tag a SNAPSHOT version</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>We wanted to be able to test changes to this configuration or to the scripts used by the pipeline without risks to the real
+master branch, to our docker images or to the documentation. We didn&#8217;t find any such "dry-run" options on Travis CI so
+we decided to create a complete mock pipeline replicating the actual pipeline.
+This is a short summary of the necessary steps.</p>
+</div>
+<div class="sect2">
+<h3 id="_github">38.1. GitHub</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create organization opfab-mock</p>
+</li>
+<li>
+<p>Create user account opfabtechmock</p>
+</li>
+<li>
+<p>Invite opfabtechmock to opfab-mock organization as owner (see later if this can/should be restricted)</p>
+</li>
+<li>
+<p>Fork operatorfabric-core and opfab.github.io repos to opfab-mock organization</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_travis_ci_2">38.2. Travis CI</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to travis-ci.org (not travis-ci.com)</p>
+</li>
+<li>
+<p>Sign in with GitHub (using opfabtechmock)
+This redirects to a page offering to grant access to your account to Travis CI for Open Source, click ok.</p>
+<div class="paragraph">
+<p>Note: This page (<a href="https://github.com/settings/applications" class="bare">github.com/settings/applications</a>) lets you review the apps that have keen granted this kind
+of access and when it was last used.</p>
+</div>
+</li>
+<li>
+<p>Looking at <a href="https://travis-ci.org/account/repositories" class="bare">travis-ci.org/account/repositories</a>, the opfab-mock organization didn&#8217;t appear even after syncing
+the account, so click on "review and add your authorized organizations" (this redirects to
+<a href="https://github.com/settings/connections/applications/f244293c729d5066cf27" class="bare">github.com/settings/connections/applications/f244293c729d5066cf27</a>).</p>
+</li>
+<li>
+<p>Click "grant" next to the organization.</p>
+</li>
+<li>
+<p>After that, Travis CI for Open Source is visible here: <a href="https://github.com/organizations/opfab-mock/settings/oauth_application_policy" class="bare">github.com/organizations/opfab-mock/settings/oauth_application_policy</a>.</p>
+<div class="paragraph">
+<p>This allowed the opfab-mock organization to appear in the account: <a href="https://travis-ci.org/account/repositories" class="bare">travis-ci.org/account/repositories</a>
+Click on opfab-mock to get to the <a href="https://travis-ci.org/organizations/opfab-mock/repositories">list of repositories for this organization</a> and toggle "operatorfabric-core" on.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/travis-ci.png" alt="travis ci">
+</div>
+</div>
+</li>
+<li>
+<p>Under the <a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">Travis settings for the operatorfabric-core repository</a>,
+create a Cron Job on branch master, that runs daily and is always run.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sonarcloud_2">38.3. SonarCloud</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to SonarCloud.io</p>
+</li>
+<li>
+<p>Sign in with GitHub</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When switching between accounts (your own and the technical account for example), make sure to log out of
+SonarCloud when you&#8217;re done using an account because otherwise it will keep the existing session (even in a new tab)
+rather than sign you back in with the account you&#8217;re currently using on GitHub.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Authorize SonarCloud by sonarcloud
++ Create a new organization
+<a href="https://sonarcloud.io/create-organization">from the "+" dropdown menu to the left of your profile picture</a></p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Click on "Just testing? You can create manually" on the bottom right, and not "Choose an organization on GitHub".
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This is because the "opfab" SonarCloud organization that we are trying to replicate is not currently linked to its GitHub
+counterpart (maybe the option didn&#8217;t exist at the time), so we&#8217;re doing the same here. In the future it might be a good
+idea to link them (see <a href="https://opfab.atlassian.net/browse/OC-751">OC-751</a>)as SonarCloud states that</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Binding an organization from SonarCloud with GitHub is an easy way to keep
+them synchronized. To bind this organization to GitHub, the SonarCloud application will be installed.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>And then it warns again that</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Manual setup is not recommended, and leads to missing features like appropriate setup of
+your project or analysis feedback in the Pull Request.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click "Analyze new project" then "Create manually" (for the same reasons as the organization).</p>
+<div class="paragraph">
+<p>Project key and display name : <strong>org.lfenergy.operatorfabric:operatorfabric-core-mock</strong>
+Then choose "Public" and click "Set Up".</p>
+</div>
+</li>
+<li>
+<p>This redirects to the the following message :
+<a href="https://sonarcloud.io/project/configuration?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core-mock">We initialized your project on SonarCloud, now it&#8217;s up to you to launch analyses!</a>
+Now we need to provide Travis with a token to use to access SonarCloud.</p>
+</li>
+<li>
+<p>To generate a token, go to <a href="https://sonarcloud.io/account/security/">Account/Security</a></p>
+<div class="paragraph">
+<p>There are two options to pass this token to Travis:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Option A: Define a new SONAR_TOKEN environment variable in the
+<a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">repository&#8217;s settings in Travis</a>, then use it in the
+.travis.yml file as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre>addons:
+  sonarcloud:
+    organization: "opfab-mock"
+    token:
+         secure: ${SONAR_TOKEN}</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Option B: Encrypt this token using the travis gem:</p>
+<div class="listingblock">
+<div class="content">
+<pre>travis encrypt XXXXXXXXXXXXXXXXXXXXXXXXXXXX</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This has to be run at the root of the repository otherwise you get the following error: <code>Can&#8217;t figure out GitHub repo name. Ensure you&#8217;re in the repo directory, or specify the repo name via the -r option (e.g. travis &lt;command&gt; -r &lt;owner&gt;/&lt;repo&gt;)</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Do not use the --add option (to add the encrypted value directly to the .travis.yml file) as it changes
+a lot of things in the file (remove comments, change indentation and quotes, etc.).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Paste the result (YYYY) in the .travis.yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>addons:
+  sonarcloud:
+    organization: "opfab-mock"
+    token:
+         secure: "YYYY"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Option A would be better as it&#8217;s not necessary to make a new commit if the token needs to be changed, but it stopped
+working suddenly, maybe as a result of a travis policy change regarding encryption.
+<a href="https://opfab.atlassian.net/browse/OC-752">OC-752</a> was created to investigate.</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+There is still a SONAR_TOKEN environment variable defined in the Travis settings (with a dummy value)
+because there is a test on its presence to decide whether sonar-scanner should be launched or
+not (in the case of external PRs) (see <a href="https://opfab.atlassian.net/browse/OC-700">OC-700</a>
+/ <a href="https://opfab.atlassian.net/browse/OC-507">OC-507</a>).
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finally change the organization in .travis.yml file and the project key
+in sonar-project.properties (replace the actual values with mock values).</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In travis.yml we launch the sonar-scanner command whereas the tutorials mention gradle sonarqube.
+It looks like we&#8217;re following <a href="https://sonarcloud.io/documentation/analysis/scan/sonarscanner/">this</a> which says that
+"The SonarScanner is the scanner to use when there is no specific scanner for your build system."
+But there is a <a href="https://sonarcloud.io/documentation/analysis/scan/sonarscanner-for-gradle/">specific scanner for Gradle</a>:
+</td>
+</tr>
+</table>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The SonarScanner for Gradle provides an easy way to start SonarCloud analysis of a Gradle project.
+The ability to execute the SonarCloud analysis via a regular Gradle task makes it available anywhere Gradle is available
+(CI service, etc.), without the need to manually download, setup, and maintain a SonarScanner installation.
+The Gradle build already has much of the information needed for SonarCloud to successfully analyze a project.
+By configuring the analysis based on that information, the need for manual configuration is reduced significantly.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>&#8594; This could make sonar easier to run locally and reduce the need for configuration
+(see <a href="https://opfab.atlassian.net/browse/OC-754">OC-754</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_github_documentation_2">38.4. GitHub (documentation)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a personal access token for GitHub (for the documentation). Its name is not important.</p>
+<div class="paragraph">
+<p>See <a href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line">GitHub documentation</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/perso_access_token_doc.png" alt="perso access token doc">
+</div>
+</div>
+</li>
+<li>
+<p>Create a GH_DOC_TOKEN env variable
+in <a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">Travis settings for the operatorfabric-core repository</a>
+, making it available to all branches.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/adding_gh_doc_token_travis.png" alt="adding gh doc token travis">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dockerhub_2">38.5. DockerHub</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create account opfabtechmock</p>
+</li>
+<li>
+<p>Create organization <strong>lfeoperatorfabricmock</strong></p>
+</li>
+<li>
+<p>Change organization name in docker config in services.gradle</p>
+<div class="listingblock">
+<div class="content">
+<pre>docker {
+    name "lfeoperatorfabricmock/of-${project.name.toLowerCase()}"
+    tags 'latest', dockerVersionTag
+    labels (['project':"${project.group}"])
+    files jar.archivePath, 'src/main/resources/bootstrap-docker.yml', '../../../src/main/docker/java-config-dependent-docker-entrypoint.sh'
+    buildArgs(['JAR_FILE'       : "${jar.archiveName}",
+               'http_proxy'     : apk.proxy.uri,
+               'https_proxy'    : apk.proxy.uri,
+               'HTTP_PROXY_AUTH': "basic:*:$apk.proxy.user:$apk.proxy.password"])
+    dockerfile file("src/main/docker/Dockerfile")
+}</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the opfabtechmock dockerhub account credentials as DOCKER_CLOUD_USER / DOCKER_CLOUD_PWD in Travis env variables
+in settings (see GH_DOC_TOKEN above).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_the_fork">38.6. Updating the fork</h3>
+<div class="paragraph">
+<p>To make the mock repositories catch up with the upstream (the real repositories) from time to time, follow
+this procedure (the command line version), except you should do a rebase instead of a merge:
+<a href="https://rick.cogley.info/post/update-your-forked-repository-directly-on-github/" class="bare">rick.cogley.info/post/update-your-forked-repository-directly-on-github/</a></p>
+</div>
 </div>
 </div>
 </div>
