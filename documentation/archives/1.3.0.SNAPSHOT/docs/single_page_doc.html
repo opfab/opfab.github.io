@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version 1.3.0.SNAPSHOT,</span>
-<span id="revdate">04 May 2020</span>
+<span id="revdate">05 May 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -762,7 +762,13 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_clone_repository">22.1. Clone repository</a></li>
 <li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">22.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</a></li>
-<li><a href="#_deploy_dockerized_mongodb_rabbitmq_and_sonarqube">22.3. Deploy dockerized MongoDB, RabbitMQ and SonarQube</a></li>
+<li><a href="#_deploy_needed_docker_containers">22.3. Deploy needed docker containers</a>
+<ul class="sectlevel3">
+<li><a href="#_minimal_configuration_for_gradle_build">22.3.1. Minimal configuration for <code>gradle</code> build</a></li>
+<li><a href="#_enabling_local_quality_report_generation">22.3.2. Enabling local quality report generation</a></li>
+<li><a href="#_docker_dev_env">22.3.3. Development environment</a></li>
+</ul>
+</li>
 <li><a href="#_build_operatorfabric_with_gradle">22.4. Build OperatorFabric with Gradle</a></li>
 <li><a href="#_run_operatorfabric_services_using_the_run_all_sh_script">22.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</a></li>
 <li><a href="#_check_services_status">22.6. Check services status</a></li>
@@ -7530,24 +7536,16 @@ The default profiles activated are docker and native.</p>
 <div class="sect3">
 <h4 id="_web_ui">18.4.9. Web UI</h4>
 <div class="paragraph">
-<p>OperatorFabric Web UI service is a Spring MVC application bootstrapped using
-SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
+<p>OperatorFabric Web UI service is built on top of a <a href="https://www.nginx.com/">NGINX</a> server.
+Its sole purpose is to serve the Angular SPA to browsers.</p>
 </div>
 <div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_9">Mandatory configuration, Profiles and default properties</h5>
+<h5 id="_nginx_configuration">NGINX configuration</h5>
 <div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
+<p>The NGINX configuration used is the NGINX default one.</p>
 </div>
 <div class="paragraph">
-<p>For other configuration see:
-NONE
-* <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.
-* <a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
+<p>Please refer to the <a href="https://docs.nginx.com/">NGINX documentation</a> for more details for any required customisations.</p>
 </div>
 <div class="sect5">
 <h6 id="_service_specific_properties_6">Service specific properties</h6>
@@ -8869,109 +8867,8 @@ with the correct spelling, the new group of operator gets a proper description:<
 to 8080</p>
 </div>
 <div class="paragraph">
-<p>If you run the services using <code>bootRun</code> Gradle task or the provided
-docker-compose files (see [prj]/src/main/docker) the ports used are</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Service</th>
-<th class="tableblock halign-right valign-top">bootRun port</th>
-<th class="tableblock halign-right valign-top">docker-compose mapping</th>
-<th class="tableblock halign-right valign-top">docker-compose debug mapping</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p> <details><summary> 
-<strong>Complete port table</strong>
- </summary><div> </p>
+<p>If you run the services using <code>bootRun</code> Gradle task, the <code>run_all.sh</code> script or the deploy docker-compose,
+the used ports are:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -8983,9 +8880,9 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Port</th>
+<th class="tableblock halign-left valign-top">Service</th>
 <th class="tableblock halign-left valign-top">Forwards to</th>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -9023,7 +8920,7 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card publication service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2103</p></td>
@@ -9035,19 +8932,19 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">actions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actions (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2200</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web UI (Nginx server)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4000</p></td>
@@ -9098,12 +8995,6 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4200</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mongo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
@@ -9123,9 +9014,6 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -9347,7 +9235,7 @@ gradle, node and npm).
 </table>
 </div>
 <div class="paragraph">
-<p>There are several ways to get started with OperatorFabric. Please look into
+<p>There are several ways to get started with <code>OperatorFabric</code>. Please look into
 the section that best fits your needs.</p>
 </div>
 <div class="admonitionblock tip">
@@ -9366,7 +9254,7 @@ a command that hangs then fails is often a proxy issue.
 </table>
 </div>
 <div class="paragraph">
-<p>The following steps describe how to launch MongoDB, RabbitMQ and SonarQube
+<p>The following steps describe how to launch MongoDB, RabbitMQ and Keycloak
 using Docker,  build OperatorFabric using gradle and run it using the
 <code>run_all.sh</code> script.</p>
 </div>
@@ -9374,8 +9262,8 @@ using Docker,  build OperatorFabric using gradle and run it using the
 <h3 id="_clone_repository">22.1. Clone repository</h3>
 <div class="listingblock">
 <div class="content">
-<pre>git clone https://github.com/opfab/operatorfabric-core.git
-cd operatorfabric-core</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">git clone https://github.com/opfab/operatorfabric-core.git
+cd operatorfabric-core</code></pre>
 </div>
 </div>
 </div>
@@ -9383,7 +9271,7 @@ cd operatorfabric-core</pre>
 <h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">22.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</h3>
 <div class="listingblock">
 <div class="content">
-<pre>source bin/load_environment_light.sh</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">source bin/load_environment_light.sh</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -9393,30 +9281,68 @@ cd operatorfabric-core</pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-From now on, you can use environment variable $OF_HOME to go back to
-the home repository of OperatorFabric.
+From now on, you can use environment variable <code>${OF_HOME}</code> to go back to
+the home repository of <code>OperatorFabric</code>.
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_deploy_dockerized_mongodb_rabbitmq_and_sonarqube">22.3. Deploy dockerized MongoDB, RabbitMQ and SonarQube</h3>
+<h3 id="_deploy_needed_docker_containers">22.3. Deploy needed docker containers</h3>
+<div class="sect3">
+<h4 id="_minimal_configuration_for_gradle_build">22.3.1. Minimal configuration for <code>gradle</code> build</h4>
 <div class="paragraph">
-<p>MongoDB, RabbitMQ and SonarQube are needed for the tests to be run so the
-build can be done.</p>
+<p>Two docker container must be available during a gradle build of <code>OperatorFabric</code>:
+* RabbitMQ;
+* MongoDB.</p>
 </div>
 <div class="paragraph">
-<p>A docker-compose file with properly configured containers is available
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker/test-quality-environment/">there</a>.</p>
+<p>They can be launch using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
+</div>
+<div class="paragraph">
+<p>Remind that, during a gradle build, before the <code>assemble</code> task, the <code>test</code> one is called. The Unit tests depend on those
+two software.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enabling_local_quality_report_generation">22.3.2. Enabling local quality report generation</h4>
+<div class="paragraph">
+<p>To get a Sonarqube report, in addition to the two previously listed docker containers, a <code>SonarQube</code> docker container is
+required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
+</div>
+<div class="paragraph">
+<p>To generate the quality report use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">---
+cd ${OF_HOME}
+./gradlew jacocoTestReport
+---</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To export the different report into the <code>SonarQube</code> docker instance you need to install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_docker_dev_env">22.3.3. Development environment</h4>
+<div class="paragraph">
+<p>During <code>OperatorFabric</code> development the running docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> are needed.</p>
 </div>
 <div class="paragraph">
 <p>The <code>docker-compose</code> can be run in detached mode:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd src/main/docker/test-quality-environment/
-docker-compose up -d</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/src/main/docker/dev-environment/
+docker-compose up -d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be usefull to spot the <code>OperatorFabric</code> dev tab in the browser.
+Sometime a <code>CTRL+F5</code> on the tab is required to refresh the favicon.</p>
 </div>
 </div>
 </div>
@@ -9430,8 +9356,8 @@ docker-compose up -d</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd $OF_HOME
-./gradlew assemble</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew assemble</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9439,8 +9365,9 @@ docker-compose up -d</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd $OF_HOME
-./gradlew build</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml up -d
+./gradlew build</code></pre>
 </div>
 </div>
 </div>
@@ -9448,8 +9375,22 @@ docker-compose up -d</pre>
 <h3 id="_run_operatorfabric_services_using_the_run_all_sh_script">22.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</h3>
 <div class="listingblock">
 <div class="content">
-<pre>bin/run_all.sh start</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+docker-compose -f ${OF_HOME}/src/main/docker/dev-environment/docker-compose.yml up -d
+bin/run_all.sh start</code></pre>
 </div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+the <code>${OF_HOME}/bin/run_all.sh</code> must be launched from <code>${OF_HOME}</code> otherwise some runtime exception will occur.
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -9468,20 +9409,20 @@ See <code>bin/run_all.sh -h</code> for details.
 <h3 id="_check_services_status">22.6. Check services status</h3>
 <div class="listingblock">
 <div class="content">
-<pre>bin/run_all.sh status</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+bin/run_all.sh status</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_log_into_the_ui">22.7. Log into the UI</h3>
 <div class="paragraph">
-<p>URL: localhost:2002/ui/</p>
+<p><strong><em>URL:</em></strong> localhost:2002/ui/<br>
+<strong><em>login:</em></strong> tso1-operator<br>
+<strong><em>password:</em></strong> test</p>
 </div>
 <div class="paragraph">
-<p>login: admin</p>
-</div>
-<div class="paragraph">
-<p>password: test</p>
+<p>The other users available in development mode are <code>rte-operator</code> and <code>admin</code>, both with <code>test</code> as password.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -9490,8 +9431,7 @@ See <code>bin/run_all.sh -h</code> for details.
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-It might take a little while for the UI to load even after all
-services are running.
+It might take a little while for the UI to load even after all services are running.
 </td>
 </tr>
 </table>
@@ -9503,7 +9443,7 @@ services are running.
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get an error.
+Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get an error, a <code>404</code> page.
 </td>
 </tr>
 </table>
@@ -9517,7 +9457,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>services/core/cards-publication/src/main/bin/push_card_loop.sh</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">services/core/cards-publication/src/main/bin/push_card_loop.sh</code></pre>
 </div>
 </div>
 </div>
@@ -9527,7 +9467,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 <h2 id="_user_interface">23. User Interface</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This project was partially generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8.</p>
+<p>The <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8 has been used to generate this project.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -9559,14 +9499,6 @@ SPA
 <p>stands for <strong>Single Page Application</strong></p>
 </td>
 </tr>
-<tr>
-<td class="hdlist1">
-OS
-</td>
-<td class="hdlist2">
-<p>stands for <strong>Operating System</strong></p>
-</td>
-</tr>
 </table>
 </div>
 <div class="sect2">
@@ -9579,7 +9511,7 @@ Once the whole application is ready, you should have the following output in you
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>##########################################################
+<pre class="CodeRay highlight"><code data-lang="shell">##########################################################
 Starting client-gateway-cloud-service, debug port: 5008
 
 ##########################################################
@@ -9614,14 +9546,15 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 <p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code>.</p>
 </div>
 <div class="paragraph">
-<p>To log in you need to use a valid user. Currently you need to use a connection pair define in <code>$OPERATOR_FABRIC_HOME/services/infra/auth/src/main/java/org/lfenergy/operatorfabric/auth/config/WebSecurityConfiguration.java</code>. It could be <code>admin</code> with <code>test</code>, for example.</p>
+<p>To log in you need to use a valid user among the following: <code>tso1-operator</code>, <code>rte-operator</code> or <code>admin</code>.
+The common password is <code>test</code> for them all.</p>
 </div>
 <div class="paragraph">
 <p>To test the reception of cards, you can use the following script to create dummy cards:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>$OF_HOME/services/core/cards-publication/src/main/bin/push_cards_loop.sh</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/services/core/cards-publication/src/main/bin/push_cards_loop.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9636,7 +9569,7 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">$OPERATOR_FABRIC_CORE_HOME/services/web/web-ui/build/src/generated/resources/static</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/ui/main/build/distribution</code></pre>
 </div>
 </div>
 </div>
@@ -9645,7 +9578,8 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 <div class="sect3">
 <h4 id="_standalone_tests">23.3.1. Standalone tests</h4>
 <div class="paragraph">
-<p>Run in the <code>$OF_HOME/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests based on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
+<p>Run in the <code>${OF_HOME}/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests
+on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
 </div>
 </div>
 <div class="sect3">
@@ -9653,16 +9587,16 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>if the RabbitMQ and MongoDB docker containers are not not running, launch them;</p>
+<p>if the RabbitMQ, MongoDB and Keycloak docker containers are not running, launch them;</p>
 </li>
 <li>
-<p>set your environment variables with <code>. $OF_HOME/bin/load_environment_light.sh</code>;</p>
+<p>set your environment variables with <code>source ${OF_HOME}/bin/load_environment_light.sh</code>;</p>
 </li>
 <li>
-<p>run the micro services using the same command as earlier: <code>$OF_HOME/bin/run_all.sh start</code>;</p>
+<p>run the micro services using the same command as earlier: <code>${OF_HOME}/bin/run_all.sh start</code>;</p>
 </li>
 <li>
-<p>if needed, enable a card-operation test flow using the script <code>$OF_HOME/service/core/cards-publication/src/main/bin/push_cards_loop.sh</code>;</p>
+<p>if needed, enable a card-operation test flow using the script <code>${OF_HOME}/service/core/cards-publication/src/main/bin/push_cards_loop.sh</code>;</p>
 </li>
 <li>
 <p>launch an angular server with the command: <code>ng serve</code>;</p>
@@ -9752,12 +9686,11 @@ settings)</p>
 │   │   ├──src
 │   │   ├──thirds (third-party-business-service)
 │   │   └──users (users-business-service)
-│   ├──infra
-│   │   ├──client-gateway (client-gateway-cloud-service)
-│   │   ├──config (configuration-cloud-service)
-│   │   └──registry (registry-cloud-service)
-│   └──web
-│       └──web-ui
+│   └──infra
+│       ├──client-gateway (client-gateway-cloud-service)
+│       ├──config (configuration-cloud-service)
+│       └──registry (registry-cloud-service)
+├──web-ui
 ├──src
 |   ├──docs
 |   │   ├──asciidoc
@@ -9864,18 +9797,12 @@ microservice registry</p>
 </ul>
 </div>
 </li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/web">web</a>: contains web pages and application services</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/web/web-ui">web-ui</a>: Main OperatorFabric SPA</p>
-</li>
 </ul>
 </div>
 </li>
-</ul>
-</div>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/web-ui">web-ui</a>: project based on Nginx server to serve
+the OperatorFabric UI</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src">src</a></p>
