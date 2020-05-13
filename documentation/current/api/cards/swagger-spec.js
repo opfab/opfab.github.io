@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric Card Consumer Service",
-    "version" : "1.2.0.RELEASE",
+    "version" : "1.3.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {

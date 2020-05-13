@@ -430,13 +430,104 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+/*pre.CodeRay {background-color:#f7f7f8;}*/
+.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
+.CodeRay .line-numbers strong{color:rgba(0,0,0,.4)}
+table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
+table.CodeRay td{vertical-align: top;line-height:1.45}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
+table.CodeRay td.code{padding:0 0 0 .5em}
+table.CodeRay td.code>pre{padding:0}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 1.2.0.RELEASE,</span>
-<span id="revdate">17 April 2020</span>
+<span id="revnumber">version 1.3.0.RELEASE,</span>
+<span id="revdate">13 May 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -550,10 +641,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_operatorfabric_users_service">12. OperatorFabric Users Service</a>
 <ul class="sectlevel2">
-<li><a href="#_users_and_groups">12.1. Users and Groups</a>
+<li><a href="#_users_groups_and_entities">12.1. Users, groups and entities</a>
 <ul class="sectlevel3">
 <li><a href="#_users">12.1.1. Users</a></li>
 <li><a href="#_groups">12.1.2. Groups</a></li>
+<li><a href="#_entities">12.1.3. Entities</a></li>
 </ul>
 </li>
 </ul>
@@ -617,7 +709,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_security_configuration">18.3.1. Security Configuration</a></li>
 <li><a href="#_user_creation">18.3.2. User creation</a></li>
-<li><a href="#_alternative_way_to_manage_groups_2">18.3.3. Alternative way to manage groups</a></li>
+<li><a href="#_alternative_way_to_manage_groups_andor_entities">18.3.3. Alternative way to manage groups (and/or entities)</a></li>
 </ul>
 </li>
 <li><a href="#_service_specific_configuration">18.4. Service-specific configuration</a>
@@ -633,18 +725,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_web_ui">18.4.9. Web UI</a></li>
 </ul>
 </li>
-<li><a href="#_users_and_groups_administration">18.5. Users and Groups Administration</a>
+<li><a href="#_users_groups_and_entities_administration">18.5. Users, Groups and Entities Administration</a>
 <ul class="sectlevel3">
 <li><a href="#_list_all_users">18.5.1. List all users</a></li>
 <li><a href="#_create_a_new_user">18.5.2. Create a new User</a></li>
 <li><a href="#_fetch_user_details">18.5.3. Fetch user details</a></li>
 <li><a href="#_update_user_details">18.5.4. Update user details</a></li>
-<li><a href="#_list_groups">18.5.5. List groups</a></li>
-<li><a href="#_create_a_new_group">18.5.6. Create a new Group</a></li>
-<li><a href="#_fetch_details_of_a_given_group">18.5.7. Fetch details of a given group</a></li>
-<li><a href="#_update_details_of_a_group">18.5.8. Update details of a group</a></li>
-<li><a href="#_add_a_user_to_a_group">18.5.9. Add a user to a group</a></li>
-<li><a href="#_remove_a_user_from_a_group">18.5.10. Remove a user from a Group</a></li>
+</ul>
+</li>
+<li><a href="#_groupsentities">18.6. Groups/Entities</a>
+<ul class="sectlevel3">
+<li><a href="#_list_groups_or_entities">18.6.1. List groups (or entities)</a></li>
+<li><a href="#_create_a_new_group_or_entity">18.6.2. Create a new group (or entity)</a></li>
+<li><a href="#_fetch_details_of_a_given_group_or_entity">18.6.3. Fetch details of a given group (or entity)</a></li>
+<li><a href="#_update_details_of_a_group_or_entity">18.6.4. Update details of a group (or entity)</a></li>
+<li><a href="#_add_a_user_to_a_group_or_entity">18.6.5. Add a user to a group (or entity)</a></li>
+<li><a href="#_remove_a_user_from_a_group_or_entity">18.6.6. Remove a user from a group (or entity)</a></li>
 </ul>
 </li>
 </ul>
@@ -666,7 +762,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_clone_repository">22.1. Clone repository</a></li>
 <li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">22.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</a></li>
-<li><a href="#_deploy_dockerized_mongodb_rabbitmq_and_sonarqube">22.3. Deploy dockerized MongoDB, RabbitMQ and SonarQube</a></li>
+<li><a href="#_deploy_needed_docker_containers">22.3. Deploy needed docker containers</a>
+<ul class="sectlevel3">
+<li><a href="#_minimal_configuration_for_gradle_build">22.3.1. Minimal configuration for <code>gradle</code> build</a></li>
+<li><a href="#_enabling_local_quality_report_generation">22.3.2. Enabling local quality report generation</a></li>
+<li><a href="#_docker_dev_env">22.3.3. Development environment</a></li>
+</ul>
+</li>
 <li><a href="#_build_operatorfabric_with_gradle">22.4. Build OperatorFabric with Gradle</a></li>
 <li><a href="#_run_operatorfabric_services_using_the_run_all_sh_script">22.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</a></li>
 <li><a href="#_check_services_status">22.6. Check services status</a></li>
@@ -749,72 +851,96 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_operatorfabric_community">OperatorFabric Community</a>
 <ul class="sectlevel1">
-<li><a href="#_introduction_3">30. Introduction</a></li>
-<li><a href="#_contributing">31. Contributing</a>
+<li><a href="#_license_and_developer_certificate_of_origin">30. License and Developer Certificate of Origin</a></li>
+<li><a href="#_reporting_bugs_and_suggesting_enhancements">31. Reporting Bugs and Suggesting Enhancements</a></li>
+<li><a href="#_contributing_code_or_documentation">32. Contributing Code or Documentation</a>
 <ul class="sectlevel2">
-<li><a href="#_code_of_conduct">31.1. Code of Conduct</a></li>
-<li><a href="#_license_and_developer_certificate_of_origin">31.2. License and Developer Certificate of Origin</a></li>
-<li><a href="#_how_can_i_contribute">31.3. How Can I Contribute ?</a>
+<li><a href="#_code_guidelines">32.1. Code Guidelines</a></li>
+<li><a href="#_documentation_guidelines">32.2. Documentation Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_reporting_bugs_and_suggesting_enhancements">31.3.1. Reporting Bugs and Suggesting Enhancements</a></li>
-<li><a href="#_contributing_code">31.3.2. Contributing Code</a></li>
+<li><a href="#_structure">32.2.1. Structure</a></li>
+<li><a href="#_conventions">32.2.2. Conventions</a></li>
 </ul>
 </li>
-<li><a href="#_project_governance">31.4. Project Governance</a>
-<ul class="sectlevel3">
-<li><a href="#_project_owner">31.4.1. Project Owner</a></li>
-<li><a href="#_committers">31.4.2. Committers</a></li>
-<li><a href="#_technical_steering_committee">31.4.3. Technical Steering Committee</a></li>
-<li><a href="#_contributors">31.4.4. Contributors</a></li>
+<li><a href="#_contribution_process">32.3. Contribution Process</a></li>
 </ul>
 </li>
-<li><a href="#_communication_channels">31.5. Communication channels</a>
-<ul class="sectlevel3">
-<li><a href="#_website_opfab_org">31.5.1. Website: opfab.org</a></li>
-<li><a href="#_spectrum_community_spectrum_chatopfab">31.5.2. Spectrum Community : spectrum.chat/opfab</a></li>
-<li><a href="#_lf_energy_mailing_lists">31.5.3. LF Energy Mailing Lists</a></li>
-<li><a href="#_jira">31.5.4. JIRA</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#code_of_conduct">32. Contributor Covenant Code of Conduct</a>
+<li><a href="#_project_governance">33. Project Governance</a>
 <ul class="sectlevel2">
-<li><a href="#_our_pledge">32.1. Our Pledge</a></li>
-<li><a href="#_our_standards">32.2. Our Standards</a></li>
-<li><a href="#_our_responsibilities">32.3. Our Responsibilities</a></li>
-<li><a href="#_scope">32.4. Scope</a></li>
-<li><a href="#_enforcement">32.5. Enforcement</a></li>
-<li><a href="#_attribution">32.6. Attribution</a></li>
+<li><a href="#_project_owner">33.1. Project Owner</a></li>
+<li><a href="#_committers">33.2. Committers</a></li>
+<li><a href="#_technical_steering_committee">33.3. Technical Steering Committee</a></li>
+<li><a href="#_contributors">33.4. Contributors</a></li>
+</ul>
+</li>
+<li><a href="#_communication_channels">34. Communication channels</a>
+<ul class="sectlevel2">
+<li><a href="#_website_opfab_org">34.1. Website: opfab.org</a></li>
+<li><a href="#_spectrum_community_spectrum_chatopfab">34.2. Spectrum Community : spectrum.chat/opfab</a></li>
+<li><a href="#_lf_energy_mailing_lists">34.3. LF Energy Mailing Lists</a></li>
+<li><a href="#_jira">34.4. JIRA</a></li>
+</ul>
+</li>
+<li><a href="#code_of_conduct">35. Code of Conduct</a>
+<ul class="sectlevel2">
+<li><a href="#_our_pledge">35.1. Our Pledge</a></li>
+<li><a href="#_our_standards">35.2. Our Standards</a></li>
+<li><a href="#_enforcement_responsibilities">35.3. Enforcement Responsibilities</a></li>
+<li><a href="#_scope">35.4. Scope</a></li>
+<li><a href="#_enforcement">35.5. Enforcement</a></li>
+<li><a href="#_attribution">35.6. Attribution</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a href="#_operatorfabric_cicd">OperatorFabric CICD</a>
 <ul class="sectlevel1">
-<li><a href="#_introduction_4">33. Introduction</a></li>
-<li><a href="#_release_process">34. Release process</a>
+<li><a href="#_pipeline_configuration">36. Pipeline Configuration</a>
 <ul class="sectlevel2">
-<li><a href="#version_numbers">34.1. Version numbers</a></li>
-<li><a href="#_releasing_version">34.2. Releasing Version</a>
+<li><a href="#_cicd_pipeline">36.1. CICD Pipeline</a>
 <ul class="sectlevel3">
-<li><a href="#_check_the_release_notes">34.2.1. Check the release notes</a></li>
-<li><a href="#_in_the_source_repository_operatorfabric_core">34.2.2. In the source repository (operatorfabric-core)</a></li>
-<li><a href="#_checking_deploy_docker_compose">34.2.3. Checking deploy docker-compose</a></li>
-<li><a href="#_in_jira">34.2.4. In Jira</a></li>
+<li><a href="#_travis_ci">36.1.1. Travis CI</a></li>
+<li><a href="#_sonarcloud">36.1.2. SonarCloud</a></li>
+<li><a href="#_github_documentation">36.1.3. GitHub (documentation)</a></li>
+<li><a href="#_dockerhub">36.1.4. DockerHub</a></li>
 </ul>
 </li>
-<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">34.3. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_next_version">34.4. Preparing next version</a>
+</ul>
+</li>
+<li><a href="#_release_process">37. Release process</a>
+<ul class="sectlevel2">
+<li><a href="#version_numbers">37.1. Version numbers</a></li>
+<li><a href="#_releasing_version">37.2. Releasing Version</a>
 <ul class="sectlevel3">
-<li><a href="#_in_the_source_repository_operatorfabric_core_2">34.4.1. In the source repository (operatorfabric-core)</a></li>
-<li><a href="#_in_jira_2">34.4.2. In Jira</a></li>
-<li><a href="#_checking_dockerhub_the_following_day">34.4.3. Checking DockerHub the following day</a></li>
+<li><a href="#_check_the_release_notes">37.2.1. Check the release notes</a></li>
+<li><a href="#_in_the_source_repository_operatorfabric_core">37.2.2. In the source repository (operatorfabric-core)</a></li>
+<li><a href="#_checking_deploy_docker_compose">37.2.3. Checking deploy docker-compose</a></li>
+<li><a href="#_in_jira">37.2.4. In Jira</a></li>
+</ul>
+</li>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">37.3. Advertising the new release on the LFE mailing list</a></li>
+<li><a href="#_preparing_next_version">37.4. Preparing next version</a>
+<ul class="sectlevel3">
+<li><a href="#_in_the_source_repository_operatorfabric_core_2">37.4.1. In the source repository (operatorfabric-core)</a></li>
+<li><a href="#_in_jira_2">37.4.2. In Jira</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_cicd_scripts">35. CICD Scripts</a></li>
+</ul>
+</li>
+<li><a href="#_resources">Resources</a>
+<ul class="sectlevel1">
+<li><a href="#mock_pipeline">38. Appendix A: Mock CICD Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_github">38.1. GitHub</a></li>
+<li><a href="#_travis_ci_2">38.2. Travis CI</a></li>
+<li><a href="#_sonarcloud_2">38.3. SonarCloud</a></li>
+<li><a href="#_github_documentation_2">38.4. GitHub (documentation)</a></li>
+<li><a href="#_dockerhub_2">38.5. DockerHub</a></li>
+<li><a href="#_updating_the_fork">38.6. Updating the fork</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -882,8 +1008,8 @@ deals with and then showing how this translates into the technical architecture.
 <div class="paragraph">
 <p>OperatorFabric is based on the concept of <strong>cards</strong>, which contain data regarding events that are relevant for the
 operator.
-A third party tool publish cards and the cards are received on the screen of the operators. Depending on the type
-of the cards, the operator  can send back information to the third party via an "action".</p>
+A third party tool publishes cards and the cards are received on the screen of the operators. Depending on the type
+of the cards, the operator can send back information to the third party via an "action".</p>
 </div>
 <div class="sect2">
 <h3 id="_business_components">2.1. Business components</h3>
@@ -893,24 +1019,24 @@ of the cards, the operator  can send back information to the third party via an 
 </div>
 </div>
 <div class="paragraph">
-<p>To do the job, the following business components are defined:</p>
+<p>To do the job, the following business components are defined :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Card Publication : this component receive the cards from third party tools</p>
+<p>Card Publication : this component receives the cards from third party tools</p>
 </li>
 <li>
 <p>Card Consultation : this component delivers the cards to the operators and provide access to all cards exchanged (archives)</p>
 </li>
 <li>
-<p>Actions : this component receive the action from the operator and send it to the third party tool</p>
+<p>Actions : this component receives the action from the operator and send it to the third party tool</p>
 </li>
 <li>
-<p>Card rendering and process definition : this component store the information for card rendering(templates , internationalization , &#8230;&#8203; ) and a light description of the process associate(states , actions, &#8230;&#8203;) . This configuration data can be provided either by an administrator or by a third party tool.</p>
+<p>Card rendering and process definition : this component stores the information for the card rendering (templates, internationalization, &#8230;&#8203;) and a light description of the process associate (states, actions, &#8230;&#8203;). This configuration data can be provided either by an administrator or by a third party tool.</p>
 </li>
 <li>
-<p>User Management : this component is used to manage users and groups</p>
+<p>User Management : this component is used to manage users, groups and entities.</p>
 </li>
 </ul>
 </div>
@@ -918,7 +1044,7 @@ of the cards, the operator  can send back information to the third party via an 
 <div class="sect2">
 <h3 id="_business_objects">2.2. Business objects</h3>
 <div class="paragraph">
-<p>The business objects can be represented as follow:</p>
+<p>The business objects can be represented as follows :</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -931,13 +1057,16 @@ of the cards, the operator  can send back information to the third party via an 
 <p>Card : the core business object which contains the data to show to the user(or operator)</p>
 </li>
 <li>
-<p>Publisher : the third party that publishes cards</p>
+<p>Publisher : the third party which publishes cards</p>
 </li>
 <li>
 <p>User : the operator receiving cards and responding via actions</p>
 </li>
 <li>
-<p>Group : a group of users</p>
+<p>Group : a group (containing a list of users)</p>
+</li>
+<li>
+<p>Entity : an entity (containing a list of users)</p>
 </li>
 <li>
 <p>Process : the process the card is dealing with</p>
@@ -975,14 +1104,14 @@ of the cards, the operator  can send back information to the third party via an 
 <div class="ulist">
 <ul>
 <li>
-<p>We have a "UI" component that store the static pages and the UI code that is downloaded by the browser. The UI is based an <a href="https://angular.io/">Angular</a> and  <a href="https://handlebarsjs.com/">Handlebars</a> for card templating.</p>
+<p>We have a "UI" component which stores the static pages and the UI code that is downloaded by the browser. The UI is based an <a href="https://angular.io/">Angular</a> and  <a href="https://handlebarsjs.com/">Handlebars</a> for the card templating.</p>
 </li>
 <li>
 <p>The business component named  "Card rendering and process definition" is at the technical level known as "Third service". This service receive card rendering and process definition as a bundle. The bundle is a tar.gz file containing</p>
 <div class="ulist">
 <ul>
 <li>
-<p>json process configuration file (containings states &amp; actions)</p>
+<p>json process configuration file (containing states &amp; actions)</p>
 </li>
 <li>
 <p>templates for rendering</p>
@@ -1018,7 +1147,7 @@ services to find information about the running services instance and allow for l
 <h4 id="_gateway">3.2.2. Gateway</h4>
 <div class="paragraph">
 <p>It provides a filtered view of the APIS and static served pages for external access through browsers or other http
-compliant accesses. It provide the rooting and load balancing for accessing the micro-services from outside. It is implemented by <a href="https://cloud.spring.io/spring-cloud-gateway/reference/html/">Spring Cloud Gateway</a>.</p>
+compliant accesses. It provides the rooting and load balancing for accessing the micro-services from outside. It is implemented by <a href="https://cloud.spring.io/spring-cloud-gateway/reference/html/">Spring Cloud Gateway</a>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1037,7 +1166,7 @@ to dispatch global configuration changes to all services. It is implemented via 
 <div class="sect3">
 <h4 id="_authentication">3.2.5. Authentication</h4>
 <div class="paragraph">
-<p>The architecture provide a default authentication service via <a href="https://www.keycloak.org/">KeyCloak</a> but it can delegates it to an external provider. Authentication is done through the use of  Oauth2, three flows are supported: implicit, authorization code and password.</p>
+<p>The architecture provides a default authentication service via <a href="https://www.keycloak.org/">KeyCloak</a> but it can delegate it to an external provider. Authentication is done through the use of  Oauth2, three flows are supported : implicit, authorization code and password.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1062,7 +1191,7 @@ to dispatch global configuration changes to all services. It is implemented via 
 <p>Docker install with 4Gb of space</p>
 </li>
 <li>
-<p>16Gb of RAM minimal ,32 Gb recommended</p>
+<p>16Gb of RAM minimal, 32 Gb recommended</p>
 </li>
 </ul>
 </div>
@@ -1080,13 +1209,13 @@ to dispatch global configuration changes to all services. It is implemented via 
 </div>
 </div>
 <div class="paragraph">
-<p>Launch the <code>startserver.sh</code> in the server directory. You need to wait for all the services to start (it usually takes one minute to start), it is done when no more logs are written on the output(It could continue to log  but slowly).</p>
+<p>Launch the <code>startserver.sh</code> in the server directory. You need to wait for all the services to start (it usually takes one minute to start), it is done when no more logs are written on the output (It could continue to log but slowly).</p>
 </div>
 <div class="paragraph">
 <p>Test the connection to the UI: to connect to OperatorFabric, open in a browser the following page: <a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a> and use <code>tso1-operator</code> as login and <code>test</code> as password.</p>
 </div>
 <div class="paragraph">
-<p>If you are not accessing the server from localhost, there is a bug with authentication redirection. Your must use the following URL, replacing <code>SERVER_IP</code> by the IP address of your server:</p>
+<p>If you are not accessing the server from localhost, there is a bug with authentication redirection. Your must use the following URL, replacing <code>SERVER_IP</code> by the IP address of your server :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1255,7 +1384,7 @@ section of the reference documentation.</p>
 <div class="sect2">
 <h3 id="_example_2_publish_a_new_bundle">6.2. Example 2: Publish a new bundle</h3>
 <div class="paragraph">
-<p>The way the card is display in the UI is defined via a Bundle containing templates and process description .</p>
+<p>The way the card is display in the UI is defined via a Bundle containing templates and process description.</p>
 </div>
 <div class="paragraph">
 <p>The bundle structure is the following:</p>
@@ -1271,7 +1400,7 @@ config.json : process description and global configuration</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The bundle is provided in the bundle directory of example2. It contains a new version of the bundle used in example1 .</p>
+<p>The bundle is provided in the bundle directory of example2. It contains a new version of the bundle used in example1.</p>
 </div>
 <div class="paragraph">
 <p>We just change the template and the stylesheet instead of displaying:</p>
@@ -1313,7 +1442,7 @@ The message</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The global configuration is defined in config.json:</p>
+<p>The global configuration is defined in config.json :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1358,7 +1487,7 @@ The message</pre>
 <div class="sect3">
 <h4 id="_get_a_token">6.2.2. Get a Token</h4>
 <div class="paragraph">
-<p>To send the bundle you need to be authentified . To do that you need to get a token with the following command:</p>
+<p>To send the bundle you need to be authenticated. To do that you need to get a token with the following command :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1374,7 +1503,7 @@ The message</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You should received JSON a reponse like this:</p>
+<p>You should received JSON a response like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1456,7 +1585,7 @@ curl -s -X POST "http://localhost:2100/thirds" -H  "accept: application/json" -H
 <div class="sect3">
 <h4 id="_internationalization">6.2.5. Internationalization</h4>
 <div class="paragraph">
-<p>If you switch langage to french in the UI (Settings menu on the top rigth of the screen), you should see the cards in french.</p>
+<p>If you switch language to french in the UI (Settings menu on the top right of the screen), you should see the cards in french.</p>
 </div>
 <div class="paragraph">
 <p>OperatorFabric will use templates define in repository "template/fr" and keys define in "i18n/fr.json".</p>
@@ -1482,7 +1611,7 @@ curl -s -X POST "http://localhost:2100/thirds" -H  "accept: application/json" -H
 </ul>
 </div>
 <div class="paragraph">
-<p>To modelize this process in OperatorFabric, we will use a "Process" with "States", we will modelize this in the <code>config.json</code> of the bundle:</p>
+<p>To model this process in OperatorFabric, we will use a "Process" with "States", we will model this in the <code>config.json</code> of the bundle:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1522,7 +1651,7 @@ curl -s -X POST "http://localhost:2100/thirds" -H  "accept: application/json" -H
 </div>
 </div>
 <div class="paragraph">
-<p>You can see in the JSON we define a process name "criticalSituation" with 3 states: criticalSituation-begin, criticalSituation-update and criticalSituation-end . For each state we define a title for the card, and the template a stylesheets to use.</p>
+<p>You can see in the JSON we define a process name "criticalSituation" with 3 states: criticalSituation-begin, criticalSituation-update and criticalSituation-end. For each state we define a title for the card, and the template a stylesheets to use.</p>
 </div>
 <div class="paragraph">
 <p>The title is a key which refer to an i18n found in the corresponding i18n repository:</p>
@@ -1573,7 +1702,7 @@ curl -s -X POST "http://localhost:2100/thirds" -H  "accept: application/json" -H
 </div>
 </div>
 <div class="paragraph">
-<p>The card refer to the process "criticalSituation" as defined in the config.json, the state attribute is put to "criticalSituation-begin" which is the first step of the process, again as defined in the config.json. The card can be sent via provided script:</p>
+<p>The card refer to the process "criticalSituation" as defined in the config.json, the state attribute is put to "criticalSituation-begin" which is the first step of the process, again as defined in the config.json. The card can be sent via provided script :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1648,7 +1777,7 @@ getting started). If you want to take a look at its content you can find it unde
 server/thirds-storage/scheduledMaintenance-publisher/1.</p>
 </div>
 <div class="paragraph">
-<p>Before sending the card provide, you need to set the good time values as epoch (ms)  (<a href="https://en.wikipedia.org/wiki/Epoch_(computing)" class="bare">en.wikipedia.org/wiki/Epoch_(computing)</a>) in the json . For each value you set, you will have a point in the timeline . In our example, the first point represent the beginning of the maintenance operation, and the second the end of the maintenance operation.</p>
+<p>Before sending the card provide, you need to set the good time values as epoch (ms)  (<a href="https://en.wikipedia.org/wiki/Epoch_(computing)" class="bare">en.wikipedia.org/wiki/Epoch_(computing)</a>) in the json. For each value you set, you will have a point in the timeline. In our example, the first point represent the beginning of the maintenance operation, and the second the end of the maintenance operation.</p>
 </div>
 <div class="paragraph">
 <p>To get the dates in Epoch, you can use the following commands:</p>
@@ -3352,15 +3481,28 @@ users :
 <h2 id="_operatorfabric_users_service">12. OperatorFabric Users Service</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The User service manages users and groups.</p>
+<p>The User service manages users, groups and entities.</p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Users</dt>
 <dd>
-<p>represent account information for person destined to receive cards in the OperatorFabric instance.</p>
+<p>represent account information for a person destined to receive cards in the OperatorFabric instance.</p>
 </dd>
 <dt class="hdlist1">Groups</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>represent set of users destined to receive collectively some cards.</p>
+</li>
+<li>
+<p>can be used in a way to handle rights on card reception in OperatorFabric.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Entities</dt>
 <dd>
 <div class="ulist">
 <ul>
@@ -3400,9 +3542,9 @@ In the following commands the <code>$token</code> is an authentication token cur
 </table>
 </div>
 <div class="sect2">
-<h3 id="_users_and_groups">12.1. Users and Groups</h3>
+<h3 id="_users_groups_and_entities">12.1. Users, groups and entities</h3>
 <div class="paragraph">
-<p>User service manager users and groups.</p>
+<p>User service manages users, groups and entities.</p>
 </div>
 <div class="sect3">
 <h4 id="_users">12.1.1. Users</h4>
@@ -3410,14 +3552,14 @@ In the following commands the <code>$token</code> is an authentication token cur
 <p>Users are the individuals and mainly physical person who can log in OperatorFabric.</p>
 </div>
 <div class="paragraph">
-<p>The access to this service has to be authorized, in the <code>OAuth2</code> service used by the current <code>OperatorFabric</code> instance, at least to access User information and to manage Users. The membership of groups is stored in the user information.</p>
+<p>The access to this service has to be authorized, in the <code>OAuth2</code> service used by the current <code>OperatorFabric</code> instance, at least to access User information and to manage Users. The membership of groups and entities are stored in the user information.</p>
 </div>
 <div class="sect4">
 <h5 id="_automated_user_creation">Automated user creation</h5>
 <div class="paragraph">
-<p>In case of an user does exist in a provided authentication service but he does not exist in the <code>OperatorFabric</code> instance, when he is authenticated and connected
-for the first time in the <code>OperatorFabric</code> instance, the user is automatically created in the system with no attached groups.
-The administration of the groups is dealt by the administrator manually. More details about automated user creation
+<p>In case of a user does exist in a provided authentication service but he does not exist in the <code>OperatorFabric</code> instance, when he is authenticated and connected
+for the first time in the <code>OperatorFabric</code> instance, the user is automatically created in the system without attached group or entity.
+The administration of the groups and entities is dealt by the administrator manually. More details about automated user creation
 <a href="#opfab_spec_conf">here</a>
 .</p>
 </div>
@@ -3428,8 +3570,17 @@ The administration of the groups is dealt by the administrator manually. More de
 <div class="paragraph">
 <p>opfab_spec_conf
 The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code>.
-Groups are used to send cards to several users without name them specifically.The information about membership to a
+Groups are used to send cards to several users without a name specifically. The information about membership to a
 group is stored in the user information. The rules used to send cards are described in the
+<a href="#card_recipients">recipients section</a>
+.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_entities">12.1.3. Entities</h4>
+<div class="paragraph">
+<p>Entities are used to send cards to several users without a name specifically. The information about membership to an
+entity is stored in the user information. The rules used to send cards are described in the
 <a href="#card_recipients">recipients section</a>
 .</p>
 </div>
@@ -3558,30 +3709,9 @@ A color is associated in the GUI to each severity. Here the details about severi
 </div>
 </div>
 <div class="sect4">
-<h5 id="_store_information">Store information</h5>
-<div class="sect5">
-<h6 id="_tags_tag">Tags (<code>tag</code>)</h6>
-<div class="paragraph">
-<p>Tags are intended to enable filter of cards in the feed of the GUI.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_uid_uid">uid (<code>uid</code>)</h6>
-<div class="paragraph">
-<p>Unique identifier of the card in the OperatorFabric system. This attribute can be send with card, but normally it&#8217;s manage by <code>OperatorFabric</code> system.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_id_id">id (<code>id</code>)</h6>
-<div class="paragraph">
-<p>State id of the associated process, determined by <code>OperatorFabric</code> can be set arbitrarily by the <code>publisher</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect4">
 <h5 id="_card_life_management_configuration">Card Life Management Configuration</h5>
 <div class="paragraph">
-<p>With this attributes OperatorFabric know when to display or hide cards, but also if an action is still available for a given card.</p>
+<p>With this attributes OperatorFabric knows when to display or hide cards.</p>
 </div>
 <div class="sect5">
 <h6 id="_start_date_startdate">Start Date (<code>startDate</code>)</h6>
@@ -3603,9 +3733,39 @@ for some examples.</p>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_optional_information">Optional information</h5>
+<div class="sect5">
+<h6 id="_tags_tag">Tags (<code>tag</code>)</h6>
+<div class="paragraph">
+<p>Tags are intended as an additional way to filter cards in the feed of the GUI.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_entityrecipients_entityrecipients">EntityRecipients (<code>entityRecipients</code>)</h6>
+<div class="paragraph">
+<p>Used to send to cards to entity : all users members of the listed entities will receive the card. If it is used in conjunction with groups recipients, users must be members of one of the entities AND one of the groups to receive the cards.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="_last_time_to_decide_lttd">Last Time to Decide (<code>lttd</code>)</h5>
 <div class="paragraph">
 <p>Fixes the moment until when a <code>actions</code> associated to the card are available. After then, the associated actions won&#8217;t be displayed or actionable.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_store_information">Store information</h5>
+<div class="sect5">
+<h6 id="_uid_uid">uid (<code>uid</code>)</h6>
+<div class="paragraph">
+<p>Unique identifier of the card in the OperatorFabric system. This attribute can be sent with card, but by default it&#8217;s managed by OperatorFabric.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_id_id">id (<code>id</code>)</h6>
+<div class="paragraph">
+<p>State id of the associated process, determined by <code>OperatorFabric</code> can be set arbitrarily by the <code>publisher</code>.</p>
+</div>
 </div>
 </div>
 <div class="sect4">
@@ -3696,12 +3856,11 @@ there is no resource for the given key, then the corresponding key is displayed 
 <div class="paragraph">
 <p>When the simple startDate and endDate are not enough to characterize your
 process business times, you can add a list of TimeSpan to your card. TimeSpans
-are rendered in the timeline component as cluster bubbles are as lines
-depending on your parametrization of the span. This as no effect on the feed
+are rendered in the timeline component as cluster bubbles. This has no effect on the feed
 content</p>
 </div>
 <div class="paragraph">
-<p><strong>example 1:</strong></p>
+<p><strong>example :</strong></p>
 </div>
 <div class="paragraph">
 <p>to display the card two times in the timeline you can add two TimeSpan to your
@@ -3729,27 +3888,7 @@ card:</p>
 start date will be ignored.</p>
 </div>
 <div class="paragraph">
-<p><strong>example 2:</strong></p>
-</div>
-<div class="paragraph">
-<p>Instead of the default clustered view, you may want your card to be displayed
-as a line in the time line.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{
-	"publisher":"TSO1",
-	"publisherVersion":"0.1",
-	"processId":"process-000",
-	"startDate":1546297200000,
-	"severity":"INFORMATION",
-	...
-	"timeSpans" : [
-        {"start" : 1546297200000, "end" : 1546297500000}
-    ]
-
-}</pre>
-</div>
+<p>For timeSpans, you can specify an end date but it is not implemented in OperatorFabric (it was intended for future uses but it will be deprecated).</p>
 </div>
 </div>
 </div>
@@ -3788,13 +3927,13 @@ as a line in the time line.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This an information about the process <code>process-000</code>, send by the <code>TSO1</code>. The title and the summary refers to <code>i18n</code> keys defined in the associated <code>i18n</code> files of the publisher. This card is displayable since the first january of 2019 and should only be received by the user using the <code>tso1-operator</code> login.</p>
+<p>This an information about the process <code>process-000</code>, send by the <code>TSO1</code>. The title and the summary refer to <code>i18n</code> keys defined in the associated <code>i18n</code> files of the publisher. This card is displayable since the first january 2019 and should only be received by the user using the <code>tso1-operator</code> login.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_send_to_several_users">Send to several users</h5>
 <div class="sect5">
-<h6 id="_simple_case">Simple case</h6>
+<h6 id="_simple_case_sending_to_a_group">Simple case (sending to a group)</h6>
 <div class="paragraph">
 <p>The following example is nearly the same as the previous one except for the recipient.</p>
 </div>
@@ -3812,12 +3951,64 @@ as a line in the time line.</p>
 		"type":"GROUP",
 		"identity":"TSO1"
 	}
-
 }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The recipient is here a group, the <code>TSO1</code>. So all users whoa are member of this group will receive the card.</p>
+<p>Here, the recipient is a group, the <code>TSO1</code>. So all users who are members of this group will receive the card.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_simple_case_sending_to_an_entity">Simple case (sending to an entity)</h6>
+<div class="paragraph">
+<p>The following example is nearly the same as the previous one except for the recipient.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":1546297200000,
+	"severity":"INFORMATION",
+	"title":{"key":"card.title.key"},
+	"summary":{"key":"card.summary.key"},
+	"recipient":{
+		"type":"USER",
+	}
+    "entityRecipients" : ["ENTITY1"]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the recipient is an entity, the <code>ENTITY1</code>. So all users who are members of this entity will receive the card.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_simple_case_sending_to_a_group_and_an_entity">Simple case (sending to a group and an entity)</h6>
+<div class="paragraph">
+<p>The following example is nearly the same as the previous one except for the recipient.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TSO1",
+	"publisherVersion":"0.1",
+	"processId":"process-000",
+	"startDate":1546297200000,
+	"severity":"INFORMATION",
+	"title":{"key":"card.title.key"},
+	"summary":{"key":"card.summary.key"},
+	"recipient":{
+		"type":"GROUP",
+        "identity":"TSO1"
+	}
+    "entityRecipients" : ["ENTITY1"]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the recipients are a group and an entity, the <code>TSO1</code> group and <code>ENTITY1</code> entity. So all users who are both members of this group and this entity will receive the card.</p>
 </div>
 </div>
 <div class="sect5">
@@ -3837,7 +4028,7 @@ as a line in the time line.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>So here, all the users of the <code>TSO1</code> group will received the <code>INFORMATION</code> as should the <code>tos2-operator</code> user.</p>
+<p>So here, all the users of the <code>TSO1</code> group will receive the <code>INFORMATION</code> as should the <code>tos2-operator</code> user.</p>
 </div>
 </div>
 </div>
@@ -3845,7 +4036,7 @@ as a line in the time line.</p>
 <div class="sect3">
 <h4 id="_regular_card">13.2.2. Regular Card</h4>
 <div class="paragraph">
-<p>The previous cards were nearly empty regarding information carrying. In fact, cards are intended to contains more information than a title and a summary. The optional attribute <code>data</code> is here for that. This attribute is destined to contains any <code>json</code> object. The creator of the card is free to put any information needed as long as it&#8217;s in a <code>json</code> format.</p>
+<p>The previous cards were nearly empty regarding information carrying. In fact, cards are intended to contain more information than a title and a summary. The optional attribute <code>data</code> is here for that. This attribute is destined to contain any <code>json</code> object. The creator of the card is free to put any information needed as long as it&#8217;s in a <code>json</code> format.</p>
 </div>
 <div class="sect4">
 <h5 id="_full_of_hidden_data">Full of Hidden data</h5>
@@ -3883,7 +4074,7 @@ there is no rendering configuration.</p>
 <h5 id="_fully_useful">Fully useful</h5>
 <div class="paragraph">
 <p>When a card is selected in the feed (of the GUI), the data is displayed in the detail panel.
-The way details are formatted depends on template uploaded by Third parties as
+The way details are formatted depends on the template uploaded by Third parties as
 <a href="#bundle_technical_overview">described here</a>
 . To have an effective example without to many actions to performed, the following example will use an already existing
 configuration.The one presents in the development version of OperatorFabric, for test purpose(<code>TEST</code> bundle).</p>
@@ -3929,7 +4120,7 @@ time filter.</p>
 </div>
 <div class="paragraph">
 <p>In the time line cards are visible based on a similar filter plus the time line
-renders the "position" in time of said cards. By default it groups cards at
+renders the "position" in time of said cards. By default, it groups cards at
 close time in bubbles whom color indicates severity and inner number indicates
 number of cards.</p>
 </div>
@@ -3942,10 +4133,10 @@ number of cards.</p>
 <p>example:</p>
 </div>
 <div class="paragraph">
-<p>The current day is the 29 january of 2019.</p>
+<p>The current day is the 29 january 2019.</p>
 </div>
 <div class="paragraph">
-<p>A card with the following configuration <code>"startDate":1548758040000</code>, has a start date equals to the iso date: "2019-01-29T10:34:00Z". So the operator will see it appearing in it&#8217;s feed at 10h34 AM universal time. And if there is no <code>endDate</code> defines for it, it will stay in the feed indefinitely, so this card should be still visible the 30th january of 2019. Before "10h34 AM universal time", this card was not visible in the feed.</p>
+<p>A card with the following configuration <code>"startDate":1548758040000</code>, has a start date equals to the iso date: "2019-01-29T10:34:00Z". So the operator will see it appearing in it&#8217;s feed at 10h34 AM universal time. And if there is no <code>endDate</code> defines for it, it will stay in the feed indefinitely, so this card should be still visible the 30th january 2019. Before "10h34 AM universal time", this card was not visible in the feed.</p>
 </div>
 </div>
 <div class="sect5">
@@ -3957,7 +4148,7 @@ number of cards.</p>
 <p>example:</p>
 </div>
 <div class="paragraph">
-<p>Imagine that the current day is still the 29 january of 2019.</p>
+<p>Imagine that the current day is still the 29 january 2019.</p>
 </div>
 <div class="paragraph">
 <p>The card we are looking after, has the same value for the startDate than in the previous example but has the following configuration for the <code>endDate</code>: <code>"endDate":1548765240000</code>. It&#8217;s corresponding to "2019-01-29T12:34:00Z" universal time.</p>
@@ -4061,8 +4252,8 @@ The layout of this screen is very similar to the Feed screen: the results are di
 </td>
 <td class="content">
 The results of these queries are limited to cards that the user is allowed to see, either
-because they are direct recipient of the card or because they belong to a group that is a recipient
-of the card.
+because this user is direct recipient of the card or because he belongs to a group (or entity) that is a recipient
+of the card. If a card is sent to an entity and a group, then this user must be part of both the group and the entity.
 </td>
 </tr>
 </table>
@@ -4092,7 +4283,7 @@ The aim of this document is to explain how to configure and deploy OperatorFabri
 the project or by using images releases from <a href="https://hub.docker.com/">Dockerhub</a></p>
 </div>
 <div class="paragraph">
-<p>Service images are all based on <a href="https://hub.docker.com/_/openjdk">openjdk:8-jdk-alpine</a>.</p>
+<p>Service images are all based on <a href="https://hub.docker.com/_/openjdk">openjdk:8-jre-alpine</a>.</p>
 </div>
 <div class="paragraph">
 <p>For simple one instance per service deployment, you can find a sample
@@ -4333,7 +4524,7 @@ configuration service (under /services/infra/config/src/main/docker/volume).</p>
 <div class="paragraph">
 <p>Note that a few things cannot be set in the configuration served by the configuration service (because its needed
 right at the application startup for example) and
-must be set in each services bootstrap configuration file. In this regard,
+must be set in each service bootstrap configuration file. In this regard,
 <a href="#cloud_config_service_config">Cloud Configuration Service</a>
 and
 <a href="#cloud_registry_service_config">Cloud Registry Service</a>
@@ -4375,12 +4566,12 @@ configuration for those services. Make a copy of the default bootstrap (inside
 the jar or from the sources) and set eureka up (see above).</p>
 </div>
 <div class="paragraph">
-<p>The different services also share common configuration you can setup in the
-config service backend. those common configuration may be set up in the backend <code><code>application.yml</code></code> file.</p>
+<p>The different services also share a common configuration you can setup in the
+config service backend. Those common configuration may be set up in the backend <code><code>application.yml</code></code> file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   rabbitmq:
     host: rabbitmq
     port: 5672
@@ -4451,8 +4642,8 @@ removed after a specified duration by using the <a href="https://docs.mongodb.co
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">use operator-fabric
-db.archivedCards.createIndex( { "publishDate": 1 }, { expireAfterSeconds: 864000 } )</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">use operator-fabric
+db.archivedCards.createIndex( { &quot;publishDate&quot;: 1 }, { expireAfterSeconds: 864000 } )</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -4590,7 +4781,7 @@ It helps to avoid typos or missing to report some changes. An example could be f
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
     security:
         oauth2:
             client-id: opfab-client
@@ -4655,7 +4846,7 @@ the deployment domain</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring.cloud.gateway.routes[0].filters:
+<pre class="CodeRay highlight"><code>spring.cloud.gateway.routes[0].filters:
         - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
         - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
         - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
@@ -4700,7 +4891,7 @@ is the default port as set in the <code>application.yml</code> used by the <cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   cloud:
     gateway:
       routes:
@@ -4774,10 +4965,10 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
 </ul>
 </div>
 <div class="sect6">
-<h7 id="_example_of_keycloak_configuration_for_operatorfabric_oauth2">Example of Keycloak configuration for OperatorFabric OAuth2</h7>
+<h7 id="_example_of_configuration_for_implicit_flow">Example of configuration for IMPLICIT Flow</h7>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
   keycloak:
     realm: dev
   security:
@@ -4792,14 +4983,6 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
 <p>Within the <code>delegate-url</code> property the <code>${operatorfabric.keycloak.realm}</code> refers to the value of the <code>operatorfabric.keycloak.realm</code> declared earlier, <code>dev</code> here.
 For keycloak instance used for dev purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred. The
 url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_keycloak_instance_additional_configuration_for_dev_purposes">Keycloak instance additional configuration for dev purposes</h7>
-<div class="paragraph">
-<p>Once connected as Admin (login:_admin_,password:_admin_ ) on keycloak (<code><a href="http://localhost:89/auth/admin" class="bare">localhost:89/auth/admin</a></code>) The first thing is to enable the implicit flow for <code>opfa-client</code>. To do so
-select <code>Dev</code> in the upper select of the right panel then click on Clients. In the table, click on <code>opfab-client</code> in the column <code>Client ID</code>. Then in the <code>Settings</code> tabs turn on the
-<code>Implicit Flow Enabled</code>. In the same tab, modify <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code> to <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a><strong></code> and <code><a href="http://localhost:4200" class="bare">localhost:4200</a></code> to <code><a href="http://localhost:4200/" class="bare">localhost:4200/</a></strong></code>.</p>
 </div>
 </div>
 </div>
@@ -4819,10 +5002,10 @@ select <code>Dev</code> in the upper select of the right panel then click on Cli
 </ul>
 </div>
 <div class="sect6">
-<h7 id="_example_of_keycloak_configuration_for_operatorfabric_oauth2_2">Example of Keycloak Configuration For OperatorFabric OAuth2</h7>
+<h7 id="_example_of_configuration_for_code_flow">Example of Configuration For CODE Flow</h7>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
   keycloak:
     realm: dev
   security:
@@ -5104,7 +5287,7 @@ transfer-encoding: chunked
 <div class="sect3">
 <h4 id="_user_creation">18.3.2. User creation</h4>
 <div class="paragraph">
-<p>Setting automated user creation==. Creation user requires an user id. Given name and family name are optional.</p>
+<p>Setting automated user creation==. Creation user requires a user id. Given name and family name are optional.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -5126,7 +5309,7 @@ transfer-encoding: chunked
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.login-claim</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as an user login or id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as a user login or id</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.given-name-claim</p></td>
@@ -5144,9 +5327,9 @@ transfer-encoding: chunked
 </table>
 </div>
 <div class="sect3">
-<h4 id="_alternative_way_to_manage_groups_2">18.3.3. Alternative way to manage groups</h4>
+<h4 id="_alternative_way_to_manage_groups_andor_entities">18.3.3. Alternative way to manage groups (and/or entities)</h4>
 <div class="paragraph">
-<p>By default, <code>Operator-Fabric</code> manage groups through the user&#8217;s group. Another mode can be defined, the JWT mode. The groups come from the authentication token. The administrator of the authentication service has to set what claims define a group. In the <code>Operator-Fabric</code> configuration, the opfab administrator has to set properties to retrieve thoses groups.</p>
+<p>By default, <code>Operator-Fabric</code> manage groups (and/or entities) through the user&#8217;s collection in the database. Another mode can be defined, the JWT mode. The groups (and/or entities) come from the authentication token. The administrator of the authentication service has to set what claims define a group (and/or entity). In the <code>Operator-Fabric</code> configuration, the opfab administrator has to set properties to retrieve those groups (and/or entities).</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -5171,7 +5354,7 @@ transfer-encoding: chunked
 <td class="tableblock halign-left valign-top"><p class="tableblock">Set the group mode, possible values JWT or OPERATOR_FABRIC</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandard-claim.path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandard.path</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a group</p></td>
@@ -5206,6 +5389,18 @@ transfer-encoding: chunked
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">set the value of the group if the path exists</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.entitiesIdClaim</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the name of the field in the token</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values : true/false)</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -5213,9 +5408,11 @@ transfer-encoding: chunked
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
   security:
     jwt:
+      entitiesIdClaim: entitiesId
+      gettingEntitiesFromToken: true
       groups:
         mode: JWT # value possible JWT | OPERATOR_FABRIC
         rolesClaim:
@@ -5239,7 +5436,7 @@ transfer-encoding: chunked
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>{
+<pre class="CodeRay highlight"><code>{
   "jti": "5ff87583-10bd-4946-8753-9d58171c8b7f",
   "exp": 1572979628,
   "nbf": 0,
@@ -5293,6 +5490,7 @@ transfer-encoding: chunked
   "ATTR1": "roleATTR1",
   "preferred_username": "example_user",
   "given_name": "example_firtstname",
+  "entitiesId": "ENTITY1",
   "family_name": "example_lastname",
   "email": "example_user@mail.com",
   "roleFieldList": "roleA;roleB;roleC"
@@ -5460,7 +5658,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-consultation
   cloud:
@@ -5479,7 +5677,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-consultation
   cloud:
@@ -5506,7 +5704,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-consultation
   cloud:
@@ -5554,7 +5752,7 @@ development environment</p>
 <h6 id="_sample_development_configuration">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2104
 logging.level.root: DEBUG</code></pre>
 </div>
@@ -5564,7 +5762,7 @@ logging.level.root: DEBUG</code></pre>
 <h6 id="_sample_docker_image_configuration">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code></code></pre>
+<pre class="CodeRay highlight"><code></code></pre>
 </div>
 </div>
 </div>
@@ -5714,7 +5912,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-publication
   cloud:
@@ -5733,7 +5931,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-publication
   cloud:
@@ -5760,7 +5958,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-publication
   cloud:
@@ -5807,7 +6005,7 @@ development environment</p>
 <h6 id="_sample_development_configuration_2">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2102</code></pre>
 </div>
 </div>
@@ -5816,7 +6014,7 @@ development environment</p>
 <h6 id="_sample_docker_image_configuration_2">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code></code></pre>
+<pre class="CodeRay highlight"><code></code></pre>
 </div>
 </div>
 </div>
@@ -5946,7 +6144,7 @@ the deployment domain</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring.cloud.gateway.routes[0].filters:
+<pre class="CodeRay highlight"><code>spring.cloud.gateway.routes[0].filters:
         - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
         - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
         - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
@@ -5991,7 +6189,7 @@ is the default port as set in the <code>application.yml</code> used by the <cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   cloud:
     gateway:
       routes:
@@ -6048,7 +6246,7 @@ equals to <code>actions</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: client-gateway
   cloud:
@@ -6067,7 +6265,7 @@ equals to <code>actions</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: client-gateway
   cloud:
@@ -6093,7 +6291,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: client-gateway
   cloud:
@@ -6142,7 +6340,7 @@ development environment</p>
 <h6 id="_sample_developpement_configuration">Sample developpement configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2002
 spring:
   cloud:
@@ -6174,7 +6372,7 @@ operatorfabric.gateway.configs:
 <h6 id="_sample_docker_image_configuration_3">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   cloud:
     gateway:
       routes:
@@ -6325,7 +6523,7 @@ production.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: config</code></pre>
 </div>
@@ -6335,7 +6533,7 @@ production.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>management:
+<pre class="CodeRay highlight"><code>management:
   endpoints:
     web:
       exposure:
@@ -6357,7 +6555,7 @@ jar working in the development environment</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2000
 spring:
 #  level.root: debug
@@ -6407,7 +6605,7 @@ config from file system)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   profiles:
     active: [native]
   cloud:
@@ -6602,7 +6800,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: registry
   cloud.config:
@@ -6615,7 +6813,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: registry
   cloud.config:
@@ -6631,7 +6829,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: registry
   cloud.config:
@@ -6644,7 +6842,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>eureka:
+<pre class="CodeRay highlight"><code>eureka:
   client:
     register-with-eureka: false
     fetch-registry: false</code></pre>
@@ -6674,7 +6872,7 @@ jar working in the development environment</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2001
 eureka:
   instance.hostname: localhost
@@ -6686,7 +6884,7 @@ eureka:
 <h6 id="_sample_development_configuration_3">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2001
 eureka:
   instance.hostname: localhost
@@ -6698,7 +6896,7 @@ eureka:
 <h6 id="_sample_docker_image_configuration_4">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>eureka:
+<pre class="CodeRay highlight"><code>eureka:
   instance.hostname: registry
   client:
     serviceUrl.defaultZone: http://registry:8080/eureka/
@@ -6837,7 +7035,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: thirds
   cloud:
@@ -6856,7 +7054,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: thirds
   cloud:
@@ -6883,7 +7081,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: thirds
   cloud:
@@ -6930,7 +7128,7 @@ development environment</p>
 <h6 id="_sample_development_configuration_4">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2100
 operatorfabric.thirds:
   storage:
@@ -6942,7 +7140,7 @@ operatorfabric.thirds:
 <h6 id="_sample_docker_image_configuration_5">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric.thirds:
+<pre class="CodeRay highlight"><code>operatorfabric.thirds:
   storage:
     path: "/thirds-storage"</code></pre>
 </div>
@@ -7075,6 +7273,12 @@ usual bootstrap configuration.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of group objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.default.entities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array of entity objects to create upon startup if they don&#8217;t exist</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -7088,7 +7292,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: users
   cloud:
@@ -7107,7 +7311,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: users
   cloud:
@@ -7134,7 +7338,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: users
   cloud:
@@ -7158,7 +7362,7 @@ docker images configuration.</p>
 </div>
 <div class="paragraph">
 <p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
+development environment.</p>
 </div>
 <div class="paragraph">
 <p>The above embedded configurations are the basic settings of the application:</p>
@@ -7181,18 +7385,21 @@ development environment</p>
 <h6 id="_sample_development_configuration_5">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2103
 operatorfabric.users.default:
   users:
     - login: admin
       groups: ["ADMIN"]
+      entities: ["ENTITY1","ENTITY2"]
     - login: rte-operator
       groups: ["RTE","ADMIN","TRANS"]
     - login: tso1-operator
       groups: ["TSO1","TRANS"]
+      entities: ["ENTITY1"]
     - login: tso2-operator
       groups: ["TSO2", "TRANS"]
+      entities: ["ENTITY2"]
   groups:
     - name: ADMIN
       description: The admin group
@@ -7204,6 +7411,13 @@ operatorfabric.users.default:
       description: TSO 2 Group
     - name: TRANS
       description: Transnationnal Group
+  entities:
+    - id: ENTITY1
+      name: Entity 1 name
+      description: Entity 1 short description
+    - id: ENTITY2
+      name: Entity 2 name
+      description: Entity 2 short description
   user-settings:
     - login: rte-operator
       description: Da Operator Rulez
@@ -7215,16 +7429,19 @@ operatorfabric.users.default:
 <h6 id="_sample_docker_image_configuration_6">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric.users.default:
+<pre class="CodeRay highlight"><code>operatorfabric.users.default:
   users:
   - login: admin
     groups: ["ADMIN"]
+    entities: ["ENTITY1","ENTITY2"]
   - login: rte-operator
     groups: ["RTE","ADMIN","TRANS"]
   - login: tso1-operator
     groups: ["TSO1","TRANS"]
+    entities: ["ENTITY1"]
   - login: tso2-operator
     groups: ["TSO2", "TRANS"]
+    entities: ["ENTITY2"]
   groups:
   - name: ADMIN
     description: The admin group
@@ -7235,7 +7452,14 @@ operatorfabric.users.default:
   - name: TSO2
     description: TSO 2 Group
   - name: TRANS
-    description: Transnationnal Group</code></pre>
+    description: Transnationnal Group
+  entities:
+    - id: ENTITY1
+      name: Entity 1 name
+      description: Entity 1 short description
+    - id: ENTITY2
+      name: Entity 2 name
+      description: Entity 2 short description</code></pre>
 </div>
 </div>
 </div>
@@ -7244,7 +7468,7 @@ operatorfabric.users.default:
 <h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_5">Specifying external configuration properties when launching a jar file</h5>
 <div class="paragraph">
 <p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
+on how to set up an external spring properties or yml file.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
@@ -7304,24 +7528,16 @@ The default profiles activated are docker and native.</p>
 <div class="sect3">
 <h4 id="_web_ui">18.4.9. Web UI</h4>
 <div class="paragraph">
-<p>OperatorFabric Web UI service is a Spring MVC application bootstrapped using
-SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
+<p>OperatorFabric Web UI service is built on top of a <a href="https://www.nginx.com/">NGINX</a> server.
+Its sole purpose is to serve the Angular SPA to browsers.</p>
 </div>
 <div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_9">Mandatory configuration, Profiles and default properties</h5>
+<h5 id="_nginx_configuration">NGINX configuration</h5>
 <div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
+<p>The NGINX configuration used is the NGINX default one.</p>
 </div>
 <div class="paragraph">
-<p>For other configuration see:
-NONE
-* <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.
-* <a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
+<p>Please refer to the <a href="https://docs.nginx.com/">NGINX documentation</a> for more details for any required customisations.</p>
 </div>
 <div class="sect5">
 <h6 id="_service_specific_properties_6">Service specific properties</h6>
@@ -7517,12 +7733,6 @@ while clicking the icon opens in a new tab.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.time.pulse</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Duration between two ticks of the internal state of the User Interface</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.size</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -7551,6 +7761,18 @@ while clicking the icon opens in a new tab.</p>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in settings and feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.nightDayMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if you want to activate toggle for night or day mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.styleWhenNightDayModeDesactivated</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">style to apply if not using day night mode, possible value are DAY,NIGHT or LEGACY (black background and white timeline)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.disable</p></td>
@@ -7728,7 +7950,7 @@ For this default value, with <code>'OperatorFabric'</code> as <code>name</code> 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: web-ui
   cloud:
@@ -7747,7 +7969,7 @@ For this default value, with <code>'OperatorFabric'</code> as <code>name</code> 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: web-ui
   cloud:
@@ -7774,7 +7996,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: web-ui
   cloud:
@@ -7821,7 +8043,7 @@ development environment</p>
 <h6 id="_sample_development_configuration_6">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2200
 operatorfabric:
   security:
@@ -7887,6 +8109,7 @@ operatorfabric:
     - fr
   settings:
     locale: en
+    nightDayMode: true
     infos:
       description: true
     about:
@@ -7900,9 +8123,7 @@ operatorfabric:
         rank: 2
       lastapplication:
           name: Wonderful Solution
-          version: 0.1.2-RELEASE
-  time:
-    pulse: 5000</code></pre>
+          version: 0.1.2-RELEASE</code></pre>
 </div>
 </div>
 </div>
@@ -7910,7 +8131,7 @@ operatorfabric:
 <h6 id="_sample_docker_image_configuration_7">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2200
 operatorfabric:
   security:
@@ -7976,6 +8197,7 @@ operatorfabric:
     - fr
   settings:
     locale: en
+    nightDayMode: true
     infos:
       description: true
     about:
@@ -7989,9 +8211,7 @@ operatorfabric:
         rank: 2
       lastapplication:
           name: Wonderful Solution
-          version: 0.1.2-RELEASE
-  time:
-    pulse: 5000</code></pre>
+          version: 0.1.2-RELEASE</code></pre>
 </div>
 </div>
 </div>
@@ -8059,7 +8279,7 @@ The default profiles activated are docker and native.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_users_and_groups_administration">18.5. Users and Groups Administration</h3>
+<h3 id="_users_groups_and_entities_administration">18.5. Users, Groups and Entities Administration</h3>
 <div class="paragraph">
 <p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance. As a user of OperatorFabric, he needs to be added to the system with a <code>login</code> (john-doe-operator), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).
 operator
@@ -8099,6 +8319,10 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
         "groups": [
             "ADMIN"
         ],
+        "entities": [
+            "ENTITY1",
+            "ENTITY2"
+        ],
         "lastName": null,
         "login": "admin"
     },
@@ -8137,6 +8361,9 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "TRANS",
             "TEST"
         ],
+        "entities": [
+            "ENTITY1"
+        ],
         "lastName": null,
         "login": "tso1-operator"
     },
@@ -8145,6 +8372,9 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
         "groups": [
             "TSO2",
             "TRANS"
+        ],
+        "entities": [
+            "ENTITY2"
         ],
         "lastName": null,
         "login": "tso2-operator"
@@ -8217,6 +8447,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 {
     "firstName": "Jahne",
     "groups": [],
+    "entities": [],
     "lastName": "Doe",
     "login": "john-doe-operator"
 }</pre>
@@ -8261,8 +8492,39 @@ with <code>john-doe-operator</code> login. To correct this mistake, the followin
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_groupsentities">18.6. Groups/Entities</h3>
+<div class="paragraph">
+<p>All the commands below :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>List groups</p>
+</li>
+<li>
+<p>Create a new group</p>
+</li>
+<li>
+<p>Fetch details of a given group</p>
+</li>
+<li>
+<p>Update details of a group</p>
+</li>
+<li>
+<p>Add a user to a group</p>
+</li>
+<li>
+<p>Remove a user from a group</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>are available for both groups and entities. In order not to overload the documentation, we will only detail groups endpoints.</p>
+</div>
 <div class="sect3">
-<h4 id="_list_groups">18.5.5. List groups</h4>
+<h4 id="_list_groups_or_entities">18.6.1. List groups (or entities)</h4>
 <div class="paragraph">
 <p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in
 the system. As shown when we
@@ -8295,38 +8557,45 @@ existing in the server.</p>
 [
     {
         "description": "The admin group",
-        "name": "ADMIN"
+        "name": "ADMIN group",
+        "id": "ADMIN"
     },
     {
         "description": "RTE TSO Group",
-        "name": "RTE"
+        "name": "RTE group",
+        "id": "RTE"
     },
     {
         "description": "ELIA TSO group",
-        "name": "ELIA"
+        "name": "ELIA group",
+        "id": "ELIA"
     },
     {
         "description": "CORESO Group",
-        "name": "CORESO"
+        "name": "CORESO group",
+        "id": "CORESO"
     },
     {
         "description": "TSO 1 Group",
-        "name": "TSO1"
+        "name": "TSO1 group",
+        "id": "TSO1"
     },
     {
         "description": "TSO 2 Group",
-        "name": "TSO2"
+        "name": "TSO2 group",
+        "id": "TSO2"
     },
     {
         "description": "Transnationnal Group",
-        "name": "TRANS"
+        "name": "TRANS group",
+        "id": "TRANS"
     }
 ]</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_group">18.5.6. Create a new Group</h4>
+<h4 id="_create_a_new_group_or_entity">18.6.2. Create a new group (or entity)</h4>
 <div class="paragraph">
 <p>Firstly, the group called <code>OPERATORS</code> has to be
 <a href="../api/users/index.html#/groups/createGroup">added to the system</a>
@@ -8337,7 +8606,7 @@ using the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>echo '{"name":"OPERATORS","decription":"This is the brand new  group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+<pre>echo '{"id":"OPERATORS","decription":"This is the brand new  group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8345,7 +8614,7 @@ using the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"name":"OPERATORS","decription":"This is the brand new  group of operator"}'</pre>
+<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","decription":"This is the brand new  group of operator"}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8357,13 +8626,14 @@ using the following command:</p>
 
 {
     "description": null,
-    "name": "OPERATORS"
+    "name": null,
+    "id": "OPERATORS"
 }</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_details_of_a_given_group">18.5.7. Fetch details of a given group</h4>
+<h4 id="_fetch_details_of_a_given_group_or_entity">18.6.3. Fetch details of a given group (or entity)</h4>
 <div class="paragraph">
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="../api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
@@ -8394,13 +8664,14 @@ called <code>OPERATORS</code>, use the following command:</p>
 
 {
     "description": null,
-    "name": "OPERATORS"
+    "name": null,
+    "id": "OPERATORS"
 }</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_details_of_a_group">18.5.8. Update details of a group</h4>
+<h4 id="_update_details_of_a_group_or_entity">18.6.4. Update details of a group (or entity)</h4>
 <div class="paragraph">
 <p>The description is really null. After verification, in our first command used to create the group,
 the attribute for the description is misspelled. Using the following command
@@ -8412,7 +8683,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>echo '{"name":"OPERATORS","description":"This is the brand new  group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+<pre>echo '{"id":"OPERATORS","description":"This is the brand-new group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8420,7 +8691,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>curl -X PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"name":"OPERATORS","description":"This is the brand new  group of operator"}'</pre>
+<pre>curl -X PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","description":"This is the brand-new group of operator"}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8429,14 +8700,15 @@ with the correct spelling, the new group of operator gets a proper description:<
 <div class="literalblock">
 <div class="content">
 <pre>{
-    "description": "This is the brand new  group of operator",
-    "name": "OPERATORS"
+    "description": "This is the brand-new group of operator",
+    "name": null,
+    "id": "OPERATORS"
 }</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_a_user_to_a_group">18.5.9. Add a user to a group</h4>
+<h4 id="_add_a_user_to_a_group_or_entity">18.6.5. Add a user to a group (or entity)</h4>
 <div class="paragraph">
 <p>As both new group and new user are correct it&#8217;s time
 <a href="../api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
@@ -8492,6 +8764,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 {
     "firstName": "John",
     "groups": ["OPERATORS"],
+    "entities": [],
     "lastName": "Doe",
     "login": "john-doe-operator"
 }</pre>
@@ -8502,7 +8775,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_remove_a_user_from_a_group">18.5.10. Remove a user from a Group</h4>
+<h4 id="_remove_a_user_from_a_group_or_entity">18.6.6. Remove a user from a group (or entity)</h4>
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
@@ -8533,7 +8806,8 @@ with the correct spelling, the new group of operator gets a proper description:<
 	"login":"john-doe-operator","
 	firstName":"John",
 	"lastName":"Doe",
-	"groups":[]
+	"groups":[],
+    "entities":[]
 }</pre>
 </div>
 </div>
@@ -8566,8 +8840,9 @@ with the correct spelling, the new group of operator gets a proper description:<
 {
     "firstName": "John",
     "groups": [],
+    "entities": [],
     "lastName": "Doe",
-    "login": "coreso-operator"
+    "login": "john-doe-operator"
 
 }</pre>
 </div>
@@ -8584,109 +8859,8 @@ with the correct spelling, the new group of operator gets a proper description:<
 to 8080</p>
 </div>
 <div class="paragraph">
-<p>If you run the services using <code>bootRun</code> Gradle task or the provided
-docker-compose files (see [prj]/src/main/docker) the ports used are</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Service</th>
-<th class="tableblock halign-right valign-top">bootRun port</th>
-<th class="tableblock halign-right valign-top">docker-compose mapping</th>
-<th class="tableblock halign-right valign-top">docker-compose debug mapping</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p> <details><summary> 
-<strong>Complete port table</strong>
- </summary><div> </p>
+<p>If you run the services using <code>bootRun</code> Gradle task, the <code>run_all.sh</code> script or the deploy docker-compose,
+the used ports are:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -8698,9 +8872,9 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Port</th>
+<th class="tableblock halign-left valign-top">Service</th>
 <th class="tableblock halign-left valign-top">Forwards to</th>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -8738,7 +8912,7 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card publication service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2103</p></td>
@@ -8750,19 +8924,19 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">actions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actions (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2200</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web UI (Nginx server)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4000</p></td>
@@ -8813,12 +8987,6 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4200</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mongo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
@@ -8838,9 +9006,6 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -8860,7 +9025,7 @@ give access to information that should be private to a user.</p>
 last name, as well as their settings) can be performed either by the user in question or by a user with the ADMIN role.</p>
 </div>
 <div class="paragraph">
-<p>Any action on a list of users or on the groups (if authorization is managed in OperatorFabric) can only be performed by
+<p>Any action on a list of users or on the groups (or entities) (if authorization is managed in OperatorFabric) can only be performed by
 a user with the ADMIN role.</p>
 </div>
 <div class="paragraph">
@@ -8878,8 +9043,8 @@ there is no XSS risk.</p>
 </td>
 <td class="content">
 The ADMIN role doesn&#8217;t grant any special privileges when it comes to card consultation (be they current or
-archived), so an user with the ADMIN role will only see cards that have been addressed to them or to one of their
-groups), just like any other user.
+archived), so a user with the ADMIN role will only see cards that have been addressed to them (or to one of their
+groups (or entities)), just like any other user.
 </td>
 </tr>
 </table>
@@ -8972,7 +9137,7 @@ Java, Maven and project variables set):</p>
 <div class="listingblock">
 <div class="title">Set up development environment (using sdkman and nvm)</div>
 <div class="content">
-<pre class="highlight"><code>source bin/load_environment_light.sh</code></pre>
+<pre class="CodeRay highlight"><code>source bin/load_environment_light.sh</code></pre>
 </div>
 </div>
 </div>
@@ -9062,7 +9227,7 @@ gradle, node and npm).
 </table>
 </div>
 <div class="paragraph">
-<p>There are several ways to get started with OperatorFabric. Please look into
+<p>There are several ways to get started with <code>OperatorFabric</code>. Please look into
 the section that best fits your needs.</p>
 </div>
 <div class="admonitionblock tip">
@@ -9081,7 +9246,7 @@ a command that hangs then fails is often a proxy issue.
 </table>
 </div>
 <div class="paragraph">
-<p>The following steps describe how to launch MongoDB, RabbitMQ and SonarQube
+<p>The following steps describe how to launch MongoDB, RabbitMQ and Keycloak
 using Docker,  build OperatorFabric using gradle and run it using the
 <code>run_all.sh</code> script.</p>
 </div>
@@ -9089,8 +9254,8 @@ using Docker,  build OperatorFabric using gradle and run it using the
 <h3 id="_clone_repository">22.1. Clone repository</h3>
 <div class="listingblock">
 <div class="content">
-<pre>git clone https://github.com/opfab/operatorfabric-core.git
-cd operatorfabric-core</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">git clone https://github.com/opfab/operatorfabric-core.git
+cd operatorfabric-core</code></pre>
 </div>
 </div>
 </div>
@@ -9098,7 +9263,7 @@ cd operatorfabric-core</pre>
 <h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">22.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</h3>
 <div class="listingblock">
 <div class="content">
-<pre>source bin/load_environment_light.sh</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">source bin/load_environment_light.sh</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -9108,30 +9273,68 @@ cd operatorfabric-core</pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-From now on, you can use environment variable $OF_HOME to go back to
-the home repository of OperatorFabric.
+From now on, you can use environment variable <code>${OF_HOME}</code> to go back to
+the home repository of <code>OperatorFabric</code>.
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_deploy_dockerized_mongodb_rabbitmq_and_sonarqube">22.3. Deploy dockerized MongoDB, RabbitMQ and SonarQube</h3>
+<h3 id="_deploy_needed_docker_containers">22.3. Deploy needed docker containers</h3>
+<div class="sect3">
+<h4 id="_minimal_configuration_for_gradle_build">22.3.1. Minimal configuration for <code>gradle</code> build</h4>
 <div class="paragraph">
-<p>MongoDB, RabbitMQ and SonarQube are needed for the tests to be run so the
-build can be done.</p>
+<p>Two docker container must be available during a gradle build of <code>OperatorFabric</code>:
+* RabbitMQ;
+* MongoDB.</p>
 </div>
 <div class="paragraph">
-<p>A docker-compose file with properly configured containers is available
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker/test-quality-environment/">there</a>.</p>
+<p>They can be launch using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
+</div>
+<div class="paragraph">
+<p>Remind that, during a gradle build, before the <code>assemble</code> task, the <code>test</code> one is called. The Unit tests depend on those
+two software.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enabling_local_quality_report_generation">22.3.2. Enabling local quality report generation</h4>
+<div class="paragraph">
+<p>To get a Sonarqube report, in addition to the two previously listed docker containers, a <code>SonarQube</code> docker container is
+required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
+</div>
+<div class="paragraph">
+<p>To generate the quality report use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">---
+cd ${OF_HOME}
+./gradlew jacocoTestReport
+---</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To export the different report into the <code>SonarQube</code> docker instance you need to install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_docker_dev_env">22.3.3. Development environment</h4>
+<div class="paragraph">
+<p>During <code>OperatorFabric</code> development the running docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> are needed.</p>
 </div>
 <div class="paragraph">
 <p>The <code>docker-compose</code> can be run in detached mode:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd src/main/docker/test-quality-environment/
-docker-compose up -d</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/src/main/docker/dev-environment/
+docker-compose up -d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be usefull to spot the <code>OperatorFabric</code> dev tab in the browser.
+Sometime a <code>CTRL+F5</code> on the tab is required to refresh the favicon.</p>
 </div>
 </div>
 </div>
@@ -9145,8 +9348,8 @@ docker-compose up -d</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd $OF_HOME
-./gradlew assemble</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew assemble</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9154,8 +9357,9 @@ docker-compose up -d</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd $OF_HOME
-./gradlew build</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml up -d
+./gradlew build</code></pre>
 </div>
 </div>
 </div>
@@ -9163,8 +9367,22 @@ docker-compose up -d</pre>
 <h3 id="_run_operatorfabric_services_using_the_run_all_sh_script">22.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</h3>
 <div class="listingblock">
 <div class="content">
-<pre>bin/run_all.sh start</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+docker-compose -f ${OF_HOME}/src/main/docker/dev-environment/docker-compose.yml up -d
+bin/run_all.sh start</code></pre>
 </div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+the <code>${OF_HOME}/bin/run_all.sh</code> must be launched from <code>${OF_HOME}</code> otherwise some runtime exception will occur.
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -9183,20 +9401,20 @@ See <code>bin/run_all.sh -h</code> for details.
 <h3 id="_check_services_status">22.6. Check services status</h3>
 <div class="listingblock">
 <div class="content">
-<pre>bin/run_all.sh status</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+bin/run_all.sh status</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_log_into_the_ui">22.7. Log into the UI</h3>
 <div class="paragraph">
-<p>URL: localhost:2002/ui/</p>
+<p><strong><em>URL:</em></strong> localhost:2002/ui/<br>
+<strong><em>login:</em></strong> tso1-operator<br>
+<strong><em>password:</em></strong> test</p>
 </div>
 <div class="paragraph">
-<p>login: admin</p>
-</div>
-<div class="paragraph">
-<p>password: test</p>
+<p>The other users available in development mode are <code>rte-operator</code> and <code>admin</code>, both with <code>test</code> as password.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -9205,8 +9423,7 @@ See <code>bin/run_all.sh -h</code> for details.
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-It might take a little while for the UI to load even after all
-services are running.
+It might take a little while for the UI to load even after all services are running.
 </td>
 </tr>
 </table>
@@ -9218,7 +9435,7 @@ services are running.
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get an error.
+Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get an error, a <code>404</code> page.
 </td>
 </tr>
 </table>
@@ -9232,7 +9449,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>services/core/cards-publication/src/main/bin/push_card_loop.sh</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">services/core/cards-publication/src/main/bin/push_card_loop.sh</code></pre>
 </div>
 </div>
 </div>
@@ -9242,7 +9459,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 <h2 id="_user_interface">23. User Interface</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This project was partially generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8.</p>
+<p>The <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8 has been used to generate this project.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -9274,14 +9491,6 @@ SPA
 <p>stands for <strong>Single Page Application</strong></p>
 </td>
 </tr>
-<tr>
-<td class="hdlist1">
-OS
-</td>
-<td class="hdlist2">
-<p>stands for <strong>Operating System</strong></p>
-</td>
-</tr>
 </table>
 </div>
 <div class="sect2">
@@ -9294,7 +9503,7 @@ Once the whole application is ready, you should have the following output in you
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>##########################################################
+<pre class="CodeRay highlight"><code data-lang="shell">##########################################################
 Starting client-gateway-cloud-service, debug port: 5008
 
 ##########################################################
@@ -9329,14 +9538,15 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 <p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code>.</p>
 </div>
 <div class="paragraph">
-<p>To log in you need to use a valid user. Currently you need to use a connection pair define in <code>$OPERATOR_FABRIC_HOME/services/infra/auth/src/main/java/org/lfenergy/operatorfabric/auth/config/WebSecurityConfiguration.java</code>. It could be <code>admin</code> with <code>test</code>, for example.</p>
+<p>To log in you need to use a valid user among the following: <code>tso1-operator</code>, <code>rte-operator</code> or <code>admin</code>.
+The common password is <code>test</code> for them all.</p>
 </div>
 <div class="paragraph">
 <p>To test the reception of cards, you can use the following script to create dummy cards:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>$OF_HOME/services/core/cards-publication/src/main/bin/push_cards_loop.sh</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/services/core/cards-publication/src/main/bin/push_cards_loop.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9351,7 +9561,7 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">$OPERATOR_FABRIC_CORE_HOME/services/web/web-ui/build/src/generated/resources/static</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/ui/main/build/distribution</code></pre>
 </div>
 </div>
 </div>
@@ -9360,7 +9570,8 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 <div class="sect3">
 <h4 id="_standalone_tests">23.3.1. Standalone tests</h4>
 <div class="paragraph">
-<p>Run in the <code>$OF_HOME/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests based on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
+<p>Run in the <code>${OF_HOME}/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests
+on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
 </div>
 </div>
 <div class="sect3">
@@ -9368,16 +9579,16 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>if the RabbitMQ and MongoDB docker containers are not not running, launch them;</p>
+<p>if the RabbitMQ, MongoDB and Keycloak docker containers are not running, launch them;</p>
 </li>
 <li>
-<p>set your environment variables with <code>. $OF_HOME/bin/load_environment_light.sh</code>;</p>
+<p>set your environment variables with <code>source ${OF_HOME}/bin/load_environment_light.sh</code>;</p>
 </li>
 <li>
-<p>run the micro services using the same command as earlier: <code>$OF_HOME/bin/run_all.sh start</code>;</p>
+<p>run the micro services using the same command as earlier: <code>${OF_HOME}/bin/run_all.sh start</code>;</p>
 </li>
 <li>
-<p>if needed, enable a card-operation test flow using the script <code>$OF_HOME/service/core/cards-publication/src/main/bin/push_cards_loop.sh</code>;</p>
+<p>if needed, enable a card-operation test flow using the script <code>${OF_HOME}/service/core/cards-publication/src/main/bin/push_cards_loop.sh</code>;</p>
 </li>
 <li>
 <p>launch an angular server with the command: <code>ng serve</code>;</p>
@@ -9453,7 +9664,7 @@ settings)</p>
 <h3 id="_tree_view">25.1. Tree View</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>project
+<pre class="CodeRay highlight"><code>project
 ├──bin
 │   └─ travis
 ├──client
@@ -9467,12 +9678,11 @@ settings)</p>
 │   │   ├──src
 │   │   ├──thirds (third-party-business-service)
 │   │   └──users (users-business-service)
-│   ├──infra
-│   │   ├──client-gateway (client-gateway-cloud-service)
-│   │   ├──config (configuration-cloud-service)
-│   │   └──registry (registry-cloud-service)
-│   └──web
-│       └──web-ui
+│   └──infra
+│       ├──client-gateway (client-gateway-cloud-service)
+│       ├──config (configuration-cloud-service)
+│       └──registry (registry-cloud-service)
+├──web-ui
 ├──src
 |   ├──docs
 |   │   ├──asciidoc
@@ -9579,18 +9789,12 @@ microservice registry</p>
 </ul>
 </div>
 </li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/web">web</a>: contains web pages and application services</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/web/web-ui">web-ui</a>: Main OperatorFabric SPA</p>
-</li>
 </ul>
 </div>
 </li>
-</ul>
-</div>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/web-ui">web-ui</a>: project based on Nginx server to serve
+the OperatorFabric UI</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src">src</a></p>
@@ -10283,7 +10487,7 @@ value)</p>
 <div class="listingblock">
 <div class="title">Error message</div>
 <div class="content">
-<pre class="highlight"><code>Pulling rabbitmq (rabbitmq:3-management)...
+<pre class="CodeRay highlight"><code>Pulling rabbitmq (rabbitmq:3-management)...
 ERROR: Get https://registry-1.docker.io/v2/: Proxy Authentication Required</code></pre>
 </div>
 </div>
@@ -10332,7 +10536,7 @@ The password should be URL-encoded.
 <div class="listingblock">
 <div class="title">Error message</div>
 <div class="content">
-<pre class="highlight"><code>* What went wrong:
+<pre class="CodeRay highlight"><code>* What went wrong:
 Metaspace</code></pre>
 </div>
 </div>
@@ -10354,7 +10558,7 @@ script to set up your environment, you might get the following error message:</p
 <div class="listingblock">
 <div class="title">Error message</div>
 <div class="content">
-<pre class="highlight"><code>Stop! java 8.0.192-zulu is not available. Possible causes:
+<pre class="CodeRay highlight"><code>Stop! java 8.0.192-zulu is not available. Possible causes:
  * 8.0.192-zulu is an invalid version
  * java binaries are incompatible with Linux64
  * java has not been released yet</code></pre>
@@ -10377,7 +10581,7 @@ this kind of output:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>================================================================================
+<pre class="CodeRay highlight"><code>================================================================================
 Available Java Versions
 ================================================================================
      13.ea.16-open       9.0.4-open          1.0.0-rc-11-grl
@@ -10414,7 +10618,7 @@ Available Java Versions
 <div class="listingblock">
 <div class="title">Error message</div>
 <div class="content">
-<pre class="highlight"><code>FAILURE: Build failed with an exception.
+<pre class="CodeRay highlight"><code>FAILURE: Build failed with an exception.
 
     What went wrong:
     Execution failed for task ':ui:main-user-interface:npmInstall'.</code></pre>
@@ -10602,19 +10806,13 @@ sslRequired : none</p>
 </div>
 </div>
 <h1 id="_operatorfabric_community" class="sect0">OperatorFabric Community</h1>
-<div class="sect1">
-<h2 id="_introduction_3">30. Introduction</h2>
-<div class="sectionbody">
+<div class="openblock partintro">
+<div class="content">
 <div class="paragraph">
 <p>The aim of this document is to present the OperatorFabric community, its code of conduct and to welcome contributors!</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contributing">31. Contributing</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Thank you for your interest !</p>
+<p>First of all, thank you for your interest !</p>
 </div>
 <div class="paragraph">
 <p>We can&#8217;t stress enough that feedback, discussions, questions and contributions on OperatorFabric are very much
@@ -10622,8 +10820,6 @@ appreciated.
 However, because the project is still in its early stages, we&#8217;re not fully equipped for any of it yet, so please bear
 with us while the contribution process and tooling are sorted out.</p>
 </div>
-<div class="sect2">
-<h3 id="_code_of_conduct">31.1. Code of Conduct</h3>
 <div class="paragraph">
 <p>This project and everyone participating in it is governed by the
 <a href="#code_of_conduct">OperatorFabric Code of Conduct</a>
@@ -10632,8 +10828,10 @@ By participating, you are expected to uphold this code.
 Please report unacceptable behavior to <a href="mailto:opfab_AT_lists.lfenergy.org">opfab_AT_lists.lfenergy.org</a>.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_license_and_developer_certificate_of_origin">31.2. License and Developer Certificate of Origin</h3>
+</div>
+<div class="sect1">
+<h2 id="_license_and_developer_certificate_of_origin">30. License and Developer Certificate of Origin</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>OperatorFabric is an open source project licensed under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0</a>.
 By contributing to OperatorFabric, you accept and agree to the terms and conditions for your present and future
@@ -10668,28 +10866,30 @@ Signed-off-by: John Doe &lt;john.doe@email-provider.com&gt;</pre>
 <p>Note that in the future a check will be performed during the integration, making sure all commits in the Pull Request
 contain a valid <code>Signed-off-by</code> line.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_how_can_i_contribute">31.3. How Can I Contribute ?</h3>
 <div class="paragraph">
 <p>These processes and templates have been adapted from the ones defined by the <a href="https://github.com/powsybl">PowSyBl</a>
 project.</p>
 </div>
-<div class="sect3">
-<h4 id="_reporting_bugs_and_suggesting_enhancements">31.3.1. Reporting Bugs and Suggesting Enhancements</h4>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reporting_bugs_and_suggesting_enhancements">31. Reporting Bugs and Suggesting Enhancements</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Work in Progress</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_contributing_code">31.3.2. Contributing Code</h4>
-<div class="sect4">
-<h5 id="_code_guidelines">Code Guidelines</h5>
+</div>
+<div class="sect1">
+<h2 id="_contributing_code_or_documentation">32. Contributing Code or Documentation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_code_guidelines">32.1. Code Guidelines</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>We don&#8217;t mention specific authors by name in each file (in Javadoc or in the
-documentation for example), so has not to have to maintain these mentions (since this
+documentation for example), so as not to have to maintain these mentions (since this
 information is tracked by git anyway).</p>
 </li>
 <li>
@@ -10712,7 +10912,7 @@ information is tracked by git anyway).</p>
 <p>Before submitting your PR, please rebase your branch against the current master to minimize conflicts when merging.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>git checkout OC-XXX
+<pre class="CodeRay highlight"><code>git checkout OC-XXX
 git fetch
 git rebase origin/master</code></pre>
 </div>
@@ -10730,8 +10930,369 @@ you create or amend. See src/main/headers for examples.</p>
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_contribution_process">Contribution Process</h5>
+<div class="sect2">
+<h3 id="_documentation_guidelines">32.2. Documentation Guidelines</h3>
+<div class="paragraph">
+<p>The aim of this section is to explain how the documentation is currently organized and to give a few guidelines on how
+it should be written.</p>
+</div>
+<div class="sect3">
+<h4 id="_structure">32.2.1. Structure</h4>
+<div class="paragraph">
+<p>All the sources for the AsciiDoc documentation published on our <a href="https://opfab.github.io/">website</a> are found under
+the <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">src/docs/asciidoc</a> folder in the
+operatorfabric-core repository.</p>
+</div>
+<div class="paragraph">
+<p>It is organized into several folders (architecture documentation, deployment documentation, etc.). Each of these
+folders represent a document and contain an <strong>index.adoc</strong> file, optionally referencing other adoc files (to break it
+down into sections).</p>
+</div>
+<div class="paragraph">
+<p>In addition, an <strong>images</strong> folder contains images for all documents and a <strong>resources</strong> folder contains various appendices
+that might be of use to some people but that we felt weren&#8217;t part of the main documentation.</p>
+</div>
+<div class="paragraph">
+<p>The table below gives a short summary of the content of each document as well as advice on which ones you should focus
+on depending on your profile.</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+Contributor
+</td>
+<td class="hdlist2">
+<p>A developer who contributes (or wishes to) to the OperatorFabric project</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Developer
+</td>
+<td class="hdlist2">
+<p>A developer working on an application using OperatorFabric or a third-party application posting content to
+an OperatorFabric instance</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Admin
+</td>
+<td class="hdlist2">
+<p>Someone who is in charge of deploying and maintaining OperatorFabric in production as part of an integrated
+solution</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Product Owner
+</td>
+<td class="hdlist2">
+<p>Project managers, anyone interested in using OperatorFabric for their business requirements.</p>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Documentation Structure and Intended Readers</caption>
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 44.4444%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Folder</th>
+<th class="tableblock halign-left valign-top">Content</th>
+<th class="tableblock halign-center valign-top">Contributor</th>
+<th class="tableblock halign-center valign-top">Developer</th>
+<th class="tableblock halign-center valign-top">Admin</th>
+<th class="tableblock halign-center valign-top">Product Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">architecture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Architecture documentation</strong></p>
+<p class="tableblock">Describes the business objects and concepts handled by OperatorFabric as well as the microservices architecture
+behind it.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CICD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>CICD Pipeline documentation</strong></p>
+<p class="tableblock">Describes our CICD pipeline and release process</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">community</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>OF Community documentation</strong></p>
+<p class="tableblock">Everything about the OperatorFabric Community: Code of conduct, governance, contribution guidelines,
+communication channels.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deployment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Deployment documentation</strong></p>
+<p class="tableblock">Explains how to deploy and configure an OperatorFabric instance</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dev_env</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Development Environment documentation</strong></p>
+<p class="tableblock">Explains how to set up a working development environment for OperatorFabric with all the appropriate tooling and how to
+run OperatorFabric in development mode.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">docs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This folder contains the documentation that should be archived for previous releases (as of today, the release notes
+and single page documentation - see below).</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getting_started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Getting Started Guide</strong>
+guides you through setting up OperatorFabric and experimenting with its main features</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Maybe</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reference_doc</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Reference Documentation</strong>
+contains the reference documentation for each microservice. It starts off with a high-level functional documentation
+and then goes into more technical details when needed.</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In addition to this asciidoctor documentation, API documentation is available in the form of SwaggerUI-generated html
+pages. It is generated by the <code>generateSwaggerUI</code> Gradle task, using the swagger.yaml files from each service (for
+example for the
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/services/core/actions/src/main/modeling/swagger.yaml">Actions API</a>
+). It can be found under the <strong>build/docs/api</strong> folder for each client or service project.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conventions">32.2.2. Conventions</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>In addition to the "visible" structure described above, documents are broken down into coherent parts using the
+<a href="https://asciidoctor.org/docs/user-manual/#include-directive">"include" feature of AsciiDoc</a>. This is done mostly to
+avoid long files that are harder to edit, but it also allows us to reuse some content in different places.</p>
+</li>
+<li>
+<p>Given the number of files this creates, we try to keep header attributes in files to a minimum. Instead, they&#8217;re
+set in the configuration of the asciidoctor gradle task:</p>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">asciidoctor {
+
+    sources {
+        include <span class="string"><span class="delimiter">'</span><span class="content">*/index.adoc</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">docs/*</span><span class="delimiter">'</span></span>
+    }
+    resources {
+        from(<span class="string"><span class="delimiter">'</span><span class="content">src/docs/asciidoc</span><span class="delimiter">'</span></span>) {
+            include <span class="string"><span class="delimiter">'</span><span class="content">images/*</span><span class="delimiter">'</span></span>
+        }
+    }
+    attributes  nofooter            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+                revnumber           : operatorfabric.version,
+                revdate             : operatorfabric.revisionDate,
+                sectnums            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+                toc                 : <span class="string"><span class="delimiter">'</span><span class="content">left</span><span class="delimiter">'</span></span>,
+                toclevels           : <span class="string"><span class="delimiter">'</span><span class="content">3</span><span class="delimiter">'</span></span>,
+                icons               : <span class="string"><span class="delimiter">'</span><span class="content">font</span><span class="delimiter">'</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">hide-uri-scheme</span><span class="delimiter">&quot;</span></span>   : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">source-highlighter</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">coderay</span><span class="delimiter">'</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In particular, the version and revision date are set automatically from the version defined in the
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/VERSION">VERSION</a> file at the root of the project and
+the current date.</p>
+</div>
+</li>
+<li>
+<p>All files are created starting with level 0 titles so:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>They can be generated on their own if need be.</p>
+</li>
+<li>
+<p>They can be included at different levels in different documents using
+<a href="https://asciidoctor.org/docs/user-manual/#include-partitioning">leveloffset</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>In addition to being available as separate documents (architecture, reference, etc.) for the current release, the
+documentation is also generated as a single page document available for all releases from the
+<a href="https://opfab.github.io/pages/releases.html">releases</a> page. This is also a way to make searching the documentation
+for specific terms easier, and could be used to generate a single page pdf documentation.</p>
+</li>
+<li>
+<p>Unfortunately, this entails a little complexity for cross-references and relative links, because the path to
+the content is a little different depending on whether the content is generated as different pages or as a single
+page document.</p>
+<div class="paragraph">
+<p>For example, to link to the "Card Structure" section of the reference document from the architecture
+document, one needs to use the following external cross-reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;&lt;{gradle-rootdir}/documentation/current/reference_doc/index.adoc#card_structure, Card Structure&gt;&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the case of the single-page documentation however, both the architecture content and the reference content are part
+of the same document, so the cross-reference becomes a simple internal cross-reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;&lt;card_structure, Card Structure&gt;&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is managed by using the
+<a href="https://asciidoctor.org/docs/user-manual/#conditional-preprocessor-directives"><code>ifdef</code> and <code>indef</code> directives</a> to
+define which link syntax should be used:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ifdef::single-page-doc[&lt;&lt;card_structure, Card Structure&gt;&gt;]
+ifndef::single-page-doc[&lt;&lt;{gradle-rootdir}/documentation/current/reference_doc/index.adoc#card_structure, Card Structure&gt;&gt;]</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The label ("Card Structure" in this example) is defined with each link because it seems that defining it in the
+target file along with the ID (<code>[[my_section_id, text to display]]</code>) doesn&#8217;t work with relative links.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the same way, for relative links to external files (mostly the API documentation):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ifdef::single-page-doc[link:../api/cards/index.html#/archives[here]]
+ifndef::single-page-doc[link:{gradle-rootdir}/documentation/current/api/cards/index.html#/archives[here]]</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+For this to work, the
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/src/docs/asciidoc/docs/single_page_doc.adoc">single_page_doc.adoc</a>
+file needs to have <code>:single-page-doc:</code> as a header attribute.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>As you can see in the examples above, we are using custom-defined section ids as anchors rather than taking advantage
+of generated ones (see <a href="https://asciidoctor.org/docs/user-manual/#auto-generated-ids">documentation</a>).
+This is cumbersome but:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Generation will give a warning if duplicate ids are defined, whereas with generated ids it will silently link to the
+wrong section.</p>
+</li>
+<li>
+<p>Restructuring the document might change the generated section ID, creating broken links.</p>
+</li>
+<li>
+<p>Its easier to find referenced text (ctrl-f on id)</p>
+</li>
+<li>
+<p>The presence of a custom-defined ID is a sign that the content is referenced somewhere else, which you should take
+into account if you&#8217;re thinking of deleting or moving this content.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The :imagesdir: attribute is set globally as <code>../images</code>, because all images are stored under <code>src/docs/asciidoc/images</code>.</p>
+</li>
+<li>
+<p>In addition to links, it is sometimes necessary to display the actual content of files (or part of it) in
+the documentation (in the case of configuration examples, for instance).
+Whenever possible, this should be done by using the
+<a href="https://asciidoctor.org/docs/user-manual/#include-directive">include directive</a> rather than copying the content
+into the adoc file.
+This way the documentation will always be up to date with the file content at the time of generation.</p>
+<div class="paragraph">
+<p><em>See the <strong>build.gradle</strong> include above for an example using
+<a href="https://asciidoctor.org/docs/user-manual/#by-tagged-regions">tags</a> to include only part of a file.</em></p>
+</div>
+</li>
+<li>
+<p>Source-highlighting is done using <a href="http://coderay.rubychan.de/">Coderay</a>. See their documentation for supported
+languages, and the AsciiDoctor documentation on
+<a href="https://asciidoctor.org/docs/user-manual/#applying-source-highlighting">how to apply source-highlighting</a>.</p>
+</li>
+<li>
+<p>Avoid long lines whenever possible (for example, try not to go beyond 120 characters). This makes editing the
+documentation easier and diffs more readable.</p>
+</li>
+<li>
+<p>Most links to other OperatorFabric documents should be relative (see above) so they automatically point to the
+document in the same version rather than the latest version.
+Links starting with <strong><a href="https://opfab.github.io/documentation/current/" class="bare">opfab.github.io/documentation/current/</a></strong> should only be used when we want to always refer to
+the latest (release) version of the documentation.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contribution_process">32.3. Contribution Process</h3>
 <div class="paragraph">
 <p>Code Contribution is tracked as <a href="https://help.github.com/en/articles/about-pull-requests">GitHub Pull Requests</a>.
 Crafting a good pull request takes time and energy and we will help as much as we can, but be prepared to follow our
@@ -10785,25 +11346,26 @@ enforce the following:</p>
 <p>Checkstyle and SonarCloud report no violations (coming soon)</p>
 </li>
 <li>
-<p>The code coverage is high enough (currently about 85%) (coming soon)</p>
+<p>The code coverage is high enough (coming soon)</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_project_governance">33. Project Governance</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_project_governance">31.4. Project Governance</h3>
-<div class="sect3">
-<h4 id="_project_owner">31.4.1. Project Owner</h4>
+<h3 id="_project_owner">33.1. Project Owner</h3>
 <div class="paragraph">
 <p>OperatorFabric is part of the <a href="https://www.lfenergy.org/">LF Energy Foundation</a>, a project of the
 <a href="https://www.linuxfoundation.org/">Linux Foundation</a> that supports open source innovation projects within the energy
 and electricity sectors.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_committers">31.4.2. Committers</h4>
+<div class="sect2">
+<h3 id="_committers">33.2. Committers</h3>
 <div class="paragraph">
 <p>Committers are contributors who have made several valuable contributions to the project and are now relied upon to both
 write code directly to the repository and screen the contributions of others. In many cases they are programmers but it
@@ -10812,8 +11374,8 @@ the project, and will bring a level of expertise and understanding that earns th
 project owner.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_technical_steering_committee">31.4.3. Technical Steering Committee</h4>
+<div class="sect2">
+<h3 id="_technical_steering_committee">33.3. Technical Steering Committee</h3>
 <div class="paragraph">
 <p>The Technical Steering Committee (TSC) is composed of voting members elected by the active Committers as described in
 the project’s Technical Charter.</p>
@@ -10824,19 +11386,25 @@ the project’s Technical Charter.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/0x62646f727465">Boris Dolley</a></p>
+<p><a href="https://github.com/freddidierRTE">Frédéric Didier</a></p>
 </li>
 <li>
-<p><a href="https://github.com/francoisjolain">François Jolain</a></p>
+<p><a href="https://github.com/0x62646f727465">Boris Dolley</a></p>
 </li>
 <li>
 <p><a href="https://github.com/AlexGuironnetRTE">Alexandra Guironnet</a></p>
 </li>
 <li>
+<p><a href="https://github.com/rlg-rte">Ronan Le Gall</a></p>
+</li>
+<li>
+<p><a href="https://github.com/vlo-rte">Valérie Longa</a></p>
+</li>
+<li>
 <p><a href="https://github.com/HanaeSafiRTE">Hanae Safi</a></p>
 </li>
 <li>
-<p>Guillaume Trimbach</p>
+<p><a href="https://github.com/gtrimbach-RTE">Guillaume Trimbach</a></p>
 </li>
 </ul>
 </div>
@@ -10844,8 +11412,8 @@ the project’s Technical Charter.</p>
 <p>Boris Dolley will chair the TSC, with Hanae Safi as his deputy.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_contributors">31.4.4. Contributors</h4>
+<div class="sect2">
+<h3 id="_contributors">33.4. Contributors</h3>
 <div class="paragraph">
 <p>Contributors include anyone in the technical community that contributes code, documentation, or other technical
 artifacts to the project.</p>
@@ -10857,13 +11425,15 @@ are beneficial to the project.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_communication_channels">31.5. Communication channels</h3>
+</div>
+<div class="sect1">
+<h2 id="_communication_channels">34. Communication channels</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>In addition to GitHub we have set up:</p>
 </div>
-<div class="sect3">
-<h4 id="_website_opfab_org">31.5.1. Website: <a href="http://opfab.org" class="bare">opfab.org</a></h4>
+<div class="sect2">
+<h3 id="_website_opfab_org">34.1. Website: <a href="http://opfab.org" class="bare">opfab.org</a></h3>
 <div class="paragraph">
 <p>Our website contains all the documentation and resources we&#8217;re currently working on. Here is what we aim to provide:</p>
 </div>
@@ -10905,8 +11475,8 @@ RSS feed on the home page to be informed of any update.
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_spectrum_community_spectrum_chatopfab">31.5.2. Spectrum Community : <a href="https://spectrum.chat/opfab" class="bare">spectrum.chat/opfab</a></h4>
+<div class="sect2">
+<h3 id="_spectrum_community_spectrum_chatopfab">34.2. Spectrum Community : <a href="https://spectrum.chat/opfab" class="bare">spectrum.chat/opfab</a></h3>
 <div class="paragraph">
 <p>If you would like to join the discussions regarding OperatorFabric, please
 <a href="https://spectrum.chat/opfab">join our community on Spectrum</a>!</p>
@@ -10915,8 +11485,8 @@ RSS feed on the home page to be informed of any update.
 <p>Regarding issue tracking, our Jira platform should be open soon.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_lf_energy_mailing_lists">31.5.3. LF Energy Mailing Lists</h4>
+<div class="sect2">
+<h3 id="_lf_energy_mailing_lists">34.3. LF Energy Mailing Lists</h3>
 <div class="paragraph">
 <p>Several mailing lists have been created by LF Energy for the project, please feel free to subscribe to the ones you
 could be interested in:</p>
@@ -10939,70 +11509,77 @@ could be interested in:</p>
 <a href="https://lists.lfenergy.org/g/lfenergy">LF Energy General Discussion</a></p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_jira">31.5.4. JIRA</h4>
+<div class="sect2">
+<h3 id="_jira">34.4. JIRA</h3>
 
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="code_of_conduct">32. Contributor Covenant Code of Conduct</h2>
+<h2 id="code_of_conduct">35. Code of Conduct</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_our_pledge">32.1. Our Pledge</h3>
 <div class="paragraph">
-<p>In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socioeconomic status, nationality, personal
-appearance, race, religion, or sexual identity and orientation.</p>
+<p>The Code of Conduct for the OperatorFabric community is
+<a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.txt">version 2.0 of the Contributor Covenant</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_our_pledge">35.1. Our Pledge</h3>
+<div class="paragraph">
+<p>We as members, contributors, and leaders pledge to make participation in our
+community a harassment-free experience for everyone, regardless of age, body
+size, visible or invisible disability, ethnicity, sex characteristics, gender
+identity and expression, level of experience, education, socio-economic status,
+nationality, personal appearance, race, religion, or sexual identity
+and orientation.
+We pledge to act and interact in ways that contribute to an open, welcoming,
+diverse, inclusive, and healthy community.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_our_standards">32.2. Our Standards</h3>
+<h3 id="_our_standards">35.2. Our Standards</h3>
 <div class="paragraph">
-<p>Examples of behavior that contributes to creating a positive environment
-include:</p>
+<p>Examples of behavior that contributes to a positive environment for our
+community include:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Using welcoming and inclusive language</p>
+<p>Demonstrating empathy and kindness toward other people</p>
 </li>
 <li>
-<p>Being respectful of differing viewpoints and experiences</p>
+<p>Being respectful of differing opinions, viewpoints, and experiences</p>
 </li>
 <li>
-<p>Gracefully accepting constructive criticism</p>
+<p>Giving and gracefully accepting constructive feedback</p>
 </li>
 <li>
-<p>Focusing on what is best for the community</p>
+<p>Accepting responsibility and apologizing to those affected by our mistakes,
+and learning from the experience</p>
 </li>
 <li>
-<p>Showing empathy towards other community members</p>
+<p>Focusing on what is best not just for us as individuals, but for the
+overall community</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Examples of unacceptable behavior by participants include:</p>
+<p>Examples of unacceptable behavior include:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The use of sexualized language or imagery and unwelcome sexual attention or
-advances</p>
+<p>The use of sexualized language or imagery, and sexual attention or
+advances of any kind</p>
 </li>
 <li>
-<p>Trolling, insulting/derogatory comments, and personal or political attacks</p>
+<p>Trolling, insulting or derogatory comments, and personal or political attacks</p>
 </li>
 <li>
 <p>Public or private harassment</p>
 </li>
 <li>
-<p>Publishing others' private information, such as a physical or electronic
-address, without explicit permission</p>
+<p>Publishing others’ private information, such as a physical or email
+address, without their explicit permission</p>
 </li>
 <li>
 <p>Other conduct which could reasonably be considered inappropriate in a
@@ -11012,74 +11589,246 @@ professional setting</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_our_responsibilities">32.3. Our Responsibilities</h3>
+<h3 id="_enforcement_responsibilities">35.3. Enforcement Responsibilities</h3>
 <div class="paragraph">
-<p>Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.</p>
-</div>
-<div class="paragraph">
-<p>Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.</p>
+<p>Community leaders are responsible for clarifying and enforcing our standards of
+acceptable behavior and will take appropriate and fair corrective action in
+response to any behavior that they deem inappropriate, threatening, offensive,
+or harmful.
+Community leaders have the right and responsibility to remove, edit, or reject
+comments, commits, code, wiki edits, issues, and other contributions that are
+not aligned to this Code of Conduct, and will communicate reasons for moderation
+decisions when appropriate.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scope">32.4. Scope</h3>
+<h3 id="_scope">35.4. Scope</h3>
 <div class="paragraph">
-<p>This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.</p>
+<p>This Code of Conduct applies within all community spaces, and also applies when
+an individual is officially representing the community in public spaces.
+Examples of representing our community include using an official e-mail address,
+posting via an official social media account, or acting as an appointed
+representative at an online or offline event.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_enforcement">32.5. Enforcement</h3>
+<h3 id="_enforcement">35.5. Enforcement</h3>
 <div class="paragraph">
 <p>Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at <a href="mailto:&#112;o&#119;&#x73;&#x79;&#x62;&#x6c;&#46;&#x64;&#x64;l&#64;&#x72;&#116;e&#45;&#102;&#114;a&#110;c&#x65;&#46;&#x63;&#x6f;&#109;">&#112;o&#119;&#x73;&#x79;&#x62;&#x6c;&#46;&#x64;&#x64;l&#64;&#x72;&#116;e&#45;&#102;&#114;a&#110;c&#x65;&#46;&#x63;&#x6f;&#109;</a>. All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.</p>
+reported to the community leaders responsible for enforcement at <strong>opfab-tsc_AT_lists.lfenergy.org</strong>.
+All complaints will be reviewed and investigated promptly and fairly.
+All community leaders are obligated to respect the privacy and security of the
+reporter of any incident.
+Enforcement Guidelines
+Community leaders will follow these Community Impact Guidelines in determining
+the consequences for any action they deem in violation of this Code of Conduct:</p>
 </div>
-<div class="paragraph">
-<p>Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project&#8217;s leadership.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Correction</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Community Impact</dt>
+<dd>
+<p>Use of inappropriate language or other behavior deemed
+unprofessional or unwelcome in the community.</p>
+</dd>
+<dt class="hdlist1">Consequence</dt>
+<dd>
+<p>A private, written warning from community leaders, providing
+clarity around the nature of the violation and an explanation of why the
+behavior was inappropriate. A public apology may be requested.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>Warning</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Community Impact</dt>
+<dd>
+<p>A violation through a single incident or series
+of actions.</p>
+</dd>
+<dt class="hdlist1">Consequence</dt>
+<dd>
+<p>A warning with consequences for continued behavior. No
+interaction with the people involved, including unsolicited interaction with
+those enforcing the Code of Conduct, for a specified period of time. This
+includes avoiding interactions in community spaces as well as external channels
+like social media. Violating these terms may lead to a temporary or
+permanent ban.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>Temporary Ban</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Community Impact</dt>
+<dd>
+<p>A serious violation of community standards, including
+sustained inappropriate behavior.</p>
+</dd>
+<dt class="hdlist1">Consequence</dt>
+<dd>
+<p>A temporary ban from any sort of interaction or public
+communication with the community for a specified period of time. No public or
+private interaction with the people involved, including unsolicited interaction
+with those enforcing the Code of Conduct, is allowed during this period.
+Violating these terms may lead to a permanent ban.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>Permanent Ban</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Community Impact</dt>
+<dd>
+<p>Demonstrating a pattern of violation of community
+standards, including sustained inappropriate behavior,  harassment of an
+individual, or aggression toward or disparagement of classes of individuals.</p>
+</dd>
+<dt class="hdlist1">Consequence</dt>
+<dd>
+<p>A permanent ban from any sort of public interaction within
+the community.</p>
+</dd>
+</dl>
+</div>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_attribution">32.6. Attribution</h3>
+<h3 id="_attribution">35.6. Attribution</h3>
 <div class="paragraph">
-<p>This Code of Conduct is adapted from the <a href="https://www.contributor-covenant.org">Contributor Covenant</a>, version 1.4,
-available at <a href="https://www.contributor-covenant.org/version/1/4/code-of-conduct.html">https://www.contributor-covenant.org/version/1/4/code-of-conduct.html</a></p>
-</div>
-<div class="paragraph">
-<p>For answers to common questions about this code of conduct, see
-<a href="https://www.contributor-covenant.org/faq">https://www.contributor-covenant.org/faq</a></p>
+<p>This Code of Conduct is adapted from the Contributor Covenant,
+version 2.0, available at
+<a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct.html" class="bare">www.contributor-covenant.org/version/2/0/code_of_conduct.html</a>.
+Community Impact Guidelines were inspired by Mozilla’s code of conduct
+enforcement ladder.
+For answers to common questions about this code of conduct, see the FAQ at
+<a href="https://www.contributor-covenant.org/faq" class="bare">www.contributor-covenant.org/faq</a>. Translations are available at
+<a href="https://www.contributor-covenant.org/translations" class="bare">www.contributor-covenant.org/translations</a>.
+<a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.txt" class="bare">www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.txt</a></p>
 </div>
 </div>
 </div>
 </div>
 <h1 id="_operatorfabric_cicd" class="sect0">OperatorFabric CICD</h1>
+<div class="openblock partintro">
+<div class="content">
+The aim of this document is to describe our CICD pipeline and our release process.
+</div>
+</div>
 <div class="sect1">
-<h2 id="_introduction_4">33. Introduction</h2>
+<h2 id="_pipeline_configuration">36. Pipeline Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The aim of this document is to describe our CICD pipeline and our release process.</p>
+<p>This section briefly describes the organization of our CICD pipeline. If you are looking for more detailed information,
+see
+<a href="#mock_pipeline">this document</a>
+describing the steps that were necessary to create our mock pipeline as well as the issues we ran into.</p>
+</div>
+<div class="paragraph">
+<p>Most of the access and permissions required by our CICD plateform (Travis) are managed by tokens that are created on
+each of the required services (SonarCloud, DockerHub, GitHub).
+A technical user account (opfabtech) has been created for each of these services so that these tokens are not linked
+to the account of any member of the team.</p>
+</div>
+<div class="sect2">
+<h3 id="_cicd_pipeline">36.1. CICD Pipeline</h3>
+<div class="sect3">
+<h4 id="_travis_ci">36.1.1. Travis CI</h4>
+<div class="paragraph">
+<p>We use Travis CI to manage our pipeline. As of today, it is composed of 3 stages:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+test-assemble
+</td>
+<td class="hdlist2">
+<p>Run on every push regardless of the branch, does the build and produces test reports.
+It also triggers a sonar-scanner analysis and pushes the results to SonarCloud (except for external pull requests).</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+doc
+</td>
+<td class="hdlist2">
+<p>Run only on the master branch, for the daily cron jobs or if a commit is push with a message containing
+ci_documentation. It generates the documentation (adoc, javadoc, compodoc, reports) and pushes it to the opfab.github.io
+repository to update the website.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+docker
+</td>
+<td class="hdlist2">
+<p>Run only on the master branch, for the daily cron jobs or if a commit is push with a message containing
+ci_docker. It generates the docker images for the current version and pushes them to DockerHub.</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sonarcloud">36.1.2. SonarCloud</h4>
+<div class="paragraph">
+<p>To be allowed to push results to SonarCloud, Travis needs to be authenticated. This is done by generating a token on
+SonarCloud with an account (opfabtech) that has admin rights to the organization, and then providing this token to Travis
+either through the .travis.yml file or as an environment variable through Travis settings.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_github_documentation">36.1.3. GitHub (documentation)</h4>
+<div class="paragraph">
+<p>To be allowed to push the generated documentation to the opfab.github.io, Travis needs write access to the repository.
+This is done by setting up a Personal Access Token in GitHub using the technical account.
+This token is then passed to Travis as an environment variable through Travis settings, and is used in the .travis.yml file.
+Right now the scope of this token is maximal, it can probably be reduced (see <a href="https://opfab.atlassian.net/browse/OC-755">OC-755</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After new content is pushed to the opfab.github.io repository, it can take a few minutes before this content is
+visible on the website because it needs to be built by GitHub pages, and this can take a short while
+depending on how busy the service is.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dockerhub">36.1.4. DockerHub</h4>
+<div class="paragraph">
+<p>To be allowed to push images to DockerHub, Travis needs to be authenticated. This is done by setting the dockerhub
+login and password of the technical account as environment variables through Travis settings and referencing them in
+the .travis.yml file.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_release_process">34. Release process</h2>
+<h2 id="_release_process">37. Release process</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="version_numbers">34.1. Version numbers</h3>
+<h3 id="version_numbers">37.1. Version numbers</h3>
 <div class="paragraph">
 <p>Version numbers X.Y.Z.label should be understood like this:</p>
 </div>
@@ -11112,7 +11861,7 @@ the same major version.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_version">34.2. Releasing Version</h3>
+<h3 id="_releasing_version">37.2. Releasing Version</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -11134,7 +11883,7 @@ It is thus crucial to double-check the content of this file before any push (tri
 <p>Considering a version X.X.X.SNAPSHOT.</p>
 </div>
 <div class="sect3">
-<h4 id="_check_the_release_notes">34.2.1. Check the release notes</h4>
+<h4 id="_check_the_release_notes">37.2.1. Check the release notes</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11157,14 +11906,14 @@ explanations if need be.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_the_source_repository_operatorfabric_core">34.2.2. In the source repository (operatorfabric-core)</h4>
+<h4 id="_in_the_source_repository_operatorfabric_core">37.2.2. In the source repository (operatorfabric-core)</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>./CICD/prepare_release_version.sh</code></pre>
+<pre class="CodeRay highlight"><code>./CICD/prepare_release_version.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -11198,7 +11947,7 @@ The VERSION file is particularly important as the CI/CD pipeline tasks
 <p>Commit with the template message:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>[RELEASE] X.X.X.RELEASE (ci_docker,ci_documentation)</code></pre>
+<pre class="CodeRay highlight"><code>[RELEASE] X.X.X.RELEASE (ci_docker,ci_documentation)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -11220,7 +11969,7 @@ check that they are correctly spelt.</p>
 <p>Tag the commit with the version</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>git tag X.X.X.RELEASE</code></pre>
+<pre class="CodeRay highlight"><code>git tag X.X.X.RELEASE</code></pre>
 </div>
 </div>
 </li>
@@ -11228,7 +11977,7 @@ check that they are correctly spelt.</p>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>git push</code></pre>
+<pre class="CodeRay highlight"><code>git push</code></pre>
 </div>
 </div>
 </li>
@@ -11236,7 +11985,7 @@ check that they are correctly spelt.</p>
 <p>Push the tag</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>git push origin X.X.X.RELEASE</code></pre>
+<pre class="CodeRay highlight"><code>git push origin X.X.X.RELEASE</code></pre>
 </div>
 </div>
 </li>
@@ -11285,7 +12034,7 @@ and that the links work.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checking_deploy_docker_compose">34.2.3. Checking deploy docker-compose</h4>
+<h4 id="_checking_deploy_docker_compose">37.2.3. Checking deploy docker-compose</h4>
 <div class="paragraph">
 <p>The deploy docker-compose file should always rely on the latest RELEASE version
 available on DockerHub. Once the CI pipeline triggered by the previous steps has completed successfully,
@@ -11303,7 +12052,7 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_jira">34.2.4. In Jira</h4>
+<h4 id="_in_jira">37.2.4. In Jira</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11317,7 +12066,7 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 </div>
 </div>
 <div class="sect2">
-<h3 id="_advertising_the_new_release_on_the_lfe_mailing_list">34.3. Advertising the new release on the LFE mailing list</h3>
+<h3 id="_advertising_the_new_release_on_the_lfe_mailing_list">37.3. Advertising the new release on the LFE mailing list</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11327,7 +12076,7 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 </div>
 </div>
 <div class="sect2">
-<h3 id="_preparing_next_version">34.4. Preparing next version</h3>
+<h3 id="_preparing_next_version">37.4. Preparing next version</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -11349,14 +12098,14 @@ new version will make rolling back or correcting any mistake on the release more
 ).</p>
 </div>
 <div class="sect3">
-<h4 id="_in_the_source_repository_operatorfabric_core_2">34.4.1. In the source repository (operatorfabric-core)</h4>
+<h4 id="_in_the_source_repository_operatorfabric_core_2">37.4.1. In the source repository (operatorfabric-core)</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Use the ./CICD/prepare_snapshot_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>./CICD/prepare_snapshot_version.sh --version Y.Y.Y.SNAPSHOT</code></pre>
+<pre class="CodeRay highlight"><code>./CICD/prepare_snapshot_version.sh --version Y.Y.Y.SNAPSHOT</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -11406,15 +12155,29 @@ file to initialize the release notes for version Y.Y.Y.RELEASE.</p>
 <p>Commit and push changes with the following message:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>[PREPARE] next version: Y.Y.Y.SNAPSHOT</code></pre>
+<pre class="CodeRay highlight"><code>[PREPARE] next version: Y.Y.Y.SNAPSHOT (ci_docker,ci_documentation)</code></pre>
 </div>
 </div>
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>Wait for the build to complete (around 30 minutes).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check that the snapshot images have been generated and pushed to DockerHub.</p>
+</li>
+<li>
+<p>Check that the documentation has been generated and pushed to the GitHub pages website: you should see the
+Y.Y.Y.SNAPSHOT under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>. Check that the links work.</p>
+</li>
+</ol>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_in_jira_2">34.4.2. In Jira</h4>
+<h4 id="_in_jira_2">37.4.2. In Jira</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11423,31 +12186,361 @@ file to initialize the release notes for version Y.Y.Y.RELEASE.</p>
 </ol>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_checking_dockerhub_the_following_day">34.4.3. Checking DockerHub the following day</h4>
-<div class="paragraph">
-<p>A CRON Travis job runs daily (the time of the day may vary) and generates the documentation and docker snapshot images.
-After you have finished switching to the Y.Y.Y.SNAPSHOT version, you should wait for such a job to run and check that
-the snapshot images are correctly generated and pushed on DockerHub.</p>
 </div>
 </div>
 </div>
-</div>
-</div>
+<h1 id="_resources" class="sect0">Resources</h1>
 <div class="sect1">
-<h2 id="_cicd_scripts">35. CICD Scripts</h2>
+<h2 id="mock_pipeline">38. Appendix A: Mock CICD Pipeline</h2>
 <div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">CICD/prepare_release_version.sh</dt>
-<dd>
-<p>performs the changes necessary to tag a RELEASE version</p>
-</dd>
-<dt class="hdlist1">CICD/prepare_snapshot_version.sh</dt>
-<dd>
-<p>performs the changes necessary to tag a SNAPSHOT version</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>We wanted to be able to test changes to this configuration or to the scripts used by the pipeline without risks to the real
+master branch, to our docker images or to the documentation. We didn&#8217;t find any such "dry-run" options on Travis CI so
+we decided to create a complete mock pipeline replicating the actual pipeline.
+This is a short summary of the necessary steps.</p>
+</div>
+<div class="sect2">
+<h3 id="_github">38.1. GitHub</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create organization opfab-mock</p>
+</li>
+<li>
+<p>Create user account opfabtechmock</p>
+</li>
+<li>
+<p>Invite opfabtechmock to opfab-mock organization as owner (see later if this can/should be restricted)</p>
+</li>
+<li>
+<p>Fork operatorfabric-core and opfab.github.io repos to opfab-mock organization</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_travis_ci_2">38.2. Travis CI</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to travis-ci.org (not travis-ci.com)</p>
+</li>
+<li>
+<p>Sign in with GitHub (using opfabtechmock)
+This redirects to a page offering to grant access to your account to Travis CI for Open Source, click ok.</p>
+<div class="paragraph">
+<p>Note: This page (<a href="https://github.com/settings/applications" class="bare">github.com/settings/applications</a>) lets you review the apps that have keen granted this kind
+of access and when it was last used.</p>
+</div>
+</li>
+<li>
+<p>Looking at <a href="https://travis-ci.org/account/repositories" class="bare">travis-ci.org/account/repositories</a>, the opfab-mock organization didn&#8217;t appear even after syncing
+the account, so click on "review and add your authorized organizations" (this redirects to
+<a href="https://github.com/settings/connections/applications/f244293c729d5066cf27" class="bare">github.com/settings/connections/applications/f244293c729d5066cf27</a>).</p>
+</li>
+<li>
+<p>Click "grant" next to the organization.</p>
+</li>
+<li>
+<p>After that, Travis CI for Open Source is visible here: <a href="https://github.com/organizations/opfab-mock/settings/oauth_application_policy" class="bare">github.com/organizations/opfab-mock/settings/oauth_application_policy</a>.</p>
+<div class="paragraph">
+<p>This allowed the opfab-mock organization to appear in the account: <a href="https://travis-ci.org/account/repositories" class="bare">travis-ci.org/account/repositories</a>
+Click on opfab-mock to get to the <a href="https://travis-ci.org/organizations/opfab-mock/repositories">list of repositories for this organization</a> and toggle "operatorfabric-core" on.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/travis-ci.png" alt="travis ci">
+</div>
+</div>
+</li>
+<li>
+<p>Under the <a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">Travis settings for the operatorfabric-core repository</a>,
+create a Cron Job on branch master, that runs daily and is always run.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sonarcloud_2">38.3. SonarCloud</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to SonarCloud.io</p>
+</li>
+<li>
+<p>Sign in with GitHub</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When switching between accounts (your own and the technical account for example), make sure to log out of
+SonarCloud when you&#8217;re done using an account because otherwise it will keep the existing session (even in a new tab)
+rather than sign you back in with the account you&#8217;re currently using on GitHub.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Authorize SonarCloud by sonarcloud
++ Create a new organization
+<a href="https://sonarcloud.io/create-organization">from the "+" dropdown menu to the left of your profile picture</a></p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Click on "Just testing? You can create manually" on the bottom right, and not "Choose an organization on GitHub".
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This is because the "opfab" SonarCloud organization that we are trying to replicate is not currently linked to its GitHub
+counterpart (maybe the option didn&#8217;t exist at the time), so we&#8217;re doing the same here. In the future it might be a good
+idea to link them (see <a href="https://opfab.atlassian.net/browse/OC-751">OC-751</a>)as SonarCloud states that</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Binding an organization from SonarCloud with GitHub is an easy way to keep
+them synchronized. To bind this organization to GitHub, the SonarCloud application will be installed.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>And then it warns again that</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Manual setup is not recommended, and leads to missing features like appropriate setup of
+your project or analysis feedback in the Pull Request.</p>
+</div>
+</blockquote>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click "Analyze new project" then "Create manually" (for the same reasons as the organization).</p>
+<div class="paragraph">
+<p>Project key and display name : <strong>org.lfenergy.operatorfabric:operatorfabric-core-mock</strong>
+Then choose "Public" and click "Set Up".</p>
+</div>
+</li>
+<li>
+<p>This redirects to the the following message :
+<a href="https://sonarcloud.io/project/configuration?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core-mock">We initialized your project on SonarCloud, now it&#8217;s up to you to launch analyses!</a>
+Now we need to provide Travis with a token to use to access SonarCloud.</p>
+</li>
+<li>
+<p>To generate a token, go to <a href="https://sonarcloud.io/account/security/">Account/Security</a></p>
+<div class="paragraph">
+<p>There are two options to pass this token to Travis:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Option A: Define a new SONAR_TOKEN environment variable in the
+<a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">repository&#8217;s settings in Travis</a>, then use it in the
+.travis.yml file as follows:</p>
+<div class="listingblock">
+<div class="content">
+<pre>addons:
+  sonarcloud:
+    organization: "opfab-mock"
+    token:
+         secure: ${SONAR_TOKEN}</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Option B: Encrypt this token using the travis gem:</p>
+<div class="listingblock">
+<div class="content">
+<pre>travis encrypt XXXXXXXXXXXXXXXXXXXXXXXXXXXX</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This has to be run at the root of the repository otherwise you get the following error: <code>Can&#8217;t figure out GitHub repo name. Ensure you&#8217;re in the repo directory, or specify the repo name via the -r option (e.g. travis &lt;command&gt; -r &lt;owner&gt;/&lt;repo&gt;)</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Do not use the --add option (to add the encrypted value directly to the .travis.yml file) as it changes
+a lot of things in the file (remove comments, change indentation and quotes, etc.).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Paste the result (YYYY) in the .travis.yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>addons:
+  sonarcloud:
+    organization: "opfab-mock"
+    token:
+         secure: "YYYY"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Option A would be better as it&#8217;s not necessary to make a new commit if the token needs to be changed, but it stopped
+working suddenly, maybe as a result of a travis policy change regarding encryption.
+<a href="https://opfab.atlassian.net/browse/OC-752">OC-752</a> was created to investigate.</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+There is still a SONAR_TOKEN environment variable defined in the Travis settings (with a dummy value)
+because there is a test on its presence to decide whether sonar-scanner should be launched or
+not (in the case of external PRs) (see <a href="https://opfab.atlassian.net/browse/OC-700">OC-700</a>
+/ <a href="https://opfab.atlassian.net/browse/OC-507">OC-507</a>).
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finally change the organization in .travis.yml file and the project key
+in sonar-project.properties (replace the actual values with mock values).</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In travis.yml we launch the sonar-scanner command whereas the tutorials mention gradle sonarqube.
+It looks like we&#8217;re following <a href="https://sonarcloud.io/documentation/analysis/scan/sonarscanner/">this</a> which says that
+"The SonarScanner is the scanner to use when there is no specific scanner for your build system."
+But there is a <a href="https://sonarcloud.io/documentation/analysis/scan/sonarscanner-for-gradle/">specific scanner for Gradle</a>:
+</td>
+</tr>
+</table>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The SonarScanner for Gradle provides an easy way to start SonarCloud analysis of a Gradle project.
+The ability to execute the SonarCloud analysis via a regular Gradle task makes it available anywhere Gradle is available
+(CI service, etc.), without the need to manually download, setup, and maintain a SonarScanner installation.
+The Gradle build already has much of the information needed for SonarCloud to successfully analyze a project.
+By configuring the analysis based on that information, the need for manual configuration is reduced significantly.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>&#8594; This could make sonar easier to run locally and reduce the need for configuration
+(see <a href="https://opfab.atlassian.net/browse/OC-754">OC-754</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_github_documentation_2">38.4. GitHub (documentation)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a personal access token for GitHub (for the documentation). Its name is not important.</p>
+<div class="paragraph">
+<p>See <a href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line">GitHub documentation</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/perso_access_token_doc.png" alt="perso access token doc">
+</div>
+</div>
+</li>
+<li>
+<p>Create a GH_DOC_TOKEN env variable
+in <a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">Travis settings for the operatorfabric-core repository</a>
+, making it available to all branches.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/adding_gh_doc_token_travis.png" alt="adding gh doc token travis">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dockerhub_2">38.5. DockerHub</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create account opfabtechmock</p>
+</li>
+<li>
+<p>Create organization <strong>lfeoperatorfabricmock</strong></p>
+</li>
+<li>
+<p>Change organization name in docker config in services.gradle</p>
+<div class="listingblock">
+<div class="content">
+<pre>docker {
+    name "lfeoperatorfabricmock/of-${project.name.toLowerCase()}"
+    tags 'latest', dockerVersionTag
+    labels (['project':"${project.group}"])
+    files jar.archivePath, 'src/main/resources/bootstrap-docker.yml', '../../../src/main/docker/java-config-dependent-docker-entrypoint.sh'
+    buildArgs(['JAR_FILE'       : "${jar.archiveName}",
+               'http_proxy'     : apk.proxy.uri,
+               'https_proxy'    : apk.proxy.uri,
+               'HTTP_PROXY_AUTH': "basic:*:$apk.proxy.user:$apk.proxy.password"])
+    dockerfile file("src/main/docker/Dockerfile")
+}</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the opfabtechmock dockerhub account credentials as DOCKER_CLOUD_USER / DOCKER_CLOUD_PWD in Travis env variables
+in settings (see GH_DOC_TOKEN above).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_the_fork">38.6. Updating the fork</h3>
+<div class="paragraph">
+<p>To make the mock repositories catch up with the upstream (the real repositories) from time to time, follow
+this procedure (the command line version), except you should do a rebase instead of a merge:
+<a href="https://rick.cogley.info/post/update-your-forked-repository-directly-on-github/" class="bare">rick.cogley.info/post/update-your-forked-repository-directly-on-github/</a></p>
+</div>
 </div>
 </div>
 </div>

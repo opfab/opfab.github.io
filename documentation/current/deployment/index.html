@@ -430,13 +430,104 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+/*pre.CodeRay {background-color:#f7f7f8;}*/
+.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
+.CodeRay .line-numbers strong{color:rgba(0,0,0,.4)}
+table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
+table.CodeRay td{vertical-align: top;line-height:1.45}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
+table.CodeRay td.code{padding:0 0 0 .5em}
+table.CodeRay td.code>pre{padding:0}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 1.2.0.RELEASE,</span>
-<span id="revdate">17 April 2020</span>
+<span id="revnumber">version 1.3.0.RELEASE,</span>
+<span id="revdate">13 May 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -467,7 +558,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_security_configuration">4.3.1. Security Configuration</a></li>
 <li><a href="#_user_creation">4.3.2. User creation</a></li>
-<li><a href="#_alternative_way_to_manage_groups">4.3.3. Alternative way to manage groups</a></li>
+<li><a href="#_alternative_way_to_manage_groups_andor_entities">4.3.3. Alternative way to manage groups (and/or entities)</a></li>
 </ul>
 </li>
 <li><a href="#_service_specific_configuration">4.4. Service-specific configuration</a>
@@ -483,18 +574,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_web_ui">4.4.9. Web UI</a></li>
 </ul>
 </li>
-<li><a href="#_users_and_groups_administration">4.5. Users and Groups Administration</a>
+<li><a href="#_users_groups_and_entities_administration">4.5. Users, Groups and Entities Administration</a>
 <ul class="sectlevel3">
 <li><a href="#_list_all_users">4.5.1. List all users</a></li>
 <li><a href="#_create_a_new_user">4.5.2. Create a new User</a></li>
 <li><a href="#_fetch_user_details">4.5.3. Fetch user details</a></li>
 <li><a href="#_update_user_details">4.5.4. Update user details</a></li>
-<li><a href="#_list_groups">4.5.5. List groups</a></li>
-<li><a href="#_create_a_new_group">4.5.6. Create a new Group</a></li>
-<li><a href="#_fetch_details_of_a_given_group">4.5.7. Fetch details of a given group</a></li>
-<li><a href="#_update_details_of_a_group">4.5.8. Update details of a group</a></li>
-<li><a href="#_add_a_user_to_a_group">4.5.9. Add a user to a group</a></li>
-<li><a href="#_remove_a_user_from_a_group">4.5.10. Remove a user from a Group</a></li>
+</ul>
+</li>
+<li><a href="#_groupsentities">4.6. Groups/Entities</a>
+<ul class="sectlevel3">
+<li><a href="#_list_groups_or_entities">4.6.1. List groups (or entities)</a></li>
+<li><a href="#_create_a_new_group_or_entity">4.6.2. Create a new group (or entity)</a></li>
+<li><a href="#_fetch_details_of_a_given_group_or_entity">4.6.3. Fetch details of a given group (or entity)</a></li>
+<li><a href="#_update_details_of_a_group_or_entity">4.6.4. Update details of a group (or entity)</a></li>
+<li><a href="#_add_a_user_to_a_group_or_entity">4.6.5. Add a user to a group (or entity)</a></li>
+<li><a href="#_remove_a_user_from_a_group_or_entity">4.6.6. Remove a user from a group (or entity)</a></li>
 </ul>
 </li>
 </ul>
@@ -520,7 +615,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 the project or by using images releases from <a href="https://hub.docker.com/">Dockerhub</a></p>
 </div>
 <div class="paragraph">
-<p>Service images are all based on <a href="https://hub.docker.com/_/openjdk">openjdk:8-jdk-alpine</a>.</p>
+<p>Service images are all based on <a href="https://hub.docker.com/_/openjdk">openjdk:8-jre-alpine</a>.</p>
 </div>
 <div class="paragraph">
 <p>For simple one instance per service deployment, you can find a sample
@@ -761,7 +856,7 @@ configuration service (under /services/infra/config/src/main/docker/volume).</p>
 <div class="paragraph">
 <p>Note that a few things cannot be set in the configuration served by the configuration service (because its needed
 right at the application startup for example) and
-must be set in each services bootstrap configuration file. In this regard,
+must be set in each service bootstrap configuration file. In this regard,
 <a href="../../../../deployment/index.html#cloud_config_service_config">Cloud Configuration Service</a>
 and
 <a href="../../../../deployment/index.html#cloud_registry_service_config">Cloud Registry Service</a>
@@ -803,12 +898,12 @@ configuration for those services. Make a copy of the default bootstrap (inside
 the jar or from the sources) and set eureka up (see above).</p>
 </div>
 <div class="paragraph">
-<p>The different services also share common configuration you can setup in the
-config service backend. those common configuration may be set up in the backend <code><code>application.yml</code></code> file.</p>
+<p>The different services also share a common configuration you can setup in the
+config service backend. Those common configuration may be set up in the backend <code><code>application.yml</code></code> file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   rabbitmq:
     host: rabbitmq
     port: 5672
@@ -879,8 +974,8 @@ removed after a specified duration by using the <a href="https://docs.mongodb.co
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">use operator-fabric
-db.archivedCards.createIndex( { "publishDate": 1 }, { expireAfterSeconds: 864000 } )</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">use operator-fabric
+db.archivedCards.createIndex( { &quot;publishDate&quot;: 1 }, { expireAfterSeconds: 864000 } )</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -1018,7 +1113,7 @@ It helps to avoid typos or missing to report some changes. An example could be f
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
     security:
         oauth2:
             client-id: opfab-client
@@ -1083,7 +1178,7 @@ the deployment domain</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring.cloud.gateway.routes[0].filters:
+<pre class="CodeRay highlight"><code>spring.cloud.gateway.routes[0].filters:
         - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
         - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
         - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
@@ -1128,7 +1223,7 @@ is the default port as set in the <code>application.yml</code> used by the <cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   cloud:
     gateway:
       routes:
@@ -1202,10 +1297,10 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
 </ul>
 </div>
 <div class="sect6">
-<h7 id="_example_of_keycloak_configuration_for_operatorfabric_oauth2">Example of Keycloak configuration for OperatorFabric OAuth2</h7>
+<h7 id="_example_of_configuration_for_implicit_flow">Example of configuration for IMPLICIT Flow</h7>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
   keycloak:
     realm: dev
   security:
@@ -1220,14 +1315,6 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
 <p>Within the <code>delegate-url</code> property the <code>${operatorfabric.keycloak.realm}</code> refers to the value of the <code>operatorfabric.keycloak.realm</code> declared earlier, <code>dev</code> here.
 For keycloak instance used for dev purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred. The
 url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_keycloak_instance_additional_configuration_for_dev_purposes">Keycloak instance additional configuration for dev purposes</h7>
-<div class="paragraph">
-<p>Once connected as Admin (login:_admin_,password:_admin_ ) on keycloak (<code><a href="http://localhost:89/auth/admin" class="bare">localhost:89/auth/admin</a></code>) The first thing is to enable the implicit flow for <code>opfa-client</code>. To do so
-select <code>Dev</code> in the upper select of the right panel then click on Clients. In the table, click on <code>opfab-client</code> in the column <code>Client ID</code>. Then in the <code>Settings</code> tabs turn on the
-<code>Implicit Flow Enabled</code>. In the same tab, modify <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code> to <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a><strong></code> and <code><a href="http://localhost:4200" class="bare">localhost:4200</a></code> to <code><a href="http://localhost:4200/" class="bare">localhost:4200/</a></strong></code>.</p>
 </div>
 </div>
 </div>
@@ -1247,10 +1334,10 @@ select <code>Dev</code> in the upper select of the right panel then click on Cli
 </ul>
 </div>
 <div class="sect6">
-<h7 id="_example_of_keycloak_configuration_for_operatorfabric_oauth2_2">Example of Keycloak Configuration For OperatorFabric OAuth2</h7>
+<h7 id="_example_of_configuration_for_code_flow">Example of Configuration For CODE Flow</h7>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
   keycloak:
     realm: dev
   security:
@@ -1532,7 +1619,7 @@ transfer-encoding: chunked
 <div class="sect3">
 <h4 id="_user_creation">4.3.2. User creation</h4>
 <div class="paragraph">
-<p>Setting automated user creation==. Creation user requires an user id. Given name and family name are optional.</p>
+<p>Setting automated user creation==. Creation user requires a user id. Given name and family name are optional.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1554,7 +1641,7 @@ transfer-encoding: chunked
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.login-claim</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as an user login or id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as a user login or id</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.given-name-claim</p></td>
@@ -1572,9 +1659,9 @@ transfer-encoding: chunked
 </table>
 </div>
 <div class="sect3">
-<h4 id="_alternative_way_to_manage_groups">4.3.3. Alternative way to manage groups</h4>
+<h4 id="_alternative_way_to_manage_groups_andor_entities">4.3.3. Alternative way to manage groups (and/or entities)</h4>
 <div class="paragraph">
-<p>By default, <code>Operator-Fabric</code> manage groups through the user&#8217;s group. Another mode can be defined, the JWT mode. The groups come from the authentication token. The administrator of the authentication service has to set what claims define a group. In the <code>Operator-Fabric</code> configuration, the opfab administrator has to set properties to retrieve thoses groups.</p>
+<p>By default, <code>Operator-Fabric</code> manage groups (and/or entities) through the user&#8217;s collection in the database. Another mode can be defined, the JWT mode. The groups (and/or entities) come from the authentication token. The administrator of the authentication service has to set what claims define a group (and/or entity). In the <code>Operator-Fabric</code> configuration, the opfab administrator has to set properties to retrieve those groups (and/or entities).</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1599,7 +1686,7 @@ transfer-encoding: chunked
 <td class="tableblock halign-left valign-top"><p class="tableblock">Set the group mode, possible values JWT or OPERATOR_FABRIC</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandard-claim.path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandard.path</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a group</p></td>
@@ -1634,6 +1721,18 @@ transfer-encoding: chunked
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">set the value of the group if the path exists</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.entitiesIdClaim</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the name of the field in the token</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values : true/false)</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -1641,9 +1740,11 @@ transfer-encoding: chunked
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric:
+<pre class="CodeRay highlight"><code>operatorfabric:
   security:
     jwt:
+      entitiesIdClaim: entitiesId
+      gettingEntitiesFromToken: true
       groups:
         mode: JWT # value possible JWT | OPERATOR_FABRIC
         rolesClaim:
@@ -1667,7 +1768,7 @@ transfer-encoding: chunked
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>{
+<pre class="CodeRay highlight"><code>{
   "jti": "5ff87583-10bd-4946-8753-9d58171c8b7f",
   "exp": 1572979628,
   "nbf": 0,
@@ -1721,6 +1822,7 @@ transfer-encoding: chunked
   "ATTR1": "roleATTR1",
   "preferred_username": "example_user",
   "given_name": "example_firtstname",
+  "entitiesId": "ENTITY1",
   "family_name": "example_lastname",
   "email": "example_user@mail.com",
   "roleFieldList": "roleA;roleB;roleC"
@@ -1888,7 +1990,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-consultation
   cloud:
@@ -1907,7 +2009,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-consultation
   cloud:
@@ -1934,7 +2036,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-consultation
   cloud:
@@ -1982,7 +2084,7 @@ development environment</p>
 <h6 id="_sample_development_configuration">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2104
 logging.level.root: DEBUG</code></pre>
 </div>
@@ -1992,7 +2094,7 @@ logging.level.root: DEBUG</code></pre>
 <h6 id="_sample_docker_image_configuration">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code></code></pre>
+<pre class="CodeRay highlight"><code></code></pre>
 </div>
 </div>
 </div>
@@ -2142,7 +2244,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-publication
   cloud:
@@ -2161,7 +2263,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-publication
   cloud:
@@ -2188,7 +2290,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: cards-publication
   cloud:
@@ -2235,7 +2337,7 @@ development environment</p>
 <h6 id="_sample_development_configuration_2">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2102</code></pre>
 </div>
 </div>
@@ -2244,7 +2346,7 @@ development environment</p>
 <h6 id="_sample_docker_image_configuration_2">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code></code></pre>
+<pre class="CodeRay highlight"><code></code></pre>
 </div>
 </div>
 </div>
@@ -2374,7 +2476,7 @@ the deployment domain</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring.cloud.gateway.routes[0].filters:
+<pre class="CodeRay highlight"><code>spring.cloud.gateway.routes[0].filters:
         - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
         - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
         - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
@@ -2419,7 +2521,7 @@ is the default port as set in the <code>application.yml</code> used by the <cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   cloud:
     gateway:
       routes:
@@ -2476,7 +2578,7 @@ equals to <code>actions</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: client-gateway
   cloud:
@@ -2495,7 +2597,7 @@ equals to <code>actions</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: client-gateway
   cloud:
@@ -2521,7 +2623,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: client-gateway
   cloud:
@@ -2570,7 +2672,7 @@ development environment</p>
 <h6 id="_sample_developpement_configuration">Sample developpement configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2002
 spring:
   cloud:
@@ -2602,7 +2704,7 @@ operatorfabric.gateway.configs:
 <h6 id="_sample_docker_image_configuration_3">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   cloud:
     gateway:
       routes:
@@ -2753,7 +2855,7 @@ production.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: config</code></pre>
 </div>
@@ -2763,7 +2865,7 @@ production.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>management:
+<pre class="CodeRay highlight"><code>management:
   endpoints:
     web:
       exposure:
@@ -2785,7 +2887,7 @@ jar working in the development environment</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2000
 spring:
 #  level.root: debug
@@ -2835,7 +2937,7 @@ config from file system)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   profiles:
     active: [native]
   cloud:
@@ -3030,7 +3132,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: registry
   cloud.config:
@@ -3043,7 +3145,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: registry
   cloud.config:
@@ -3059,7 +3161,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: registry
   cloud.config:
@@ -3072,7 +3174,7 @@ properties:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>eureka:
+<pre class="CodeRay highlight"><code>eureka:
   client:
     register-with-eureka: false
     fetch-registry: false</code></pre>
@@ -3102,7 +3204,7 @@ jar working in the development environment</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2001
 eureka:
   instance.hostname: localhost
@@ -3114,7 +3216,7 @@ eureka:
 <h6 id="_sample_development_configuration_3">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2001
 eureka:
   instance.hostname: localhost
@@ -3126,7 +3228,7 @@ eureka:
 <h6 id="_sample_docker_image_configuration_4">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>eureka:
+<pre class="CodeRay highlight"><code>eureka:
   instance.hostname: registry
   client:
     serviceUrl.defaultZone: http://registry:8080/eureka/
@@ -3265,7 +3367,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: thirds
   cloud:
@@ -3284,7 +3386,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: thirds
   cloud:
@@ -3311,7 +3413,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: thirds
   cloud:
@@ -3358,7 +3460,7 @@ development environment</p>
 <h6 id="_sample_development_configuration_4">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2100
 operatorfabric.thirds:
   storage:
@@ -3370,7 +3472,7 @@ operatorfabric.thirds:
 <h6 id="_sample_docker_image_configuration_5">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric.thirds:
+<pre class="CodeRay highlight"><code>operatorfabric.thirds:
   storage:
     path: "/thirds-storage"</code></pre>
 </div>
@@ -3503,6 +3605,12 @@ usual bootstrap configuration.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of group objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.default.entities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array of entity objects to create upon startup if they don&#8217;t exist</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3516,7 +3624,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: users
   cloud:
@@ -3535,7 +3643,7 @@ usual bootstrap configuration.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: users
   cloud:
@@ -3562,7 +3670,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: users
   cloud:
@@ -3586,7 +3694,7 @@ docker images configuration.</p>
 </div>
 <div class="paragraph">
 <p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
+development environment.</p>
 </div>
 <div class="paragraph">
 <p>The above embedded configurations are the basic settings of the application:</p>
@@ -3609,18 +3717,21 @@ development environment</p>
 <h6 id="_sample_development_configuration_5">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2103
 operatorfabric.users.default:
   users:
     - login: admin
       groups: ["ADMIN"]
+      entities: ["ENTITY1","ENTITY2"]
     - login: rte-operator
       groups: ["RTE","ADMIN","TRANS"]
     - login: tso1-operator
       groups: ["TSO1","TRANS"]
+      entities: ["ENTITY1"]
     - login: tso2-operator
       groups: ["TSO2", "TRANS"]
+      entities: ["ENTITY2"]
   groups:
     - name: ADMIN
       description: The admin group
@@ -3632,6 +3743,13 @@ operatorfabric.users.default:
       description: TSO 2 Group
     - name: TRANS
       description: Transnationnal Group
+  entities:
+    - id: ENTITY1
+      name: Entity 1 name
+      description: Entity 1 short description
+    - id: ENTITY2
+      name: Entity 2 name
+      description: Entity 2 short description
   user-settings:
     - login: rte-operator
       description: Da Operator Rulez
@@ -3643,16 +3761,19 @@ operatorfabric.users.default:
 <h6 id="_sample_docker_image_configuration_6">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>operatorfabric.users.default:
+<pre class="CodeRay highlight"><code>operatorfabric.users.default:
   users:
   - login: admin
     groups: ["ADMIN"]
+    entities: ["ENTITY1","ENTITY2"]
   - login: rte-operator
     groups: ["RTE","ADMIN","TRANS"]
   - login: tso1-operator
     groups: ["TSO1","TRANS"]
+    entities: ["ENTITY1"]
   - login: tso2-operator
     groups: ["TSO2", "TRANS"]
+    entities: ["ENTITY2"]
   groups:
   - name: ADMIN
     description: The admin group
@@ -3663,7 +3784,14 @@ operatorfabric.users.default:
   - name: TSO2
     description: TSO 2 Group
   - name: TRANS
-    description: Transnationnal Group</code></pre>
+    description: Transnationnal Group
+  entities:
+    - id: ENTITY1
+      name: Entity 1 name
+      description: Entity 1 short description
+    - id: ENTITY2
+      name: Entity 2 name
+      description: Entity 2 short description</code></pre>
 </div>
 </div>
 </div>
@@ -3672,7 +3800,7 @@ operatorfabric.users.default:
 <h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_5">Specifying external configuration properties when launching a jar file</h5>
 <div class="paragraph">
 <p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
+on how to set up an external spring properties or yml file.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
@@ -3732,24 +3860,16 @@ The default profiles activated are docker and native.</p>
 <div class="sect3">
 <h4 id="_web_ui">4.4.9. Web UI</h4>
 <div class="paragraph">
-<p>OperatorFabric Web UI service is a Spring MVC application bootstrapped using
-SpringBoot. Its sole purpose is to serve the Angular SPA to browsers.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
+<p>OperatorFabric Web UI service is built on top of a <a href="https://www.nginx.com/">NGINX</a> server.
+Its sole purpose is to serve the Angular SPA to browsers.</p>
 </div>
 <div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_9">Mandatory configuration, Profiles and default properties</h5>
+<h5 id="_nginx_configuration">NGINX configuration</h5>
 <div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
+<p>The NGINX configuration used is the NGINX default one.</p>
 </div>
 <div class="paragraph">
-<p>For other configuration see:
-NONE
-* <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.
-* <a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
+<p>Please refer to the <a href="https://docs.nginx.com/">NGINX documentation</a> for more details for any required customisations.</p>
 </div>
 <div class="sect5">
 <h6 id="_service_specific_properties_6">Service specific properties</h6>
@@ -3945,12 +4065,6 @@ while clicking the icon opens in a new tab.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.time.pulse</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Duration between two ticks of the internal state of the User Interface</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.size</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -3979,6 +4093,18 @@ while clicking the icon opens in a new tab.</p>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in settings and feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.nightDayMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if you want to activate toggle for night or day mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.styleWhenNightDayModeDesactivated</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">style to apply if not using day night mode, possible value are DAY,NIGHT or LEGACY (black background and white timeline)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.infos.disable</p></td>
@@ -4156,7 +4282,7 @@ For this default value, with <code>'OperatorFabric'</code> as <code>name</code> 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: web-ui
   cloud:
@@ -4175,7 +4301,7 @@ For this default value, with <code>'OperatorFabric'</code> as <code>name</code> 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: web-ui
   cloud:
@@ -4202,7 +4328,7 @@ eureka:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>spring:
+<pre class="CodeRay highlight"><code>spring:
   application:
     name: web-ui
   cloud:
@@ -4249,7 +4375,7 @@ development environment</p>
 <h6 id="_sample_development_configuration_6">Sample development configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2200
 operatorfabric:
   security:
@@ -4315,6 +4441,7 @@ operatorfabric:
     - fr
   settings:
     locale: en
+    nightDayMode: true
     infos:
       description: true
     about:
@@ -4328,9 +4455,7 @@ operatorfabric:
         rank: 2
       lastapplication:
           name: Wonderful Solution
-          version: 0.1.2-RELEASE
-  time:
-    pulse: 5000</code></pre>
+          version: 0.1.2-RELEASE</code></pre>
 </div>
 </div>
 </div>
@@ -4338,7 +4463,7 @@ operatorfabric:
 <h6 id="_sample_docker_image_configuration_7">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>server:
+<pre class="CodeRay highlight"><code>server:
   port: 2200
 operatorfabric:
   security:
@@ -4404,6 +4529,7 @@ operatorfabric:
     - fr
   settings:
     locale: en
+    nightDayMode: true
     infos:
       description: true
     about:
@@ -4417,9 +4543,7 @@ operatorfabric:
         rank: 2
       lastapplication:
           name: Wonderful Solution
-          version: 0.1.2-RELEASE
-  time:
-    pulse: 5000</code></pre>
+          version: 0.1.2-RELEASE</code></pre>
 </div>
 </div>
 </div>
@@ -4487,7 +4611,7 @@ The default profiles activated are docker and native.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_users_and_groups_administration">4.5. Users and Groups Administration</h3>
+<h3 id="_users_groups_and_entities_administration">4.5. Users, Groups and Entities Administration</h3>
 <div class="paragraph">
 <p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance. As a user of OperatorFabric, he needs to be added to the system with a <code>login</code> (john-doe-operator), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).
 operator
@@ -4527,6 +4651,10 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
         "groups": [
             "ADMIN"
         ],
+        "entities": [
+            "ENTITY1",
+            "ENTITY2"
+        ],
         "lastName": null,
         "login": "admin"
     },
@@ -4565,6 +4693,9 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "TRANS",
             "TEST"
         ],
+        "entities": [
+            "ENTITY1"
+        ],
         "lastName": null,
         "login": "tso1-operator"
     },
@@ -4573,6 +4704,9 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
         "groups": [
             "TSO2",
             "TRANS"
+        ],
+        "entities": [
+            "ENTITY2"
         ],
         "lastName": null,
         "login": "tso2-operator"
@@ -4645,6 +4779,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 {
     "firstName": "Jahne",
     "groups": [],
+    "entities": [],
     "lastName": "Doe",
     "login": "john-doe-operator"
 }</pre>
@@ -4689,8 +4824,39 @@ with <code>john-doe-operator</code> login. To correct this mistake, the followin
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_groupsentities">4.6. Groups/Entities</h3>
+<div class="paragraph">
+<p>All the commands below :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>List groups</p>
+</li>
+<li>
+<p>Create a new group</p>
+</li>
+<li>
+<p>Fetch details of a given group</p>
+</li>
+<li>
+<p>Update details of a group</p>
+</li>
+<li>
+<p>Add a user to a group</p>
+</li>
+<li>
+<p>Remove a user from a group</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>are available for both groups and entities. In order not to overload the documentation, we will only detail groups endpoints.</p>
+</div>
 <div class="sect3">
-<h4 id="_list_groups">4.5.5. List groups</h4>
+<h4 id="_list_groups_or_entities">4.6.1. List groups (or entities)</h4>
 <div class="paragraph">
 <p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in
 the system. As shown when we
@@ -4723,38 +4889,45 @@ existing in the server.</p>
 [
     {
         "description": "The admin group",
-        "name": "ADMIN"
+        "name": "ADMIN group",
+        "id": "ADMIN"
     },
     {
         "description": "RTE TSO Group",
-        "name": "RTE"
+        "name": "RTE group",
+        "id": "RTE"
     },
     {
         "description": "ELIA TSO group",
-        "name": "ELIA"
+        "name": "ELIA group",
+        "id": "ELIA"
     },
     {
         "description": "CORESO Group",
-        "name": "CORESO"
+        "name": "CORESO group",
+        "id": "CORESO"
     },
     {
         "description": "TSO 1 Group",
-        "name": "TSO1"
+        "name": "TSO1 group",
+        "id": "TSO1"
     },
     {
         "description": "TSO 2 Group",
-        "name": "TSO2"
+        "name": "TSO2 group",
+        "id": "TSO2"
     },
     {
         "description": "Transnationnal Group",
-        "name": "TRANS"
+        "name": "TRANS group",
+        "id": "TRANS"
     }
 ]</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_group">4.5.6. Create a new Group</h4>
+<h4 id="_create_a_new_group_or_entity">4.6.2. Create a new group (or entity)</h4>
 <div class="paragraph">
 <p>Firstly, the group called <code>OPERATORS</code> has to be
 <a href="../../../../documentation/current/api/users/index.html#/groups/createGroup">added to the system</a>
@@ -4765,7 +4938,7 @@ using the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>echo '{"name":"OPERATORS","decription":"This is the brand new  group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+<pre>echo '{"id":"OPERATORS","decription":"This is the brand new  group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4773,7 +4946,7 @@ using the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"name":"OPERATORS","decription":"This is the brand new  group of operator"}'</pre>
+<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","decription":"This is the brand new  group of operator"}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4785,13 +4958,14 @@ using the following command:</p>
 
 {
     "description": null,
-    "name": "OPERATORS"
+    "name": null,
+    "id": "OPERATORS"
 }</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_details_of_a_given_group">4.5.7. Fetch details of a given group</h4>
+<h4 id="_fetch_details_of_a_given_group_or_entity">4.6.3. Fetch details of a given group (or entity)</h4>
 <div class="paragraph">
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="../../../../documentation/current/api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
@@ -4822,13 +4996,14 @@ called <code>OPERATORS</code>, use the following command:</p>
 
 {
     "description": null,
-    "name": "OPERATORS"
+    "name": null,
+    "id": "OPERATORS"
 }</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_details_of_a_group">4.5.8. Update details of a group</h4>
+<h4 id="_update_details_of_a_group_or_entity">4.6.4. Update details of a group (or entity)</h4>
 <div class="paragraph">
 <p>The description is really null. After verification, in our first command used to create the group,
 the attribute for the description is misspelled. Using the following command
@@ -4840,7 +5015,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>echo '{"name":"OPERATORS","description":"This is the brand new  group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+<pre>echo '{"id":"OPERATORS","description":"This is the brand-new group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4848,7 +5023,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>curl -X PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"name":"OPERATORS","description":"This is the brand new  group of operator"}'</pre>
+<pre>curl -X PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","description":"This is the brand-new group of operator"}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4857,14 +5032,15 @@ with the correct spelling, the new group of operator gets a proper description:<
 <div class="literalblock">
 <div class="content">
 <pre>{
-    "description": "This is the brand new  group of operator",
-    "name": "OPERATORS"
+    "description": "This is the brand-new group of operator",
+    "name": null,
+    "id": "OPERATORS"
 }</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_a_user_to_a_group">4.5.9. Add a user to a group</h4>
+<h4 id="_add_a_user_to_a_group_or_entity">4.6.5. Add a user to a group (or entity)</h4>
 <div class="paragraph">
 <p>As both new group and new user are correct it&#8217;s time
 <a href="../../../../documentation/current/api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
@@ -4920,6 +5096,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 {
     "firstName": "John",
     "groups": ["OPERATORS"],
+    "entities": [],
     "lastName": "Doe",
     "login": "john-doe-operator"
 }</pre>
@@ -4930,7 +5107,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_remove_a_user_from_a_group">4.5.10. Remove a user from a Group</h4>
+<h4 id="_remove_a_user_from_a_group_or_entity">4.6.6. Remove a user from a group (or entity)</h4>
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
@@ -4961,7 +5138,8 @@ with the correct spelling, the new group of operator gets a proper description:<
 	"login":"john-doe-operator","
 	firstName":"John",
 	"lastName":"Doe",
-	"groups":[]
+	"groups":[],
+    "entities":[]
 }</pre>
 </div>
 </div>
@@ -4994,8 +5172,9 @@ with the correct spelling, the new group of operator gets a proper description:<
 {
     "firstName": "John",
     "groups": [],
+    "entities": [],
     "lastName": "Doe",
-    "login": "coreso-operator"
+    "login": "john-doe-operator"
 
 }</pre>
 </div>
@@ -5012,109 +5191,8 @@ with the correct spelling, the new group of operator gets a proper description:<
 to 8080</p>
 </div>
 <div class="paragraph">
-<p>If you run the services using <code>bootRun</code> Gradle task or the provided
-docker-compose files (see [prj]/src/main/docker) the ports used are</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Service</th>
-<th class="tableblock halign-right valign-top">bootRun port</th>
-<th class="tableblock halign-right valign-top">docker-compose mapping</th>
-<th class="tableblock halign-right valign-top">docker-compose debug mapping</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2103</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">2104</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4001</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4002</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4100</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4102</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">4103</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p> <details><summary> 
-<strong>Complete port table</strong>
- </summary><div> </p>
+<p>If you run the services using <code>bootRun</code> Gradle task, the <code>run_all.sh</code> script or the deploy docker-compose,
+the used ports are:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -5126,9 +5204,9 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Port</th>
+<th class="tableblock halign-left valign-top">Service</th>
 <th class="tableblock halign-left valign-top">Forwards to</th>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -5166,7 +5244,7 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card publication service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2103</p></td>
@@ -5178,19 +5256,19 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">actions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actions (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2200</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web UI (Nginx server)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4000</p></td>
@@ -5241,12 +5319,6 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4200</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mongo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
@@ -5266,9 +5338,6 @@ docker-compose files (see [prj]/src/main/docker) the ports used are</p>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -5288,7 +5357,7 @@ give access to information that should be private to a user.</p>
 last name, as well as their settings) can be performed either by the user in question or by a user with the ADMIN role.</p>
 </div>
 <div class="paragraph">
-<p>Any action on a list of users or on the groups (if authorization is managed in OperatorFabric) can only be performed by
+<p>Any action on a list of users or on the groups (or entities) (if authorization is managed in OperatorFabric) can only be performed by
 a user with the ADMIN role.</p>
 </div>
 <div class="paragraph">
@@ -5306,8 +5375,8 @@ there is no XSS risk.</p>
 </td>
 <td class="content">
 The ADMIN role doesn&#8217;t grant any special privileges when it comes to card consultation (be they current or
-archived), so an user with the ADMIN role will only see cards that have been addressed to them or to one of their
-groups), just like any other user.
+archived), so a user with the ADMIN role will only see cards that have been addressed to them (or to one of their
+groups (or entities)), just like any other user.
 </td>
 </tr>
 </table>
