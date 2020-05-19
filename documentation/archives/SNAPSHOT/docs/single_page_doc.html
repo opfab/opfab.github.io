@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">18 May 2020</span>
+<span id="revdate">19 May 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1011,8 +1011,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_submitting_a_pull_request">32.1.2.3. Submitting a pull request</a></li>
 <li><a href="#_reviewing_a_pull_request">32.1.2.4. Reviewing a Pull Request</a></li>
 <li><a href="#_merging_a_pull_request">32.1.2.5. Merging a Pull Request</a></li>
-<li><a href="#_creating_a_release">32.1.2.6. Creating a release</a></li>
-<li><a href="#_creating_a_hotfix">32.1.2.7. Creating a hotfix</a></li>
+<li><a href="#_creating_a_release_or_hotfix">32.1.2.6. Creating a release or hotfix</a></li>
 </ul>
 </li>
 </ul>
@@ -1071,18 +1070,18 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#release_process">37. Release process</a>
 <ul class="sectlevel2">
-<li><a href="#version_numbers">37.1. Version numbers</a></li>
+<li><a href="#_version_numbers">37.1. Version numbers</a></li>
 <li><a href="#_releasing_a_version">37.2. Releasing a Version</a>
 <ul class="sectlevel3">
-<li><a href="#_check_the_release_notes">37.2.1. Check the release notes</a></li>
-<li><a href="#_create_a_release_branch_and_prepare_the_release">37.2.2. Create a release branch and prepare the release</a></li>
-<li><a href="#_merge_the_release_branch_into_master">37.2.3. Merge the release branch into master</a></li>
+<li><a href="#_checking_the_release_notes">37.2.1. Checking the release notes</a></li>
+<li><a href="#_creating_a_release_branch_and_preparing_the_release">37.2.2. Creating a release branch and preparing the release</a></li>
+<li><a href="#_merging_the_release_branch_into_master">37.2.3. Merging the release branch into <code>master</code></a></li>
 <li><a href="#_checking_deploy_docker_compose">37.2.4. Checking deploy docker-compose</a></li>
 <li><a href="#_in_jira">37.2.5. In Jira</a></li>
 </ul>
 </li>
 <li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">37.3. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_next_version">37.4. Preparing next version</a>
+<li><a href="#_preparing_the_next_version">37.4. Preparing the next version</a>
 <ul class="sectlevel3">
 <li><a href="#_in_jira_2">37.4.1. In Jira</a></li>
 <li><a href="#_on_the_develop_branch">37.4.2. On the <code>develop</code> branch</a></li>
@@ -4687,7 +4686,8 @@ production configuration guidelines</p>
 they can be several instances to ensure availability.</p>
 </div>
 <div class="paragraph">
-<p><a href="#architecture">architecture documentation</a>
+<p>See the
+<a href="#architecture">architecture documentation</a>
 for more information on the different services.</p>
 </div>
 <div class="paragraph">
@@ -4821,7 +4821,7 @@ operatorfabric:
 <p>We only use URI configuration for mongo through the usage of the <code><code>spring.data.mongodb.uris</code></code>,
 it allows us to share the same configuration behavior for simple or cluster
 configuration and with both spring classic and reactive mongo configuration.
-See <a href="https://docs.mongodb.com/manual/reference//connection-string/">mongo connection string</a> for the complete URI syntax.</p>
+See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo connection string</a> for the complete URI syntax.</p>
 </div>
 <div class="sect3">
 <h4 id="_define_time_to_live_for_archived_cards"><a class="anchor" href="#_define_time_to_live_for_archived_cards"></a>18.2.1. Define time to live for archived cards</h4>
@@ -7768,6 +7768,12 @@ Its sole purpose is to serve the Angular SPA to browsers.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.hideTimeFilter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the time filtrer in the feed page</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.notify</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -9166,11 +9172,10 @@ describe the structure of the project and point out useful tools (Gradle tasks, 
 <h2 id="_requirements_2"><a class="anchor" href="#_requirements_2"></a>21. Requirements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes the projects requirements regardless of
-installation options.
+<p>This section describes the projects requirements regardless of installation options.
 Please see
 <a href="#setup_dev_env">Setting up your environment</a>
-ifndef::single-page-doc[<a href="../../../../dev_env/index.html#setup_dev_env">Setting up your environment</a>] below for details on:</p>
+below for details on:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -9226,7 +9231,7 @@ the current Jdk used for the project is Java 8.0.242-zulu.
 </td>
 <td class="content">
 It is highly recommended to use <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/creationix/nvm">nvm</a> to manage tools versions.
+<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions.
 </td>
 </tr>
 </table>
@@ -9322,7 +9327,7 @@ files at
 <td class="content">
 The steps below assume that you have installed and are using
 <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/creationix/nvm">nvm</a> to manage tool versions ( for java,
+<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tool versions ( for java,
 gradle, node and npm).
 </td>
 </tr>
@@ -9768,6 +9773,7 @@ settings)</p>
 <div class="content">
 <pre class="CodeRay highlight"><code>project
 ├──bin
+├──CICD
 │   └─ travis
 ├──client
 │   ├──cards (cards-client-data)
@@ -9787,8 +9793,7 @@ settings)</p>
 ├──web-ui
 ├──src
 |   ├──docs
-|   │   ├──asciidoc
-|   │   └──modelio
+|   │   └──asciidoc
 |   └──main
 |       ├──docker
 |       └──headers
@@ -9811,12 +9816,12 @@ settings)</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/bin">bin</a>: contains useful scripts</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/bin">bin</a>: contains useful scripts for dev purposes</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/bin/travis">travis</a>: travis script for documentation generation and
-upload to opfab.github.io repository</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/CICD/travis">travis</a>: scripts used by Travis for the
+build process</p>
 </li>
 </ul>
 </div>
@@ -9909,9 +9914,6 @@ the OperatorFabric UI</p>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">asciidoc</a>: General documentation (Architecture,
 Getting Started Guide, etc.)</p>
-</li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/modelio">modelio</a>: Archive containing documentation diagrams</p>
 </li>
 </ul>
 </div>
@@ -10500,7 +10502,7 @@ uses several Gradle plugins, among which:</p>
 <p>java -jar [sub-projectPath]/build/libs/[sub-project].jar
 –spring.config.additional-location=file:[filepath]
 NB : properties may be set using ".properties" file or ".yml" file. See
-<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html">Spring
+<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config">Spring
 Boot configuration</a> for more info.</p>
 </li>
 <li>
@@ -10654,7 +10656,7 @@ and re-launching the build should solve this issue.</p>
 <p> <details><summary> 
 <strong>Java version not available when setting up environment</strong>
  </summary><div> 
-When sourcing the <a href="https://github.com/opfab/operatorfabric-core/tree/master/bin/load_environment_light.sh">load_environment_light</a>
+When sourcing the <a href="https://github.com/opfab/operatorfabric-core/blob/master/bin/load_environment_light.sh">load_environment_light</a>
 script to set up your environment, you might get the following error message:</p>
 </div>
 <div class="listingblock">
@@ -10668,7 +10670,7 @@ script to set up your environment, you might get the following error message:</p
 </div>
 <div class="paragraph">
 <p>Select the next available version and update
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/bin/load_environment_light.sh">load_environment_light</a> accordingly before
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/bin/load_environment_light.sh">load_environment_light</a> accordingly before
 sourcing it again.</p>
 </div>
 <div class="paragraph">
@@ -11403,9 +11405,9 @@ Click the "New Pull Request" button for your branch.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>On this screen, by default the base branch for the PR is <code>master</code> because it is the repository&#8217;s default
-branch. However, feature branches are meant to be merged back into <code>develop</code>, not <code>master</code>, so you should select
-<code>develop</code> in the base branch dropdown list.</p>
+<p>Make sure that the base branch for the PR is <code>develop</code>, because feature branches are meant to be merged back into
+<code>develop</code>. This should be the default value since <code>develop</code> is the default branch on this repository, but if not, select
+it in the base branch dropdown list.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -11649,13 +11651,11 @@ with the PR author.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_creating_a_release"><a class="anchor" href="#_creating_a_release"></a>32.1.2.6. Creating a release</h5>
-
-</div>
-<div class="sect4">
-<h5 id="_creating_a_hotfix"><a class="anchor" href="#_creating_a_hotfix"></a>32.1.2.7. Creating a hotfix</h5>
+<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>32.1.2.6. Creating a release or hotfix</h5>
 <div class="paragraph">
-<p>Work in progress</p>
+<p>See the
+<a href="#release_process">release process</a>
+described in our CICD documentation for details.</p>
 </div>
 </div>
 </div>
@@ -12755,7 +12755,7 @@ the .travis.yml file.</p>
 <h2 id="release_process"><a class="anchor" href="#release_process"></a>37. Release process</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="version_numbers"><a class="anchor" href="#version_numbers"></a>37.1. Version numbers</h3>
+<h3 id="_version_numbers"><a class="anchor" href="#_version_numbers"></a>37.1. Version numbers</h3>
 <div class="paragraph">
 <p>We work with two types of versions:</p>
 </div>
@@ -12807,7 +12807,7 @@ It is thus crucial to double-check the content of this file before any push (tri
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
 <div class="sect3">
-<h4 id="_check_the_release_notes"><a class="anchor" href="#_check_the_release_notes"></a>37.2.1. Check the release notes</h4>
+<h4 id="_checking_the_release_notes"><a class="anchor" href="#_checking_the_release_notes"></a>37.2.1. Checking the release notes</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -12839,7 +12839,7 @@ explanations if need be.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_release_branch_and_prepare_the_release"><a class="anchor" href="#_create_a_release_branch_and_prepare_the_release"></a>37.2.2. Create a release branch and prepare the release</h4>
+<h4 id="_creating_a_release_branch_and_preparing_the_release"><a class="anchor" href="#_creating_a_release_branch_and_preparing_the_release"></a>37.2.2. Creating a release branch and preparing the release</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -12930,7 +12930,7 @@ generation.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_merge_the_release_branch_into_master"><a class="anchor" href="#_merge_the_release_branch_into_master"></a>37.2.3. Merge the release branch into master</h4>
+<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>37.2.3. Merging the release branch into <code>master</code></h4>
 <div class="paragraph">
 <p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
 developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
@@ -13056,7 +13056,7 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 </div>
 </div>
 <div class="sect2">
-<h3 id="_preparing_next_version"><a class="anchor" href="#_preparing_next_version"></a>37.4. Preparing next version</h3>
+<h3 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>37.4. Preparing the next version</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
