@@ -105,6 +105,34 @@ window.swaggerSpec={
             "description" : "Authentication required"
           }
         }
+      },
+      "delete" : {
+        "tags" : [ "thirds" ],
+        "summary" : "Deletion of existing Third data",
+        "description" : "Deletion of existing Third data",
+        "operationId" : "deleteBundle",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "thirdName",
+          "in" : "path",
+          "description" : "Name of Third to delete",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "Unable to delete submitted bundle"
+          }
+        }
       }
     },
     "/thirds/{thirdName}/templates/{templateName}" : {

@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 May 2020</span>
+<span id="revdate">20 May 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -5813,10 +5813,6 @@ The profiles available to be activated at runtime are <code>docker</code> and <c
 <p>OperatorFabric Cards-Consultation Business service is a Spring Webflux application
 bootstrapped using SpringBoot.</p>
 </div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
-</div>
 <div class="sect4">
 <h5 id="_mandatory_configuration_profiles_and_default_properties_2"><a class="anchor" href="#_mandatory_configuration_profiles_and_default_properties_2"></a>18.4.2.1. Mandatory configuration, Profiles and default properties</h5>
 <div class="paragraph">
@@ -5843,84 +5839,11 @@ usual bootstrap configuration.</p>
 <div class="sect5">
 <h6 id="_default_properties"><a class="anchor" href="#_default_properties"></a>default properties</h6>
 <div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-consultation
-  cloud:
-    config:
-      name: cards-consultation
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-consultation
-  cloud:
-    config:
-      name: cards-consultation
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-consultation
-  cloud:
-    config:
-      name: cards-consultation
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
+<p>The application-docker.yml file is a replacement application file we use for our
 docker images configuration.</p>
 </div>
 <div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
+<p>The application-dev.yml file is a replacement application file we use for our
 development environment</p>
 </div>
 <div class="paragraph">
@@ -5930,12 +5853,6 @@ development environment</p>
 <ul>
 <li>
 <p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
 </li>
 </ul>
 </div>
@@ -5985,12 +5902,6 @@ The default profiles activated are docker and native.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
 <p>JAVA_OPTIONS: Additional java options</p>
 </li>
 </ul>
@@ -6006,12 +5917,6 @@ The default profiles activated are docker and native.</p>
 <h6 id="_available_environment_variables_when_launching_on_kubernetes_2"><a class="anchor" href="#_available_environment_variables_when_launching_on_kubernetes_2"></a>Available environment variables when launching on Kubernetes</h6>
 <div class="ulist">
 <ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
 <li>
 <p>JAVA_OPTIONS: Additional java options</p>
 </li>
@@ -7164,12 +7069,8 @@ The default profiles activated are docker and native.</p>
 <div class="sect3">
 <h4 id="_thirds_business_service"><a class="anchor" href="#_thirds_business_service"></a>18.4.7. Thirds Business service</h4>
 <div class="paragraph">
-<p>OperatorFabric Thirds Business service is a Spring MVC application
+<p>OperatorFabric Thirds Business service is a Spring MVC standalone application
 bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
 </div>
 <div class="sect4">
 <h5 id="_mandatory_configuration_profiles_and_default_properties_7"><a class="anchor" href="#_mandatory_configuration_profiles_and_default_properties_7"></a>18.4.7.1. Mandatory configuration, Profiles and default properties</h5>
