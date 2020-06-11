@@ -384,6 +384,10 @@ window.swaggerSpec={
         "data" : {
           "type" : "object",
           "description" : "Business data"
+        },
+        "hasBeenAcknowledged" : {
+          "type" : "boolean",
+          "description" : "Is true if the card was acknoledged at least by one user"
         }
       },
       "required" : [ "processId", "publisher", "publisherVersion", "severity", "startDate", "title", "summary", "recipient" ],
@@ -553,6 +557,10 @@ window.swaggerSpec={
           "items" : {
             "$ref" : "#/definitions/TimeSpan"
           }
+        },
+        "hasBeenAcknowledged" : {
+          "type" : "boolean",
+          "description" : "Is true if the card was acknoledged at least by one user"
         }
       },
       "example" : {
@@ -918,6 +926,26 @@ window.swaggerSpec={
           },
           "403" : {
             "description" : "Forbidden - User doesn't have any group"
+          }
+        }
+      }
+    },
+    "/cards/{id}/userAcknowledgement" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "type" : "string",
+        "required" : true,
+        "description" : "The id parameter is constructed as follows : {publisher}_{processId}"
+      } ],
+      "post" : {
+        "operationId" : "postUserAcknowledgement",
+        "tags" : [ "cards", "update" ],
+        "summary" : "update current card adding a user acknowledgement",
+        "description" : "update current card users acknowledgements for process id",
+        "responses" : {
+          "201" : {
+            "description" : "OK"
           }
         }
       }
