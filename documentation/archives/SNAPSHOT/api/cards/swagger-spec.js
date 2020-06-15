@@ -373,6 +373,14 @@ window.swaggerSpec={
             "type" : "string"
           }
         },
+        "entitiesAllowedToRespond" : {
+          "description" : "List of entities that have to respond",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "example" : [ "tso1", "tso2" ]
+        },
         "entityRecipients" : {
           "description" : "List of entity recipients",
           "type" : "array",

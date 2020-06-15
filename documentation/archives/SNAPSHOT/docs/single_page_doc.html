@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">14 June 2020</span>
+<span id="revdate">15 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -546,12 +546,10 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_business_components_2">3.1. Business components</a></li>
 <li><a href="#_technical_components">3.2. Technical components</a>
 <ul class="sectlevel3">
-<li><a href="#_registry">3.2.1. Registry</a></li>
-<li><a href="#_gateway">3.2.2. Gateway</a></li>
-<li><a href="#_configuration">3.2.3. Configuration</a></li>
-<li><a href="#_broker">3.2.4. Broker</a></li>
-<li><a href="#_authentication">3.2.5. Authentication</a></li>
-<li><a href="#_database">3.2.6. Database</a></li>
+<li><a href="#_gateway">3.2.1. Gateway</a></li>
+<li><a href="#_broker">3.2.2. Broker</a></li>
+<li><a href="#_authentication">3.2.3. Authentication</a></li>
+<li><a href="#_database">3.2.4. Database</a></li>
 </ul>
 </li>
 </ul>
@@ -758,7 +756,7 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_configuration_3">18. Configuration</a>
+<li><a href="#_configuration_2">18. Configuration</a>
 <ul class="sectlevel2">
 <li><a href="#_global_configuration">18.1. Global configuration</a></li>
 <li><a href="#_operatorfabric_mongo_configuration">18.2. OperatorFabric Mongo configuration</a>
@@ -1199,7 +1197,7 @@ deals with and then showing how this translates into the technical architecture.
 <p>OperatorFabric is based on the concept of <strong>cards</strong>, which contain data regarding events that are relevant for the
 operator.
 A third party tool publishes cards and the cards are received on the screen of the operators. Depending on the type
-of the cards, the operator can send back information to the third party via an "action".</p>
+of the cards, the operator can send back information to the third party via a "response card".</p>
 </div>
 <div class="sect2">
 <h3 id="_business_components"><a class="anchor" href="#_business_components"></a>2.1. Business components</h3>
@@ -1214,16 +1212,13 @@ of the cards, the operator can send back information to the third party via an "
 <div class="ulist">
 <ul>
 <li>
-<p>Card Publication : this component receives the cards from third party tools</p>
+<p>Card Publication : this component receives the cards from third party tools or users</p>
 </li>
 <li>
 <p>Card Consultation : this component delivers the cards to the operators and provide access to all cards exchanged (archives)</p>
 </li>
 <li>
-<p>Actions : this component receives the action from the operator and send it to the third party tool</p>
-</li>
-<li>
-<p>Card rendering and process definition : this component stores the information for the card rendering (templates, internationalization, &#8230;&#8203;) and a light description of the process associate (states, actions, &#8230;&#8203;). This configuration data can be provided either by an administrator or by a third party tool.</p>
+<p>Card rendering and process definition : this component stores the information for the card rendering (templates, internationalization, &#8230;&#8203;) and a light description of the process associate (states, response card, &#8230;&#8203;). This configuration data can be provided either by an administrator or by a third party tool.</p>
 </li>
 <li>
 <p>User Management : this component is used to manage users, groups and entities.</p>
@@ -1247,10 +1242,10 @@ of the cards, the operator can send back information to the third party via an "
 <p>Card : the core business object which contains the data to show to the user(or operator)</p>
 </li>
 <li>
-<p>Publisher : the third party which publishes cards</p>
+<p>Publisher : the third party which publishes or receives cards</p>
 </li>
 <li>
-<p>User : the operator receiving cards and responding via actions</p>
+<p>User : the operator receiving cards and responding via response cards</p>
 </li>
 <li>
 <p>Group : a group (containing a list of users)</p>
@@ -1267,9 +1262,6 @@ of the cards, the operator can send back information to the third party via an "
 <li>
 <p>Card Rendering : data for card rendering</p>
 </li>
-<li>
-<p>Action : a list of possible actions for a specific state in a process</p>
-</li>
 </ul>
 </div>
 </div>
@@ -1279,7 +1271,7 @@ of the cards, the operator can send back information to the third party via an "
 <h2 id="_technical_architecture"><a class="anchor" href="#_technical_architecture"></a>3. Technical Architecture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The architecture is based on micro-services. All business services are accessible via REST API.</p>
+<p>The architecture is based on independant modules. All business services are accessible via REST API.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1318,7 +1310,7 @@ of the cards, the operator can send back information to the third party via an "
 </ul>
 </div>
 <div class="paragraph">
-<p>All business components are based on <a href="https://spring.io/projects/spring-boot">SpringBoot</a> and packaged via <a href="https://www.docker.com/">Docker</a>.</p>
+<p>Except form the UI, which is based on angular, all business components are based on <a href="https://spring.io/projects/spring-boot">SpringBoot</a> and packaged via <a href="https://www.docker.com/">Docker</a>.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html">Spring WebFlux</a> is used to provide the card in a fluid way.</p>
@@ -1327,40 +1319,26 @@ of the cards, the operator can send back information to the third party via an "
 <div class="sect2">
 <h3 id="_technical_components"><a class="anchor" href="#_technical_components"></a>3.2. Technical components</h3>
 <div class="sect3">
-<h4 id="_registry"><a class="anchor" href="#_registry"></a>3.2.1. Registry</h4>
-<div class="paragraph">
-<p>It is the central component where all services are registered. It serves as a reference point for the gateway and other
-services to find information about the running services instance and allow for local load balancing of accesses. It is implemented by <a href="https://spring.io/projects/spring-cloud-netflix">Spring Cloud Netflix</a> .</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_gateway"><a class="anchor" href="#_gateway"></a>3.2.2. Gateway</h4>
+<h4 id="_gateway"><a class="anchor" href="#_gateway"></a>3.2.1. Gateway</h4>
 <div class="paragraph">
 <p>It provides a filtered view of the APIS and static served pages for external access through browsers or other http
-compliant accesses. It provides the rooting and load balancing for accessing the micro-services from outside. It is implemented by <a href="https://cloud.spring.io/spring-cloud-gateway/reference/html/">Spring Cloud Gateway</a>.</p>
+compliant accesses. It provides the rooting for accessing the services from outside. It is a nginx server package with docker, this component contains the angular UI component.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration"><a class="anchor" href="#_configuration"></a>3.2.3. Configuration</h4>
-<div class="paragraph">
-<p>A configuration service is not mandatory in a micro-services architecture but may allow for better sharing of common configuration and
-to dispatch global configuration changes to all services. It is implemented via <a href="https://cloud.spring.io/spring-cloud-config/reference/html/">Spring Cloud Config</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_broker"><a class="anchor" href="#_broker"></a>3.2.4. Broker</h4>
+<h4 id="_broker"><a class="anchor" href="#_broker"></a>3.2.2. Broker</h4>
 <div class="paragraph">
 <p>The broker is used to share information asynchronously across the whole services. It is implemented via <a href="https://www.rabbitmq.com/">RabbitMQ</a></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_authentication"><a class="anchor" href="#_authentication"></a>3.2.5. Authentication</h4>
+<h4 id="_authentication"><a class="anchor" href="#_authentication"></a>3.2.3. Authentication</h4>
 <div class="paragraph">
 <p>The architecture provides a default authentication service via <a href="https://www.keycloak.org/">KeyCloak</a> but it can delegate it to an external provider. Authentication is done through the use of  Oauth2, three flows are supported : implicit, authorization code and password.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_database"><a class="anchor" href="#_database"></a>3.2.6. Database</h4>
+<h4 id="_database"><a class="anchor" href="#_database"></a>3.2.4. Database</h4>
 <div class="paragraph">
 <p>The cards are stored in a <a href="https://www.mongodb.com/">MongoDb</a> database. The bundles are stored in a file system.</p>
 </div>
@@ -2808,7 +2786,7 @@ actions allowing specific card rendering for each state of the business process.
 </ul>
 </div>
 <div class="sect6">
-<h7 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>configuration</h7>
+<h7 id="_configuration"><a class="anchor" href="#_configuration"></a>configuration</h7>
 <div class="paragraph">
 <p>The process entry in the configuration file is a dictionary of processes, each key maps to a process definition.
 A process definition is itself a dictionary of states, each key maps to a state definition. A state is defined by:</p>
@@ -4713,7 +4691,7 @@ production configuration guidelines</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>18. Configuration</h2>
+<h2 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>18. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>OperatorFabric has multiple services to configure. These configurations are managed by a Configuration Service, of which
