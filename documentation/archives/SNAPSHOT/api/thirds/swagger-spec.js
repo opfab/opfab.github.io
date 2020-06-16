@@ -597,6 +597,10 @@ window.swaggerSpec={
                     },
                     "response" : {
                       "$ref" : "#/definitions/Response"
+                    },
+                    "acknowledgmentAllowed" : {
+                      "type" : "boolean",
+                      "description" : "This flag indicates the possibility for a card of this kind to be acknowledged on user basis"
                     }
                   }
                 }
