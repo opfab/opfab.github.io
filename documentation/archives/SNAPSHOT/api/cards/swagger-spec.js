@@ -398,7 +398,7 @@ window.swaggerSpec={
           "description" : "Is true if the card was acknoledged at least by one user"
         }
       },
-      "required" : [ "processId", "publisher", "publisherVersion", "severity", "startDate", "title", "summary", "recipient" ],
+      "required" : [ "processId", "publisher", "publisherVersion", "severity", "startDate", "title", "summary" ],
       "example" : {
         "uid" : 12345,
         "id" : "cardIdFromMyProcess",

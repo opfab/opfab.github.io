@@ -576,6 +576,10 @@ window.swaggerSpec={
           "additionalProperties" : {
             "type" : "object",
             "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "i18n key for UI"
+              },
               "states" : {
                 "type" : "object",
                 "additionalProperties" : {
@@ -601,6 +605,14 @@ window.swaggerSpec={
                     "acknowledgmentAllowed" : {
                       "type" : "boolean",
                       "description" : "This flag indicates the possibility for a card of this kind to be acknowledged on user basis"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "i18n key for UI"
+                    },
+                    "color" : {
+                      "type" : "string",
+                      "description" : "use as a display cue in the UI"
                     }
                   }
                 }
