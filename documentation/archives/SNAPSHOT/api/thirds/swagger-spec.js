@@ -366,111 +366,6 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/{thirdName}/{process}/{state}/actions" : {
-      "get" : {
-        "tags" : [ "thirds" ],
-        "summary" : "Get actions associated to thirds",
-        "description" : "Get actions associated with Third+process+state, returns an array of actions (application/json)",
-        "operationId" : "getActions",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "thirdName",
-          "in" : "path",
-          "description" : "Name of Third to retrieve",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "process",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "state",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "apiVersion",
-          "in" : "query",
-          "required" : false,
-          "description" : "Expected version of third",
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "$ref" : "#/definitions/Action"
-              }
-            }
-          },
-          "404" : {
-            "description" : "No such third"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          }
-        }
-      }
-    },
-    "/thirds/{thirdName}/{process}/{state}/actions/{actionKey}" : {
-      "get" : {
-        "tags" : [ "thirds" ],
-        "summary" : "Get actions associated to thirds",
-        "description" : "Get actions associated with Third+process+state, returns an array of actions (application/json)",
-        "operationId" : "getAction",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "thirdName",
-          "in" : "path",
-          "description" : "Name of Third to retrieve",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "process",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "state",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "actionKey",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "apiVersion",
-          "in" : "query",
-          "required" : false,
-          "description" : "Expected version of third",
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/Action"
-            }
-          },
-          "404" : {
-            "description" : "No such third"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          }
-        }
-      }
-    },
     "/thirds/{thirdName}/versions/{version}" : {
       "delete" : {
         "tags" : [ "thirds" ],
@@ -509,12 +404,6 @@ window.swaggerSpec={
     }
   },
   "definitions" : {
-    "ActionEnum" : {
-      "type" : "string",
-      "description" : "Action type >\n* EXTERNAL - Not defined (not implemented)\n* URL - The action is tied to a url which must conform the specification of 3rd Party actions (see reference manual)\n* JNLP - The action triggers a JNLP link (not implemented)",
-      "enum" : [ "EXTERNAL", "URL", "JNLP" ],
-      "example" : "URL"
-    },
     "ThirdMenuEntry" : {
       "type" : "object",
       "properties" : {
@@ -592,13 +481,6 @@ window.swaggerSpec={
                         "$ref" : "#/definitions/Detail"
                       }
                     },
-                    "actions" : {
-                      "type" : "object",
-                      "description" : "Map of actions, identifying an action by its unique card related id",
-                      "additionalProperties" : {
-                        "$ref" : "#/definitions/Action"
-                      }
-                    },
                     "response" : {
                       "$ref" : "#/definitions/Response"
                     },
@@ -649,20 +531,7 @@ window.swaggerSpec={
                 },
                 "titleStyle" : "titleClass",
                 "templateName" : "template1"
-              } ],
-              "actions" : {
-                "action1" : {
-                  "type" : "URL",
-                  "lockAction" : true,
-                  "called" : false,
-                  "updateStateBeforeAction" : false,
-                  "hidden" : true,
-                  "buttonStyle" : "buttonClass",
-                  "label" : {
-                    "key" : "my.card.my.action.label"
-                  }
-                }
-              }
+              } ]
             },
             "state2" : {
               "details" : [ {
@@ -767,65 +636,6 @@ window.swaggerSpec={
         "titleStyle" : "titleClass",
         "templateName" : "template1",
         "styles" : [ "bundleTest.css", "otherStyle.css" ]
-      }
-    },
-    "Action" : {
-      "description" : "defines an action on the business process associated to the card",
-      "type" : "object",
-      "properties" : {
-        "type" : {
-          "description" : "Action type",
-          "$ref" : "#/definitions/ActionEnum"
-        },
-        "url" : {
-          "description" : "Url of remote service entry point",
-          "type" : "string"
-        },
-        "lockAction" : {
-          "type" : "boolean",
-          "default" : false,
-          "description" : "if true, action will be locked after clicked client-side"
-        },
-        "called" : {
-          "type" : "boolean",
-          "default" : false,
-          "readOnly" : true,
-          "description" : "True if action has already been called at least once"
-        },
-        "updateStateBeforeAction" : {
-          "type" : "boolean",
-          "default" : false,
-          "description" : "if true, client will attempt an update of ActionStatus before execution"
-        },
-        "hidden" : {
-          "type" : "boolean",
-          "default" : false,
-          "description" : "This action is hidden from card and is only available to details;"
-        },
-        "buttonStyle" : {
-          "type" : "string",
-          "description" : "css classes of action button"
-        },
-        "label" : {
-          "description" : "button default label, appears as a tooltip",
-          "$ref" : "#/definitions/I18n"
-        }
-      },
-      "required" : [ "type", "label" ],
-      "example" : {
-        "type" : "URL",
-        "lockAction" : true,
-        "called" : false,
-        "updateStateBeforeAction" : false,
-        "hidden" : true,
-        "buttonStyle" : "buttonClass",
-        "label" : {
-          "key" : "myCard.myAction.label",
-          "parameters" : {
-            "EN" : "Choose colour",
-            "FR" : "Choisir une couleur"
-          }
-        }
       }
     },
     "Response" : {

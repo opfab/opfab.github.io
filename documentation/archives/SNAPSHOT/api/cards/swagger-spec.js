@@ -938,7 +938,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/{id}/userAcknowledgement" : {
+    "/cards/userAcknowledgement/{id}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "id",
@@ -948,12 +948,35 @@ window.swaggerSpec={
       } ],
       "post" : {
         "operationId" : "postUserAcknowledgement",
-        "tags" : [ "cards", "update" ],
+        "tags" : [ "cards", "update", "acknowledgement" ],
         "summary" : "update current card adding a user acknowledgement",
-        "description" : "update current card users acknowledgements for process id",
+        "description" : "update current card users acknowledgements, adding a new item, by card id and authenticated user",
         "responses" : {
           "201" : {
-            "description" : "OK"
+            "description" : "Created"
+          },
+          "200" : {
+            "description" : "No action done, the item already exists"
+          },
+          "404" : {
+            "description" : "Try to remove item from unexisting card"
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "deleteUserAcknowledgement",
+        "tags" : [ "cards", "delete", "acknowledgement" ],
+        "summary" : "update current card removing a user acknowledgement",
+        "description" : "update current card users acknowledgements, removing an item, by card id and authenticated user",
+        "responses" : {
+          "200" : {
+            "description" : "Item removed"
+          },
+          "204" : {
+            "description" : "Try to remove unexisting item"
+          },
+          "404" : {
+            "description" : "Try to remove item from unexisting card"
           }
         }
       }
