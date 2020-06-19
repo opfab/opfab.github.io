@@ -270,6 +270,11 @@ window.swaggerSpec={
           "description" : "Unique card ID (as defined in the associated process)",
           "readOnly" : true
         },
+        "parentCardId" : {
+          "type" : "string",
+          "description" : "The id of the parent card (optional)",
+          "readOnly" : true
+        },
         "publisher" : {
           "type" : "string",
           "description" : "Publishing service unique ID"
