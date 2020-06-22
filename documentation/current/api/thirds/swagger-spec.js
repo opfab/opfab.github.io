@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric ThirdParty Management API",
-    "version" : "1.3.0.RELEASE",
+    "version" : "1.4.0.RELEASE",
     "title" : "Thirds Management",
     "termsOfService" : "",
     "contact" : {
@@ -103,6 +103,34 @@ window.swaggerSpec={
           },
           "401" : {
             "description" : "Authentication required"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "thirds" ],
+        "summary" : "Deletion of existing Third data",
+        "description" : "Deletion of existing Third data",
+        "operationId" : "deleteBundle",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "thirdName",
+          "in" : "path",
+          "description" : "Name of Third to delete",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "Unable to delete submitted bundle"
           }
         }
       }
@@ -290,12 +318,12 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/{thirdName}/{process}/{state}/actions" : {
+    "/thirds/{thirdName}/{process}/{state}/response" : {
       "get" : {
         "tags" : [ "thirds" ],
-        "summary" : "Get actions associated to thirds",
-        "description" : "Get actions associated with Third+process+state, returns an array of actions (application/json)",
-        "operationId" : "getActions",
+        "summary" : "Get response associated to thirds",
+        "description" : "Get response associated with Third+process+state, returns a response (application/json)",
+        "operationId" : "getResponse",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "thirdName",
@@ -326,10 +354,7 @@ window.swaggerSpec={
           "200" : {
             "description" : "OK",
             "schema" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "$ref" : "#/definitions/Action"
-              }
+              "$ref" : "#/definitions/Response"
             }
           },
           "404" : {
@@ -341,68 +366,44 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/{thirdName}/{process}/{state}/actions/{actionKey}" : {
-      "get" : {
+    "/thirds/{thirdName}/versions/{version}" : {
+      "delete" : {
         "tags" : [ "thirds" ],
-        "summary" : "Get actions associated to thirds",
-        "description" : "Get actions associated with Third+process+state, returns an array of actions (application/json)",
-        "operationId" : "getAction",
+        "summary" : "Deletion of existing version of Third data",
+        "description" : "Deletion of existing version of Third data",
+        "operationId" : "deleteBundleVersion",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "thirdName",
           "in" : "path",
-          "description" : "Name of Third to retrieve",
+          "description" : "Name of Third to delete",
           "required" : true,
           "type" : "string"
         }, {
-          "name" : "process",
+          "name" : "version",
           "in" : "path",
-          "description" : "Name of state",
+          "description" : "Version of Third to delete",
           "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "state",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "actionKey",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "apiVersion",
-          "in" : "query",
-          "required" : false,
-          "description" : "Expected version of third",
           "type" : "string"
         } ],
         "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/Action"
-            }
-          },
-          "404" : {
-            "description" : "No such third"
+          "204" : {
+            "description" : "OK"
           },
           "401" : {
             "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "Unable to delete submitted version of bundle"
           }
         }
       }
     }
   },
   "definitions" : {
-    "ActionEnum" : {
-      "type" : "string",
-      "description" : "Action type >\n* EXTERNAL - Not defined (not implemented)\n* URL - The action is tied to a url which must conform the specification of 3rd Party actions (see reference manual)\n* JNLP - The action triggers a JNLP link (not implemented)",
-      "enum" : [ "EXTERNAL", "URL", "JNLP" ],
-      "example" : "URL"
-    },
     "ThirdMenuEntry" : {
       "type" : "object",
       "properties" : {
@@ -464,6 +465,10 @@ window.swaggerSpec={
           "additionalProperties" : {
             "type" : "object",
             "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "i18n key for UI"
+              },
               "states" : {
                 "type" : "object",
                 "additionalProperties" : {
@@ -476,12 +481,20 @@ window.swaggerSpec={
                         "$ref" : "#/definitions/Detail"
                       }
                     },
-                    "actions" : {
-                      "type" : "object",
-                      "description" : "Map of actions, identifying an action by its unique card related id",
-                      "additionalProperties" : {
-                        "$ref" : "#/definitions/Action"
-                      }
+                    "response" : {
+                      "$ref" : "#/definitions/Response"
+                    },
+                    "acknowledgmentAllowed" : {
+                      "type" : "boolean",
+                      "description" : "This flag indicates the possibility for a card of this kind to be acknowledged on user basis"
+                    },
+                    "name" : {
+                      "type" : "string",
+                      "description" : "i18n key for UI"
+                    },
+                    "color" : {
+                      "type" : "string",
+                      "description" : "use as a display cue in the UI"
                     }
                   }
                 }
@@ -518,20 +531,7 @@ window.swaggerSpec={
                 },
                 "titleStyle" : "titleClass",
                 "templateName" : "template1"
-              } ],
-              "actions" : {
-                "action1" : {
-                  "type" : "URL",
-                  "lockAction" : true,
-                  "called" : false,
-                  "updateStateBeforeAction" : false,
-                  "hidden" : true,
-                  "buttonStyle" : "buttonClass",
-                  "label" : {
-                    "key" : "my.card.my.action.label"
-                  }
-                }
-              }
+              } ]
             },
             "state2" : {
               "details" : [ {
@@ -638,64 +638,34 @@ window.swaggerSpec={
         "styles" : [ "bundleTest.css", "otherStyle.css" ]
       }
     },
-    "Action" : {
-      "description" : "defines an action on the business process associated to the card",
+    "Response" : {
+      "description" : "defines a response to an action on the business process associated to the card",
       "type" : "object",
       "properties" : {
-        "type" : {
-          "description" : "Action type",
-          "$ref" : "#/definitions/ActionEnum"
+        "btnColor" : {
+          "description" : "Response button color",
+          "$ref" : "#/definitions/ResponseBtnColorEnum",
+          "default" : "GREEN"
         },
-        "url" : {
-          "description" : "Url of remote service entry point",
-          "type" : "string"
-        },
-        "lockAction" : {
-          "type" : "boolean",
-          "default" : false,
-          "description" : "if true, action will be locked after clicked client-side"
-        },
-        "called" : {
-          "type" : "boolean",
-          "default" : false,
-          "readOnly" : true,
-          "description" : "True if action has already been called at least once"
-        },
-        "updateStateBeforeAction" : {
-          "type" : "boolean",
-          "default" : false,
-          "description" : "if true, client will attempt an update of ActionStatus before execution"
-        },
-        "hidden" : {
-          "type" : "boolean",
-          "default" : false,
-          "description" : "This action is hidden from card and is only available to details;"
-        },
-        "buttonStyle" : {
-          "type" : "string",
-          "description" : "css classes of action button"
-        },
-        "label" : {
-          "description" : "button default label, appears as a tooltip",
+        "btnText" : {
+          "description" : "Response i18n button text",
           "$ref" : "#/definitions/I18n"
-        }
-      },
-      "required" : [ "type", "label" ],
-      "example" : {
-        "type" : "URL",
-        "lockAction" : true,
-        "called" : false,
-        "updateStateBeforeAction" : false,
-        "hidden" : true,
-        "buttonStyle" : "buttonClass",
-        "label" : {
-          "key" : "myCard.myAction.label",
-          "parameters" : {
-            "EN" : "Choose colour",
-            "FR" : "Choisir une couleur"
-          }
+        },
+        "lock" : {
+          "description" : "If true, user can act only once",
+          "type" : "boolean"
+        },
+        "state" : {
+          "description" : "The state of the card generated by the action",
+          "type" : "string"
         }
       }
+    },
+    "ResponseBtnColorEnum" : {
+      "type" : "string",
+      "description" : "Response button color >\n* RED - The button will be red in the template\n* GREEN - The button will be green in the template\n* YELLOW - The button will be yellow in the template",
+      "enum" : [ "RED", "GREEN", "YELLOW" ],
+      "example" : "RED"
     }
   }
 }

@@ -526,14 +526,55 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 1.3.0.RELEASE,</span>
-<span id="revdate">13 May 2020</span>
+<span id="revnumber">version 1.4.0.RELEASE,</span>
+<span id="revdate">22 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_deployment">1. Deployment</a></li>
-<li><a href="#custom_certificates">2. Adding certification authorities or certificates to the Java keystore</a></li>
+<li><a href="#_configuration">2. Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#_business_service_configuration">2.1. Business service configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_shared_business_service_configuration">2.1.1. Shared business service configuration</a></li>
+<li><a href="#_business_service_specific_configurations">2.1.2. Business service specific configurations</a>
+<ul class="sectlevel4">
+<li><a href="#_thirds_service">2.1.2.1. Thirds service</a></li>
+<li><a href="#_users_service">2.1.2.2. Users service</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_web_ui_configuration">2.2. Web UI Configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_nginx_configuration">2.2.1. NGINX configuration</a></li>
+<li><a href="#_service_specific_properties">2.2.2. Service specific properties</a></li>
+</ul>
+</li>
+<li><a href="#opfab_spec_conf">2.3. Security Configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_authentication_configuration">2.3.1. Authentication configuration</a>
+<ul class="sectlevel4">
+<li><a href="#_nginx_configuration_2">2.3.1.1. Nginx Configuration</a></li>
+<li><a href="#_configuration_file_common_yml">2.3.1.2. Configuration file common.yml</a></li>
+<li><a href="#_configuration_file_web_ui_json">2.3.1.3. Configuration file web-ui.json</a></li>
+<li><a href="#_oauth2_password_or_code_flows">2.3.1.4. OAuth2 PASSWORD or CODE Flows</a></li>
+<li><a href="#_oauth2_implicit_flow">2.3.1.5. OAuth2 IMPLICIT Flow</a></li>
+</ul>
+</li>
+<li><a href="#_user_creation">2.3.2. User creation</a></li>
+<li><a href="#jwt_mode">2.3.3. Alternative way to manage groups (and/or entities)</a></li>
+<li><a href="#custom_certificates">2.3.4. Adding certification authorities or certificates to the Java keystore</a></li>
+</ul>
+</li>
+<li><a href="#_operatorfabric_mongo_configuration">2.4. OperatorFabric Mongo configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_define_time_to_live_for_archived_cards">2.4.1. Define time to live for archived cards</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_rabbitmq">3. RabbitMQ</a>
 <ul class="sectlevel2">
 <li><a href="#_docker_container">3.1. Docker container</a></li>
@@ -546,50 +587,24 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_configuration">4. Configuration</a>
+<li><a href="#_users_groups_and_entities_administration">4. Users, Groups and Entities Administration</a>
 <ul class="sectlevel2">
-<li><a href="#_global_configuration">4.1. Global configuration</a></li>
-<li><a href="#_operatorfabric_mongo_configuration">4.2. OperatorFabric Mongo configuration</a>
+<li><a href="#_users">4.1. Users</a>
 <ul class="sectlevel3">
-<li><a href="#_define_time_to_live_for_archived_cards">4.2.1. Define time to live for archived cards</a></li>
+<li><a href="#_list_all_users">4.1.1. List all users</a></li>
+<li><a href="#_create_a_new_user">4.1.2. Create a new User</a></li>
+<li><a href="#_fetch_user_details">4.1.3. Fetch user details</a></li>
+<li><a href="#_update_user_details">4.1.4. Update user details</a></li>
 </ul>
 </li>
-<li><a href="#opfab_spec_conf">4.3. OperatorFabric Specific configuration</a>
+<li><a href="#_groupsentities">4.2. Groups/Entities</a>
 <ul class="sectlevel3">
-<li><a href="#_security_configuration">4.3.1. Security Configuration</a></li>
-<li><a href="#_user_creation">4.3.2. User creation</a></li>
-<li><a href="#_alternative_way_to_manage_groups_andor_entities">4.3.3. Alternative way to manage groups (and/or entities)</a></li>
-</ul>
-</li>
-<li><a href="#_service_specific_configuration">4.4. Service-specific configuration</a>
-<ul class="sectlevel3">
-<li><a href="#_actions_business_service">4.4.1. Actions Business service</a></li>
-<li><a href="#_cards_consultation_business_service">4.4.2. Cards-Consultation Business service</a></li>
-<li><a href="#_cards_publication_business_service">4.4.3. Cards-Publication Business service</a></li>
-<li><a href="#cloud_gateway_service_config">4.4.4. Cloud Gateway service</a></li>
-<li><a href="#cloud_config_service_config">4.4.5. Cloud Configuration service</a></li>
-<li><a href="#cloud_registry_service_config">4.4.6. Cloud Registry service</a></li>
-<li><a href="#_thirds_business_service">4.4.7. Thirds Business service</a></li>
-<li><a href="#_users_business_service">4.4.8. Users Business service</a></li>
-<li><a href="#_web_ui">4.4.9. Web UI</a></li>
-</ul>
-</li>
-<li><a href="#_users_groups_and_entities_administration">4.5. Users, Groups and Entities Administration</a>
-<ul class="sectlevel3">
-<li><a href="#_list_all_users">4.5.1. List all users</a></li>
-<li><a href="#_create_a_new_user">4.5.2. Create a new User</a></li>
-<li><a href="#_fetch_user_details">4.5.3. Fetch user details</a></li>
-<li><a href="#_update_user_details">4.5.4. Update user details</a></li>
-</ul>
-</li>
-<li><a href="#_groupsentities">4.6. Groups/Entities</a>
-<ul class="sectlevel3">
-<li><a href="#_list_groups_or_entities">4.6.1. List groups (or entities)</a></li>
-<li><a href="#_create_a_new_group_or_entity">4.6.2. Create a new group (or entity)</a></li>
-<li><a href="#_fetch_details_of_a_given_group_or_entity">4.6.3. Fetch details of a given group (or entity)</a></li>
-<li><a href="#_update_details_of_a_group_or_entity">4.6.4. Update details of a group (or entity)</a></li>
-<li><a href="#_add_a_user_to_a_group_or_entity">4.6.5. Add a user to a group (or entity)</a></li>
-<li><a href="#_remove_a_user_from_a_group_or_entity">4.6.6. Remove a user from a group (or entity)</a></li>
+<li><a href="#_list_groups_or_entities">4.2.1. List groups (or entities)</a></li>
+<li><a href="#_create_a_new_group_or_entity">4.2.2. Create a new group (or entity)</a></li>
+<li><a href="#_fetch_details_of_a_given_group_or_entity">4.2.3. Fetch details of a given group (or entity)</a></li>
+<li><a href="#_update_details_of_a_group_or_entity">4.2.4. Update details of a group (or entity)</a></li>
+<li><a href="#_add_a_user_to_a_group_or_entity">4.2.5. Add a user to a group (or entity)</a></li>
+<li><a href="#_remove_a_user_from_a_group_or_entity">4.2.6. Remove a user from a group (or entity)</a></li>
 </ul>
 </li>
 </ul>
@@ -608,7 +623,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deployment">1. Deployment</h2>
+<h2 id="_deployment"><a class="anchor" href="#_deployment"></a>1. Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>For now OperatorFabric consist of Docker images available either by compiling
@@ -620,108 +635,7 @@ the project or by using images releases from <a href="https://hub.docker.com/">D
 <div class="paragraph">
 <p>For simple one instance per service deployment, you can find a sample
 deployment as a docker-compose file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker/deploy">here</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="custom_certificates">2. Adding certification authorities or certificates to the Java keystore</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>If you&#8217;re using certificates (for example for Keycloak) that are not from a certification authority trusted by the JVM,
-this will cause errors such as this one:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/certificate_error.png" alt="Missing certificate error message">
-</div>
-</div>
-<div class="paragraph">
-<p>If that is the case, you can pass the additional authorities or certificates that you use to the containers at runtime.</p>
-</div>
-<div class="paragraph">
-<p>To do so, put the relevant files (*.der files for example) under <strong>src/main/docker/certificates</strong>.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>This directory should only contain the files to be added to the keystore.</p>
-</li>
-<li>
-<p>The files can be nested inside directories.</p>
-</li>
-<li>
-<p>Each certificate will be added with its filename as alias. For example, the certificate in file mycertificate.der
-will be added under alias <strong>mycertificate</strong>. As a consequence, filenames should be unique or it will cause an error.</p>
-</li>
-<li>
-<p>If you need to add or remove certificates while the container is already running, the container will have to be
-restarted for the changes to be taken into account.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>If you would like certificates to be sourced from a different location, replace the volumes declarations in the deploy
-docker-compose.yml file with the selected location:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>volumes:
- - "path/to/my/selected/location:/certificates_to_add"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>instead of</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>volumes:
- - "../../../../src/main/docker/certificates:/certificates_to_add"</pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-The steps described here assume you&#8217;re running OperatorFabric in docker mode using the deploy docker-compose,
-but they can be adapted for single container deployments and development mode.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If you want to check that the certificates were correctly added, you can do so with the following steps:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open a bash shell in the container you want to check</p>
-<div class="literalblock">
-<div class="content">
-<pre>docker exec -it deploy_thirds_1 bash</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Run the following command</p>
-<div class="literalblock">
-<div class="content">
-<pre>$JAVA_HOME/bin/keytool -list -v -keystore /tmp/cacerts -storepass changeit</pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>You can also look at the default list of authorities and certificates trusted by the JVM with this command:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$JAVA_HOME/bin/keytool -list -v -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit</pre>
-</div>
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/config/docker">here</a></p>
 </div>
 <div class="paragraph">
 <p>To run OperatorFabric in development mode, see
@@ -731,103 +645,14 @@ but they can be adapted for single container deployments and development mode.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rabbitmq">3. RabbitMQ</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_docker_container">3.1. Docker container</h3>
-<div class="paragraph">
-<p>In development mode, the simplest way to deploy a RabbitMQ server is to
-create a RabbitMQ docker container. A <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker/rabbitmq">docker-compose file</a> is provided to allow quick setup of a convenient RabbitMQ
- server.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_server_installation">3.2. Server installation</h3>
-<div class="paragraph">
-<p>This section is dedicated to production deployment of RabbitMQ. It is
- not complete and needs to be tailored to any specific production
- environment.</p>
-</div>
-<div class="sect3">
-<h4 id="_download_installation">3.2.1. Download &amp; Installation</h4>
-<div class="paragraph">
-<p>Download and install RabbitMQ following the
-<a href="https://www.rabbitmq.com/download.html">official procedure</a> for the
-target environment</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_used_ports">3.2.2. Used ports</h4>
-<div class="paragraph">
-<p>If RabbitMQ may not bind to the following ports, it won&#8217;t start :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>4369</strong>: epmd, a peer discovery service used by RabbitMQ nodes and
-CLI tools</p>
-</li>
-<li>
-<p><strong>5672, 5671</strong>: used by AMQP 0-9-1 and 1.0 clients without and with
-TLS</p>
-</li>
-<li>
-<p><strong>25672</strong>: used for inter-node and CLI tools communication
-(Erlang distribution server port) and is allocated from a dynamic range
-(limited to a single port by default, computed as AMQP port + 20000).
-Unless external connections on these ports are really necessary
-(e.g. the cluster uses federation or CLI tools are used on machines
-outside the subnet), these ports should not be publicly exposed. See
-networking guide for details.</p>
-</li>
-<li>
-<p><strong>35672-35682</strong>: used by CLI tools (Erlang distribution client ports)
-for communication with nodes and is allocated from a dynamic range
-(computed as server distribution port + 10000 through server
-distribution port + 10010). See networking guide for details.</p>
-</li>
-<li>
-<p><strong>15672</strong>: HTTP API clients, management UI and rabbitmqadmin (<strong>only if
-the management plugin is enabled</strong>)</p>
-</li>
-<li>
-<p><strong>61613, 61614</strong>: STOMP clients without and with TLS
-(<strong>only if the STOMP plugin is enabled</strong>)</p>
-</li>
-<li>
-<p><strong>1883, 8883</strong>: (MQTT clients without and with TLS,
-<em>if the MQTT plugin is enabled</em>)</p>
-</li>
-<li>
-<p><strong>15674</strong>: STOMP-over-WebSockets clients
-(<strong>only if the Web STOMP plugin is enabled</strong>)</p>
-</li>
-<li>
-<p><strong>15675</strong>: MQTT-over-WebSockets clients
-(<strong>only if the Web MQTT plugin is enabled</strong>)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_production_configuration">3.2.3. Production configuration</h4>
-<div class="paragraph">
-<p>See the <a href="https://www.rabbitmq.com/production-checklist.html">guide</a> for
-production configuration guidelines</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_configuration">4. Configuration</h2>
+<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>2. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OperatorFabric has multiple services to configure. These configurations are managed by a Configuration Service, of which
-they can be several instances to ensure availability.</p>
+<p>OperatorFabric has multiple services to configure.</p>
 </div>
 <div class="paragraph">
-<p><a href="#../../../../documentation/current/architecture/index.adoc">architecture documentation</a>
+<p>See the
+<a href="../../../../documentation/current/architecture/index.html#architecture">architecture documentation</a>
 for more information on the different services.</p>
 </div>
 <div class="paragraph">
@@ -847,2491 +672,50 @@ configuration which is described in the following documentation:</p>
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="_global_configuration">4.1. Global configuration</h3>
 <div class="paragraph">
-<p>Aside from the one for the configuration service, all configurations are gathered as resources in the
-configuration service (under /services/infra/config/src/main/docker/volume).</p>
-</div>
-<div class="paragraph">
-<p>Note that a few things cannot be set in the configuration served by the configuration service (because its needed
-right at the application startup for example) and
-must be set in each service bootstrap configuration file. In this regard,
-<a href="../../../../deployment/index.html#cloud_config_service_config">Cloud Configuration Service</a>
-and
-<a href="../../../../deployment/index.html#cloud_registry_service_config">Cloud Registry Service</a>
-services have specific configuration but for other services, they all require
-the same minimal information:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>mandatory</strong> service name(spring.application.name)</p>
-</li>
-<li>
-<p><strong>mandatory</strong> configuration name (spring.cloud.config.name)</p>
-</li>
-<li>
-<p><strong>mandatory</strong> configuration fetch from registry enabled (spring.cloud.config.discovery.enabled: true)</p>
-</li>
-<li>
-<p><strong>mandatory</strong> configuration service name in registry (spring.cloud.config.discovery.service-id)</p>
-</li>
-<li>
-<p><strong>mandatory</strong> eureka registration (eureka.client.register-with-eureka: true and
-eureka.client.fetch-registry: true)</p>
-</li>
-<li>
-<p><strong>mandatory</strong> eureka registry urls (eureka.client.service-url.defaultZone)</p>
-</li>
-<li>
-<p>configuration fail fast (spring.cloud.config.fail-fast)</p>
-</li>
-<li>
-<p>configuration fetch maximum retry (spring.cloud.config.retry.max-attempts)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In most situation, you do not need to change the default bootstrap
-configuration for those services. Make a copy of the default bootstrap (inside
-the jar or from the sources) and set eureka up (see above).</p>
-</div>
-<div class="paragraph">
-<p>The different services also share a common configuration you can setup in the
-config service backend. Those common configuration may be set up in the backend <code><code>application.yml</code></code> file.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-  data:
-    mongodb:
-      uris:
-        - mongodb://root:password@mongodb:27017/operator-fabric?authSource=admin&amp;authMode=scram-sha1
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://authserver/auth/realms/dev/protocol/openid-connect/certs
-eureka:
-  client:
-    service-url:
-      defaultZone: http://registry:8080/eureka
-    region: default
-  registryFetchIntervalSeconds: 5
-
-operatorfabric:
-  security:
-    oauth2:
-      client-id: opfab-client
-      client-secret: opfab-oauth-secret
-    jwt:
-      login-claim: preferred_username
-      expire-claim: exp</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In the above example you can see that we need to configure:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>RabbitMQ (See <a href="https://docs.spring.io/spring-amqp/docs/2.1.3.RELEASE/reference/htmlsingle//reference/htmlsingle/">spring-amqp doc</a>)</p>
-</li>
-<li>
-<p>MongoDB</p>
-</li>
-<li>
-<p>Eureka (See <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.1.0.RC3//single/spring-cloud-netflix.html#_service_discovery_eureka_clients">spring eureka</a>)</p>
-</li>
-<li>
-<p>OperatorFabric</p>
-</li>
-</ul>
-</div>
+<p>Configuration is centralized in the <strong>config</strong> directory, the <strong>dev</strong> sub-directory is specific to development environments
+while the <strong>docker</strong> sub-directory is a specific configuration meant for use in a full docker environment.</p>
 </div>
 <div class="sect2">
-<h3 id="_operatorfabric_mongo_configuration">4.2. OperatorFabric Mongo configuration</h3>
-<div class="paragraph">
-<p>We only use URI configuration for mongo through the usage of the <code><code>spring.data.mongodb.uris</code></code>,
-it allows us to share the same configuration behavior for simple or cluster
-configuration and with both spring classic and reactive mongo configuration.
-See <a href="https://docs.mongodb.com/manual/reference//connection-string/">mongo connection string</a> for the complete URI syntax.</p>
-</div>
+<h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>2.1. Business service configuration</h3>
 <div class="sect3">
-<h4 id="_define_time_to_live_for_archived_cards">4.2.1. Define time to live for archived cards</h4>
+<h4 id="_shared_business_service_configuration"><a class="anchor" href="#_shared_business_service_configuration"></a>2.1.1. Shared business service configuration</h4>
 <div class="paragraph">
-<p>By default, archived cards will remain stored in the database forever. It is possible to have them automatically
-removed after a specified duration by using the <a href="https://docs.mongodb.com/manual/core/index-ttl/">TTL index feature of mongoDB</a> on their publishDate field.</p>
-</div>
-<div class="paragraph">
-<p>For example, to have cards expire after 10 days (864000s), enter the following commands in the mongo shell:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">use operator-fabric
-db.archivedCards.createIndex( { &quot;publishDate&quot;: 1 }, { expireAfterSeconds: 864000 } )</code></pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-You cannot use createIndex() to change the value of expireAfterSeconds of an existing index.
-Instead use the <a href="https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod">collMod</a> database command in conjunction with the index collection flag. Otherwise, to
-change the value of the option of an existing index, you must drop the index first and recreate.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="opfab_spec_conf">4.3. OperatorFabric Specific configuration</h3>
-<div class="paragraph">
-<p>Below are description of OperatorFabric specific configuration properties.</p>
-</div>
-<div class="paragraph">
-<p>Note that other components may have specific configuration, see the relevant
-sub-sections.</p>
-</div>
-<div class="sect3">
-<h4 id="_security_configuration">4.3.1. Security Configuration</h4>
-<div class="sect4">
-<h5 id="_common_configuration">Common configuration</h5>
-<div class="paragraph">
-<p>This concern is configured within the <code>${OF_HOME}/services/infra/config</code> project
-into 3 distinct files:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>application.yml</code>;</p>
-</li>
-<li>
-<p><code>web-ui.yml</code>;</p>
-</li>
-<li>
-<p><code>client-gateway.yml</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>They are located into the following folders within the <code>${OF_HOME}/services/infra/config/java/src/main/docker/volume</code> folder:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>dev-configurations</code>: to be use into <code>dev</code> mode;</p>
-</li>
-<li>
-<p><code>docker-configurations</code>: used by docker at run time.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>EXAMPLE: the configuration for <code>dev</code> before compilation is done in the following files:
-    - <code>${OF_HOME}/services/infra/config/java/src/main/docker/volume/dev-configurations/application.yml</code>;
-    - <code>${OF_HOME}/services/infra/config/java/src/main/docker/volume/dev-configurations/client-gateway.ym</code>;
-    - <code>${OF_HOME}/services/infra/config/java/src/main/docker/volume/dev-configurations/web-ui.yml</code>.</p>
-</div>
-<div class="paragraph">
-<p>For test purposes in <code>dev</code> mode, it&#8217;s possible to edit files located into <code>`${OF_HOME}/services/infra/config/build/docker-volume/dev-configurations</code>.
-Be aware that those changes will be lost after a new compilation or even a simple re-run of the project.</p>
-</div>
-<div class="paragraph">
-<p>This configuration files follow the <code>springframework</code> configuration convention. Within a same file it&#8217;s possible to
-use <code><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions">SpEL ${}</a></code> convention. For example,  <code>${AnotheProperty}</code> allows to re-use the value of <code>AnotherProperty</code> already declared.
-It helps to avoid typos or missing to report some changes. An example could be find below into the <code>delegate-url</code> property.</p>
-</div>
-<div class="sect5">
-<h6 id="_application_yml">application.yml</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.client-id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Oauth2 client id used by OperatorFabric may be specific for each service</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.client-secret</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Oauth2 client secret used by OperatorFabric may be specific for each service</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.login-claim</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as user login or id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.expire-claim</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">exp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as token expiration timestamp</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.provider-url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak instance url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.provider-realm</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The realm name within the keycloak instance</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>example of <code>application.yml</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>operatorfabric:
-    security:
-        oauth2:
-            client-id: opfab-client
-            client-secret: opfab-keycloak-secret
-        jwt:
-            login-claim: preferred_username
-            expire-claim: exp</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>operatorfabric.security.jwt.expire-claim</code> could have been omitted because having the same value as the default one.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_client_gateway_yml">client-gateway.yml</h6>
-
-</div>
-<div class="sect5">
-<h6 id="_filters_and_cors_configuration">Filters and CORS configuration</h6>
-<div class="sect6">
-<h7 id="_authentication_server">Authentication Server</h7>
-<div class="paragraph">
-<p>In the configuration service <code>client-gateway.yml</code> file:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The application must set up a route to the oauth server</p>
-<div class="ulist">
-<ul>
-<li>
-<p><code>/auth/token(?&lt;path&gt;.*)</code>: must match the oauth2 token entry point;</p>
-</li>
-<li>
-<p><code>/auth/code/(?&lt;params&gt;.*)</code>: must match the auth entry point with specific query
-parameters like <code>response_type=code&amp;client_id=[client id]&amp;${params}</code>;</p>
-</li>
-<li>
-<p><code>/auth/check_token</code>: must match token introspection entry point</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>The application must add request header for each request:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><code>AddRequestHeader: Authorization, Basic</code>: followed, separated with a space, by the <code>OAuth2 client-id</code> and the <code>OAuth2 client-secret</code> encoded in base64.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>The application may set up CORS rules if api are to be accessed from browser outside of
-the deployment domain</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Configuration example of the filters, for the docker dev keycloak:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring.cloud.gateway.routes[0].filters:
-        - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
-        - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
-        - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
-        - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance</p>
-</li>
-<li>
-<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
-</li>
-<li>
-<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
-</li>
-<li>
-<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
-<code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_action_service">Action Service</h7>
-<div class="paragraph">
-<p>In the  configuration service <code>client-gateway.yml</code> file, the application must set up the <code>URI</code> of the <code>Action Service</code>.</p>
-</div>
-<div class="paragraph">
-<p>To do so, the <code>spring.cloud.gateway.routes.id="action".uri</code> property is set with the actual value of this service.</p>
-</div>
-<div class="paragraph">
-<p>In the case of a development set-up, this value is <code><a href="http://localhost:2105" class="bare">localhost:2105</a></code> where <code>2105</code> 
-is the default port as set in the <code>application.yml</code> used by the <code>Action service</code> as configuration.</p>
-</div>
-<div class="paragraph">
-<p><code>client-gateway.yml</code> of the <code>dev-configuration</code> as example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  cloud:
-    gateway:
-      routes:
-      - id: actions
-        uri: http://localhost:2105
-        predicates:
-        - Path=/actions/**
-        filters:
-        - RewritePath=/actions/(?&lt;path&gt;.*), /$\{path}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As explained earlier, the key to configure is <code>uri</code> of the <code>spring.cloud.gateway.routes</code> with the <code>id</code>
-equals to <code>actions</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_web_ui_yml">web-ui.yml</h6>
-<div class="paragraph">
-<p>For OAuth2 security concerns into this file, there are two way to configure it, based on the Oauth2 chosen flow.
-There are two common properties:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>operatorfabric.security.oauth2.flow.provider</code> which corresponds to the OAuth2 provider.</p>
-</li>
-<li>
-<p><code>operatorfabric.security.realm-url</code>: which is the OAuth2 realm provider under which the OpertaroFabric client is declared.</p>
-</li>
-<li>
-<p><code>operatorfabric.security.provider-url</code>: which is the The keycloak server instance.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_oauth2_flows_and_specific_configuration">OAuth2 Flows and specific configuration</h5>
-<div class="paragraph">
-<p>There are 3 OAuth2 Authentication flows available into OperatorFabric UI:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>password grant: referred as PASSWORD mode flow;</p>
-</li>
-<li>
-<p>code flow : referred as  CODE mode flow;</p>
-</li>
-<li>
-<p>implicit flow: referred as IMPLICIT mode flow.</p>
-</li>
-</ul>
-</div>
-<div class="sect5">
-<h6 id="_oauth2_implicit_flow">OAuth2 IMPLICIT Flow</h6>
-<div class="paragraph">
-<p>It had its own way of configuration.
-To enable IMPLICIT Flow authentication the following properties need to be set:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>operatorfabric.security.oauth2.flow.mode</code> to <code>IMPLICIT</code>;</p>
-</li>
-<li>
-<p><code>operatorfabric.security.oauth2.flow.delegate-url</code> with the URL of the OAuth2 leading to the <code>.well-known/openid-configuration</code> end-point used for authentication configuration.</p>
-</li>
-</ul>
-</div>
-<div class="sect6">
-<h7 id="_example_of_configuration_for_implicit_flow">Example of configuration for IMPLICIT Flow</h7>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>operatorfabric:
-  keycloak:
-    realm: dev
-  security:
-    oauth2:
-      flow:
-        mode: IMPLICIT
-        provider: Opfab Keycloak
-        delagate-url: http://localhost:89/auth/realms/${operatorfabric.keycloak.realm}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Within the <code>delegate-url</code> property the <code>${operatorfabric.keycloak.realm}</code> refers to the value of the <code>operatorfabric.keycloak.realm</code> declared earlier, <code>dev</code> here.
-For keycloak instance used for dev purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred. The
-url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_oauth2_password_or_code_flows">OAuth2 PASSWORD or CODE Flows</h6>
-<div class="paragraph">
-<p>These two modes share the same way of declaring the delegate URL. The default configuration for dev is set to <code>CODE</code> and work straight away.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>operatorfabric.security.oauth2.flow.mode</code> to <code>PASSWORD</code> or <code>CODE</code>;</p>
-</li>
-<li>
-<p><code>operatorfabric.security.oauth2.flow.delegate-url</code> with the URL of the OAuth2 leading to the protocol used for authentication.</p>
-</li>
-</ul>
-</div>
-<div class="sect6">
-<h7 id="_example_of_configuration_for_code_flow">Example of Configuration For CODE Flow</h7>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>operatorfabric:
-  keycloak:
-    realm: dev
-  security:
-    oauth2:
-      flow:
-        mode: CODE
-        provider: Opfab Keycloak
-        delagate-url: http://localhost:89/auth/realms/${operatorfabric.keycloak.realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Within the <code>delegate-url</code> property the <code>${operatorfabric.keycloak.realm}</code> refers to the value(also <code>dev</code> here) of the <code>operatorfabric.keycloak.realm</code> declared earlier.
-Here, the <code>client-id</code> value is <code>opfab-client</code> which is define as client under the <code>realm</code> named dev on the dev keycloak instance.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_using_token">Using token</h5>
-<div class="sect5">
-<h6 id="_get_a_token">Get a token</h6>
-<div class="paragraph">
-<p>End point: <code><a href="http://localhost:2002/auth/token" class="bare">localhost:2002/auth/token</a></code></p>
-</div>
-<div class="paragraph">
-<p>Method: <code>POST</code></p>
-</div>
-<div class="paragraph">
-<p>Body arguments:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>client_id: <code>string</code> constant=<code>clientIdPassword</code>;</p>
-</li>
-<li>
-<p>grant_type: <code>string</code> constant=<code>password</code>;</p>
-</li>
-<li>
-<p>username: <code>string</code> any value, must match an OperatorFabric registered user
-name;</p>
-</li>
-<li>
-<p>password: <code>string</code> any value;</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The following examples will be for <code>admin</code> user.</p>
-</div>
-<div class="sect6">
-<h7 id="_curl">Curl</h7>
-<div class="paragraph">
-<p>command:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>curl -s -X POST -d
-"username=admin&amp;password=test&amp;grant_type=password&amp;client_id=clientIdPassword"
-http://localhost:2002/auth/token</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>example of expected result:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cC
-I6MTU1MjY1OTczOCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOi
-IwMmQ4MmU4NS0xM2YwLTQ2NzgtOTc0ZC0xOGViMDYyMTVhNjUiLCJjbGllbnRfaWQiOiJjbGllbnRJZF
-Bhc3N3b3JkIiwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.SDg-BEzzonIVXfVBnnfq0oMbs_0
-rWVtFGAZzRHj7KPgaOXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdK
-VAz0CkMKqng4kQeQm_1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVD
-SJew1rj5EiSybuy83PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZC
-AYVM-mmHbjk8mF89fL9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw","to
-ken_type":"bearer","refresh_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWI
-iOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ1c2VyX2luZm8iXSwiYXRpIjoiMDJkODJlODUtMTNmMC0
-0Njc4LTk3NGQtMThlYjA2MjE1YTY1IiwiZXhwIjoxNTUyNzAxMTM4LCJhdXRob3JpdGllcyI6WyJST0x
-FX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aSI6IjMwOWY2ZDllLWNmOGEtNDg0YS05ZjMxLWViOTAxYzk
-4YTFkYSIsImNsaWVudF9pZCI6ImNsaWVudElkUGFzc3dvcmQifQ.jnZDt6TX2BvlmdT5JV-A7eHTJz_s
-lC5fHrJFVI58ly6N7AUUfxebG_52pmuVHYULSKqTJXaLR866r-EnD4BJlzhk476FtgtVx1nazTpLFRLb
-8qDCxeLrzClQBkzcxOt6VPxB3CD9QImx3bcsDwjkPxofUDmdg8AxZfGTu0PNbvO8TKLXEkeCztLFvSJM
-GlN9zDzWhKxr49I-zPZg0XecgE9j4WITkFoDVwI-AfDJ3sGXDi5AN55Sz1j633QoqVjhtc0lO50WPVk5
-YT7gU8HLj27EfX-6vjnGfNb8oeq189-NX100QHZM9Wgm79mIm4sRgwhpv-zzdDAkeb3uwIpb8g","exp
-ires_in":1799,"scope":"read
-user_info","jti":"02d82e85-13f0-4678-974d-18eb06215a65"}</pre>
-</div>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_httpie">Httpie</h7>
-<div class="literalblock">
-<div class="content">
-<pre>http --form POST http://localhost:2002/auth/token username=admin password=test
-grant_type=password client_id=clientIdPassword</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>example of expected result:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>.HTTP/1.1 200 OK
-Cache-Control: no-store
-Content-Type: application/json;charset=utf-8
-Date: Fri, 15 Mar 2019 13:57:19 GMT
-Pragma: no-cache
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-transfer-encoding: chunked
-
-{
-    "access_token":
-"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOS
-wiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yz
-g3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2
-NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd
-3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST
-8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge
-8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfD
-J6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q",
-    "expires_in": 1799,
-    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
-    "refresh_token":
-"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLC
-J1c2VyX2luZm8iXSwiYXRpIjoiNjI0MzA5YjEtN2M4Ny00Y2RjLTg0NDMtMDEyNDUxNWY4N2Y4IiwiZX
-hwIjoxNTUyNzAxNDM5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aS
-I6ImRiYzMxNTJiLTM4YTUtNGFmZC1hY2VmLWVkZTI4MjJkOTE3YyIsImNsaWVudF9pZCI6ImNsaWVudE
-lkUGFzc3dvcmQifQ.Ezd8kbfNQHOOvUCNNN4UmOOkncHiT9QVEM63FiW1rq0uXDa3xfBGil8geM5MsP0
-7Q2He-mynkFb8sGNDrAXTdO-8r5o4a60zWrktrMg2QH4icC1lyeZpiwZxe6675QpLpSeMlXt9PdYj-pb
-14lrRookxXP5xMQuIMteZpbtby7LuuNAbNrjveZ1bZ4WMi7zltUzcYUuqHlP1AYPteGRrJVKXiuPpoDv
-gwMsEk2SkgyyACI7SdZZs8IT9IGgSsIjjgTMQKzj8P6yYxNLUynEW4o5y1s2aAOV0xKrzkln9PchH9zN
-qO-fkjTVRjy_LBXGq9zkn0ZeQ3BUe1GuthvGjaA",
-    "scope": "read user_info",
-    "token_type": "bearer"
-}</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_extract_token">Extract token</h6>
-<div class="paragraph">
-<p>From the previous results, the data need to be considered to be authenticated
-by OperatorFabric services is the content of the <code>"access_token"</code> attribute of
-the body response.</p>
-</div>
-<div class="paragraph">
-<p>Once this value extracted, it need to be passed at the end of the value of the
-http HEADER of type <code>Authorization:Bearer</code>.
-example from previous results:</p>
-</div>
-<div class="sect6">
-<h7 id="_curl_2">Curl</h7>
-<div class="literalblock">
-<div class="content">
-<pre>Authorization:Bearer
-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY1OTczOCw
-iYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIwMmQ4MmU4NS0xM2Y
-wLTQ2NzgtOTc0ZC0xOGViMDYyMTVhNjUiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2N
-vcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.SDg-BEzzonIVXfVBnnfq0oMbs_0rWVtFGAZzRHj7KPga
-OXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdKVAz0CkMKqng4kQeQm
-_1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVDSJew1rj5EiSybuy83
-PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZCAYVM-mmHbjk8mF89f
-L9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw</pre>
-</div>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_httpie_2">Httpie</h7>
-<div class="literalblock">
-<div class="content">
-<pre>Authorization:Bearer
-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOSw
-iYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yzg
-3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2N
-vcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd3
-PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST8
-fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge8
-scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfDJ
-6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_check_a_token">Check a token</h6>
-<div class="sect6">
-<h7 id="_curl_3">Curl</h7>
-<div class="paragraph">
-<p>from previous example</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>curl -s -X POST -d
-"token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY1
-OTczOCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIwMmQ4MmU4
-NS0xM2YwLTQ2NzgtOTc0ZC0xOGViMDYyMTVhNjUiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3Jk
-Iiwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.SDg-BEzzonIVXfVBnnfq0oMbs_0rWVtFGAZzR
-Hj7KPgaOXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdKVAz0CkMKqn
-g4kQeQm_1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVDSJew1rj5Ei
-Sybuy83PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZCAYVM-mmHbj
-k8mF89fL9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw"
-http://localhost:2002/auth/check_token</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>which gives the following example of result:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{
-    "sub":"admin",
-    "scope":["read","user_info"],
-    "active":true,"exp":1552659738,
-    "authorities":["ROLE_ADMIN","ROLE_USER"],
-    "jti":"02d82e85-13f0-4678-974d-18eb06215a65",
-    "client_id":"clientIdPassword"
-}</pre>
-</div>
-</div>
-</div>
-<div class="sect6">
-<h7 id="_httpie_3">Httpie</h7>
-<div class="paragraph">
-<p>from previous example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http --form POST http://localhost:2002/auth/check_token
-token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2M
-DAzOSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliM
-S03Yzg3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkI
-iwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2q
-Fa5Bd3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lH
-Dd8ST8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNX
-J4Bge8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeA
-pKdfDJ6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>which gives the following example of result:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>HTTP/1.1 200 OK
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Content-Type: application/json;charset=utf-8
-Date: Fri, 15 Mar 2019 14:19:31 GMT
-Expires: 0
-Pragma: no-cache
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-transfer-encoding: chunked
-
-{
-    "active": true,
-    "authorities": [
-        "ROLE_ADMIN",
-        "ROLE_USER"
-    ],
-    "client_id": "clientIdPassword",
-    "exp": 1552660039,
-    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
-    "scope": [
-        "read",
-        "user_info"
-    ],
-    "sub": "admin"
-}</pre>
-</div>
-</div>
-</div>
-</div>
+<p>The configuration shared by all business services is in a yaml file, you can find an example with the file
+/config/docker/common-docker.yml.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_user_creation">4.3.2. User creation</h4>
+<h4 id="_business_service_specific_configurations"><a class="anchor" href="#_business_service_specific_configurations"></a>2.1.2. Business service specific configurations</h4>
 <div class="paragraph">
-<p>Setting automated user creation==. Creation user requires a user id. Given name and family name are optional.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.login-claim</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as a user login or id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.given-name-claim</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">given-name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used to set the user&#8217;s given name</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.family-name-claim</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">family-name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used to set the user&#8217;s family name</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_alternative_way_to_manage_groups_andor_entities">4.3.3. Alternative way to manage groups (and/or entities)</h4>
-<div class="paragraph">
-<p>By default, <code>Operator-Fabric</code> manage groups (and/or entities) through the user&#8217;s collection in the database. Another mode can be defined, the JWT mode. The groups (and/or entities) come from the authentication token. The administrator of the authentication service has to set what claims define a group (and/or entity). In the <code>Operator-Fabric</code> configuration, the opfab administrator has to set properties to retrieve those groups (and/or entities).</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.mode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">OPERATOR_FABRIC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the group mode, possible values JWT or OPERATOR_FABRIC</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandard.path</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a group</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardArray.path</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines an array of groups</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardList.path</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a list of group</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardList.separator</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">set the separator value of the list of group</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimCheckExistPath.path</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to check if that path does exist, if it does, use the roleValue as a group</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimCheckExistPath.roleValue</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">set the value of the group if the path exists</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.entitiesIdClaim</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">set the name of the field in the token</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values : true/false)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p><em>application.yml</em></p>
+<p>Each business service has a specific yaml configuration file. It should a least contain the name of the service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>operatorfabric:
-  security:
-    jwt:
-      entitiesIdClaim: entitiesId
-      gettingEntitiesFromToken: true
-      groups:
-        mode: JWT # value possible JWT | OPERATOR_FABRIC
-        rolesClaim:
-          rolesClaimStandard:
-            - path: "ATTR1"
-            - path: "ATTR2"
-          rolesClaimStandardArray:
-            - path: "resource_access/opfab-client/roles"
-          rolesClaimStandardList:
-            - path: "roleFieldList"
-              separator: ";"
-          rolesClaimCheckExistPath:
-            - path: "resource_access/AAA"
-              roleValue: "roleAAA"
-            - path: "resource_access/BBB"
-              roleValue: "roleBBB"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">thirds</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><em>JWT example</em></p>
+<p>It can contain references to other services as well, for example :</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>{
-  "jti": "5ff87583-10bd-4946-8753-9d58171c8b7f",
-  "exp": 1572979628,
-  "nbf": 0,
-  "iat": 1572961628,
-  "iss": "http://localhost:89/auth/realms/dev",
-  "aud": [
-    "AAA",
-    "BBB",
-    "account"
-  ],
-  "sub": "example_user",
-  "typ": "Bearer",
-  "azp": "opfab-client",
-  "auth_time": 0,
-  "session_state": "960cbec4-fcb2-47f2-a155-975832e61300",
-  "acr": "1",
-  "realm_access": {
-    "roles": [
-      "offline_access",
-      "uma_authorization"
-    ]
-  },
-  "resource_access": {
-    "AAA": {
-      "roles": [
-        "role_AAA"
-      ]
-    },
-    "BBB": {
-      "roles": [
-        "role_BBB"
-      ]
-    },
-    "opfab-client": {
-      "roles": [
-        "USER"
-      ]
-    },
-    "account": {
-      "roles": [
-        "manage-account",
-        "manage-account-links",
-        "view-profile"
-      ]
-    }
-  },
-  "scope": "openid ATTR2 email ATTR1 profile roleFieldList",
-  "email_verified": false,
-  "name": "example_firtstname example_lastname",
-  "ATTR2": "roleATTR2",
-  "ATTR1": "roleATTR1",
-  "preferred_username": "example_user",
-  "given_name": "example_firtstname",
-  "entitiesId": "ENTITY1",
-  "family_name": "example_lastname",
-  "email": "example_user@mail.com",
-  "roleFieldList": "roleA;roleB;roleC"
-}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">users</span>:
+  <span class="key">ribbon</span>:
+    <span class="key">listOfServers</span>: <span class="string"><span class="content">users:8080</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As the result, the group will be [ATTR1, ATTR2, roleA, roleB, roleC, USER, roleBBB, roleAAA]</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_service_specific_configuration">4.4. Service-specific configuration</h3>
-<div class="sect3">
-<h4 id="_actions_business_service">4.4.1. Actions Business service</h4>
-<div class="paragraph">
-<p>OperatorFabric Actions Business service is a Spring Webflux application
-bootstrapped using SpringBoot.</p>
+<p>Examples of configuration of each business service can be found either under config/docker or config/dev depending on
+the type of deployment you&#8217;re looking for.</p>
 </div>
 <div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties">Mandatory configuration, Profiles and default properties</h5>
+<h5 id="_thirds_service"><a class="anchor" href="#_thirds_service"></a>2.1.2.1. Thirds service</h5>
 <div class="paragraph">
-<p>The service has the following mandatory configuration.</p>
+<p>The third service has this specific property :</p>
 </div>
-<div class="sect5">
-<h6 id="_mandatory_properties">Mandatory properties</h6>
-<div class="paragraph">
-<p>The following table recaps all the needed properties for the <code>action service</code> 
-to run properly. They&#8217;re defined in the <code>application.yml</code> configuration file.
-The configuration use during the development should be included into the
-<code>application-dev.yml</code> configuration file.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">key</th>
-<th class="tableblock halign-left valign-top">Usage</th>
-<th class="tableblock halign-left valign-top">Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">server.port</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the port of the service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.jwk-set-uri</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URI serving the public
-key use to control OAuth2 jwt signature.
-See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517 - JSON Web Key (JWK)</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:89/auth/realms/dev/protocol/openid-connect/certs" class="bare">localhost:89/auth/realms/dev/protocol/openid-connect/certs</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.services.base-url.cards</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the <code>action service</code> of the
-current <code>OperatorFabric</code> instance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:2104" class="bare">localhost:2104</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.services.base-url.thirds</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the <code>third service</code> of the
-current <code>OperatorFabric</code> instance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:2100" class="bare">localhost:2100</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.services.base-url.users</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the <code>user service</code> of the
-current <code>OperatorFabric</code> instance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:2103" class="bare">localhost:2103</a></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file">Specifying external configuration properties when launching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_a_docker_image">Specifying configuration properties when launching a docker image</h5>
-<div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runtime.
-The profiles available to be activated at runtime are <code>docker</code> and <code>native</code>.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_on_kubernetes">Specifying configuration properties when launching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_cards_consultation_business_service">4.4.2. Cards-Consultation Business service</h4>
-<div class="paragraph">
-<p>OperatorFabric Cards-Consultation Business service is a Spring Webflux application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_2">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
-</div>
-<div class="paragraph">
-<p>For other configuration see:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.</p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
-</li>
-</ul>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties">Service specific properties</h6>
-
-</div>
-<div class="sect5">
-<h6 id="_default_properties">default properties</h6>
-<div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-consultation
-  cloud:
-    config:
-      name: cards-consultation
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-consultation
-  cloud:
-    config:
-      name: cards-consultation
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-consultation
-  cloud:
-    config:
-      name: cards-consultation
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_development_configuration">Sample development configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2104
-logging.level.root: DEBUG</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_2">Specifying external configuration properties when launching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_a_docker_image_2">Specifying configuration properties when launching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runCards-Consultation.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_2">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_on_kubernetes_2">Specifying configuration properties when launching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_2">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_cards_publication_business_service">4.4.3. Cards-Publication Business service</h4>
-<div class="paragraph">
-<p>OperatorFabric Cards-Publication Business service is a Spring Webflux application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_3">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
-</div>
-<div class="paragraph">
-<p>For other configuration see:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.</p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web-reactive.html#webflux">Spring MVC documentation</a>.</p>
-</li>
-</ul>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties_2">Service specific properties</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.card-write.window.size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card input window size to fill before flush</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.card-write.window.timeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card input window millis wait time before flush</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.card-notification.window.size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card notification window size to fill before flush</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.card-notification.window.timeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">card notification window millis wait time before flush</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_default_properties_2">default properties</h6>
-<div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-publication
-  cloud:
-    config:
-      name: cards-publication
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-publication
-  cloud:
-    config:
-      name: cards-publication
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: cards-publication
-  cloud:
-    config:
-      name: cards-publication
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_development_configuration_2">Sample development configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2102</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_2">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_3">Specifying external configuration properties when launching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_a_docker_image_3">Specifying configuration properties when launching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runCards-Publication.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_3">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_on_kubernetes_3">Specifying configuration properties when launching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_3">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="cloud_gateway_service_config">4.4.4. Cloud Gateway service</h4>
-<div class="paragraph">
-<p>OperatorFabric Client Gateway service is a Spring Cloud Gateway application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture the gateway service depends on Eureka
-Registry.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_4">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>To get a working gateway service, there a few mandatory configuration
-properties:</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_filters_and_cors_configuration_2">Filters and CORS configuration</h5>
-<div class="sect5">
-<h6 id="_authentication_server_2">Authentication Server</h6>
-<div class="paragraph">
-<p>In the configuration service <code>client-gateway.yml</code> file:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The application must set up a route to the oauth server</p>
-<div class="ulist">
-<ul>
-<li>
-<p><code>/auth/token(?&lt;path&gt;.*)</code>: must match the oauth2 token entry point;</p>
-</li>
-<li>
-<p><code>/auth/code/(?&lt;params&gt;.*)</code>: must match the auth entry point with specific query
-parameters like <code>response_type=code&amp;client_id=[client id]&amp;${params}</code>;</p>
-</li>
-<li>
-<p><code>/auth/check_token</code>: must match token introspection entry point</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>The application must add request header for each request:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><code>AddRequestHeader: Authorization, Basic</code>: followed, separated with a space, by the <code>OAuth2 client-id</code> and the <code>OAuth2 client-secret</code> encoded in base64.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>The application may set up CORS rules if api are to be accessed from browser outside of
-the deployment domain</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Configuration example of the filters, for the docker dev keycloak:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring.cloud.gateway.routes[0].filters:
-        - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
-        - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
-        - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
-        - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>spring.cloud.gateway.routes.uri</code>: is your keycloak instance</p>
-</li>
-<li>
-<p><code>spring.cloud.gateway.routes[0]</code> is the routes with <code>id</code> equals to <code>auth</code>;</p>
-</li>
-<li>
-<p><code>/realms/dev</code>: is the keycloak realm where <code>opfab-client</code> is defined.</p>
-</li>
-<li>
-<p><code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code>: is the base64 encoded string of <code>opfab-client:opfab-keycloak-secret</code> with
-<code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_action_service_2">Action Service</h6>
-<div class="paragraph">
-<p>In the  configuration service <code>client-gateway.yml</code> file, the application must set up the <code>URI</code> of the <code>Action Service</code>.</p>
-</div>
-<div class="paragraph">
-<p>To do so, the <code>spring.cloud.gateway.routes.id="action".uri</code> property is set with the actual value of this service.</p>
-</div>
-<div class="paragraph">
-<p>In the case of a development set-up, this value is <code><a href="http://localhost:2105" class="bare">localhost:2105</a></code> where <code>2105</code> 
-is the default port as set in the <code>application.yml</code> used by the <code>Action service</code> as configuration.</p>
-</div>
-<div class="paragraph">
-<p><code>client-gateway.yml</code> of the <code>dev-configuration</code> as example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  cloud:
-    gateway:
-      routes:
-      - id: actions
-        uri: http://localhost:2105
-        predicates:
-        - Path=/actions/**
-        filters:
-        - RewritePath=/actions/(?&lt;path&gt;.*), /$\{path}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As explained earlier, the key to configure is <code>uri</code> of the <code>spring.cloud.gateway.routes</code> with the <code>id</code>
-equals to <code>actions</code>.</p>
-</div>
-<div class="paragraph">
-<p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.1.0.RELEASE/single/spring-cloud-gateway.html">spring cloud gateway documentation</a>.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties_3">Service specific properties</h6>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.gateway.configs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">an array of string for each allowed config entries</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect5">
-<h6 id="_default_properties_3">default properties</h6>
-<div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: client-gateway
-  cloud:
-    config:
-      name: client-gateway
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: client-gateway
-  cloud:
-    config:
-      name: client-gateway
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: client-gateway
-  cloud:
-    config:
-      name: client-gateway
-      failFast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_developpement_configuration">Sample developpement configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2002
-spring:
-  cloud:
-    gateway:
-      routes:
-      - id: auth
-        uri: http://localhost:89
-        predicates:
-        - Path=/auth/**
-        filters:
-        - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
-        - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
-        - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
-        - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==
-# WARNING : THIS CORS CONFIGURATION SHOULD NOT BE USED IN PRODUCTION
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "Authorization, Content-Type"
-operatorfabric.gateway.configs:
-  - web-ui.json
-#logging.level.root: debug</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_3">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  cloud:
-    gateway:
-      routes:
-      - id: auth
-        uri: http://keycloak:8080
-        predicates:
-        - Path=/auth/**
-        filters:
-        - RewritePath=/auth/token(?&lt;path&gt;.*), /auth/realms/dev/protocol/openid-connect/token$\{path}
-        - RewritePath=/auth/code/(?&lt;params&gt;.*), /auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;$\{params}
-        - RewritePath=/auth/check_token, /auth/realms/dev/protocol/openid-connect/token/introspect
-        - AddRequestHeader=Authorization, Basic b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==
-# WARNING : THIS CORS CONFIGURATION SHOULD NOT BE USED IN PRODUCTION
-        globalcors:
-         corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "Authorization, Content-Type"
-operatorfabric.gateway.configs:
-  - web-ui.json</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_lauching_a_jar_file">Specifying external configuration properties when lauching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_a_docker_image">Specifying configuration properties when lauching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writting, you cannot specify an alternate profile at runtime.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_4">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_on_kubernetes">Specifying configuration properties when lauching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_4">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="cloud_config_service_config">4.4.5. Cloud Configuration service</h4>
-<div class="paragraph">
-<p>OperatorFabric Configuration service is a Spring Cloud Config application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture Configuration instances are the first
-services to bootstrap, thus they are configured in a specific way contrary to
-other services.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_5">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>To get a working configuration service, there a few mandatory configuration
-properties:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>in a bootstrap file:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>The application must have a set name (spring.application.name)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>in an application property file</p>
-<div class="ulist">
-<ul>
-<li>
-<p>The application must have a configured rabbitmq service for configuration
-change notification (spring.rabbitmq.*)</p>
-</li>
-<li>
-<p>The application must have a configured eureka server (eureka.client.*)</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.1.0.RELEASE/single/spring-cloud-config.html">spring cloud config documentation</a>.</p>
-</div>
-<div class="paragraph">
-<p>Note that it is mandatory to define an environment repository for the service.
-Dev and Docker profile uses a file system backend which is not suitable for
-production and redundancy. You should prefer the usage of Git or Vault for
-production.</p>
-</div>
-<div class="sect5">
-<h6 id="_default_properties_4">default properties</h6>
-<div class="paragraph">
-<p>It is preferable not to change the following bootstrap.yml file.</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: config</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>application.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:
-* it sets its name as a service (config)
-* it exposes management endpoints</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_dev_profile">dev profile</h6>
-<div class="paragraph">
-<p>dev is the profile we use internally for developpement we make it available for
-external developers so that they don&#8217;t need extensive configuration to get a
-jar working in the development environment</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2000
-spring:
-#  level.root: debug
-  profiles:
-    active: [native,dev]
-  cloud:
-    config:
-      server:
-        native:
-          search-locations:
-           - file:./build/dev-data/dev-configurations
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-eureka:
-  client:
-    region: default
-    service-url:
-      defaultZone: http://localhost:2001/eureka
-    registryFetchIntervalSeconds: 5</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it exposes the service on port 2000 (defaults to 8080)</p>
-</li>
-<li>
-<p>it activates the dev and native profile (native is mandatory for serving
-config from file system)</p>
-</li>
-<li>
-<p>it configures rabbitmq for dispatching config change messages to other services</p>
-</li>
-<li>
-<p>it configures registration in eureka discovery service</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_docker_profile">docker profile</h6>
-<div class="paragraph">
-<p>docker is the profile we use in our docker images</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  profiles:
-    active: [native]
-  cloud:
-    config:
-      server:
-        native:
-          search-locations:
-           - file:/service-config
-  rabbitmq:
-    host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASSWORD}
-eureka:
-  client:
-    region: default
-    service-url:
-      defaultZone: http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka
-    registryFetchIntervalSeconds: 5</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it activates the native profile (native is mandatory for serving
-config from file system)</p>
-</li>
-<li>
-<p>it configures rabbitmq for dispatching config change messages to other services</p>
-</li>
-<li>
-<p>it configures registration in eureka discovery service</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_lauching_a_jar_file_2">Specifying external configuration properties when lauching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>Seehttps://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles[Set the Active Spring Profiles] for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_a_docker_image_2">Specifying configuration properties when lauching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writting, you cannot specify an alternate profile at runtime.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_5">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>RABBITMQ_HOST: Rabbitmq host name</p>
-</li>
-<li>
-<p>RABBITMQ_PORT: Rabbitmq host port</p>
-</li>
-<li>
-<p>RABBITMQ_USER: Rabbitmq user name used for authentication service</p>
-</li>
-<li>
-<p>RABBITMQ_PASSWORD: Rabbitmq user password used for authentication service</p>
-</li>
-<li>
-<p>REGISTRY_HOST: Registry (eureka) host name</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry (eureka) host port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_on_kubernetes_2">Specifying configuration properties when lauching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_5">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>RABBITMQ_HOST: Rabbitmq host name</p>
-</li>
-<li>
-<p>RABBITMQ_PORT: Rabbitmq host port</p>
-</li>
-<li>
-<p>RABBITMQ_USER: Rabbitmq user name used for authentication service</p>
-</li>
-<li>
-<p>RABBITMQ_PASSWORD: Rabbitmq user password used for authentication service</p>
-</li>
-<li>
-<p>REGISTRY_HOST: Registry (eureka) host name</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry (eureka) host port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="cloud_registry_service_config">4.4.6. Cloud Registry service</h4>
-<div class="paragraph">
-<p>OperatorFabric Registry service is a Spring Eureka application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture Eureka Registry instances are the second
-services to bootstrap, its configuration relies on the
-<a href="../../../../deployment/index.html#cloud_config_service_config">Cloud Configuration Service</a>
-.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_6">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>To get a working registry service, there a few mandatory configuration
-properties:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>In a bootstrap file</p>
-<div class="ulist">
-<ul>
-<li>
-<p>The application must have a set name (spring.application.name)</p>
-</li>
-<li>
-<p>The application must have a set configuration name (spring.cloud.config.name)</p>
-</li>
-<li>
-<p>The application must have a set configuration server (spring.cloud.config.uri)</p>
-</li>
-<li>
-<p>The application may have a retry/failfast configuration for config access
-(spring.cloud.config.failfast, spring.cloud.config.retry)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>In a configuration service registry.yml file</p>
-<div class="ulist">
-<ul>
-<li>
-<p>The application may deactivate eureka registration to avoid self registration
-(deactivated by default in internal application.yml file)</p>
-</li>
-<li>
-<p>The application must set the Eureka instance hostname (eureka.instance.hostname)</p>
-</li>
-<li>
-<p>The application must set the Eureka default zone (eureka.lient.serviceUrl.defaultZone)</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For other configuration see <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.1.0.RC3/single/spring-cloud-netflix.html">spring cloud netflix documentation</a>.</p>
-</div>
-<div class="sect5">
-<h6 id="_default_properties_5">default properties</h6>
-<div class="paragraph">
-<p>It is preferable not to change the following bootstrap.yml file.</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: registry
-  cloud.config:
-    name: registry
-    fail-fast: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: registry
-  cloud.config:
-    name: registry
-    uri: http://${CONFIG_HOST}:${CONFIG_PORT}
-    failFast: true
-    retry:
-      maxAttempts: 50</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: registry
-  cloud.config:
-    name: registry
-    uri: http://localhost:2000</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>application.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-developpement environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:
-* it sets its name as a service (config)
-* it sets the configuration name to use (which configuration file to retrieve)
-* it must set the configuration service (example in bootstrap-docker.yml)</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_dev_profile_2">dev profile</h6>
-<div class="paragraph">
-<p>dev is the profile we use internally for developpement we make it available for
-external developers so that they don&#8217;t need extensive configuration to get a
-jar working in the development environment</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2001
-eureka:
-  instance.hostname: localhost
-  client.serviceUrl.defaultZone: http://localhost:2001/eureka/</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_development_configuration_3">Sample development configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2001
-eureka:
-  instance.hostname: localhost
-  client.serviceUrl.defaultZone: http://localhost:2001/eureka/</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_4">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>eureka:
-  instance.hostname: registry
-  client:
-    serviceUrl.defaultZone: http://registry:8080/eureka/
-    registerWithEureka: false
-    fetchRegistry: false
-    server:
-      waitTimeInMsWhenSyncEmpty: 0</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_lauching_a_jar_file_3">Specifying external configuration properties when lauching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_a_docker_image_3">Specifying configuration properties when lauching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writting, you cannot specify an alternate profile at runtime.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_6">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>CONFIG_HOST: Configuration service host</p>
-</li>
-<li>
-<p>CONFIG_PORT: Configuration service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_on_kubernetes_3">Specifying configuration properties when lauching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_6">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>CONFIG_HOST: Configuration service host</p>
-</li>
-<li>
-<p>CONFIG_PORT: Configuration service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_thirds_business_service">4.4.7. Thirds Business service</h4>
-<div class="paragraph">
-<p>OperatorFabric Thirds Business service is a Spring MVC application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_7">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
-</div>
-<div class="paragraph">
-<p>For other configuration see:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.</p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web.html#mvc">Spring MVC documentation</a>.</p>
-</li>
-</ul>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties_4">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3357,220 +741,11 @@ usual bootstrap configuration.</p>
 </tbody>
 </table>
 </div>
-<div class="sect5">
-<h6 id="_default_properties_6">default properties</h6>
-<div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: thirds
-  cloud:
-    config:
-      name: thirds
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: thirds
-  cloud:
-    config:
-      name: thirds
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: thirds
-  cloud:
-    config:
-      name: thirds
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_development_configuration_4">Sample development configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2100
-operatorfabric.thirds:
-  storage:
-    path: "./services/core/thirds/build/docker-volume/thirds-storage"</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_5">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>operatorfabric.thirds:
-  storage:
-    path: "/thirds-storage"</code></pre>
-</div>
-</div>
-</div>
-</div>
 <div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_4">Specifying external configuration properties when launching a jar file</h5>
+<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>2.1.2.2. Users service</h5>
 <div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
+<p>The user service has these specific properties :</p>
 </div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_a_docker_image_4">Specifying configuration properties when launching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runThirds.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_7">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_on_kubernetes_4">Specifying configuration properties when launching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_7">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_users_business_service">4.4.8. Users Business service</h4>
-<div class="paragraph">
-<p>OperatorFabric Users Business service is a Spring MVC application
-bootstrapped using SpringBoot.</p>
-</div>
-<div class="paragraph">
-<p>In our spring micro service architecture this service depends on Eureka
-Registry.</p>
-</div>
-<div class="sect4">
-<h5 id="_mandatory_configuration_profiles_and_default_properties_8">Mandatory configuration, Profiles and default properties</h5>
-<div class="paragraph">
-<p>The service has no mandatory configuration beside global configuration and
-usual bootstrap configuration.</p>
-</div>
-<div class="paragraph">
-<p>For other configuration see:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Spring Boot documentation</a>.</p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/web.html#mvc">Spring MVC documentation</a>.</p>
-</li>
-</ul>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties_5">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3614,265 +789,58 @@ usual bootstrap configuration.</p>
 </tbody>
 </table>
 </div>
-<div class="sect5">
-<h6 id="_default_properties_7">default properties</h6>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_web_ui_configuration"><a class="anchor" href="#_web_ui_configuration"></a>2.2. Web UI Configuration</h3>
 <div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
+<p>OperatorFabric Web UI service is built on top of a <a href="https://www.nginx.com/">NGINX</a> server.
+It  serves the Angular SPA to browsers and act as a reverse proxy for other services.</p>
+</div>
+<div class="sect3">
+<h4 id="_nginx_configuration"><a class="anchor" href="#_nginx_configuration"></a>2.2.1. NGINX configuration</h4>
+<div class="paragraph">
+<p>An external <code>nginx.conf</code> file configures the OperatorFabric Nginx instance named <code>web-ui</code> service.
+Those files are mounted as docker volumes. There are two of them in OperatorFabric, one in <code>config/dev</code> and one in <code>config/docker</code>.</p>
 </div>
 <div class="paragraph">
-<p><em>bootstrap.yml</em></p>
+<p>The one in <code>config/dev</code> is set with
+ permissive <code>CORS</code> rules to enable web development using <code>ng serve</code> within the <code>ui/main</code> project.It&#8217;s possible to use <code>ng serve</code> with the one in <code>config/docker</code> version also. To do so use the conf file named
+<code>nginx-cors-permissive.conf</code> by configuring the <code>/docker-compose.yml</code> with the following line:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: users
-  cloud:
-    config:
-      name: users
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
+<pre>- "./nginx-cors-permissive.conf:/etc/nginx/conf.d/default.conf"</pre>
 </div>
 </div>
 <div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
+<p>instead of:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: users
-  cloud:
-    config:
-      name: users
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
+<pre>- "./nginx.conf:/etc/nginx/conf.d/default.conf"</pre>
 </div>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
+<p>The line customized in the nginx configuration file must end with à semi-colon (';') otherwise the Nginx server will stop immediately</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: users
-  cloud:
-    config:
-      name: users
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment.</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it sets its service name</p>
-</li>
-<li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
-</li>
-<li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_development_configuration_5">Sample development configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2103
-operatorfabric.users.default:
-  users:
-    - login: admin
-      groups: ["ADMIN"]
-      entities: ["ENTITY1","ENTITY2"]
-    - login: rte-operator
-      groups: ["RTE","ADMIN","TRANS"]
-    - login: tso1-operator
-      groups: ["TSO1","TRANS"]
-      entities: ["ENTITY1"]
-    - login: tso2-operator
-      groups: ["TSO2", "TRANS"]
-      entities: ["ENTITY2"]
-  groups:
-    - name: ADMIN
-      description: The admin group
-    - name: RTE
-      description: RTE TSO Group
-    - name: TSO1
-      description: TSO 1 Group
-    - name: TSO2
-      description: TSO 2 Group
-    - name: TRANS
-      description: Transnationnal Group
-  entities:
-    - id: ENTITY1
-      name: Entity 1 name
-      description: Entity 1 short description
-    - id: ENTITY2
-      name: Entity 2 name
-      description: Entity 2 short description
-  user-settings:
-    - login: rte-operator
-      description: Da Operator Rulez
-#logging.level.root: DEBUG</code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_6">Sample docker image configuration</h6>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>operatorfabric.users.default:
-  users:
-  - login: admin
-    groups: ["ADMIN"]
-    entities: ["ENTITY1","ENTITY2"]
-  - login: rte-operator
-    groups: ["RTE","ADMIN","TRANS"]
-  - login: tso1-operator
-    groups: ["TSO1","TRANS"]
-    entities: ["ENTITY1"]
-  - login: tso2-operator
-    groups: ["TSO2", "TRANS"]
-    entities: ["ENTITY2"]
-  groups:
-  - name: ADMIN
-    description: The admin group
-  - name: RTE
-    description: RTE TSO Group
-  - name: TSO1
-    description: TSO 1 Group
-  - name: TSO2
-    description: TSO 2 Group
-  - name: TRANS
-    description: Transnationnal Group
-  entities:
-    - id: ENTITY1
-      name: Entity 1 name
-      description: Entity 1 short description
-    - id: ENTITY2
-      name: Entity 2 name
-      description: Entity 2 short description</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_launching_a_jar_file_5">Specifying external configuration properties when launching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to set up an external spring properties or yml file.</p>
-</div>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_a_docker_image_5">Specifying configuration properties when launching a docker image</h5>
-<div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
-</div>
-<div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runUsers.
-The default profiles activated are docker and native.</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_8">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_launching_on_kubernetes_5">Specifying configuration properties when launching on Kubernetes</h5>
-<div class="paragraph">
-<p>In progress</p>
-</div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_8">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_web_ui">4.4.9. Web UI</h4>
+<h4 id="_service_specific_properties"><a class="anchor" href="#_service_specific_properties"></a>2.2.2. Service specific properties</h4>
 <div class="paragraph">
-<p>OperatorFabric Web UI service is built on top of a <a href="https://www.nginx.com/">NGINX</a> server.
-Its sole purpose is to serve the Angular SPA to browsers.</p>
+<p>The properties lie in the <code>web-ui.json</code>.The following table describes their meaning and  how to use them. An example file can be found in the config/docker directory.</p>
 </div>
-<div class="sect4">
-<h5 id="_nginx_configuration">NGINX configuration</h5>
-<div class="paragraph">
-<p>The NGINX configuration used is the NGINX default one.</p>
-</div>
-<div class="paragraph">
-<p>Please refer to the <a href="https://docs.nginx.com/">NGINX documentation</a> for more details for any required customisations.</p>
-</div>
-<div class="sect5">
-<h6 id="_service_specific_properties_6">Service specific properties</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3996,6 +964,12 @@ Its sole purpose is to serve the Angular SPA to browsers.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.hideTimeFilter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the time filtrer in the feed page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.notify</p></td>
@@ -4169,10 +1143,7 @@ while clicking the icon opens in a new tab.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.settings.about</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>operatorfabric:<br>
-     name:  'OperatorFabric'<br>
-     version:  ${currentVersion}<br>
-     rank: 0</code></p>
+<p>none</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>no</p>
@@ -4180,8 +1151,19 @@ while clicking the icon opens in a new tab.</p>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Declares application names and their version into web-ui about section.<br>
 Each entry is
-a free key value followed by its name (a string of characters), its version(a string of characters) and its rank of declaration(a number) cf the default value where the declared key is <code>operatorfabric'</code>.<br>
-For this default value, with <code>'OperatorFabric'</code> as <code>name</code> and <code>0</code> as <code>rank</code>, the value of <code>${currentVersion}</code> is the version of the current release. <code>0.16.1-RELEASE</code> for example.</p>
+a free key value followed by its name (a string of characters), its version (a string of characters) and its facultative rank of declaration (a number).<br>
+For <code>OperatorFabric</code> value, with <code>'OperatorFabric'</code> as <code>name</code> and <code>0</code> as <code>rank</code>, the value of <code>${currentVersion}</code>
+is the version of the current release, <code>1.3.0.RELEASE</code> for example.<br>
+It should look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">operatorfabric</span><span class="delimiter">&quot;</span></span>: {
+ <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:  <span class="string"><span class="delimiter">&quot;</span><span class="content">OperatorFabric</span><span class="delimiter">&quot;</span></span>,
+ <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:  <span class="string"><span class="delimiter">&quot;</span><span class="content">1.3.0.RElEASE</span><span class="delimiter">&quot;</span></span>,
+ <span class="key"><span class="delimiter">&quot;</span><span class="content">rank</span><span class="delimiter">&quot;</span></span>: <span class="integer">0</span>
+}</code></pre>
+</div>
 </div></div></td>
 </tr>
 <tr>
@@ -4272,353 +1254,773 @@ For this default value, with <code>'OperatorFabric'</code> as <code>name</code> 
 </tbody>
 </table>
 </div>
-<div class="sect5">
-<h6 id="_default_properties_8">default properties</h6>
+</div>
+<div class="sect2">
+<h3 id="opfab_spec_conf"><a class="anchor" href="#opfab_spec_conf"></a>2.3. Security Configuration</h3>
 <div class="paragraph">
-<p>Note that you must provide a bootstrap file with a convenient registry configuration</p>
-</div>
-<div class="paragraph">
-<p><em>bootstrap.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: web-ui
-  cloud:
-    config:
-      name: web-ui
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-docker.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: web-ui
-  cloud:
-    config:
-      name: web-ui
-      failFast: true
-      retry:
-        maxAttempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-#  level.root: debug
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: 'http://${REGISTRY_HOST}:${REGISTRY_PORT}/eureka/'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>bootstrap-dev.yml</em></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>spring:
-  application:
-    name: web-ui
-  cloud:
-    config:
-      name: web-ui
-      fail-fast: true
-      retry:
-        max-attempts: 20
-      discovery:
-        service-id: config
-        enabled: true
-eureka:
-  client:
-    service-url:
-      defaultZone: 'http://localhost:2001/eureka'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The bootstrap-docker.yml file is a replacement bootstrap file we use for our
-docker images configuration.</p>
-</div>
-<div class="paragraph">
-<p>The bootstrap-dev.yml file is a replacement bootstrap file we use for our
-development environment</p>
-</div>
-<div class="paragraph">
-<p>The above embedded configurations are the basic settings of the application:</p>
+<p>Configure the security concern throughout several files:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>it sets its service name</p>
+<p><code>nginx.conf</code> of the nginx server</p>
 </li>
 <li>
-<p>it sets the configuration name to use (which configuration file to retrieve)</p>
+<p><code>config/dev/common-dev.yml</code>  or <code>config/docker/common-docker.yml</code>, called common.yml in the following chapters</p>
 </li>
 <li>
-<p>it must set the registry service (example in bootstrap-docker.yml)</p>
+<p><code>web-ui.json</code> served by the <code>web-ui</code> service;</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_authentication_configuration"><a class="anchor" href="#_authentication_configuration"></a>2.3.1. Authentication configuration</h4>
+<div class="paragraph">
+<p>There are 3 OAuth2 Authentication flows available into OperatorFabric UI:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>password grant: referred as <code>PASSWORD</code> mode flow;</p>
+</li>
+<li>
+<p>code flow : referred as <code>CODE</code> mode flow;</p>
+</li>
+<li>
+<p>implicit flow: referred as <code>IMPLICIT</code> mode flow.</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_nginx_configuration_2"><a class="anchor" href="#_nginx_configuration_2"></a>2.3.1.1. Nginx Configuration</h5>
+<div class="paragraph">
+<p>The UI calls need some mapping to reach the Authentication Provider. In the default OperatorFabric configuration it&#8217;s a
+<code>docker keycloak instance</code>, called <code>keycloak</code> in the project <code>docker-compose.yml</code> files.</p>
+</div>
+<div class="paragraph">
+<p>There are 3 properties to configure within <code>nginx.conf</code> file:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$KeycloakBaseUrl</code>: the base url of keycloak;</p>
+</li>
+<li>
+<p><code>$OperatorFabricRealm</code>: the realm configure within keycloak instance to provide authentication to OperatorFabric;</p>
+</li>
+<li>
+<p><code>$ClientPairOFAuthentication</code>: base64 encoded string of the pair of client authentication used by OperatorFabric
+to log to the Authentication Provider (keycloak). The cient-id and the client-secret are separated by a colon(':').</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Example of the <code>docker</code> configuration</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># Url of the Authentication provider
+    set $KeycloakBaseUrl "http://keycloak:8080";
+# Realm associated to OperatorFabric within the Authentication provider
+    set $OperatorFabricRealm "dev";
+
+# base64 encoded pair of authentication in the form of 'client-id:secret-id'
+    set $ClientPairOFAuthentication "b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==" ;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>b3BmYWItY2xpZW50Om9wZmFiLWtleWNsb2FrLXNlY3JldA==</code> is the base64 encoded string of
+<code>opfab-client:opfab-keycloak-secret</code> with <code>opfab-client</code> as client-id and <code>opfab-keycloak-secret</code> its client secret.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuration_file_common_yml"><a class="anchor" href="#_configuration_file_common_yml"></a>2.3.1.2. Configuration file common.yml</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.client-id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oauth2 client id used by OperatorFabric may be specific for each service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.login-claim</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as user login or id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.expire-claim</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exp</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as token expiration timestamp</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.provider-url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak instance url.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.provider-realm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The realm name within the keycloak instance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.jwk-set-uri</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The url providing the certificat used to verify the jwt signature</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>example of <code>common.yml</code></strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="key">operatorfabric</span>:
+    <span class="key">security</span>:
+        <span class="key">oauth2</span>:
+            <span class="key">client-id</span>: <span class="string"><span class="content">opfab-client</span></span>
+        <span class="key">jwt</span>:
+            <span class="key">login-claim</span>: <span class="string"><span class="content">preferred_username</span></span>
+            <span class="key">expire-claim</span>: <span class="string"><span class="content">exp</span></span>
+<span class="key">spring</span>:
+  <span class="key">security</span>:
+    <span class="key">provider-url</span>: <span class="string"><span class="content">http://localhost:89</span></span>
+    <span class="key">provider-realm</span>: <span class="string"><span class="content">dev</span></span>
+    <span class="key">oauth2</span>:
+      <span class="key">resourceserver</span>:
+        <span class="key">jwt</span>:
+          <span class="key">jwk-set-uri</span>: <span class="string"><span class="content">${spring.security.provider-url}/auth/realms/${spring.security.provider-realm}/protocol/openid-connect/certs</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>operatorfabric.security.jwt.expire-claim</code> could have been omitted because having the same value as the default one
+and where <code>jwt-set-uri</code> reuses <code>provider-url</code> and <code>provider-realm</code> properties.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuration_file_web_ui_json"><a class="anchor" href="#_configuration_file_web_ui_json"></a>2.3.1.3. Configuration file web-ui.json</h5>
+<div class="paragraph">
+<p>Nginx web server serves this file. OperatorFabric creates and uses a custom Docker image containing an Nginx server with a docker volume containing this file. The two docker-compose environments contain an example of it. The path in the image to it is <code>/usr/share/nginx/html/opfab/web-ui.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>For OAuth2 security concerns into this file, there are two ways to configure it, based on the Oauth2 chosen flow.
+There are several common properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>security.realm-url</code>: OAuth2 provider realm under which the OpertaroFabric client is declared;</p>
+</li>
+<li>
+<p><code>security.provider-url</code>: url of the keycloak server instance.</p>
+</li>
+<li>
+<p><code>security.logout-url</code>: url used when a user is logged out of the UI;</p>
+</li>
+<li>
+<p><code>security.oauth2.flow.provider</code>: name of the OAuth2 provider;</p>
+</li>
+<li>
+<p><code>security.oauth2.flow.delegate-url</code>: url used to connect to the Authentication provider;</p>
+</li>
+<li>
+<p><code>security.oauth2.flow.mode</code>: technical way to be authenticated by the Autentication provider.</p>
 </li>
 </ul>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_oauth2_password_or_code_flows"><a class="anchor" href="#_oauth2_password_or_code_flows"></a>2.3.1.4. OAuth2 PASSWORD or CODE Flows</h5>
+<div class="paragraph">
+<p>These two modes share the same way of declaring the delegate URL.
+<code>CODE</code> is the default mode of authentication for <code>deploy</code> docker-compose environment.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>security.oauth2.flow.mode</code> to <code>PASSWORD</code> or <code>CODE</code>;</p>
+</li>
+<li>
+<p><code>security.oauth2.flow.delegate-url</code> with the URL of the OAuth2 leading to the protocol used for authentication.</p>
+</li>
+</ul>
+</div>
 <div class="sect5">
-<h6 id="_sample_development_configuration_6">Sample development configuration</h6>
+<h6 id="_example_of_configuration_for_code_flow"><a class="anchor" href="#_example_of_configuration_for_code_flow"></a>Example of Configuration For CODE Flow</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2200
-operatorfabric:
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CODE</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Within the <code>delegate-url</code> property <code>dev</code> is the keycloak client realm of OperatorFabric.
+For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred.
+Here, the <code>client-id</code> value is <code>opfab-client</code> which is define as client under the <code>realm</code> named <code>dev</code> on the dev keycloak instance.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_oauth2_implicit_flow"><a class="anchor" href="#_oauth2_implicit_flow"></a>2.3.1.5. OAuth2 IMPLICIT Flow</h5>
+<div class="paragraph">
+<p>It had its own way of configuration.
+To enable IMPLICIT Flow authentication the following properties need to be set:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>security.oauth2.flow.mode</code> to <code>IMPLICIT</code>;</p>
+</li>
+<li>
+<p><code>security.oauth2.flow.delegate-url</code> with the URL of the OAuth2 leading to the <code>.well-known/openid-configuration</code> end-point used for authentication configuration.</p>
+</li>
+</ul>
+</div>
+<div class="sect5">
+<h6 id="_example_of_configuration_for_implicit_flow"><a class="anchor" href="#_example_of_configuration_for_implicit_flow"></a>Example of configuration for IMPLICIT Flow</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">operatorfabric</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">IMPLICIT</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Within the <code>delegate-url</code> property <code>dev</code> is the keycloak client realm of OperatorFabric.
+For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred.
+The url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_creation"><a class="anchor" href="#_user_creation"></a>2.3.2. User creation</h4>
+<div class="paragraph">
+<p>Setting automated user creation==. Creation user requires a user id. Given name and family name are optional.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.login-claim</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sub</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used as a user login or id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.given-name-claim</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">given-name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used to set the user&#8217;s given name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.family-name-claim</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">family-name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jwt claim is used to set the user&#8217;s family name</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="jwt_mode"><a class="anchor" href="#jwt_mode"></a>2.3.3. Alternative way to manage groups (and/or entities)</h4>
+<div class="paragraph">
+<p>By default, <code>OperatorFabric</code> manages groups (and/or entities) through the user's collection in the database.
+Another mode can be defined, the JWT mode. The groups (and/or entities) come from the authentication token.
+The administrator of the authentication service has to set what claims define a group (and/or entity).
+In the <code>Operator-Fabric</code> configuration, the opfab administrator has to set properties to retrieve those groups (and/or entities).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OPERATOR_FABRIC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the group mode, possible values JWT or OPERATOR_FABRIC</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandard.path</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a group</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardArray.path</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines an array of groups</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardList.path</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a list of group</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardList.separator</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the separator value of the list of group</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimCheckExistPath.path</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to check if that path does exist, if it does, use the roleValue as a group</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimCheckExistPath.roleValue</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the value of the group if the path exists</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.entitiesIdClaim</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the name of the field in the token</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values : true/false)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>application.yml</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric:
   security:
-    provider-url: http://localhost:89
-    provider-realm: dev
-    logout-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/
-    oauth2:
-      flow:
-        mode: CODE
-        provider: Opfab Keycloak
-        delagate-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
-  feed:
-    subscription:
-      timeout: 600000
-    card:
-      time:
-        display: BUSINESS
-    timeline:
-      domains:
-        - "TR"
-        - "J"
-        - "7D"
-        - "W"
-        - "M"
-        - "Y"
-    notify: false
-  archive:
-    filters:
-      page.size:
-        - "10"
-      page.first:
-        - "0"
-      publisher.list:
-        - value: "TEST"
-          label: "Test Publisher"
-        - value: "TEST2"
-          label: "Test Publisher 2"
-      process.list:
-            - process
-            - someOtherProcess
-      tags.list:
-        - value: "tag1"
-          label: "Label for tag 1"
-        - value: "tag2"
-          label: "Label for tag 2"
-  i10n.supported.time-zones:
-    - value: "Europe/Paris"
-      label: "Headquarters timezone"
-    - value: "Australia/Melbourne"
-      label: "Down Under"
-    - Europe/London
-    - Europe/Dublin
-    - Europe/Brussel
-    - Europe/Berlin
-    - Europe/Rome
-    - Europe/Madrid
-    - Europe/Lisbon
-    - Europe/Amsterdam
-    - Europe/Athens
-    - Pacific/Samoa
-  i18n.supported.locales:
-    - en
-    - fr
-  settings:
-    locale: en
-    nightDayMode: true
-    infos:
-      description: true
-    about:
-      firstapplication:
-        name: First application
-        version: v12.34.56
-        rank: 1
-      keycloack:
-        name: Keycloak
-        version: 6.0.1
-        rank: 2
-      lastapplication:
-          name: Wonderful Solution
-          version: 0.1.2-RELEASE</code></pre>
+    jwt:
+      entitiesIdClaim: entitiesId
+      gettingEntitiesFromToken: true
+      groups:
+        mode: JWT # value possible JWT | OPERATOR_FABRIC
+        rolesClaim:
+          rolesClaimStandard:
+            - path: "ATTR1"
+            - path: "ATTR2"
+          rolesClaimStandardArray:
+            - path: "resource_access/opfab-client/roles"
+          rolesClaimStandardList:
+            - path: "roleFieldList"
+              separator: ";"
+          rolesClaimCheckExistPath:
+            - path: "resource_access/AAA"
+              roleValue: "roleAAA"
+            - path: "resource_access/BBB"
+              roleValue: "roleBBB"</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><em>JWT example</em></p>
 </div>
-<div class="sect5">
-<h6 id="_sample_docker_image_configuration_7">Sample docker image configuration</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>server:
-  port: 2200
-operatorfabric:
-  security:
-    provider-url: http://localhost:89
-    provider-realm: dev
-    logout-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/
-    oauth2:
-      flow:
-        mode: CODE
-        provider: Opfab Keycloak
-        delagate-url: ${operatorfabric.security.provider-url}/auth/realms/${operatorfabric.security.provider-realm}/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client
-  feed:
-    subscription:
-      timeout: 600000
-    card:
-      time:
-        display: BUSINESS
-    timeline:
-      domains:
-        - "TR"
-        - "J"
-        - "7D"
-        - "W"
-        - "M"
-        - "Y"
-    notify: false
-  archive:
-    filters:
-      page.size:
-        - "10"
-      page.first:
-        - "0"
-      publisher.list:
-        - value: "TEST"
-          label: "Test Publisher"
-        - value: "TEST2"
-          label: "Test Publisher 2"
-      process.list:
-            - process
-            - someOtherProcess
-      tags.list:
-        - value: "tag1"
-          label: "Label for tag 1"
-        - value: "tag2"
-          label: "Label for tag 2"
-  i10n.supported.time-zones:
-    - value: "Europe/Paris"
-      label: "Headquarters timezone"
-    - value: "Australia/Melbourne"
-      label: "Down Under"
-    - Europe/London
-    - Europe/Dublin
-    - Europe/Brussel
-    - Europe/Berlin
-    - Europe/Rome
-    - Europe/Madrid
-    - Europe/Lisbon
-    - Europe/Amsterdam
-    - Europe/Athens
-    - Pacific/Samoa
-  i18n.supported.locales:
-    - en
-    - fr
-  settings:
-    locale: en
-    nightDayMode: true
-    infos:
-      description: true
-    about:
-      firstapplication:
-        name: First application
-        version: v12.34.56
-        rank: 1
-      keycloack:
-        name: Keycloak
-        version: 6.0.1
-        rank: 2
-      lastapplication:
-          name: Wonderful Solution
-          version: 0.1.2-RELEASE</code></pre>
+<pre class="CodeRay highlight"><code>{
+  "jti": "5ff87583-10bd-4946-8753-9d58171c8b7f",
+  "exp": 1572979628,
+  "nbf": 0,
+  "iat": 1572961628,
+  "iss": "http://localhost:89/auth/realms/dev",
+  "aud": [
+    "AAA",
+    "BBB",
+    "account"
+  ],
+  "sub": "example_user",
+  "typ": "Bearer",
+  "azp": "opfab-client",
+  "auth_time": 0,
+  "session_state": "960cbec4-fcb2-47f2-a155-975832e61300",
+  "acr": "1",
+  "realm_access": {
+    "roles": [
+      "offline_access",
+      "uma_authorization"
+    ]
+  },
+  "resource_access": {
+    "AAA": {
+      "roles": [
+        "role_AAA"
+      ]
+    },
+    "BBB": {
+      "roles": [
+        "role_BBB"
+      ]
+    },
+    "opfab-client": {
+      "roles": [
+        "USER"
+      ]
+    },
+    "account": {
+      "roles": [
+        "manage-account",
+        "manage-account-links",
+        "view-profile"
+      ]
+    }
+  },
+  "scope": "openid ATTR2 email ATTR1 profile roleFieldList",
+  "email_verified": false,
+  "name": "example_firtstname example_lastname",
+  "ATTR2": "roleATTR2",
+  "ATTR1": "roleATTR1",
+  "preferred_username": "example_user",
+  "given_name": "example_firtstname",
+  "entitiesId": "ENTITY1",
+  "family_name": "example_lastname",
+  "email": "example_user@mail.com",
+  "roleFieldList": "roleA;roleB;roleC"
+}</code></pre>
 </div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_external_configuration_properties_when_lauching_a_jar_file_4">Specifying external configuration properties when lauching a jar file</h5>
-<div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config-application-property-files">Application Property Files</a>
-on how to setup an external spring properties or yml file.</p>
 </div>
 <div class="paragraph">
-<p>See <a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#howto-set-active-spring-profiles">Set the Active Spring Profiles</a> for specifying alternate profile.</p>
+<p>As the result, the group will be [ATTR1, ATTR2, roleA, roleB, roleC, USER, roleBBB, roleAAA]</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_a_docker_image_4">Specifying configuration properties when lauching a docker image</h5>
+<div class="sect3">
+<h4 id="custom_certificates"><a class="anchor" href="#custom_certificates"></a>2.3.4. Adding certification authorities or certificates to the Java keystore</h4>
 <div class="paragraph">
-<p>Our docker image expects optional property file to be stored in the container
-/service-config folder. You can bind so docker volume to this path to make
-properties or yml available.</p>
+<p>If you&#8217;re using certificates (for example for Keycloak) that are not from a certification authority trusted by the JVM,
+this will cause errors such as this one:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/certificate_error.png" alt="Missing certificate error message">
+</div>
 </div>
 <div class="paragraph">
-<p>At time of writing, you cannot specify an alternate profile at runCards-Publication.
-The default profiles activated are docker and native.</p>
+<p>If that is the case, you can pass the additional authorities or certificates that you use to the containers at runtime.</p>
 </div>
-<div class="sect5">
-<h6 id="_available_environment_variables_for_docker_image_9">Available environment variables for docker image</h6>
-<div class="ulist">
-<ul>
-<li>
-<p>REGISTRY_HOST: Registry service host</p>
-</li>
-<li>
-<p>REGISTRY_PORT: Registry service port</p>
-</li>
-<li>
-<p>JAVA_OPTIONS: Additional java options</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_specifying_configuration_properties_when_lauching_on_kubernetes_4">Specifying configuration properties when lauching on Kubernetes</h5>
 <div class="paragraph">
-<p>In progress</p>
+<p>To do so, put the relevant files (*.der files for example) under <strong>src/main/docker/certificates</strong>.</p>
 </div>
-<div class="sect5">
-<h6 id="_available_environment_variables_when_launching_on_kubernetes_9">Available environment variables when launching on Kubernetes</h6>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>REGISTRY_HOST: Registry service host</p>
+<p>This directory should only contain the files to be added to the keystore.</p>
 </li>
 <li>
-<p>REGISTRY_PORT: Registry service port</p>
+<p>The files can be nested inside directories.</p>
 </li>
 <li>
-<p>JAVA_OPTIONS: Additional java options</p>
+<p>Each certificate will be added with its filename as alias. For example, the certificate in file mycertificate.der
+will be added under alias <strong>mycertificate</strong>. As a consequence, filenames should be unique or it will cause an error.</p>
 </li>
-</ul>
+<li>
+<p>If you need to add or remove certificates while the container is already running, the container will have to be
+restarted for the changes to be taken into account.</p>
+</li>
+</ol>
 </div>
+<div class="paragraph">
+<p>If you would like certificates to be sourced from a different location, replace the volumes declarations in the deploy
+docker-compose.yml file with the selected location:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>volumes:
+ - "path/to/my/selected/location:/certificates_to_add"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>instead of</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>volumes:
+ - "../../../../src/main/docker/certificates:/certificates_to_add"</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The steps described here assume you&#8217;re running OperatorFabric in docker mode using the deploy docker-compose,
+but they can be adapted for single container deployments and development mode.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you want to check that the certificates were correctly added, you can do so with the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a bash shell in the container you want to check</p>
+<div class="literalblock">
+<div class="content">
+<pre>docker exec -it deploy_thirds_1 bash</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the following command</p>
+<div class="literalblock">
+<div class="content">
+<pre>$JAVA_HOME/bin/keytool -list -v -keystore /tmp/cacerts -storepass changeit</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can also look at the default list of authorities and certificates trusted by the JVM with this command:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$JAVA_HOME/bin/keytool -list -v -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_users_groups_and_entities_administration">4.5. Users, Groups and Entities Administration</h3>
+<h3 id="_operatorfabric_mongo_configuration"><a class="anchor" href="#_operatorfabric_mongo_configuration"></a>2.4. OperatorFabric Mongo configuration</h3>
+<div class="paragraph">
+<p>We only use URI configuration for mongo through the usage of the <code><code>spring.data.mongodb.uris</code></code>,
+it allows us to share the same configuration behavior for simple or cluster
+configuration and with both spring classic and reactive mongo configuration.
+See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo connection string</a> for the complete URI syntax.</p>
+</div>
+<div class="sect3">
+<h4 id="_define_time_to_live_for_archived_cards"><a class="anchor" href="#_define_time_to_live_for_archived_cards"></a>2.4.1. Define time to live for archived cards</h4>
+<div class="paragraph">
+<p>By default, archived cards will remain stored in the database forever. It is possible to have them automatically
+removed after a specified duration by using the <a href="https://docs.mongodb.com/manual/core/index-ttl/">TTL index feature of mongoDB</a> on their publishDate field.</p>
+</div>
+<div class="paragraph">
+<p>For example, to have cards expire after 10 days (864000s), enter the following commands in the mongo shell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">use operator-fabric
+db.archivedCards.createIndex( { &quot;publishDate&quot;: 1 }, { expireAfterSeconds: 864000 } )</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You cannot use createIndex() to change the value of expireAfterSeconds of an existing index.
+Instead use the <a href="https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod">collMod</a> database command in conjunction with the index collection flag. Otherwise, to
+change the value of the option of an existing index, you must drop the index first and recreate.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>3. RabbitMQ</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_docker_container"><a class="anchor" href="#_docker_container"></a>3.1. Docker container</h3>
+<div class="paragraph">
+<p>In development mode, the simplest way to deploy a RabbitMQ server is to
+create a RabbitMQ docker container. A <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker/rabbitmq">docker-compose file</a> is provided to allow quick setup of a convenient RabbitMQ
+ server.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_server_installation"><a class="anchor" href="#_server_installation"></a>3.2. Server installation</h3>
+<div class="paragraph">
+<p>This section is dedicated to production deployment of RabbitMQ. It is
+ not complete and needs to be tailored to any specific production
+ environment.</p>
+</div>
+<div class="sect3">
+<h4 id="_download_installation"><a class="anchor" href="#_download_installation"></a>3.2.1. Download &amp; Installation</h4>
+<div class="paragraph">
+<p>Download and install RabbitMQ following the
+<a href="https://www.rabbitmq.com/download.html">official procedure</a> for the
+target environment</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_used_ports"><a class="anchor" href="#_used_ports"></a>3.2.2. Used ports</h4>
+<div class="paragraph">
+<p>If RabbitMQ may not bind to the following ports, it won&#8217;t start :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>4369</strong>: epmd, a peer discovery service used by RabbitMQ nodes and
+CLI tools</p>
+</li>
+<li>
+<p><strong>5672, 5671</strong>: used by AMQP 0-9-1 and 1.0 clients without and with
+TLS</p>
+</li>
+<li>
+<p><strong>25672</strong>: used for inter-node and CLI tools communication
+(Erlang distribution server port) and is allocated from a dynamic range
+(limited to a single port by default, computed as AMQP port + 20000).
+Unless external connections on these ports are really necessary
+(e.g. the cluster uses federation or CLI tools are used on machines
+outside the subnet), these ports should not be publicly exposed. See
+networking guide for details.</p>
+</li>
+<li>
+<p><strong>35672-35682</strong>: used by CLI tools (Erlang distribution client ports)
+for communication with nodes and is allocated from a dynamic range
+(computed as server distribution port + 10000 through server
+distribution port + 10010). See networking guide for details.</p>
+</li>
+<li>
+<p><strong>15672</strong>: HTTP API clients, management UI and rabbitmqadmin (<strong>only if
+the management plugin is enabled</strong>)</p>
+</li>
+<li>
+<p><strong>61613, 61614</strong>: STOMP clients without and with TLS
+(<strong>only if the STOMP plugin is enabled</strong>)</p>
+</li>
+<li>
+<p><strong>1883, 8883</strong>: (MQTT clients without and with TLS,
+<em>if the MQTT plugin is enabled</em>)</p>
+</li>
+<li>
+<p><strong>15674</strong>: STOMP-over-WebSockets clients
+(<strong>only if the Web STOMP plugin is enabled</strong>)</p>
+</li>
+<li>
+<p><strong>15675</strong>: MQTT-over-WebSockets clients
+(<strong>only if the Web MQTT plugin is enabled</strong>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_production_configuration"><a class="anchor" href="#_production_configuration"></a>3.2.3. Production configuration</h4>
+<div class="paragraph">
+<p>See the <a href="https://www.rabbitmq.com/production-checklist.html">guide</a> for
+production configuration guidelines</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_users_groups_and_entities_administration"><a class="anchor" href="#_users_groups_and_entities_administration"></a>4. Users, Groups and Entities Administration</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance. As a user of OperatorFabric, he needs to be added to the system with a <code>login</code> (john-doe-operator), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).
 operator
 As there is no <code>Administration GUI</code> for the moment, it must be performed through command line, as detailed in the Users API.</p>
 </div>
+<div class="sect2">
+<h3 id="_users"><a class="anchor" href="#_users"></a>4.1. Users</h3>
 <div class="sect3">
-<h4 id="_list_all_users">4.5.1. List all users</h4>
+<h4 id="_list_all_users"><a class="anchor" href="#_list_all_users"></a>4.1.1. List all users</h4>
 <div class="paragraph">
 <p>First of all, list the users (who are the recipients in OperatorFabric) of the system with the following commands:</p>
 </div>
@@ -4716,7 +2118,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_user">4.5.2. Create a new User</h4>
+<h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>4.1.2. Create a new User</h4>
 <div class="paragraph">
 <p>We are sure that no John-doe-operator exists in our OperatorFabric instance. We can add him in our OperatorFabric instance using the following command use httpie:</p>
 </div>
@@ -4749,7 +2151,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_user_details">4.5.3. Fetch user details</h4>
+<h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>4.1.3. Fetch user details</h4>
 <div class="paragraph">
 <p>It&#8217;s always a good thing to verify if all the information has been correctly recorded in the system:</p>
 </div>
@@ -4787,7 +2189,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_user_details">4.5.4. Update user details</h4>
+<h4 id="_update_user_details"><a class="anchor" href="#_update_user_details"></a>4.1.4. Update user details</h4>
 <div class="paragraph">
 <p>As shown by this result, the firstName of the new operator has been misspelled.We need
 <a href="../../../../documentation/current/api/users/index.html#/users/updateUser">to update the existing user</a>
@@ -4826,7 +2228,7 @@ with <code>john-doe-operator</code> login. To correct this mistake, the followin
 </div>
 </div>
 <div class="sect2">
-<h3 id="_groupsentities">4.6. Groups/Entities</h3>
+<h3 id="_groupsentities"><a class="anchor" href="#_groupsentities"></a>4.2. Groups/Entities</h3>
 <div class="paragraph">
 <p>All the commands below :</p>
 </div>
@@ -4856,7 +2258,7 @@ with <code>john-doe-operator</code> login. To correct this mistake, the followin
 <p>are available for both groups and entities. In order not to overload the documentation, we will only detail groups endpoints.</p>
 </div>
 <div class="sect3">
-<h4 id="_list_groups_or_entities">4.6.1. List groups (or entities)</h4>
+<h4 id="_list_groups_or_entities"><a class="anchor" href="#_list_groups_or_entities"></a>4.2.1. List groups (or entities)</h4>
 <div class="paragraph">
 <p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in
 the system. As shown when we
@@ -4927,7 +2329,7 @@ existing in the server.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_group_or_entity">4.6.2. Create a new group (or entity)</h4>
+<h4 id="_create_a_new_group_or_entity"><a class="anchor" href="#_create_a_new_group_or_entity"></a>4.2.2. Create a new group (or entity)</h4>
 <div class="paragraph">
 <p>Firstly, the group called <code>OPERATORS</code> has to be
 <a href="../../../../documentation/current/api/users/index.html#/groups/createGroup">added to the system</a>
@@ -4965,7 +2367,7 @@ using the following command:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_details_of_a_given_group_or_entity">4.6.3. Fetch details of a given group (or entity)</h4>
+<h4 id="_fetch_details_of_a_given_group_or_entity"><a class="anchor" href="#_fetch_details_of_a_given_group_or_entity"></a>4.2.3. Fetch details of a given group (or entity)</h4>
 <div class="paragraph">
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="../../../../documentation/current/api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
@@ -5003,7 +2405,7 @@ called <code>OPERATORS</code>, use the following command:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_details_of_a_group_or_entity">4.6.4. Update details of a group (or entity)</h4>
+<h4 id="_update_details_of_a_group_or_entity"><a class="anchor" href="#_update_details_of_a_group_or_entity"></a>4.2.4. Update details of a group (or entity)</h4>
 <div class="paragraph">
 <p>The description is really null. After verification, in our first command used to create the group,
 the attribute for the description is misspelled. Using the following command
@@ -5040,7 +2442,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_a_user_to_a_group_or_entity">4.6.5. Add a user to a group (or entity)</h4>
+<h4 id="_add_a_user_to_a_group_or_entity"><a class="anchor" href="#_add_a_user_to_a_group_or_entity"></a>4.2.5. Add a user to a group (or entity)</h4>
 <div class="paragraph">
 <p>As both new group and new user are correct it&#8217;s time
 <a href="../../../../documentation/current/api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
@@ -5107,7 +2509,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_remove_a_user_from_a_group_or_entity">4.6.6. Remove a user from a group (or entity)</h4>
+<h4 id="_remove_a_user_from_a_group_or_entity"><a class="anchor" href="#_remove_a_user_from_a_group_or_entity"></a>4.2.6. Remove a user from a group (or entity)</h4>
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
@@ -5184,14 +2586,15 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect1">
-<h2 id="_service_port_table">5. Service port table</h2>
+<h2 id="_service_port_table"><a class="anchor" href="#_service_port_table"></a>5. Service port table</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default all service built artifacts are configured with server.port set
 to 8080</p>
 </div>
 <div class="paragraph">
-<p>If you run the services using <code>bootRun</code> Gradle task, the <code>run_all.sh</code> script or the deploy docker-compose,
+<p>If you run the services using <code>bootRun</code> Gradle task, the <code>run_all.sh</code> script or the full docker docker-compose
+(found under config/docker),
 the used ports are:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5217,22 +2620,10 @@ the used ports are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">KeyCloak api port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration service http (REST)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Registry service http (REST)</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway service http (REST+html)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web ui and gateway  (Nginx server)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2100</p></td>
@@ -5259,36 +2650,6 @@ the used ports are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Actions service http (REST)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2200</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Web UI (Nginx server)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
@@ -5309,12 +2670,6 @@ the used ports are:</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4105</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">actions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
@@ -5341,7 +2696,7 @@ the used ports are:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_restricted_operations_administration">6. Restricted operations (administration)</h2>
+<h2 id="_restricted_operations_administration"><a class="anchor" href="#_restricted_operations_administration"></a>6. Restricted operations (administration)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Some operations are restricted to users with the <strong>ADMIN</strong> role, either because they are administration

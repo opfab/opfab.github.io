@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Community</h1>
 <div class="details">
-<span id="revnumber">version 1.3.0.RELEASE,</span>
-<span id="revdate">13 May 2020</span>
+<span id="revnumber">version 1.4.0.RELEASE,</span>
+<span id="revdate">22 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -536,14 +536,48 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_reporting_bugs_and_suggesting_enhancements">2. Reporting Bugs and Suggesting Enhancements</a></li>
 <li><a href="#_contributing_code_or_documentation">3. Contributing Code or Documentation</a>
 <ul class="sectlevel2">
-<li><a href="#_code_guidelines">3.1. Code Guidelines</a></li>
-<li><a href="#_documentation_guidelines">3.2. Documentation Guidelines</a>
+<li><a href="#_contribution_workflow">3.1. Contribution Workflow</a>
 <ul class="sectlevel3">
-<li><a href="#_structure">3.2.1. Structure</a></li>
-<li><a href="#_conventions">3.2.2. Conventions</a></li>
+<li><a href="#_principles">3.1.1. Principles</a>
+<ul class="sectlevel4">
+<li><a href="#_develop_branch">3.1.1.1. <code>develop</code> branch</a></li>
+<li><a href="#_master_branch">3.1.1.2. <code>master</code> branch</a></li>
+<li><a href="#_feature_branches">3.1.1.3. Feature branches</a></li>
+<li><a href="#_release_branches">3.1.1.4. Release branches</a></li>
+<li><a href="#_hotfix_branches">3.1.1.5. Hotfix branches</a></li>
 </ul>
 </li>
-<li><a href="#_contribution_process">3.3. Contribution Process</a></li>
+<li><a href="#_examples_and_commands">3.1.2. Examples and commands</a>
+<ul class="sectlevel4">
+<li><a href="#_initial_state">3.1.2.1. Initial state</a></li>
+<li><a href="#_starting_work_on_a_new_feature">3.1.2.2. Starting work on a new feature</a></li>
+<li><a href="#_submitting_a_pull_request">3.1.2.3. Submitting a pull request</a></li>
+<li><a href="#_reviewing_a_pull_request">3.1.2.4. Reviewing a Pull Request</a></li>
+<li><a href="#_merging_a_pull_request">3.1.2.5. Merging a Pull Request</a></li>
+<li><a href="#_creating_a_release_or_hotfix">3.1.2.6. Creating a release or hotfix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_code_guidelines">3.2. Code Guidelines</a></li>
+<li><a href="#_documentation_guidelines">3.3. Documentation Guidelines</a>
+<ul class="sectlevel3">
+<li><a href="#_structure">3.3.1. Structure</a></li>
+<li><a href="#_conventions">3.3.2. Conventions</a></li>
+</ul>
+</li>
+<li><a href="#_copyright_headers">3.4. Copyright Headers</a>
+<ul class="sectlevel3">
+<li><a href="#_header_templates">3.4.1. Header templates</a></li>
+<li><a href="#_examples">3.4.2. Examples</a>
+<ul class="sectlevel4">
+<li><a href="#_creating_a_new_file">3.4.2.1. Creating a new file</a></li>
+<li><a href="#_updating_a_file">3.4.2.2. Updating a file</a></li>
+<li><a href="#_multiple_contributors">3.4.2.3. Multiple contributors</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_project_governance">4. Project Governance</a>
@@ -600,7 +634,7 @@ Please report unacceptable behavior to <a href="mailto:opfab_AT_lists.lfenergy.o
 </div>
 </div>
 <div class="sect1">
-<h2 id="_license_and_developer_certificate_of_origin">1. License and Developer Certificate of Origin</h2>
+<h2 id="_license_and_developer_certificate_of_origin"><a class="anchor" href="#_license_and_developer_certificate_of_origin"></a>1. License and Developer Certificate of Origin</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>OperatorFabric is an open source project licensed under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0</a>.
@@ -643,7 +677,7 @@ project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reporting_bugs_and_suggesting_enhancements">2. Reporting Bugs and Suggesting Enhancements</h2>
+<h2 id="_reporting_bugs_and_suggesting_enhancements"><a class="anchor" href="#_reporting_bugs_and_suggesting_enhancements"></a>2. Reporting Bugs and Suggesting Enhancements</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Work in Progress</p>
@@ -651,63 +685,719 @@ project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributing_code_or_documentation">3. Contributing Code or Documentation</h2>
+<h2 id="_contributing_code_or_documentation"><a class="anchor" href="#_contributing_code_or_documentation"></a>3. Contributing Code or Documentation</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_code_guidelines">3.1. Code Guidelines</h3>
-<div class="ulist">
-<ul>
+<h3 id="_contribution_workflow"><a class="anchor" href="#_contribution_workflow"></a>3.1. Contribution Workflow</h3>
+<div class="paragraph">
+<p>The project started out using a
+<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Feature Branch workflow</a>, but
+as the project team grew and we needed to manage support to previous releases we decided to switch to a workflow
+based on the
+<a href="https://nvie.com/posts/a-successful-git-branching-model/">Git Flow workflow</a>, starting after version 1.3.0.RELEASE.</p>
+</div>
+<div class="paragraph">
+<p>The principles for this workflow were first described in the blog post linked above, and this document attempts to
+summarize how we adapted it to our project. Statements in quotes are from the original blog post.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this document, <strong>"repository version"</strong> refers to the version defined in the VERSION file at the root of the
+project, which is a parameter for certain build tasks and for our CICD pipeline.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_principles"><a class="anchor" href="#_principles"></a>3.1.1. Principles</h4>
+<div class="sect4">
+<h5 id="_develop_branch"><a class="anchor" href="#_develop_branch"></a>3.1.1.1. <code>develop</code> branch</h5>
+<div class="paragraph">
+<p>The role of the <code>develop</code> branch is quite similar to that of the <code>master</code> branch in our previous "Feature Branch"
+workflow.</p>
+</div>
+<div class="paragraph">
+<p>The <code>develop</code> branch is where feature branches are branched off from, and where they&#8217;re merged back to. This way,
+the HEAD of the <code>develop</code> branch <em>"always reflects a state with the latest delivered development changes for the next
+release"</em>.</p>
+</div>
+<div class="paragraph">
+<p>The repository version on the <code>develop</code> branch should always be <code>SNAPSHOT</code>.</p>
+</div>
+<div class="paragraph">
+<p>The daily CRON Travis job generating the documentation and docker images for the <code>SNAPSHOT</code> version are run from
+this branch (see our
+<a href="#../../../../documentation/current/CICD/index.adoc">CICD documentation</a>
+for details).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_master_branch"><a class="anchor" href="#_master_branch"></a>3.1.1.2. <code>master</code> branch</h5>
+<div class="paragraph">
+<p><em>"When the source code in the develop branch reaches a stable point and is ready to be released, all of the changes
+should be merged back into master somehow and then tagged with a release number."</em></p>
+</div>
+<div class="paragraph">
+<p>This means that any commit on master is a production-ready release, be it a patch, a minor or a major version.</p>
+</div>
+<div class="paragraph">
+<p>Any commit on <code>master</code> triggers a Travis build generating and pushing documentation and docker images for the
+corresponding release version. If the <code>ci_latest</code> keyword is used in the commit message, the docker images are also
+tagged with <code>latest</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_feature_branches"><a class="anchor" href="#_feature_branches"></a>3.1.1.3. Feature branches</h5>
+<div class="paragraph">
+<p>Feature branches are used to develop new features or fix bugs <strong>for the next release</strong>. The version number for this next
+release is usually not known during the developments as it is its final contents that will determine whether it&#8217;s a
+major or minor version (or even a simple patch).
+By contrast, hotfix branches fix bugs in existing releases and give rise to new patches.</p>
+</div>
+<div class="paragraph">
+<p>The lifecycle of feature branches is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>We don&#8217;t mention specific authors by name in each file (in Javadoc or in the
-documentation for example), so as not to have to maintain these mentions (since this
-information is tracked by git anyway).</p>
+<p>A new feature branch is branched off <code>develop</code> before starting work on a feature or bug.</p>
 </li>
 <li>
-<p>If you are working on a JIRA issue:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Please name your branch with the corresponding JIRA issue ID: OC-XXX</p>
+<p>Once the developments are deemed ready by the developer(s) working on the feature, a pull request should be created
+for this branch.</p>
 </li>
 <li>
-<p>Start all your commit messages with [OC-XXX]</p>
+<p>New pull requests are discussed during daily meetings to assign someone from the Reviewers group to the issue.</p>
+</li>
+<li>
+<p>The pull request author and reviewer(s) then make use of the
+<a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests">Git Hub pull requests</a>
+features (comments, proposed changes, etc.) to make changes to the PR until it meets the project requirements.</p>
+</li>
+<li>
+<p>Once it is ready to be included in the next version, the pull request is then merged back into <code>develop</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Naming convention:</strong> Feature branches names should always start with the reference of the JIRA issue they&#8217;re addressing,
+optionally followed by additional information if several branches are associated with a given JIRA issue.</p>
+</div>
+<div class="ulist">
+<div class="title">Examples of valid feature branch names:</div>
+<ul>
+<li>
+<p>OC-123</p>
+</li>
+<li>
+<p>OC-123_Documentation</p>
+</li>
+<li>
+<p>OC-123_1</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Examples of invalid feature branch names:</div>
+<ul>
+<li>
+<p>123</p>
+</li>
+<li>
+<p>OC123</p>
+</li>
+<li>
+<p>SomeTextDescribingTheBranch</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Commit messages should also start with the JIRA issue ID between brackets: <code>[OC-123] My commit message</code></p>
+</div>
 <div class="paragraph">
 <p>This allows the branch, PR and commits to be directly accessible from the JIRA issue.</p>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>3.1.1.4. Release branches</h5>
+<div class="paragraph">
+<p>Once developments are in a release-ready state and have been tested on the <code>develop</code> branch, a release branch should
+be created off <code>develop</code> to prepare the merge into master.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<em>"All features that are targeted for the release-to-be-built must be merged in to develop at this point in time.
+All features targeted at future releases may not—they must wait until after the release branch is branched off."</em>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+By contrast to what is described in the <a href="https://nvie.com/posts/a-successful-git-branching-model/">original blog post</a>, for now we have chosen to
+only create the release branch once the developments are completely ready and tested on the develop branch, so that no
+fixes should be made on the release branch. This simplifies things because it means that release branches don&#8217;t have to
+be merged back into <code>develop</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once the <code>X.X.X.release</code> branch has been created, a new commit should be made on this branch to change the repository
+version from <code>SNAPSHOT</code> to <code>X.X.X.RELEASE</code>.
+Then, pushing the branch will trigger a build and a "dry-run" generation of documentation and docker images. The aim
+is to detect any issue with this generation before moving to master.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the <code>X.X.X.release</code> can be merged into <code>master</code>, triggering
+The resulting merge commit on <code>master</code> should then be tagged with <code>X.X.X.RELEASE</code>.</p>
+</div>
+<div class="paragraph">
+<p>All commits on <code>master</code> should be merge commits from <code>release</code> branches, direct pushes on master will be disabled.</p>
+</div>
+<div class="paragraph">
+<p><strong>Naming convention:</strong> The name of a release branch should match the repository version it is meant to merge into
+<code>master</code> but in lower case to avoid confusion with release tags on master.</p>
+</div>
+<div class="paragraph">
+<p>Example: The valid branch name for the branch bringing 1.3.0.RELEASE into <code>master</code> is 1.3.0.release</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_hotfix_branches"><a class="anchor" href="#_hotfix_branches"></a>3.1.1.5. Hotfix branches</h5>
+<div class="paragraph">
+<p>Work in progress: detail hotfix branches lifecycle and constraints.</p>
+</div>
+<div class="paragraph">
+<p><strong>Naming convention:</strong> Hotfix branches names should always start with "HF_" and the reference of the JIRA issue they&#8217;re
+addressing, optionally followed by additional information if several branches are associated with a given JIRA issue.</p>
+</div>
+<div class="ulist">
+<div class="title">Examples of valid hotfix branch names:</div>
+<ul>
+<li>
+<p>HF_OC-123</p>
+</li>
+<li>
+<p>HF_OC-123_Documentation</p>
+</li>
+<li>
+<p>HF_OC-123_1</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Examples of invalid hotfix branch names:</div>
+<ul>
+<li>
+<p>123</p>
+</li>
+<li>
+<p>OC-123</p>
+</li>
+<li>
+<p>OC123</p>
+</li>
+<li>
+<p>HF_SomeTextDescribingTheFix</p>
+</li>
+<li>
+<p>SomeTextDescribingTheFix</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples_and_commands"><a class="anchor" href="#_examples_and_commands"></a>3.1.2. Examples and commands</h4>
+<div class="paragraph">
+<p>The aim of this section is to illustrate how our workflow works on a concrete example, complete with the required
+<code>git</code> commands.</p>
+</div>
+<div class="sect4">
+<h5 id="_initial_state"><a class="anchor" href="#_initial_state"></a>3.1.2.1. Initial state</h5>
+<div class="paragraph">
+<p>In the initial state of our example, only <code>develop</code> and <code>master</code> exist.</p>
+</div>
+<div class="paragraph">
+<p>The repository version in <code>master</code> is <code>1.3.0.RELEASE</code>, and the <code>develop</code> branch has just been branched off it. Commits
+have been added to <code>develop</code> to change the repository version to <code>SNAPSHOT</code> and implement the changes necessary for
+Git flow.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_starting_work_on_a_new_feature"><a class="anchor" href="#_starting_work_on_a_new_feature"></a>3.1.2.2. Starting work on a new feature</h5>
+<div class="paragraph">
+<p>Let&#8217;s say we want to start working on feature OC-Feature1 described in our JIRA.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout develop <i class="conum" data-value="1"></i><b>(1)</b>
+git pull <i class="conum" data-value="2"></i><b>(2)</b>
+git checkout -b OC-Feature1 <i class="conum" data-value="3"></i><b>(3)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Check out the <code>develop</code> branch</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Make sure it is up to date with the remote (=GitHub repository)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Create a <code>OC-Feature1</code> off the <code>develop</code> branch</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then, you can start working on the feature and commit your work to the branch.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git commit -m "[OC-Feature1] Developments for OC-Feature1"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At any point during your work you can push your feature branch to the GitHub repository, to back your work up, let
+others look at your work or contribute to the feature, and also to trigger a build (see above).
+To do this, just run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git push</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If it&#8217;s your first push to this branch, Git will prompt you to define the remote branch to be associated with
+your local branch with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git push --set-upstream origin OC-Feature1</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can re-work, squash your commits and push as many times as you want on a feature branch, but try limiting pushes so
+as to make good use of the build resources provided by Travis.
+Force pushes are allowed on feature branches.</p>
+</div>
+<div class="paragraph">
+<p>To see your branch (and the status of the associated builds):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository on GitHub</a></p>
+</li>
+<li>
+<p>Click the <code>branches</code> tab</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/branches_tab.png" alt="branches tab">
+</div>
+</div>
+<div class="paragraph">
+<p>You can see your OC-Feature1 branch, and the green check mark next to it indicates that the associated build(s) is/are
+passing.</p>
+</div>
+<div class="paragraph">
+<p>Clicking this check mark displays a pop-up describing the associated build(s), and clicking "Details" redirects you
+to the build report on Travis.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/build_checkmark_popup.png" alt="build checkmark popup">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Feel free to add a copyright header (on top of the existing ones) to files you create or amend. See src/main/headers
+for examples.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_submitting_a_pull_request"><a class="anchor" href="#_submitting_a_pull_request"></a>3.1.2.3. Submitting a pull request</h5>
+<div class="paragraph">
+<p>Once you are satisfied with the state of your developments, you can submit it as a pull request.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Before submitting your branch as a pull request, please squash/fix your commits so as to reduce the number of commits
+and comment them accordingly. In the end, the division of changes into commits should make the PR easier to understand
+and review.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You should also take a look at the
+<a href="../../../../documentation/current/community/index.html#review_checklist">review check list</a>
+below to make sure your branch meets its criteria.</p>
+</div>
+<div class="paragraph">
+<p>Once you feel your branch is ready, submit a pull request. Open pull requests are then reviewed by the core maintainers
+to assign a reviewer to each of them.</p>
+</div>
+<div class="paragraph">
+<p>To do so, go to the <code>branches</code> tab of the repository as described above.
+Click the "New Pull Request" button for your branch.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/feature1_new_PR.png" alt="feature1 new PR">
+</div>
+</div>
+<div class="paragraph">
+<p>If you haven&#8217;t done so before, <strong>read through the PR checklist</strong> pasted in the comment block, and then <strong>replace it with your
+own comment</strong> containing a short summary of the PR goal and any information that should go into the release notes.
+It&#8217;s especially important for PRs that have a direct impact on existing OperatorFabric deployments, to alert administrators
+of the impacts of deploying a new version and help them with the migration.
+Whenever possible/relevant, a link to the corresponding documentation is appreciated.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/PR_comment.png" alt="PR comment">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Make sure that the base branch for the PR is <code>develop</code>, because feature branches are meant to be merged back into
+<code>develop</code>. This should be the default value since <code>develop</code> is the default branch on this repository, but if not, select
+it in the base branch dropdown list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/develop_base_PR.png" alt="develop base PR">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>At this point, GitHub will tell you whether your branch could be automatically merged into <code>develop</code> or whether
+there are conflicts to be fixed.</p>
+</div>
+<div class="sect5">
+<h6 id="_case_1_github_is_able_to_automatically_merge_your_branch"><a class="anchor" href="#_case_1_github_is_able_to_automatically_merge_your_branch"></a>Case 1: GitHub is able to automatically merge your branch</h6>
+<div class="imageblock">
+<div class="content">
+<img src="../images/feature1_PR_autom_merge_OK.png" alt="feature1 PR autom merge OK">
+</div>
+</div>
+<div class="paragraph">
+<p>This means that either your branch was up to date with develop or there were no conflicts.
+In this case, just go ahead and fill in the PR title and message, then click "Create pull request".</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_case_2_github_cant_merge_your_branch_automatically"><a class="anchor" href="#_case_2_github_cant_merge_your_branch_automatically"></a>Case 2: GitHub can&#8217;t merge your branch automatically</h6>
+<div class="imageblock">
+<div class="content">
+<img src="../images/feature1_PR_autom_merge_KO.png" alt="feature1 PR autom merge KO">
+</div>
+</div>
+<div class="paragraph">
+<p>This means that there are conflicts with the current state of the <code>develop</code> branch on GitHub.
+To fix these conflicts, you need to update your local copy of the develop branch and merge it into your feature branch.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout develop <i class="conum" data-value="1"></i><b>(1)</b>
+git pull <i class="conum" data-value="2"></i><b>(2)</b>
+git checkout OC-Feature1 <i class="conum" data-value="3"></i><b>(3)</b>
+git merge develop <i class="conum" data-value="4"></i><b>(4)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Check out the <code>develop</code> branch</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Make sure it is up to date with the remote (=GitHub repository)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Check out the <code>OC-Feature1</code> branch</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Merge the new commits from <code>develop</code> into the feature branch</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then, handle any conflicts from the merge. For example, let&#8217;s say there is a conflict on file <code>dummy1.txt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Auto-merging dummy1.txt
+CONFLICT (add/add): Merge conflict in dummy1.txt
+Automatic merge failed; fix conflicts and then commit the result.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open file <code>dummy1.txt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">dummy1.txt</div>
+<div class="content">
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Some content from feature 1.
+=======
+Some content that has been changed on develop since Feature 1 branched off.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; develop</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Update the content to reflect the changes that you want to keep:</p>
+</div>
+<div class="listingblock">
+<div class="title">dummy1.txt</div>
+<div class="content">
+<pre>Some content from feature 1 and some content that has been changed on develop since Feature 1 branched off.</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git add dummy1.txt <i class="conum" data-value="1"></i><b>(1)</b>
+git commit <i class="conum" data-value="2"></i><b>(2)</b>
+git push <i class="conum" data-value="3"></i><b>(3)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Add the manually merged file to the changes to be committed</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Commit the changes to finish the merge</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Push the changes to GitHub</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, if you go back to GitHub and try to create a pull request again, GitHub should indicate that it is able to merge
+automatically.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/feature1_PR_autom_merge_OK.png" alt="feature1 PR autom merge OK">
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>3.1.2.4. Reviewing a Pull Request</h5>
+<div class="paragraph">
+<p>As of today, only developers from the <code>reviewers</code> group can merge pull requests into <code>develop</code>, but this shouldn&#8217;t
+stop anyone interested in the topic of a PR to comment and review it.</p>
+</div>
+<div id="review_checklist" class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The PR comment contains a brief explanation of the impact of these developments, and a pointer
+to the relevant documentation if need be. Otherwise, it should why this development doesn&#8217;t need
+to be on the release notes.</p>
+</li>
+<li>
+<p>Check that Travis build is passing (for both branch and PR)</p>
+</li>
+<li>
+<p>Check that the base branch (i.e. the branch into which we want to merge changes) is correct: for feature branches
+pull requests, this branch should be <code>develop</code>.</p>
+</li>
+<li>
+<p>Look through changed files to make sure everything is relevant to the PR (no mistakenly added changes,
+no secret information, no malicious changes) and to see if you have remarks on the way things are implemented</p>
+</li>
+<li>
+<p>Check that the commit(s) message(s) is(are) relevant and follow conventions ([OC-XXX] &#8230;&#8203; )</p>
+</li>
+<li>
+<p>If there is more than one commit, is it meaningful or do we need to squash ?</p>
+</li>
+<li>
+<p>Meaningful and sufficient unit tests for the backend (80% coverage is the threshold)</p>
+</li>
+<li>
+<p>Meaningful unit tests for the frontend (Angular tests can be complex to implement, we should focus on testing complex
+logic and not the framework itself)</p>
+</li>
+<li>
+<p>Check Sonar analysis on SonarCloud to see if Sonar reports any bugs or code smells on the new code</p>
+</li>
+<li>
+<p>API testing via Karate has been updated</p>
+</li>
+<li>
+<p>Cypress UI tests have been updated</p>
+</li>
+<li>
+<p>Documentation has been updated (especially if configuration is needed)</p>
+</li>
+<li>
+<p>Configuration examples have been updated (both for dev and docker)</p>
+</li>
+<li>
+<p>Build and run OpFab locally to see the new feature or bug fix at work. In the case of a new feature, it&#8217;s also a way
+of making sure that the configuration documentation is correct and easily understandable.</p>
+</li>
+<li>
+<p>Depending on the scope of the PR , build docker images and test in docker mode</p>
+</li>
+<li>
+<p>Check that the copyright header has been updated on the changed files if need be, and in the case of a first-time
+contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>If the PR doesn&#8217;t meet some of these criteria, use the GitHub review process to suggest changes and discuss problems
+with the PR author.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>3.1.2.5. Merging a Pull Request</h5>
+<div class="paragraph">
+<p>Once the pull request meets all the criteria from the above check list, you can merge it into the <code>develop</code> branch.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to the pull request page on GitHub</p>
+</li>
+<li>
+<p>Check that the base branch for the pull request is <code>develop</code>. This information is visible at the top of the page.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/existing_PR_check_base.png" alt="existing PR check base">
+</div>
+</div>
+</li>
+<li>
+<p>If that is not the case, you can edit the base branch by clicking the <code>Edit</code> button in the top right corner.</p>
+</li>
+<li>
+<p>Click the <code>merge pull request</code> button at the bottom of the PR page</p>
+</li>
+<li>
+<p>Go to the <a href="https://opfab.atlassian.net">JIRA</a> page for the corresponding issue and</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the <code>Fix version</code> field to <code>Next Version</code></p>
+</li>
+<li>
+<p>Set the <code>Status</code> field to <code>Done</code></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Before submitting your PR, please rebase your branch against the current master to minimize conflicts when merging.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>git checkout OC-XXX
-git fetch
-git rebase origin/master</code></pre>
+<p>Go to the <a href="https://github.com/opfab/release-notes/">release-notes repository</a> and add the issue to the list with
+the information provided in the PR comments.</p>
+</li>
+</ol>
 </div>
 </div>
-</li>
+<div class="sect4">
+<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>3.1.2.6. Creating a release or hotfix</h5>
+<div class="paragraph">
+<p>See the
+<a href="../../../../documentation/current/CICD/index.html#release_process">release process</a>
+described in our CICD documentation for details.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>3.2. Code Guidelines</h3>
+<div class="ulist">
+<ul>
 <li>
-<p>Before submitting your PR, please squash/fix your commits so as to reduce the
-number of commits and comment them accordingly. In the end, the division of changes
-into commits should make the PR easier to understand and review.</p>
-</li>
-<li>
-<p>Feel free to add a copyright header (on top of the existing ones) to files
-you create or amend. See src/main/headers for examples.</p>
+<p>We don&#8217;t mention specific authors by name in each file (in Javadoc or in the documentation for example), so as not
+to have to maintain these mentions (since this information is tracked by git anyway).</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_documentation_guidelines">3.2. Documentation Guidelines</h3>
+<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>3.3. Documentation Guidelines</h3>
 <div class="paragraph">
 <p>The aim of this section is to explain how the documentation is currently organized and to give a few guidelines on how
 it should be written.</p>
 </div>
 <div class="sect3">
-<h4 id="_structure">3.2.1. Structure</h4>
+<h4 id="_structure"><a class="anchor" href="#_structure"></a>3.3.1. Structure</h4>
 <div class="paragraph">
 <p>All the sources for the AsciiDoc documentation published on our <a href="https://opfab.github.io/">website</a> are found under
 the <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">src/docs/asciidoc</a> folder in the
@@ -872,7 +1562,7 @@ example for the
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conventions">3.2.2. Conventions</h4>
+<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>3.3.2. Conventions</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -900,9 +1590,12 @@ set in the configuration of the asciidoctor gradle task:</p>
                 revnumber           : operatorfabric.version,
                 revdate             : operatorfabric.revisionDate,
                 sectnums            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+                sectnumlevels       : <span class="string"><span class="delimiter">'</span><span class="content">4</span><span class="delimiter">'</span></span>,
+                sectanchors         : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
                 toc                 : <span class="string"><span class="delimiter">'</span><span class="content">left</span><span class="delimiter">'</span></span>,
-                toclevels           : <span class="string"><span class="delimiter">'</span><span class="content">3</span><span class="delimiter">'</span></span>,
+                toclevels           : <span class="string"><span class="delimiter">'</span><span class="content">4</span><span class="delimiter">'</span></span>,
                 icons               : <span class="string"><span class="delimiter">'</span><span class="content">font</span><span class="delimiter">'</span></span>,
+                imagesdir           : <span class="string"><span class="delimiter">'</span><span class="content">../images</span><span class="delimiter">'</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">hide-uri-scheme</span><span class="delimiter">&quot;</span></span>   : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">source-highlighter</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">coderay</span><span class="delimiter">'</span></span>
 }</code></pre>
@@ -1057,77 +1750,168 @@ document in the same version rather than the latest version.
 Links starting with <strong><a href="https://opfab.github.io/documentation/current/" class="bare">opfab.github.io/documentation/current/</a></strong> should only be used when we want to always refer to
 the latest (release) version of the documentation.</p>
 </li>
+<li>
+<p>If necessary, add the relevant copyright at the top of the file.</p>
+</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_contribution_process">3.3. Contribution Process</h3>
+<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>3.4. Copyright Headers</h3>
 <div class="paragraph">
-<p>Code Contribution is tracked as <a href="https://help.github.com/en/articles/about-pull-requests">GitHub Pull Requests</a>.
-Crafting a good pull request takes time and energy and we will help as much as we can, but be prepared to follow our
-iterative process. The iterative process has several goals:</p>
+<p>All source files and documentation files for the project should bear copyright headers.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Maintain the quality of the project</p>
-</li>
-<li>
-<p>Fix issues that are important to users</p>
-</li>
-<li>
-<p>Allow everyone from the community to take part in the discussions, to reach the best possible solution</p>
-</li>
-<li>
-<p>Make the review by OperatorFabric maintainers as efficient as possible</p>
-</li>
-</ul>
-</div>
+<div class="sect3">
+<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>3.4.1. Header templates</h4>
 <div class="paragraph">
-<p>Please follow these steps to have your contribution considered by the maintainers:</p>
+<p>In the case of source files (*.java, *.css or *.scss, *.html, *.ts, etc.), we are working with the
+<a href="http://mozilla.org/MPL/2.0/">Mozilla Public License, v. 2.0</a>, so the header should be something like this:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Request a GitHub review by one of the core developers</p>
-</li>
-<li>
-<p>Take their review into account or discuss the requested changes. Please don&#8217;t take criticism personally, it is normal
-to iterate on this step several times.</p>
-</li>
-<li>
-<p>Repeat step 3 until the pull request is merged!</p>
-</li>
-</ol>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) YYYY-YYYY, Entity Name (website or contact info)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Continuous integration is set up to run on all branches automatically and will often report problems, so don&#8217;t worry
-about getting everything perfect on the first try (SonarCloud Analysis is a notorious problem source).
-Until you add a reviewer, you can trigger as many builds as you want by amending your commits. The status checks
-enforce the following:</p>
+<p>In the case of documentation files (*.adoc), we use the
+<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International license</a>, so the
+header should be:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>All tests in the test suite pass</p>
-</li>
-<li>
-<p>Checkstyle and SonarCloud report no violations (coming soon)</p>
-</li>
-<li>
-<p>The code coverage is high enough (coming soon)</p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) YYYY-YYYY, Entity Name (website or contact info)
+See AUTHORS.txt
+This document is subject to the terms of the Creative Commons Attribution 4.0 International license.
+If a copy of the license was not distributed with this
+file, You can obtain one at https://creativecommons.org/licenses/by/4.0/.
+SPDX-License-Identifier: CC-BY-4.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These templates should of course be converted to comments depending on the file type. See src/main/headers for examples.</p>
+</div>
+<div class="paragraph">
+<p>Please make sure to include the appropriate header when creating new files and to update the existing one when
+making changes to a file.</p>
+</div>
+<div class="paragraph">
+<p>In the case of a first time contribution, the GitHub username of the person making the contribution should also be
+added to the AUTHORS file.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples"><a class="anchor" href="#_examples"></a>3.4.2. Examples</h4>
+<div class="sect4">
+<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>3.4.2.1. Creating a new file</h5>
+<div class="paragraph">
+<p>Let&#8217;s say a developer from entity Entity X creates a new java file in 2020. The header should read:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) 2020, Entity X (http://www.entityX.org)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>3.4.2.2. Updating a file</h5>
+<div class="paragraph">
+<p>Given an existing java file with the following header:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) 2020, Entity X (http://www.entityX.org)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a developer from entity Entity X edits it in 2021, the header should now read:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) 2020-2021, Entity X (http://www.entityX.org)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, if a developer from entity Entity X edits it in 2022, but no one from Entity X had touched it in 2021,
+the header should now read:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) 2020, 2022 Entity X (http://www.entityX.org)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>3.4.2.3. Multiple contributors</h5>
+<div class="paragraph">
+<p>Given an existing java file with the following header:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) 2020-2021, Entity X (http://www.entityX.org)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a developer from entity Entity Y edits it in 2021, the header should now read:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Copyright (c) 2020-2021, Entity X (http://www.entityX.org)
+Copyright (c) 2021, Entity Y (http://www.entityY.org)
+See AUTHORS.txt
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+SPDX-License-Identifier: MPL-2.0
+This file is part of the OperatorFabric project.</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_project_governance">4. Project Governance</h2>
+<h2 id="_project_governance"><a class="anchor" href="#_project_governance"></a>4. Project Governance</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_project_owner">4.1. Project Owner</h3>
+<h3 id="_project_owner"><a class="anchor" href="#_project_owner"></a>4.1. Project Owner</h3>
 <div class="paragraph">
 <p>OperatorFabric is part of the <a href="https://www.lfenergy.org/">LF Energy Foundation</a>, a project of the
 <a href="https://www.linuxfoundation.org/">Linux Foundation</a> that supports open source innovation projects within the energy
@@ -1135,7 +1919,7 @@ and electricity sectors.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_committers">4.2. Committers</h3>
+<h3 id="_committers"><a class="anchor" href="#_committers"></a>4.2. Committers</h3>
 <div class="paragraph">
 <p>Committers are contributors who have made several valuable contributions to the project and are now relied upon to both
 write code directly to the repository and screen the contributions of others. In many cases they are programmers but it
@@ -1145,7 +1929,7 @@ project owner.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_technical_steering_committee">4.3. Technical Steering Committee</h3>
+<h3 id="_technical_steering_committee"><a class="anchor" href="#_technical_steering_committee"></a>4.3. Technical Steering Committee</h3>
 <div class="paragraph">
 <p>The Technical Steering Committee (TSC) is composed of voting members elected by the active Committers as described in
 the project’s Technical Charter.</p>
@@ -1183,7 +1967,7 @@ the project’s Technical Charter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_contributors">4.4. Contributors</h3>
+<h3 id="_contributors"><a class="anchor" href="#_contributors"></a>4.4. Contributors</h3>
 <div class="paragraph">
 <p>Contributors include anyone in the technical community that contributes code, documentation, or other technical
 artifacts to the project.</p>
@@ -1197,13 +1981,13 @@ are beneficial to the project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_communication_channels">5. Communication channels</h2>
+<h2 id="_communication_channels"><a class="anchor" href="#_communication_channels"></a>5. Communication channels</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In addition to GitHub we have set up:</p>
 </div>
 <div class="sect2">
-<h3 id="_website_opfab_org">5.1. Website: <a href="http://opfab.org" class="bare">opfab.org</a></h3>
+<h3 id="_website_opfab_org"><a class="anchor" href="#_website_opfab_org"></a>5.1. Website: <a href="http://opfab.org" class="bare">opfab.org</a></h3>
 <div class="paragraph">
 <p>Our website contains all the documentation and resources we&#8217;re currently working on. Here is what we aim to provide:</p>
 </div>
@@ -1246,7 +2030,7 @@ RSS feed on the home page to be informed of any update.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_spectrum_community_spectrum_chatopfab">5.2. Spectrum Community : <a href="https://spectrum.chat/opfab" class="bare">spectrum.chat/opfab</a></h3>
+<h3 id="_spectrum_community_spectrum_chatopfab"><a class="anchor" href="#_spectrum_community_spectrum_chatopfab"></a>5.2. Spectrum Community : <a href="https://spectrum.chat/opfab" class="bare">spectrum.chat/opfab</a></h3>
 <div class="paragraph">
 <p>If you would like to join the discussions regarding OperatorFabric, please
 <a href="https://spectrum.chat/opfab">join our community on Spectrum</a>!</p>
@@ -1256,7 +2040,7 @@ RSS feed on the home page to be informed of any update.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lf_energy_mailing_lists">5.3. LF Energy Mailing Lists</h3>
+<h3 id="_lf_energy_mailing_lists"><a class="anchor" href="#_lf_energy_mailing_lists"></a>5.3. LF Energy Mailing Lists</h3>
 <div class="paragraph">
 <p>Several mailing lists have been created by LF Energy for the project, please feel free to subscribe to the ones you
 could be interested in:</p>
@@ -1280,20 +2064,20 @@ could be interested in:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_jira">5.4. JIRA</h3>
+<h3 id="_jira"><a class="anchor" href="#_jira"></a>5.4. JIRA</h3>
 
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="code_of_conduct">6. Code of Conduct</h2>
+<h2 id="code_of_conduct"><a class="anchor" href="#code_of_conduct"></a>6. Code of Conduct</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The Code of Conduct for the OperatorFabric community is
 <a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.txt">version 2.0 of the Contributor Covenant</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="_our_pledge">6.1. Our Pledge</h3>
+<h3 id="_our_pledge"><a class="anchor" href="#_our_pledge"></a>6.1. Our Pledge</h3>
 <div class="paragraph">
 <p>We as members, contributors, and leaders pledge to make participation in our
 community a harassment-free experience for everyone, regardless of age, body
@@ -1306,7 +2090,7 @@ diverse, inclusive, and healthy community.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_our_standards">6.2. Our Standards</h3>
+<h3 id="_our_standards"><a class="anchor" href="#_our_standards"></a>6.2. Our Standards</h3>
 <div class="paragraph">
 <p>Examples of behavior that contributes to a positive environment for our
 community include:</p>
@@ -1359,7 +2143,7 @@ professional setting</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_enforcement_responsibilities">6.3. Enforcement Responsibilities</h3>
+<h3 id="_enforcement_responsibilities"><a class="anchor" href="#_enforcement_responsibilities"></a>6.3. Enforcement Responsibilities</h3>
 <div class="paragraph">
 <p>Community leaders are responsible for clarifying and enforcing our standards of
 acceptable behavior and will take appropriate and fair corrective action in
@@ -1372,7 +2156,7 @@ decisions when appropriate.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scope">6.4. Scope</h3>
+<h3 id="_scope"><a class="anchor" href="#_scope"></a>6.4. Scope</h3>
 <div class="paragraph">
 <p>This Code of Conduct applies within all community spaces, and also applies when
 an individual is officially representing the community in public spaces.
@@ -1382,7 +2166,7 @@ representative at an online or offline event.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_enforcement">6.5. Enforcement</h3>
+<h3 id="_enforcement"><a class="anchor" href="#_enforcement"></a>6.5. Enforcement</h3>
 <div class="paragraph">
 <p>Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at <strong>opfab-tsc_AT_lists.lfenergy.org</strong>.
@@ -1476,7 +2260,7 @@ the community.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_attribution">6.6. Attribution</h3>
+<h3 id="_attribution"><a class="anchor" href="#_attribution"></a>6.6. Attribution</h3>
 <div class="paragraph">
 <p>This Code of Conduct is adapted from the Contributor Covenant,
 version 2.0, available at

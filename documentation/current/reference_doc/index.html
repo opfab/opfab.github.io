@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 1.3.0.RELEASE,</span>
-<span id="revdate">13 May 2020</span>
+<span id="revnumber">version 1.4.0.RELEASE,</span>
+<span id="revdate">22 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -540,12 +540,24 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_declaring_a_third_party_service">4.1. Declaring a Third Party Service</a>
 <ul class="sectlevel3">
 <li><a href="#_requirements">4.1.1. Requirements</a></li>
-<li><a href="#_bundle">4.1.2. Bundle</a></li>
+<li><a href="#_bundle">4.1.2. Bundle</a>
+<ul class="sectlevel4">
+<li><a href="#_the_config_json_file">4.1.2.1. The config.json file</a></li>
+<li><a href="#_i18n">4.1.2.2. i18n</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#bundle_technical_overview">4.2. Bundle Technical overview</a>
 <ul class="sectlevel3">
-<li><a href="#resource-serving">4.2.1. Resource serving</a></li>
+<li><a href="#resource-serving">4.2.1. Resource serving</a>
+<ul class="sectlevel4">
+<li><a href="#css">4.2.1.1. CSS</a></li>
+<li><a href="#internationalization">4.2.1.2. Internationalization</a></li>
+<li><a href="#templates">4.2.1.3. Templates</a></li>
+</ul>
+</li>
+<li><a href="#_charts">4.2.2. Charts</a></li>
 </ul>
 </li>
 </ul>
@@ -554,9 +566,17 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_users_groups_and_entities">5.1. Users, groups and entities</a>
 <ul class="sectlevel3">
-<li><a href="#_users">5.1.1. Users</a></li>
+<li><a href="#_users">5.1.1. Users</a>
+<ul class="sectlevel4">
+<li><a href="#_automated_user_creation">5.1.1.1. Automated user creation</a></li>
+</ul>
+</li>
 <li><a href="#_groups">5.1.2. Groups</a></li>
-<li><a href="#_entities">5.1.3. Entities</a></li>
+<li><a href="#_entities">5.1.3. Entities</a>
+<ul class="sectlevel4">
+<li><a href="#_alternative_way_to_manage_groups">5.1.3.1. Alternative way to manage groups</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -565,16 +585,53 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#card_structure">6.1. Card Structure</a>
 <ul class="sectlevel3">
-<li><a href="#_technical_information_of_the_card">6.1.1. Technical Information of the card</a></li>
-<li><a href="#_user_destined_information_of_the_card">6.1.2. User destined Information of the card</a></li>
-<li><a href="#_presentation_information_of_the_card">6.1.3. Presentation Information of the card</a></li>
+<li><a href="#_technical_information_of_the_card">6.1.1. Technical Information of the card</a>
+<ul class="sectlevel4">
+<li><a href="#_mandatory_information">6.1.1.1. Mandatory information</a></li>
+<li><a href="#_recipient_recipient">6.1.1.2. Recipient (<code>recipient</code>)</a></li>
+<li><a href="#_card_life_management_configuration">6.1.1.3. Card Life Management Configuration</a></li>
+<li><a href="#_optional_information">6.1.1.4. Optional information</a></li>
+<li><a href="#_last_time_to_decide_lttd">6.1.1.5. Last Time to Decide (<code>lttd</code>)</a></li>
+<li><a href="#_store_information">6.1.1.6. Store information</a></li>
+<li><a href="#_other_technical_attributes">6.1.1.7. Other technical attributes</a></li>
+<li><a href="#_publish_date_publishdate">6.1.1.8. Publish Date (<code>publishDate</code>)</a></li>
+<li><a href="#_deletion_date_deletiondate">6.1.1.9. Deletion Date (`deletionDate°)</a></li>
+</ul>
+</li>
+<li><a href="#_user_destined_information_of_the_card">6.1.2. User destined Information of the card</a>
+<ul class="sectlevel4">
+<li><a href="#_in_card_format">6.1.2.1. in Card Format</a></li>
+<li><a href="#_custom_part">6.1.2.2. Custom part</a></li>
+</ul>
+</li>
+<li><a href="#_presentation_information_of_the_card">6.1.3. Presentation Information of the card</a>
+<ul class="sectlevel4">
+<li><a href="#_details_details">6.1.3.1. details (<code>details</code>)</a></li>
+<li><a href="#_timespans_timespans">6.1.3.2. TimeSpans (<code>timeSpans</code>)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_cards_examples">6.2. Cards Examples</a>
 <ul class="sectlevel3">
-<li><a href="#minimal_card">6.2.1. Minimal Card</a></li>
-<li><a href="#_regular_card">6.2.2. Regular Card</a></li>
-<li><a href="#display_rules">6.2.3. Display Rules</a></li>
+<li><a href="#minimal_card">6.2.1. Minimal Card</a>
+<ul class="sectlevel4">
+<li><a href="#_send_to_one_user">6.2.1.1. Send to One User</a></li>
+<li><a href="#_send_to_several_users">6.2.1.2. Send to several users</a></li>
+</ul>
+</li>
+<li><a href="#_regular_card">6.2.2. Regular Card</a>
+<ul class="sectlevel4">
+<li><a href="#_full_of_hidden_data">6.2.2.1. Full of Hidden data</a></li>
+<li><a href="#_fully_useful">6.2.2.2. Fully useful</a></li>
+</ul>
+</li>
+<li><a href="#display_rules">6.2.3. Display Rules</a>
+<ul class="sectlevel4">
+<li><a href="#_dates">6.2.3.1. Dates</a></li>
+<li><a href="#card_recipients">6.2.3.2. Recipients</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -615,7 +672,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction">1. Introduction</h2>
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To perform their duties, an operator has to interact with multiple applications
@@ -710,7 +767,7 @@ operators reached this agreement.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_a_quick_walk_through_the_user_interface">2. A quick walk through the user interface</h2>
+<h2 id="_a_quick_walk_through_the_user_interface"><a class="anchor" href="#_a_quick_walk_through_the_user_interface"></a>2. A quick walk through the user interface</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Work in progress</p>
@@ -718,13 +775,13 @@ operators reached this agreement.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_technical_overview">3. Technical overview</h2>
+<h2 id="_technical_overview"><a class="anchor" href="#_technical_overview"></a>3. Technical overview</h2>
 <div class="sectionbody">
 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_thirds_service">4. Thirds service</h2>
+<h2 id="_thirds_service"><a class="anchor" href="#_thirds_service"></a>4. Thirds service</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>As stated above, third-party applications (or "thirds" for short) interact with OperatorFabric by sending cards.
@@ -748,7 +805,7 @@ The Thirds service allows them to tell OperatorFabric</p>
 to the third-party application) that can be integrated either as iframe or external links.</p>
 </div>
 <div class="sect2">
-<h3 id="_declaring_a_third_party_service">4.1. Declaring a Third Party Service</h3>
+<h3 id="_declaring_a_third_party_service"><a class="anchor" href="#_declaring_a_third_party_service"></a>4.1. Declaring a Third Party Service</h3>
 <div class="paragraph">
 <p>This sections explains Third Party Service Configuration</p>
 </div>
@@ -765,14 +822,14 @@ The card data used here are sent automatically using a script as described
 .</p>
 </div>
 <div class="sect3">
-<h4 id="_requirements">4.1.1. Requirements</h4>
+<h4 id="_requirements"><a class="anchor" href="#_requirements"></a>4.1.1. Requirements</h4>
 <div class="paragraph">
 <p>Those examples are played in an environment where an OperatorFabric instance (all micro-services) is running along
 a MongoDB Database and a RabbitMQ instances.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_bundle">4.1.2. Bundle</h4>
+<h4 id="_bundle"><a class="anchor" href="#_bundle"></a>4.1.2. Bundle</h4>
 <div class="paragraph">
 <p>Third bundles customize the way third card details are displayed. Those <code>tar.gz</code> archives contain a descriptor file
 named <code>config.json</code>, eventually some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> to do so.</p>
@@ -811,7 +868,7 @@ a <code>css</code> folder, an <code>i18n</code> folder and a <code>template</cod
 <p>To summarize, there are 5 directories and 8 files.</p>
 </div>
 <div class="sect4">
-<h5 id="_the_config_json_file">The config.json file</h5>
+<h5 id="_the_config_json_file"><a class="anchor" href="#_the_config_json_file"></a>4.1.2.1. The config.json file</h5>
 <div class="paragraph">
 <p>It&#8217;s a description file in <code>json</code> format. It lists the content of the bundle.</p>
 </div>
@@ -922,7 +979,7 @@ for details.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_i18n">i18n</h5>
+<h5 id="_i18n"><a class="anchor" href="#_i18n"></a>4.1.2.2. i18n</h5>
 <div class="paragraph">
 <p>There are two ways of i18n for third service. The first one is done using l10n files which are located in the <code>i18n</code> folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
 </div>
@@ -933,12 +990,12 @@ for details.</p>
 <p>These localisation is used for integration of the third service into OperatorFabric, i.e. the label displayed for the third service, the label displayed for each tab of the details of the third card, the label of the actions in cards if any or the additional third entries in OperatorFabric(more on that at the chapter ????).</p>
 </div>
 <div class="sect5">
-<h6 id="_template_folder">Template folder</h6>
+<h6 id="_template_folder"><a class="anchor" href="#_template_folder"></a>Template folder</h6>
 <div class="paragraph">
 <p>The <code>template</code> folder must contain localized folder for the i18n of the card details. This is why in our example, as the bundle is localized for <code>en</code> and <code>fr</code> language, the <code>template</code> folder contains a <code>en</code> and a <code>fr</code> folder.</p>
 </div>
 <div class="sect6">
-<h7 id="_i18n_file">i18n file</h7>
+<h7 id="_i18n_file"><a class="anchor" href="#_i18n_file"></a>i18n file</h7>
 <div class="paragraph">
 <p>If there is no i18n file or key is missing, the i18n key is displayed in OperatorFabric.</p>
 </div>
@@ -1078,7 +1135,7 @@ command line</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="menu_entries">Menu Entries</h6>
+<h6 id="menu_entries"><a class="anchor" href="#menu_entries"></a>Menu Entries</h6>
 <div class="paragraph">
 <p>Those elements are declared  in the <code>config.json</code> file of the bundle.</p>
 </div>
@@ -1088,7 +1145,7 @@ within the <code>i18nLabelKey</code> attribute, otherwise the first and only <co
 menu nav bar of OperatorFabric.</p>
 </div>
 <div class="sect6">
-<h7 id="_config_json_declaration">config.json declaration</h7>
+<h7 id="_config_json_declaration"><a class="anchor" href="#_config_json_declaration"></a>config.json declaration</h7>
 <div class="paragraph">
 <p>This kind of objects contains the following attributes :</p>
 </div>
@@ -1106,7 +1163,7 @@ menu nav bar of OperatorFabric.</p>
 </ul>
 </div>
 <div class="sect7">
-<h8 id="_examples">Examples</h8>
+<h8 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h8>
 <div class="paragraph">
 <p>In the following examples, only the part relative to menu entries in the <code>config.json</code> file is detailed, the other parts are omitted and represented with a '…'.</p>
 </div>
@@ -1158,7 +1215,7 @@ menu nav bar of OperatorFabric.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_processes_and_states">Processes and States</h6>
+<h6 id="_processes_and_states"><a class="anchor" href="#_processes_and_states"></a>Processes and States</h6>
 <div class="paragraph">
 <p>Processes and their states allows to match a Third Party service process specific state to a list of templates for card details and
 actions allowing specific card rendering for each state of the business process.</p>
@@ -1191,7 +1248,7 @@ actions allowing specific card rendering for each state of the business process.
 </ul>
 </div>
 <div class="sect6">
-<h7 id="_configuration">configuration</h7>
+<h7 id="_configuration"><a class="anchor" href="#_configuration"></a>configuration</h7>
 <div class="paragraph">
 <p>The process entry in the configuration file is a dictionary of processes, each key maps to a process definition.
 A process definition is itself a dictionary of states, each key maps to a state definition. A state is defined by:</p>
@@ -1209,7 +1266,7 @@ A process definition is itself a dictionary of states, each key maps to a state 
 </div>
 </div>
 <div class="sect6">
-<h7 id="_actions">Actions</h7>
+<h7 id="_actions"><a class="anchor" href="#_actions"></a>Actions</h7>
 <div class="literalblock">
 <div class="content">
 <pre>{
@@ -1289,7 +1346,7 @@ specified using curly brackets. Available parameters:</p>
 </div>
 </div>
 <div class="sect6">
-<h7 id="_templates">Templates</h7>
+<h7 id="_templates"><a class="anchor" href="#_templates"></a>Templates</h7>
 <div class="paragraph">
 <p>For demonstration purposes, there will be two simple templates. For more advance feature go to the section detailing the handlebars templates in general and helpers available in OperatorFabric.
 As the card used in this example are created
@@ -1351,13 +1408,13 @@ As the card used in this example are created
 </div>
 </div>
 <div class="sect6">
-<h7 id="_css">CSS</h7>
+<h7 id="_css"><a class="anchor" href="#_css"></a>CSS</h7>
 <div class="paragraph">
 <p>This folder contains regular css files.
 The file name must be declared in the <code>config.json</code> file in order to be used in the templates and applied to them.</p>
 </div>
 <div class="sect7">
-<h8 id="_examples_2">Examples</h8>
+<h8 id="_examples_2"><a class="anchor" href="#_examples_2"></a>Examples</h8>
 <div class="paragraph">
 <p>As above, all parts of files irrelevant for our example are symbolised by a <code>…</code> character.</p>
 </div>
@@ -1409,7 +1466,7 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 </div>
 <div class="sect5">
-<h6 id="_upload">Upload</h6>
+<h6 id="_upload"><a class="anchor" href="#_upload"></a>Upload</h6>
 <div class="paragraph">
 <p>For this, the bundle is submitted to the OperatorFabric server using a POST http method as described in the
 <a href="../../../../documentation/current/api/thirds/.html#/thirds/uploadBundle">Thirds Service API documentation</a>
@@ -1533,16 +1590,16 @@ section to resolve the problem.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bundle_technical_overview">4.2. Bundle Technical overview</h3>
+<h3 id="bundle_technical_overview"><a class="anchor" href="#bundle_technical_overview"></a>4.2. Bundle Technical overview</h3>
 <div class="paragraph">
 <p>See
 <a href="../../../../documentation/current/api/thirds/index.html">the model section</a>
 (at the bottom) of the swagger generated documentation for data structure.</p>
 </div>
 <div class="sect3">
-<h4 id="resource-serving">4.2.1. Resource serving</h4>
+<h4 id="resource-serving"><a class="anchor" href="#resource-serving"></a>4.2.1. Resource serving</h4>
 <div class="sect4">
-<h5 id="css">CSS</h5>
+<h5 id="css"><a class="anchor" href="#css"></a>4.2.1.1. CSS</h5>
 <div class="paragraph">
 <p>CSS 3 style sheet are supported, they allow custom styling of card template
 detail all css selector must be prefixed by the <code>.detail.template</code> parent
@@ -1550,7 +1607,7 @@ selector</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="internationalization">Internationalization</h5>
+<h5 id="internationalization"><a class="anchor" href="#internationalization"></a>4.2.1.2. Internationalization</h5>
 <div class="paragraph">
 <p>Internationalization (i18n) files are json file (JavaScript Object Notation).
 One file must be defined by module supported language. See
@@ -1593,7 +1650,7 @@ de.json</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="templates">Templates</h5>
+<h5 id="templates"><a class="anchor" href="#templates"></a>4.2.1.3. Templates</h5>
 <div class="paragraph">
 <p>Templates are <a href="https://handlebarsjs.com/">Handlebars</a> template files. Templates
 are fuelled with a scope structure composed of</p>
@@ -1631,7 +1688,7 @@ for more information)</p>
 following helpers :</p>
 </div>
 <div class="sect5">
-<h6 id="numberformat">numberFormat</h6>
+<h6 id="numberformat"><a class="anchor" href="#numberformat"></a>numberFormat</h6>
 <div class="paragraph">
 <p>formats a number parameter using
 <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu" class="bare">developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu</a>
@@ -1646,7 +1703,7 @@ parameters (<a href="https://handlebarsjs.com/">see Handlebars doc Literals sect
 </div>
 </div>
 <div class="sect5">
-<h6 id="dateformat">dateFormat</h6>
+<h6 id="dateformat"><a class="anchor" href="#dateformat"></a>dateFormat</h6>
 <div class="paragraph">
 <p>formats the submitted parameters (millisecond since epoch) using
 <a href="https://momentjs.com/">mement.format</a>. The locale used is the current user
@@ -1660,7 +1717,7 @@ selected one, the format is "format" hash parameter
 </div>
 </div>
 <div class="sect5">
-<h6 id="slice">slice</h6>
+<h6 id="slice"><a class="anchor" href="#slice"></a>slice</h6>
 <div class="paragraph">
 <p>extracts a sub array from ann array</p>
 </div>
@@ -1718,7 +1775,7 @@ selected one, the format is "format" hash parameter
 </div>
 </div>
 <div class="sect5">
-<h6 id="now">now</h6>
+<h6 id="now"><a class="anchor" href="#now"></a>now</h6>
 <div class="paragraph">
 <p>outputs the current date in millisecond from epoch. The date is computed from
 application internal time service and thus may be different from the date that
@@ -1754,7 +1811,7 @@ bellow example, we simply pass an empty string.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="preservespace">preserveSpace</h6>
+<h6 id="preservespace"><a class="anchor" href="#preservespace"></a>preserveSpace</h6>
 <div class="paragraph">
 <p>preserves space in parameter string to avoid html standard space trimming.</p>
 </div>
@@ -1765,7 +1822,7 @@ bellow example, we simply pass an empty string.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="bool">bool</h6>
+<h6 id="bool"><a class="anchor" href="#bool"></a>bool</h6>
 <div class="paragraph">
 <p>returns a boolean result value on an arithmetical operation (including object
 equality) or boolean operation.</p>
@@ -1832,7 +1889,7 @@ value operand</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="math">math</h6>
+<h6 id="math"><a class="anchor" href="#math"></a>math</h6>
 <div class="paragraph">
 <p>returns the result of a mathematical operation.</p>
 </div>
@@ -1884,7 +1941,7 @@ value operand</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="split">split</h6>
+<h6 id="split"><a class="anchor" href="#split"></a>split</h6>
 <div class="paragraph">
 <p>splits a string into an array based on a split string.</p>
 </div>
@@ -1914,7 +1971,7 @@ value operand</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="cardaction">action</h6>
+<h6 id="cardaction"><a class="anchor" href="#cardaction"></a>action</h6>
 <div class="paragraph">
 <p>outputs a card action button whose card action id is the concatenation of an
 arbitrary number of helper arguments</p>
@@ -1926,7 +1983,7 @@ arbitrary number of helper arguments</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="svg">svg</h6>
+<h6 id="svg"><a class="anchor" href="#svg"></a>svg</h6>
 <div class="paragraph">
 <p>outputs a svg tag with lazy loading, and missing image replacement message. The
 image url is the concatenation of an arbitrary number of helper arguments</p>
@@ -1939,7 +1996,7 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect5">
-<h6 id="i18n">i18n</h6>
+<h6 id="i18n"><a class="anchor" href="#i18n"></a>i18n</h6>
 <div class="paragraph">
 <p>outputs a i18n result from a key and some parameters. There are two ways of
 configuration :</p>
@@ -1980,7 +2037,7 @@ emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
 </div>
 </div>
 <div class="sect5">
-<h6 id="sort">sort</h6>
+<h6 id="sort"><a class="anchor" href="#sort"></a>sort</h6>
 <div class="paragraph">
 <p>sorts an array or some object&#8217;s properties (first argument) using an optional
 field name (second argument) to sort the collection on this fields natural
@@ -2064,11 +2121,17 @@ users :
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_charts"><a class="anchor" href="#_charts"></a>4.2.2. Charts</h4>
+<div class="paragraph">
+<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrate in operator fabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/thirds/resources/bundle_api_test">src/test/utils/karate/thirds/resources/bundle_test_api</a>).</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_operatorfabric_users_service">5. OperatorFabric Users Service</h2>
+<h2 id="_operatorfabric_users_service"><a class="anchor" href="#_operatorfabric_users_service"></a>5. OperatorFabric Users Service</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The User service manages users, groups and entities.</p>
@@ -2132,12 +2195,12 @@ In the following commands the <code>$token</code> is an authentication token cur
 </table>
 </div>
 <div class="sect2">
-<h3 id="_users_groups_and_entities">5.1. Users, groups and entities</h3>
+<h3 id="_users_groups_and_entities"><a class="anchor" href="#_users_groups_and_entities"></a>5.1. Users, groups and entities</h3>
 <div class="paragraph">
 <p>User service manages users, groups and entities.</p>
 </div>
 <div class="sect3">
-<h4 id="_users">5.1.1. Users</h4>
+<h4 id="_users"><a class="anchor" href="#_users"></a>5.1.1. Users</h4>
 <div class="paragraph">
 <p>Users are the individuals and mainly physical person who can log in OperatorFabric.</p>
 </div>
@@ -2145,43 +2208,44 @@ In the following commands the <code>$token</code> is an authentication token cur
 <p>The access to this service has to be authorized, in the <code>OAuth2</code> service used by the current <code>OperatorFabric</code> instance, at least to access User information and to manage Users. The membership of groups and entities are stored in the user information.</p>
 </div>
 <div class="sect4">
-<h5 id="_automated_user_creation">Automated user creation</h5>
+<h5 id="_automated_user_creation"><a class="anchor" href="#_automated_user_creation"></a>5.1.1.1. Automated user creation</h5>
 <div class="paragraph">
-<p>In case of a user does exist in a provided authentication service but he does not exist in the <code>OperatorFabric</code> instance, when he is authenticated and connected
-for the first time in the <code>OperatorFabric</code> instance, the user is automatically created in the system without attached group or entity.
-The administration of the groups and entities is dealt by the administrator manually. More details about automated user creation
+<p>In case of a user does exist in a provided authentication service but he does not exist in the <code>OperatorFabric</code>
+instance, when he is authenticated and connected for the first time in the <code>OperatorFabric</code> instance, the user is
+automatically created in the system without attached group or entity.
+The administration of the groups and entities is dealt by the administrator manually.
+More details about automated user creation
 <a href="../../../../documentation/current/deployment/index.html#opfab_spec_conf">here</a>
 .</p>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_groups">5.1.2. Groups</h4>
+<h4 id="_groups"><a class="anchor" href="#_groups"></a>5.1.2. Groups</h4>
 <div class="paragraph">
-<p>opfab_spec_conf
-The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code>.
+<p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code>.
 Groups are used to send cards to several users without a name specifically. The information about membership to a
 group is stored in the user information. The rules used to send cards are described in the
-<a href="../../../../documentation/current/reference/index.html#card_recipients">recipients section</a>
+<a href="../../../../documentation/current/reference_doc/index.html#card_recipients">recipients section</a>
 .</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_entities">5.1.3. Entities</h4>
+<h4 id="_entities"><a class="anchor" href="#_entities"></a>5.1.3. Entities</h4>
 <div class="paragraph">
 <p>Entities are used to send cards to several users without a name specifically. The information about membership to an
-entity is stored in the user information. The rules used to send cards are described in the
-<a href="../../../../documentation/current/reference/index.html#card_recipients">recipients section</a>
+entity is stored in the user information. Examples using entities can be found
+<a href="../../../../documentation/current/reference_doc/index.html#_send_to_several_users">here</a>
 .</p>
 </div>
 <div class="sect4">
-<h5 id="_alternative_way_to_manage_groups">Alternative way to manage groups</h5>
+<h5 id="_alternative_way_to_manage_groups"><a class="anchor" href="#_alternative_way_to_manage_groups"></a>5.1.3.1. Alternative way to manage groups</h5>
 <div class="paragraph">
 <p>The standard way to handle groups in <code>OperatorFabric</code> instance is dealt on the user information.
 There is an alternative way to manage groups through the authentication token, the groups are defined by the
 administrator of the authentication service.
 See
-<a href="../../../../documentation/current/deployment/index.html#opfab_spec_conf">here</a>
+<a href="../../../../documentation/current/deployment/index.html#jwt_mode">here</a>
 for more details to use this feature.</p>
 </div>
 </div>
@@ -2190,7 +2254,7 @@ for more details to use this feature.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cards_publication_service">6. Cards Publication Service</h2>
+<h2 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>6. Cards Publication Service</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The Cards Publication Service exposes a REST API through which third-party applications, or "publishers" can post cards
@@ -2210,43 +2274,43 @@ to OperatorFabric. It then handles those cards:</p>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="card_structure">6.1. Card Structure</h3>
+<h3 id="card_structure"><a class="anchor" href="#card_structure"></a>6.1. Card Structure</h3>
 <div class="paragraph">
 <p>Cards are represented as <code>Json</code> objects. The technical design of cards is described in
 <a href="../../../../documentation/current/api/cards/">the cards api documentation</a>
 . A card correspond to the state of a Process in OperatorFabric.</p>
 </div>
 <div class="sect3">
-<h4 id="_technical_information_of_the_card">6.1.1. Technical Information of the card</h4>
+<h4 id="_technical_information_of_the_card"><a class="anchor" href="#_technical_information_of_the_card"></a>6.1.1. Technical Information of the card</h4>
 <div class="paragraph">
 <p>Those attributes are used by OperatorFabric to manage how cards are stored, to whom and when they&#8217;re sent.</p>
 </div>
 <div class="sect4">
-<h5 id="_mandatory_information">Mandatory information</h5>
+<h5 id="_mandatory_information"><a class="anchor" href="#_mandatory_information"></a>6.1.1.1. Mandatory information</h5>
 <div class="paragraph">
 <p>Below, the <code>json</code> technical key is in the '()' following the title.</p>
 </div>
 <div class="sect5">
-<h6 id="card_publisher">Publisher (<code>publisher</code>)</h6>
+<h6 id="card_publisher"><a class="anchor" href="#card_publisher"></a>Publisher (<code>publisher</code>)</h6>
 <div class="paragraph">
 <p>Quite obviously it&#8217;s the Third party which publish the card. This information is used to look up for Presentation resources of the card.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="card_publisher_version">Publisher Version (<code>publisherVersion</code>)</h6>
+<h6 id="card_publisher_version"><a class="anchor" href="#card_publisher_version"></a>Publisher Version (<code>publisherVersion</code>)</h6>
 <div class="paragraph">
 <p>Refers the <code>version</code> of <code>publisher third</code> to use to render this card (i18n, title, summary and details).
 As through time, the presentation of a publisher card data changes, this changes are managed through <code>publisherVersion</code> in OperatorFabric. Each version is keep in the system in order to be able to display correctly old cards.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_process_identifier_processid">Process Identifier (<code>processId</code>)</h6>
+<h6 id="_process_identifier_processid"><a class="anchor" href="#_process_identifier_processid"></a>Process Identifier (<code>processId</code>)</h6>
 <div class="paragraph">
 <p>It&#8217;s the way to identify the process to which the card is associated. A card represent a state of a process.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="start_date">Start Date (<code>startDate</code>)</h6>
+<h6 id="start_date"><a class="anchor" href="#start_date"></a>Start Date (<code>startDate</code>)</h6>
 <div class="paragraph">
 <p>This attribute is a part of the card life management system. It&#8217;s indicate OperatorFabric the moment since the card
 can be displayed to the operators or main recipients, see
@@ -2255,7 +2319,7 @@ can be displayed to the operators or main recipients, see
 </div>
 </div>
 <div class="sect5">
-<h6 id="_severity_severity">Severity (<code>severity</code>)</h6>
+<h6 id="_severity_severity"><a class="anchor" href="#_severity_severity"></a>Severity (<code>severity</code>)</h6>
 <div class="paragraph">
 <p>The severity is a core principe of the OperatorFabric Card system. There are 4 severities available.
 A color is associated in the GUI to each severity. Here the details about severity and their meaning for OperatorFabric:</p>
@@ -2278,20 +2342,20 @@ A color is associated in the GUI to each severity. Here the details about severi
 </div>
 </div>
 <div class="sect5">
-<h6 id="card_title">Title (<code>title</code>)</h6>
+<h6 id="card_title"><a class="anchor" href="#card_title"></a>Title (<code>title</code>)</h6>
 <div class="paragraph">
 <p>This attribute is display as header of a card in the feed of the GUI. It&#8217;s the main User destined Information of a card. The value refer to an <code>i18n</code> value used to localized this information.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="card_summary">Summary (<code>summary</code>)</h6>
+<h6 id="card_summary"><a class="anchor" href="#card_summary"></a>Summary (<code>summary</code>)</h6>
 <div class="paragraph">
 <p>This attribute is display as a description of a card in the feed of the GUI, when the card is selected by the operator. It&#8217;s completing the information of the card title. The value refer to an <code>i18n</code> value used to localized this information.</p>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_recipient_recipient">Recipient (<code>recipient</code>)</h5>
+<h5 id="_recipient_recipient"><a class="anchor" href="#_recipient_recipient"></a>6.1.1.2. Recipient (<code>recipient</code>)</h5>
 <div class="paragraph">
 <p>Declares to whom the card is send. For more details about way recipient works see
 <a href="../../../../documentation/current/reference_doc/index.html#display_rules">Display rules</a>
@@ -2299,12 +2363,12 @@ A color is associated in the GUI to each severity. Here the details about severi
 </div>
 </div>
 <div class="sect4">
-<h5 id="_card_life_management_configuration">Card Life Management Configuration</h5>
+<h5 id="_card_life_management_configuration"><a class="anchor" href="#_card_life_management_configuration"></a>6.1.1.3. Card Life Management Configuration</h5>
 <div class="paragraph">
 <p>With this attributes OperatorFabric knows when to display or hide cards.</p>
 </div>
 <div class="sect5">
-<h6 id="_start_date_startdate">Start Date (<code>startDate</code>)</h6>
+<h6 id="_start_date_startdate"><a class="anchor" href="#_start_date_startdate"></a>Start Date (<code>startDate</code>)</h6>
 <div class="paragraph">
 <p>See
 <a href="../../../../documentation/current/reference_doc/index.html#start_date">Start Date</a>
@@ -2314,7 +2378,7 @@ for more examples.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_end_date_enddate">End Date (<code>endDate</code>)</h6>
+<h6 id="_end_date_enddate"><a class="anchor" href="#_end_date_enddate"></a>End Date (<code>endDate</code>)</h6>
 <div class="paragraph">
 <p>Fixes the moment until when <code>OperatorFabric</code> displays the card. After the card is remove from the GUI feed,
 <a href="../../../../documentation/current/reference_doc/index.html#display_rules">Display rules</a>
@@ -2323,67 +2387,67 @@ for some examples.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_optional_information">Optional information</h5>
+<h5 id="_optional_information"><a class="anchor" href="#_optional_information"></a>6.1.1.4. Optional information</h5>
 <div class="sect5">
-<h6 id="_tags_tag">Tags (<code>tag</code>)</h6>
+<h6 id="_tags_tag"><a class="anchor" href="#_tags_tag"></a>Tags (<code>tag</code>)</h6>
 <div class="paragraph">
 <p>Tags are intended as an additional way to filter cards in the feed of the GUI.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_entityrecipients_entityrecipients">EntityRecipients (<code>entityRecipients</code>)</h6>
+<h6 id="_entityrecipients_entityrecipients"><a class="anchor" href="#_entityrecipients_entityrecipients"></a>EntityRecipients (<code>entityRecipients</code>)</h6>
 <div class="paragraph">
 <p>Used to send to cards to entity : all users members of the listed entities will receive the card. If it is used in conjunction with groups recipients, users must be members of one of the entities AND one of the groups to receive the cards.</p>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_last_time_to_decide_lttd">Last Time to Decide (<code>lttd</code>)</h5>
+<h5 id="_last_time_to_decide_lttd"><a class="anchor" href="#_last_time_to_decide_lttd"></a>6.1.1.5. Last Time to Decide (<code>lttd</code>)</h5>
 <div class="paragraph">
 <p>Fixes the moment until when a <code>actions</code> associated to the card are available. After then, the associated actions won&#8217;t be displayed or actionable.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_store_information">Store information</h5>
+<h5 id="_store_information"><a class="anchor" href="#_store_information"></a>6.1.1.6. Store information</h5>
 <div class="sect5">
-<h6 id="_uid_uid">uid (<code>uid</code>)</h6>
+<h6 id="_uid_uid"><a class="anchor" href="#_uid_uid"></a>uid (<code>uid</code>)</h6>
 <div class="paragraph">
 <p>Unique identifier of the card in the OperatorFabric system. This attribute can be sent with card, but by default it&#8217;s managed by OperatorFabric.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_id_id">id (<code>id</code>)</h6>
+<h6 id="_id_id"><a class="anchor" href="#_id_id"></a>id (<code>id</code>)</h6>
 <div class="paragraph">
 <p>State id of the associated process, determined by <code>OperatorFabric</code> can be set arbitrarily by the <code>publisher</code>.</p>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_other_technical_attributes">Other technical attributes</h5>
+<h5 id="_other_technical_attributes"><a class="anchor" href="#_other_technical_attributes"></a>6.1.1.7. Other technical attributes</h5>
 
 </div>
 <div class="sect4">
-<h5 id="_publish_date_publishdate">Publish Date (<code>publishDate</code>)</h5>
+<h5 id="_publish_date_publishdate"><a class="anchor" href="#_publish_date_publishdate"></a>6.1.1.8. Publish Date (<code>publishDate</code>)</h5>
 <div class="paragraph">
 <p>Indicates when the card has been registered in <code>OperatorFabric</code> system. This is a technical information exclusively managed by <code>OperatorFabric</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_deletion_date_deletiondate">Deletion Date (`deletionDate°)</h5>
+<h5 id="_deletion_date_deletiondate"><a class="anchor" href="#_deletion_date_deletiondate"></a>6.1.1.9. Deletion Date (`deletionDate°)</h5>
 <div class="paragraph">
 <p>Indicates when the card has been removes from <code>OperatorFabric</code> system. Technical information manage by <code>OperatorFabric</code>.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_user_destined_information_of_the_card">6.1.2. User destined Information of the card</h4>
+<h4 id="_user_destined_information_of_the_card"><a class="anchor" href="#_user_destined_information_of_the_card"></a>6.1.2. User destined Information of the card</h4>
 <div class="paragraph">
 <p>There are two kind of User destined information in a card. Some are restricted to the card format, others are defined by the publisher as long as there are encoded in <code>json</code> format.</p>
 </div>
 <div class="sect4">
-<h5 id="_in_card_format">in Card Format</h5>
+<h5 id="_in_card_format"><a class="anchor" href="#_in_card_format"></a>6.1.2.1. in Card Format</h5>
 <div class="sect5">
-<h6 id="_title_title">Title (<code>title</code>)</h6>
+<h6 id="_title_title"><a class="anchor" href="#_title_title"></a>Title (<code>title</code>)</h6>
 <div class="paragraph">
 <p>See
 <a href="../../../../documentation/current/reference_doc/index.html#card_title">Title</a>
@@ -2391,7 +2455,7 @@ for some examples.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_summary_summary">Summary (<code>summary</code>)</h6>
+<h6 id="_summary_summary"><a class="anchor" href="#_summary_summary"></a>Summary (<code>summary</code>)</h6>
 <div class="paragraph">
 <p>See
 <a href="../../../../documentation/current/reference_doc/index.html#card_summary">Summary</a>
@@ -2400,21 +2464,33 @@ for some examples.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_custom_part">Custom part</h5>
+<h5 id="_custom_part"><a class="anchor" href="#_custom_part"></a>6.1.2.2. Custom part</h5>
 <div class="sect5">
-<h6 id="_data_data">Data (<code>data</code>)</h6>
+<h6 id="_data_data"><a class="anchor" href="#_data_data"></a>Data (<code>data</code>)</h6>
 <div class="paragraph">
 <p>Determines where custom information is store. The content in this attribute, is purely <code>publisher</code> choice.
 This content, as long as it&#8217;s in <code>json</code> format can be used to display details. For the way the details are
 displayed, see below.</p>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You must not use dot in json field names. In this case, the card will be refused with following message :  "Error, unable to handle pushed Cards: Map key xxx.xxx contains dots but no replacement was configured!""
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_presentation_information_of_the_card">6.1.3. Presentation Information of the card</h4>
+<h4 id="_presentation_information_of_the_card"><a class="anchor" href="#_presentation_information_of_the_card"></a>6.1.3. Presentation Information of the card</h4>
 <div class="sect4">
-<h5 id="_details_details">details (<code>details</code>)</h5>
+<h5 id="_details_details"><a class="anchor" href="#_details_details"></a>6.1.3.1. details (<code>details</code>)</h5>
 <div class="paragraph">
 <p>This attribute is a string of objects containing a <code>title</code> attribute which is <code>i18n</code> key and a <code>template</code> attribute
 which refers to a template name contained in the publisher bundle. The bundle in which those resources will be looked
@@ -2442,7 +2518,7 @@ there is no resource for the given key, then the corresponding key is displayed 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_timespans_timespans">TimeSpans (<code>timeSpans</code>)</h5>
+<h5 id="_timespans_timespans"><a class="anchor" href="#_timespans_timespans"></a>6.1.3.2. TimeSpans (<code>timeSpans</code>)</h5>
 <div class="paragraph">
 <p>When the simple startDate and endDate are not enough to characterize your
 process business times, you can add a list of TimeSpan to your card. TimeSpans
@@ -2484,17 +2560,17 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cards_examples">6.2. Cards Examples</h3>
+<h3 id="_cards_examples"><a class="anchor" href="#_cards_examples"></a>6.2. Cards Examples</h3>
 <div class="paragraph">
 <p>Before detailing the content of cards, let&#8217;s show you what cards look like through few examples of json.</p>
 </div>
 <div class="sect3">
-<h4 id="minimal_card">6.2.1. Minimal Card</h4>
+<h4 id="minimal_card"><a class="anchor" href="#minimal_card"></a>6.2.1. Minimal Card</h4>
 <div class="paragraph">
 <p>The OperatorFabric Card specification defines 8 mandatory attributes, but some optional attributes are needed for cards to be useful in OperatorFabric. Let&#8217;s clarify those point through few examples of minimal cards and what happens when they&#8217;re used as if.</p>
 </div>
 <div class="sect4">
-<h5 id="_send_to_one_user">Send to One User</h5>
+<h5 id="_send_to_one_user"><a class="anchor" href="#_send_to_one_user"></a>6.2.1.1. Send to One User</h5>
 <div class="paragraph">
 <p>The following card contains only the mandatory attributes.</p>
 </div>
@@ -2521,9 +2597,9 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_send_to_several_users">Send to several users</h5>
+<h5 id="_send_to_several_users"><a class="anchor" href="#_send_to_several_users"></a>6.2.1.2. Send to several users</h5>
 <div class="sect5">
-<h6 id="_simple_case_sending_to_a_group">Simple case (sending to a group)</h6>
+<h6 id="_simple_case_sending_to_a_group"><a class="anchor" href="#_simple_case_sending_to_a_group"></a>Simple case (sending to a group)</h6>
 <div class="paragraph">
 <p>The following example is nearly the same as the previous one except for the recipient.</p>
 </div>
@@ -2549,7 +2625,7 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_simple_case_sending_to_an_entity">Simple case (sending to an entity)</h6>
+<h6 id="_simple_case_sending_to_an_entity"><a class="anchor" href="#_simple_case_sending_to_an_entity"></a>Simple case (sending to an entity)</h6>
 <div class="paragraph">
 <p>The following example is nearly the same as the previous one except for the recipient.</p>
 </div>
@@ -2575,7 +2651,7 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_simple_case_sending_to_a_group_and_an_entity">Simple case (sending to a group and an entity)</h6>
+<h6 id="_simple_case_sending_to_a_group_and_an_entity"><a class="anchor" href="#_simple_case_sending_to_a_group_and_an_entity"></a>Simple case (sending to a group and an entity)</h6>
 <div class="paragraph">
 <p>The following example is nearly the same as the previous one except for the recipient.</p>
 </div>
@@ -2602,7 +2678,7 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_complex_case">Complex case</h6>
+<h6 id="_complex_case"><a class="anchor" href="#_complex_case"></a>Complex case</h6>
 <div class="paragraph">
 <p>If this card need to be view by a user who is not in the <code>TSO1</code> group, it&#8217;s possible to tune more precisely the definition of the recipient. If the <code>tso2-operator</code> needs to see also this card, the recipient definition could be(the following code details only the recipient part):</p>
 </div>
@@ -2624,12 +2700,12 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_regular_card">6.2.2. Regular Card</h4>
+<h4 id="_regular_card"><a class="anchor" href="#_regular_card"></a>6.2.2. Regular Card</h4>
 <div class="paragraph">
 <p>The previous cards were nearly empty regarding information carrying. In fact, cards are intended to contain more information than a title and a summary. The optional attribute <code>data</code> is here for that. This attribute is destined to contain any <code>json</code> object. The creator of the card is free to put any information needed as long as it&#8217;s in a <code>json</code> format.</p>
 </div>
 <div class="sect4">
-<h5 id="_full_of_hidden_data">Full of Hidden data</h5>
+<h5 id="_full_of_hidden_data"><a class="anchor" href="#_full_of_hidden_data"></a>6.2.2.1. Full of Hidden data</h5>
 <div class="paragraph">
 <p>For this example we will use our previous example for the <code>TSO1</code> group with a <code>data</code> attribute containing the definition of a <code>json</code> object containing two attributes: <code>stringExample</code> and <code>numberExample</code>.</p>
 </div>
@@ -2661,7 +2737,7 @@ there is no rendering configuration.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_fully_useful">Fully useful</h5>
+<h5 id="_fully_useful"><a class="anchor" href="#_fully_useful"></a>6.2.2.2. Fully useful</h5>
 <div class="paragraph">
 <p>When a card is selected in the feed (of the GUI), the data is displayed in the detail panel.
 The way details are formatted depends on the template uploaded by Third parties as
@@ -2698,9 +2774,9 @@ configuration.The one presents in the development version of OperatorFabric, for
 </div>
 </div>
 <div class="sect3">
-<h4 id="display_rules">6.2.3. Display Rules</h4>
+<h4 id="display_rules"><a class="anchor" href="#display_rules"></a>6.2.3. Display Rules</h4>
 <div class="sect4">
-<h5 id="_dates">Dates</h5>
+<h5 id="_dates"><a class="anchor" href="#_dates"></a>6.2.3.1. Dates</h5>
 <div class="paragraph">
 <p>Dates impact both the feed rendering and the timeline rendering.</p>
 </div>
@@ -2715,7 +2791,7 @@ close time in bubbles whom color indicates severity and inner number indicates
 number of cards.</p>
 </div>
 <div class="sect5">
-<h6 id="_start_date_startdate_2">Start Date (<code>startDate</code>)</h6>
+<h6 id="_start_date_startdate_2"><a class="anchor" href="#_start_date_startdate_2"></a>Start Date (<code>startDate</code>)</h6>
 <div class="paragraph">
 <p>The card is only display after this date is reach by the current time. It&#8217;s a mandatory attributes for OperatorFabric cards.</p>
 </div>
@@ -2730,7 +2806,7 @@ number of cards.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_end_date_enddate_2">End Date (<code>endDate</code>)</h6>
+<h6 id="_end_date_enddate_2"><a class="anchor" href="#_end_date_enddate_2"></a>End Date (<code>endDate</code>)</h6>
 <div class="paragraph">
 <p>This optional attribute, corresponds to the moment after which the card will be remove from the feed of the GUI.</p>
 </div>
@@ -2749,7 +2825,7 @@ number of cards.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="card_recipients">Recipients</h5>
+<h5 id="card_recipients"><a class="anchor" href="#card_recipients"></a>6.2.3.2. Recipients</h5>
 <div class="paragraph">
 <p>The attribute <code>recipient</code> of a card tells to whom it&#8217;s sent.</p>
 </div>
@@ -2781,7 +2857,7 @@ number of cards.</p>
 <p>But it&#8217;s possible to combine groups and potentially users using <code>UNION</code>  type to have a better control on whom should receive the card.</p>
 </div>
 <div class="sect5">
-<h6 id="_union">UNION</h6>
+<h6 id="_union"><a class="anchor" href="#_union"></a>UNION</h6>
 <div class="paragraph">
 <p>For example, if a card is destined to the operators of <code>TSO1</code> and <code>TSO2</code> and needs to be also seen by the <code>admin</code>, the recipient configuration looks like:</p>
 </div>
@@ -2803,16 +2879,16 @@ number of cards.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cards_consultation_service">7. Cards Consultation Service</h2>
+<h2 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>7. Cards Consultation Service</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The User Interface depends on the Cards Consultation service to be notified of new cards and to consult existing cards,
 both current and archived.</p>
 </div>
 <div class="sect2">
-<h3 id="_archived_cards">7.1. Archived Cards</h3>
+<h3 id="_archived_cards"><a class="anchor" href="#_archived_cards"></a>7.1. Archived Cards</h3>
 <div class="sect3">
-<h4 id="_key_concepts">7.1.1. Key concepts</h4>
+<h4 id="_key_concepts"><a class="anchor" href="#_key_concepts"></a>7.1.1. Key concepts</h4>
 <div class="paragraph">
 <p>Every time a card is published, in addition to being delivered to the users
 and persisted as a "current" card in MongoDB, it is also immediately
@@ -2828,7 +2904,7 @@ show all the states that a given process instance went through.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_archives_screen_in_the_ui">7.1.2. Archives screen in the UI</h4>
+<h4 id="_archives_screen_in_the_ui"><a class="anchor" href="#_archives_screen_in_the_ui"></a>7.1.2. Archives screen in the UI</h4>
 <div class="paragraph">
 <p>The Archives screen in the UI allows the users to query these archives with different filters.
 The layout of this screen is very similar to the Feed screen: the results are displayed in a
@@ -2850,7 +2926,7 @@ of the card. If a card is sent to an entity and a group, then this user must be 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_archive_endpoints_in_the_card_consultation_api">7.1.3. Archive endpoints in the card-consultation API</h4>
+<h4 id="_archive_endpoints_in_the_card_consultation_api"><a class="anchor" href="#_archive_endpoints_in_the_card_consultation_api"></a>7.1.3. Archive endpoints in the card-consultation API</h4>
 <div class="paragraph">
 <p>This Archives screen relies on dedicated endpoints in the card-consultation API, as described
 <a href="../../../../documentation/current/api/cards/index.html#/archives">here</a></p>

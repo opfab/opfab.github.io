@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric User Management API",
-    "version" : "1.3.0.RELEASE",
+    "version" : "1.4.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -140,6 +140,21 @@ window.swaggerSpec={
       "description" : "Different rights possible >\n* Read: Only read rights (reading card)\n* ReadAndWrite: Read and write rights (reading card and creating new card)\n* ReadAndRespond: Read and respond rights (reading card and responding to card)\n* All: Read, write and respond rights (reading card, creating new card and responding to a card)",
       "enum" : [ "Read", "ReadAndWrite", "ReadAndRespond", "All" ]
     },
+    "StateRight" : {
+      "type" : "object",
+      "properties" : {
+        "state" : {
+          "type" : "string"
+        },
+        "right" : {
+          "$ref" : "#/definitions/RightsEnum"
+        }
+      },
+      "example" : {
+        "state" : "State1",
+        "right" : "Read"
+      }
+    },
     "Perimeter" : {
       "type" : "object",
       "properties" : {
@@ -149,19 +164,25 @@ window.swaggerSpec={
         "process" : {
           "type" : "string"
         },
-        "state" : {
-          "type" : "string"
-        },
-        "rights" : {
-          "$ref" : "#/definitions/RightsEnum"
+        "stateRights" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/StateRight",
+            "uniqueItems" : true
+          }
         }
       },
       "required" : [ "id" ],
       "example" : {
         "id" : "Process1Perimeter1",
         "process" : "Process1",
-        "state" : "State1",
-        "rights" : "Read"
+        "stateRights" : [ {
+          "state" : "state1",
+          "right" : "Read"
+        }, {
+          "state" : "state2",
+          "right" : "ReadAndWrite"
+        } ]
       }
     },
     "UserSettings" : {
@@ -1186,15 +1207,25 @@ window.swaggerSpec={
             },
             "examples" : {
               "application/json" : [ {
-                "id" : "Process1Perimeter1",
+                "id" : "Process1",
                 "process" : "Process1",
-                "state" : "State1",
-                "rights" : "Read"
+                "stateRights" : [ {
+                  "state" : "State1",
+                  "right" : "Read"
+                }, {
+                  "state" : "State2",
+                  "rights" : "ReadAndWrite"
+                } ]
               }, {
-                "id" : "Process1Perimeter2",
-                "process" : "Process1",
-                "state" : "State1",
-                "rights" : "ReadAndWrite"
+                "id" : "Process2",
+                "process" : "Process2",
+                "stateRights" : [ {
+                  "state" : "State1",
+                  "right" : "ReadAndRespond"
+                }, {
+                  "state" : "State2",
+                  "rights" : "All"
+                } ]
               } ]
             }
           },
@@ -1499,15 +1530,25 @@ window.swaggerSpec={
             },
             "examples" : {
               "application/json" : [ {
-                "id" : "Process1Perimeter1",
+                "id" : "Process1",
                 "process" : "Process1",
-                "state" : "State1",
-                "rights" : "Read"
+                "stateRights" : [ {
+                  "state" : "State1",
+                  "right" : "Read"
+                }, {
+                  "state" : "State2",
+                  "rights" : "ReadAndWrite"
+                } ]
               }, {
-                "id" : "Process1Perimeter2",
-                "process" : "Process1",
-                "state" : "State1",
-                "rights" : "ReadAndWrite"
+                "id" : "Process2",
+                "process" : "Process2",
+                "stateRights" : [ {
+                  "state" : "State1",
+                  "right" : "ReadAndRespond"
+                }, {
+                  "state" : "State2",
+                  "rights" : "All"
+                } ]
               } ]
             }
           },
@@ -1632,15 +1673,25 @@ window.swaggerSpec={
             },
             "examples" : {
               "application/json" : [ {
-                "id" : "Process1Perimeter1",
+                "id" : "Process1",
                 "process" : "Process1",
-                "state" : "State1",
-                "rights" : "Read"
+                "stateRights" : [ {
+                  "state" : "State1",
+                  "right" : "Read"
+                }, {
+                  "state" : "State2",
+                  "rights" : "ReadAndWrite"
+                } ]
               }, {
-                "id" : "Process1Perimeter2",
-                "process" : "Process1",
-                "state" : "State1",
-                "rights" : "ReadAndWrite"
+                "id" : "Process2",
+                "process" : "Process2",
+                "stateRights" : [ {
+                  "state" : "State1",
+                  "right" : "ReadAndRespond"
+                }, {
+                  "state" : "State2",
+                  "rights" : "All"
+                } ]
               } ]
             }
           },

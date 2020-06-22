@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 1.3.0.RELEASE,</span>
-<span id="revdate">13 May 2020</span>
+<span id="revnumber">version 1.4.0.RELEASE,</span>
+<span id="revdate">22 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -561,7 +561,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_run">3.1. Run</a>
 <ul class="sectlevel3">
-<li><a href="#_linux">3.1.1. Linux</a></li>
+<li><a href="#_front_end_development">3.1.1. Front End development</a></li>
 </ul>
 </li>
 <li><a href="#_build">3.2. Build</a></li>
@@ -598,7 +598,15 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#gradle_tasks">6.2. Gradle Tasks</a>
 <ul class="sectlevel3">
-<li><a href="#_services">6.2.1. Services</a></li>
+<li><a href="#_services">6.2.1. Services</a>
+<ul class="sectlevel4">
+<li><a href="#_common_tasks_for_all_sub_projects">6.2.1.1. Common tasks for all sub-projects</a></li>
+<li><a href="#_core">6.2.1.2. Core</a></li>
+<li><a href="#_thirds_service">6.2.1.3. Thirds Service</a></li>
+<li><a href="#_infraconfig">6.2.1.4. infra/config</a></li>
+<li><a href="#_toolsgeneric">6.2.1.5. tools/generic</a></li>
+</ul>
+</li>
 <li><a href="#_gradle_plugins">6.2.2. Gradle Plugins</a></li>
 </ul>
 </li>
@@ -628,6 +636,29 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
+<li><a href="#_using_oauth2_token_with_the_cli">Using OAuth2 token with the CLI</a>
+<ul class="sectlevel1">
+<li><a href="#_get_a_token">1. Get a token</a>
+<ul class="sectlevel2">
+<li><a href="#_curl">1.1. Curl</a></li>
+<li><a href="#_httpie">1.2. Httpie</a></li>
+</ul>
+</li>
+<li><a href="#_extract_token">2. Extract token</a>
+<ul class="sectlevel2">
+<li><a href="#_curl_2">2.1. Curl</a></li>
+<li><a href="#_httpie_2">2.2. Httpie</a></li>
+</ul>
+</li>
+<li><a href="#_check_a_token">3. Check a token</a>
+<ul class="sectlevel2">
+<li><a href="#_curl_3">3.1. Curl</a></li>
+<li><a href="#_httpie_3">3.2. Httpie</a></li>
+</ul>
+</li>
+<li><a href="#_extract_token_2">4. Extract token</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -643,13 +674,13 @@ describe the structure of the project and point out useful tools (Gradle tasks, 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_requirements">1. Requirements</h2>
+<h2 id="_requirements"><a class="anchor" href="#_requirements"></a>1. Requirements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes the projects requirements regardless of
-installation options.
+<p>This section describes the projects requirements regardless of installation options.
 Please see
-ifndef::single-page-doc[<a href="../../../../dev_env/index.html#setup_dev_env">Setting up your environment</a>] below for details on:</p>
+<a href="../../../../documentation/current/dev_env/index.html#setup_dev_env">Setting up your environment</a>
+below for details on:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -662,7 +693,7 @@ ifndef::single-page-doc[<a href="../../../../dev_env/index.html#setup_dev_env">S
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_tools_and_libraries">1.1. Tools and libraries</h3>
+<h3 id="_tools_and_libraries"><a class="anchor" href="#_tools_and_libraries"></a>1.1. Tools and libraries</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -692,7 +723,7 @@ ifndef::single-page-doc[<a href="../../../../dev_env/index.html#setup_dev_env">S
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-the current Jdk used for the project is Java 8.0.242-zulu.
+the current Jdk used for the project is Java 8.0.252-zulu.
 </td>
 </tr>
 </table>
@@ -705,7 +736,7 @@ the current Jdk used for the project is Java 8.0.242-zulu.
 </td>
 <td class="content">
 It is highly recommended to use <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/creationix/nvm">nvm</a> to manage tools versions.
+<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions.
 </td>
 </tr>
 </table>
@@ -723,7 +754,7 @@ Java, Maven and project variables set):</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_software">1.2. Software</h3>
+<h3 id="_software"><a class="anchor" href="#_software"></a>1.2. Software</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -781,7 +812,7 @@ files at
 </div>
 </div>
 <div class="sect2">
-<h3 id="_browser_support">1.3. Browser support</h3>
+<h3 id="_browser_support"><a class="anchor" href="#_browser_support"></a>1.3. Browser support</h3>
 <div class="paragraph">
 <p>We currently use Firefox (63.0.3). Automatic tests for the UI rely on Chrome
 (73.0.3683.86).</p>
@@ -790,7 +821,7 @@ files at
 </div>
 </div>
 <div class="sect1">
-<h2 id="setup_dev_env">2. Setting up your development environment</h2>
+<h2 id="setup_dev_env"><a class="anchor" href="#setup_dev_env"></a>2. Setting up your development environment</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -801,7 +832,7 @@ files at
 <td class="content">
 The steps below assume that you have installed and are using
 <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/creationix/nvm">nvm</a> to manage tool versions ( for java,
+<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tool versions ( for java,
 gradle, node and npm).
 </td>
 </tr>
@@ -832,7 +863,7 @@ using Docker,  build OperatorFabric using gradle and run it using the
 <code>run_all.sh</code> script.</p>
 </div>
 <div class="sect2">
-<h3 id="_clone_repository">2.1. Clone repository</h3>
+<h3 id="_clone_repository"><a class="anchor" href="#_clone_repository"></a>2.1. Clone repository</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">git clone https://github.com/opfab/operatorfabric-core.git
@@ -841,7 +872,7 @@ cd operatorfabric-core</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">2.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</h3>
+<h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc"><a class="anchor" href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc"></a>2.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">source bin/load_environment_light.sh</code></pre>
@@ -862,9 +893,9 @@ the home repository of <code>OperatorFabric</code>.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_deploy_needed_docker_containers">2.3. Deploy needed docker containers</h3>
+<h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>2.3. Deploy needed docker containers</h3>
 <div class="sect3">
-<h4 id="_minimal_configuration_for_gradle_build">2.3.1. Minimal configuration for <code>gradle</code> build</h4>
+<h4 id="_minimal_configuration_for_gradle_build"><a class="anchor" href="#_minimal_configuration_for_gradle_build"></a>2.3.1. Minimal configuration for <code>gradle</code> build</h4>
 <div class="paragraph">
 <p>Two docker container must be available during a gradle build of <code>OperatorFabric</code>:
 * RabbitMQ;
@@ -879,7 +910,7 @@ two software.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_enabling_local_quality_report_generation">2.3.2. Enabling local quality report generation</h4>
+<h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>2.3.2. Enabling local quality report generation</h4>
 <div class="paragraph">
 <p>To get a Sonarqube report, in addition to the two previously listed docker containers, a <code>SonarQube</code> docker container is
 required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
@@ -889,10 +920,8 @@ required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/dock
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">---
-cd ${OF_HOME}
-./gradlew jacocoTestReport
----</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew jacocoTestReport</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -900,7 +929,7 @@ cd ${OF_HOME}
 </div>
 </div>
 <div class="sect3">
-<h4 id="_docker_dev_env">2.3.3. Development environment</h4>
+<h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>2.3.3. Development environment</h4>
 <div class="paragraph">
 <p>During <code>OperatorFabric</code> development the running docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> are needed.</p>
 </div>
@@ -909,7 +938,7 @@ cd ${OF_HOME}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/src/main/docker/dev-environment/
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
 docker-compose up -d</code></pre>
 </div>
 </div>
@@ -920,7 +949,7 @@ Sometime a <code>CTRL+F5</code> on the tab is required to refresh the favicon.</
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_operatorfabric_with_gradle">2.4. Build OperatorFabric with Gradle</h3>
+<h3 id="_build_operatorfabric_with_gradle"><a class="anchor" href="#_build_operatorfabric_with_gradle"></a>2.4. Build OperatorFabric with Gradle</h3>
 <div class="paragraph">
 <p>Using the wrapper in order to ensure building the project the same way from one machine to another.</p>
 </div>
@@ -945,25 +974,13 @@ docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml
 </div>
 </div>
 <div class="sect2">
-<h3 id="_run_operatorfabric_services_using_the_run_all_sh_script">2.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</h3>
+<h3 id="_run_operatorfabric_services_using_the_run_all_sh_script"><a class="anchor" href="#_run_operatorfabric_services_using_the_run_all_sh_script"></a>2.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-docker-compose -f ${OF_HOME}/src/main/docker/dev-environment/docker-compose.yml up -d
+docker-compose -f ${OF_HOME}/config/dev/docker-compose.yml up -d
 bin/run_all.sh start</code></pre>
 </div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-the <code>${OF_HOME}/bin/run_all.sh</code> must be launched from <code>${OF_HOME}</code> otherwise some runtime exception will occur.
-</td>
-</tr>
-</table>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -979,7 +996,7 @@ See <code>bin/run_all.sh -h</code> for details.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_check_services_status">2.6. Check services status</h3>
+<h3 id="_check_services_status"><a class="anchor" href="#_check_services_status"></a>2.6. Check services status</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
@@ -988,7 +1005,7 @@ bin/run_all.sh status</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_log_into_the_ui">2.7. Log into the UI</h3>
+<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.7. Log into the UI</h3>
 <div class="paragraph">
 <p><strong><em>URL:</em></strong> localhost:2002/ui/<br>
 <strong><em>login:</em></strong> tso1-operator<br>
@@ -1023,7 +1040,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 </div>
 </div>
 <div class="sect2">
-<h3 id="_push_cards_to_the_feed">2.8. Push cards to the feed</h3>
+<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>2.8. Push cards to the feed</h3>
 <div class="paragraph">
 <p>You can check that you see cards into the feed by running the
 <code>push_card_loop.sh</code> script.</p>
@@ -1037,7 +1054,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 </div>
 </div>
 <div class="sect1">
-<h2 id="_user_interface">3. User Interface</h2>
+<h2 id="_user_interface"><a class="anchor" href="#_user_interface"></a>3. User Interface</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8 has been used to generate this project.</p>
@@ -1075,23 +1092,35 @@ SPA
 </table>
 </div>
 <div class="sect2">
-<h3 id="_run">3.1. Run</h3>
+<h3 id="_run"><a class="anchor" href="#_run"></a>3.1. Run</h3>
 <div class="sect3">
-<h4 id="_linux">3.1.1. Linux</h4>
+<h4 id="_front_end_development"><a class="anchor" href="#_front_end_development"></a>3.1.1. Front End development</h4>
 <div class="paragraph">
-<p>After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.
+<p>OperatorFabric uses 4 external services to run properly :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>an event queue: RabbitMQ;</p>
+</li>
+<li>
+<p>a no SQL database: MongoDB;</p>
+</li>
+<li>
+<p>an authentication provider: keycloak;</p>
+</li>
+<li>
+<p>a web server: Nginx.
+Those instances are available as docker images in the project. Use <code>docker-compose</code> and the <code>${OF_HOME}/config/dev/docker-compose.yml</code>
+to run them.
+After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.
 Once the whole application is ready, you should have the following output in your terminal:</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">##########################################################
-Starting client-gateway-cloud-service, debug port: 5008
-
-##########################################################
-pid file: $OF_HOME/services/infra/client-gateway/build/PIDFILE
-Started with pid: 7479
-
-##########################################################
 Starting users-business-service, debug port: 5009
 
 ##########################################################
@@ -1113,7 +1142,7 @@ pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Wait a moment before trying to connect to the`SPA`, leaving time for the`client-gateway` to boot up completely.</p>
+<p>Wait a moment before trying to connect to the`SPA`, leaving time for the OperatorFabricServices to boot up completely.</p>
 </div>
 <div class="paragraph">
 <p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code>.</p>
@@ -1131,12 +1160,15 @@ The common password is <code>test</code> for them all.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Once logged in, with that script running in the background, you should be able to see some cards displayed in <code><a href="http://localhost:2002/ui/feed" class="bare">localhost:2002/ui/feed</a></code>.</p>
+<p>For more realistic card sending use, once Karate env correctly configured, the Karate script called <code>${OF_HOME}/src/test/api/karate/launchAllCards.sh</code>.</p>
+</div>
+<div class="paragraph">
+<p>Once logged in, after one of those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/ui/feed" class="bare">localhost:2002/ui/feed</a></code>.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build">3.2. Build</h3>
+<h3 id="_build"><a class="anchor" href="#_build"></a>3.2. Build</h3>
 <div class="paragraph">
 <p>Run <code>ng build</code> to build the project. The build artifacts will be stored in :</p>
 </div>
@@ -1147,16 +1179,16 @@ The common password is <code>test</code> for them all.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_test">3.3. Test</h3>
+<h3 id="_test"><a class="anchor" href="#_test"></a>3.3. Test</h3>
 <div class="sect3">
-<h4 id="_standalone_tests">3.3.1. Standalone tests</h4>
+<h4 id="_standalone_tests"><a class="anchor" href="#_standalone_tests"></a>3.3.1. Standalone tests</h4>
 <div class="paragraph">
 <p>Run in the <code>${OF_HOME}/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests
 on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_test_during_ui_development">3.3.2. Test during UI development</h4>
+<h4 id="_test_during_ui_development"><a class="anchor" href="#_test_during_ui_development"></a>3.3.2. Test during UI development</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1184,7 +1216,7 @@ on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-
 </div>
 </div>
 <div class="sect1">
-<h2 id="_environment_variables">4. Environment variables</h2>
+<h2 id="_environment_variables"><a class="anchor" href="#_environment_variables"></a>4. Environment variables</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>These variables are loaded by bin/load_environment_light.sh
@@ -1239,19 +1271,24 @@ settings)</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_project_structure">5. Project Structure</h2>
+<h2 id="_project_structure"><a class="anchor" href="#_project_structure"></a>5. Project Structure</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_tree_view">5.1. Tree View</h3>
+<h3 id="_tree_view"><a class="anchor" href="#_tree_view"></a>5.1. Tree View</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>project
 ├──bin
+├──CICD
 │   └─ travis
 ├──client
 │   ├──cards (cards-client-data)
 │   ├──src
 │   └──users (users-client-data)
+├──config
+│   ├──dev
+│   ├──docker
+│   └──keycloak
 ├──services
 │   ├──core
 │   │   ├──cards-consultation (cards-consultation-business-service)
@@ -1259,18 +1296,17 @@ settings)</p>
 │   │   ├──src
 │   │   ├──thirds (third-party-business-service)
 │   │   └──users (users-business-service)
-│   └──infra
-│       ├──client-gateway (client-gateway-cloud-service)
-│       ├──config (configuration-cloud-service)
-│       └──registry (registry-cloud-service)
 ├──web-ui
 ├──src
 |   ├──docs
-|   │   ├──asciidoc
-|   │   └──modelio
-|   └──main
-|       ├──docker
-|       └──headers
+|   │   └──asciidoc
+|   |──main
+|   |    ├──docker
+|   |    └──headers
+|   |──test
+|   |    ├──api
+|   |    ├──cypress
+|   |    └──utils
 ├──tools
 │   ├──generic
 │   │   ├──test-utilities
@@ -1286,16 +1322,16 @@ settings)</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_content_details">5.2. Content Details</h3>
+<h3 id="_content_details"><a class="anchor" href="#_content_details"></a>5.2. Content Details</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/bin">bin</a>: contains useful scripts</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/bin">bin</a>: contains useful scripts for dev purposes</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/bin/travis">travis</a>: travis script for documentation generation and
-upload to opfab.github.io repository</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/CICD/travis">travis</a>: scripts used by Travis for the
+build process</p>
 </li>
 </ul>
 </div>
@@ -1317,6 +1353,9 @@ code generation</p>
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/config">config</a>: contains external configurations for all services , keycloak and docker-compose files to help with tests and demonstrations</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services">services</a>: contains the microservices that make up
@@ -1350,26 +1389,6 @@ service</p>
 </ul>
 </div>
 </li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/infra">infra</a>: contains infrastructure microservices</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/infra/client-gateway">client-gateway
-(client-gateway-cloud-service)</a>: spring-gateway client side only gateway
-microservice, used to serve public apis and web ui</p>
-</li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/infra/config">config (configuration-cloud-service)</a>:
-spring-configuration centralized configuration microservice</p>
-</li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/infra/registry">registry (registry-cloud-service)</a>: eureka
-microservice registry</p>
-</li>
-</ul>
-</div>
-</li>
 </ul>
 </div>
 </li>
@@ -1389,9 +1408,6 @@ the OperatorFabric UI</p>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">asciidoc</a>: General documentation (Architecture,
 Getting Started Guide, etc.)</p>
 </li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/modelio">modelio</a>: Archive containing documentation diagrams</p>
-</li>
 </ul>
 </div>
 </li>
@@ -1405,6 +1421,22 @@ tests and demonstrations</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/headers">headers</a>: contains license header files</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test">test</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/api">api</a> : karate code for automatic api testing (non-regression tests)</p>
+</li>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/cypress">cypress</a> : cypress code for automatic ui testing</p>
+</li>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/utils">utils</a> : karate code for manual testing</p>
 </li>
 </ul>
 </div>
@@ -1470,13 +1502,13 @@ Boot generator for swagger, tailored for OperatorFabric needs</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_conventions_regarding_project_structure_and_configuration">5.3. Conventions regarding project structure and configuration</h3>
+<h3 id="_conventions_regarding_project_structure_and_configuration"><a class="anchor" href="#_conventions_regarding_project_structure_and_configuration"></a>5.3. Conventions regarding project structure and configuration</h3>
 <div class="paragraph">
 <p>Sub-projects must conform to a few rules in order for the configured Gradle
 tasks to work:</p>
 </div>
 <div class="sect3">
-<h4 id="_java">5.3.1. Java</h4>
+<h4 id="_java"><a class="anchor" href="#_java"></a>5.3.1. Java</h4>
 <div class="hdlist">
 <table>
 <tr>
@@ -1515,7 +1547,7 @@ tasks to work:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_modeling">5.3.2. Modeling</h4>
+<h4 id="_modeling"><a class="anchor" href="#_modeling"></a>5.3.2. Modeling</h4>
 <div class="paragraph">
 <p>Core services projects declaring REST APIS that use Swagger for their
 definition must declare two files:</p>
@@ -1542,10 +1574,10 @@ definition must declare two files:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_docker">5.3.3. Docker</h4>
+<h4 id="_docker"><a class="anchor" href="#_docker"></a>5.3.3. Docker</h4>
 <div class="paragraph">
 <p>Services project all have docker image generated in their build cycle. See
-<a href="../../../../dev_env/index.html#gradle_tasks">Gradle Tasks</a>
+<a href="../../../../documentation/current/dev_env/index.html#gradle_tasks">Gradle Tasks</a>
 for details.</p>
 </div>
 <div class="paragraph">
@@ -1571,30 +1603,12 @@ can then be mounted as volume in docker containers.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_development_tools">6. Development tools</h2>
+<h2 id="_development_tools"><a class="anchor" href="#_development_tools"></a>6. Development tools</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_scripts_bin_and_cicd">6.1. Scripts (bin and CICD)</h3>
+<h3 id="_scripts_bin_and_cicd"><a class="anchor" href="#_scripts_bin_and_cicd"></a>6.1. Scripts (bin and CICD)</h3>
 <div class="hdlist">
 <table>
-<tr>
-<td class="hdlist1">
-bin/build_all.sh
-</td>
-<td class="hdlist2">
-<p>builds all artifacts as gradle is not able to manage
-inter project dependencies</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-bin/clean_all.sh
-</td>
-<td class="hdlist2">
-<p>remove IDE data (project configuration, build output
-directory) - idea, vsc</p>
-</td>
-</tr>
 <tr>
 <td class="hdlist1">
 bin/load_environment_light.sh
@@ -1632,7 +1646,7 @@ bin/setup_dockerized_environment.sh
 </table>
 </div>
 <div class="sect3">
-<h4 id="_load_environment_ramdisk_sh">6.1.1. load_environment_ramdisk.sh</h4>
+<h4 id="_load_environment_ramdisk_sh"><a class="anchor" href="#_load_environment_ramdisk_sh"></a>6.1.1. load_environment_ramdisk.sh</h4>
 <div class="paragraph">
 <p>There are prerequisites before sourcing load_environment_ramdisk.sh:</p>
 </div>
@@ -1660,7 +1674,7 @@ Never ever run a <code>gradle clean</code> or <code>./gradlew clean</code> to av
 </div>
 </div>
 <div class="sect3">
-<h4 id="_run_all_sh">6.1.2. run_all.sh</h4>
+<h4 id="_run_all_sh"><a class="anchor" href="#_run_all_sh"></a>6.1.2. run_all.sh</h4>
 <div class="paragraph">
 <p>Please see <code>run_all.sh -h</code> usage before running.</p>
 </div>
@@ -1700,19 +1714,9 @@ instance).</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration service http (REST)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Registry service http (REST)</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2002</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway service http (REST+html)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web ui and gateway  (Nginx server)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2100</p></td>
@@ -1733,21 +1737,6 @@ instance).</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">card consultation service http (REST)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4001</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">registry</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4002</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gateway</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
@@ -1776,7 +1765,7 @@ instance).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_setup_dockerized_environment_sh">6.1.3. setup_dockerized_environment.sh</h4>
+<h4 id="_setup_dockerized_environment_sh"><a class="anchor" href="#_setup_dockerized_environment_sh"></a>6.1.3. setup_dockerized_environment.sh</h4>
 <div class="paragraph">
 <p>Please see <code>setup_dockerized_environment.sh -h</code> usage before running.</p>
 </div>
@@ -1786,16 +1775,16 @@ instance).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="gradle_tasks">6.2. Gradle Tasks</h3>
+<h3 id="gradle_tasks"><a class="anchor" href="#gradle_tasks"></a>6.2. Gradle Tasks</h3>
 <div class="paragraph">
 <p>In this section only custom tasks are described. For more
 information on tasks, refer to the output of the "tasks" gradle task and
 to gradle and plugins official documentation.</p>
 </div>
 <div class="sect3">
-<h4 id="_services">6.2.1. Services</h4>
+<h4 id="_services"><a class="anchor" href="#_services"></a>6.2.1. Services</h4>
 <div class="sect4">
-<h5 id="_common_tasks_for_all_sub_projects">Common tasks for all sub-projects</h5>
+<h5 id="_common_tasks_for_all_sub_projects"><a class="anchor" href="#_common_tasks_for_all_sub_projects"></a>6.2.1.1. Common tasks for all sub-projects</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1826,7 +1815,7 @@ to gradle and plugins official documentation.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_core">Core</h5>
+<h5 id="_core"><a class="anchor" href="#_core"></a>6.2.1.2. Core</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1847,7 +1836,7 @@ to gradle and plugins official documentation.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_thirds_service">Thirds Service</h5>
+<h5 id="_thirds_service"><a class="anchor" href="#_thirds_service"></a>6.2.1.3. Thirds Service</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1886,7 +1875,7 @@ catching lombok that must be sent for sonarqube</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_infraconfig">infra/config</h5>
+<h5 id="_infraconfig"><a class="anchor" href="#_infraconfig"></a>6.2.1.4. infra/config</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1904,7 +1893,7 @@ during development</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_toolsgeneric">tools/generic</h5>
+<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>6.2.1.5. tools/generic</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1927,7 +1916,7 @@ build/test-data/</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_gradle_plugins">6.2.2. Gradle Plugins</h4>
+<h4 id="_gradle_plugins"><a class="anchor" href="#_gradle_plugins"></a>6.2.2. Gradle Plugins</h4>
 <div class="paragraph">
 <p>In addition to these custom tasks and standard Gradle tasks, OperatorFabric
 uses several Gradle plugins, among which:</p>
@@ -1956,10 +1945,10 @@ uses several Gradle plugins, among which:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_useful_recipes">7. Useful recipes</h2>
+<h2 id="_useful_recipes"><a class="anchor" href="#_useful_recipes"></a>7. Useful recipes</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_running_sub_project_from_jar_file">7.1. Running sub-project from jar file</h3>
+<h3 id="_running_sub_project_from_jar_file"><a class="anchor" href="#_running_sub_project_from_jar_file"></a>7.1. Running sub-project from jar file</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1972,14 +1961,14 @@ uses several Gradle plugins, among which:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_overriding_properties_when_running_from_jar_file">7.2. Overriding properties when running from jar file</h3>
+<h3 id="_overriding_properties_when_running_from_jar_file"><a class="anchor" href="#_overriding_properties_when_running_from_jar_file"></a>7.2. Overriding properties when running from jar file</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>java -jar [sub-projectPath]/build/libs/[sub-project].jar
 –spring.config.additional-location=file:[filepath]
 NB : properties may be set using ".properties" file or ".yml" file. See
-<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html">Spring
+<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config">Spring
 Boot configuration</a> for more info.</p>
 </li>
 <li>
@@ -2007,7 +1996,7 @@ save/load OperatorFabric Third Party data</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_generating_docker_images">7.3. Generating docker images</h3>
+<h3 id="_generating_docker_images"><a class="anchor" href="#_generating_docker_images"></a>7.3. Generating docker images</h3>
 <div class="paragraph">
 <p>To Generate all docker images run <code>bin/setup_dockerized_environment.sh</code>.</p>
 </div>
@@ -2058,7 +2047,7 @@ value)</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="troubleshooting">8. Troubleshooting</h2>
+<h2 id="troubleshooting"><a class="anchor" href="#troubleshooting"></a>8. Troubleshooting</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p> <details><summary> 
@@ -2133,7 +2122,7 @@ and re-launching the build should solve this issue.</p>
 <p> <details><summary> 
 <strong>Java version not available when setting up environment</strong>
  </summary><div> 
-When sourcing the <a href="https://github.com/opfab/operatorfabric-core/tree/master/bin/load_environment_light.sh">load_environment_light</a>
+When sourcing the <a href="https://github.com/opfab/operatorfabric-core/blob/master/bin/load_environment_light.sh">load_environment_light</a>
 script to set up your environment, you might get the following error message:</p>
 </div>
 <div class="listingblock">
@@ -2147,7 +2136,7 @@ script to set up your environment, you might get the following error message:</p
 </div>
 <div class="paragraph">
 <p>Select the next available version and update
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/bin/load_environment_light.sh">load_environment_light</a> accordingly before
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/bin/load_environment_light.sh">load_environment_light</a> accordingly before
 sourcing it again.</p>
 </div>
 <div class="paragraph">
@@ -2227,7 +2216,7 @@ Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpect
 </div>
 </div>
 <div class="sect1">
-<h2 id="_keycloak_configuration">9. Keycloak Configuration</h2>
+<h2 id="_keycloak_configuration"><a class="anchor" href="#_keycloak_configuration"></a>9. Keycloak Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The configuration needed for development purposes is automatically loaded from the dev-realms.json file.
@@ -2239,7 +2228,7 @@ want to add to it.</p>
 Default credentials are admin/admin.</p>
 </div>
 <div class="sect2">
-<h3 id="_add_realm">9.1. Add Realm</h3>
+<h3 id="_add_realm"><a class="anchor" href="#_add_realm"></a>9.1. Add Realm</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2255,9 +2244,9 @@ Default credentials are admin/admin.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setup_at_least_one_client_or_best_one_per_service">9.2. Setup at least one client (or best one per service)</h3>
+<h3 id="_setup_at_least_one_client_or_best_one_per_service"><a class="anchor" href="#_setup_at_least_one_client_or_best_one_per_service"></a>9.2. Setup at least one client (or best one per service)</h3>
 <div class="sect3">
-<h4 id="_create_client">9.2.1. Create client</h4>
+<h4 id="_create_client"><a class="anchor" href="#_create_client"></a>9.2.1. Create client</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2285,7 +2274,7 @@ Default credentials are admin/admin.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_a_role_to_client">9.2.2. Add a Role to Client</h4>
+<h4 id="_add_a_role_to_client"><a class="anchor" href="#_add_a_role_to_client"></a>9.2.2. Add a Role to Client</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2331,7 +2320,7 @@ Default credentials are admin/admin.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_users">9.3. Create Users</h3>
+<h3 id="_create_users"><a class="anchor" href="#_create_users"></a>9.3. Create Users</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2369,7 +2358,7 @@ Default credentials are admin/admin.</p>
 rte-operator, tso1-operator, tso2-operator</p>
 </div>
 <div class="sect3">
-<h4 id="_development_specific_configuration">9.3.1. Development-specific configuration</h4>
+<h4 id="_development_specific_configuration"><a class="anchor" href="#_development_specific_configuration"></a>9.3.1. Development-specific configuration</h4>
 <div class="paragraph">
 <p>To facilitate development, in  the configuration file provided in the git (dev-realms.json) ,session are set to have
 a duration of 10 hours (36000 seconds) and SSL is not required. These parameters should not be used in production.</p>
@@ -2383,6 +2372,287 @@ accessCodeLifespanUserAction : 36000
 sslRequired : none</p>
 </div>
 </div>
+</div>
+</div>
+</div>
+<h1 id="_using_oauth2_token_with_the_cli" class="sect0"><a class="anchor" href="#_using_oauth2_token_with_the_cli"></a>Using OAuth2 token with the CLI</h1>
+<div class="sect1">
+<h2 id="_get_a_token"><a class="anchor" href="#_get_a_token"></a>1. Get a token</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>End point: <code><a href="http://localhost:2002/auth/token" class="bare">localhost:2002/auth/token</a></code></p>
+</div>
+<div class="paragraph">
+<p>Method: <code>POST</code></p>
+</div>
+<div class="paragraph">
+<p>Body arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>client_id: <code>string</code> constant=<code>clientIdPassword</code>;</p>
+</li>
+<li>
+<p>grant_type: <code>string</code> constant=<code>password</code>;</p>
+<div class="ulist">
+<ul>
+<li>
+<p>username: <code>string</code> any value, must match an OperatorFabric registered user name;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>password: <code>string</code> any value;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following examples will be for <code>admin</code> user.</p>
+</div>
+<div class="sect2">
+<h3 id="_curl"><a class="anchor" href="#_curl"></a>1.1. Curl</h3>
+<div class="paragraph">
+<p>command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -s -X POST -d
+"username=admin&amp;password=test&amp;grant_type=password&amp;client_id=clientIdPassword"
+http://localhost:2002/auth/token</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>example of expected result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cC
+I6MTU1MjY1OTczOCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOi
+IwMmQ4MmU4NS0xM2YwLTQ2NzgtOTc0ZC0xOGViMDYyMTVhNjUiLCJjbGllbnRfaWQiOiJjbGllbnRJZF
+Bhc3N3b3JkIiwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.SDg-BEzzonIVXfVBnnfq0oMbs_0
+rWVtFGAZzRHj7KPgaOXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdK
+VAz0CkMKqng4kQeQm_1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVD
+SJew1rj5EiSybuy83PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZC
+AYVM-mmHbjk8mF89fL9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw","to
+ken_type":"bearer","refresh_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWI
+iOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ1c2VyX2luZm8iXSwiYXRpIjoiMDJkODJlODUtMTNmMC0
+0Njc4LTk3NGQtMThlYjA2MjE1YTY1IiwiZXhwIjoxNTUyNzAxMTM4LCJhdXRob3JpdGllcyI6WyJST0x
+FX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aSI6IjMwOWY2ZDllLWNmOGEtNDg0YS05ZjMxLWViOTAxYzk
+4YTFkYSIsImNsaWVudF9pZCI6ImNsaWVudElkUGFzc3dvcmQifQ.jnZDt6TX2BvlmdT5JV-A7eHTJz_s
+lC5fHrJFVI58ly6N7AUUfxebG_52pmuVHYULSKqTJXaLR866r-EnD4BJlzhk476FtgtVx1nazTpLFRLb
+8qDCxeLrzClQBkzcxOt6VPxB3CD9QImx3bcsDwjkPxofUDmdg8AxZfGTu0PNbvO8TKLXEkeCztLFvSJM
+GlN9zDzWhKxr49I-zPZg0XecgE9j4WITkFoDVwI-AfDJ3sGXDi5AN55Sz1j633QoqVjhtc0lO50WPVk5
+YT7gU8HLj27EfX-6vjnGfNb8oeq189-NX100QHZM9Wgm79mIm4sRgwhpv-zzdDAkeb3uwIpb8g","exp
+ires_in":1799,"scope":"read
+user_info","jti":"02d82e85-13f0-4678-974d-18eb06215a65"}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_httpie"><a class="anchor" href="#_httpie"></a>1.2. Httpie</h3>
+<div class="listingblock">
+<div class="content">
+<pre>http --form POST http://localhost:2002/auth/token username=admin password=test
+grant_type=password client_id=clientIdPassword</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>example of expected result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>.HTTP/1.1 200 OK
+Cache-Control: no-store
+Content-Type: application/json;charset=utf-8
+Date: Fri, 15 Mar 2019 13:57:19 GMT
+Pragma: no-cache
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+transfer-encoding: chunked
+
+{
+    "access_token":
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOS
+wiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yz
+g3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2
+NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd
+3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST
+8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge
+8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfD
+J6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q",
+    "expires_in": 1799,
+    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
+    "refresh_token":
+"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLC
+J1c2VyX2luZm8iXSwiYXRpIjoiNjI0MzA5YjEtN2M4Ny00Y2RjLTg0NDMtMDEyNDUxNWY4N2Y4IiwiZX
+hwIjoxNTUyNzAxNDM5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aS
+I6ImRiYzMxNTJiLTM4YTUtNGFmZC1hY2VmLWVkZTI4MjJkOTE3YyIsImNsaWVudF9pZCI6ImNsaWVudE
+lkUGFzc3dvcmQifQ.Ezd8kbfNQHOOvUCNNN4UmOOkncHiT9QVEM63FiW1rq0uXDa3xfBGil8geM5MsP0
+7Q2He-mynkFb8sGNDrAXTdO-8r5o4a60zWrktrMg2QH4icC1lyeZpiwZxe6675QpLpSeMlXt9PdYj-pb
+14lrRookxXP5xMQuIMteZpbtby7LuuNAbNrjveZ1bZ4WMi7zltUzcYUuqHlP1AYPteGRrJVKXiuPpoDv
+gwMsEk2SkgyyACI7SdZZs8IT9IGgSsIjjgTMQKzj8P6yYxNLUynEW4o5y1s2aAOV0xKrzkln9PchH9zN
+qO-fkjTVRjy_LBXGq9zkn0ZeQ3BUe1GuthvGjaA",
+    "scope": "read user_info",
+    "token_type": "bearer"
+}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extract_token"><a class="anchor" href="#_extract_token"></a>2. Extract token</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From the previous results, the data need to be considered to be authenticated by OperatorFabric services is the content of the <code>"access_token"</code> attribute of the body response.</p>
+</div>
+<div class="paragraph">
+<p>Once this value extracted, it need to be passed at the end of the value of the http HEADER of type <code>Authorization:Bearer</code>. Note that a space is needed between <code>Bearer</code> and token actual value.
+example from previous results:</p>
+</div>
+<div class="sect2">
+<h3 id="_curl_2"><a class="anchor" href="#_curl_2"></a>2.1. Curl</h3>
+<div class="listingblock">
+<div class="content">
+<pre>Authorization:Bearer
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY1OTczOCw
+iYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIwMmQ4MmU4NS0xM2Y
+wLTQ2NzgtOTc0ZC0xOGViMDYyMTVhNjUiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2N
+vcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.SDg-BEzzonIVXfVBnnfq0oMbs_0rWVtFGAZzRHj7KPga
+OXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdKVAz0CkMKqng4kQeQm
+_1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVDSJew1rj5EiSybuy83
+PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZCAYVM-mmHbjk8mF89f
+L9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_httpie_2"><a class="anchor" href="#_httpie_2"></a>2.2. Httpie</h3>
+<div class="listingblock">
+<div class="content">
+<pre>Authorization:Bearer
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOSw
+iYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yzg
+3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2N
+vcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd3
+PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST8
+fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge8
+scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfDJ
+6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_check_a_token"><a class="anchor" href="#_check_a_token"></a>3. Check a token</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_curl_3"><a class="anchor" href="#_curl_3"></a>3.1. Curl</h3>
+<div class="paragraph">
+<p>from previous example</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -s -X POST -d
+"token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY1
+OTczOCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIwMmQ4MmU4
+NS0xM2YwLTQ2NzgtOTc0ZC0xOGViMDYyMTVhNjUiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3Jk
+Iiwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.SDg-BEzzonIVXfVBnnfq0oMbs_0rWVtFGAZzR
+Hj7KPgaOXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdKVAz0CkMKqn
+g4kQeQm_1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVDSJew1rj5Ei
+Sybuy83PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZCAYVM-mmHbj
+k8mF89fL9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw"
+http://localhost:2002/auth/check_token</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>which gives the following example of result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    "sub":"admin",
+    "scope":["read","user_info"],
+    "active":true,"exp":1552659738,
+    "authorities":["ROLE_ADMIN","ROLE_USER"],
+    "jti":"02d82e85-13f0-4678-974d-18eb06215a65",
+    "client_id":"clientIdPassword"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_httpie_3"><a class="anchor" href="#_httpie_3"></a>3.2. Httpie</h3>
+<div class="paragraph">
+<p>from previous example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>http --form POST http://localhost:2002/auth/check_token
+token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2M
+DAzOSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliM
+S03Yzg3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkI
+iwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2q
+Fa5Bd3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lH
+Dd8ST8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNX
+J4Bge8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeA
+pKdfDJ6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>which gives the following example of result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Content-Type: application/json;charset=utf-8
+Date: Fri, 15 Mar 2019 14:19:31 GMT
+Expires: 0
+Pragma: no-cache
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+transfer-encoding: chunked
+
+{
+    "active": true,
+    "authorities": [
+        "ROLE_ADMIN",
+        "ROLE_USER"
+    ],
+    "client_id": "clientIdPassword",
+    "exp": 1552660039,
+    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
+    "scope": [
+        "read",
+        "user_info"
+    ],
+    "sub": "admin"
+}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extract_token_2"><a class="anchor" href="#_extract_token_2"></a>4. Extract token</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The utility <code>jq</code>, not always available on every Linux distro, parse json input and can extract requested json path value.
+Here is a way to do so.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=&amp;dminpassword=test&amp;grant_type=password&amp;client_id=opfab-client&amp;secret=opfab-keycloack-secret&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-r</code> opttion, for raw, leaves the output without any quotes.</p>
 </div>
 </div>
 </div>

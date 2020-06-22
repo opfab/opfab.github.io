@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Version 1.3.0.RELEASE</title>
+<title>Version 1.4.0.RELEASE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -524,225 +524,276 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Version 1.3.0.RELEASE</h1>
+<h1>Version 1.4.0.RELEASE</h1>
 <div class="details">
-<span id="revnumber">version 1.3.0.RELEASE,</span>
-<span id="revdate">13 May 2020</span>
+<span id="revnumber">version 1.4.0.RELEASE,</span>
+<span id="revdate">22 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_issue">1. Issue</a></li>
-<li><a href="#_bug">2. Bug</a></li>
-<li><a href="#_task">3. Task</a></li>
+<li><a href="#_issues">1. Issues</a></li>
+<li><a href="#_bugs">2. Bugs</a></li>
+<li><a href="#_tasks">3. Tasks</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_issue">1. Issue</h2>
+<h2 id="_issues"><a class="anchor" href="#_issues"></a>1. Issues</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-844] Add a UI style for day and a UI style for night with a button to permute.<br>
-This functionality is optional and can be activate/desactivate via configuration<br>
-<a href="https://opfab.github.io/documentation/current/deployment/#_web_ui" class="bare">opfab.github.io/documentation/current/deployment/#_web_ui</a></p>
+<p><strong>UI Improvements</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-868] As an admin I would like to be able to hide the time filter</p>
+<div class="paragraph">
+<p>See the <a href="https://opfab.github.io/documentation/current/deployment/#_web_ui">web-ui configuration documentation</a> for details</p>
+</div>
 </li>
 <li>
-<p>[OC-736] Add a field "name" to the object Group</p>
+<p>[OC-864] As a user I want to be able to reset archives filters so I can change my search criteria</p>
+</li>
+<li>
+<p>[OC-402] As an Operator I want the archive screen to display an explicit message if no cards are found that match my filters</p>
+</li>
+<li>
+<p>[OC-939] Synchronize timeline with feed (When a filter is set in the feed, it is applied to the timeline as well (severity, tags or business period))</p>
+</li>
+<li>
+<p>[OC-947] As a user I want to be able to click on the links in the bubble so that i can display the related card on the feed</p>
+</li>
+<li>
+<p>[OC-945] Add a spinning icon when connection with server is lost</p>
+</li>
+<li>
+<p>[OC-972] Add charts functionality in template</p>
+<div class="paragraph">
+<p>It uses <code>charts.js</code> library, templates as example can be found in <code>src/test/utils/karate/thirds/resources/bundle_test_api</code></p>
+</div>
 </li>
 </ul>
 </div>
-<div class="admonitionblock warning">
+</li>
+<li>
+<p><strong>Work in progress for the "Smart notification" epic</strong> ( [OC-871][OC-872][OC-873][OC-874][OC-875][OC-881][OC-900][OC-913][OC-916][OC-917] )</p>
+<div class="paragraph">
+<p>It is now possible for the user to reply to a card, the response is sent back to an external app.</p>
+</div>
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Group data model has changed.<br>
-Please do take a look at the Users API documentation (groups section) :
-<a href="https://opfab.github.io/documentation/current/api/users/#/groups" class="bare">opfab.github.io/documentation/current/api/users/#/groups</a><br>
-Now, Group data model is :<br></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>Group{
-    id*         string
-    name        string
-    description string
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Please, in the config service, make sure to modify the file users.yml, replacing the field "name" by "id", so that the
-Groups objects contain the mandatory field id.</p>
+<p>Work is in progress, it is not documented and usable yet in production.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
+</li>
+<li>
+<p><strong>Work in progress for the "Routing" epic</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-737] Add an object entity in the user service<br>
-Below, you will find information about our new object "Entity" and its endpoints :<br>
-<a href="https://opfab.github.io/documentation/current/api/users/#/entities" class="bare">opfab.github.io/documentation/current/api/users/#/entities</a></p>
+<p>[OC-885] User Service : Perimeter model evolution</p>
 </li>
 <li>
-<p>[OC-744] Replace web-ui spring component with Nginx</p>
+<p>[OC-876] User Service : Implement group in JWT Token Option</p>
 </li>
-</ul>
-</div>
-<div class="admonitionblock note">
+<li>
+<p>[OC-742] When sending a card to an entity , use the group perimeter to send to the good users</p>
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>adds a new docker configuration for development purpose : <code>${OF_HOME}/src/main/docker/dev-environment/docker-compose.yml</code><br>
-this folder contains also a grayscale version of the favicon. It&#8217;s helping to distinguish this environment from <code>deploy</code> one.<br>
-To force favicon refresh use <code>CTRL+F5</code> in the browser.<br>
-Use this configuration when developing on <code>OperatorFabric</code> instead of <code>test-environment</code> as before.</p>
-</li>
-<li>
-<p>removes <code>keycloak</code> container from <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.<br>
-Clean your docker environment with adding an <code>--remove-orphans</code> option to your next <code>docker-compose</code> usage.</p>
-</li>
-<li>
-<p>removes <code>container-name`s from `docker-compose.yml</code> files for <code>keycloak</code>, <code>mongodb</code> and <code>rabbitmq</code> docker service definitions.</p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-733] As an administrator I would like to be able to customize the icon on the title bar of the browser</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>cf Web-ui README.adoc, or the chapter <a href="https://opfab.github.io/documentation/current/dev_env/#_docker_dev_env">Development environment</a>
-of Setting up your development environment within Development Environment documentation,
-or the entry about [OC-744] of this current file.</p>
+<p>Work is in progress, it is not documented and usable yet in production.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-748] Remove button "log in using keyCloak", go directly to login page</p>
-</li>
-<li>
-<p>[OC-738] Add a group perimeter object in the user service</p>
 </li>
 </ul>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
+</li>
+<li>
+<p><strong>Remove old action feature</strong> (front and back) ([OC-960][OC-961][OC-962])</p>
 <div class="paragraph">
-<p>Work is still in progress. The object is not usable at the moment.</p>
+<p>This feature was not fully operational and is now replaced by the smart notification feature</p>
 </div>
-</td>
-</tr>
-</table>
-</div>
+</li>
+<li>
+<p><strong>Remove Netflix stack</strong> ([OC-670][OC-836][OC-837][OC-838][OC-839][OC-971][OC-895][OC-906][OC-983][OC-996]) :</p>
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-877] User Service : Implement endpoint GET /CurrentUserWithPerimeters</p>
+<p>remove registry/configuration components</p>
+</li>
+<li>
+<p>replace gateway with NGINX</p>
+</li>
+<li>
+<p>remove all calls from business services to registry and configuration components</p>
+</li>
+<li>
+<p>adapt documentation</p>
 </li>
 </ul>
 </div>
-<div class="admonitionblock note">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>Work is still in progress. The endpoint is not usable at the moment.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>UI configuration is now done via a json file (web-ui.json) instead of a yaml file (web-ui.yml). Before upgrading, you
+should save a copy of your web-ui.json to back-up custom changes.</p>
+</li>
+<li>
+<p>As there is no configuration server anymore, the content of services configuration files has changed, check the
+documentation and/or see default configuration files in dev/docker folders under config. We also took this as an
+opportunity to rearrange our docker-compose files so see the updated documentation on launching OperatorFabric.</p>
+</li>
+</ul>
 </div>
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bug">2. Bug</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-414] Issue with using user data in templates</p>
 </li>
 <li>
-<p>[OC-857] Users - PUT /groups/{id}/users doesn&#8217;t delete former group members</p>
-</li>
-<li>
-<p>[OC-883] Need a click on button "log in using keyCloak" after login in implicit mode</p>
+<p><strong>Work in progress for the "Acknowledgment" epic</strong> ([OC-920],[OC-921],[OC-944],[OC-976],[OC-977])</p>
+<div class="paragraph">
+<p>The backend code for the acknowledgment feature is ready. Front to be done.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Work is in progress, it is not documented and usable yet in production.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_task">3. Task</h2>
+<h2 id="_bugs"><a class="anchor" href="#_bugs"></a>2. Bugs</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-846] Update documentation for "OC-737 : Add an object entity in the user service"</p>
+<p>[OC-772] Bug on archives screen: clear results when exiting archive page</p>
 </li>
 <li>
-<p>[OC-858] Refactoring UI Timeline code for circle content and position computing</p>
+<p>[OC-898] In implicit mode, first name and last name are not displayed</p>
 </li>
 <li>
-<p>[OC-870] Refactoring cardWriteSerice class in cardPublication service</p>
+<p>[OC-775] Bug on archives screen: cards details remain displayed when selecting another criteria that doesn&#8217;t return any result</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tasks"><a class="anchor" href="#_tasks"></a>3. Tasks</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-892] Add in documentation that it is not possible to use dot in json field names</p>
 </li>
 <li>
-<p>[OC-869] Small improvements in karate test</p>
+<p>[OC-845] Implement Git flow as our contribution and release workflow</p>
+<div class="paragraph">
+<p><em>We have transitioned from a GitHub flow to a Git flow. See the documentation to see how it impacted our
+<a href="./single_page_doc.html#CICD">CICD pipeline</a>
+and how it translate into our <a href="./single_page_doc.html#_contribution_workflow">contribution workflow</a>
+(submitting a pull request etc.).</em></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><em>Now, the current state of developments is pushed daily to Docker Hub with the tag <code>SNAPSHOT</code>
+(rather than <code>snapshot</code> as before).</em></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </li>
 <li>
-<p>[OC-658] gradle assemble shouldn&#8217;t run the ui unit tests</p>
+<p>[OC-888][OC-692][OC-973] Fix SonarCloud issues</p>
 </li>
 <li>
-<p>[OC-878] remove unnecessary utilities time classes</p>
+<p>[OC-891] Removed unused field mainRecipient</p>
 </li>
 <li>
-<p>[OC-547] remove unnecessary UI test</p>
+<p>[OC-896] Update getting started with 1.3.0.RELEASE and change getToken script</p>
 </li>
 <li>
-<p>[OC-880] modify KeyCloak configuration to facilitate dev</p>
+<p>[OC-899] Use SNAPSHOT version on develop branch for docker and dev environment docker-compose</p>
+<div class="paragraph">
+<p><em>When working on branch <code>develop</code>, the docker-compose files will rely on <code>SNAPSHOT</code> docker images generated daily.
+This lets you test OperatorFabric with the latest merged code. If you&#8217;re interested in running a particular release on
+the other hand, you should checkout the associated X.X.X.RELEASE tag on <code>master</code>.</em></p>
+</div>
 </li>
 <li>
-<p>[OC-882] Remove unused publishTestData method in cardConsultation service</p>
+<p>[OC-907] Remove Keycloak from test-quality-environment docker-compose</p>
+</li>
+<li>
+<p>[OC-909] Simplify third menu code (Front)</p>
+</li>
+<li>
+<p>[OC-911] Changing sounds due to incompatible license</p>
+</li>
+<li>
+<p>[OC-897] Thirds service - added operation delete for the resource thirds</p>
+</li>
+<li>
+<p>[OC-904] Thirds service - added delete version of a third, minor changes on general sync working</p>
+</li>
+<li>
+<p>[OC-943] Add a gradle task to launch sonar analysis</p>
+</li>
+<li>
+<p>[OC-535] Make bin/run_all.sh working even if not in the root directory</p>
+</li>
+<li>
+<p>[OC-954] Add name field for process/state and color for state in third</p>
+</li>
+<li>
+<p>[OC-957] Field recipient in card should be optional</p>
 </li>
 </ul>
 </div>
