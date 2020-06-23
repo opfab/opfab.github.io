@@ -22,7 +22,9 @@ layout: default
             {% if version_type == "RELEASE" %}{% assign release_counter = release_counter | plus:1 %}{% endif %}
             {% if release_counter == 1 %}<span class="badge badge-primary badge-pill">Current</span>{% endif %}
         </th>
-        <td><a href="{{ file.path | relative_url }}">Release Notes</a></li></td>
+        <!--No point in showing now always empty SNAPSHOT release notes-->
+        <!--We could link to the release-notes repo if we decide to make it public later so people can see what is going to be in the release-->
+        <td>{% if version_type == "RELEASE" %}<a href="{{ file.path | relative_url }}">Release Notes</a>{% endif %}</li></td>
         <td><a href="{{ file.path | relative_url | replace: 'release_notes', 'single_page_doc' }}">Documentation</a></li></td>
         <td><a href="{{ file.path | relative_url | replace: 'docs/release_notes.html', 'api/actions/index.html' }}">Actions API</a></li></td>
         <td><a href="{{ file.path | relative_url | replace: 'docs/release_notes.html', 'api/cards/index.html' }}">Cards API</a></li></td>
