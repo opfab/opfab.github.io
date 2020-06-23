@@ -137,8 +137,8 @@ window.swaggerSpec={
     },
     "RightsEnum" : {
       "type" : "string",
-      "description" : "Different rights possible >\n* Read: Only read rights (reading card)\n* ReadAndWrite: Read and write rights (reading card and creating new card)\n* ReadAndRespond: Read and respond rights (reading card and responding to card)\n* All: Read, write and respond rights (reading card, creating new card and responding to a card)",
-      "enum" : [ "Read", "ReadAndWrite", "ReadAndRespond", "All" ]
+      "description" : "Different rights possible >\n* Receive: Only receive rights (receiving card)\n* Write: Write rights (creating new card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
+      "enum" : [ "Receive", "Write", "ReceiveAndWrite" ]
     },
     "StateRight" : {
       "type" : "object",
@@ -152,7 +152,7 @@ window.swaggerSpec={
       },
       "example" : {
         "state" : "State1",
-        "right" : "Read"
+        "right" : "Receive"
       }
     },
     "Perimeter" : {
@@ -178,10 +178,10 @@ window.swaggerSpec={
         "process" : "Process1",
         "stateRights" : [ {
           "state" : "state1",
-          "right" : "Read"
+          "right" : "Receive"
         }, {
           "state" : "state2",
-          "right" : "ReadAndWrite"
+          "right" : "ReceiveAndWrite"
         } ]
       }
     },
@@ -1211,20 +1211,20 @@ window.swaggerSpec={
                 "process" : "Process1",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "Read"
+                  "right" : "Receive"
                 }, {
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }, {
                 "id" : "Process2",
                 "process" : "Process2",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "ReadAndRespond"
+                  "right" : "ReceiveAndWrite"
                 }, {
                   "state" : "State2",
-                  "rights" : "All"
+                  "rights" : "Write"
                 } ]
               } ]
             }
@@ -1534,20 +1534,20 @@ window.swaggerSpec={
                 "process" : "Process1",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "Read"
+                  "right" : "Receive"
                 }, {
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }, {
                 "id" : "Process2",
                 "process" : "Process2",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "ReadAndRespond"
+                  "right" : "ReceiveAndWrite"
                 }, {
                   "state" : "State2",
-                  "rights" : "All"
+                  "rights" : "Write"
                 } ]
               } ]
             }
@@ -1677,20 +1677,20 @@ window.swaggerSpec={
                 "process" : "Process1",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "Read"
+                  "right" : "Receive"
                 }, {
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }, {
                 "id" : "Process2",
                 "process" : "Process2",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "ReadAndRespond"
+                  "right" : "ReceiveAndWrite"
                 }, {
                   "state" : "State2",
-                  "rights" : "All"
+                  "rights" : "Write"
                 } ]
               } ]
             }
@@ -1733,11 +1733,11 @@ window.swaggerSpec={
                 "computedPerimeters" : [ {
                   "process" : "Process1",
                   "state" : "State1",
-                  "rights" : "Read"
+                  "rights" : "Receive"
                 }, {
                   "process" : "Process1",
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }
             }

@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">22 June 2020</span>
+<span id="revdate">23 June 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1055,7 +1055,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_checking_the_release_notes">41.2.1. Checking the release notes</a></li>
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">41.2.2. Creating a release branch and preparing the release</a></li>
 <li><a href="#_merging_the_release_branch_into_master">41.2.3. Merging the release branch into <code>master</code></a></li>
-<li><a href="#_checking_deploy_docker_compose">41.2.4. Checking deploy docker-compose</a></li>
+<li><a href="#_checking_the_docker_compose_files">41.2.4. Checking the docker-compose files</a></li>
 <li><a href="#_in_jira">41.2.5. In Jira</a></li>
 </ul>
 </li>
@@ -1064,6 +1064,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel3">
 <li><a href="#_in_jira_2">41.4.1. In Jira</a></li>
 <li><a href="#_on_the_release_notes_repository">41.4.2. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">41.4.3. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
@@ -10635,8 +10636,8 @@ explanations if need be.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a branch off the <code>develop</code> branch named <code>X.X.X.release</code> (note the lowercase <code>release</code> to distinguish it from
-<code>X.X.X.RELEASE</code> tags).</p>
+<p>On the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>, create a branch off the <code>develop</code> branch named
+<code>X.X.X.release</code> (note the lowercase <code>release</code> to distinguish it from <code>X.X.X.RELEASE</code> tags).</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>git checkout -b X.X.X.release</code></pre>
@@ -10646,13 +10647,14 @@ explanations if need be.</p>
 <li>
 <p>Cut the contents from the release_notes.adoc file from the
 <a href="https://github.com/opfab/release-notes/">release-notes repository</a> and paste it to the release_notes.adoc file
-found under <strong>src/docs/asciidoc/docs</strong>.</p>
+found under <strong>src/docs/asciidoc/docs</strong> in the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>.</p>
 </li>
 <li>
-<p>Replace the <code>Version SNAPSHOT</code> title by <code>Version X.X.X.RELEASE</code></p>
+<p>In the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a> release-notes.adoc file, replace the <code>Version SNAPSHOT</code>
+title by <code>Version X.X.X.RELEASE</code></p>
 </li>
 <li>
-<p>In the release page, change the name from "Next Version" to "X.X.X.RELEASE"</p>
+<p>In the <a href="https://opfab.atlassian.net/projects/OC?orderField=RANK&amp;selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&amp;status=all">releases page on JIRA</a>, change the name from "Next Version" to "X.X.X.RELEASE"</p>
 </li>
 <li>
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
@@ -10743,10 +10745,7 @@ documentation).</p>
 <div class="content">
 <pre>git checkout master <i class="conum" data-value="1"></i><b>(1)</b>
 git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b>
-git tag X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b>
-git push <i class="conum" data-value="5"></i><b>(5)</b>
-git push origin X.X.X.RELEASE <i class="conum" data-value="6"></i><b>(6)</b></pre>
+git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -10763,20 +10762,41 @@ git push origin X.X.X.RELEASE <i class="conum" data-value="6"></i><b>(6)</b></pr
 <td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>Merge the <code>X.X.X.release</code> branch into <code>master</code></td>
 </tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
 <tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Tag the commit with the <code>X.X.X.RELEASE</code> tag</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>Push the commits to update the remote <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>Push the tag</td>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you also want the new docker images to be tagged <code>latest</code> (as should be the case for most release
+versions), you should add the keyword <code>ci_latest</code> to the merge commit message.
+</td>
 </tr>
 </table>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre>git tag X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b>
+git push <i class="conum" data-value="5"></i><b>(5)</b>
+git push origin X.X.X.RELEASE <i class="conum" data-value="6"></i><b>(6)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Tag the commit with the <code>X.X.X.RELEASE</code> tag</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Push the commits to update the remote <code>master</code> branch</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Push the tag
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -10784,7 +10804,7 @@ git push origin X.X.X.RELEASE <i class="conum" data-value="6"></i><b>(6)</b></pr
 <div class="paragraph">
 <p>You can check the status of the build job triggered by the commit on
 <a href="https://travis-ci.org/opfab/operatorfabric-core/branches">Travis CI</a>.
-The build job should have the following four stages:</p>
+The build job should have the following four stages (or three if the images aren&#8217;t tagged as latest)</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -10799,7 +10819,7 @@ The build job should have the following four stages:</p>
 <p>Check that the <code>X.X.X.RELEASE</code> images have been generated and pushed to DockerHub.</p>
 </li>
 <li>
-<p>Check that the <code>latest</code> images have been updated on DockerHub.</p>
+<p>Check that the <code>latest</code> images have been updated on DockerHub (if this has been triggered).</p>
 </li>
 <li>
 <p>Check that the documentation has been generated and pushed to the GitHub pages website</p>
@@ -10821,14 +10841,17 @@ and that the links work.</p>
 <a href="https://github.com/opfab/operatorfabric-core/releases">releases page</a> for the repository.</p>
 </li>
 </ol>
+</div></td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checking_deploy_docker_compose"><a class="anchor" href="#_checking_deploy_docker_compose"></a>41.2.4. Checking deploy docker-compose</h4>
+<h4 id="_checking_the_docker_compose_files"><a class="anchor" href="#_checking_the_docker_compose_files"></a>41.2.4. Checking the docker-compose files</h4>
 <div class="paragraph">
-<p>The deploy docker-compose file should always rely on the latest RELEASE version
-available on DockerHub. Once the CI pipeline triggered by the previous steps has completed successfully,
-and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
+<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
+branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
+previous steps has completed successfully, and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -10836,9 +10859,13 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 <p>Remove your locally built X.X.X.RELEASE images if any</p>
 </li>
 <li>
-<p>Run the deploy docker-compose file to make sure it pulls the images from DockerHub and behaves as intended.</p>
+<p>Run the config/demo docker-compose file to make sure it pulls the images from DockerHub and behaves as intended.</p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p>People who want to experiment with OperatorFabric are pointed to this docker-compose so it&#8217;s important to make sure
+that it&#8217;s working correctly.</p>
 </div>
 </div>
 <div class="sect3">
@@ -10856,6 +10883,19 @@ and you can see X.X.X.RELEASE images for all services on DockerHub, you should:<
 <p>Send an email to the <a href="mailto:opfab-announce@lists.lfenergy.org">opfab-announce@lists.lfenergy.org</a> mailing list with a link to the release notes on the website.</p>
 </li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Here is the link to the <a href="https://lists.lfenergy.org/g/main">administration website for the LFE mailing lists</a>
+in case there is an issue.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -10877,22 +10917,39 @@ new version will make rolling back or correcting any mistake on the release more
 </div>
 <div class="sect3">
 <h4 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>41.4.1. In Jira</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
+<div class="paragraph">
 <p>In the "Releases" screen create a new release called <code>Next Release</code>.</p>
-</li>
-</ol>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>41.4.2. On the release-notes repository</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
+<div class="paragraph">
 <p>Remove the items listed in the release_notes.adoc file so it&#8217;s ready for the next version.</p>
-</li>
-</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>41.4.3. On the operatorfabric-core repository</h4>
+<div class="paragraph">
+<p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
+avoid confusion with the actual release commit tagged on <code>master</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git branch -d X.X.X.release <i class="conum" data-value="1"></i><b>(1)</b>
+​git push origin --delete X.X.X.release <i class="conum" data-value="2"></i><b>(2)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Delete the branch locally</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Remove it from GitHub</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
