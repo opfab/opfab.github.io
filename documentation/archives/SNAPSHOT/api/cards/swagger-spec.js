@@ -277,19 +277,19 @@ window.swaggerSpec={
         },
         "publisher" : {
           "type" : "string",
-          "description" : "Publishing service unique ID"
+          "description" : "Unique ID of the entity or service publishing the card"
         },
-        "publisherVersion" : {
+        "processVersion" : {
           "type" : "string",
-          "description" : "Publishing service version"
+          "description" : "Version of the associated process"
         },
         "process" : {
           "type" : "string",
-          "description" : "associated process name"
+          "description" : "ID of the associated process"
         },
         "processId" : {
           "type" : "string",
-          "description" : "Unique process ID of the associated process instance"
+          "description" : "ID of the associated process instance"
         },
         "state" : {
           "type" : "string",
@@ -400,15 +400,15 @@ window.swaggerSpec={
         },
         "hasBeenAcknowledged" : {
           "type" : "boolean",
-          "description" : "Is true if the card was acknoledged at least by one user"
+          "description" : "Is true if the card was acknowledged at least by one user"
         }
       },
-      "required" : [ "processId", "publisher", "publisherVersion", "severity", "startDate", "title", "summary" ],
+      "required" : [ "publisher", "process", "processVersion", "processId", "severity", "startDate", "title", "summary" ],
       "example" : {
         "uid" : 12345,
         "id" : "cardIdFromMyProcess",
         "publisher" : "MyService",
-        "publisherVersion" : "0.0.1",
+        "processVersion" : "0.0.1",
         "process" : "MyProcess",
         "processId" : "MyProcess_001",
         "state" : "started",
@@ -513,7 +513,7 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "Publishing service unique ID"
         },
-        "publisherVersion" : {
+        "processVersion" : {
           "type" : "string",
           "description" : "Publishing service version"
         },
@@ -574,13 +574,17 @@ window.swaggerSpec={
         "hasBeenAcknowledged" : {
           "type" : "boolean",
           "description" : "Is true if the card was acknoledged at least by one user"
+        },
+        "parentCardId" : {
+          "type" : "string",
+          "description" : "The uid of its parent card if it's a child card"
         }
       },
       "example" : {
         "uid" : 12345,
         "id" : "cardIdFromMyProcess",
         "publisher" : "MyService",
-        "publisherVersion" : "0.0.1",
+        "processVersion" : "0.0.1",
         "processId" : "MyProcess_001",
         "lttd" : 1546387230000,
         "startDate" : 1546387200000,
