@@ -287,7 +287,7 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "ID of the associated process"
         },
-        "processId" : {
+        "processInstanceId" : {
           "type" : "string",
           "description" : "ID of the associated process instance"
         },
@@ -403,14 +403,14 @@ window.swaggerSpec={
           "description" : "Is true if the card was acknowledged at least by one user"
         }
       },
-      "required" : [ "publisher", "process", "processVersion", "processId", "severity", "startDate", "title", "summary" ],
+      "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary" ],
       "example" : {
         "uid" : 12345,
         "id" : "cardIdFromMyProcess",
         "publisher" : "MyService",
         "processVersion" : "0.0.1",
         "process" : "MyProcess",
-        "processId" : "MyProcess_001",
+        "processInstanceId" : "MyProcess_001",
         "state" : "started",
         "publishDate" : 1546300800000,
         "deletionDate" : 1546388200000,
@@ -521,7 +521,7 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "associated process name"
         },
-        "processId" : {
+        "processInstanceId" : {
           "type" : "string",
           "description" : "Unique process ID of the associated process instance"
         },
@@ -585,7 +585,7 @@ window.swaggerSpec={
         "id" : "cardIdFromMyProcess",
         "publisher" : "MyService",
         "processVersion" : "0.0.1",
-        "processId" : "MyProcess_001",
+        "processInstanceId" : "MyProcess_001",
         "lttd" : 1546387230000,
         "startDate" : 1546387200000,
         "endDate" : 1546387250000,
@@ -913,7 +913,7 @@ window.swaggerSpec={
         "name" : "id",
         "type" : "string",
         "required" : true,
-        "description" : "The id parameter is constructed as follows : {publisher}_{processId}"
+        "description" : "The id parameter is constructed as follows : {publisher}_{processInstanceId}"
       } ],
       "delete" : {
         "operationId" : "deleteProcessCard",
@@ -953,7 +953,7 @@ window.swaggerSpec={
         "name" : "id",
         "type" : "string",
         "required" : true,
-        "description" : "The id parameter is constructed as follows : {publisher}_{processId}"
+        "description" : "The id parameter is constructed as follows : {publisher}_{processInstanceId}"
       } ],
       "post" : {
         "operationId" : "postUserAcknowledgement",
