@@ -1,9 +1,9 @@
 window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
-    "description" : "OperatorFabric ThirdParty Management API",
+    "description" : "OperatorFabric BusinessconfigParty Management API",
     "version" : "SNAPSHOT",
-    "title" : "Thirds Management",
+    "title" : "Businessconfig Management",
     "termsOfService" : "",
     "contact" : {
       "email" : "opfab_AT_lists.lfenergy.org",
@@ -18,7 +18,7 @@ window.swaggerSpec={
   "basePath" : "/apis",
   "schemes" : [ "http" ],
   "paths" : {
-    "/thirds/processes" : {
+    "/businessconfig/processes" : {
       "get" : {
         "summary" : "List existing processes",
         "description" : "List existing processes",
@@ -68,7 +68,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}" : {
+    "/businessconfig/processes/{processId}" : {
       "get" : {
         "summary" : "Access configuration data for a given process",
         "description" : "Access configuration data for a given process",
@@ -127,7 +127,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}/templates/{templateName}" : {
+    "/businessconfig/processes/{processId}/templates/{templateName}" : {
       "get" : {
         "summary" : "Get existing template",
         "description" : "Get template, if file exists return file (application/handlebars) otherwise return error message (application/json)",
@@ -175,7 +175,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}/css/{cssFileName}" : {
+    "/businessconfig/processes/{processId}/css/{cssFileName}" : {
       "get" : {
         "summary" : "Get css file",
         "description" : "Get css file, if file exists return file (text/css) otherwise return error message (application/json)",
@@ -214,7 +214,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}/i18n" : {
+    "/businessconfig/processes/{processId}/i18n" : {
       "get" : {
         "summary" : "Get i18n file",
         "description" : "Get i18n file, if file exists return file (text/plain) otherwise return error message (application/json)",
@@ -256,7 +256,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}/{state}/details" : {
+    "/businessconfig/processes/{processId}/{state}/details" : {
       "get" : {
         "summary" : "Get details for a given state of a given process",
         "description" : "Get details associated with a given state of a given process, returns an array of details (application/json)",
@@ -300,7 +300,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}/{state}/response" : {
+    "/businessconfig/processes/{processId}/{state}/response" : {
       "get" : {
         "summary" : "Get response associated with a given state of a given process",
         "description" : "Get response associated with a given state of a given process, returns a response (application/json)",
@@ -341,7 +341,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/thirds/processes/{processId}/versions/{version}" : {
+    "/businessconfig/processes/{processId}/versions/{version}" : {
       "delete" : {
         "summary" : "Delete specific version of the configuration data for a given process",
         "description" : "Delete specific version of the configuration data for a given process",
@@ -479,11 +479,11 @@ window.swaggerSpec={
         "menuLabel" : "some_business_process.menu.label",
         "menuEntries" : [ {
           "id" : "website",
-          "url" : "http://www.mythirdpartyapp.com",
+          "url" : "http://www.mybusinessconfigpartyapp.com",
           "label" : "menu.website"
         }, {
           "id" : "status",
-          "url" : "http://www.mythirdpartyapp.com/status",
+          "url" : "http://www.mybusinessconfigpartyapp.com/status",
           "label" : "menu.status"
         } ],
         "initial_state" : {

@@ -176,11 +176,11 @@ window.swaggerSpec={
           "$ref" : "#/definitions/TitlePositionEnum"
         },
         "templateName" : {
-          "description" : "template unique name as defined by Third Party Bundle in Third Party Service",
+          "description" : "template unique name as defined by Businessconfig Party Bundle in Businessconfig Party Service",
           "type" : "string"
         },
         "styles" : {
-          "description" : "css files names to load as defined by Third Party Bundle in Third Party Service",
+          "description" : "css files names to load as defined by Businessconfig Party Bundle in Businessconfig Party Service",
           "type" : "array",
           "items" : {
             "type" : "string"
