@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 July 2020</span>
+<span id="revdate">09 July 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1079,9 +1079,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_updating_the_fork">41.6. Updating the fork</a></li>
 </ul>
 </li>
-<li><a href="#_migration_guide">42. Migration Guide</a>
+<li><a href="#_migration_guide_from_release_1_4_0_to_release_1_5_0">42. Migration Guide from release 1.4.0 to release 1.5.0</a>
 <ul class="sectlevel2">
-<li><a href="#_refactoring_of_configuration_management_publisherprocess_oc_979_temporary_document">42.1. Refactoring of configuration management (publisher&#8594;process) OC-979 (Temporary document)</a>
+<li><a href="#_refactoring_of_configuration_management">42.1. Refactoring of configuration management</a>
 <ul class="sectlevel3">
 <li><a href="#_motivation_for_the_change">42.1.1. Motivation for the change</a></li>
 <li><a href="#_changes_to_the_model">42.1.2. Changes to the model</a>
@@ -1092,12 +1092,10 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_component_name">42.2. Component name</a></li>
-<li><a href="#_changes_to_the_endpoints">42.3. Changes to the endpoints</a>
-<ul class="sectlevel3">
-<li><a href="#_migration_guide_2">42.3.1. Migration guide</a></li>
-</ul>
-</li>
+<li><a href="#_change_on_the_web_ui_json">42.2. Change on the web-ui.json</a></li>
+<li><a href="#_component_name">42.3. Component name</a></li>
+<li><a href="#_changes_to_the_endpoints">42.4. Changes to the endpoints</a></li>
+<li><a href="#_migration_steps">42.5. Migration steps</a></li>
 </ul>
 </li>
 </ul>
@@ -2366,7 +2364,8 @@ All elements except the <code>config.json file</code> are optional.</p>
           },
           <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>
         }
-      ]
+      ],
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgementAllowed</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>
     }
   }
 }</code></pre>
@@ -2385,7 +2384,7 @@ All elements except the <code>config.json file</code> are optional.</p>
 field that will be matched to businessconfig configuration for correct rendering ;</p>
 </li>
 <li>
-<p>states  : list the available  states; actions and templates are associated to states</p>
+<p>states  : list the available  states; actions and templates are associated to states, in the same way is the possibility of making the cards enabled for being acknowledged by user;</p>
 </li>
 <li>
 <p>css file template list as <code>csses</code>;</p>
@@ -4648,12 +4647,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.subscription.timeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Milliseconds between card subscription renewal</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.time.display</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BUSINESS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -4690,7 +4683,19 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.hideTimeFilter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the time filtrer in the feed page</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the time filter in the feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.hideAckFilter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the acknowledgement filter in the feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeline.domains</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">["TR", "J", "7D", "W", "M", "Y"]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.notify</p></td>
@@ -4736,11 +4741,11 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.navbar.businessconfigmenus.type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.navbar.businessmenus.type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BOTH</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Defines how businessconfigparty menu links are displayed in the navigation bar and how
+<p>Defines how business menu links are displayed in the navigation bar and how
 they open. Possible values:</p>
 </div>
 <div class="ulist">
@@ -4761,7 +4766,7 @@ while clicking the icon opens in a new tab.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.size</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The page size of archive filters</p></td>
 </tr>
@@ -11258,10 +11263,10 @@ this procedure (the command line version), except you should do a rebase instead
 </div>
 </div>
 <div class="sect1">
-<h2 id="_migration_guide"><a class="anchor" href="#_migration_guide"></a>42. Migration Guide</h2>
+<h2 id="_migration_guide_from_release_1_4_0_to_release_1_5_0"><a class="anchor" href="#_migration_guide_from_release_1_4_0_to_release_1_5_0"></a>42. Migration Guide from release 1.4.0 to release 1.5.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_refactoring_of_configuration_management_publisherprocess_oc_979_temporary_document"><a class="anchor" href="#_refactoring_of_configuration_management_publisherprocess_oc_979_temporary_document"></a>42.1. Refactoring of configuration management (publisher&#8594;process) OC-979 (Temporary document)</h3>
+<h3 id="_refactoring_of_configuration_management"><a class="anchor" href="#_refactoring_of_configuration_management"></a>42.1. Refactoring of configuration management</h3>
 <div class="sect3">
 <h4 id="_motivation_for_the_change"><a class="anchor" href="#_motivation_for_the_change"></a>42.1.1. Motivation for the change</h4>
 <div class="paragraph">
@@ -11521,18 +11526,25 @@ The id of the card is now build as process.processInstanceId an not anymore publ
 </div>
 </div>
 <div class="sect2">
-<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>42.2. Component name</h3>
+<h3 id="_change_on_the_web_ui_json"><a class="anchor" href="#_change_on_the_web_ui_json"></a>42.2. Change on the web-ui.json</h3>
+<div class="paragraph">
+<p>The parameter operatorfabric.navbar.thirdmenus.type is rename operatorfabric.navbar.businessmenus.type</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>42.3. Component name</h3>
 <div class="paragraph">
 <p>We also change the component name of third which is now named businessconfig.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>42.3. Changes to the endpoints</h3>
+<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>42.4. Changes to the endpoints</h3>
 <div class="paragraph">
 <p>The <code>/third</code> endpoint becomes <code>/businessconfig/processes</code>.</p>
 </div>
-<div class="sect3">
-<h4 id="_migration_guide_2"><a class="anchor" href="#_migration_guide_2"></a>42.3.1. Migration guide</h4>
+</div>
+<div class="sect2">
+<h3 id="_migration_steps"><a class="anchor" href="#_migration_steps"></a>42.5. Migration steps</h3>
 <div class="paragraph">
 <p>This section outlines the necessary steps to migrate existing data.</p>
 </div>
@@ -11557,6 +11569,13 @@ version while there are still "old" bundles in the businessconfig storage will c
 <li>
 <p>Edit your bundles as detailed above. In particular, if you had bundles containing several processes, you will need to
 split them into several bundles. The <code>id</code> of the bundles should match the <code>process</code> field in the corresponding cards.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If you user operatorfabric.navbar.thirdmenus.type in web-ui.json, rename it to operatorfabric.navbar.businessmenus.type</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Run the following scripts in the mongo shell to copy the value of <code>publisherVersion</code> to a new <code>processVersion</code> field
@@ -11626,7 +11645,6 @@ $set: { &quot;process&quot;: &quot;SOME_PROCESS&quot;}
 <p>If you have any code or scripts that push bundles, you should update it to point to the new endpoint.</p>
 </li>
 </ol>
-</div>
 </div>
 </div>
 </div>
