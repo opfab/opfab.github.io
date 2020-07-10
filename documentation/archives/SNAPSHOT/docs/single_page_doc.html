@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 July 2020</span>
+<span id="revdate">10 July 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -881,9 +881,8 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_scripts_bin_and_cicd">25.1. Scripts (bin and CICD)</a>
 <ul class="sectlevel3">
-<li><a href="#_load_environment_ramdisk_sh">25.1.1. load_environment_ramdisk.sh</a></li>
-<li><a href="#_run_all_sh">25.1.2. run_all.sh</a></li>
-<li><a href="#_setup_dockerized_environment_sh">25.1.3. setup_dockerized_environment.sh</a></li>
+<li><a href="#_run_all_sh">25.1.1. run_all.sh</a></li>
+<li><a href="#_setup_dockerized_environment_sh">25.1.2. setup_dockerized_environment.sh</a></li>
 </ul>
 </li>
 <li><a href="#gradle_tasks">25.2. Gradle Tasks</a>
@@ -2334,7 +2333,9 @@ All elements except the <code>config.json file</code> are optional.</p>
 <pre class="CodeRay highlight"><code data-lang="JSON">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST.1.process.label</span><span class="delimiter">&quot;</span></span>
+  },
   <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultLocale</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>: [
     <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>,
@@ -2352,11 +2353,23 @@ All elements except the <code>config.json file</code> are optional.</p>
   ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">menuLabel</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.label</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>: [
-    {<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 0</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.first</span><span class="delimiter">&quot;</span></span>},
-    {<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 1</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.la-rache.com</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.second</span><span class="delimiter">&quot;</span></span>}
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 0</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.first</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.la-rache.com</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.second</span><span class="delimiter">&quot;</span></span>
+    }
   ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">color</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">blue</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
         {
           <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
@@ -7059,8 +7072,7 @@ on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-
 <h2 id="_environment_variables"><a class="anchor" href="#_environment_variables"></a>23. Environment variables</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These variables are loaded by bin/load_environment_light.sh
-bin/load_environment_ramdisk.sh</p>
+<p>These variables are loaded by bin/load_environment_light.sh</p>
 </div>
 <div class="ulist">
 <ul>
@@ -7460,15 +7472,6 @@ version, gradle version, maven version, node version)</p>
 </tr>
 <tr>
 <td class="hdlist1">
-bin/load_environment_ramdisk.sh
-</td>
-<td class="hdlist2">
-<p>sets up environment and links build
-subdirectories to a ramdisk when <strong>sourced</strong> at ~/tmp</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
 bin/run_all.sh
 </td>
 <td class="hdlist2">
@@ -7486,35 +7489,7 @@ bin/setup_dockerized_environment.sh
 </table>
 </div>
 <div class="sect3">
-<h4 id="_load_environment_ramdisk_sh"><a class="anchor" href="#_load_environment_ramdisk_sh"></a>25.1.1. load_environment_ramdisk.sh</h4>
-<div class="paragraph">
-<p>There are prerequisites before sourcing load_environment_ramdisk.sh:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Logged user needs sudo rights for mount</p>
-</li>
-<li>
-<p>System needs to have enough free ram</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-caution" title="Caution"></i>
-</td>
-<td class="content">
-Never ever run a <code>gradle clean</code> or <code>./gradlew clean</code> to avoid deleting those links.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_run_all_sh"><a class="anchor" href="#_run_all_sh"></a>25.1.2. run_all.sh</h4>
+<h4 id="_run_all_sh"><a class="anchor" href="#_run_all_sh"></a>25.1.1. run_all.sh</h4>
 <div class="paragraph">
 <p>Please see <code>run_all.sh -h</code> usage before running.</p>
 </div>
@@ -7605,7 +7580,7 @@ instance).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_setup_dockerized_environment_sh"><a class="anchor" href="#_setup_dockerized_environment_sh"></a>25.1.3. setup_dockerized_environment.sh</h4>
+<h4 id="_setup_dockerized_environment_sh"><a class="anchor" href="#_setup_dockerized_environment_sh"></a>25.1.2. setup_dockerized_environment.sh</h4>
 <div class="paragraph">
 <p>Please see <code>setup_dockerized_environment.sh -h</code> usage before running.</p>
 </div>
