@@ -270,7 +270,7 @@ window.swaggerSpec={
           "description" : "Unique card ID (as defined in the associated process)",
           "readOnly" : true
         },
-        "parentCardId" : {
+        "parentCardUid" : {
           "type" : "string",
           "description" : "The id of the parent card (optional)",
           "readOnly" : true
@@ -575,7 +575,7 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "Is true if the card was acknoledged at least by one user"
         },
-        "parentCardId" : {
+        "parentCardUid" : {
           "type" : "string",
           "description" : "The uid of its parent card if it's a child card"
         }

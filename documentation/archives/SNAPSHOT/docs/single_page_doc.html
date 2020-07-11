@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">10 July 2020</span>
+<span id="revdate">11 July 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -11544,40 +11544,41 @@ version while there are still "old" bundles in the businessconfig storage will c
 <li>
 <p>Edit your bundles as detailed above. In particular, if you had bundles containing several processes, you will need to
 split them into several bundles. The <code>id</code> of the bundles should match the <code>process</code> field in the corresponding cards.</p>
-<div class="ulist">
-<ul>
+</li>
 <li>
 <p>If you user operatorfabric.navbar.thirdmenus.type in web-ui.json, rename it to operatorfabric.navbar.businessmenus.type</p>
 </li>
-</ul>
-</div>
-</li>
 <li>
-<p>Run the following scripts in the mongo shell to copy the value of <code>publisherVersion</code> to a new <code>processVersion</code> field
-for all cards (current and archived):</p>
-<div class="listingblock">
-<div class="title">Current cards</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">db.cards.aggregate(
-[
-{ &quot;$addFields&quot;: { &quot;processVersion&quot;: &quot;$publisherVersion&quot; }},
-{ &quot;$out&quot;: &quot;cards&quot; }
-]
-)</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Archived cards</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">db.archivedCards.aggregate(
-[
-{ &quot;$addFields&quot;: { &quot;processVersion&quot;: &quot;$publisherVersion&quot; }},
-{ &quot;$out&quot;: &quot;archivedCards&quot; }
-]
-)</code></pre>
-</div>
-</div>
+<p>Run the following scripts in the mongo shell to copy the value of <code>publisherVersion</code> to a new <code>processVersion</code> field and to copy the value of <code>processId</code> to a new <code>processInstanceId</code> field for all cards (current and archived):</p>
 </li>
+</ol>
+</div>
+<div class="paragraph">
+<p>+
+.Current cards</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.cards.updateMany(
+{},
+{ $rename: { &quot;publisherVersion&quot;: &quot;processVersion&quot;, &quot;processId&quot;: &quot;processInstanceId&quot; } }
+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+.Archived cards</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.archivedCards.updateMany(
+{},
+{ $rename: { &quot;publisherVersion&quot;: &quot;processVersion&quot;, &quot;processId&quot;: &quot;processInstanceId&quot; } }
+)</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Make sure you have no cards without process using the following mongo shell commands:</p>
 <div class="listingblock">
