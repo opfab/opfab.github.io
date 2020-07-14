@@ -403,7 +403,7 @@ window.swaggerSpec={
           "description" : "Is true if the card was acknowledged at least by one user"
         }
       },
-      "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary" ],
+      "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
       "example" : {
         "uid" : 12345,
         "id" : "cardIdFromMyProcess",
@@ -580,6 +580,7 @@ window.swaggerSpec={
           "description" : "The uid of its parent card if it's a child card"
         }
       },
+      "required" : [ "uid", "id", "processInstanceId", "startDate" ],
       "example" : {
         "uid" : 12345,
         "id" : "cardIdFromMyProcess",

@@ -561,6 +561,7 @@ window.swaggerSpec={
           }
         }
       },
+      "required" : [ "templateName" ],
       "example" : {
         "title" : {
           "key" : "template.title",
