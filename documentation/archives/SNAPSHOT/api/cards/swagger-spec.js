@@ -400,7 +400,11 @@ window.swaggerSpec={
         },
         "hasBeenAcknowledged" : {
           "type" : "boolean",
-          "description" : "Is true if the card was acknowledged at least by one user"
+          "description" : "Is true if the card was acknowledged by current user"
+        },
+        "hasBeenRead" : {
+          "type" : "boolean",
+          "description" : "Is true if the card was read by current user"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
@@ -573,7 +577,11 @@ window.swaggerSpec={
         },
         "hasBeenAcknowledged" : {
           "type" : "boolean",
-          "description" : "Is true if the card was acknoledged at least by one user"
+          "description" : "Is true if the card was acknoledged by current user"
+        },
+        "hasBeenRead" : {
+          "type" : "boolean",
+          "description" : "Is true if the card was read by current user"
         },
         "parentCardUid" : {
           "type" : "string",
@@ -948,13 +956,13 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/userAcknowledgement/{id}" : {
+    "/cards/userAcknowledgement/{uid}" : {
       "parameters" : [ {
         "in" : "path",
-        "name" : "id",
+        "name" : "uid",
         "type" : "string",
         "required" : true,
-        "description" : "The id parameter is constructed as follows : {publisher}_{processInstanceId}"
+        "description" : "The card uid"
       } ],
       "post" : {
         "operationId" : "postUserAcknowledgement",
@@ -984,6 +992,32 @@ window.swaggerSpec={
           },
           "204" : {
             "description" : "Try to remove unexisting item"
+          },
+          "404" : {
+            "description" : "Try to remove item from unexisting card"
+          }
+        }
+      }
+    },
+    "/cards/userRead/{uid}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "uid",
+        "type" : "string",
+        "required" : true,
+        "description" : "The card uid"
+      } ],
+      "post" : {
+        "operationId" : "postUserRead",
+        "tags" : [ "cards", "update", "read" ],
+        "summary" : "update current card adding a user read",
+        "description" : "update current card users reads, adding a new item, by card id and authenticated user",
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          },
+          "200" : {
+            "description" : "No action done, the item already exists"
           },
           "404" : {
             "description" : "Try to remove item from unexisting card"
