@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">07 August 2020</span>
+<span id="revdate">08 August 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1092,9 +1092,10 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_change_on_the_web_ui_json">39.2. Change on the web-ui.json</a></li>
-<li><a href="#_component_name">39.3. Component name</a></li>
-<li><a href="#_changes_to_the_endpoints">39.4. Changes to the endpoints</a></li>
-<li><a href="#_migration_steps">39.5. Migration steps</a></li>
+<li><a href="#_changes_on_bundle_config_json">39.3. Changes on bundle config.json</a></li>
+<li><a href="#_component_name">39.4. Component name</a></li>
+<li><a href="#_changes_to_the_endpoints">39.5. Changes to the endpoints</a></li>
+<li><a href="#_migration_steps">39.6. Migration steps</a></li>
 </ul>
 </li>
 </ul>
@@ -2612,6 +2613,25 @@ menu nav bar of OperatorFabric.</p>
 <li>
 <p><code>label</code>: it&#8217;s an i18n key used to l10n the entry in the UI.</p>
 </li>
+<li>
+<p><code>linkType</code>: Defines how business menu links are displayed in the navigation bar and how
+they open. Possible values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>TAB: Only a text link is displayed, and clicking it opens the link in a new tab.</p>
+</li>
+<li>
+<p>IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below
+the navigation bar.</p>
+</li>
+<li>
+<p>BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe
+while clicking the icon opens in a new tab. This is also the default value.</p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 <div class="sect7">
@@ -2629,7 +2649,8 @@ menu nav bar of OperatorFabric.</p>
 	"menuEntries":[{
 			"id": "identifer-single-menu-entry",
 			"url": "https://opfab.github.io",
-			"label": "single-menu-entry-i18n-key"
+			"label": "single-menu-entry-i18n-key",
+			"linkType": "BOTH"
 		}],
 }</pre>
 </div>
@@ -2648,7 +2669,8 @@ menu nav bar of OperatorFabric.</p>
 	"menuEntries": [{
 			"id": "firstEntryIdentifier",
 			"url": "https://opfab.github.io/whatisopfab/",
-			"label": "first-menu-entry"
+			"label": "first-menu-entry",
+			"linkType": "BOTH"
 		},
 		{
 			"id": "secondEntryIdentifier",
@@ -4861,30 +4883,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of supported time zones, for instance 'Europe/Paris'.
 Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.navbar.businessmenus.type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOTH</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Defines how business menu links are displayed in the navigation bar and how
-they open. Possible values:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>TAB: Only a text link is displayed, and clicking it opens the link in a new tab.</p>
-</li>
-<li>
-<p>IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below
-the navigation bar.</p>
-</li>
-<li>
-<p>BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe
-while clicking the icon opens in a new tab.</p>
-</li>
-</ul>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.size</p></td>
@@ -11608,23 +11606,29 @@ The id of the card is now build as process.processInstanceId an not anymore publ
 <div class="sect2">
 <h3 id="_change_on_the_web_ui_json"><a class="anchor" href="#_change_on_the_web_ui_json"></a>39.2. Change on the web-ui.json</h3>
 <div class="paragraph">
-<p>The parameter operatorfabric.navbar.thirdmenus.type is rename operatorfabric.navbar.businessmenus.type</p>
+<p>The parameter operatorfabric.navbar.thirdmenus.type has been removed from this file. Starting from this release the related functionality has been moved on bundle basis and it&#8217;s not more global. See "Changes on bundle config.json" for more information.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>39.3. Component name</h3>
+<h3 id="_changes_on_bundle_config_json"><a class="anchor" href="#_changes_on_bundle_config_json"></a>39.3. Changes on bundle config.json</h3>
+<div class="paragraph">
+<p>Under menuEntries a new subproperty has been added: linkType. This property replace the old property operatorfabric.navbar.thirdmenus.type in web-ui.json, making possible a more fine control of the related behaviour.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>39.4. Component name</h3>
 <div class="paragraph">
 <p>We also change the component name of third which is now named businessconfig.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>39.4. Changes to the endpoints</h3>
+<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>39.5. Changes to the endpoints</h3>
 <div class="paragraph">
 <p>The <code>/third</code> endpoint becomes <code>/businessconfig/processes</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_migration_steps"><a class="anchor" href="#_migration_steps"></a>39.5. Migration steps</h3>
+<h3 id="_migration_steps"><a class="anchor" href="#_migration_steps"></a>39.6. Migration steps</h3>
 <div class="paragraph">
 <p>This section outlines the necessary steps to migrate existing data.</p>
 </div>
@@ -11651,7 +11655,7 @@ version while there are still "old" bundles in the businessconfig storage will c
 split them into several bundles. The <code>id</code> of the bundles should match the <code>process</code> field in the corresponding cards.</p>
 </li>
 <li>
-<p>If you user operatorfabric.navbar.thirdmenus.type in web-ui.json, rename it to operatorfabric.navbar.businessmenus.type</p>
+<p>If you use operatorfabric.navbar.thirdmenus.type in web-ui.json, rename it to operatorfabric.navbar.businessmenus.type</p>
 </li>
 <li>
 <p>Run the following scripts in the mongo shell to copy the value of <code>publisherVersion</code> to a new <code>processVersion</code> field and to copy the value of <code>processId</code> to a new <code>processInstanceId</code> field for all cards (current and archived):</p>
