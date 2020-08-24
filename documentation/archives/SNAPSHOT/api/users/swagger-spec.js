@@ -752,6 +752,37 @@ window.swaggerSpec={
             "description" : "Required group not found"
           }
         }
+      },
+      "delete" : {
+        "tags" : [ "groups" ],
+        "summary" : "Remove group",
+        "description" : "Remove a group",
+        "operationId" : "deleteGroup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Group id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required group not found"
+          }
+        }
       }
     },
     "/groups/{id}/users" : {
