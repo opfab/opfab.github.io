@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">24 August 2020</span>
+<span id="revdate">25 August 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -580,6 +580,13 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_example_3_process_with_state">6.3. Example 3: Process with state</a></li>
 <li><a href="#_example_4_time_line">6.4. Example 4: Time Line</a></li>
+<li><a href="#_example_5_card_routing_mechanism">6.5. Example 5: Card routing mechanism</a>
+<ul class="sectlevel3">
+<li><a href="#_card_sent_to_a_group">6.5.1. Card sent to a group</a></li>
+<li><a href="#_card_sent_to_an_entity">6.5.2. Card sent to an entity</a></li>
+<li><a href="#_card_sent_to_a_group_and_an_entity">6.5.3. Card sent to a group and an entity</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#troubleshooting_bundle">7. Troubleshooting</a>
@@ -1310,14 +1317,6 @@ compliant accesses. It provides the rooting for accessing the services from outs
 <p>Test the connection to the UI: to connect to OperatorFabric, open in a browser the following page: <a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a> and use <code>tso1-operator</code> as login and <code>test</code> as password.</p>
 </div>
 <div class="paragraph">
-<p>If you are not accessing the server from localhost, there is a bug with authentication redirection. Your must use the following URL, replacing <code>SERVER_IP</code> by the IP address of your server :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>http://SERVER_IP:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client&amp;redirect_uri=http://SERVER_IP:2002/ui/</pre>
-</div>
-</div>
-<div class="paragraph">
 <p>After connection, you should see the following screen</p>
 </div>
 <div class="imageblock">
@@ -1363,7 +1362,7 @@ compliant accesses. It provides the rooting for accessing the services from outs
 </div>
 </div>
 <div class="paragraph">
-<p>The result should be a 200 Http status, and a json object such as:</p>
+<p>The result should be a 201 Http status, and a json object such as:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1394,7 +1393,7 @@ section of the reference documentation.</p>
         <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hello-world-1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hello-world-1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
                                 <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
@@ -1430,7 +1429,7 @@ section of the reference documentation.</p>
         <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>  :<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hello-world-1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hello-world-1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
                                 <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
@@ -1459,11 +1458,11 @@ section of the reference documentation.</p>
 <div class="sect3">
 <h4 id="_delete_the_card"><a class="anchor" href="#_delete_the_card"></a>6.1.3. Delete the card</h4>
 <div class="paragraph">
-<p>You can delete the card using DELETE HTTP code with reference to publisher and processId</p>
+<p>You can delete the card using DELETE HTTP code with reference to publisher and processInstanceId</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>curl -s -X DELETE http://localhost:2102/cards/message-publisher_hello-world-1</pre>
+<pre>curl -s -X DELETE http://localhost:2102/cards/defaultProcess.hello-world-1</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1542,21 +1541,17 @@ The message</pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="JSON">{
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>],
         <span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>],
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span> : {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span> : {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{
-                                <span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span> : {
-                                        <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
-                                                <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>},
-                                                <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,
-                                                <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style.css</span><span class="delimiter">&quot;</span></span> ]
-                                        }]
-                                }
-                        }
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span> : {
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>},
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span> ]
+                        }]
                 }
         }
 }</code></pre>
@@ -1642,7 +1637,7 @@ The token will be valid for 10 hours, after you will need to ask for a new one.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{<span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>],<span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>],<span class="key"><span class="delimiter">&quot;</span><span class="content">i18nLabelKey</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">statesData</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">detailsData</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}],<span class="key"><span class="delimiter">&quot;</span><span class="content">actionsData</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}],<span class="key"><span class="delimiter">&quot;</span><span class="content">actions</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}},<span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">detailsData</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}],<span class="key"><span class="delimiter">&quot;</span><span class="content">actionsData</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}],<span class="key"><span class="delimiter">&quot;</span><span class="content">actions</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}}}},<span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="JSON">{<span class="key"><span class="delimiter">&quot;</span><span class="content">statesData</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">detailsData</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>]}],<span class="key"><span class="delimiter">&quot;</span><span class="content">responseData</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgementAllowed</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">color</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>]}],<span class="key"><span class="delimiter">&quot;</span><span class="content">response</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgmentAllowed</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}},<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>],<span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>],<span class="key"><span class="delimiter">&quot;</span><span class="content">menuLabel</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">detailsData</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>]}],<span class="key"><span class="delimiter">&quot;</span><span class="content">responseData</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgementAllowed</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">color</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:{<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>},<span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>]}],<span class="key"><span class="delimiter">&quot;</span><span class="content">response</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgmentAllowed</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}},<span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>:<span class="value">null</span>}</code></pre>
 </div>
 </div>
 </div>
@@ -1657,7 +1652,7 @@ The token will be valid for 10 hours, after you will need to ask for a new one.
         <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>  :<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hello-world-1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hello-world-1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
                                 <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
@@ -1722,37 +1717,33 @@ of the bundle:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="JSON">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">alert-publisher</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">endCriticalSituationTemplate</span><span class="delimiter">&quot;</span></span>],
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>],
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span> : {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">criticalSituation</span><span class="delimiter">&quot;</span></span> : {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">endCriticalSituationTemplate</span><span class="delimiter">&quot;</span></span>],
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span>],
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{
                 <span class="key"><span class="delimiter">&quot;</span><span class="content">criticalSituation-begin</span><span class="delimiter">&quot;</span></span> : {
-                  <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
-                    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-begin.title</span><span class="delimiter">&quot;</span></span>},
-                          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,
-                          <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style.css</span><span class="delimiter">&quot;</span></span> ]
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-begin.title</span><span class="delimiter">&quot;</span></span>},
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span> ]
                         }]
                 },
                 <span class="key"><span class="delimiter">&quot;</span><span class="content">criticalSituation-update</span><span class="delimiter">&quot;</span></span> : {
-                  <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
-                    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-update.title</span><span class="delimiter">&quot;</span></span>},
-                          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,
-                          <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style.css</span><span class="delimiter">&quot;</span></span> ]
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-update.title</span><span class="delimiter">&quot;</span></span>},
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span> ]
                         }]
                 },
                 <span class="key"><span class="delimiter">&quot;</span><span class="content">criticalSituation-end</span><span class="delimiter">&quot;</span></span> : {
-                  <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
-                    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-end.title</span><span class="delimiter">&quot;</span></span>},
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">endCriticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style.css</span><span class="delimiter">&quot;</span></span> ]
-                  }]
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [{
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : { <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-end.title</span><span class="delimiter">&quot;</span></span>},
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">endCriticalSituationTemplate</span><span class="delimiter">&quot;</span></span>,
+                                <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">style</span><span class="delimiter">&quot;</span></span> ]
+                        }]
                 }
-          }
         }
-  }
 }</code></pre>
 </div>
 </div>
@@ -1795,7 +1786,7 @@ a stylesheets to use.</p>
         <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">alert-publisher</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>  :<span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">alert1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">alert1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation-begin</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
                                 <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
@@ -1856,7 +1847,7 @@ a stylesheets to use.</p>
         <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">scheduledMaintenance-publisher</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>  :<span class="string"><span class="delimiter">&quot;</span><span class="content">maintenanceProcess</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">maintenance-1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">maintenance-1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">planned</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
                                 <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
@@ -1899,7 +1890,7 @@ second the end of the maintenance operation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>date -d "+ 600 minutes" +%s%N | cut -b1-13</pre>
+<pre>date -d "+ 60 minutes" +%s%N | cut -b1-13</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1907,7 +1898,7 @@ second the end of the maintenance operation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>date -d "+ 900 minutes" +%s%N | cut -b1-13</pre>
+<pre>date -d "+ 120 minutes" +%s%N | cut -b1-13</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1932,6 +1923,256 @@ second the end of the maintenance operation.</p>
 <div class="imageblock">
 <div class="content">
 <img src="../images/example4.jpg" alt="example 4 screenshot">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_5_card_routing_mechanism"><a class="anchor" href="#_example_5_card_routing_mechanism"></a>6.5. Example 5: Card routing mechanism</h3>
+<div class="sect3">
+<h4 id="_card_sent_to_a_group"><a class="anchor" href="#_card_sent_to_a_group"></a>6.5.1. Card sent to a group</h4>
+<div class="paragraph">
+<p>As we saw previously, if a card is sent to a group, then you only need to be a member of the group to receive it.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_card_sent_to_an_entity"><a class="anchor" href="#_card_sent_to_an_entity"></a>6.5.2. Card sent to an entity</h4>
+<div class="paragraph">
+<p>If a card is sent to an entity, then you must be a member of this entity and have the process / state of the card within the user&#8217;s perimeter. As the perimeters are attached to groups, the user must therefore be a member of a group attached to this perimeter.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s send this card :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span> : [<span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1</span><span class="delimiter">&quot;</span></span>],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">cardExample5</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">severity</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span> : <span class="integer">1553186770681</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.summary</span><span class="delimiter">&quot;</span></span>},
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>},
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello World !!! Here is a message for ENTITY1</span><span class="delimiter">&quot;</span></span>}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use this command line :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @cardSentToEntity.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or use the provided script :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./sendCard.sh cardSentToEntity.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be a 201 Http status, and a json object such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{<span class="key"><span class="delimiter">&quot;</span><span class="content">count</span><span class="delimiter">&quot;</span></span>:<span class="integer">1</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">All pushedCards were successfully handled</span><span class="delimiter">&quot;</span></span>}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the result in the UI, you should not see the card.</p>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s create this perimeter :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">getting-startedPerimeter</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">stateRights</span><span class="delimiter">&quot;</span></span> : [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">right</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Receive</span><span class="delimiter">&quot;</span></span>
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use this command line :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2103/perimeters -H "Content-type:application/json" -H "Authorization:Bearer $token" --data @perimeter.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or use the provided script :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./createPerimeter.sh perimeter.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be a 201 Http status, and a json object such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">getting-startedPerimeter</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">stateRights</span><span class="delimiter">&quot;</span></span>:[{<span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">messageState1</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">right</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">Receive</span><span class="delimiter">&quot;</span></span>},{<span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">messageState2</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">right</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">ReceiveAndWrite</span><span class="delimiter">&quot;</span></span>}]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s attach this perimeter to the TSO1 group.
+You can use this command line :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X PUT http://localhost:2103/perimeters/getting-startedPerimeter/groups -H "Content-type:application/json" -H "Authorization:Bearer $token" --data "[\"TSO1\"]"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or use the provided script :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./putPerimeterForGroup.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be a 200 Http status.</p>
+</div>
+<div class="paragraph">
+<p>Now, if you refresh the UI or send again the card, you should see the card.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_card_sent_to_a_group_and_an_entity"><a class="anchor" href="#_card_sent_to_a_group_and_an_entity"></a>6.5.3. Card sent to a group and an entity</h4>
+<div class="paragraph">
+<p>If a card is sent to a group and an entity, then there are 2 possibilities to receive this card :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>First possibility :
+the user is both a member of this entity and a member of this group.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s send this card (for ENTITY1 and TSO1 group) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span> : [<span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1</span><span class="delimiter">&quot;</span></span>],
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>  :<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">cardExample5_1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState2</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">identity</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">TSO1</span><span class="delimiter">&quot;</span></span>
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">severity</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span> : <span class="integer">1553186770681</span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.summary</span><span class="delimiter">&quot;</span></span>},
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>},
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello World !!! Here is a message for ENTITY1 and group TSO1 - process/state not in tso1-operator perimeter </span><span class="delimiter">&quot;</span></span>}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use this command line :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @cardSentToEntityAndGroup_1.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or use the provided script :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./sendCard.sh cardSentToEntityAndGroup_1.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be a 201 Http status, and a json object such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{<span class="key"><span class="delimiter">&quot;</span><span class="content">count</span><span class="delimiter">&quot;</span></span>:<span class="integer">1</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">All pushedCards were successfully handled</span><span class="delimiter">&quot;</span></span>}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the result in the UI, you should see the card.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Second possibility :
+the user is a member of this entity and have the process/state of the card within its perimeter. As the perimeters are attached to groups, the user must therefore be a member of a group attached to this perimeter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s send this card (for ENTITY1 and TSO2 group) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">message-publisher</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span> : [<span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1</span><span class="delimiter">&quot;</span></span>],
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>  :<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">cardExample5_2</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">recipient</span><span class="delimiter">&quot;</span></span> : {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">GROUP</span><span class="delimiter">&quot;</span></span>,
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">identity</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">TSO2</span><span class="delimiter">&quot;</span></span>
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">severity</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span> : <span class="integer">1553186770681</span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.summary</span><span class="delimiter">&quot;</span></span>},
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess.title</span><span class="delimiter">&quot;</span></span>},
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello World !!! Here is a message for ENTITY1 and group TSO2 - process/state in tso1-operator perimeter </span><span class="delimiter">&quot;</span></span>}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use this command line :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @cardSentToEntityAndGroup_2.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or use the provided script :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./sendCard.sh cardSentToEntityAndGroup_2.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result should be a 201 Http status, and a json object such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{<span class="key"><span class="delimiter">&quot;</span><span class="content">count</span><span class="delimiter">&quot;</span></span>:<span class="integer">1</span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">All pushedCards were successfully handled</span><span class="delimiter">&quot;</span></span>}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the result in the UI, you should see the card.</p>
 </div>
 </div>
 </div>
