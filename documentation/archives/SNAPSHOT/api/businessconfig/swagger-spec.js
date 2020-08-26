@@ -431,7 +431,7 @@ window.swaggerSpec={
           "description" : "Identifier referencing this process. It should be unique across the OperatorFabric instance."
         },
         "name" : {
-          "$ref" : "#/definitions/I18n",
+          "type" : "string",
           "description" : "i18n key for the label of this process The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
         },
         "version" : {
@@ -474,7 +474,7 @@ window.swaggerSpec={
                 "description" : "This flag indicates the possibility for a card of this kind to be acknowledged on user basis"
               },
               "name" : {
-                "$ref" : "#/definitions/I18n",
+                "type" : "string",
                 "description" : "i18n key for UI"
               },
               "color" : {
