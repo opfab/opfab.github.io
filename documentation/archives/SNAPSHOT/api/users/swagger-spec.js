@@ -971,9 +971,6 @@ window.swaggerSpec={
           },
           "401" : {
             "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - ADMIN role necessary"
           }
         }
       },
