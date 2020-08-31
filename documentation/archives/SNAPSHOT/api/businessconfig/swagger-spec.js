@@ -562,7 +562,8 @@ window.swaggerSpec={
           "EN" : "My Title",
           "FR" : "Mon Titre"
         }
-      }
+      },
+      "required" : [ "key" ]
     },
     "Detail" : {
       "description" : "Defines the rendering of card details. Each Detail object corresponds to a tab in the details pane.",
