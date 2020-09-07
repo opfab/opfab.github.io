@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Version 1.4.0.RELEASE</title>
+<title>Version 1.5.0.RELEASE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -524,177 +524,62 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Version 1.4.0.RELEASE</h1>
+<h1>Version 1.5.0.RELEASE</h1>
 <div class="details">
-<span id="revnumber">version 1.4.0.RELEASE,</span>
-<span id="revdate">22 June 2020</span>
+<span id="revnumber">version 1.5.0.RELEASE,</span>
+<span id="revdate">07 September 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_issues">1. Issues</a></li>
-<li><a href="#_bugs">2. Bugs</a></li>
-<li><a href="#_tasks">3. Tasks</a></li>
+<li><a href="#_features">1. Features</a></li>
+<li><a href="#_tasks">2. Tasks</a></li>
+<li><a href="#_bugs">3. Bugs</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_issues"><a class="anchor" href="#_issues"></a>1. Issues</h2>
+<h2 id="_features"><a class="anchor" href="#_features"></a>1. Features</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><strong>UI Improvements</strong> :</p>
+<p><strong>Routing</strong> ([OC-950] [OC-830])  : New routing mechanism is now fully functionnal, it is possible to define card visiblity per process/state for groups using perimeters, see users documentation : <a href="https://opfab.github.io/documentation/current/reference_doc/#_users_management" class="bare">opfab.github.io/documentation/current/reference_doc/#_users_management</a></p>
+</li>
+<li>
+<p><strong>Response card (Smart notification) </strong> ([OC-918] [OC-915] [OC-982] [OC-914] [OC-966] [OC-980] [OC-1051] [OC-969] [OC-1071]) : It is now possible for the user to reply on a card if configured, see documentation : <a href="https://opfab.github.io/documentation/current/reference_doc/#_response_cards" class="bare">opfab.github.io/documentation/current/reference_doc/#_response_cards</a></p>
+</li>
+<li>
+<p><strong> Acknowlegment </strong> ([OC-922][OC-923][OC-1033]): It is now possible for the user to acknowlege cards with a button on the bottom-right of the card .The feed can also been filtered to show acknowledged or not acknowledged cards. It is as well possible for the user to "unacknowledge" a card previously acknowlegded .This functionnality is activated on a process state basis via the setting of acknowledgementAllowed to true in the  config.json of the bundles (example in /src/test/utils/karate/src/test/utils/karate/businessconfig/resources/bundle_api_test/config.json)</p>
+</li>
+<li>
+<p><strong>Logging and monitoring</strong> : [OC-1023] New screens to see cards in monitoring/logging views   (experimental)</p>
+</li>
+<li>
+<p><strong>Free Message</strong> : [OC-928] First implementation of free message (permit the user to send card) , not useable yet</p>
+</li>
+<li>
+<p><strong> API </strong> : ([OC-1021] [OC-1022] [OC-1023] [OC-1024]) New endpoint to delete user, entity, group and perimeter</p>
+</li>
+<li>
+<p><strong>UI</strong> :</p>
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-868] As an admin I would like to be able to hide the time filter</p>
-<div class="paragraph">
-<p>See the <a href="https://opfab.github.io/documentation/current/deployment/#_web_ui">web-ui configuration documentation</a> for details</p>
-</div>
+<p>[OC-948][OC-1037] Button to hide or display the timeline</p>
 </li>
 <li>
-<p>[OC-864] As a user I want to be able to reset archives filters so I can change my search criteria</p>
+<p>[OC-949] Filter by publish date in feed when clicking on the clock icon<br>
+<strong>NB:</strong> When the timeline is not loaded (parameter <code>operatorfabric.feed.timeline.hide</code> set to true ), the time filter of the feed is based on business date.</p>
 </li>
 <li>
-<p>[OC-402] As an Operator I want the archive screen to display an explicit message if no cards are found that match my filters</p>
+<p>[OC-1038] Incoming cards are signaled as new (little eye icon) in the feed until they&#8217;ve been read</p>
 </li>
 <li>
-<p>[OC-939] Synchronize timeline with feed (When a filter is set in the feed, it is applied to the timeline as well (severity, tags or business period))</p>
-</li>
-<li>
-<p>[OC-947] As a user I want to be able to click on the links in the bubble so that i can display the related card on the feed</p>
-</li>
-<li>
-<p>[OC-945] Add a spinning icon when connection with server is lost</p>
-</li>
-<li>
-<p>[OC-972] Add charts functionality in template</p>
-<div class="paragraph">
-<p>It uses <code>charts.js</code> library, templates as example can be found in <code>src/test/utils/karate/thirds/resources/bundle_test_api</code></p>
-</div>
+<p>[OC-1053] For each custom menu entry in the navbar, choose whether to integrate it as an iframe or an external link</p>
 </li>
 </ul>
-</div>
-</li>
-<li>
-<p><strong>Work in progress for the "Smart notification" epic</strong> ( [OC-871][OC-872][OC-873][OC-874][OC-875][OC-881][OC-900][OC-913][OC-916][OC-917] )</p>
-<div class="paragraph">
-<p>It is now possible for the user to reply to a card, the response is sent back to an external app.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Work is in progress, it is not documented and usable yet in production.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p><strong>Work in progress for the "Routing" epic</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-885] User Service : Perimeter model evolution</p>
-</li>
-<li>
-<p>[OC-876] User Service : Implement group in JWT Token Option</p>
-</li>
-<li>
-<p>[OC-742] When sending a card to an entity , use the group perimeter to send to the good users</p>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Work is in progress, it is not documented and usable yet in production.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Remove old action feature</strong> (front and back) ([OC-960][OC-961][OC-962])</p>
-<div class="paragraph">
-<p>This feature was not fully operational and is now replaced by the smart notification feature</p>
-</div>
-</li>
-<li>
-<p><strong>Remove Netflix stack</strong> ([OC-670][OC-836][OC-837][OC-838][OC-839][OC-971][OC-895][OC-906][OC-983][OC-996]) :</p>
-<div class="ulist">
-<ul>
-<li>
-<p>remove registry/configuration components</p>
-</li>
-<li>
-<p>replace gateway with NGINX</p>
-</li>
-<li>
-<p>remove all calls from business services to registry and configuration components</p>
-</li>
-<li>
-<p>adapt documentation</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>UI configuration is now done via a json file (web-ui.json) instead of a yaml file (web-ui.yml). Before upgrading, you
-should save a copy of your web-ui.json to back-up custom changes.</p>
-</li>
-<li>
-<p>As there is no configuration server anymore, the content of services configuration files has changed, check the
-documentation and/or see default configuration files in dev/docker folders under config. We also took this as an
-opportunity to rearrange our docker-compose files so see the updated documentation on launching OperatorFabric.</p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p><strong>Work in progress for the "Acknowledgment" epic</strong> ([OC-920],[OC-921],[OC-944],[OC-976],[OC-977])</p>
-<div class="paragraph">
-<p>The backend code for the acknowledgment feature is ready. Front to be done.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Work is in progress, it is not documented and usable yet in production.</p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 </li>
 </ul>
@@ -702,98 +587,218 @@ opportunity to rearrange our docker-compose files so see the updated documentati
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugs"><a class="anchor" href="#_bugs"></a>2. Bugs</h2>
+<h2 id="_tasks"><a class="anchor" href="#_tasks"></a>2. Tasks</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>[OC-772] Bug on archives screen: clear results when exiting archive page</p>
+<p>[OC-999] Minor edits to doc after 1rst git flow release</p>
 </li>
 <li>
-<p>[OC-898] In implicit mode, first name and last name are not displayed</p>
+<p>[OC-951] Process and state fields of a card must be mandatory</p>
 </li>
 <li>
-<p>[OC-775] Bug on archives screen: cards details remain displayed when selecting another criteria that doesn&#8217;t return any result</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tasks"><a class="anchor" href="#_tasks"></a>3. Tasks</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>[OC-892] Add in documentation that it is not possible to use dot in json field names</p>
+<p>[OC-1004] Add demo cards and template with svg drawing</p>
 </li>
 <li>
-<p>[OC-845] Implement Git flow as our contribution and release workflow</p>
-<div class="paragraph">
-<p><em>We have transitioned from a GitHub flow to a Git flow. See the documentation to see how it impacted our
-<a href="./single_page_doc.html#CICD">CICD pipeline</a>
-and how it translate into our <a href="./single_page_doc.html#_contribution_workflow">contribution workflow</a>
-(submitting a pull request etc.).</em></p>
-</div>
-<div class="admonitionblock important">
+<p>[OC-1005] Clean karate tests</p>
+</li>
+<li>
+<p>[OC-1014] Load configuration files from outside docker in <code>config/docker/docker-compose.yml</code></p>
+</li>
+<li>
+<p><strong>Configuration of business process</strong> :</p>
+<div class="admonitionblock warning">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-important" title="Important"></i>
+<i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p><em>Now, the current state of developments is pushed daily to Docker Hub with the tag <code>SNAPSHOT</code>
-(rather than <code>snapshot</code> as before).</em></p>
+<strong>Breaking change</strong> : see migration guide : <a href="https://opfab.github.io/documentation/current/docs/single_page_doc.html#_migration_guide_from_release_1_4_0_to_release_1_5_0" class="bare">opfab.github.io/documentation/current/docs/single_page_doc.html#_migration_guide_from_release_1_4_0_to_release_1_5_0</a>
+</td>
+</tr>
+</table>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-978] Rename third module to businessconfig module</p>
+</li>
+<li>
+<p>[OC-979] Link bundle with process instead of publisher</p>
+</li>
+<li>
+<p>[OC-1003] Rename processId in processInstanceId</p>
+</li>
+<li>
+<p>[OC-981] Change way of creating card id . The id of the card is now build as process.processInstanceId and not anymore publisherID_process.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[OC-1029] possibility to hide some application menus</p>
+</li>
+<li>
+<p>[OC-1036] Refactor configuration loading in front</p>
+</li>
+<li>
+<p>[OC-735] Robustify subscription mechanism and refactoring</p>
+</li>
+<li>
+<p>[OC-1013] @NotNull fields remove form XXXData.java, only need to set required fields in swagger.yml</p>
+</li>
+<li>
+<p>[OC-1030] : upgrade back to last version of librairies (SpringBoot,..)</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The version of gradle has been changed, if you want to build operator fabric you need to upgrade gradle to version 6.5.1 (sdk install gradle 6.5.1)
 </td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p>[OC-888][OC-692][OC-973] Fix SonarCloud issues</p>
-</li>
-<li>
-<p>[OC-891] Removed unused field mainRecipient</p>
-</li>
-<li>
-<p>[OC-896] Update getting started with 1.3.0.RELEASE and change getToken script</p>
-</li>
-<li>
-<p>[OC-899] Use SNAPSHOT version on develop branch for docker and dev environment docker-compose</p>
-<div class="paragraph">
-<p><em>When working on branch <code>develop</code>, the docker-compose files will rely on <code>SNAPSHOT</code> docker images generated daily.
-This lets you test OperatorFabric with the latest merged code. If you&#8217;re interested in running a particular release on
-the other hand, you should checkout the associated X.X.X.RELEASE tag on <code>master</code>.</em></p>
+<p>[OC-1063] Set java to version 8.0.265-zulu as current is no longer supported by sdkman</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Run <code>sdk install java 8.0.265-zulu</code> then `source ./bin/load_environment_light.sh ` to update your environment
+</td>
+</tr>
+</table>
 </div>
 </li>
 <li>
-<p>[OC-907] Remove Keycloak from test-quality-environment docker-compose</p>
+<p>[OC-1046] Refactoring card-consultation mongo access</p>
 </li>
 <li>
-<p>[OC-909] Simplify third menu code (Front)</p>
+<p>[OC-1045] Remove unnecessary code (ngrx effect )</p>
 </li>
 <li>
-<p>[OC-911] Changing sounds due to incompatible license</p>
+<p>[OC-893] Check all subscribe in angular code</p>
 </li>
 <li>
-<p>[OC-897] Thirds service - added operation delete for the resource thirds</p>
+<p>[OC-1047] Add a demo with response card in test/utils</p>
 </li>
 <li>
-<p>[OC-904] Thirds service - added delete version of a third, minor changes on general sync working</p>
+<p>[OC-1017] Update governance documentation</p>
 </li>
 <li>
-<p>[OC-943] Add a gradle task to launch sonar analysis</p>
+<p>[OC-1057] Explains how to use karate utilities</p>
 </li>
 <li>
-<p>[OC-535] Make bin/run_all.sh working even if not in the root directory</p>
+<p>[OC-1041] Trace user actions, only acknowledgment for the moment</p>
 </li>
 <li>
-<p>[OC-954] Add name field for process/state and color for state in third</p>
+<p>[OC-new-helpers] 4 new handlebars helpers added</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+4 new handlebars helpers added: 'keyValue', 'arrayContains', 'times', 'toBreakage'. You can consult the documentation at the following url to check how to use them: <a href="https://opfab.github.io/documentation/current/docs/single_page_doc.html#templates" class="bare">opfab.github.io/documentation/current/docs/single_page_doc.html#templates</a>
+</td>
+</tr>
+</table>
+</div>
 </li>
 <li>
-<p>[OC-957] Field recipient in card should be optional</p>
+<p>[OC-831] Update getting started documentation with routing mechanism</p>
+</li>
+<li>
+<p>[OC-1065] Remove unused bundles</p>
+</li>
+<li>
+<p>[OC-1067] GET /entities : allow all users for this operation</p>
+</li>
+<li>
+<p>[OC-1068] Simplify backend card notification mechanism</p>
+</li>
+<li>
+<p>[OC-1070] Add new example in defaultBundle</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugs"><a class="anchor" href="#_bugs"></a>3. Bugs</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>[OC-1006] Archives - Bugs in pagination<br>
+<strong>Information :</strong> Parameters <code>operatorfabric.archive.filter.page.first</code> &amp; <code>operatorfabric.archive.filter.publisher</code> in <code>web-ui.json</code> have been removed;</p>
+</li>
+<li>
+<p>[OC-990] Automatic saving of the settings . No need anymore to press enter to save setting changes;</p>
+</li>
+<li>
+<p>[OC-974] Redraw card when switching between day/night modes;</p>
+</li>
+<li>
+<p>[OC-297] Card sent to another group or user is not discarded from the user feed</p>
+</li>
+<li>
+<p>[OC-1011] Access to opfab is not working when the user is member of no group</p>
+</li>
+<li>
+<p>[OC-1010] In PASSWORD authentication mode, afier having refresh UI, the user needs to enter login/pwd again</p>
+</li>
+<li>
+<p>[OC-1035] Docker mode (config/dev) : cards and archivedCards stored in "test" database instead of "operator-fabric"</p>
+</li>
+<li>
+<p>[OC-1012] Missing id in existing bundles cause Businessconfig service to crash</p>
+</li>
+<li>
+<p>[OC-938] In archives, reset button doesn&#8217;t really clear selected card</p>
+</li>
+<li>
+<p>[OC-988] In Archives- No result message appears before rendering the real result of a search</p>
+</li>
+<li>
+<p>[OC-997] Fix Angular build warning</p>
+</li>
+<li>
+<p>[OC-941] Card deletion- The API doesn&#8217;t return an error when the card deleted doesn&#8217;t exist</p>
+</li>
+<li>
+<p>[OC-1052] Cards sent to a user (rather than a group) don&#8217;t appear immediately</p>
+</li>
+<li>
+<p>[OC-713] Web-UI configuration: wrong yaml documented key + misspelled key in configuration</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Need to change in web-ui.json the key delagate-url into delegate-url.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>[OC-934] fix Issue with cards published with client jars (due to Instant). <code>cards-publication</code> service accepts cards from client jar.</p>
+</li>
+<li>
+<p>[OC-1069] Limit  line when clicking on timeline</p>
 </li>
 </ul>
 </div>

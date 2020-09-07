@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 1.4.0.RELEASE,</span>
-<span id="revdate">22 June 2020</span>
+<span id="revnumber">version 1.5.0.RELEASE,</span>
+<span id="revdate">07 September 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -540,7 +540,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_shared_business_service_configuration">2.1.1. Shared business service configuration</a></li>
 <li><a href="#_business_service_specific_configurations">2.1.2. Business service specific configurations</a>
 <ul class="sectlevel4">
-<li><a href="#_thirds_service">2.1.2.1. Thirds service</a></li>
+<li><a href="#_businessconfig_service">2.1.2.1. Businessconfig service</a></li>
 <li><a href="#_users_service">2.1.2.2. Users service</a></li>
 </ul>
 </li>
@@ -549,7 +549,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_web_ui_configuration">2.2. Web UI Configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_nginx_configuration">2.2.1. NGINX configuration</a></li>
-<li><a href="#_service_specific_properties">2.2.2. Service specific properties</a></li>
+<li><a href="#ui_properties">2.2.2. UI properties</a></li>
 </ul>
 </li>
 <li><a href="#opfab_spec_conf">2.3. Security Configuration</a>
@@ -694,7 +694,7 @@ while the <strong>docker</strong> sub-directory is a specific configuration mean
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
   <span class="key">application</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">thirds</span></span></code></pre>
+    <span class="key">name</span>: <span class="string"><span class="content">businessconfig</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -712,9 +712,9 @@ while the <strong>docker</strong> sub-directory is a specific configuration mean
 the type of deployment you&#8217;re looking for.</p>
 </div>
 <div class="sect4">
-<h5 id="_thirds_service"><a class="anchor" href="#_thirds_service"></a>2.1.2.1. Thirds service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>2.1.2.1. Businessconfig service</h5>
 <div class="paragraph">
-<p>The third service has this specific property :</p>
+<p>The businessconfig service has this specific property :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -733,7 +733,7 @@ the type of deployment you&#8217;re looking for.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.thirds.storage.path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.businessconfig.storage.path</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">File path to data storage folder</p></td>
@@ -837,7 +837,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_service_specific_properties"><a class="anchor" href="#_service_specific_properties"></a>2.2.2. Service specific properties</h4>
+<h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>2.2.2. UI properties</h4>
 <div class="paragraph">
 <p>The properties lie in the <code>web-ui.json</code>.The following table describes their meaning and  how to use them. An example file can be found in the config/docker directory.</p>
 </div>
@@ -858,7 +858,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.realm-url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.provider-realm</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The realm name in keycloak server settings page. This is used for the log out process to know which realm should be affected.</p></td>
@@ -927,12 +927,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.subscription.timeout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Milliseconds between card subscription renewal</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.time.display</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BUSINESS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -963,13 +957,25 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeline.hide</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen. If the timeline is not loaded , the time filter on the feed is filtering on business date otherwise it is filtering on publish date.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.hideTimeFilter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the time filtrer in the feed page</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the time filter in the feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.card.hideAckFilter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the acknowledgement filter in the feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.timeline.domains</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">["TR", "J", "7D", "W", "M", "Y"]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.feed.notify</p></td>
@@ -1015,40 +1021,10 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.navbar.thirdmenus.type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BOTH</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Defines how thirdparty menu links are displayed in the navigation bar and how
-they open. Possible values:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>TAB: Only a text link is displayed, and clicking it opens the link in a new tab.</p>
-</li>
-<li>
-<p>IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below
-the navigation bar.</p>
-</li>
-<li>
-<p>BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe
-while clicking the icon opens in a new tab.</p>
-</li>
-</ul>
-</div></div></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.size</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The page size of archive filters</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.page.first</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The first page start of archiving module</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.archive.filters.process.list</p></td>
@@ -1195,6 +1171,39 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OperatorFabric</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Title of the application, displayed on the browser</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">navbar.hidden</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">["logging","monitoring"]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Lists the application menu to hide in the navbar.<br>
+The <code>keys</code> used are the <code>route.path</code> declared in the <code>${OF_HOME}ui/main/src/app/app-routing.module.ts</code> file.<br>
+Currently the <code>application routes</code> are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>feed</code>;</p>
+</li>
+<li>
+<p><code>archives</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There will be two new routes with the release of the <code>[OC-936]</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>logging</code>;</p>
+</li>
+<li>
+<p><code>monitoring</code>.</p>
+</li>
+</ul>
+</div></div></td>
 </tr>
 </tbody>
 </table>
@@ -1450,7 +1459,7 @@ There are several common properties:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>security.realm-url</code>: OAuth2 provider realm under which the OpertaroFabric client is declared;</p>
+<p><code>security.provider-realm</code>: OAuth2 provider realm under which the OpertaroFabric client is declared;</p>
 </li>
 <li>
 <p><code>security.provider-url</code>: url of the keycloak server instance.</p>
@@ -1855,7 +1864,7 @@ but they can be adapted for single container deployments and development mode.
 <p>Open a bash shell in the container you want to check</p>
 <div class="literalblock">
 <div class="content">
-<pre>docker exec -it deploy_thirds_1 bash</pre>
+<pre>docker exec -it deploy_businessconfig_1 bash</pre>
 </div>
 </div>
 </li>
@@ -2627,9 +2636,9 @@ the used ports are:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Third party management service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Businessconfig management service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
@@ -2651,7 +2660,7 @@ the used ports are:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
@@ -2716,7 +2725,7 @@ last name, as well as their settings) can be performed either by the user in que
 a user with the ADMIN role.</p>
 </div>
 <div class="paragraph">
-<div class="title">Thirds Service</div>
+<div class="title">Businessconfig Service</div>
 <p>Any write (create, update or delete) action on bundles can only be performed by a user with the ADMIN role. As such,
 administrators are responsible for the quality and security of the provided bundles.
 In particular, as it is possible to use scripts in templates, they should perform a security check to make sure that

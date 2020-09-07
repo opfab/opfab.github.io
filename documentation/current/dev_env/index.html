@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 1.4.0.RELEASE,</span>
-<span id="revdate">22 June 2020</span>
+<span id="revnumber">version 1.5.0.RELEASE,</span>
+<span id="revdate">07 September 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -591,9 +591,8 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_scripts_bin_and_cicd">6.1. Scripts (bin and CICD)</a>
 <ul class="sectlevel3">
-<li><a href="#_load_environment_ramdisk_sh">6.1.1. load_environment_ramdisk.sh</a></li>
-<li><a href="#_run_all_sh">6.1.2. run_all.sh</a></li>
-<li><a href="#_setup_dockerized_environment_sh">6.1.3. setup_dockerized_environment.sh</a></li>
+<li><a href="#_run_all_sh">6.1.1. run_all.sh</a></li>
+<li><a href="#_setup_dockerized_environment_sh">6.1.2. setup_dockerized_environment.sh</a></li>
 </ul>
 </li>
 <li><a href="#gradle_tasks">6.2. Gradle Tasks</a>
@@ -602,9 +601,8 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel4">
 <li><a href="#_common_tasks_for_all_sub_projects">6.2.1.1. Common tasks for all sub-projects</a></li>
 <li><a href="#_core">6.2.1.2. Core</a></li>
-<li><a href="#_thirds_service">6.2.1.3. Thirds Service</a></li>
-<li><a href="#_infraconfig">6.2.1.4. infra/config</a></li>
-<li><a href="#_toolsgeneric">6.2.1.5. tools/generic</a></li>
+<li><a href="#_businessconfig_service">6.2.1.3. Businessconfig Service</a></li>
+<li><a href="#_toolsgeneric">6.2.1.4. tools/generic</a></li>
 </ul>
 </li>
 <li><a href="#_gradle_plugins">6.2.2. Gradle Plugins</a></li>
@@ -636,27 +634,27 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_using_oauth2_token_with_the_cli">Using OAuth2 token with the CLI</a>
-<ul class="sectlevel1">
-<li><a href="#_get_a_token">1. Get a token</a>
+<li><a href="#_using_oauth2_token_with_the_cli">10. Using OAuth2 token with the CLI</a>
 <ul class="sectlevel2">
-<li><a href="#_curl">1.1. Curl</a></li>
-<li><a href="#_httpie">1.2. Httpie</a></li>
+<li><a href="#_get_a_token">10.1. Get a token</a>
+<ul class="sectlevel3">
+<li><a href="#_curl">10.1.1. Curl</a></li>
+<li><a href="#_httpie">10.1.2. Httpie</a></li>
 </ul>
 </li>
-<li><a href="#_extract_token">2. Extract token</a>
-<ul class="sectlevel2">
-<li><a href="#_curl_2">2.1. Curl</a></li>
-<li><a href="#_httpie_2">2.2. Httpie</a></li>
+<li><a href="#_extract_token">10.2. Extract token</a>
+<ul class="sectlevel3">
+<li><a href="#_curl_2">10.2.1. Curl</a></li>
+<li><a href="#_httpie_2">10.2.2. Httpie</a></li>
 </ul>
 </li>
-<li><a href="#_check_a_token">3. Check a token</a>
-<ul class="sectlevel2">
-<li><a href="#_curl_3">3.1. Curl</a></li>
-<li><a href="#_httpie_3">3.2. Httpie</a></li>
+<li><a href="#_check_a_token">10.3. Check a token</a>
+<ul class="sectlevel3">
+<li><a href="#_curl_3">10.3.1. Curl</a></li>
+<li><a href="#_httpie_3">10.3.2. Httpie</a></li>
 </ul>
 </li>
-<li><a href="#_extract_token_2">4. Extract token</a></li>
+<li><a href="#_extract_token_2">10.4. Extract token</a></li>
 </ul>
 </li>
 </ul>
@@ -814,8 +812,7 @@ files at
 <div class="sect2">
 <h3 id="_browser_support"><a class="anchor" href="#_browser_support"></a>1.3. Browser support</h3>
 <div class="paragraph">
-<p>We currently use Firefox (63.0.3). Automatic tests for the UI rely on Chrome
-(73.0.3683.86).</p>
+<p>Project is supported on recent version of firefox , chromium and chrome</p>
 </div>
 </div>
 </div>
@@ -943,7 +940,7 @@ docker-compose up -d</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be usefull to spot the <code>OperatorFabric</code> dev tab in the browser.
+<p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be useful to spot the <code>OperatorFabric</code> dev tab in the browser.
 Sometime a <code>CTRL+F5</code> on the tab is required to refresh the favicon.</p>
 </div>
 </div>
@@ -1122,23 +1119,27 @@ Once the whole application is ready, you should have the following output in you
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">##########################################################
 Starting users-business-service, debug port: 5009
-
 ##########################################################
 pid file: $OF_HOME/services/core/users/build/PIDFILE
 Started with pid: 7483
 
 ##########################################################
 Starting cards-consultation-business-service, debug port: 5011
-
 ##########################################################
 pid file: $OF_HOME/services/core/cards-consultation/build/PIDFILE
 Started with pid: 7493
 
 ##########################################################
 Starting cards-publication-business-service, debug port: 5012
+##########################################################
+pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE
+Started with pid: 7500
 
 ##########################################################
-pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE</code></pre>
+Starting businessconfig-business-service, debug port: 5008
+##########################################################
+pid file: $OF_HOME//services/core/businessconfig/build/PIDFILE
+Started with pid: 7501</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1160,7 +1161,17 @@ The common password is <code>test</code> for them all.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>For more realistic card sending use, once Karate env correctly configured, the Karate script called <code>${OF_HOME}/src/test/api/karate/launchAllCards.sh</code>.</p>
+<p>For more realistic card sending use, once Karate env correctly configured, the Karate scripts called :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>${OF_HOME}/src/test/utils/karate/loadBundles.sh</code></p>
+</li>
+<li>
+<p><code>${OF_HOME}/src/test/utils/karate/postTestCards.sh</code></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Once logged in, after one of those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/ui/feed" class="bare">localhost:2002/ui/feed</a></code>.</p>
@@ -1219,8 +1230,7 @@ on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-
 <h2 id="_environment_variables"><a class="anchor" href="#_environment_variables"></a>4. Environment variables</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These variables are loaded by bin/load_environment_light.sh
-bin/load_environment_ramdisk.sh</p>
+<p>These variables are loaded by bin/load_environment_light.sh</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1294,7 +1304,7 @@ settings)</p>
 │   │   ├──cards-consultation (cards-consultation-business-service)
 │   │   ├──cards-publication (cards-publication-business-service)
 │   │   ├──src
-│   │   ├──thirds (third-party-business-service)
+│   │   ├──businessconfig (businessconfig-business-service)
 │   │   └──users (users-business-service)
 ├──web-ui
 ├──src
@@ -1379,8 +1389,8 @@ OperatorFabric</p>
 microservices</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/thirds">thirds (third-party-business-service)</a>:
-Third-party information management service</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/businessconfig">businessconfig (businessconfig-business-service)</a>:
+Businessconfig-party information management service</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/users">users (users-business-service)</a>: Users management
@@ -1620,15 +1630,6 @@ version, gradle version, maven version, node version)</p>
 </tr>
 <tr>
 <td class="hdlist1">
-bin/load_environment_ramdisk.sh
-</td>
-<td class="hdlist2">
-<p>sets up environment and links build
-subdirectories to a ramdisk when <strong>sourced</strong> at ~/tmp</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
 bin/run_all.sh
 </td>
 <td class="hdlist2">
@@ -1646,35 +1647,7 @@ bin/setup_dockerized_environment.sh
 </table>
 </div>
 <div class="sect3">
-<h4 id="_load_environment_ramdisk_sh"><a class="anchor" href="#_load_environment_ramdisk_sh"></a>6.1.1. load_environment_ramdisk.sh</h4>
-<div class="paragraph">
-<p>There are prerequisites before sourcing load_environment_ramdisk.sh:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Logged user needs sudo rights for mount</p>
-</li>
-<li>
-<p>System needs to have enough free ram</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-caution" title="Caution"></i>
-</td>
-<td class="content">
-Never ever run a <code>gradle clean</code> or <code>./gradlew clean</code> to avoid deleting those links.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_run_all_sh"><a class="anchor" href="#_run_all_sh"></a>6.1.2. run_all.sh</h4>
+<h4 id="_run_all_sh"><a class="anchor" href="#_run_all_sh"></a>6.1.1. run_all.sh</h4>
 <div class="paragraph">
 <p>Please see <code>run_all.sh -h</code> usage before running.</p>
 </div>
@@ -1720,8 +1693,8 @@ instance).</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Third party management service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Businessconfig service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
@@ -1740,7 +1713,7 @@ instance).</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">thirds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
 <tr>
@@ -1765,7 +1738,7 @@ instance).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_setup_dockerized_environment_sh"><a class="anchor" href="#_setup_dockerized_environment_sh"></a>6.1.3. setup_dockerized_environment.sh</h4>
+<h4 id="_setup_dockerized_environment_sh"><a class="anchor" href="#_setup_dockerized_environment_sh"></a>6.1.2. setup_dockerized_environment.sh</h4>
 <div class="paragraph">
 <p>Please see <code>setup_dockerized_environment.sh -h</code> usage before running.</p>
 </div>
@@ -1836,7 +1809,7 @@ to gradle and plugins official documentation.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_thirds_service"><a class="anchor" href="#_thirds_service"></a>6.2.1.3. Thirds Service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>6.2.1.3. Businessconfig Service</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1847,7 +1820,7 @@ to gradle and plugins official documentation.</p>
 <p>prepareTestDataDir: prepare directory (build/test-data) for test data</p>
 </li>
 <li>
-<p>compressBundle1Data, compressBundle2Data: generate tar.gz third party
+<p>compressBundle1Data, compressBundle2Data: generate tar.gz businessconfig party
 configuration data for tests in build/test-data</p>
 </li>
 <li>
@@ -1875,25 +1848,7 @@ catching lombok that must be sent for sonarqube</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_infraconfig"><a class="anchor" href="#_infraconfig"></a>6.2.1.4. infra/config</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Test tasks</p>
-<div class="ulist">
-<ul>
-<li>
-<p>createDevData: prepare data in build/test-data for running bootRun task
-during development</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>6.2.1.5. tools/generic</h5>
+<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>6.2.1.4. tools/generic</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1982,12 +1937,12 @@ Boot configuration</a> for more info.</p>
 </div>
 </li>
 <li>
-<p>:services:core:third-party-service properties list extract :</p>
+<p>:services:core:businessconfig-party-service properties list extract :</p>
 <div class="ulist">
 <ul>
 <li>
-<p>operatorfabric.thirds.storage.path (defaults to &quot;&quot;) : where to
-save/load OperatorFabric Third Party data</p>
+<p>operatorfabric.businessconfig.storage.path (defaults to &quot;&quot;) : where to
+save/load OperatorFabric Businessconfig  data</p>
 </li>
 </ul>
 </div>
@@ -2051,7 +2006,7 @@ value)</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p> <details><summary> 
-<strong>Proxy error when running third-party docker-compose</strong>
+<strong>Proxy error when running businessconfig-party docker-compose</strong>
  </summary><div> </p>
 </div>
 <div class="listingblock">
@@ -2063,7 +2018,7 @@ ERROR: Get https://registry-1.docker.io/v2/: Proxy Authentication Required</code
 </div>
 <div class="paragraph">
 <div class="title">Possible causes &amp; resolution</div>
-<p>When running docker-compose files using third-party images(such as rabbitmq,
+<p>When running docker-compose files using businessconfig-party images(such as rabbitmq,
 mongodb etc.) the first time, docker will need to pull these images from
 their repositories.
 If the docker proxy isn&#8217;t set properly, you will see the above message.</p>
@@ -2375,10 +2330,11 @@ sslRequired : none</p>
 </div>
 </div>
 </div>
-<h1 id="_using_oauth2_token_with_the_cli" class="sect0"><a class="anchor" href="#_using_oauth2_token_with_the_cli"></a>Using OAuth2 token with the CLI</h1>
 <div class="sect1">
-<h2 id="_get_a_token"><a class="anchor" href="#_get_a_token"></a>1. Get a token</h2>
+<h2 id="_using_oauth2_token_with_the_cli"><a class="anchor" href="#_using_oauth2_token_with_the_cli"></a>10. Using OAuth2 token with the CLI</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_get_a_token"><a class="anchor" href="#_get_a_token"></a>10.1. Get a token</h3>
 <div class="paragraph">
 <p>End point: <code><a href="http://localhost:2002/auth/token" class="bare">localhost:2002/auth/token</a></code></p>
 </div>
@@ -2411,8 +2367,8 @@ sslRequired : none</p>
 <div class="paragraph">
 <p>The following examples will be for <code>admin</code> user.</p>
 </div>
-<div class="sect2">
-<h3 id="_curl"><a class="anchor" href="#_curl"></a>1.1. Curl</h3>
+<div class="sect3">
+<h4 id="_curl"><a class="anchor" href="#_curl"></a>10.1.1. Curl</h4>
 <div class="paragraph">
 <p>command:</p>
 </div>
@@ -2450,8 +2406,8 @@ user_info","jti":"02d82e85-13f0-4678-974d-18eb06215a65"}</pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_httpie"><a class="anchor" href="#_httpie"></a>1.2. Httpie</h3>
+<div class="sect3">
+<h4 id="_httpie"><a class="anchor" href="#_httpie"></a>10.1.2. Httpie</h4>
 <div class="listingblock">
 <div class="content">
 <pre>http --form POST http://localhost:2002/auth/token username=admin password=test
@@ -2502,10 +2458,8 @@ qO-fkjTVRjy_LBXGq9zkn0ZeQ3BUe1GuthvGjaA",
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_extract_token"><a class="anchor" href="#_extract_token"></a>2. Extract token</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_extract_token"><a class="anchor" href="#_extract_token"></a>10.2. Extract token</h3>
 <div class="paragraph">
 <p>From the previous results, the data need to be considered to be authenticated by OperatorFabric services is the content of the <code>"access_token"</code> attribute of the body response.</p>
 </div>
@@ -2513,8 +2467,8 @@ qO-fkjTVRjy_LBXGq9zkn0ZeQ3BUe1GuthvGjaA",
 <p>Once this value extracted, it need to be passed at the end of the value of the http HEADER of type <code>Authorization:Bearer</code>. Note that a space is needed between <code>Bearer</code> and token actual value.
 example from previous results:</p>
 </div>
-<div class="sect2">
-<h3 id="_curl_2"><a class="anchor" href="#_curl_2"></a>2.1. Curl</h3>
+<div class="sect3">
+<h4 id="_curl_2"><a class="anchor" href="#_curl_2"></a>10.2.1. Curl</h4>
 <div class="listingblock">
 <div class="content">
 <pre>Authorization:Bearer
@@ -2529,8 +2483,8 @@ L9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw</pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_httpie_2"><a class="anchor" href="#_httpie_2"></a>2.2. Httpie</h3>
+<div class="sect3">
+<h4 id="_httpie_2"><a class="anchor" href="#_httpie_2"></a>10.2.2. Httpie</h4>
 <div class="listingblock">
 <div class="content">
 <pre>Authorization:Bearer
@@ -2546,12 +2500,10 @@ scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfDJ
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_check_a_token"><a class="anchor" href="#_check_a_token"></a>3. Check a token</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_curl_3"><a class="anchor" href="#_curl_3"></a>3.1. Curl</h3>
+<h3 id="_check_a_token"><a class="anchor" href="#_check_a_token"></a>10.3. Check a token</h3>
+<div class="sect3">
+<h4 id="_curl_3"><a class="anchor" href="#_curl_3"></a>10.3.1. Curl</h4>
 <div class="paragraph">
 <p>from previous example</p>
 </div>
@@ -2585,8 +2537,8 @@ http://localhost:2002/auth/check_token</pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_httpie_3"><a class="anchor" href="#_httpie_3"></a>3.2. Httpie</h3>
+<div class="sect3">
+<h4 id="_httpie_3"><a class="anchor" href="#_httpie_3"></a>10.3.2. Httpie</h4>
 <div class="paragraph">
 <p>from previous example:</p>
 </div>
@@ -2638,10 +2590,8 @@ transfer-encoding: chunked
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_extract_token_2"><a class="anchor" href="#_extract_token_2"></a>4. Extract token</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_extract_token_2"><a class="anchor" href="#_extract_token_2"></a>10.4. Extract token</h3>
 <div class="paragraph">
 <p>The utility <code>jq</code>, not always available on every Linux distro, parse json input and can extract requested json path value.
 Here is a way to do so.</p>
@@ -2653,6 +2603,7 @@ Here is a way to do so.</p>
 </div>
 <div class="paragraph">
 <p>The <code>-r</code> opttion, for raw, leaves the output without any quotes.</p>
+</div>
 </div>
 </div>
 </div>

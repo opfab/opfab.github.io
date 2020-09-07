@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Architecture</h1>
 <div class="details">
-<span id="revnumber">version 1.4.0.RELEASE,</span>
-<span id="revdate">22 June 2020</span>
+<span id="revnumber">version 1.5.0.RELEASE,</span>
+<span id="revdate">07 September 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -560,51 +560,6 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_introduction"><a class="anchor" href="#_introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OperatorFabric is a modular, extensible, industrial-strength and field-tested
-platform for use in electricity, water, and other utility operations.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>System visualization and console integration</p>
-</li>
-<li>
-<p>Precise alerting</p>
-</li>
-<li>
-<p>Workflow scheduling</p>
-</li>
-<li>
-<p>Historian</p>
-</li>
-<li>
-<p>Scripting (ex: Python, JavaScript)</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Workflow Scheduling could be addressed either as an internal module or
-through simplified and standardized (BPMN) integration with external workflow
-engines, we&#8217;re still weighing the pros and cons of the two options._
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>OperatorFabric is part of the <a href="https://www.lfenergy.org/">LF Energy</a> coalition, a project of The Linux Foundation that
-supports open source innovation projects within the energy and electricity sectors.</p>
-</div>
-<div class="paragraph">
-<p>OpFab is an open source platform licensed under <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License V2</a>.
-The source code is hosted on GitHub in this repository : <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core</a>.</p>
-</div>
-<div class="paragraph">
 <p>The aim of this document is to describe the architecture of the solution, first by defining the business concepts it
 deals with and then showing how this translates into the technical architecture.</p>
 </div>
@@ -632,7 +587,7 @@ of the cards, the operator can send back information to the third party via a "r
 <div class="ulist">
 <ul>
 <li>
-<p>Card Publication : this component receives the cards from third party tools or users</p>
+<p>Card Publication : this component receives the cards from third-party tools or users</p>
 </li>
 <li>
 <p>Card Consultation : this component delivers the cards to the operators and provide access to all cards exchanged (archives)</p>
@@ -641,7 +596,7 @@ of the cards, the operator can send back information to the third party via a "r
 <p>Card rendering and process definition : this component stores the information for the card rendering (templates, internationalization, &#8230;&#8203;) and a light description of the process associate (states, response card, &#8230;&#8203;). This configuration data can be provided either by an administrator or by a third party tool.</p>
 </li>
 <li>
-<p>User Management : this component is used to manage users, groups and entities.</p>
+<p>User Management : this component is used to manage users, groups, entities and perimeters.</p>
 </li>
 </ul>
 </div>
@@ -662,7 +617,7 @@ of the cards, the operator can send back information to the third party via a "r
 <p>Card : the core business object which contains the data to show to the user(or operator)</p>
 </li>
 <li>
-<p>Publisher : the third party which publishes or receives cards</p>
+<p>Publisher : the emitter of the card (be it a third-party tool or an entity)</p>
 </li>
 <li>
 <p>User : the operator receiving cards and responding via response cards</p>
@@ -674,10 +629,13 @@ of the cards, the operator can send back information to the third party via a "r
 <p>Entity : an entity (containing a list of users)</p>
 </li>
 <li>
-<p>Process : the process the card is dealing with</p>
+<p>Process : the process the card is about</p>
 </li>
 <li>
 <p>State : the step in the process</p>
+</li>
+<li>
+<p>Perimeter : for a defined group the visibility of a card for a specific process and state</p>
 </li>
 <li>
 <p>Card Rendering : data for card rendering</p>
@@ -691,7 +649,7 @@ of the cards, the operator can send back information to the third party via a "r
 <h2 id="_technical_architecture"><a class="anchor" href="#_technical_architecture"></a>3. Technical Architecture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The architecture is based on independant modules. All business services are accessible via REST API.</p>
+<p>The architecture is based on independent modules. All business services are accessible via REST API.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -709,7 +667,7 @@ of the cards, the operator can send back information to the third party via a "r
 <p>We have a "UI" component which stores the static pages and the UI code that is downloaded by the browser. The UI is based an <a href="https://angular.io/">Angular</a> and  <a href="https://handlebarsjs.com/">Handlebars</a> for the card templating.</p>
 </li>
 <li>
-<p>The business component named  "Card rendering and process definition" is at the technical level known as "Third service". This service receive card rendering and process definition as a bundle. The bundle is a tar.gz file containing</p>
+<p>The business component named  "Card rendering and process definition" is at the technical level known as "Businessconfig service". This service receive card rendering and process definition as a bundle. The bundle is a tar.gz file containing</p>
 <div class="ulist">
 <ul>
 <li>

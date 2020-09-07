@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric User Management API",
-    "version" : "1.4.0.RELEASE",
+    "version" : "1.5.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -137,8 +137,8 @@ window.swaggerSpec={
     },
     "RightsEnum" : {
       "type" : "string",
-      "description" : "Different rights possible >\n* Read: Only read rights (reading card)\n* ReadAndWrite: Read and write rights (reading card and creating new card)\n* ReadAndRespond: Read and respond rights (reading card and responding to card)\n* All: Read, write and respond rights (reading card, creating new card and responding to a card)",
-      "enum" : [ "Read", "ReadAndWrite", "ReadAndRespond", "All" ]
+      "description" : "Different rights possible >\n* Receive: Only receive rights (receiving card)\n* Write: Write rights (creating new card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
+      "enum" : [ "Receive", "Write", "ReceiveAndWrite" ]
     },
     "StateRight" : {
       "type" : "object",
@@ -152,7 +152,7 @@ window.swaggerSpec={
       },
       "example" : {
         "state" : "State1",
-        "right" : "Read"
+        "right" : "Receive"
       }
     },
     "Perimeter" : {
@@ -178,10 +178,10 @@ window.swaggerSpec={
         "process" : "Process1",
         "stateRights" : [ {
           "state" : "state1",
-          "right" : "Read"
+          "right" : "Receive"
         }, {
           "state" : "state2",
-          "right" : "ReadAndWrite"
+          "right" : "ReceiveAndWrite"
         } ]
       }
     },
@@ -445,6 +445,37 @@ window.swaggerSpec={
           },
           "403" : {
             "description" : "Authenticated users who are not admins can only update their own data"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "users" ],
+        "summary" : "Remove user",
+        "description" : "Remove a user",
+        "operationId" : "deleteUser",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "login",
+          "description" : "User login",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required user not found"
           }
         }
       }
@@ -721,6 +752,37 @@ window.swaggerSpec={
             "description" : "Required group not found"
           }
         }
+      },
+      "delete" : {
+        "tags" : [ "groups" ],
+        "summary" : "Remove group",
+        "description" : "Remove a group",
+        "operationId" : "deleteGroup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Group id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required group not found"
+          }
+        }
       }
     },
     "/groups/{id}/users" : {
@@ -909,9 +971,6 @@ window.swaggerSpec={
           },
           "401" : {
             "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - ADMIN role necessary"
           }
         }
       },
@@ -1020,6 +1079,37 @@ window.swaggerSpec={
             "schema" : {
               "$ref" : "#/definitions/Entity"
             }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required entity not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "entities" ],
+        "summary" : "Remove entity",
+        "description" : "Remove an entity",
+        "operationId" : "deleteEntity",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Entity id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
           },
           "401" : {
             "description" : "Authentication required"
@@ -1211,20 +1301,20 @@ window.swaggerSpec={
                 "process" : "Process1",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "Read"
+                  "right" : "Receive"
                 }, {
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }, {
                 "id" : "Process2",
                 "process" : "Process2",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "ReadAndRespond"
+                  "right" : "ReceiveAndWrite"
                 }, {
                   "state" : "State2",
-                  "rights" : "All"
+                  "rights" : "Write"
                 } ]
               } ]
             }
@@ -1336,6 +1426,37 @@ window.swaggerSpec={
             "schema" : {
               "$ref" : "#/definitions/Perimeter"
             }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required perimeter not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "perimeters" ],
+        "summary" : "Remove perimeter",
+        "description" : "Remove a perimeter",
+        "operationId" : "deletePerimeter",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Perimeter id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted"
+          },
+          "400" : {
+            "description" : "Bad request"
           },
           "401" : {
             "description" : "Authentication required"
@@ -1534,20 +1655,20 @@ window.swaggerSpec={
                 "process" : "Process1",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "Read"
+                  "right" : "Receive"
                 }, {
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }, {
                 "id" : "Process2",
                 "process" : "Process2",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "ReadAndRespond"
+                  "right" : "ReceiveAndWrite"
                 }, {
                   "state" : "State2",
-                  "rights" : "All"
+                  "rights" : "Write"
                 } ]
               } ]
             }
@@ -1677,20 +1798,20 @@ window.swaggerSpec={
                 "process" : "Process1",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "Read"
+                  "right" : "Receive"
                 }, {
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }, {
                 "id" : "Process2",
                 "process" : "Process2",
                 "stateRights" : [ {
                   "state" : "State1",
-                  "right" : "ReadAndRespond"
+                  "right" : "ReceiveAndWrite"
                 }, {
                   "state" : "State2",
-                  "rights" : "All"
+                  "rights" : "Write"
                 } ]
               } ]
             }
@@ -1733,11 +1854,11 @@ window.swaggerSpec={
                 "computedPerimeters" : [ {
                   "process" : "Process1",
                   "state" : "State1",
-                  "rights" : "Read"
+                  "rights" : "Receive"
                 }, {
                   "process" : "Process1",
                   "state" : "State2",
-                  "rights" : "ReadAndWrite"
+                  "rights" : "ReceiveAndWrite"
                 } ]
               }
             }

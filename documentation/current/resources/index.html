@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 1.4.0.RELEASE,</span>
-<span id="revdate">22 June 2020</span>
+<span id="revnumber">version 1.5.0.RELEASE,</span>
+<span id="revdate">07 September 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -540,6 +540,26 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_github_documentation">1.4. GitHub (documentation)</a></li>
 <li><a href="#_dockerhub">1.5. DockerHub</a></li>
 <li><a href="#_updating_the_fork">1.6. Updating the fork</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_1_4_0_to_release_1_5_0">2. Migration Guide from release 1.4.0 to release 1.5.0</a>
+<ul class="sectlevel2">
+<li><a href="#_refactoring_of_configuration_management">2.1. Refactoring of configuration management</a>
+<ul class="sectlevel3">
+<li><a href="#_motivation_for_the_change">2.1.1. Motivation for the change</a></li>
+<li><a href="#_changes_to_the_model">2.1.2. Changes to the model</a>
+<ul class="sectlevel4">
+<li><a href="#_on_the_businessconfig_model">2.1.2.1. On the Businessconfig model</a></li>
+<li><a href="#_on_the_cards_model">2.1.2.2. On the Cards model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_change_on_the_web_ui_json">2.2. Change on the web-ui.json</a></li>
+<li><a href="#_changes_on_bundle_config_json">2.3. Changes on bundle config.json</a></li>
+<li><a href="#_component_name">2.4. Component name</a></li>
+<li><a href="#_changes_to_the_endpoints">2.5. Changes to the endpoints</a></li>
+<li><a href="#_migration_steps">2.6. Migration steps</a></li>
 </ul>
 </li>
 </ul>
@@ -911,6 +931,406 @@ in settings (see GH_DOC_TOKEN above).</p>
 <p>To make the mock repositories catch up with the upstream (the real repositories) from time to time, follow
 this procedure (the command line version), except you should do a rebase instead of a merge:
 <a href="https://rick.cogley.info/post/update-your-forked-repository-directly-on-github/" class="bare">rick.cogley.info/post/update-your-forked-repository-directly-on-github/</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_1_4_0_to_release_1_5_0"><a class="anchor" href="#_migration_guide_from_release_1_4_0_to_release_1_5_0"></a>2. Migration Guide from release 1.4.0 to release 1.5.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_refactoring_of_configuration_management"><a class="anchor" href="#_refactoring_of_configuration_management"></a>2.1. Refactoring of configuration management</h3>
+<div class="sect3">
+<h4 id="_motivation_for_the_change"><a class="anchor" href="#_motivation_for_the_change"></a>2.1.1. Motivation for the change</h4>
+<div class="paragraph">
+<p>The initial situation was to have a <code>Third</code> concept that was meant to represent third-party applications that publish
+content (cards) to OperatorFabric.
+As such, a Businessconfig was both the sender of the message and the unit of configuration for resources for card rendering.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Because of that mix of concerns, naming was not consistent across the different services in the backend and frontend as
+this object could be referred to using the following terms:
+* Third
+* ThirdParty
+* Bundle
+* Publisher
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>But now that we&#8217;re aiming for cards to be sent by entities, users (see Free Message feature) or external services, it
+doesn&#8217;t make sense to tie the rendering of the card ("Which configuration bundle should I take the templates and
+details from?") to its publisher ("Who/What emitted this card and who/where should I reply?").</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_changes_to_the_model"><a class="anchor" href="#_changes_to_the_model"></a>2.1.2. Changes to the model</h4>
+<div class="paragraph">
+<p>To do this, we decided that the <code>publisher</code> of a card would now have the sole meaning of <code>emitter</code>, and that the link
+to the configuration bundle to use to render a card would now be based on its <code>process</code> field.</p>
+</div>
+<div class="sect4">
+<h5 id="_on_the_businessconfig_model"><a class="anchor" href="#_on_the_businessconfig_model"></a>2.1.2.1. On the Businessconfig model</h5>
+<div class="paragraph">
+<p>We used to have a <code>Businessconfig</code> object which had an array of <code>Process</code> objects as one of its properties.
+Now, the <code>Process</code> object replaces the <code>Businessconfig</code> object and this new object combines the properties of the old <code>Businessconfig</code>
+and <code>Process</code> objects (menuEntries, states, etc.).</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+In particular, this means that while in the past one bundle could "contain" several processes, now there can be only
+one process by bundle.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>Businessconfig</code> object used to have a <code>name</code> property that was actually its unique identifier (used to retrieve it through
+the API for example).
+It also had a <code>i18nLabelKey</code> property that was meant to be the i18n key to determine the display name of the
+corresponding businessconfig, but so far it was only used to determine the display name of the associated menu in the navbar in
+case there where several menu entries associated with this businessconfig.</p>
+</div>
+<div class="paragraph">
+<p>Below is a summary of the changes to the <code>config.json</code> file that all this entails:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Field before</th>
+<th class="tableblock halign-left valign-top">Field after</th>
+<th class="tableblock halign-left valign-top">Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique identifier of the bundle. Used to match the <code>publisher</code> field in associated cards, should now match <code>process</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I18n key for process display name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">states.mystate.name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I18n key for state display name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">i18nLabelKey</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">menuLabel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I18n key for menu display name in case there are several menu entries attached to the process</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processes array is a root property, states array being a property of a given process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">states array is a root property</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Here is an example of a simple config.json file:</p>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultLocale</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>: [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">unschedulledPeriodicOp</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>: [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">tabs</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">accordions</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">filter</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">operations</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>: [
+    {<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 0</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.first</span><span class="delimiter">&quot;</span></span>},
+    {<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 1</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.la-rache.com</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.second</span><span class="delimiter">&quot;</span></span>}
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">i18nLabelKey</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">businessconfig.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+              },
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>
+            }
+          ]
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultLocale</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>: [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">unschedulledPeriodicOp</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>: [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">tabs</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">accordions</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">filter</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">operations</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menuLabel</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>: [
+    {<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 0</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.first</span><span class="delimiter">&quot;</span></span>},
+    {<span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 1</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.la-rache.com</span><span class="delimiter">&quot;</span></span>,<span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.second</span><span class="delimiter">&quot;</span></span>}
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">mystate.label</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+          },
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You should also make sure that the new i18n label keys that you introduce match what is defined in the i18n
+folder of the bundle.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_on_the_cards_model"><a class="anchor" href="#_on_the_cards_model"></a>2.1.2.2. On the Cards model</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Field before</th>
+<th class="tableblock halign-left valign-top">Field after</th>
+<th class="tableblock halign-left valign-top">Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">publisherVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifies the version of the bundle. It was renamed for consistency now that bundles are linked to processes not
+publishers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This field is now required and should match the id field of the process (bundle) to use to render the card.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processInstanceId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This field is just renamed , it represent an id of an instance of the process</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These changes impact both current cards from the feed and archived cards.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The id of the card is now build as process.processInstanceId an not anymore publisherID_process.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_change_on_the_web_ui_json"><a class="anchor" href="#_change_on_the_web_ui_json"></a>2.2. Change on the web-ui.json</h3>
+<div class="paragraph">
+<p>The parameter operatorfabric.navbar.thirdmenus.type has been removed from this file. Starting from this release the related functionality has been moved on bundle basis and it&#8217;s not more global. See "Changes on bundle config.json" for more information.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changes_on_bundle_config_json"><a class="anchor" href="#_changes_on_bundle_config_json"></a>2.3. Changes on bundle config.json</h3>
+<div class="paragraph">
+<p>Under menuEntries a new subproperty has been added: linkType. This property replace the old property operatorfabric.navbar.thirdmenus.type in web-ui.json, making possible a more fine control of the related behaviour.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>2.4. Component name</h3>
+<div class="paragraph">
+<p>We also change the component name of third which is now named businessconfig.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>2.5. Changes to the endpoints</h3>
+<div class="paragraph">
+<p>The <code>/third</code> endpoint becomes <code>/businessconfig/processes</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_migration_steps"><a class="anchor" href="#_migration_steps"></a>2.6. Migration steps</h3>
+<div class="paragraph">
+<p>This section outlines the necessary steps to migrate existing data.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You need to perform these steps before starting up the OperatorFabric instance because starting up services with the new
+version while there are still "old" bundles in the businessconfig storage will cause the businessconfig service to crash.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Backup your existing bundles and existing Mongo data.</p>
+</li>
+<li>
+<p>Edit your bundles as detailed above. In particular, if you had bundles containing several processes, you will need to
+split them into several bundles. The <code>id</code> of the bundles should match the <code>process</code> field in the corresponding cards.</p>
+</li>
+<li>
+<p>If you use operatorfabric.navbar.thirdmenus.type in web-ui.json, rename it to operatorfabric.navbar.businessmenus.type</p>
+</li>
+<li>
+<p>Run the following scripts in the mongo shell to copy the value of <code>publisherVersion</code> to a new <code>processVersion</code> field and to copy the value of <code>processId</code> to a new <code>processInstanceId</code> field for all cards (current and archived):</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>+
+.Current cards</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.cards.updateMany(
+{},
+{ $rename: { &quot;publisherVersion&quot;: &quot;processVersion&quot;, &quot;processId&quot;: &quot;processInstanceId&quot; } }
+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+.Archived cards</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.archivedCards.updateMany(
+{},
+{ $rename: { &quot;publisherVersion&quot;: &quot;processVersion&quot;, &quot;processId&quot;: &quot;processInstanceId&quot; } }
+)</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure you have no cards without process using the following mongo shell commands:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.cards.find({ process: null})</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.archivedCards.find({ process: null})</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>If it turns out to be the case, you will need to set a process value for all these cards to finish the migration. You
+can do it either manually through Compass or using a mongo shell command. For example, to set the process to "SOME_PROCESS"
+for all cards with an empty process, use:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.cards.updateMany(
+{ process: null },
+{
+$set: { &quot;process&quot;: &quot;SOME_PROCESS&quot;}
+}
+)</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.archivedCards.updateMany(
+{ process: null },
+{
+$set: { &quot;process&quot;: &quot;SOME_PROCESS&quot;}
+}
+)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>If you have any code or scripts that push bundles, you should update it to point to the new endpoint.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
