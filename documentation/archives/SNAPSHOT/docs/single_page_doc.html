@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">06 September 2020</span>
+<span id="revdate">07 September 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -728,12 +728,16 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#response_cards">11. Response cards</a>
 <ul class="sectlevel2">
-<li><a href="#_define_a_third_party_tool">11.1. Define a third party tool</a></li>
-<li><a href="#_configure_the_response_in_config_json">11.2. Configure the response in config.json</a></li>
-<li><a href="#_design_the_question_form_in_the_template">11.3. Design the question form in the template</a></li>
-<li><a href="#_define_permissions">11.4. Define permissions</a></li>
-<li><a href="#_send_a_question_card">11.5. Send a question card</a></li>
-<li><a href="#_integrate_child_cards">11.6. Integrate child cards</a></li>
+<li><a href="#_steps_needed_to_use_a_response_card">11.1. Steps needed to use a response card</a>
+<ul class="sectlevel3">
+<li><a href="#_define_a_third_party_tool">11.1.1. Define a third party tool</a></li>
+<li><a href="#_configure_the_response_in_config_json">11.1.2. Configure the response in config.json</a></li>
+<li><a href="#_design_the_question_form_in_the_template">11.1.3. Design the question form in the template</a></li>
+<li><a href="#_define_permissions">11.1.4. Define permissions</a></li>
+</ul>
+</li>
+<li><a href="#_send_a_question_card">11.2. Send a question card</a></li>
+<li><a href="#_integrate_child_cards">11.3. Integrate child cards</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">12. Archived Cards</a>
@@ -4329,7 +4333,7 @@ users :
 <h2 id="response_cards"><a class="anchor" href="#response_cards"></a>11. Response cards</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>It is possible to ask some questions to the operator inside a card, when the operator submit the response, a card containing the response is emitted to a third-party tool.</p>
+<p>Within your template, you can allow the user to perform some action (respond to a form, answer a question, &#8230;&#8203;). The user fills these information and then clicks on a submit button. When he submits this action, a new card is created and emitted to a third-party tool.</p>
 </div>
 <div class="paragraph">
 <p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This child card is also send to the users that have received the parent card. From the ui point of view, the information of the child cards can be integrated in real time in the parent card if configured.</p>
@@ -4343,7 +4347,7 @@ users :
 </div>
 </div>
 <div class="paragraph">
-<p>Notice that the response will be associated to the entity and not to the user, i.e the user respond on behalf of his entity. User can respond more than one time to a card (a future evolution could add the possibility to limit to one response per entity).</p>
+<p>Notice that the response will be associated to the entity and not to the user, i.e the user responds on behalf of his entity. A user can respond more than one time to a card (a future evolution could add the possibility to limit to one response per entity).</p>
 </div>
 <div class="paragraph">
 <p>You can view a screenshot of an example of card with responses :</p>
@@ -4353,16 +4357,15 @@ users :
 <img src="../images/ResponseCardScreenshot2.png" alt="ResponseCardScreenshot2">
 </div>
 </div>
-<div class="paragraph">
-<p>To use response card, you have to :</p>
-</div>
 <div class="sect2">
-<h3 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>11.1. Define a third party tool</h3>
+<h3 id="_steps_needed_to_use_a_response_card"><a class="anchor" href="#_steps_needed_to_use_a_response_card"></a>11.1. Steps needed to use a response card</h3>
+<div class="sect3">
+<h4 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>11.1.1. Define a third party tool</h4>
 <div class="paragraph">
-<p>The response card is to be received by a third party for business processing, the third-party will received the card as an HTTP POST request. The card is in json format (the same format as when we send a card). The field data in the json contains the user response.</p>
+<p>The response card is to be received by a third party application for business processing. The third-party application will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card). The field data in the json contains the user response.</p>
 </div>
 <div class="paragraph">
-<p>The url of the third party receiving the response card is to be set in the .yml of the publication service.  Here is an example with two third parties configured.</p>
+<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is an example with two third parties configured.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -4387,10 +4390,10 @@ users :
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configure_the_response_in_config_json"><a class="anchor" href="#_configure_the_response_in_config_json"></a>11.2. Configure the response in config.json</h3>
+<div class="sect3">
+<h4 id="_configure_the_response_in_config_json"><a class="anchor" href="#_configure_the_response_in_config_json"></a>11.1.2. Configure the response in config.json</h4>
 <div class="paragraph">
-<p>A card can have a response only if it s in a process/state that is configured for. To do that you need to setup the good  configuration in the config.json of the concerned process. Here is an example of configuration :</p>
+<p>A card can have a response only if it&#8217;s in a process/state that is configured for. To do that you need to setup the good  configuration in the config.json of the concerned process. Here is an example of configuration :</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -4438,7 +4441,7 @@ users :
 <div class="ulist">
 <ul>
 <li>
-<p>The field "state" in the response field is used to define the state to use for the response (child card).</p>
+<p>The field "state" in the response field is used to define the state to use for the response (the child card).</p>
 </li>
 <li>
 <p>The field "btnColor" define the color of the submit button for the response, it is optional and there is 3 possibilities : RED , GREEN , YELLOW</p>
@@ -4449,8 +4452,8 @@ users :
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_design_the_question_form_in_the_template"><a class="anchor" href="#_design_the_question_form_in_the_template"></a>11.3. Design the question form in the template</h3>
+<div class="sect3">
+<h4 id="_design_the_question_form_in_the_template"><a class="anchor" href="#_design_the_question_form_in_the_template"></a>11.1.3. Design the question form in the template</h4>
 <div class="paragraph">
 <p>For the user to response you need to define the response form in the template with standard HTML syntax</p>
 </div>
@@ -4460,13 +4463,13 @@ users :
 <div class="ulist">
 <ul>
 <li>
-<p>valid : true if the user input is valid</p>
+<p>valid (<em>boolean</em>) : true if the user input is valid</p>
 </li>
 <li>
-<p>errorMsg : message in case of invalid user input</p>
+<p>errorMsg (<em>string</em>) : message in case of invalid user input. If valid is true this field is not necessary.</p>
 </li>
 <li>
-<p>formData : the user input to send in the data field of the child card</p>
+<p>formData (<em>any</em>) : the user input to send in the data field of the child card. If valid is false this field is not necessary.</p>
 </li>
 </ul>
 </div>
@@ -4477,8 +4480,8 @@ users :
 <p>You can find an example in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>11.4. Define permissions</h3>
+<div class="sect3">
+<h4 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>11.1.4. Define permissions</h4>
 <div class="paragraph">
 <p>To respond to a card a user must have the right privileges, it is done using "perimeters". The user must be in a group that is attached to a perimeter with  a right "Write" for the concerned process/state, the state being the response state defined in the config.json.</p>
 </div>
@@ -4506,38 +4509,39 @@ users :
 <p>To add it to a group name for example "mygroup", you need to make a PATCH request  to end point 'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>11.5. Send a question card</h3>
+<h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>11.2. Send a question card</h3>
 <div class="paragraph">
 <p>The question card is like a usual card except that you have a the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card . If the user is not in the entity , he will not be able to respond .</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>    ...
-	"process"  :"defaultProcess",
-	"processInstanceId" : "process4",
-	"state": "questionState",
-	"entitiesAllowedToRespond": ["ENTITY1","ENTITY2"],
-	"severity" : "ACTION",
-	...</pre>
+<pre>...
+"process"  :"defaultProcess",
+"processInstanceId" : "process4",
+"state": "questionState",
+"entitiesAllowedToRespond": ["ENTITY1","ENTITY2"],
+"severity" : "ACTION",
+...</pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_integrate_child_cards"><a class="anchor" href="#_integrate_child_cards"></a>11.6. Integrate child cards</h3>
+<h3 id="_integrate_child_cards"><a class="anchor" href="#_integrate_child_cards"></a>11.3. Integrate child cards</h3>
 <div class="paragraph">
-<p>For each user response, a child card containing the response is emitted and store in OperatorFabric like a normal card. It is not directly visible on the ui but this child card can be integrate in real time to the parent card of all user watching the card. To do that , you need  some code in the template to process child data :</p>
+<p>For each user response, a child card containing the response is emitted and stored in OperatorFabric like a normal card. It is not directly visible on the ui but this child card can be integrated in real time to the parent card of all the users watching the card. To do that, you need  some code in the template to process child data:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You can access child cards via the javascript method templateGateway.childCards() which return an array of child cards. The structure of a child card is the same as the structure of a classic card.</p>
+<p>You can access child cards via the javascript method templateGateway.childCards() which returns an array of the child cards. The structure of a child card is the same as the structure of a classic card.</p>
 </li>
 <li>
-<p>As child cards are arriving in real time, you need to define a method call templateGateway.applyChildCards() which will be called by opfab each time the list of child cards is evolving.</p>
+<p>As child cards are arriving in real time, you need to define a method call templateGateway.applyChildCards() which will be called by OperatorFabric each time the list of child cards is evolving.</p>
 </li>
 <li>
-<p>You need to apply child cards when the cards is loading via a call to templateGateway.applyChildCards()</p>
+<p>To integrate the child cards when loading the card you need to call to <em>templateGateway.applyChildCards()</em>. (OperatorFabric is not calling the method on card loading)</p>
 </li>
 </ul>
 </div>
