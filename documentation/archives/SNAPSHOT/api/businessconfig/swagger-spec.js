@@ -484,6 +484,23 @@ window.swaggerSpec={
             }
           }
         },
+        "uiVisibility" : {
+          "type" : "object",
+          "properties" : {
+            "monitoring" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring screen"
+            },
+            "logging" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the logging screen"
+            },
+            "calendar" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the calendar screen"
+            }
+          }
+        },
         "menuLabel" : {
           "type" : "string",
           "description" : "i18n key for the label of the menu attached to this process (used in case there are several menuEntries) The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
