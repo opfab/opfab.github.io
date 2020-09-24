@@ -405,6 +405,9 @@ window.swaggerSpec={
         "hasBeenRead" : {
           "type" : "boolean",
           "description" : "Is true if the card was read by current user"
+        },
+        "publisherType" : {
+          "$ref" : "#/definitions/PublisherTypeEnum"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
@@ -594,6 +597,9 @@ window.swaggerSpec={
         "parentCardUid" : {
           "type" : "string",
           "description" : "The uid of its parent card if it's a child card"
+        },
+        "publisherType" : {
+          "$ref" : "#/definitions/PublisherTypeEnum"
         }
       },
       "required" : [ "uid", "id", "processInstanceId", "startDate" ],
@@ -664,6 +670,12 @@ window.swaggerSpec={
           "description" : "Page number"
         }
       }
+    },
+    "PublisherTypeEnum" : {
+      "type" : "string",
+      "description" : "Publisher type >\n* EXTERNAL - The sender is an external service\n* ENTITY - The sender of the card is the user on behalf of the entity",
+      "enum" : [ "EXTERNAL", "ENTITY" ],
+      "example" : "EXTERNAL"
     }
   },
   "paths" : {
