@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric BusinessconfigParty Management API",
-    "version" : "1.5.0.RELEASE",
+    "version" : "1.6.0.RELEASE",
     "title" : "Businessconfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -481,6 +481,23 @@ window.swaggerSpec={
                 "type" : "string",
                 "description" : "use as a display cue in the UI"
               }
+            }
+          }
+        },
+        "uiVisibility" : {
+          "type" : "object",
+          "properties" : {
+            "monitoring" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring screen"
+            },
+            "logging" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the logging screen"
+            },
+            "calendar" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the calendar screen"
             }
           }
         },

@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric Card Consumer Service",
-    "version" : "1.5.0.RELEASE",
+    "version" : "1.6.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -49,7 +49,7 @@ window.swaggerSpec={
     },
     "TimeSpanDisplayModeEnum" : {
       "type" : "string",
-      "description" : "Time span disply mode >\n* BUBBLE: Only displays Time span start\n* LINE: displays start and end with a junction line",
+      "description" : "Time span display mode >\n* BUBBLE: Only displays Time span start\n* LINE: displays start and end with a junction line",
       "enum" : [ "BUBBLE", "LINE" ]
     },
     "CardOperationTypeEnum" : {
@@ -405,6 +405,9 @@ window.swaggerSpec={
         "hasBeenRead" : {
           "type" : "boolean",
           "description" : "Is true if the card was read by current user"
+        },
+        "publisherType" : {
+          "$ref" : "#/definitions/PublisherTypeEnum"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
@@ -560,6 +563,14 @@ window.swaggerSpec={
           },
           "description" : "Tags associated with the card"
         },
+        "entitiesAllowedToRespond" : {
+          "description" : "List of entities that have to respond",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "example" : [ "tso1", "tso2" ]
+        },
         "title" : {
           "description" : "Card i18n title",
           "$ref" : "#/definitions/I18n"
@@ -586,6 +597,9 @@ window.swaggerSpec={
         "parentCardUid" : {
           "type" : "string",
           "description" : "The uid of its parent card if it's a child card"
+        },
+        "publisherType" : {
+          "$ref" : "#/definitions/PublisherTypeEnum"
         }
       },
       "required" : [ "uid", "id", "processInstanceId", "startDate" ],
@@ -656,6 +670,12 @@ window.swaggerSpec={
           "description" : "Page number"
         }
       }
+    },
+    "PublisherTypeEnum" : {
+      "type" : "string",
+      "description" : "Publisher type >\n* EXTERNAL - The sender is an external service\n* ENTITY - The sender of the card is the user on behalf of the entity",
+      "enum" : [ "EXTERNAL", "ENTITY" ],
+      "example" : "EXTERNAL"
     }
   },
   "paths" : {
