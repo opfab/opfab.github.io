@@ -480,6 +480,10 @@ window.swaggerSpec={
               "color" : {
                 "type" : "string",
                 "description" : "use as a display cue in the UI"
+              },
+              "userCardTemplate" : {
+                "type" : "string",
+                "description" : "Name of the template to use when creating a new card"
               }
             }
           }
