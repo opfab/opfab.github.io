@@ -300,11 +300,6 @@ window.swaggerSpec={
           "description" : "The date the card was published (meaning created by the card service)",
           "readOnly" : true
         },
-        "deletionDate" : {
-          "$ref" : "#/definitions/EpochDate",
-          "description" : "The date the card was deleted",
-          "readOnly" : true
-        },
         "lttd" : {
           "$ref" : "#/definitions/EpochDate",
           "description" : "Last time to decide, after this date no action can be triggered on the card"
@@ -420,7 +415,6 @@ window.swaggerSpec={
         "processInstanceId" : "MyProcess_001",
         "state" : "started",
         "publishDate" : 1546300800000,
-        "deletionDate" : 1546388200000,
         "lttd" : 1546387230000,
         "startDate" : 1546387200000,
         "endDate" : 1546387250000,
