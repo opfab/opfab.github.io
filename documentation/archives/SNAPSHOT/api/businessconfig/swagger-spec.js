@@ -392,6 +392,50 @@ window.swaggerSpec={
           }
         }
       }
+    },
+    "/businessconfig/processgroups" : {
+      "get" : {
+        "summary" : "Get the groups of processes",
+        "description" : "Get the groups of processes",
+        "operationId" : "getProcessgroups",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ProcessGroups"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Upload file defining the groups of processes",
+        "description" : "Upload file defining the groups of processes. This file must be in json format and is saved to disk, under the name 'processGroups.json'.",
+        "operationId" : "uploadProcessgroups",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "file to upload",
+          "required" : true,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Successful creation"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -651,6 +695,54 @@ window.swaggerSpec={
       "description" : "Response button color >\n* RED - The button will be red in the template\n* GREEN - The button will be green in the template\n* YELLOW - The button will be yellow in the template",
       "enum" : [ "RED", "GREEN", "YELLOW" ],
       "example" : "RED"
+    },
+    "ProcessGroup" : {
+      "description" : "Object containing a list of processes.",
+      "properties" : {
+        "id" : {
+          "description" : "Id of the group",
+          "type" : "string"
+        },
+        "processes" : {
+          "description" : "List of processes included in the group",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "required" : [ "id" ],
+      "example" : {
+        "id" : "processgroup1",
+        "processes" : [ "id_process1", "id_process2" ]
+      }
+    },
+    "ProcessGroups" : {
+      "properties" : {
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProcessGroup"
+          }
+        },
+        "locale" : {
+          "type" : "object",
+          "properties" : {
+            "en" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "string"
+              }
+            },
+            "fr" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

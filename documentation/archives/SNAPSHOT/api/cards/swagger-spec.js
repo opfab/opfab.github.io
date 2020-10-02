@@ -936,7 +936,7 @@ window.swaggerSpec={
         "name" : "id",
         "type" : "string",
         "required" : true,
-        "description" : "The id parameter is constructed as follows : {publisher}_{processInstanceId}"
+        "description" : "The id parameter is constructed as follows : {process}.{processInstanceId}"
       } ],
       "delete" : {
         "operationId" : "deleteProcessCard",
