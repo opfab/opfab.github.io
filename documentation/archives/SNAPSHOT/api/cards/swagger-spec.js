@@ -941,8 +941,8 @@ window.swaggerSpec={
       "delete" : {
         "operationId" : "deleteProcessCard",
         "tags" : [ "cards", "deletion" ],
-        "summary" : "delete current card",
-        "description" : "delete current card for process id",
+        "summary" : "delete card",
+        "description" : "delete a card",
         "responses" : {
           "200" : {
             "description" : "OK"
