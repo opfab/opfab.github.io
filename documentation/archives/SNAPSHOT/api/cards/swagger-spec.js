@@ -350,16 +350,14 @@ window.swaggerSpec={
           "$ref" : "#/definitions/Recipient"
         },
         "userRecipients" : {
-          "description" : "Complete list of user recipients at computation time",
-          "readOnly" : true,
+          "description" : "List of user recipients",
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
         "groupRecipients" : {
-          "description" : "Complete list of group recipients at computation time",
-          "readOnly" : true,
+          "description" : "List of group recipients",
           "type" : "array",
           "items" : {
             "type" : "string"

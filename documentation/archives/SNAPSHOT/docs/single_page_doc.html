@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">13 October 2020</span>
+<span id="revdate">14 October 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -781,6 +781,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel4">
 <li><a href="#_businessconfig_service">16.1.2.1. Businessconfig service</a></li>
 <li><a href="#_users_service">16.1.2.2. Users service</a></li>
+<li><a href="#_cards_publication_service">16.1.2.3. Cards-publication service</a></li>
 </ul>
 </li>
 </ul>
@@ -2815,10 +2816,7 @@ start date will be ignored.</p>
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"USER",
-		"identity":"tso1-operator"
-	}
+	"userRecipients": ["tso1-operator"]
 
 }</pre>
 </div>
@@ -2848,10 +2846,7 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"GROUP",
-		"identity":"TSO1"
-	}
+	"groupRecipients": ["TSO1"]
 }</pre>
 </div>
 </div>
@@ -2876,10 +2871,7 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"GROUP",
-        "identity":"TSO1"
-	},
+	"groupRecipients": ["TSO1"],
 	"entityRecipients" : ["ENTITY1"]
 }</pre>
 </div>
@@ -2923,13 +2915,8 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"recipient":{
-	"type":"UNION",
-	"recipients":[
-		{ "type": "GROUP", "identity":"TSO1"},
-		{ "type": "USER", "identity":"tso2-operator"}
-		]
-	}</pre>
+<pre>"groupRecipients": ["TSO1"],
+"userRecipients": ["tso2-operator"]</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2940,11 +2927,20 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"recipient":{"type":"UNION",
+<pre>"groupRecipients": ["TSO1", "TSO2"],
+"userRecipients": ["admin"]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is and alternative way to declare recipients of card, this syntax is more complex and will be deprecated:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"recipient":{
+	"type":"UNION",
 	"recipients":[
-		{"type":"GROUP","identity":"TSO1"},
-		{"type":"GROUP","identity":"TSO2"},
-		{"type":"USER","identity":"admin"}
+		{ "type": "GROUP", "identity":"TSO1"},
+		{ "type": "USER", "identity":"tso2-operator"}
 		]
 	}</pre>
 </div>
@@ -2974,10 +2970,7 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"USER",
-		"identity":"tso1-operator"
-	},
+	"userRecipients": ["tso1-operator"],
 	"data":{
 		"stringExample":"This is a not so random string of characters.",
 		"numberExample":123
@@ -3015,10 +3008,7 @@ configuration.The one presents in the development version of OperatorFabric, for
 	"severity":"INFORMATION",
 	"title":{"key":"process.title"},
 	"summary":{"key":"process.summary"},
-	"recipient":{
-		"type":"USER",
-		"identity":"tso1-operator"
-	},
+	"userRecipients": ["tso1-operator"]
 	"data":{"rootProp":"Data displayed in the detail panel"},
 	"details":[{"title":{"key":"process.detail.tab.first"}, "templateName":"template1"}]
 
@@ -4400,12 +4390,24 @@ users :
 <div class="paragraph">
 <p>To add it to a group name for example "mygroup", you need to make a PATCH request  to end point 'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you don&#8217;t want OperatorFabric to check for user perimeter when responding to a card, you can add the variable "checkPerimeterForResponseCard" and set it to false, in the config file of cards-publication and in web-ui.json.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>11.2. Send a question card</h3>
 <div class="paragraph">
-<p>The question card is like a usual card except that you have a the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card . If the user is not in the entity , he will not be able to respond .</p>
+<p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -4961,6 +4963,36 @@ the type of deployment you&#8217;re looking for.</p>
 </tbody>
 </table>
 </div>
+<div class="sect4">
+<h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>16.1.2.3. Cards-publication service</h5>
+<div class="paragraph">
+<p>The cards-publication service has this specific property :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">checkPerimeterForResponseCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not check that a user has write rights on a process/state to respond to a card</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -5382,6 +5414,12 @@ Currently the <code>application routes</code> are:</p>
 </li>
 </ul>
 </div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">checkPerimeterForResponseCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not check that a user has write rights on a process/state to respond to a card.</p></td>
 </tr>
 </tbody>
 </table>
