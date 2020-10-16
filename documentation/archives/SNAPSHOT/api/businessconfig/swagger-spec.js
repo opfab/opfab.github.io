@@ -669,6 +669,13 @@ window.swaggerSpec={
         "state" : {
           "description" : "The state of the card triggered by the action",
           "type" : "string"
+        },
+        "externalRecipients" : {
+          "description" : "The recipients that should receive the response card",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },
