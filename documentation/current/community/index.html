@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Community</h1>
 <div class="details">
-<span id="revnumber">version 1.6.0.RELEASE,</span>
-<span id="revdate">28 September 2020</span>
+<span id="revnumber">version 1.7.0.RELEASE,</span>
+<span id="revdate">19 October 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -561,7 +561,7 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_code_guidelines">3.2. Code Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_angular_development_caution_and_tooltips">3.2.1. Angular development caution and tooltips</a></li>
+<li><a href="#_angulartypescript_development_caution_and_guidelines">3.2.1. Angular/TypeScript development caution and guidelines</a></li>
 </ul>
 </li>
 <li><a href="#_documentation_guidelines">3.3. Documentation Guidelines</a>
@@ -1204,11 +1204,11 @@ Automatic merge failed; fix conflicts and then commit the result.</pre>
 <div class="listingblock">
 <div class="title">dummy1.txt</div>
 <div class="content">
-<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-Some content from feature 1.
-=======
-Some content that has been changed on develop since Feature 1 branched off.
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; develop</pre>
+<pre> &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ Some content from feature 1.
+ =======
+ Some content that has been changed on develop since Feature 1 branched off.
+ &gt;&gt;&gt;&gt;&gt;&gt;&gt; develop</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1260,13 +1260,12 @@ automatically.</p>
 <p>As of today, only developers from the <code>reviewers</code> group can merge pull requests into <code>develop</code>, but this shouldn&#8217;t
 stop anyone interested in the topic of a PR to comment and review it.</p>
 </div>
-<div id="review_checklist" class="sidebarblock">
-<div class="content">
+<div class="sect5">
+<h6 id="_reviewer_check_list"><a class="anchor" href="#_reviewer_check_list"></a>Reviewer check list</h6>
 <div class="ulist">
 <ul>
 <li>
-<p>The PR comment contains a brief explanation of the impact of these developments, and a pointer
-to the relevant documentation if need be. Otherwise, it should why this development doesn&#8217;t need
+<p>The PR comment contains the text to insert in release note. Otherwise, it should say why this development doesn&#8217;t need
 to be on the release notes.</p>
 </li>
 <li>
@@ -1300,9 +1299,6 @@ logic and not the framework itself)</p>
 <p>API testing via Karate has been updated</p>
 </li>
 <li>
-<p>Cypress UI tests have been updated</p>
-</li>
-<li>
 <p>Documentation has been updated (especially if configuration is needed)</p>
 </li>
 <li>
@@ -1319,13 +1315,48 @@ of making sure that the configuration documentation is correct and easily unders
 <p>Check that the copyright header has been updated on the changed files if need be, and in the case of a first-time
 contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 </li>
+<li>
+<p>Check dependency added to the project to see if there are compliant with opfab licencing.</p>
+</li>
 </ul>
 </div>
 </div>
-</div>
+<div class="sect5">
+<h6 id="_testing_environnement_for_reviewer"><a class="anchor" href="#_testing_environnement_for_reviewer"></a>Testing environnement for reviewer</h6>
 <div class="paragraph">
-<p>If the PR doesn&#8217;t meet some of these criteria, use the GitHub review process to suggest changes and discuss problems
-with the PR author.</p>
+<p>Compile and run OperatorFabric docker images is the most effective way to check any regression.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Pull the submitted branch on a testing machine;</p>
+</li>
+<li>
+<p>Run a <code>docker-compose</code> with the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code> file;</p>
+</li>
+<li>
+<p>Create <code>SNAPSHOT</code> docker images, from the <code>${OF_HOME}</code> directory with the following command: <code>./gradlew clean dockerTagSNAPSHOT</code>;</p>
+</li>
+<li>
+<p>Stop the <code>test-environment</code> docker-compose;</p>
+</li>
+<li>
+<p>Go to <code>${OF_HOME}/config/docker</code>;</p>
+</li>
+<li>
+<p>Run the <code>./docker-compose.sh</code> script (or use the <code>docker-compose.yml</code> with a <code>docker-compose</code> command);</p>
+</li>
+<li>
+<p>Go to <code>${OF_HOME}/src/test/utils/karate</code>;</p>
+</li>
+<li>
+<p>Run the following scripts: <code>./loadBundle.sh &amp;&amp; ./setPerimeterForTest.sh &amp;&amp; ./postTestCards.sh</code>;</p>
+</li>
+<li>
+<p>Open the front-end in a browser and look for any regression.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect4">
@@ -1396,11 +1427,14 @@ to have to maintain these mentions (since this information is tracked by git any
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_angular_development_caution_and_tooltips"><a class="anchor" href="#_angular_development_caution_and_tooltips"></a>3.2.1. Angular development caution and tooltips</h4>
+<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>3.2.1. Angular/TypeScript development caution and guidelines</h4>
 <div class="ulist">
 <ul>
 <li>
-<p>Use !!myVariable to test if a variable is undefined or null</p>
+<p>Use <code>!!myVariable</code> to test if a variable is undefined or null</p>
+</li>
+<li>
+<p>Use <code>foreach</code> to iterate over an array (instead of <code>for(let i = ..</code>) . In some cases, foreach do not work and you can use it this way <code>Array.prototype.forEach.call(myArray, element &#8658; &#8230;&#8203;. )</code> (see <a href="https://stackoverflow.com/questions/43743560/foreach-vs-array-prototype-foreach-call" class="bare">stackoverflow.com/questions/43743560/foreach-vs-array-prototype-foreach-call</a>)</p>
 </li>
 <li>
 <p>Do not use ngFor / ngIf  with methods with computing as angular will call these methods very regularly

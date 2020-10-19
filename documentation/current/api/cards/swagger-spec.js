@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric Card Consumer Service",
-    "version" : "1.6.0.RELEASE",
+    "version" : "1.7.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -300,11 +300,6 @@ window.swaggerSpec={
           "description" : "The date the card was published (meaning created by the card service)",
           "readOnly" : true
         },
-        "deletionDate" : {
-          "$ref" : "#/definitions/EpochDate",
-          "description" : "The date the card was deleted",
-          "readOnly" : true
-        },
         "lttd" : {
           "$ref" : "#/definitions/EpochDate",
           "description" : "Last time to decide, after this date no action can be triggered on the card"
@@ -355,16 +350,14 @@ window.swaggerSpec={
           "$ref" : "#/definitions/Recipient"
         },
         "userRecipients" : {
-          "description" : "Complete list of user recipients at computation time",
-          "readOnly" : true,
+          "description" : "List of user recipients",
           "type" : "array",
           "items" : {
             "type" : "string"
           }
         },
         "groupRecipients" : {
-          "description" : "Complete list of group recipients at computation time",
-          "readOnly" : true,
+          "description" : "List of group recipients",
           "type" : "array",
           "items" : {
             "type" : "string"
@@ -420,7 +413,6 @@ window.swaggerSpec={
         "processInstanceId" : "MyProcess_001",
         "state" : "started",
         "publishDate" : 1546300800000,
-        "deletionDate" : 1546388200000,
         "lttd" : 1546387230000,
         "startDate" : 1546387200000,
         "endDate" : 1546387250000,
@@ -942,13 +934,13 @@ window.swaggerSpec={
         "name" : "id",
         "type" : "string",
         "required" : true,
-        "description" : "The id parameter is constructed as follows : {publisher}_{processInstanceId}"
+        "description" : "The id parameter is constructed as follows : {process}.{processInstanceId}"
       } ],
       "delete" : {
         "operationId" : "deleteProcessCard",
         "tags" : [ "cards", "deletion" ],
-        "summary" : "delete current card",
-        "description" : "delete current card for process id",
+        "summary" : "delete card",
+        "description" : "delete a card",
         "responses" : {
           "200" : {
             "description" : "OK"

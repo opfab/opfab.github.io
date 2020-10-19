@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 1.6.0.RELEASE,</span>
-<span id="revdate">28 September 2020</span>
+<span id="revnumber">version 1.7.0.RELEASE,</span>
+<span id="revdate">19 October 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -612,6 +612,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#times">3.2.1.13. times</a></li>
 <li><a href="#toBreakage">3.2.1.14. toBreakage</a></li>
 <li><a href="#keyValue">3.2.1.15. keyValue</a></li>
+<li><a href="#_keepspacesandendofline">3.2.1.16. keepSpacesAndEndOfLine</a></li>
 </ul>
 </li>
 <li><a href="#_charts">3.2.2. Charts</a></li>
@@ -926,7 +927,7 @@ A color is associated in the GUI to each severity. Here the details about severi
 <div class="sect5">
 <h6 id="_last_time_to_decide_lttd"><a class="anchor" href="#_last_time_to_decide_lttd"></a>Last Time to Decide (<code>lttd</code>)</h6>
 <div class="paragraph">
-<p>Fixes the moment until when a <code>response</code> is possible for the card. After this moment, the response button won&#8217;t be useable. When lttd time is approaching, a clock is visible on the card in the feed with the residual time.</p>
+<p>Fixes the moment until when a <code>response</code> is possible for the card. After this moment, the response button won&#8217;t be useable. When lttd time is approaching, a clock is visible on the card in the feed with the residual time.  The lttd time can be set for cards that don&#8217;t expect any response</p>
 </div>
 </div>
 </div>
@@ -954,12 +955,6 @@ A color is associated in the GUI to each severity. Here the details about severi
 <h6 id="_publish_date_publishdate"><a class="anchor" href="#_publish_date_publishdate"></a>Publish Date (<code>publishDate</code>)</h6>
 <div class="paragraph">
 <p>Indicates when the card has been registered in <code>OperatorFabric</code> system. This is a technical information exclusively managed by <code>OperatorFabric</code>.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_deletion_date_deletiondate"><a class="anchor" href="#_deletion_date_deletiondate"></a>Deletion Date (`deletionDate°)</h6>
-<div class="paragraph">
-<p>Indicates when the card has been removes from <code>OperatorFabric</code> system. Technical information manage by <code>OperatorFabric</code>.</p>
 </div>
 </div>
 </div>
@@ -1112,10 +1107,7 @@ start date will be ignored.</p>
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"USER",
-		"identity":"tso1-operator"
-	}
+	"userRecipients": ["tso1-operator"]
 
 }</pre>
 </div>
@@ -1145,10 +1137,7 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"GROUP",
-		"identity":"TSO1"
-	}
+	"groupRecipients": ["TSO1"]
 }</pre>
 </div>
 </div>
@@ -1173,10 +1162,7 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"GROUP",
-        "identity":"TSO1"
-	},
+	"groupRecipients": ["TSO1"],
 	"entityRecipients" : ["ENTITY1"]
 }</pre>
 </div>
@@ -1220,13 +1206,8 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"recipient":{
-	"type":"UNION",
-	"recipients":[
-		{ "type": "GROUP", "identity":"TSO1"},
-		{ "type": "USER", "identity":"tso2-operator"}
-		]
-	}</pre>
+<pre>"groupRecipients": ["TSO1"],
+"userRecipients": ["tso2-operator"]</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1237,11 +1218,20 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"recipient":{"type":"UNION",
+<pre>"groupRecipients": ["TSO1", "TSO2"],
+"userRecipients": ["admin"]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is and alternative way to declare recipients of card, this syntax is more complex and will be deprecated:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"recipient":{
+	"type":"UNION",
 	"recipients":[
-		{"type":"GROUP","identity":"TSO1"},
-		{"type":"GROUP","identity":"TSO2"},
-		{"type":"USER","identity":"admin"}
+		{ "type": "GROUP", "identity":"TSO1"},
+		{ "type": "USER", "identity":"tso2-operator"}
 		]
 	}</pre>
 </div>
@@ -1271,10 +1261,7 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"recipient":{
-		"type":"USER",
-		"identity":"tso1-operator"
-	},
+	"userRecipients": ["tso1-operator"],
 	"data":{
 		"stringExample":"This is a not so random string of characters.",
 		"numberExample":123
@@ -1312,10 +1299,7 @@ configuration.The one presents in the development version of OperatorFabric, for
 	"severity":"INFORMATION",
 	"title":{"key":"process.title"},
 	"summary":{"key":"process.summary"},
-	"recipient":{
-		"type":"USER",
-		"identity":"tso1-operator"
-	},
+	"userRecipients": ["tso1-operator"]
 	"data":{"rootProp":"Data displayed in the detail panel"},
 	"details":[{"title":{"key":"process.detail.tab.first"}, "templateName":"template1"}]
 
@@ -1414,20 +1398,6 @@ All elements except the <code>config.json file</code> are optional.</p>
   },
   <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultLocale</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">templates</span><span class="delimiter">&quot;</span></span>: [
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">unschedulledPeriodicOp</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>
-  ],
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">csses</span><span class="delimiter">&quot;</span></span>: [
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">tabs</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">accordions</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">filter</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">operations</span><span class="delimiter">&quot;</span></span>,
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>
-  ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">menuLabel</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.label</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>: [
     {
@@ -1475,9 +1445,6 @@ field that will be matched to businessconfig configuration for correct rendering
 </li>
 <li>
 <p>states  : list the available  states; actions and templates are associated to states, in the same way is the possibility of making the cards enabled for being acknowledged by user;</p>
-</li>
-<li>
-<p>css file template list as <code>csses</code>;</p>
 </li>
 <li>
 <p>menuLabel in the main bar menu as <code>i18nLabelKey</code>: optional, used if the businessconfig service add one or several entry in
@@ -1794,7 +1761,10 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <div class="content">
 <pre>{
 	…
-	"csses":["bundleTest"]
+    "states" : {
+            "state1" : {
+                  …
+	                "styles":["bundleTest"]
 	…
 }</pre>
 </div>
@@ -1889,9 +1859,6 @@ curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/jso
   "id":"BUNDLE_TEST"
   "name": "BUNDLE_TEST",
   "version": "1",
-  "csses": [
-    "bundleTest"
-  ],
   "i18nLabelKey": "businessconfig-name-in-menu-bar",
   "menuEntries": [
     {
@@ -2512,6 +2479,22 @@ users :
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_keepspacesandendofline"><a class="anchor" href="#_keepspacesandendofline"></a>3.2.1.16. keepSpacesAndEndOfLine</h5>
+<div class="paragraph">
+<p>Convert a string to a light HTML by replacing :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>each new line character with &lt;br/&gt;</p>
+</li>
+<li>
+<p>spaces with &amp;nbsp; when there is at least two consecutive spaces.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.2. Charts</h4>
@@ -2568,6 +2551,9 @@ users :
            }"</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The name to use for the third-party is the publisherId of the parent card.</p>
+</div>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -2594,18 +2580,13 @@ users :
   "id": "defaultProcess",
   "name": "Test",
   "version": "1",
-  "templates": [
-    "question"
-  ],
-  "csses": [
-    "style"
-  ],
   "states": {
     "questionState": {
       "name": "question.title",
       "color": "#8bcdcd",
       "response": {
         "state": "responseState",
+        "externalRecipients":["externalRecipient1", "externalRecipient2"],
         "btnColor": "GREEN",
         "btnText": {
           "key": "question.button.text"
@@ -2635,6 +2616,9 @@ users :
 <ul>
 <li>
 <p>The field "state" in the response field is used to define the state to use for the response (the child card).</p>
+</li>
+<li>
+<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
 </li>
 <li>
 <p>The field "btnColor" define the color of the submit button for the response, it is optional and there is 3 possibilities : RED , GREEN , YELLOW</p>
@@ -2701,12 +2685,24 @@ users :
 <div class="paragraph">
 <p>To add it to a group name for example "mygroup", you need to make a PATCH request  to end point 'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you don&#8217;t want OperatorFabric to check for user perimeter when responding to a card, you can add the variable "checkPerimeterForResponseCard" and set it to false, in the config file of cards-publication and in web-ui.json.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>4.2. Send a question card</h3>
 <div class="paragraph">
-<p>The question card is like a usual card except that you have a the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card . If the user is not in the entity , he will not be able to respond .</p>
+<p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
 </div>
 <div class="literalblock">
 <div class="content">

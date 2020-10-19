@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric User Management API",
-    "version" : "1.6.0.RELEASE",
+    "version" : "1.7.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -343,20 +343,20 @@ window.swaggerSpec={
           "name" : "user",
           "description" : "User to be created",
           "schema" : {
-            "$ref" : "#/definitions/SimpleUser"
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "OK (user already existed so it was updated)",
             "schema" : {
-              "$ref" : "#/definitions/SimpleUser"
+              "$ref" : "#/definitions/User"
             }
           },
           "201" : {
             "description" : "Created",
             "schema" : {
-              "$ref" : "#/definitions/SimpleUser"
+              "$ref" : "#/definitions/User"
             }
           },
           "400" : {
@@ -421,20 +421,20 @@ window.swaggerSpec={
           "name" : "user",
           "description" : "User to be updated (login should match path parameter)",
           "schema" : {
-            "$ref" : "#/definitions/SimpleUser"
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/SimpleUser"
+              "$ref" : "#/definitions/User"
             }
           },
           "201" : {
             "description" : "Created",
             "schema" : {
-              "$ref" : "#/definitions/SimpleUser"
+              "$ref" : "#/definitions/User"
             }
           },
           "400" : {
