@@ -193,10 +193,6 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "User login"
         },
-        "email" : {
-          "type" : "string",
-          "description" : "User email"
-        },
         "description" : {
           "type" : "string",
           "description" : "Free user description label (ex: organization role)"
@@ -208,18 +204,6 @@ window.swaggerSpec={
         "locale" : {
           "type" : "string",
           "description" : "User using browser format"
-        },
-        "timeFormat" : {
-          "type" : "string",
-          "description" : "Time formatting (See https://momentjs.com)"
-        },
-        "dateFormat" : {
-          "type" : "string",
-          "description" : "Date formatting (See https://momentjs.com)"
-        },
-        "dateTimeFormat" : {
-          "type" : "string",
-          "description" : "Date Time formatting (See https://momentjs.com). If not set dateFormat and timeFormat are used to deduce date time format."
         },
         "defaultTags" : {
           "type" : "array",
@@ -249,12 +233,9 @@ window.swaggerSpec={
       "required" : [ "login" ],
       "example" : {
         "login" : "jcleese",
-        "email" : "john.cleese@monty.python.org",
         "description" : "once played Sir Lancelot",
         "timezone" : "Europe/London",
         "locale" : "en-GB",
-        "timeFormat" : "LT",
-        "dateFormat" : "L",
         "defaultTags" : [ "humor", "movies" ]
       }
     },
