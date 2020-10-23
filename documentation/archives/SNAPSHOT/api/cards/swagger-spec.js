@@ -270,10 +270,19 @@ window.swaggerSpec={
           "description" : "Unique card ID (as defined in the associated process)",
           "readOnly" : true
         },
-        "parentCardUid" : {
+        "parentCardId" : {
           "type" : "string",
-          "description" : "The id of the parent card (optional)",
+          "description" : "The id of the parent card if it's a child card (optional)",
           "readOnly" : true
+        },
+        "initialParentCardUid" : {
+          "type" : "string",
+          "description" : "The uid of the initial parent card if it's a child card (optional). When a card is updated, its id is still the same but not its uid, that's why we store this field initialParentCardUid.",
+          "readOnly" : true
+        },
+        "keepChildCards" : {
+          "type" : "boolean",
+          "description" : "Is true if OperatorFabric must not delete child cards when their parent card is updated"
         },
         "publisher" : {
           "type" : "string",
@@ -586,9 +595,13 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "Is true if the card was read by current user"
         },
-        "parentCardUid" : {
+        "parentCardId" : {
           "type" : "string",
-          "description" : "The uid of its parent card if it's a child card"
+          "description" : "The id of its parent card if it's a child card"
+        },
+        "initialParentCardUid" : {
+          "type" : "string",
+          "description" : "The uid of the initial parent card if it's a child card (optional). When a card is updated, its id is still the same but not its uid, that's why we store this field initialParentCardUid."
         },
         "publisherType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
