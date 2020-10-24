@@ -131,8 +131,8 @@ window.swaggerSpec={
       "required" : [ "id" ],
       "example" : {
         "id" : "ENTITY1",
-        "name" : "Entity 1 name",
-        "description" : "Entity 1 short description"
+        "name" : "Control Room 1",
+        "description" : "Control Room 1"
       }
     },
     "RightsEnum" : {
@@ -941,12 +941,12 @@ window.swaggerSpec={
             "examples" : {
               "application/json" : [ {
                 "id" : "ENTITY1",
-                "name" : "Enity 1 name",
-                "description" : "Entity 1 short description"
+                "name" : "Control Room 1",
+                "description" : "Control Room 1"
               }, {
                 "id" : "ENTITY2",
-                "name" : "Entity 2 name",
-                "description" : "Entity 2 short description"
+                "name" : "Control Room 2",
+                "description" : "Control Room 2"
               } ]
             }
           },

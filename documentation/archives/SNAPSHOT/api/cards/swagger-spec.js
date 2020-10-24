@@ -386,7 +386,7 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           },
-          "example" : [ "tso1", "tso2" ]
+          "example" : [ "Dispatcher", "Planner" ]
         },
         "entityRecipients" : {
           "description" : "List of entity recipients",
@@ -394,7 +394,7 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           },
-          "example" : [ "tso1", "tso2" ]
+          "example" : [ "Dispatcher", "Planner" ]
         },
         "data" : {
           "type" : "object",
@@ -570,7 +570,7 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           },
-          "example" : [ "tso1", "tso2" ]
+          "example" : [ "Dispatcher", "Planner" ]
         },
         "title" : {
           "description" : "Card i18n title",

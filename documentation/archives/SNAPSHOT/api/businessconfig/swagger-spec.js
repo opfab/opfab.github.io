@@ -439,33 +439,6 @@ window.swaggerSpec={
     }
   },
   "definitions" : {
-    "MenuEntry" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "string",
-          "description" : "unique identifier of this menu item for the current process"
-        },
-        "url" : {
-          "type" : "string",
-          "description" : "url of the endpoint for this menu item"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "i18n key for the label of this menu item. The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
-        },
-        "linkType" : {
-          "$ref" : "#/definitions/LinkTypeEnum",
-          "default" : "BOTH",
-          "description" : "link type"
-        }
-      }
-    },
-    "LinkTypeEnum" : {
-      "type" : "string",
-      "enum" : [ "TAB", "IFRAME", "BOTH" ],
-      "description" : "Defines how business menu links are displayed in the navigation bar and how they open. Possible values: * TAB: Only a text link is displayed, and clicking it opens the link in a new tab. * IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below\n  the navigation bar.\n* BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe\n  while clicking the icon opens in a new tab."
-    },
     "Process" : {
       "type" : "object",
       "description" : "Business process definition, also listing available resources",
@@ -532,17 +505,6 @@ window.swaggerSpec={
               "description" : "If this flag is set to true, the cards of this process will be visible on the calendar screen"
             }
           }
-        },
-        "menuLabel" : {
-          "type" : "string",
-          "description" : "i18n key for the label of the menu attached to this process (used in case there are several menuEntries) The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
-        },
-        "menuEntries" : {
-          "type" : "array",
-          "description" : "describes the menu items to add to UI navbar",
-          "items" : {
-            "$ref" : "#/definitions/MenuEntry"
-          }
         }
       },
       "required" : [ "id", "version" ],
@@ -550,16 +512,6 @@ window.swaggerSpec={
         "id" : "some_business_process",
         "name" : "some_business_process.label",
         "version" : "v1.0",
-        "menuLabel" : "some_business_process.menu.label",
-        "menuEntries" : [ {
-          "id" : "website",
-          "url" : "http://www.mybusinessconfigpartyapp.com",
-          "label" : "menu.website"
-        }, {
-          "id" : "status",
-          "url" : "http://www.mybusinessconfigpartyapp.com/status",
-          "label" : "menu.status"
-        } ],
         "initial_state" : {
           "details" : [ {
             "title" : {
