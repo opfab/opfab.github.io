@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 November 2020</span>
+<span id="revdate">03 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -679,14 +679,15 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_card_rendering">10. Card rendering</a>
 <ul class="sectlevel2">
-<li><a href="#_declaring_a_process_and_its_configuration">10.1. Declaring a Process and its configuration</a>
+<li><a href="#_process_declaration_and_configuration">10.1. Process: Declaration and Configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_the_config_json_file">10.1.1. The config.json file</a></li>
-<li><a href="#_i18n">10.1.2. i18n</a>
+<li><a href="#_bundle_as_process_declaration">10.1.1. Bundle as Process declaration</a></li>
+<li><a href="#_the_config_json_file">10.1.2. The config.json file</a></li>
+<li><a href="#_i18n">10.1.3. i18n</a>
 <ul class="sectlevel4">
-<li><a href="#_template_folder">10.1.2.1. Template folder</a></li>
-<li><a href="#_processes_and_states">10.1.2.2. Processes and States</a></li>
-<li><a href="#_upload">10.1.2.3. Upload</a></li>
+<li><a href="#_template_folder">10.1.3.1. Template folder</a></li>
+<li><a href="#_processes_and_states">10.1.3.2. Processes and States</a></li>
+<li><a href="#_upload">10.1.3.3. Upload</a></li>
 </ul>
 </li>
 </ul>
@@ -3040,57 +3041,65 @@ several languages are supported.  Configuration is done via files zipped in a "b
 to the third-party application) that can be integrated either as iframe or external links.</p>
 </div>
 <div class="sect2">
-<h3 id="_declaring_a_process_and_its_configuration"><a class="anchor" href="#_declaring_a_process_and_its_configuration"></a>10.1. Declaring a Process and its configuration</h3>
+<h3 id="_process_declaration_and_configuration"><a class="anchor" href="#_process_declaration_and_configuration"></a>10.1. Process: Declaration and Configuration</h3>
 <div class="paragraph">
-<p>The business configuration for processes is declared in the form of a bundle, as described below.
-Once this bundle fully created, it must be uploaded to the server through the Businessconfig service.</p>
+<p>To declare and configure a <code>Process</code>, OperatorFabric uses <code>bundles</code>.
+This section describes their content and how to use them.
+An <code>OperatorFabric Process</code> is a way to define a business configuration.
+Once this bundle fully created, it must be uploaded to the server through the <code>Businessconfig service</code>.</p>
 </div>
 <div class="paragraph">
-<p>The way configuration is done is explained with examples before a more technical review of the configuration details.
-The following instructions describe tests to perform on OperatorFabric to understand how customization is working in it.
-The card data used here are sent automatically using a script as described
+<p>Some examples show how to configure a <code>process</code> using a <code>bundle</code> before diving in more technical details of the configuration.
+The following instructions describe tests to perform on OperatorFabric to understand how customizations are possible.
+The cards used in the examples of this section are automatically sent by a script described
 <a href="#card_sending_script">here</a></p>
 </div>
+<div class="sect3">
+<h4 id="_bundle_as_process_declaration"><a class="anchor" href="#_bundle_as_process_declaration"></a>10.1.1. Bundle as Process declaration</h4>
 <div class="paragraph">
-<p>A bundle contains all the configuration regarding a given business process, describing for example the various steps
-of the process but also how the associated cards and card details should be displayed.
-Those <code>tar.gz</code> archives contain a descriptor file
-named <code>config.json</code>, eventually some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> to do so.</p>
+<p>A bundle contains all the configuration regarding a given business process, describing for example the various steps of the process but also how the associated cards and card details should be displayed.</p>
 </div>
 <div class="paragraph">
-<p>For didactic purposes, in this section, the businessconfig name is <code>BUNDLE_TEST</code> (to match the parameters used by the script).
-This bundle is localized for <code>en</code> and <code>fr</code>.</p>
+<p>Bundle are technically <code>tar.gz</code> archives containing at least a descriptor file named <code>config.json</code>.
+To display the card date, some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> must be added.</p>
 </div>
 <div class="paragraph">
-<p>As detailed in the <code>Businessconfig core service README</code> the bundle contains at least a metadata file called <code>config.json</code>,
-a <code>css</code> folder, an <code>i18n</code> folder and a <code>template</code> folder.
-All elements except the <code>config.json file</code> are optional.</p>
+<p>For didactic purposes, in this section, the businessconfig bundle name is <code>BUNDLE_TEST</code> (to match the parameters used by the script).
+The l10n (localization) configurations are english, referred as <code>en</code> and french, referred as <code>fr</code>.</p>
 </div>
 <div class="paragraph">
-<p>The files of this example are organized as below:</p>
+<p>As detailed in the <code>Businessconfig core service README</code> the bundle contains at least a metadata file called <code>config.json</code>, a <code>css</code> folder, an <code>i18n</code> folder and a <code>template</code> folder.</p>
 </div>
-<div class="literalblock">
+<div class="paragraph">
+<p>Except for the <code>config.json file</code>, all elements are optional.</p>
+</div>
+<div class="paragraph">
+<p>The file organization within a bundle:</p>
+</div>
+<div class="listingblock">
 <div class="content">
 <pre>bundle
 ├── config.json
 ├── css
-│   └── bundleTest.css
+│   └── bundleTest.css
 ├── i18n
-│   ├── en.json
-│   └── fr.json
+│   ├── en.json
+│   └── fr.json
 └── template
     ├── en
-    │   ├── template1.handlebars
-    │   └── template2.handlebars
+    │   ├── template1.handlebars
+    │   └── template2.handlebars
     └── fr
         ├── template1.handlebars
         └── template2.handlebars</pre>
 </div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_the_config_json_file"><a class="anchor" href="#_the_config_json_file"></a>10.1.1. The config.json file</h4>
+<h4 id="_the_config_json_file"><a class="anchor" href="#_the_config_json_file"></a>10.1.2. The config.json file</h4>
 <div class="paragraph">
-<p>It&#8217;s a description file in <code>json</code> format. It lists the content of the bundle.</p>
+<p>It&#8217;s a description file in <code>json</code> format.
+It lists the content of the bundle.</p>
 </div>
 <div class="paragraph">
 <p><strong>example</strong></p>
@@ -3128,22 +3137,23 @@ All elements except the <code>config.json file</code> are optional.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>id: id of the process</p>
+<p><code>id</code>: id of the process;</p>
 </li>
 <li>
-<p>name: process name (i18n key);</p>
+<p><code>name</code>: process name (i18n key);</p>
 </li>
 <li>
-<p>version: enable the correct display, even the old ones as all versions are stored by the server. Your <strong>card</strong> has a version
-field that will be matched to businessconfig configuration for correct rendering ;</p>
+<p><code>version</code>: enables the correct display of the card data, even for the old ones.
+The server store the previous versions in its file system.
+This field value should match a businessconfig configuration for a correct rendering;</p>
 </li>
 <li>
-<p>states  : list the available  states; actions and templates are associated to states, in the same way is the possibility of making the cards enabled for being acknowledged by user;</p>
+<p><code>states</code>: lists the available states which each declares associated actions, associated templates and if cards could be acknowledged by users;</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The mandatory declarations are <code>id</code>,'name' and <code>version</code> attributes.</p>
+<p>The mandatory field are <code>id</code>,'name' and <code>version</code>.</p>
 </div>
 <div class="paragraph">
 <p>See the
@@ -3152,182 +3162,161 @@ for details.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_i18n"><a class="anchor" href="#_i18n"></a>10.1.2. i18n</h4>
+<h4 id="_i18n"><a class="anchor" href="#_i18n"></a>10.1.3. i18n</h4>
 <div class="paragraph">
-<p>There are two ways of i18n for businessconfig service. The first one is done using l10n files which are located in the <code>i18n</code>
-folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
+<p>There are two ways of internationalization (i18n) for businessconfig service.
+First one by using l10n files located in the <code>i18n</code> folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
 </div>
 <div class="paragraph">
 <p>The <code>i18n</code> folder contains one json file per l10n.</p>
 </div>
 <div class="paragraph">
-<p>These localisation is used for integration of the businessconfig service into OperatorFabric, i.e. the label displayed for the
-process , the state , the label displayed for each tab of the details of the card, the label of the actions&#8230;&#8203;</p>
+<p>The integration of the businessconfig service into OperatorFabric need this localisation, i.e. the label displayed for the process, the state, the label displayed for the details of the card&#8230;&#8203;</p>
 </div>
 <div class="sect4">
-<h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>10.1.2.1. Template folder</h5>
+<h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>10.1.3.1. Template folder</h5>
 <div class="paragraph">
-<p>The <code>template</code> folder must contain localized folder for the i18n of the card details. This is why in our example, as the bundle is localized for <code>en</code> and <code>fr</code> language, the <code>template</code> folder contains a <code>en</code> and a <code>fr</code> folder.</p>
+<p>The <code>template</code> folder must contain l10n folder for the i18n of the card details.
+This is why in our example, as the bundle contains an <code>en</code> and a <code>fr</code> l10n, the <code>template</code> folder contains an <code>en</code> and a <code>fr</code> folder.</p>
 </div>
 <div class="sect5">
 <h6 id="_i18n_file"><a class="anchor" href="#_i18n_file"></a>i18n file</h6>
 <div class="paragraph">
-<p>If there is no i18n file or key is missing, the i18n key is displayed in OperatorFabric.</p>
+<p>If there is no i18n file or key is missing, OperatorFabric displays i18n key, such as <code>BUNDLE_TEST.1.missing-i18n-key</code>.
+In the case where the bundle declares no i18n key corresponds to <code>missing-i18n-key</code>.</p>
 </div>
 <div class="paragraph">
-<p>The choice of i18n keys is left to the Businessconfig service maintainer. The keys are referenced in the following places:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>config.json</code> file:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><code>i18nLabelKey</code>: key used for the label for the businessconfig service displayed in the main menu bar of OperatorFabric;</p>
-</li>
-<li>
-<p><code>label</code> of <code>menu entry declaration</code>: key used to l10n the <code>menu entries</code> declared by the Businessconfig party in the bundle;</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><code>card data</code>: values of <code>card title</code> and <code>card summary</code> refer to <code>i18n keys</code> as well as <code>key attribute</code> in the
-<code>card detail</code> section of the card data.</p>
-</li>
-</ul>
+<p>The choice of i18n keys is up to the maintainer of the Businessconfig process.</p>
 </div>
 <div class="paragraph">
-<p><strong>example</strong></p>
+<p><strong>Example</strong></p>
 </div>
 <div class="paragraph">
-<p>So in this example the process is named <code>Bundle Test</code> with <code>BUNDLE_TEST</code> technical name. The bundle provide an
-english and a french l10n.</p>
+<p>For this example, the name of the process is  <code>Bundle Test</code> and its technical name is <code>BUNDLE_TEST</code>.
+The bundle provides an english and a french l10n.</p>
 </div>
 <div class="paragraph">
-<p>The example bundle defined an new menu entry given access to 3 entries. The title and the summary have to be l10n,
-so needs to be the 2 tabs titles.</p>
-</div>
-<div class="paragraph">
-<p>The name of the process as displayed in the main menu bar of OperatorFabric. It will have the key
-<code>"businessconfig-name-in-menu-bar"</code>. The english l10n will be <code>Bundle Test</code> and the french one will be <code>Bundle de test</code>.</p>
-</div>
-<div class="paragraph">
-<p>A name for the three entries in the process entry menu. Their keys will be in order <code>"first-menu-entry"</code>, <code>"b-menu-entry"</code> and <code>"the-other-menu-entry"</code> for an english l10n as <code>Entry One</code>, <code>Entry Two</code> and <code>Entry Three</code> and in french as <code>Entrée une</code>, <code>Entrée deux</code> and <code>Entrée trois</code>.</p>
-</div>
-<div class="paragraph">
-<p>The title for the card and its summary. As the card used here are generated by the script of the <code>cards-publication</code> project we have to used the key declared there. So they are respectively <code>process.title</code> and <code>process.summary</code> with the following l10ns for english: <code>Card Title</code> and <code>Card short description</code>, and for french l10ns: <code>Titre de la carte</code> and <code>Courte description de la carte</code>.</p>
-</div>
-<div class="paragraph">
-<p>A title for each (two of them) tab of the detail cards. As for card title and card summary, those keys are already defined by the test script. There are <code>"process.detail.tab.first"</code> and <code>"process.detail.tab.second"</code>. For english l10n, the values are <code>First Detail List</code> and <code>Second Detail List</code> and for the french l10n, the values are <code>Première liste de détails</code> and <code>Seconde liste de détails</code>.</p>
+<p>Title and summary have to be localized.</p>
 </div>
 <div class="paragraph">
 <p>Here is the content of <code>en.json</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	"businessconfig-name-in-menu-bar":"Bundle Test",
-		"first-menu-entry":"Entry One",
-		"b-menu-entry":"Entry Two",
-		"the-other-menu-entry":"Entry Three",
-		"process":{
-			"title":"Card Title",
-			"summary":"Card short description",
-			"detail":{
-				"tab":{
-					"first":"First Detail List",
-					"second":"Second Detail List"
-				}
-			}
-		}
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Process {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">This sums up the content of the card: {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">card title</span><span class="delimiter">&quot;</span></span>
+    }
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test Process</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test State</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Asset details</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Here the content of <code>fr.json</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	"businessconfig-name-in-menu-bar":"Bundle de test",
-		"first-menu-entry":"Entrée une",
-		"b-menu-entry":"Entrée deux",
-		"the-other-menu-entry":"Entrée trois",
-		"process":{
-			"title":"Titre de la carte",
-			"summary":"Courte description de la carte",
-			"detail":{
-				"tab":{
-					"first":"Première liste de détails",
-					"second":"Deuxième liste de détails"
-				}
-			}
-		}
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>:{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Processus {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Cela résume la carte: {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Titre de la carte</span><span class="delimiter">&quot;</span></span>
+    }
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>:{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Processus de test</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">State de test</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menu</span><span class="delimiter">&quot;</span></span>:{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Menu du Processus de Test</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">Documentation Operator Fabric</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">second</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">LF Energy</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Onglet TEST</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Once the bundle is correctly uploaded, the way to verify if the i18n have been correctly uploaded is to use the GET 
-method of businessconfig api for i18n file.</p>
-</div>
-<div class="paragraph">
-<p>The endpoint is described
+<p>To check the i18n, after the upload of the bundle, use a <code>GET</code> request against the <code>businessconfig</code> service.
+The simpler is to ask for the i18n file, as described
 <a href="../api/businessconfig/index.html#/businessconfig/getI18n">here</a>
 .</p>
 </div>
 <div class="paragraph">
-<p>The <code>locale</code> language, the <code>version</code> of the bundle and the <code>technical name</code> of the businessconfig party are needed to get
-json in the response.</p>
+<p>Set the <code>locale</code> language, the <code>version</code> of the bundle and the <code>technical name</code> of the businessconfig party to get json in the response.</p>
 </div>
 <div class="paragraph">
-<p>To verify if the french l10n data of the version 1 of the BUNDLE_TEST businessconfig party we could use the following
-command line</p>
+<p>For example, to check if the french l10n data of the version 1 of the <code>BUNDLE_TEST</code> businessconfig party use the following command line:</p>
 </div>
-<div class="paragraph">
-<p><code>curl -X GET "http://localhost:2100/businessconfig/BUNDLE_TEST/i18n?locale=fr&amp;version=1" -H  "accept: application/json"</code></p>
-</div>
-<div class="paragraph">
-<p>The service response with a 200 status and with the json corresponding to the defined fr.json file show below.</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-"businessconfig-name-in-menu-bar":"Bundle de test",
-"first-menu-entry":"Entrée une",
-"b-menu-entry":"Entrée deux",
-"the-other-menu-entry":"Entrée trois",
-"tests":{
-	"title":"Titre de la carte",
-	"summary":"Courte description de la carte",
-	"detail":{
-		"tab":{
-			"first":"Première liste de détails",
-			"second":"Deuxième liste de détails"
-			}
-		}
-}
-}</pre>
+<pre>curl "http://localhost:2100/businessconfig/processes/BUNDLE_TEST/i18n?locale=fr&amp;version=1" \
+-H  "Authorization: Bearer ${token}"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid token for operatorfabric use.</p>
+</div>
+<div class="paragraph">
+<p>The <code>businessconfig</code> service should answer with a 200 status associated with the following json:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Process {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">This sums up the content of the card: {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">card title</span><span class="delimiter">&quot;</span></span>
+    }
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test Process</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test State</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Asset details</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_processes_and_states"><a class="anchor" href="#_processes_and_states"></a>10.1.2.2. Processes and States</h5>
+<h5 id="_processes_and_states"><a class="anchor" href="#_processes_and_states"></a>10.1.3.2. Processes and States</h5>
 <div class="paragraph">
-<p>Processes and their states allows to match a Businessconfig Party service process specific state to a list of templates for card details and
-actions allowing specific card rendering for each state of the business process.</p>
+<p>Each Process declares associated states.
+Each state declares specific templates for card details and specific actions.</p>
 </div>
 <div class="paragraph">
 <p>The purpose of this section is to display elements of businessconfig card data in a custom format.</p>
 </div>
 <div class="paragraph">
-<p>Regarding the card detail customization, all the examples in this section will be based on the cards generated by the script existing in the <code>Cards-Publication</code> project. For the examples given here, this script is run with arguments detailed in the following command line:</p>
+<p>Regarding the card detail customization, all the examples in this section refer to the cards generated by the script existing in the <code>Cards-Publication</code> project.
+For the examples given here, run this script  with arguments detailed in the following command line:</p>
 </div>
-<div id="card_sending_script" class="literalblock">
+<div id="card_sending_script" class="listingblock">
 <div class="content">
-<pre>$OPERATOR_FABRIC_HOME/services/core/cards-publication/src/main/bin/push_card_loop.sh</pre>
+<pre>$OPERATOR_FABRIC_HOME/services/core/cards-publication/src/main/bin/push_card_loop.sh BUNDLE_TEST tests</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3336,7 +3325,7 @@ actions allowing specific card rendering for each state of the business process.
 <div class="ulist">
 <ul>
 <li>
-<p><code>$OPERATOR_FABRIC_HOME</code> is the root folder of OperatorFabric where tests are performed;</p>
+<p><code>$OPERATOR_FABRIC_HOME</code> is the root folder of OperatorFabric used to perform tests;</p>
 </li>
 <li>
 <p><code>BUNDLE_TEST</code> is the name of the Businessconfig party;</p>
@@ -3350,80 +3339,71 @@ actions allowing specific card rendering for each state of the business process.
 <h6 id="_configuration"><a class="anchor" href="#_configuration"></a>configuration</h6>
 <div class="paragraph">
 <p>The process entry in the configuration file is a dictionary of processes, each key maps to a process definition.
-A process definition is itself a dictionary of states, each key maps to a state definition. A state is defined by:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a list of details: details are a combination of an internationalized title (title), css class styling element
-(titleStyle) and a template reference</p>
-</li>
-<li>
-<p>a dictionary of actions: actions are described below</p>
-</li>
-</ul>
+A process definition is itself a dictionary of states, each key maps to a state definition.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_templates"><a class="anchor" href="#_templates"></a>Templates</h6>
 <div class="paragraph">
-<p>For demonstration purposes, there will be two simple templates. For more advance feature go to the section detailing the handlebars templates in general and helpers available in OperatorFabric.
+<p>For demonstration purposes, there will be two simple templates.
+For more advance feature go to the section detailing the handlebars templates and associated helpers available in OperatorFabric.
 As the card used in this example are created
 <a href="#card_sending_script">above</a>
 , the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
 </div>
 <div class="paragraph">
-<p>examples of template (i18n versions)</p>
+<p><strong>Examples of template (i18n versions)</strong></p>
+</div>
+<div class="paragraph">
+<p>The following templates display a l10n title and a line containing the value of the scope property <code>card.level1.level1Prop</code>.
+In english, the translation of this key is '<em>This is a root property</em>'.</p>
 </div>
 <div class="paragraph">
 <p><code>/template/en/template1.handlers</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Template Number One&lt;/h2&gt;
-&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Template Number One<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>/template/fr/template1.handlers</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Patron numéro Un&lt;/h2&gt;
-&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Patron numéro Un<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Those templates display a l10n title and an line containing the value of the scope property <code>card.level1.level1Prop</code> which is <code>This is a root property</code>.</p>
+<p>The two following template examples display also a l10n title and a list of numeric values from 1 to 3.</p>
 </div>
 <div class="paragraph">
 <p><code>/template/en/template2.handelbars</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Second Template&lt;/h2&gt;
-&lt;ul class="bundle-test-list"&gt;
-	{{#each card.data.level1.level1Array}}
-		&lt;li class="bunle-test-list-item"&gt;{{this.level1ArrayProp}}&lt;/li&gt;
-	{{/each}}
-&lt;/ul&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second Template<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        {{#each card.data.level1.level1Array}}
+                <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
+        {{/each}}
+<span class="tag">&lt;/ul&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>/template/fr/template2.handelbars</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Second patron&lt;/h2&gt;
-&lt;ul class="bundle-test-list"&gt;
-	{{#each card.data.level1.level1Array}}
-		&lt;li class="bunle-test-list-item"&gt;{{this.level1ArrayProp}}&lt;/li&gt;
-	{{/each}}
-&lt;/ul&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second patron<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        {{#each card.data.level1.level1Array}}
+                <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
+        {{/each}}
+<span class="tag">&lt;/ul&gt;</span></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Those templates display also a l10n title and a list of numeric values from 1 to 3.</p>
 </div>
 </div>
 <div class="sect5">
@@ -3440,26 +3420,26 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <div class="paragraph">
 <p><strong>Declaration of css files in <code>config.json</code> file</strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	…
-    "states" : {
-            "state1" : {
-                  …
-	                "styles":["bundleTest"]
-	…
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="json">{
+        <span class="error">…</span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span> : {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">state1</span><span class="delimiter">&quot;</span></span> : {
+                  <span class="error">…</span>
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest</span><span class="delimiter">&quot;</span></span>]
+        <span class="error">…</span>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><strong>CSS Class used in <code>./template/en/template1.handlebars</code></strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>	…
-	&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;
-	…</pre>
+<pre class="CodeRay highlight"><code data-lang="html">        …
+        <span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span>
+        …</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3468,12 +3448,12 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <div class="paragraph">
 <p><strong>Style declaration in <code>./css/bundleTest.css</code></strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>.h2{
-	color:#fd9312;
-	font-weight: bold;
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="css"><span class="class">.h2</span>{
+        <span class="key">color</span>:<span class="color">#fd9312</span>;
+        <span class="key">font-weight</span>: <span class="value">bold</span>;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3488,19 +3468,22 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_upload"><a class="anchor" href="#_upload"></a>10.1.2.3. Upload</h5>
+<h5 id="_upload"><a class="anchor" href="#_upload"></a>10.1.3.3. Upload</h5>
 <div class="paragraph">
-<p>For this, the bundle is submitted to the OperatorFabric server using a POST http method as described in the
+<p>To upload a bundle to the OperatorFabric server use a <code>POST</code> http request as described in the
 <a href="../api/businessconfig/.html#/businessconfig/uploadBundle">Businessconfig Service API documentation</a>
 .</p>
 </div>
 <div class="paragraph">
-<p>Example :</p>
+<p><strong>Example</strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>cd $BUNDLE_FOLDER
-curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/json" -H  "Content-Type: multipart/form-data" -F "file=@bundle-test.tar.gz;type=application/gzip"</pre>
+<pre>cd ${BUNDLE_FOLDER}
+curl -X POST "http://localhost:2100/businessconfig/processes"\
+	-H  "accept: application/json"\
+	-H  "Content-Type: multipart/form-data"\
+	-F "file=@bundle-test.tar.gz;type=application/gzip"</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3509,7 +3492,7 @@ curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/jso
 <div class="ulist">
 <ul>
 <li>
-<p><code>$BUNDLE_FOLDER</code> is the folder containing the bundle archive to be uploaded.</p>
+<p><code>${BUNDLE_FOLDER}</code> is the folder containing the bundle archive to be uploaded.</p>
 </li>
 <li>
 <p><code>bundle-test.tar.gz</code> is the name of the uploaded bundle.</p>
@@ -3517,43 +3500,43 @@ curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/jso
 </ul>
 </div>
 <div class="paragraph">
-<p>These command line should return a <code>200 http status</code> response with the details of the of the bundle in the response body such as :</p>
+<p>These command line should return a <code>200 http status</code> response with the details of the bundle in the response body such as :</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-  "id":"BUNDLE_TEST"
-  "name": "BUNDLE_TEST",
-  "version": "1",,
-  "states" : {
-          "start" : {
-            "details" : [ {
-              "title" : {
-                "key" : "start.first.title"
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">BUNDLE_TEST</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BUNDLE_TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span> : {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">start</span><span class="delimiter">&quot;</span></span> : {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [ {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">start.first.title</span><span class="delimiter">&quot;</span></span>
               },
-              "titleStyle" : "startTitle text-danger",
-              "templateName" : "template1"
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">startTitle text-danger</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>
             } ]
 
           },
-          "end" : {
-            "details" : [ {
-              "title" : {
-                "key" : "end.first.title"
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">end</span><span class="delimiter">&quot;</span></span> : {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [ {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">end.first.title</span><span class="delimiter">&quot;</span></span>
               },
-              "titleStyle" : "startTitle text-info",
-              "templateName" : "template2",
-              "styles" : [ "bundleTest.css" ]
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">startTitle text-info</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest.css</span><span class="delimiter">&quot;</span></span> ]
             } ]
           }
       }
-}</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Otherwise please refer to the
+<p>For further help check the
 <a href="#troubleshooting_bundle">Troubleshooting</a>
-section to resolve the problem.</p>
+section which resumes how to resolve common problems.</p>
 </div>
 </div>
 </div>
@@ -4596,25 +4579,36 @@ for more details to use this feature.</p>
 <div class="sect2">
 <h3 id="_ui_configuration"><a class="anchor" href="#_ui_configuration"></a>14.1. UI configuration</h3>
 <div class="paragraph">
-<p>The web-ui.json file permit to configure parameters for customization , the list of parameters is
-<a href="../deployment/index.html#ui_properties">described here</a></p>
+<p>To customize the UI, declare specific parameters in the <code>web-ui.json</code> file as <a href="../deployment/index.html#ui_properties">listed here</a></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="menu_entries"><a class="anchor" href="#menu_entries"></a>14.2. Menu Entries</h3>
 <div class="paragraph">
-<p>The ui-menu.json file permit declare specific business menu in the upper part of  OperatorFabric.</p>
+<p>The <code>ui-menu.json</code> file declares specific business menus to be displayed in the navigation bar of OperatorFabric.</p>
 </div>
 <div class="paragraph">
-<p>If there are several items to declare for a businessc menu, a title for the menu section need to be declared within the <code>i18nLabelKey</code> attribute, otherwise the first and only <code>menu entry</code> item is used to create an entry in the menu nav bar of OperatorFabric.</p>
+<p>A menu can target directly a link or give access to several sub-menus when clicked.
+Those sub-menus can only target a link.
+A targeted link can be open in an iframe or in a new tab.</p>
 </div>
 <div class="paragraph">
-<p>The ui-menu.json file contains also the declaration of i18n translations.</p>
+<p>Menus support i18n following the i18n OperatorFabric rules.
+The ui-menu.json file contains directly the i18n dictionary for the menus.</p>
+</div>
+<div class="paragraph">
+<p>In case of a single menu, the navigation bar displays the l10n of the <code>label</code> of the entry menu.
+In this case, the <code>label</code> declared at the root level of the menu is useless and can be omitted (see example below).</p>
 </div>
 <div class="sect3">
 <h4 id="_ui_menu_json_declaration"><a class="anchor" href="#_ui_menu_json_declaration"></a>14.2.1. ui-menu.json declaration</h4>
 <div class="paragraph">
-<p>This kind of objects contains the following attributes :</p>
+<p>A single menu or a menu with sub-menus has at least attributes named <code>id</code> and <code>entries</code>.
+The <code>entries</code> attribute is an array of <code>menu entry</code>.
+Note that menus with sub-menus need a <code>label</code> declaring an i18n key.</p>
+</div>
+<div class="paragraph">
+<p>Each <code>menu entry</code> declares the attributes listed below:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4628,20 +4622,17 @@ for more details to use this feature.</p>
 <p><code>label</code>: it&#8217;s an i18n key used to l10n the entry in the UI.</p>
 </li>
 <li>
-<p><code>linkType</code>: Defines how business menu links are displayed in the navigation bar and how
-they open. Possible values:</p>
+<p><code>linkType</code>: Defines how to display business menu links in the navigation bar and how to open them. Possible values:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>TAB: Only a text link is displayed, and clicking it opens the link in a new tab.</p>
+<p><code>TAB</code>: displays only a text link. Clicking it opens the link in a new tab.</p>
 </li>
 <li>
-<p>IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below
-the navigation bar.</p>
+<p><code>IFRAME</code>: displays only a text link. Clicking it opens the link in an iframe in the main content zone below the navigation bar.</p>
 </li>
 <li>
-<p>BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe
-while clicking the icon opens in a new tab. This is also the default value.</p>
+<p><code>BOTH</code>: default value. Displays a text link plus a little arrow icon. Clicking the text link opens the link in an iframe while clicking the icon opens in a new tab.</p>
 </li>
 </ul>
 </div>
@@ -4652,106 +4643,105 @@ while clicking the icon opens in a new tab. This is also the default value.</p>
 <div class="sect3">
 <h4 id="_examples_3"><a class="anchor" href="#_examples_3"></a>14.2.2. Examples</h4>
 <div class="paragraph">
-<p>In following example is the configuration file to add two business menus: the first with only one entry, the second with two entries. The sample contain also the i18n translations in english anf french.</p>
+<p>In following example, the configuration file declares two additional business menus.
+The first has only one entry, the second has two entries.
+The sample contain also the i18n translations in english and in french.</p>
 </div>
-<div class="paragraph">
-<p>{
-  "menus": [
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menus</span><span class="delimiter">&quot;</span></span>: [
     {
-      "id": "menu1",
-      "label": "title.single",
-      "entries": [
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">entries</span><span class="delimiter">&quot;</span></span>: [
         {
-          "id": "uid_test_0",
-          "url": "https://opfab.github.io/",
-          "label": "entry.single",
-          "linkType": "BOTH"
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_0</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.single</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
         }
       ]
     },
     {
-      "id": "menu2",
-      "label": "title.multi",
-      "entries": [
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">title.multi</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">entries</span><span class="delimiter">&quot;</span></span>: [
         {
-          "id": "uid_test_1",
-          "url": "https://opfab.github.io/",
-          "label": "entry.entry1",
-          "linkType": "BOTH"
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_1</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.entry1</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
         },
         {
-          "id": "uid_test_2",
-          "url": "https://www.wikipedia.org/",
-          "label": "entry.entry2",
-          "linkType": "BOTH"
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_2</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.wikipedia.org/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.entry2</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
         }
       ]
     }
   ],
-  "locales": [
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">locales</span><span class="delimiter">&quot;</span></span>: [
     {
-      "language": "en",
-      "i18n": {
-        "menu1": {
-          "title": {
-            "single": "First menu"
-          },
-          "entry": {
-            "single": "Single menu entry"
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">language</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">i18n</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">single</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Single menu entry</span><span class="delimiter">&quot;</span></span>
           }
         },
-        "menu2": {
-          "title": {
-            "multi": "Second menu"
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu2</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">multi</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Second menu</span><span class="delimiter">&quot;</span></span>
           },
-          "entry": {
-            "entry1": "First menu entry",
-            "entry2": "Second menu entry"
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">First menu entry</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Second menu entry</span><span class="delimiter">&quot;</span></span>
           }
         }
       }
     },
     {
-      "language": "fr",
-      "i18n": {
-        "menu1": {
-          "title": {
-            "single": "Premiere menu"
-          },
-          "entry": {
-            "single": "Unique menu entry"
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">language</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">i18n</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">single</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Unique menu entry</span><span class="delimiter">&quot;</span></span>
           }
         },
-        "menu2": {
-          "title": {
-            "multi": "Deuxieme menu"
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu2</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">multi</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Deuxieme menu</span><span class="delimiter">&quot;</span></span>
           },
-          "entry": {
-            "entry1": "Premiere menu entry",
-            "entry2": "Deuxieme menu entry"
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Premiere menu entry</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Deuxieme menu entry</span><span class="delimiter">&quot;</span></span>
           }
         }
       }
     }
   ]
-}</p>
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_operator_fabric_theme"><a class="anchor" href="#_operator_fabric_theme"></a>14.2.3. Operator Fabric theme</h4>
 <div class="paragraph">
-<p>If the page opened via the menu is in a iframe, the current theme of operator fabric will be passed as a parameter in the request send to the web site. The parameter is named opfab_theme and has the value of the current theme : DAY, NIGHT or LEGACY.</p>
+<p>For iframes opened from menu, the associated request uses an extra parameter containing the current theme information.
+Named <code>opfab_theme</code>, this parameter has a value corresponding to the current theme:<br>
+<code>DAY</code>, <code>NIGHT</code> or <code>LEGACY</code>.</p>
 </div>
 <div class="paragraph">
-<p>Example :</p>
+<p><strong>Example:</strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
 <pre> http://mysite.com/index.htm?opfab_theme=NIGHT</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>When user is switching theme and the iframe is opened, the iframe will be reloaded.</p>
+<p>Switching theme will trigger reload of open iframes.</p>
 </div>
 </div>
 </div>
@@ -8413,6 +8403,110 @@ Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpect
 <div class="paragraph">
 <p> </div></details> </p>
 </div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong>curl get Failed to connect to localhost:2002: Connection refused</strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/ui/</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>curl: (7) Failed to connect to localhost port 2002: Connexion refused</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>The <code>web-ui</code> docker container stops running. Check its configuration.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong>curl 404 status return by ngnix</strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/thirds/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.17.10&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>The requested page is not or no more mapped by the <code>nginx.conf</code> of <code>web-ui</code>.
+Update it or check for the new end point of the desired page.</p>
+</div>
+<div class="paragraph">
+<p>For this example, <code>businessconfig</code> replaces now the former <code>thirds</code> end-point.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong>curl 404 status return by OperatorFabric</strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/businessconfig/ -H "Authorization: Bearer ${token}"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid OAuth2 JWT.</p>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>{"timestamp":"XXXX-XX-XXTXX:XX:XX.XXX+00:00","status":404,"error":"Not Found","message":"","path":"/businessconfig"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>XXXX-XX-XXTXX:XX:XX.XXX+00:00</code> is a time stamp corresponding to the moment when the request has been sent.</p>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>The requested end-point is not or no more valid in <code>OperatorFabric</code>.
+Check the API documentation for correct path.</p>
+</div>
+<div class="paragraph">
+<p>For this example, <code>businessconfig/processes</code> is a correct end-point whereas <code>businessconfig</code> alone is not.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -8838,16 +8932,32 @@ transfer-encoding: chunked
 <div class="sect2">
 <h3 id="_extract_token_2"><a class="anchor" href="#_extract_token_2"></a>30.4. Extract token</h3>
 <div class="paragraph">
-<p>The utility <code>jq</code>, not always available on every Linux distro, parse json input and can extract requested json path value.
+<p>The utility <code>jq</code>, sadly not always available on some Linux distro, parses json input and extracts requested json path value(<code>access_token</code> here).
 Here is a way to do so.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=&amp;dminpassword=test&amp;grant_type=password&amp;client_id=opfab-client&amp;secret=opfab-keycloack-secret&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=${user}&amp;password=${password}&amp;grant_type=password&amp;client_id=opfab-client&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>-r</code> opttion, for raw, leaves the output without any quotes.</p>
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>${user}</code>: login existing on keycloak for operatorfabric;</p>
+</li>
+<li>
+<p><code>${password}</code>: password for the previous login in keycloak;</p>
+</li>
+<li>
+<p><code>opfab-client</code>:  is the id of the client for OperatorFabric associated to the <code>dev</code> realm in Keycloak in a <code>dev</code>(<code>${OF_HOME/config/dev</code>) or <code>docker</code>(<code>${OF_HOME/config/docker</code>) configuration of operatorFabric.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>-r</code> option, for raw, leaves the output without any quotes.</p>
 </div>
 </div>
 </div>

@@ -1024,7 +1024,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/userRead/{uid}" : {
+    "/cards/userCardRead/{uid}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "uid",
@@ -1032,11 +1032,11 @@ window.swaggerSpec={
         "required" : true,
         "description" : "The card uid"
       } ],
-      "post" : {
-        "operationId" : "postUserRead",
+      "delete" : {
+        "operationId" : "deleteUserRead",
         "tags" : [ "cards", "update", "read" ],
-        "summary" : "update current card adding a user read",
-        "description" : "update current card users reads, adding a new item, by card id and authenticated user",
+        "summary" : "update current card removing a user read",
+        "description" : "update current card users reads, removing an item, by card id and authenticated user",
         "responses" : {
           "201" : {
             "description" : "Created"
