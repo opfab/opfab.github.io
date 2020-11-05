@@ -126,6 +126,13 @@ window.swaggerSpec={
         },
         "description" : {
           "type" : "string"
+        },
+        "parents" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : true
+          }
         }
       },
       "required" : [ "id" ],
