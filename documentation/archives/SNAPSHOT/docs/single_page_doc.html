@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 November 2020</span>
+<span id="revdate">09 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -822,6 +822,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_define_time_to_live_for_archived_cards">17.4.1. Define time to live for archived cards</a></li>
 </ul>
 </li>
+<li><a href="#_operatorfabric_kafka_configuration">17.5. OperatorFabric Kafka configuration</a></li>
 </ul>
 </li>
 <li><a href="#_rabbitmq">18. RabbitMQ</a>
@@ -995,122 +996,140 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_extract_token_2">31.4. Extract token</a></li>
 </ul>
 </li>
+<li><a href="#_kafka_implementation">32. Kafka Implementation</a>
+<ul class="sectlevel2">
+<li><a href="#_enabling_kafka">32.1. Enabling Kafka</a></li>
+<li><a href="#_operatorfabric_kafka_source_code">32.2. OperatorFabric Kafka source code</a></li>
+<li><a href="#_listener_deserializer">32.3. Listener / deserializer</a>
+<ul class="sectlevel3">
+<li><a href="#_kafka_operatorfabric_avro_schema">32.3.1. Kafka OperatorFabric AVRO schema</a></li>
+</ul>
+</li>
+<li><a href="#_configure_kafka">32.4. Configure Kafka</a>
+<ul class="sectlevel3">
+<li><a href="#_setting_a_new_deserializer">32.4.1. Setting a new deserializer</a></li>
+</ul>
+</li>
+<li><a href="#_kafka_card_producer">32.5. Kafka card producer</a></li>
+<li><a href="#_response_cards">32.6. Response Cards</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_operatorfabric_community">OperatorFabric Community</a>
 <ul class="sectlevel1">
-<li><a href="#_license_and_developer_certificate_of_origin">32. License and Developer Certificate of Origin</a></li>
-<li><a href="#_reporting_bugs_and_suggesting_enhancements">33. Reporting Bugs and Suggesting Enhancements</a></li>
-<li><a href="#_contributing_code_or_documentation">34. Contributing Code or Documentation</a>
+<li><a href="#_license_and_developer_certificate_of_origin">33. License and Developer Certificate of Origin</a></li>
+<li><a href="#_reporting_bugs_and_suggesting_enhancements">34. Reporting Bugs and Suggesting Enhancements</a></li>
+<li><a href="#_contributing_code_or_documentation">35. Contributing Code or Documentation</a>
 <ul class="sectlevel2">
-<li><a href="#_contribution_workflow">34.1. Contribution Workflow</a>
+<li><a href="#_contribution_workflow">35.1. Contribution Workflow</a>
 <ul class="sectlevel3">
-<li><a href="#_principles">34.1.1. Principles</a>
+<li><a href="#_principles">35.1.1. Principles</a>
 <ul class="sectlevel4">
-<li><a href="#_develop_branch">34.1.1.1. <code>develop</code> branch</a></li>
-<li><a href="#_master_branch">34.1.1.2. <code>master</code> branch</a></li>
-<li><a href="#_feature_branches">34.1.1.3. Feature branches</a></li>
-<li><a href="#_release_branches">34.1.1.4. Release branches</a></li>
-<li><a href="#_hotfix_branches">34.1.1.5. Hotfix branches</a></li>
+<li><a href="#_develop_branch">35.1.1.1. <code>develop</code> branch</a></li>
+<li><a href="#_master_branch">35.1.1.2. <code>master</code> branch</a></li>
+<li><a href="#_feature_branches">35.1.1.3. Feature branches</a></li>
+<li><a href="#_release_branches">35.1.1.4. Release branches</a></li>
+<li><a href="#_hotfix_branches">35.1.1.5. Hotfix branches</a></li>
 </ul>
 </li>
-<li><a href="#_examples_and_commands">34.1.2. Examples and commands</a>
+<li><a href="#_examples_and_commands">35.1.2. Examples and commands</a>
 <ul class="sectlevel4">
-<li><a href="#_initial_state">34.1.2.1. Initial state</a></li>
-<li><a href="#_starting_work_on_a_new_feature">34.1.2.2. Starting work on a new feature</a></li>
-<li><a href="#_submitting_a_pull_request">34.1.2.3. Submitting a pull request</a></li>
-<li><a href="#_reviewing_a_pull_request">34.1.2.4. Reviewing a Pull Request</a></li>
-<li><a href="#_merging_a_pull_request">34.1.2.5. Merging a Pull Request</a></li>
-<li><a href="#_creating_a_release_or_hotfix">34.1.2.6. Creating a release or hotfix</a></li>
+<li><a href="#_initial_state">35.1.2.1. Initial state</a></li>
+<li><a href="#_starting_work_on_a_new_feature">35.1.2.2. Starting work on a new feature</a></li>
+<li><a href="#_submitting_a_pull_request">35.1.2.3. Submitting a pull request</a></li>
+<li><a href="#_reviewing_a_pull_request">35.1.2.4. Reviewing a Pull Request</a></li>
+<li><a href="#_merging_a_pull_request">35.1.2.5. Merging a Pull Request</a></li>
+<li><a href="#_creating_a_release_or_hotfix">35.1.2.6. Creating a release or hotfix</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_code_guidelines">34.2. Code Guidelines</a>
+<li><a href="#_code_guidelines">35.2. Code Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_angulartypescript_development_caution_and_guidelines">34.2.1. Angular/TypeScript development caution and guidelines</a></li>
+<li><a href="#_angulartypescript_development_caution_and_guidelines">35.2.1. Angular/TypeScript development caution and guidelines</a></li>
 </ul>
 </li>
-<li><a href="#_documentation_guidelines">34.3. Documentation Guidelines</a>
+<li><a href="#_documentation_guidelines">35.3. Documentation Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_structure">34.3.1. Structure</a></li>
-<li><a href="#_conventions">34.3.2. Conventions</a></li>
+<li><a href="#_structure">35.3.1. Structure</a></li>
+<li><a href="#_conventions">35.3.2. Conventions</a></li>
 </ul>
 </li>
-<li><a href="#_copyright_headers">34.4. Copyright Headers</a>
+<li><a href="#_copyright_headers">35.4. Copyright Headers</a>
 <ul class="sectlevel3">
-<li><a href="#_header_templates">34.4.1. Header templates</a></li>
-<li><a href="#_examples_4">34.4.2. Examples</a>
+<li><a href="#_header_templates">35.4.1. Header templates</a></li>
+<li><a href="#_examples_4">35.4.2. Examples</a>
 <ul class="sectlevel4">
-<li><a href="#_creating_a_new_file">34.4.2.1. Creating a new file</a></li>
-<li><a href="#_updating_a_file">34.4.2.2. Updating a file</a></li>
-<li><a href="#_multiple_contributors">34.4.2.3. Multiple contributors</a></li>
+<li><a href="#_creating_a_new_file">35.4.2.1. Creating a new file</a></li>
+<li><a href="#_updating_a_file">35.4.2.2. Updating a file</a></li>
+<li><a href="#_multiple_contributors">35.4.2.3. Multiple contributors</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_project_governance">35. Project Governance</a>
+<li><a href="#_project_governance">36. Project Governance</a>
 <ul class="sectlevel2">
-<li><a href="#_project_owner">35.1. Project Owner</a></li>
-<li><a href="#_committers">35.2. Committers</a></li>
-<li><a href="#_technical_steering_committee">35.3. Technical Steering Committee</a></li>
-<li><a href="#_contributors">35.4. Contributors</a></li>
+<li><a href="#_project_owner">36.1. Project Owner</a></li>
+<li><a href="#_committers">36.2. Committers</a></li>
+<li><a href="#_technical_steering_committee">36.3. Technical Steering Committee</a></li>
+<li><a href="#_contributors">36.4. Contributors</a></li>
 </ul>
 </li>
-<li><a href="#_communication_channels">36. Communication channels</a>
+<li><a href="#_communication_channels">37. Communication channels</a>
 <ul class="sectlevel2">
-<li><a href="#_website_opfab_org">36.1. Website: opfab.org</a></li>
-<li><a href="#_lf_energy_mailing_lists">36.2. LF Energy Mailing Lists</a></li>
-<li><a href="#_jira">36.3. JIRA</a></li>
+<li><a href="#_website_opfab_org">37.1. Website: opfab.org</a></li>
+<li><a href="#_lf_energy_mailing_lists">37.2. LF Energy Mailing Lists</a></li>
+<li><a href="#_jira">37.3. JIRA</a></li>
 </ul>
 </li>
-<li><a href="#code_of_conduct">37. Code of Conduct</a>
+<li><a href="#code_of_conduct">38. Code of Conduct</a>
 <ul class="sectlevel2">
-<li><a href="#_our_pledge">37.1. Our Pledge</a></li>
-<li><a href="#_our_standards">37.2. Our Standards</a></li>
-<li><a href="#_enforcement_responsibilities">37.3. Enforcement Responsibilities</a></li>
-<li><a href="#_scope">37.4. Scope</a></li>
-<li><a href="#_enforcement">37.5. Enforcement</a></li>
-<li><a href="#_attribution">37.6. Attribution</a></li>
+<li><a href="#_our_pledge">38.1. Our Pledge</a></li>
+<li><a href="#_our_standards">38.2. Our Standards</a></li>
+<li><a href="#_enforcement_responsibilities">38.3. Enforcement Responsibilities</a></li>
+<li><a href="#_scope">38.4. Scope</a></li>
+<li><a href="#_enforcement">38.5. Enforcement</a></li>
+<li><a href="#_attribution">38.6. Attribution</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a href="#CICD">OperatorFabric CICD</a>
 <ul class="sectlevel1">
-<li><a href="#_pipeline_configuration">38. Pipeline Configuration</a>
+<li><a href="#_pipeline_configuration">39. Pipeline Configuration</a>
 <ul class="sectlevel2">
-<li><a href="#_cicd_pipeline">38.1. CICD Pipeline</a>
+<li><a href="#_cicd_pipeline">39.1. CICD Pipeline</a>
 <ul class="sectlevel3">
-<li><a href="#_github">38.1.1. GitHub</a></li>
-<li><a href="#_travis_ci">38.1.2. Travis CI</a></li>
-<li><a href="#_sonarcloud">38.1.3. SonarCloud</a></li>
-<li><a href="#_github_documentation">38.1.4. GitHub (documentation)</a></li>
-<li><a href="#_dockerhub">38.1.5. DockerHub</a></li>
+<li><a href="#_github">39.1.1. GitHub</a></li>
+<li><a href="#_travis_ci">39.1.2. Travis CI</a></li>
+<li><a href="#_sonarcloud">39.1.3. SonarCloud</a></li>
+<li><a href="#_github_documentation">39.1.4. GitHub (documentation)</a></li>
+<li><a href="#_dockerhub">39.1.5. DockerHub</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#release_process">39. Release process</a>
+<li><a href="#release_process">40. Release process</a>
 <ul class="sectlevel2">
-<li><a href="#_version_numbers">39.1. Version numbers</a></li>
-<li><a href="#_releasing_a_version">39.2. Releasing a Version</a>
+<li><a href="#_version_numbers">40.1. Version numbers</a></li>
+<li><a href="#_releasing_a_version">40.2. Releasing a Version</a>
 <ul class="sectlevel3">
-<li><a href="#_checking_the_release_notes">39.2.1. Checking the release notes</a></li>
-<li><a href="#_creating_a_release_branch_and_preparing_the_release">39.2.2. Creating a release branch and preparing the release</a></li>
-<li><a href="#_merging_the_release_branch_into_master">39.2.3. Merging the release branch into <code>master</code></a></li>
-<li><a href="#_checking_the_docker_compose_files">39.2.4. Checking the docker-compose files</a></li>
-<li><a href="#_in_jira">39.2.5. In Jira</a></li>
+<li><a href="#_checking_the_release_notes">40.2.1. Checking the release notes</a></li>
+<li><a href="#_creating_a_release_branch_and_preparing_the_release">40.2.2. Creating a release branch and preparing the release</a></li>
+<li><a href="#_merging_the_release_branch_into_master">40.2.3. Merging the release branch into <code>master</code></a></li>
+<li><a href="#_checking_the_docker_compose_files">40.2.4. Checking the docker-compose files</a></li>
+<li><a href="#_in_jira">40.2.5. In Jira</a></li>
 </ul>
 </li>
-<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">39.3. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_the_next_version">39.4. Preparing the next version</a>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">40.3. Advertising the new release on the LFE mailing list</a></li>
+<li><a href="#_preparing_the_next_version">40.4. Preparing the next version</a>
 <ul class="sectlevel3">
-<li><a href="#_in_jira_2">39.4.1. In Jira</a></li>
-<li><a href="#_on_the_release_notes_repository">39.4.2. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">39.4.3. On the operatorfabric-core repository</a></li>
+<li><a href="#_in_jira_2">40.4.1. In Jira</a></li>
+<li><a href="#_on_the_release_notes_repository">40.4.2. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">40.4.3. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
@@ -1119,34 +1138,34 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_resources">Resources</a>
 <ul class="sectlevel1">
-<li><a href="#mock_pipeline">40. Appendix A: Mock CICD Pipeline</a>
+<li><a href="#mock_pipeline">41. Appendix A: Mock CICD Pipeline</a>
 <ul class="sectlevel2">
-<li><a href="#_github_2">40.1. GitHub</a></li>
-<li><a href="#_travis_ci_2">40.2. Travis CI</a></li>
-<li><a href="#_sonarcloud_2">40.3. SonarCloud</a></li>
-<li><a href="#_github_documentation_2">40.4. GitHub (documentation)</a></li>
-<li><a href="#_dockerhub_2">40.5. DockerHub</a></li>
-<li><a href="#_updating_the_fork">40.6. Updating the fork</a></li>
+<li><a href="#_github_2">41.1. GitHub</a></li>
+<li><a href="#_travis_ci_2">41.2. Travis CI</a></li>
+<li><a href="#_sonarcloud_2">41.3. SonarCloud</a></li>
+<li><a href="#_github_documentation_2">41.4. GitHub (documentation)</a></li>
+<li><a href="#_dockerhub_2">41.5. DockerHub</a></li>
+<li><a href="#_updating_the_fork">41.6. Updating the fork</a></li>
 </ul>
 </li>
-<li><a href="#_migration_guide_from_release_1_4_0_to_release_1_5_0">41. Migration Guide from release 1.4.0 to release 1.5.0</a>
+<li><a href="#_migration_guide_from_release_1_4_0_to_release_1_5_0">42. Migration Guide from release 1.4.0 to release 1.5.0</a>
 <ul class="sectlevel2">
-<li><a href="#_refactoring_of_configuration_management">41.1. Refactoring of configuration management</a>
+<li><a href="#_refactoring_of_configuration_management">42.1. Refactoring of configuration management</a>
 <ul class="sectlevel3">
-<li><a href="#_motivation_for_the_change">41.1.1. Motivation for the change</a></li>
-<li><a href="#_changes_to_the_model">41.1.2. Changes to the model</a>
+<li><a href="#_motivation_for_the_change">42.1.1. Motivation for the change</a></li>
+<li><a href="#_changes_to_the_model">42.1.2. Changes to the model</a>
 <ul class="sectlevel4">
-<li><a href="#_on_the_businessconfig_model">41.1.2.1. On the Businessconfig model</a></li>
-<li><a href="#_on_the_cards_model">41.1.2.2. On the Cards model</a></li>
+<li><a href="#_on_the_businessconfig_model">42.1.2.1. On the Businessconfig model</a></li>
+<li><a href="#_on_the_cards_model">42.1.2.2. On the Cards model</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_change_on_the_web_ui_json">41.2. Change on the web-ui.json</a></li>
-<li><a href="#_changes_on_bundle_config_json">41.3. Changes on bundle config.json</a></li>
-<li><a href="#_component_name">41.4. Component name</a></li>
-<li><a href="#_changes_to_the_endpoints">41.5. Changes to the endpoints</a></li>
-<li><a href="#_migration_steps">41.6. Migration steps</a></li>
+<li><a href="#_change_on_the_web_ui_json">42.2. Change on the web-ui.json</a></li>
+<li><a href="#_changes_on_bundle_config_json">42.3. Changes on bundle config.json</a></li>
+<li><a href="#_component_name">42.4. Component name</a></li>
+<li><a href="#_changes_to_the_endpoints">42.5. Changes to the endpoints</a></li>
+<li><a href="#_migration_steps">42.6. Migration steps</a></li>
 </ul>
 </li>
 </ul>
@@ -5004,7 +5023,7 @@ the type of deployment you&#8217;re looking for.</p>
 <div class="sect4">
 <h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>17.1.2.3. Cards-publication service</h5>
 <div class="paragraph">
-<p>The cards-publication service has this specific property :</p>
+<p>The cards-publication service has these specific properties :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -5027,6 +5046,36 @@ the type of deployment you&#8217;re looking for.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not check that a user has write rights on a process/state to respond to a card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.consumer.group-id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set, support for receiving cards via Kafka is enabled</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.deserializer.key.delegate.class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KafkaAvroDeserializer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deserializer used to convert the received bytes into objects</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to read the messages from</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">schema.registry.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.producer.bootstrap-servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:9092" class="bare">localhost:9092</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 </tr>
 </tbody>
 </table>
@@ -6143,6 +6192,37 @@ change the value of the option of an existing index, you must drop the index fir
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_operatorfabric_kafka_configuration"><a class="anchor" href="#_operatorfabric_kafka_configuration"></a>17.5. OperatorFabric Kafka configuration</h3>
+<div class="paragraph">
+<p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic. In the default configuration Kafka is disabled.
+To enable Kafka you need to set the consumer group to the consumer group you assign to the OpFab Kafka consumer. This can be any group-id, as long as it isn&#8217;t used by other consumers
+(unless you explicitly want multiple consumers for the same group).</p>
+</div>
+<div class="paragraph">
+<p>You can set the group_id by uncommenting the <code>kafka.consumer.group_id</code> in the <code>cards-publication.yml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the consumer will consume messages from the <code>opfab</code> topic.
+See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a> for more information on the Spring Kafka implementation.</p>
+</div>
+<div class="paragraph">
+<p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
+</div>
+<div class="paragraph">
+<p>Response cards are not (yet) returned via Kafka, but by the URL specified in the cards-publication yml file.</p>
+</div>
+<div class="paragraph">
+<p>Note that enabling Kafka does not disable the REST interface.</p>
 </div>
 </div>
 </div>
@@ -9119,6 +9199,143 @@ Here is a way to do so.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_kafka_implementation"><a class="anchor" href="#_kafka_implementation"></a>32. Kafka Implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic.
+In the default configuration Kafka is disabled.</p>
+</div>
+<div class="sect2">
+<h3 id="_enabling_kafka"><a class="anchor" href="#_enabling_kafka"></a>32.1. Enabling Kafka</h3>
+<div class="paragraph">
+<p>To enable Kafka support you need to set the <code>kafka.consumer.group_id property</code> in the cards-publication yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default topic from which the messages are consumed is called 'opfab'. This setting can be modified by setting 'opfab.kafka.topics.topicname'.</p>
+</div>
+<div class="paragraph">
+<p>Make sure you also set the registry to either an empty string (<code>""</code>) or to the server providing the schema registry service.
+With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.
+<a href="#_cards_publication_service">Cards-publication service</a> for more settings.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://docs.confluent.io/current/schema-registry/index.html">Schema management</a> for detailed information on using and benefits of a schema registry.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_operatorfabric_kafka_source_code"><a class="anchor" href="#_operatorfabric_kafka_source_code"></a>32.2. OperatorFabric Kafka source code</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_listener_deserializer"><a class="anchor" href="#_listener_deserializer"></a>32.3. Listener / deserializer</h3>
+<div class="paragraph">
+<p>Most of the OperatorFabric Kafka implementation can be found at</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>org.lfenergy.operatorfabric.cards.publication.kafka</code></dt>
+<dd>
+<p>for
+the implementation of the deserializers and mapping of Kafka topics to OperatorFabric cards and</p>
+</dd>
+<dt class="hdlist1"><code>org.lfenergy.operatorfabric.autoconfigure.kafka</code> </dt>
+<dd>
+<p>for the various Kafka configuration options.</p>
+</dd>
+</dl>
+</div>
+<div class="sect3">
+<h4 id="_kafka_operatorfabric_avro_schema"><a class="anchor" href="#_kafka_operatorfabric_avro_schema"></a>32.3.1. Kafka OperatorFabric AVRO schema</h4>
+<div class="paragraph">
+<p>The AVRO schema, the byte format in which messages are transffered using Kafka topics, can be found at <code>client/src/main/avro</code>.
+Message are wrapped in a the CardCommand object before being sent to a Kafka topic.
+This object is an almost one-to-one mapping of the OperatorFabric card, see also <a href="#card_structure">Card Structure</a>. The exceptions are  <code>Process</code> and
+<code>Process Instance Identifier</code>, which are moved to the top-level CardCommand.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_kafka"><a class="anchor" href="#_configure_kafka"></a>32.4. Configure Kafka</h3>
+<div class="sect3">
+<h4 id="_setting_a_new_deserializer"><a class="anchor" href="#_setting_a_new_deserializer"></a>32.4.1. Setting a new deserializer</h4>
+<div class="paragraph">
+<p>By default, OperatorFabric uses the  <code>io.confluent.kafka.serializers.KafkaAvroDeserializer</code> from <a href="https://www.confluent.io/">Confluent</a>. However, you can write your own
+deserializer. To use your own deserializer, make sure
+<code>spring.kafka.deserializer.value</code> points to your deserializer.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kafka_card_producer"><a class="anchor" href="#_kafka_card_producer"></a>32.5. Kafka card producer</h3>
+<div class="paragraph">
+<p>To send a CardCommand to OperatorFabric, start by implementing a simple Kafka producer by following for example <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a>.
+Note that some properties of CardCommand or its embedded Card are required. If not set, the card will be rejected by OperatorFabric.</p>
+</div>
+<div class="paragraph">
+<p>When you dump the card (which is about to be put on a topic) to stdout, you should see something like the line below. Do ignore the actual values from
+the dump below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">command</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CREATE_CARD</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">integrationTest</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fa6ce61f-192f-11eb-a6e3-eea952defe56</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">card</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">parentCardUid</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">myFirstPublisher</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FirstUserTask</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">publishDate</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">lttd</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span>: <span class="integer">1603897942000</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">endDate</span><span class="delimiter">&quot;</span></span>: <span class="integer">1604070742000</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">severity</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">timeSpans</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FirstUserTask.title</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FirstUserTask.summary</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">userRecipients</span><span class="delimiter">&quot;</span></span>: [
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">tso1-operator</span><span class="delimiter">&quot;</span></span>,
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">tso2-operator</span><span class="delimiter">&quot;</span></span>
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">groupRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">externalRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesAllowedToRespond</span><span class="delimiter">&quot;</span></span>: [
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1</span><span class="delimiter">&quot;</span></span>
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">hasBeenAcknowledged</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{</span><span class="char">\&quot;</span><span class="content">action</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">Just do something</span><span class="char">\&quot;</span><span class="content">}</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_cards"><a class="anchor" href="#_response_cards"></a>32.6. Response Cards</h3>
+<div class="paragraph">
+<p>OperatorFabric <a href="#response_cards">Response cards</a> are currently returned only via REST. At the time of writing it is not possible to return
+response cards via Kafka.</p>
+</div>
+</div>
+</div>
+</div>
 <h1 id="_operatorfabric_community" class="sect0"><a class="anchor" href="#_operatorfabric_community"></a>OperatorFabric Community</h1>
 <div class="openblock partintro">
 <div class="content">
@@ -9144,7 +9361,7 @@ Please report unacceptable behavior to <a href="mailto:opfab_AT_lists.lfenergy.o
 </div>
 </div>
 <div class="sect1">
-<h2 id="_license_and_developer_certificate_of_origin"><a class="anchor" href="#_license_and_developer_certificate_of_origin"></a>32. License and Developer Certificate of Origin</h2>
+<h2 id="_license_and_developer_certificate_of_origin"><a class="anchor" href="#_license_and_developer_certificate_of_origin"></a>33. License and Developer Certificate of Origin</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>OperatorFabric is an open source project licensed under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0</a>.
@@ -9187,7 +9404,7 @@ project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reporting_bugs_and_suggesting_enhancements"><a class="anchor" href="#_reporting_bugs_and_suggesting_enhancements"></a>33. Reporting Bugs and Suggesting Enhancements</h2>
+<h2 id="_reporting_bugs_and_suggesting_enhancements"><a class="anchor" href="#_reporting_bugs_and_suggesting_enhancements"></a>34. Reporting Bugs and Suggesting Enhancements</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Reporting bug and suggesting enhancements shall be done via issues on github.</p>
@@ -9195,10 +9412,10 @@ project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributing_code_or_documentation"><a class="anchor" href="#_contributing_code_or_documentation"></a>34. Contributing Code or Documentation</h2>
+<h2 id="_contributing_code_or_documentation"><a class="anchor" href="#_contributing_code_or_documentation"></a>35. Contributing Code or Documentation</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_contribution_workflow"><a class="anchor" href="#_contribution_workflow"></a>34.1. Contribution Workflow</h3>
+<h3 id="_contribution_workflow"><a class="anchor" href="#_contribution_workflow"></a>35.1. Contribution Workflow</h3>
 <div class="paragraph">
 <p>The project started out using a
 <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Feature Branch workflow</a>, but
@@ -9224,9 +9441,9 @@ project, which is a parameter for certain build tasks and for our CICD pipeline.
 </table>
 </div>
 <div class="sect3">
-<h4 id="_principles"><a class="anchor" href="#_principles"></a>34.1.1. Principles</h4>
+<h4 id="_principles"><a class="anchor" href="#_principles"></a>35.1.1. Principles</h4>
 <div class="sect4">
-<h5 id="_develop_branch"><a class="anchor" href="#_develop_branch"></a>34.1.1.1. <code>develop</code> branch</h5>
+<h5 id="_develop_branch"><a class="anchor" href="#_develop_branch"></a>35.1.1.1. <code>develop</code> branch</h5>
 <div class="paragraph">
 <p>The role of the <code>develop</code> branch is quite similar to that of the <code>master</code> branch in our previous "Feature Branch"
 workflow.</p>
@@ -9247,7 +9464,7 @@ for details).</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_master_branch"><a class="anchor" href="#_master_branch"></a>34.1.1.2. <code>master</code> branch</h5>
+<h5 id="_master_branch"><a class="anchor" href="#_master_branch"></a>35.1.1.2. <code>master</code> branch</h5>
 <div class="paragraph">
 <p><em>"When the source code in the develop branch reaches a stable point and is ready to be released, all of the changes
 should be merged back into master somehow and then tagged with a release number."</em></p>
@@ -9262,7 +9479,7 @@ tagged with <code>latest</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_feature_branches"><a class="anchor" href="#_feature_branches"></a>34.1.1.3. Feature branches</h5>
+<h5 id="_feature_branches"><a class="anchor" href="#_feature_branches"></a>35.1.1.3. Feature branches</h5>
 <div class="paragraph">
 <p>Feature branches are used to develop new features or fix bugs <strong>for the next release</strong>. The version number for this next
 release is usually not known during the developments as it is its final contents that will determine whether it&#8217;s a
@@ -9334,7 +9551,7 @@ optionally followed by additional information if several branches are associated
 </div>
 </div>
 <div class="sect4">
-<h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>34.1.1.4. Release branches</h5>
+<h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>35.1.1.4. Release branches</h5>
 <div class="paragraph">
 <p>Once developments are in a release-ready state and have been tested on the <code>develop</code> branch, a release branch should
 be created off <code>develop</code> to prepare the merge into master.</p>
@@ -9389,7 +9606,7 @@ The resulting merge commit on <code>master</code> should then be tagged with <co
 </div>
 </div>
 <div class="sect4">
-<h5 id="_hotfix_branches"><a class="anchor" href="#_hotfix_branches"></a>34.1.1.5. Hotfix branches</h5>
+<h5 id="_hotfix_branches"><a class="anchor" href="#_hotfix_branches"></a>35.1.1.5. Hotfix branches</h5>
 <div class="paragraph">
 <p>Work in progress: detail hotfix branches lifecycle and constraints.</p>
 </div>
@@ -9434,13 +9651,13 @@ addressing, optionally followed by additional information if several branches ar
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_and_commands"><a class="anchor" href="#_examples_and_commands"></a>34.1.2. Examples and commands</h4>
+<h4 id="_examples_and_commands"><a class="anchor" href="#_examples_and_commands"></a>35.1.2. Examples and commands</h4>
 <div class="paragraph">
 <p>The aim of this section is to illustrate how our workflow works on a concrete example, complete with the required
 <code>git</code> commands.</p>
 </div>
 <div class="sect4">
-<h5 id="_initial_state"><a class="anchor" href="#_initial_state"></a>34.1.2.1. Initial state</h5>
+<h5 id="_initial_state"><a class="anchor" href="#_initial_state"></a>35.1.2.1. Initial state</h5>
 <div class="paragraph">
 <p>In the initial state of our example, only <code>develop</code> and <code>master</code> exist.</p>
 </div>
@@ -9451,7 +9668,7 @@ Git flow.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_starting_work_on_a_new_feature"><a class="anchor" href="#_starting_work_on_a_new_feature"></a>34.1.2.2. Starting work on a new feature</h5>
+<h5 id="_starting_work_on_a_new_feature"><a class="anchor" href="#_starting_work_on_a_new_feature"></a>35.1.2.2. Starting work on a new feature</h5>
 <div class="paragraph">
 <p>Let&#8217;s say we want to start working on feature OC-Feature1 described in our JIRA.</p>
 </div>
@@ -9569,7 +9786,7 @@ for examples.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_submitting_a_pull_request"><a class="anchor" href="#_submitting_a_pull_request"></a>34.1.2.3. Submitting a pull request</h5>
+<h5 id="_submitting_a_pull_request"><a class="anchor" href="#_submitting_a_pull_request"></a>35.1.2.3. Submitting a pull request</h5>
 <div class="paragraph">
 <p>Once you are satisfied with the state of your developments, you can submit it as a pull request.</p>
 </div>
@@ -9762,7 +9979,7 @@ automatically.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>34.1.2.4. Reviewing a Pull Request</h5>
+<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>35.1.2.4. Reviewing a Pull Request</h5>
 <div class="paragraph">
 <p>As of today, only developers from the <code>reviewers</code> group can merge pull requests into <code>develop</code>, but this shouldn&#8217;t
 stop anyone interested in the topic of a PR to comment and review it.</p>
@@ -9867,7 +10084,7 @@ contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>34.1.2.5. Merging a Pull Request</h5>
+<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>35.1.2.5. Merging a Pull Request</h5>
 <div class="paragraph">
 <p>Once the pull request meets all the criteria from the above check list, you can merge it into the <code>develop</code> branch.</p>
 </div>
@@ -9911,7 +10128,7 @@ the information provided in the PR comments.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>34.1.2.6. Creating a release or hotfix</h5>
+<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>35.1.2.6. Creating a release or hotfix</h5>
 <div class="paragraph">
 <p>See the
 <a href="#release_process">release process</a>
@@ -9921,7 +10138,7 @@ described in our CICD documentation for details.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>34.2. Code Guidelines</h3>
+<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>35.2. Code Guidelines</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -9934,7 +10151,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>34.2.1. Angular/TypeScript development caution and guidelines</h4>
+<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>35.2.1. Angular/TypeScript development caution and guidelines</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -9955,13 +10172,13 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect2">
-<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>34.3. Documentation Guidelines</h3>
+<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>35.3. Documentation Guidelines</h3>
 <div class="paragraph">
 <p>The aim of this section is to explain how the documentation is currently organized and to give a few guidelines on how
 it should be written.</p>
 </div>
 <div class="sect3">
-<h4 id="_structure"><a class="anchor" href="#_structure"></a>34.3.1. Structure</h4>
+<h4 id="_structure"><a class="anchor" href="#_structure"></a>35.3.1. Structure</h4>
 <div class="paragraph">
 <p>All the sources for the AsciiDoc documentation published on our <a href="https://opfab.github.io/">website</a> are found under
 the <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">src/docs/asciidoc</a> folder in the
@@ -10126,7 +10343,7 @@ example for the
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>34.3.2. Conventions</h4>
+<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>35.3.2. Conventions</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -10322,12 +10539,12 @@ the latest (release) version of the documentation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>34.4. Copyright Headers</h3>
+<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>35.4. Copyright Headers</h3>
 <div class="paragraph">
 <p>All source files and documentation files for the project should bear copyright headers.</p>
 </div>
 <div class="sect3">
-<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>34.4.1. Header templates</h4>
+<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>35.4.1. Header templates</h4>
 <div class="paragraph">
 <p>In the case of source files (*.java, *.css or *.scss, *.html, *.ts, etc.), we are working with the
 <a href="http://mozilla.org/MPL/2.0/">Mozilla Public License, v. 2.0</a>, so the header should be something like this:</p>
@@ -10371,9 +10588,9 @@ added to the AUTHORS file.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_4"><a class="anchor" href="#_examples_4"></a>34.4.2. Examples</h4>
+<h4 id="_examples_4"><a class="anchor" href="#_examples_4"></a>35.4.2. Examples</h4>
 <div class="sect4">
-<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>34.4.2.1. Creating a new file</h5>
+<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>35.4.2.1. Creating a new file</h5>
 <div class="paragraph">
 <p>Let&#8217;s say a developer from entity Entity X creates a new java file in 2020. The header should read:</p>
 </div>
@@ -10390,7 +10607,7 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>34.4.2.2. Updating a file</h5>
+<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>35.4.2.2. Updating a file</h5>
 <div class="paragraph">
 <p>Given an existing java file with the following header:</p>
 </div>
@@ -10436,7 +10653,7 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>34.4.2.3. Multiple contributors</h5>
+<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>35.4.2.3. Multiple contributors</h5>
 <div class="paragraph">
 <p>Given an existing java file with the following header:</p>
 </div>
@@ -10472,10 +10689,10 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_project_governance"><a class="anchor" href="#_project_governance"></a>35. Project Governance</h2>
+<h2 id="_project_governance"><a class="anchor" href="#_project_governance"></a>36. Project Governance</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_project_owner"><a class="anchor" href="#_project_owner"></a>35.1. Project Owner</h3>
+<h3 id="_project_owner"><a class="anchor" href="#_project_owner"></a>36.1. Project Owner</h3>
 <div class="paragraph">
 <p>OperatorFabric is part of the <a href="https://www.lfenergy.org/">LF Energy Foundation</a>, a project of the
 <a href="https://www.linuxfoundation.org/">Linux Foundation</a> that supports open source innovation projects within the energy
@@ -10483,7 +10700,7 @@ and electricity sectors.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_committers"><a class="anchor" href="#_committers"></a>35.2. Committers</h3>
+<h3 id="_committers"><a class="anchor" href="#_committers"></a>36.2. Committers</h3>
 <div class="paragraph">
 <p>Committers are contributors who have made several valuable contributions to the project and are now relied upon to both
 write code directly to the repository and screen the contributions of others. In many cases they are programmers but it
@@ -10493,7 +10710,7 @@ project owner.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_technical_steering_committee"><a class="anchor" href="#_technical_steering_committee"></a>35.3. Technical Steering Committee</h3>
+<h3 id="_technical_steering_committee"><a class="anchor" href="#_technical_steering_committee"></a>36.3. Technical Steering Committee</h3>
 <div class="paragraph">
 <p>The Technical Steering Committee (TSC) is composed of voting members elected by the active Committers as described in
 the project’s Technical Charter.</p>
@@ -10531,7 +10748,7 @@ the project’s Technical Charter.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_contributors"><a class="anchor" href="#_contributors"></a>35.4. Contributors</h3>
+<h3 id="_contributors"><a class="anchor" href="#_contributors"></a>36.4. Contributors</h3>
 <div class="paragraph">
 <p>Contributors include anyone in the technical community that contributes code, documentation, or other technical
 artifacts to the project.</p>
@@ -10545,13 +10762,13 @@ are beneficial to the project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_communication_channels"><a class="anchor" href="#_communication_channels"></a>36. Communication channels</h2>
+<h2 id="_communication_channels"><a class="anchor" href="#_communication_channels"></a>37. Communication channels</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In addition to GitHub we have set up:</p>
 </div>
 <div class="sect2">
-<h3 id="_website_opfab_org"><a class="anchor" href="#_website_opfab_org"></a>36.1. Website: <a href="http://opfab.org" class="bare">opfab.org</a></h3>
+<h3 id="_website_opfab_org"><a class="anchor" href="#_website_opfab_org"></a>37.1. Website: <a href="http://opfab.org" class="bare">opfab.org</a></h3>
 <div class="paragraph">
 <p>Our website contains all the documentation and resources we&#8217;re currently working on. Here is what we aim to provide:</p>
 </div>
@@ -10594,7 +10811,7 @@ RSS feed on the home page to be informed of any update.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lf_energy_mailing_lists"><a class="anchor" href="#_lf_energy_mailing_lists"></a>36.2. LF Energy Mailing Lists</h3>
+<h3 id="_lf_energy_mailing_lists"><a class="anchor" href="#_lf_energy_mailing_lists"></a>37.2. LF Energy Mailing Lists</h3>
 <div class="paragraph">
 <p>Several mailing lists have been created by LF Energy for the project, please feel free to subscribe to the ones you
 could be interested in:</p>
@@ -10618,20 +10835,20 @@ could be interested in:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_jira"><a class="anchor" href="#_jira"></a>36.3. JIRA</h3>
+<h3 id="_jira"><a class="anchor" href="#_jira"></a>37.3. JIRA</h3>
 
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="code_of_conduct"><a class="anchor" href="#code_of_conduct"></a>37. Code of Conduct</h2>
+<h2 id="code_of_conduct"><a class="anchor" href="#code_of_conduct"></a>38. Code of Conduct</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The Code of Conduct for the OperatorFabric community is
 <a href="https://www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.txt">version 2.0 of the Contributor Covenant</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="_our_pledge"><a class="anchor" href="#_our_pledge"></a>37.1. Our Pledge</h3>
+<h3 id="_our_pledge"><a class="anchor" href="#_our_pledge"></a>38.1. Our Pledge</h3>
 <div class="paragraph">
 <p>We as members, contributors, and leaders pledge to make participation in our
 community a harassment-free experience for everyone, regardless of age, body
@@ -10644,7 +10861,7 @@ diverse, inclusive, and healthy community.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_our_standards"><a class="anchor" href="#_our_standards"></a>37.2. Our Standards</h3>
+<h3 id="_our_standards"><a class="anchor" href="#_our_standards"></a>38.2. Our Standards</h3>
 <div class="paragraph">
 <p>Examples of behavior that contributes to a positive environment for our
 community include:</p>
@@ -10697,7 +10914,7 @@ professional setting</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_enforcement_responsibilities"><a class="anchor" href="#_enforcement_responsibilities"></a>37.3. Enforcement Responsibilities</h3>
+<h3 id="_enforcement_responsibilities"><a class="anchor" href="#_enforcement_responsibilities"></a>38.3. Enforcement Responsibilities</h3>
 <div class="paragraph">
 <p>Community leaders are responsible for clarifying and enforcing our standards of
 acceptable behavior and will take appropriate and fair corrective action in
@@ -10710,7 +10927,7 @@ decisions when appropriate.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scope"><a class="anchor" href="#_scope"></a>37.4. Scope</h3>
+<h3 id="_scope"><a class="anchor" href="#_scope"></a>38.4. Scope</h3>
 <div class="paragraph">
 <p>This Code of Conduct applies within all community spaces, and also applies when
 an individual is officially representing the community in public spaces.
@@ -10720,7 +10937,7 @@ representative at an online or offline event.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_enforcement"><a class="anchor" href="#_enforcement"></a>37.5. Enforcement</h3>
+<h3 id="_enforcement"><a class="anchor" href="#_enforcement"></a>38.5. Enforcement</h3>
 <div class="paragraph">
 <p>Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at <strong>opfab-tsc_AT_lists.lfenergy.org</strong>.
@@ -10814,7 +11031,7 @@ the community.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_attribution"><a class="anchor" href="#_attribution"></a>37.6. Attribution</h3>
+<h3 id="_attribution"><a class="anchor" href="#_attribution"></a>38.6. Attribution</h3>
 <div class="paragraph">
 <p>This Code of Conduct is adapted from the Contributor Covenant,
 version 2.0, available at
@@ -10836,7 +11053,7 @@ The aim of this document is to describe our CICD pipeline and our release proces
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pipeline_configuration"><a class="anchor" href="#_pipeline_configuration"></a>38. Pipeline Configuration</h2>
+<h2 id="_pipeline_configuration"><a class="anchor" href="#_pipeline_configuration"></a>39. Pipeline Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This section briefly describes the organization of our CICD pipeline. If you are looking for more detailed information,
@@ -10851,15 +11068,15 @@ A technical user account (opfabtech) has been created for each of these services
 to the account of any member of the team.</p>
 </div>
 <div class="sect2">
-<h3 id="_cicd_pipeline"><a class="anchor" href="#_cicd_pipeline"></a>38.1. CICD Pipeline</h3>
+<h3 id="_cicd_pipeline"><a class="anchor" href="#_cicd_pipeline"></a>39.1. CICD Pipeline</h3>
 <div class="sect3">
-<h4 id="_github"><a class="anchor" href="#_github"></a>38.1.1. GitHub</h4>
+<h4 id="_github"><a class="anchor" href="#_github"></a>39.1.1. GitHub</h4>
 <div class="paragraph">
 <p>Work in progress</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_travis_ci"><a class="anchor" href="#_travis_ci"></a>38.1.2. Travis CI</h4>
+<h4 id="_travis_ci"><a class="anchor" href="#_travis_ci"></a>39.1.2. Travis CI</h4>
 <div class="paragraph">
 <p>We use Travis CI to manage our pipeline. As of today, it is composed of 7 stages:</p>
 </div>
@@ -11131,7 +11348,7 @@ This is why in the case of external PRs the <code>test</code> phase is ran inste
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sonarcloud"><a class="anchor" href="#_sonarcloud"></a>38.1.3. SonarCloud</h4>
+<h4 id="_sonarcloud"><a class="anchor" href="#_sonarcloud"></a>39.1.3. SonarCloud</h4>
 <div class="paragraph">
 <p>To be allowed to push results to SonarCloud, Travis needs to be authenticated. This is done by generating a token on
 SonarCloud with an account (opfabtech) that has admin rights to the organization, and then providing this token to Travis
@@ -11139,7 +11356,7 @@ either through the .travis.yml file or as an environment variable through Travis
 </div>
 </div>
 <div class="sect3">
-<h4 id="_github_documentation"><a class="anchor" href="#_github_documentation"></a>38.1.4. GitHub (documentation)</h4>
+<h4 id="_github_documentation"><a class="anchor" href="#_github_documentation"></a>39.1.4. GitHub (documentation)</h4>
 <div class="paragraph">
 <p>To be allowed to push the generated documentation to the opfab.github.io, Travis needs write access to the repository.
 This is done by setting up a Personal Access Token in GitHub using the technical account.
@@ -11162,7 +11379,7 @@ depending on how busy the service is.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_dockerhub"><a class="anchor" href="#_dockerhub"></a>38.1.5. DockerHub</h4>
+<h4 id="_dockerhub"><a class="anchor" href="#_dockerhub"></a>39.1.5. DockerHub</h4>
 <div class="paragraph">
 <p>To be allowed to push images to DockerHub, Travis needs to be authenticated. This is done by setting the DockerHub
 login and password of the technical account as environment variables through Travis settings and referencing them in
@@ -11173,10 +11390,10 @@ the .travis.yml file.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="release_process"><a class="anchor" href="#release_process"></a>39. Release process</h2>
+<h2 id="release_process"><a class="anchor" href="#release_process"></a>40. Release process</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_version_numbers"><a class="anchor" href="#_version_numbers"></a>39.1. Version numbers</h3>
+<h3 id="_version_numbers"><a class="anchor" href="#_version_numbers"></a>40.1. Version numbers</h3>
 <div class="paragraph">
 <p>We work with two types of versions:</p>
 </div>
@@ -11209,7 +11426,7 @@ the same major version.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_a_version"><a class="anchor" href="#_releasing_a_version"></a>39.2. Releasing a Version</h3>
+<h3 id="_releasing_a_version"><a class="anchor" href="#_releasing_a_version"></a>40.2. Releasing a Version</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -11228,7 +11445,7 @@ It is thus crucial to double-check the content of this file before any push (tri
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
 <div class="sect3">
-<h4 id="_checking_the_release_notes"><a class="anchor" href="#_checking_the_release_notes"></a>39.2.1. Checking the release notes</h4>
+<h4 id="_checking_the_release_notes"><a class="anchor" href="#_checking_the_release_notes"></a>40.2.1. Checking the release notes</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11254,7 +11471,7 @@ explanations if need be.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_creating_a_release_branch_and_preparing_the_release"><a class="anchor" href="#_creating_a_release_branch_and_preparing_the_release"></a>39.2.2. Creating a release branch and preparing the release</h4>
+<h4 id="_creating_a_release_branch_and_preparing_the_release"><a class="anchor" href="#_creating_a_release_branch_and_preparing_the_release"></a>40.2.2. Creating a release branch and preparing the release</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11357,7 +11574,7 @@ generation.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>39.2.3. Merging the release branch into <code>master</code></h4>
+<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>40.2.3. Merging the release branch into <code>master</code></h4>
 <div class="paragraph">
 <p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
 developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
@@ -11469,7 +11686,7 @@ and that the links work.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checking_the_docker_compose_files"><a class="anchor" href="#_checking_the_docker_compose_files"></a>39.2.4. Checking the docker-compose files</h4>
+<h4 id="_checking_the_docker_compose_files"><a class="anchor" href="#_checking_the_docker_compose_files"></a>40.2.4. Checking the docker-compose files</h4>
 <div class="paragraph">
 <p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
 branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
@@ -11491,14 +11708,14 @@ that it&#8217;s working correctly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>39.2.5. In Jira</h4>
+<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>40.2.5. In Jira</h4>
 <div class="paragraph">
 <p>In the "Releases" screen, release <code>X.X.X.RELEASE</code>.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>39.3. Advertising the new release on the LFE mailing list</h3>
+<h3 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>40.3. Advertising the new release on the LFE mailing list</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11521,7 +11738,7 @@ in case there is an issue.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>39.4. Preparing the next version</h3>
+<h3 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>40.4. Preparing the next version</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -11538,19 +11755,19 @@ new version will make rolling back or correcting any mistake on the release more
 </table>
 </div>
 <div class="sect3">
-<h4 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>39.4.1. In Jira</h4>
+<h4 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>40.4.1. In Jira</h4>
 <div class="paragraph">
 <p>In the "Releases" screen create a new release called <code>Next Release</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>39.4.2. On the release-notes repository</h4>
+<h4 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>40.4.2. On the release-notes repository</h4>
 <div class="paragraph">
 <p>Remove the items listed in the release_notes.adoc file so it&#8217;s ready for the next version.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>39.4.3. On the operatorfabric-core repository</h4>
+<h4 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>40.4.3. On the operatorfabric-core repository</h4>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
@@ -11579,7 +11796,7 @@ avoid confusion with the actual release commit tagged on <code>master</code>.</p
 </div>
 <h1 id="_resources" class="sect0"><a class="anchor" href="#_resources"></a>Resources</h1>
 <div class="sect1">
-<h2 id="mock_pipeline"><a class="anchor" href="#mock_pipeline"></a>40. Appendix A: Mock CICD Pipeline</h2>
+<h2 id="mock_pipeline"><a class="anchor" href="#mock_pipeline"></a>41. Appendix A: Mock CICD Pipeline</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We wanted to be able to test changes to this configuration or to the scripts used by the pipeline without risks to the real
@@ -11588,7 +11805,7 @@ we decided to create a complete mock pipeline replicating the actual pipeline.
 This is a short summary of the necessary steps.</p>
 </div>
 <div class="sect2">
-<h3 id="_github_2"><a class="anchor" href="#_github_2"></a>40.1. GitHub</h3>
+<h3 id="_github_2"><a class="anchor" href="#_github_2"></a>41.1. GitHub</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11607,7 +11824,7 @@ This is a short summary of the necessary steps.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_travis_ci_2"><a class="anchor" href="#_travis_ci_2"></a>40.2. Travis CI</h3>
+<h3 id="_travis_ci_2"><a class="anchor" href="#_travis_ci_2"></a>41.2. Travis CI</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11644,7 +11861,7 @@ create a Cron Job on branch <code>develop</code>, that runs daily and is always 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sonarcloud_2"><a class="anchor" href="#_sonarcloud_2"></a>40.3. SonarCloud</h3>
+<h3 id="_sonarcloud_2"><a class="anchor" href="#_sonarcloud_2"></a>41.3. SonarCloud</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11873,7 +12090,7 @@ By configuring the analysis based on that information, the need for manual confi
 </div>
 </div>
 <div class="sect2">
-<h3 id="_github_documentation_2"><a class="anchor" href="#_github_documentation_2"></a>40.4. GitHub (documentation)</h3>
+<h3 id="_github_documentation_2"><a class="anchor" href="#_github_documentation_2"></a>41.4. GitHub (documentation)</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11901,7 +12118,7 @@ in <a href="https://travis-ci.org/opfab-mock/operatorfabric-core/settings">Travi
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dockerhub_2"><a class="anchor" href="#_dockerhub_2"></a>40.5. DockerHub</h3>
+<h3 id="_dockerhub_2"><a class="anchor" href="#_dockerhub_2"></a>41.5. DockerHub</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -11938,7 +12155,7 @@ in settings (see GH_DOC_TOKEN above).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_updating_the_fork"><a class="anchor" href="#_updating_the_fork"></a>40.6. Updating the fork</h3>
+<h3 id="_updating_the_fork"><a class="anchor" href="#_updating_the_fork"></a>41.6. Updating the fork</h3>
 <div class="paragraph">
 <p>To make the mock repositories catch up with the upstream (the real repositories) from time to time, follow
 this procedure (the command line version), except you should do a rebase instead of a merge:
@@ -11948,12 +12165,12 @@ this procedure (the command line version), except you should do a rebase instead
 </div>
 </div>
 <div class="sect1">
-<h2 id="_migration_guide_from_release_1_4_0_to_release_1_5_0"><a class="anchor" href="#_migration_guide_from_release_1_4_0_to_release_1_5_0"></a>41. Migration Guide from release 1.4.0 to release 1.5.0</h2>
+<h2 id="_migration_guide_from_release_1_4_0_to_release_1_5_0"><a class="anchor" href="#_migration_guide_from_release_1_4_0_to_release_1_5_0"></a>42. Migration Guide from release 1.4.0 to release 1.5.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_refactoring_of_configuration_management"><a class="anchor" href="#_refactoring_of_configuration_management"></a>41.1. Refactoring of configuration management</h3>
+<h3 id="_refactoring_of_configuration_management"><a class="anchor" href="#_refactoring_of_configuration_management"></a>42.1. Refactoring of configuration management</h3>
 <div class="sect3">
-<h4 id="_motivation_for_the_change"><a class="anchor" href="#_motivation_for_the_change"></a>41.1.1. Motivation for the change</h4>
+<h4 id="_motivation_for_the_change"><a class="anchor" href="#_motivation_for_the_change"></a>42.1.1. Motivation for the change</h4>
 <div class="paragraph">
 <p>The initial situation was to have a <code>Third</code> concept that was meant to represent third-party applications that publish
 content (cards) to OperatorFabric.
@@ -11983,13 +12200,13 @@ details from?") to its publisher ("Who/What emitted this card and who/where shou
 </div>
 </div>
 <div class="sect3">
-<h4 id="_changes_to_the_model"><a class="anchor" href="#_changes_to_the_model"></a>41.1.2. Changes to the model</h4>
+<h4 id="_changes_to_the_model"><a class="anchor" href="#_changes_to_the_model"></a>42.1.2. Changes to the model</h4>
 <div class="paragraph">
 <p>To do this, we decided that the <code>publisher</code> of a card would now have the sole meaning of <code>emitter</code>, and that the link
 to the configuration bundle to use to render a card would now be based on its <code>process</code> field.</p>
 </div>
 <div class="sect4">
-<h5 id="_on_the_businessconfig_model"><a class="anchor" href="#_on_the_businessconfig_model"></a>41.1.2.1. On the Businessconfig model</h5>
+<h5 id="_on_the_businessconfig_model"><a class="anchor" href="#_on_the_businessconfig_model"></a>42.1.2.1. On the Businessconfig model</h5>
 <div class="paragraph">
 <p>We used to have a <code>Businessconfig</code> object which had an array of <code>Process</code> objects as one of its properties.
 Now, the <code>Process</code> object replaces the <code>Businessconfig</code> object and this new object combines the properties of the old <code>Businessconfig</code>
@@ -12137,7 +12354,7 @@ folder of the bundle.
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_cards_model"><a class="anchor" href="#_on_the_cards_model"></a>41.1.2.2. On the Cards model</h5>
+<h5 id="_on_the_cards_model"><a class="anchor" href="#_on_the_cards_model"></a>42.1.2.2. On the Cards model</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -12189,31 +12406,31 @@ The id of the card is now build as process.processInstanceId an not anymore publ
 </div>
 </div>
 <div class="sect2">
-<h3 id="_change_on_the_web_ui_json"><a class="anchor" href="#_change_on_the_web_ui_json"></a>41.2. Change on the web-ui.json</h3>
+<h3 id="_change_on_the_web_ui_json"><a class="anchor" href="#_change_on_the_web_ui_json"></a>42.2. Change on the web-ui.json</h3>
 <div class="paragraph">
 <p>The parameter navbar.thirdmenus.type has been removed from this file. Starting from this release the related functionality has been moved on bundle basis and it&#8217;s not more global. See "Changes on bundle config.json" for more information.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_changes_on_bundle_config_json"><a class="anchor" href="#_changes_on_bundle_config_json"></a>41.3. Changes on bundle config.json</h3>
+<h3 id="_changes_on_bundle_config_json"><a class="anchor" href="#_changes_on_bundle_config_json"></a>42.3. Changes on bundle config.json</h3>
 <div class="paragraph">
 <p>Under menuEntries a new subproperty has been added: linkType. This property replace the old property navbar.thirdmenus.type in web-ui.json, making possible a more fine control of the related behaviour.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>41.4. Component name</h3>
+<h3 id="_component_name"><a class="anchor" href="#_component_name"></a>42.4. Component name</h3>
 <div class="paragraph">
 <p>We also change the component name of third which is now named businessconfig.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>41.5. Changes to the endpoints</h3>
+<h3 id="_changes_to_the_endpoints"><a class="anchor" href="#_changes_to_the_endpoints"></a>42.5. Changes to the endpoints</h3>
 <div class="paragraph">
 <p>The <code>/third</code> endpoint becomes <code>/businessconfig/processes</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_migration_steps"><a class="anchor" href="#_migration_steps"></a>41.6. Migration steps</h3>
+<h3 id="_migration_steps"><a class="anchor" href="#_migration_steps"></a>42.6. Migration steps</h3>
 <div class="paragraph">
 <p>This section outlines the necessary steps to migrate existing data.</p>
 </div>

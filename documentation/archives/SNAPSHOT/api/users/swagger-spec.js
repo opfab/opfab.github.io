@@ -235,6 +235,17 @@ window.swaggerSpec={
         "playSoundForInformation" : {
           "type" : "boolean",
           "description" : "If this is set to true, a sound will be played for incoming cards with INFORMATION severity."
+        },
+        "processesStatesNotNotified" : {
+          "type" : "object",
+          "description" : "Filters on processes and states for user feed (exclusion filter)",
+          "additionalProperties" : {
+            "type" : "array",
+            "description" : "List of process states for which the user will not be notified",
+            "items" : {
+              "type" : "string"
+            }
+          }
         }
       },
       "required" : [ "login" ],
@@ -260,6 +271,17 @@ window.swaggerSpec={
             "$ref" : "#/definitions/ComputedPerimeter",
             "uniqueItems" : true
           }
+        },
+        "processesStatesNotNotified" : {
+          "type" : "object",
+          "description" : "Filters on processes and states for user feed (exclusion filter)",
+          "additionalProperties" : {
+            "type" : "array",
+            "description" : "List of process states for which the user will not be notified",
+            "items" : {
+              "type" : "string"
+            }
+          }
         }
       }
     },
@@ -274,6 +296,20 @@ window.swaggerSpec={
         },
         "rights" : {
           "$ref" : "#/definitions/RightsEnum"
+        }
+      }
+    },
+    "NotificationFilter" : {
+      "type" : "object",
+      "properties" : {
+        "process" : {
+          "type" : "string"
+        },
+        "states" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     }
