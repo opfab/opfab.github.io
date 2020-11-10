@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 November 2020</span>
+<span id="revdate">10 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -884,7 +884,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">23.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</a></li>
 <li><a href="#_deploy_needed_docker_containers">23.3. Deploy needed docker containers</a>
 <ul class="sectlevel3">
-<li><a href="#_minimal_configuration_for_gradle_build">23.3.1. Minimal configuration for <code>gradle</code> build</a></li>
+<li><a href="#_a_minimal_configuration_for_gradle_build">23.3.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
 <li><a href="#_enabling_local_quality_report_generation">23.3.2. Enabling local quality report generation</a></li>
 <li><a href="#_docker_dev_env">23.3.3. Development environment</a></li>
 </ul>
@@ -7364,28 +7364,36 @@ the home repository of <code>OperatorFabric</code>.
 <div class="sect2">
 <h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>23.3. Deploy needed docker containers</h3>
 <div class="sect3">
-<h4 id="_minimal_configuration_for_gradle_build"><a class="anchor" href="#_minimal_configuration_for_gradle_build"></a>23.3.1. Minimal configuration for <code>gradle</code> build</h4>
+<h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>23.3.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
-<p>Two docker container must be available during a gradle build of <code>OperatorFabric</code>:
-* RabbitMQ;
-* MongoDB.</p>
+<p>The gradle build of <code>OperatorFabric</code> needs two docker containers running:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>RabbitMQ;</p>
+</li>
+<li>
+<p>MongoDB.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>They can be launch using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
+<p>Launch them using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
 </div>
 <div class="paragraph">
-<p>Remind that, during a gradle build, before the <code>assemble</code> task, the <code>test</code> one is called. The Unit tests depend on those
-two software.</p>
+<p>Remind that, during a gradle build the <code>test</code> task runs before the <code>assemble</code> one.
+The Unit tests depend on those two software.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>23.3.2. Enabling local quality report generation</h4>
 <div class="paragraph">
-<p>To get a Sonarqube report, in addition to the two previously listed docker containers, a <code>SonarQube</code> docker container is
-required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
+<p>Sonarqube reporting, in addition to the two previously listed docker containers, needs a <code>SonarQube</code> docker container.
+Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
 </div>
 <div class="paragraph">
-<p>To generate the quality report use the following command:</p>
+<p>To generate the quality report, run the following commands:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7394,16 +7402,27 @@ required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/dock
 </div>
 </div>
 <div class="paragraph">
-<p>To export the different report into the <code>SonarQube</code> docker instance you need to install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
+<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>23.3.3. Development environment</h4>
 <div class="paragraph">
-<p>During <code>OperatorFabric</code> development the running docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> are needed.</p>
+<p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.
+The <code>web-ui</code> configuration needs a <code>nginx.conf</code>.</p>
 </div>
 <div class="paragraph">
-<p>The <code>docker-compose</code> can be run in detached mode:</p>
+<p>The <code>${OF_HOME}/config/dev/$docker-compose.sh</code> creates the <code>nginx.conf</code> file and then runs <code>docker-compose</code> in detached mode.
+For this, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
+./docker-compose.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the <code>nginx.conf</code> created, run <code>docker-compose</code> independently is possible using:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7413,7 +7432,7 @@ docker-compose up -d</code></pre>
 </div>
 <div class="paragraph">
 <p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be useful to spot the <code>OperatorFabric</code> dev tab in the browser.
-Sometime a <code>CTRL+F5</code> on the tab is required to refresh the favicon.</p>
+To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 </div>
 </div>
 </div>
@@ -8740,6 +8759,117 @@ Check the API documentation for correct path.</p>
 </div>
 <div class="paragraph">
 <p>For this example, <code>businessconfig/processes</code> is a correct end-point whereas <code>businessconfig</code> alone is not.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong><code>ERROR: for web-ui</code> when running docker-compose in <code>${OF_HOME}/config/dev</code></strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+docker-compose up -d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>ERROR: for web-ui  Cannot start service web-ui: OCI runtime create failed: container_linux.go:345: starting container process caused "process_linux.go:430: container init caused \"rootfs_linux.go:58: mounting \\\"/home/legallron/projects/operatorfabric-core/config/dev/nginx.conf\\\" to rootfs …</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>…</code> is specific to the runtime environment.</p>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>There is no <code>nginx.conf</code> file in the <code>${OF_HOME}/conf/dev</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>A first run of OperatorFabric <code>docker-compose</code> in dev config needs a <code>nginx.conf</code> file.
+To create it, and run a docker-compose environment use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+./docker-compose.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If docker-compose has created a <code>nginx.conf</code> directory, delete it before running the previous commands.</p>
+</div>
+<div class="paragraph">
+<p>Once this <code>nginx.conf</code> file created a simple <code>docker-compose up -d</code> is enough to run a dev docker-compose environment.
+Sometimes a <code>nginx.conf</code> has been created as an attempt to launch the <code>web-ui</code> docker.
+See the following section to resolve this.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong><code>/docker-compose.sh: ligne 7: ./nginx.conf: is a folder</code> when running <code>${OF_HOME}/config/dev/docker-compose.sh</code></strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+./docker-compose.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>./docker-compose.sh: ligne 7: ./nginx.conf: is a folder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes</div>
+<p>A <code>docker-compose up</code> has been run previously without <code>nginx.conf</code>.
+A folder named <code>nginx.conf</code> has been created by <code>docker-compose</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Resolution</div>
+<p>You have rights to delete the folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+rm -rf nginx.conf
+./docker-compose.sh # if you want to run OperatorFabric directly after.
+cd ${OF_HOME}
+bin/run_all.sh start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You don&#8217;t have the rights to delete the folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+docker run -ti --rm -v $(pwd):/current alpine # if there is no `alpine` docker available it will pull it from dockerHub
+# your are now in the alpine docker container
+cd /current
+rm -rf nginxconf
+&lt;ctrl-d&gt; # to exit the `alpine` container bash environement
+./docker-compose.sh # if you want to run OperatorFabric directly after.
+cd ${OF_HOME}
+bin/run_all.sh start</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p> </div></details> </p>
