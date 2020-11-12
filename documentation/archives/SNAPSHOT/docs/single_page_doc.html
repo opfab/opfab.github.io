@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">11 November 2020</span>
+<span id="revdate">12 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -7584,7 +7584,7 @@ SPA
 <div class="sect3">
 <h4 id="_front_end_development"><a class="anchor" href="#_front_end_development"></a>24.1.1. Front End development</h4>
 <div class="paragraph">
-<p>OperatorFabric uses 4 external services to run properly :</p>
+<p>OperatorFabric uses 4 external services to run properly :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -7598,13 +7598,17 @@ SPA
 <p>an authentication provider: keycloak;</p>
 </li>
 <li>
-<p>a web server: Nginx.
-Those instances are available as docker images in the project. Use <code>docker-compose</code> and the <code>${OF_HOME}/config/dev/docker-compose.yml</code>
-to run them.
-After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.
-Once the whole application is ready, you should have the following output in your terminal:</p>
+<p>a web server: Nginx.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Those instances are available as docker images in the project.
+se <code>docker-compose</code> and the <code>${OF_HOME}/config/dev/docker-compose.yml</code> to run them.
+After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.</p>
+</div>
+<div class="paragraph">
+<p>Once the whole application is ready, you should have the following output in your terminal:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7672,12 +7676,31 @@ The common password is <code>test</code> for them all.</p>
 <div class="sect2">
 <h3 id="_build"><a class="anchor" href="#_build"></a>24.2. Build</h3>
 <div class="paragraph">
-<p>Run <code>ng build</code> to build the project. The build artifacts will be stored in :</p>
+<p>Within the folder <code>${OF_HOME}/ui/main</code>, run <code>ng build</code> to build the project.</p>
+</div>
+<div class="paragraph">
+<p>The build artifacts will be stored in:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/ui/main/build/distribution</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The previous command could lead to the following error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">Generating ES5 bundles for differential loading...
+An unhandled exception occurred: Call retries were exceeded
+See &quot;/tmp/ng-&lt;random-string&gt;/angular-errors.log&quot; for further details.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>ng-&lt;random-string&gt;</code> is a temporary folder created by Angular to build the front-end.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build</code> instead to solve this problem.</p>
 </div>
 </div>
 <div class="sect2">
@@ -8869,6 +8892,49 @@ rm -rf nginxconf
 ./docker-compose.sh # if you want to run OperatorFabric directly after.
 cd ${OF_HOME}
 bin/run_all.sh start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong><code>An unhandled exception occurred: Call retries were exceeded</code> occurs when using <code>ng build</code></strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/ui/main
+ng build</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>Generating ES5 bundles for differential loading...
+An unhandled exception occurred: Call retries were exceeded
+See "/tmp/ng-&lt;random-string&gt;/angular-errors.log" for further details.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>ng-&lt;random-string&gt;</code> is a temporary folder created by Angular to build the front-end.</p>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>There is not enough allocated memory space to build the front-end.</p>
+</div>
+<div class="paragraph">
+<p>Use the following command to solve the problem:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build</code></pre>
 </div>
 </div>
 <div class="paragraph">
