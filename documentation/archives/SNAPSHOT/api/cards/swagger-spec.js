@@ -47,11 +47,6 @@ window.swaggerSpec={
       "description" : "Number of items",
       "example" : 10
     },
-    "TimeSpanDisplayModeEnum" : {
-      "type" : "string",
-      "description" : "Time span disply mode >\n* BUBBLE: Only displays Time span start\n* LINE: displays start and end with a junction line",
-      "enum" : [ "BUBBLE", "LINE" ]
-    },
     "CardOperationTypeEnum" : {
       "type" : "string",
       "description" : "Type of operation >\n* ADD - Operation lists cards object to be added\n* UPDATE - Operation lists cards object to be updated\n* DELETE - Operation lists card ids to be deleted",
@@ -249,12 +244,48 @@ window.swaggerSpec={
           "$ref" : "#/definitions/EpochDate",
           "description" : "Span end (must be after start)"
         },
-        "display" : {
-          "$ref" : "#/definitions/TimeSpanDisplayModeEnum",
-          "description" : "defaults to BUBBLE if only start is set and to LINE if start and end are set"
+        "recurrence" : {
+          "$ref" : "#/definitions/Recurrence",
+          "description" : "recurrence of the timeSpan"
         }
       },
       "required" : [ "start" ]
+    },
+    "Recurrence" : {
+      "type" : "object",
+      "description" : "An object to define recurrence of timeSpans",
+      "properties" : {
+        "hoursAndMinutes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/HoursAndMinutes"
+          }
+        },
+        "daysOfWeek" : {
+          "description" : "Days of the week for the recurrence",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "timeZone" : {
+          "description" : "Time zone reference for the recurrence definition",
+          "type" : "string"
+        }
+      },
+      "required" : [ "hoursAndMinutes" ]
+    },
+    "HoursAndMinutes" : {
+      "type" : "object",
+      "description" : "An object to represent a time with only hours and minutes",
+      "properties" : {
+        "hours" : {
+          "type" : "integer"
+        },
+        "minutes" : {
+          "type" : "integer"
+        }
+      }
     },
     "Card" : {
       "type" : "object",
