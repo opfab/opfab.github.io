@@ -441,6 +441,9 @@ window.swaggerSpec={
         },
         "publisherType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
+        },
+        "secondsBeforeTimeSpanForReminder" : {
+          "type" : "integer"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
@@ -636,6 +639,9 @@ window.swaggerSpec={
         },
         "publisherType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
+        },
+        "secondsBeforeTimeSpanForReminder" : {
+          "type" : "integer"
         }
       },
       "required" : [ "uid", "id", "processInstanceId", "startDate" ],

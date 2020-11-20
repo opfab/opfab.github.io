@@ -485,10 +485,6 @@ window.swaggerSpec={
               "userCardTemplate" : {
                 "type" : "string",
                 "description" : "Name of the template to use when creating a new card"
-              },
-              "secondsBeforeTimeSpanForReminder" : {
-                "type" : "long",
-                "description" : "Seconds before start date in timespan to activate a remind."
               }
             }
           }
