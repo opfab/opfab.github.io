@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 November 2020</span>
+<span id="revdate">21 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -5068,28 +5068,42 @@ the type of deployment you&#8217;re looking for.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set, support for receiving cards via Kafka is enabled</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.deserializer.key.delegate.class</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KafkaAvroDeserializer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.deserializer.value.delegate.class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.
+KafkaAvroDeserializer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Deserializer used to convert the received bytes into objects</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.topicname</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to read the messages from</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">schema.registry.url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.serializer.value.delegate.class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.
+KafkaAvroSerializer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serializer used to convert cards to bytes</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.producer.bootstrap-servers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:9092" class="bare">localhost:9092</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">comma seperated list of URL(s) of the broker(s) / bootstrap server(s)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to read the messages from</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.response-card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to place the response cards to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.schema.registry.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
 </tr>
 </tbody>
 </table>
@@ -6233,10 +6247,22 @@ See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apa
 <p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
 </div>
 <div class="paragraph">
-<p>Response cards are not (yet) returned via Kafka, but by the URL specified in the cards-publication yml file.</p>
+<p>Operator Fabric is also able to publish response cards to a Kafka topic. The default topic name  <code>opfab-response</code>. You can specify which response cards
+are to be returned via Kafka by setting the <code>externalRecipients-url</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
+           processAction: \&quot;http://localhost:8090/test\&quot;, \
+           mykafka: \&quot;kafka:topicname\&quot;
+           }</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Note that enabling Kafka does not disable the REST interface.</p>
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka topic.</p>
+</div>
+<div class="paragraph">
+<p>Also note enabling Kafka does not disable the REST interface.</p>
 </div>
 </div>
 </div>
@@ -9437,7 +9463,7 @@ In the default configuration Kafka is disabled.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The default topic from which the messages are consumed is called 'opfab'. This setting can be modified by setting 'opfab.kafka.topics.topicname'.</p>
+<p>The default topic from which the messages are consumed is called 'opfab'. This setting can be modified by setting 'opfab.kafka.card.topics.topicname'.</p>
 </div>
 <div class="paragraph">
 <p>Make sure you also set the registry to either an empty string (<code>""</code>) or to the server providing the schema registry service.
@@ -9473,8 +9499,8 @@ the implementation of the deserializers and mapping of Kafka topics to OperatorF
 <div class="sect3">
 <h4 id="_kafka_operatorfabric_avro_schema"><a class="anchor" href="#_kafka_operatorfabric_avro_schema"></a>33.3.1. Kafka OperatorFabric AVRO schema</h4>
 <div class="paragraph">
-<p>The AVRO schema, the byte format in which messages are transffered using Kafka topics, can be found at <code>client/src/main/avro</code>.
-Message are wrapped in a the CardCommand object before being sent to a Kafka topic.
+<p>The AVRO schema, the byte format in which messages are transferred using Kafka topics, can be found at <code>client/src/main/avro</code>.
+Message are wrapped in a CardCommand object before being sent to a Kafka topic.
 This object is an almost one-to-one mapping of the OperatorFabric card, see also <a href="#card_structure">Card Structure</a>. The exceptions are  <code>Process</code> and
 <code>Process Instance Identifier</code>, which are moved to the top-level CardCommand.</p>
 </div>
@@ -9487,7 +9513,7 @@ This object is an almost one-to-one mapping of the OperatorFabric card, see also
 <div class="paragraph">
 <p>By default, OperatorFabric uses the  <code>io.confluent.kafka.serializers.KafkaAvroDeserializer</code> from <a href="https://www.confluent.io/">Confluent</a>. However, you can write your own
 deserializer. To use your own deserializer, make sure
-<code>spring.kafka.deserializer.value</code> points to your deserializer.</p>
+<code>spring.deserializer.value.delegate.class</code> points to your deserializer.</p>
 </div>
 </div>
 </div>
@@ -9548,8 +9574,20 @@ the dump below.</p>
 <div class="sect2">
 <h3 id="_response_cards"><a class="anchor" href="#_response_cards"></a>33.6. Response Cards</h3>
 <div class="paragraph">
-<p>OperatorFabric <a href="#response_cards">Response cards</a> are currently returned only via REST. At the time of writing it is not possible to return
-response cards via Kafka.</p>
+<p>OperatorFabric <a href="#response_cards">Response cards</a> can be sent by REST of put on a Kafka topic. The Kafka response card configuration follows the
+convention to configure a REST endpoint. Instead of setting the 'http://host/api' URL, you set it to 'kafka:response-topic' in the <code>externalRecipients-url:</code>
+section from the cards-publication.yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
+           processAction: \&quot;http://localhost:8090/test\&quot;, \
+           mykafka: \&quot;kafka:topicname\&quot;
+           }</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka topic.</p>
 </div>
 </div>
 </div>
