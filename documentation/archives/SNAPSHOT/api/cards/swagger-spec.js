@@ -154,49 +154,6 @@ window.swaggerSpec={
         "cardIds" : [ 12345, 12346, 12347 ]
       }
     },
-    "Detail" : {
-      "description" : "detail defines html data rendering",
-      "type" : "object",
-      "properties" : {
-        "title" : {
-          "description" : "Card i18n title",
-          "$ref" : "#/definitions/I18n"
-        },
-        "titleStyle" : {
-          "description" : "css classes applied to title",
-          "type" : "string"
-        },
-        "titlePosition" : {
-          "description" : "Title position",
-          "$ref" : "#/definitions/TitlePositionEnum"
-        },
-        "templateName" : {
-          "description" : "template unique name as defined by Businessconfig Party Bundle in Businessconfig Party Service",
-          "type" : "string"
-        },
-        "styles" : {
-          "description" : "css files names to load as defined by Businessconfig Party Bundle in Businessconfig Party Service",
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "required" : [ "title", "templateName" ],
-      "example" : {
-        "title" : {
-          "key" : "myCard.title",
-          "parameters" : {
-            "EN" : "My card title",
-            "FR" : "Mon titre de carte"
-          },
-          "titlePosition" : "UP",
-          "titleStyle" : "myTitleStyle.css",
-          "templateName" : "template1",
-          "styles" : [ "bundleTest.css", "otherStyle.css" ]
-        }
-      }
-    },
     "Recipient" : {
       "description" : "Recipient object defines rules for recipient computation",
       "type" : "object",
@@ -370,13 +327,6 @@ window.swaggerSpec={
             "$ref" : "#/definitions/TimeSpan"
           }
         },
-        "details" : {
-          "type" : "array",
-          "description" : "List of card associated details",
-          "items" : {
-            "$ref" : "#/definitions/Detail"
-          }
-        },
         "title" : {
           "description" : "Card i18n title",
           "$ref" : "#/definitions/I18n"
@@ -476,19 +426,6 @@ window.swaggerSpec={
             }
           }
         } ],
-        "details" : {
-          "title" : {
-            "key" : "myCard.title",
-            "parameters" : {
-              "EN" : "My card title",
-              "FR" : "Mon titre de carte"
-            }
-          },
-          "titlePosition" : "UP",
-          "titleStyle" : "myTitleStyle.css",
-          "templateName" : "template1",
-          "styles" : [ "bundleTest.css", "otherStyle.css" ]
-        },
         "title" : {
           "key" : "myservice.myprocess.title",
           "parameters" : {

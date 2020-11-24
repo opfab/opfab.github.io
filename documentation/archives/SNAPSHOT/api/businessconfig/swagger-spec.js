@@ -273,50 +273,6 @@ window.swaggerSpec={
         }
       }
     },
-    "/businessconfig/processes/{processId}/{state}/details" : {
-      "get" : {
-        "summary" : "Get details for a given state of a given process",
-        "description" : "Get details associated with a given state of a given process, returns an array of details (application/json)",
-        "operationId" : "getDetails",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "processId",
-          "in" : "path",
-          "description" : "Id of the process to retrieve",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "state",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "version",
-          "in" : "query",
-          "required" : false,
-          "description" : "Required version of process (defaults to latest)",
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Detail"
-              }
-            }
-          },
-          "404" : {
-            "description" : "No such process/state"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          }
-        }
-      }
-    },
     "/businessconfig/processes/{processId}/{state}/response" : {
       "get" : {
         "summary" : "Get response associated with a given state of a given process",
@@ -460,13 +416,6 @@ window.swaggerSpec={
           "additionalProperties" : {
             "type" : "object",
             "properties" : {
-              "details" : {
-                "type" : "array",
-                "description" : "List of details",
-                "items" : {
-                  "$ref" : "#/definitions/Detail"
-                }
-              },
               "response" : {
                 "$ref" : "#/definitions/Response"
               },
@@ -485,6 +434,21 @@ window.swaggerSpec={
               "userCardTemplate" : {
                 "type" : "string",
                 "description" : "Name of the template to use when creating a new card"
+              },
+              "detailTitle" : {
+                "description" : "Detail i18n title",
+                "$ref" : "#/definitions/I18n"
+              },
+              "templateName" : {
+                "description" : "Name of the template to use",
+                "type" : "string"
+              },
+              "styles" : {
+                "description" : "Name of the css files to apply",
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
               }
             }
           }
@@ -513,29 +477,23 @@ window.swaggerSpec={
         "name" : "some_business_process.label",
         "version" : "v1.0",
         "initial_state" : {
-          "details" : [ {
-            "title" : {
-              "key" : "template.title",
-              "parameters" : {
-                "param" : "value"
-              }
-            },
-            "titleStyle" : "titleClass",
-            "templateName" : "template1"
-          } ]
+          "detailTitle" : {
+            "key" : "template.title",
+            "parameters" : {
+              "param" : "value"
+            }
+          },
+          "templateName" : "template1"
         },
         "other_state" : {
-          "details" : [ {
-            "title" : {
-              "key" : "template2.title",
-              "parameters" : {
-                "param" : "value"
-              }
-            },
-            "titleStyle" : "titleClass2",
-            "templateName" : "template2",
-            "styles" : [ "my-template.css" ]
-          } ]
+          "detailTitle" : {
+            "key" : "template2.title",
+            "parameters" : {
+              "param" : "value"
+            }
+          },
+          "templateName" : "template2",
+          "styles" : [ "my-template.css" ]
         }
       }
     },
@@ -563,43 +521,6 @@ window.swaggerSpec={
         }
       },
       "required" : [ "key" ]
-    },
-    "Detail" : {
-      "description" : "Defines the rendering of card details. Each Detail object corresponds to a tab in the details pane.",
-      "type" : "object",
-      "properties" : {
-        "title" : {
-          "description" : "Detail i18n title",
-          "$ref" : "#/definitions/I18n"
-        },
-        "titleStyle" : {
-          "description" : "css classes applied to the title",
-          "type" : "string"
-        },
-        "templateName" : {
-          "description" : "Name of the template to use",
-          "type" : "string"
-        },
-        "styles" : {
-          "description" : "Name of the css files to apply",
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "required" : [ "templateName" ],
-      "example" : {
-        "title" : {
-          "key" : "template.title",
-          "parameters" : {
-            "param" : "value"
-          }
-        },
-        "titleStyle" : "titleClass",
-        "templateName" : "template1",
-        "styles" : [ "bundleTest.css", "otherStyle.css" ]
-      }
     },
     "Response" : {
       "description" : "defines a response to an action on the business process associated with the card",

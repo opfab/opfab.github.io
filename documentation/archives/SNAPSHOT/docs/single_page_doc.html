@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">23 November 2020</span>
+<span id="revdate">24 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -653,8 +653,7 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_presentation_information_of_the_card">9.1.3. Presentation Information of the card</a>
 <ul class="sectlevel4">
-<li><a href="#_details_details">9.1.3.1. details (<code>details</code>)</a></li>
-<li><a href="#_timespans_timespans">9.1.3.2. TimeSpans (<code>timeSpans</code>)</a></li>
+<li><a href="#_timespans_timespans">9.1.3.1. TimeSpans (<code>timeSpans</code>)</a></li>
 </ul>
 </li>
 </ul>
@@ -2760,34 +2759,7 @@ You must not use dot in json field names. In this case, the card will be refused
 <div class="sect3">
 <h4 id="_presentation_information_of_the_card"><a class="anchor" href="#_presentation_information_of_the_card"></a>9.1.3. Presentation Information of the card</h4>
 <div class="sect4">
-<h5 id="_details_details"><a class="anchor" href="#_details_details"></a>9.1.3.1. details (<code>details</code>)</h5>
-<div class="paragraph">
-<p>This attribute is a string of objects containing a <code>title</code> attribute which is <code>i18n</code> key and a <code>template</code> attribute
-which refers to a template name contained in the publisher bundle. The bundle in which those resources will be looked
-for is the one corresponding to the
-<a href="#card_process_version">version</a>
-declared in the card for the current
-<a href="#card_process">process</a>
-.
-If no resource is found, either because there is no bundle for the given version or
-there is no resource for the given key, then the corresponding key is displayed in the details section of the GUI.</p>
-</div>
-<div class="paragraph">
-<p><strong>example:</strong></p>
-</div>
-<div class="paragraph">
-<p>The <code>TEST</code> process only has a <code>0.1</code> version uploaded in the current <code>OperatorFabric</code> system. The <code>details</code> value is
-<code>[{"title":{"key":"first.tab.title"},"template":"template0"}]</code>.</p>
-</div>
-<div class="paragraph">
-<p>If the <code>processVersion</code> of the card is <code>2</code> then only the <code>title</code> key declared in the <code>details</code> array will be displayed
-without any translation, i.e. the tab will contains <code>TEST.2.first.tab.title</code> and will be empty. If the <code>l10n</code> for
-the title is not available, then the tab title will be still <code>TEST.2.first.tab.title</code> but the template will be computed
-and the details section will display the template content.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_timespans_timespans"><a class="anchor" href="#_timespans_timespans"></a>9.1.3.2. TimeSpans (<code>timeSpans</code>)</h5>
+<h5 id="_timespans_timespans"><a class="anchor" href="#_timespans_timespans"></a>9.1.3.1. TimeSpans (<code>timeSpans</code>)</h5>
 <div class="paragraph">
 <p>When the simple startDate and endDate are not enough to characterize your
 process business times, you can add a list of TimeSpan to your card. TimeSpans
@@ -3034,7 +3006,7 @@ The way details are formatted depends on the template contained in the bundle as
 configuration.The one presents in the development version of OperatorFabric, for test purpose(<code>TEST</code> bundle).</p>
 </div>
 <div class="paragraph">
-<p>At the card level, the attributes in the card telling OperatorFabric which template to use is the <code>details</code> attributes.</p>
+<p>At the card level, the attributes in the card telling OperatorFabric which template to use are the <code>process</code> and <code>state</code> attributes, the <code>templateName</code> can be retrieved from the definition of the bundle.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -3048,17 +3020,14 @@ configuration.The one presents in the development version of OperatorFabric, for
 	"severity":"INFORMATION",
 	"title":{"key":"process.title"},
 	"summary":{"key":"process.summary"},
-	"userRecipients": ["operator1"]
+	"userRecipients": ["operator1"],
 	"data":{"rootProp":"Data displayed in the detail panel"},
-	"details":[{"title":{"key":"process.detail.tab.first"}, "templateName":"template1"}]
 
 }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>So here a single custom data is defined and it&#8217;s <code>rootProp</code>. This attribute is used by the template called by the
-<code>details</code> attribute. This attribute contains an array of <code>json</code> object containing an <code>i18n</code> key and a <code>template</code>
-reference. Each of those object is a tab in the detail panel of the GUI.</p>
+<p>So here a single custom data is defined and it&#8217;s <code>rootProp</code>. This attribute is used by the template called by the <code>templateName</code> attribute.</p>
 </div>
 </div>
 </div>
@@ -3159,14 +3128,10 @@ It lists the content of the bundle.</p>
     <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:  <span class="string"><span class="delimiter">&quot;</span><span class="content">state.label</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">color</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">blue</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
-        {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
-          },
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>
-        }
-      ],
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgementAllowed</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>
     }
   }
@@ -3549,24 +3514,17 @@ curl -X POST "http://localhost:2100/businessconfig/processes"\
   <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span> : {
           <span class="key"><span class="delimiter">&quot;</span><span class="content">start</span><span class="delimiter">&quot;</span></span> : {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [ {
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">start.first.title</span><span class="delimiter">&quot;</span></span>
-              },
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">startTitle text-danger</span><span class="delimiter">&quot;</span></span>,
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>
-            } ]
-
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span> : {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">start.first.title</span><span class="delimiter">&quot;</span></span>
+            },
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>
           },
           <span class="key"><span class="delimiter">&quot;</span><span class="content">end</span><span class="delimiter">&quot;</span></span> : {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span> : [ {
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> : {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">end.first.title</span><span class="delimiter">&quot;</span></span>
-              },
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">titleStyle</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">startTitle text-info</span><span class="delimiter">&quot;</span></span>,
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>,
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest.css</span><span class="delimiter">&quot;</span></span> ]
-            } ]
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span> : {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">end.first.title</span><span class="delimiter">&quot;</span></span>
+            },
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest.css</span><span class="delimiter">&quot;</span></span> ]
           }
       }
 }</code></pre>
@@ -4303,17 +4261,13 @@ users :
           "key": "question.button.text"
         }
       },
-      "details": [
-        {
-          "title": {
-            "key": "question.title"
-          },
-          "templateName": "question",
-          "styles": [
-            "style"
-          ]
-        }
-      ],
+      "detailTitle": {
+        "key": "question.title"
+      },
+      "templateName": "question",
+      "styles": [
+        "style"
+      ]
       "acknowledgementAllowed": false
     }
   }
