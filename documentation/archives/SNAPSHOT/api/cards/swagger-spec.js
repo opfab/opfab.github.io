@@ -213,10 +213,8 @@ window.swaggerSpec={
       "description" : "An object to define recurrence of timeSpans",
       "properties" : {
         "hoursAndMinutes" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/HoursAndMinutes"
-          }
+          "$ref" : "#/definitions/HoursAndMinutes",
+          "description" : "hours and minutes"
         },
         "daysOfWeek" : {
           "description" : "Days of the week for the recurrence",
