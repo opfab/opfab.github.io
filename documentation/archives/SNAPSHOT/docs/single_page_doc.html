@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">27 November 2020</span>
+<span id="revdate">28 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1182,6 +1182,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_component_name">43.4. Component name</a></li>
 <li><a href="#_changes_to_the_endpoints">43.5. Changes to the endpoints</a></li>
 <li><a href="#_migration_steps">43.6. Migration steps</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_1_7_0_to_release_1_8_0">44. Migration Guide from release 1.7.0 to release 1.8.0</a>
+<ul class="sectlevel2">
+<li><a href="#_card_detail_definition_in_business_configuration">44.1. Card detail definition in business configuration</a></li>
+<li><a href="#_business_menu_definition">44.2. Business menu definition</a></li>
 </ul>
 </li>
 </ul>
@@ -3424,6 +3430,8 @@ The file name must be declared in the <code>config.json</code> file in order to 
             <span class="key"><span class="delimiter">&quot;</span><span class="content">state1</span><span class="delimiter">&quot;</span></span> : {
                   <span class="error">…</span>
                         <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest</span><span class="delimiter">&quot;</span></span>]
+                  }
+              }
         <span class="error">…</span>
 }</code></pre>
 </div>
@@ -3475,11 +3483,11 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>cd ${BUNDLE_FOLDER}
-curl -X POST "http://localhost:2100/businessconfig/processes"\
-	-H  "accept: application/json"\
-	-H  "Content-Type: multipart/form-data"\
-	-F "file=@bundle-test.tar.gz;type=application/gzip"</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${BUNDLE_FOLDER}
+curl -X POST &quot;http://localhost:2100/businessconfig/processes&quot;\
+        -H  &quot;accept: application/json&quot;\
+        -H  &quot;Content-Type: multipart/form-data&quot;\
+        -F &quot;file=@bundle-test.tar.gz;type=application/gzip&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -12806,6 +12814,78 @@ $set: { &quot;process&quot;: &quot;SOME_PROCESS&quot;}
 <p>If you have any code or scripts that push bundles, you should update it to point to the new endpoint.</p>
 </li>
 </ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_1_7_0_to_release_1_8_0"><a class="anchor" href="#_migration_guide_from_release_1_7_0_to_release_1_8_0"></a>44. Migration Guide from release 1.7.0 to release 1.8.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_card_detail_definition_in_business_configuration"><a class="anchor" href="#_card_detail_definition_in_business_configuration"></a>44.1. Card detail definition in business configuration</h3>
+<div class="paragraph">
+<p>There is no more the need for multiple definitions of card&#8217;s detail rendering because of the removal of multi-tab rendering. The rendering of the detail of a card is configured specifying the detail title, template name and the list of styles.</p>
+</div>
+<div class="paragraph">
+<p>In the Businessconfig model definition the field <code>details</code> has been removed.</p>
+</div>
+<div class="paragraph">
+<p>The new fields <code>detailTitle</code>, <code>templateName</code> and <code>styles</code> have been added.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of a simple config.json file:</p>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">mystate.label</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+          },
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">style1</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">style2</span><span class="delimiter">&quot;</span></span>]
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">mystate.label</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+        },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">style1</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">style2</span><span class="delimiter">&quot;</span></span>]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_business_menu_definition"><a class="anchor" href="#_business_menu_definition"></a>44.2. Business menu definition</h3>
+<div class="paragraph">
+<p>The business menu are not configured anymore in the business definition but in a specific single configuration file called ui-menu.json. You must move your configuration from the config.json to this new file, see
+<a href="#menu_entries">documentation</a>
+.</p>
 </div>
 </div>
 </div>
