@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 1.7.0.RELEASE,</span>
-<span id="revdate">19 October 2020</span>
+<span id="revnumber">version 1.8.0.RELEASE,</span>
+<span id="revdate">30 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -574,6 +574,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_define_time_to_live_for_archived_cards">2.4.1. Define time to live for archived cards</a></li>
 </ul>
 </li>
+<li><a href="#_operatorfabric_kafka_configuration">2.5. OperatorFabric Kafka configuration</a></li>
 </ul>
 </li>
 <li><a href="#_rabbitmq">3. RabbitMQ</a>
@@ -588,30 +589,37 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_users_groups_and_entities_administration">4. Users, Groups and Entities Administration</a>
+<li><a href="#_monitoring">4. Monitoring</a></li>
+<li><a href="#_users_groups_and_entities_administration">5. Users, Groups and Entities Administration</a>
 <ul class="sectlevel2">
-<li><a href="#_users">4.1. Users</a>
+<li><a href="#_users">5.1. Users</a>
 <ul class="sectlevel3">
-<li><a href="#_list_all_users">4.1.1. List all users</a></li>
-<li><a href="#_create_a_new_user">4.1.2. Create a new User</a></li>
-<li><a href="#_fetch_user_details">4.1.3. Fetch user details</a></li>
-<li><a href="#_update_user_details">4.1.4. Update user details</a></li>
+<li><a href="#_list_all_users">5.1.1. List all users</a></li>
+<li><a href="#_create_a_new_user">5.1.2. Create a new User</a></li>
+<li><a href="#_fetch_user_details">5.1.3. Fetch user details</a></li>
+<li><a href="#_update_user_details">5.1.4. Update user details</a></li>
 </ul>
 </li>
-<li><a href="#_groupsentities">4.2. Groups/Entities</a>
+<li><a href="#_groupsentities">5.2. Groups/Entities</a>
 <ul class="sectlevel3">
-<li><a href="#_list_groups_or_entities">4.2.1. List groups (or entities)</a></li>
-<li><a href="#_create_a_new_group_or_entity">4.2.2. Create a new group (or entity)</a></li>
-<li><a href="#_fetch_details_of_a_given_group_or_entity">4.2.3. Fetch details of a given group (or entity)</a></li>
-<li><a href="#_update_details_of_a_group_or_entity">4.2.4. Update details of a group (or entity)</a></li>
-<li><a href="#_add_a_user_to_a_group_or_entity">4.2.5. Add a user to a group (or entity)</a></li>
-<li><a href="#_remove_a_user_from_a_group_or_entity">4.2.6. Remove a user from a group (or entity)</a></li>
+<li><a href="#_list_groups_or_entities">5.2.1. List groups (or entities)</a></li>
+<li><a href="#_create_a_new_group_or_entity">5.2.2. Create a new group (or entity)</a></li>
+<li><a href="#_fetch_details_of_a_given_group_or_entity">5.2.3. Fetch details of a given group (or entity)</a></li>
+<li><a href="#_update_details_of_a_group_or_entity">5.2.4. Update details of a group (or entity)</a></li>
+<li><a href="#_add_a_user_to_a_group_or_entity">5.2.5. Add a user to a group (or entity)</a></li>
+<li><a href="#_remove_a_user_from_a_group_or_entity">5.2.6. Remove a user from a group (or entity)</a></li>
+<li><a href="#_entity_parents">5.2.7. Entity parents</a>
+<ul class="sectlevel4">
+<li><a href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration">5.2.7.1. Add a new Entity without a cycle in the parent declaration</a></li>
+<li><a href="#_add_a_new_entity_with_a_cycle">5.2.7.2. Add a new Entity with a cycle</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_service_port_table">5. Service port table</a></li>
-<li><a href="#_restricted_operations_administration">6. Restricted operations (administration)</a></li>
+</ul>
+</li>
+<li><a href="#_service_port_table">6. Service port table</a></li>
+<li><a href="#_restricted_operations_administration">7. Restricted operations (administration)</a></li>
 </ul>
 </div>
 </div>
@@ -818,7 +826,7 @@ the type of deployment you&#8217;re looking for.</p>
 <div class="sect4">
 <h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>2.1.2.3. Cards-publication service</h5>
 <div class="paragraph">
-<p>The cards-publication service has this specific property :</p>
+<p>The cards-publication service has these specific properties :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -841,6 +849,50 @@ the type of deployment you&#8217;re looking for.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not check that a user has write rights on a process/state to respond to a card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.consumer.group-id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set, support for receiving cards via Kafka is enabled</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.deserializer.value.delegate.class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.
+KafkaAvroDeserializer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deserializer used to convert the received bytes into objects</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.serializer.value.delegate.class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.
+KafkaAvroSerializer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serializer used to convert cards to bytes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.producer.bootstrap-servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:9092" class="bare">localhost:9092</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">comma seperated list of URL(s) of the broker(s) / bootstrap server(s)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to read the messages from</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.response-card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to place the response cards to</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.schema.registry.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
 </tr>
 </tbody>
 </table>
@@ -1028,6 +1080,18 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the acknowledgement filter in the feed page</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.hideReadSort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the option to sort cards by read status in the feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.hideSeveritySort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the option to sort cards by severity in the feed page</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.secondsBeforeLttdForClockDisplay</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">180</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1119,18 +1183,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">style to apply if not using day night mode, possible value are DAY,NIGHT or LEGACY (black background and white timeline)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.disable</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to disable/enable editing user email, description in the settings page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.email</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the user email in the settings page</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1147,24 +1199,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timezone in the settings page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.timeformat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timeformat in the settings page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.dateformat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the dateformat in the settings page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.datetimeformat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the datetimeformat in the settings page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.tags</p></td>
@@ -1296,25 +1330,7 @@ Currently the <code>application routes</code> are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.timeZone</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default user time zone for users (use</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.timeFormat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default user time format (moment)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateFormat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default user date format (moment)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateTimeFormat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LL LT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default user date format (moment)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user time zone for users</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.locale</p></td>
@@ -1995,6 +2011,49 @@ change the value of the option of an existing index, you must drop the index fir
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_operatorfabric_kafka_configuration"><a class="anchor" href="#_operatorfabric_kafka_configuration"></a>2.5. OperatorFabric Kafka configuration</h3>
+<div class="paragraph">
+<p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic. In the default configuration Kafka is disabled.
+To enable Kafka you need to set the consumer group to the consumer group you assign to the OpFab Kafka consumer. This can be any group-id, as long as it isn&#8217;t used by other consumers
+(unless you explicitly want multiple consumers for the same group).</p>
+</div>
+<div class="paragraph">
+<p>You can set the group_id by uncommenting the <code>kafka.consumer.group_id</code> in the <code>cards-publication.yml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the consumer will consume messages from the <code>opfab</code> topic.
+See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a> for more information on the Spring Kafka implementation.</p>
+</div>
+<div class="paragraph">
+<p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
+</div>
+<div class="paragraph">
+<p>Operator Fabric is also able to publish response cards to a Kafka topic. The default topic name  <code>opfab-response</code>. You can specify which response cards
+are to be returned via Kafka by setting the <code>externalRecipients-url</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
+           processAction: \&quot;http://localhost:8090/test\&quot;, \
+           mykafka: \&quot;kafka:topicname\&quot;
+           }</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka topic.</p>
+</div>
+<div class="paragraph">
+<p>Also note enabling Kafka does not disable the REST interface.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2087,17 +2146,25 @@ production configuration guidelines</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_users_groups_and_entities_administration"><a class="anchor" href="#_users_groups_and_entities_administration"></a>4. Users, Groups and Entities Administration</h2>
+<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>4. Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance. As a user of OperatorFabric, he needs to be added to the system with a <code>login</code> (john-doe-operator), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).
-operator
+<p>Operator Fabric provides end points for monitoring via <a href="https://prometheus.io/">prometheus</a>. The monitoring is available for the four following services: user, businessconfig, cards-consultation, cards-publication. You can start a test prometheus instance via <code>config/monitoring/startPrometheus.sh</code> , the monitoring will be accessible on <a href="http://localhost:9090/" class="bare">localhost:9090/</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_users_groups_and_entities_administration"><a class="anchor" href="#_users_groups_and_entities_administration"></a>5. Users, Groups and Entities Administration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance.
+As a user of OperatorFabric, he needs to be added to the system with a <code>login</code> (john-doe-operator), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).
 As there is no <code>Administration GUI</code> for the moment, it must be performed through command line, as detailed in the Users API.</p>
 </div>
 <div class="sect2">
-<h3 id="_users"><a class="anchor" href="#_users"></a>4.1. Users</h3>
+<h3 id="_users"><a class="anchor" href="#_users"></a>5.1. Users</h3>
 <div class="sect3">
-<h4 id="_list_all_users"><a class="anchor" href="#_list_all_users"></a>4.1.1. List all users</h4>
+<h4 id="_list_all_users"><a class="anchor" href="#_list_all_users"></a>5.1.1. List all users</h4>
 <div class="paragraph">
 <p>First of all, list the users (who are the recipients in OperatorFabric) of the system with the following commands:</p>
 </div>
@@ -2143,11 +2210,11 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "RTE",
             "ADMIN",
             "CORESO",
-            "TRANS",
+            "ReadOnly",
             "TEST"
         ],
         "lastName": null,
-        "login": "rte-operator"
+        "login": "operator3"
     },
     {
         "firstName": null,
@@ -2168,36 +2235,37 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
     {
         "firstName": null,
         "groups": [
-            "TSO1",
-            "TRANS",
+            "Dispatcher",
+            "ReadOnly",
             "TEST"
         ],
         "entities": [
             "ENTITY1"
         ],
         "lastName": null,
-        "login": "tso1-operator"
+        "login": "operator1"
     },
     {
         "firstName": null,
         "groups": [
-            "TSO2",
-            "TRANS"
+            "Planner",
+            "ReadOnly"
         ],
         "entities": [
             "ENTITY2"
         ],
         "lastName": null,
-        "login": "tso2-operator"
+        "login": "operator2"
     },
 ]</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>4.1.2. Create a new User</h4>
+<h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>5.1.2. Create a new User</h4>
 <div class="paragraph">
-<p>We are sure that no John-doe-operator exists in our OperatorFabric instance. We can add him in our OperatorFabric instance using the following command use httpie:</p>
+<p>We are sure that no John-doe-operator exists in our OperatorFabric instance.
+We can add him in our OperatorFabric instance using the following command use httpie:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -2228,7 +2296,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>4.1.3. Fetch user details</h4>
+<h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>5.1.3. Fetch user details</h4>
 <div class="paragraph">
 <p>It&#8217;s always a good thing to verify if all the information has been correctly recorded in the system:</p>
 </div>
@@ -2266,11 +2334,13 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_user_details"><a class="anchor" href="#_update_user_details"></a>4.1.4. Update user details</h4>
+<h4 id="_update_user_details"><a class="anchor" href="#_update_user_details"></a>5.1.4. Update user details</h4>
 <div class="paragraph">
-<p>As shown by this result, the firstName of the new operator has been misspelled.We need
+<p>As shown by this result, the firstName of the new operator has been misspelled.
+We need
 <a href="../../../../documentation/current/api/users/index.html#/users/updateUser">to update the existing user</a>
-with <code>john-doe-operator</code> login. To correct this mistake, the following commands can be used :</p>
+with <code>john-doe-operator</code> login.
+To correct this mistake, the following commands can be used:</p>
 </div>
 <div class="paragraph">
 <p>with httpie:</p>
@@ -2305,7 +2375,7 @@ with <code>john-doe-operator</code> login. To correct this mistake, the followin
 </div>
 </div>
 <div class="sect2">
-<h3 id="_groupsentities"><a class="anchor" href="#_groupsentities"></a>4.2. Groups/Entities</h3>
+<h3 id="_groupsentities"><a class="anchor" href="#_groupsentities"></a>5.2. Groups/Entities</h3>
 <div class="paragraph">
 <p>All the commands below :</p>
 </div>
@@ -2332,10 +2402,10 @@ with <code>john-doe-operator</code> login. To correct this mistake, the followin
 </ul>
 </div>
 <div class="paragraph">
-<p>are available for both groups and entities. In order not to overload the documentation, we will only detail groups endpoints.</p>
+<p>are available for both groups and entities. In order not to overload the documentation, we will only detail group endpoints.</p>
 </div>
 <div class="sect3">
-<h4 id="_list_groups_or_entities"><a class="anchor" href="#_list_groups_or_entities"></a>4.2.1. List groups (or entities)</h4>
+<h4 id="_list_groups_or_entities"><a class="anchor" href="#_list_groups_or_entities"></a>5.2.1. List groups (or entities)</h4>
 <div class="paragraph">
 <p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in
 the system. As shown when we
@@ -2387,26 +2457,26 @@ existing in the server.</p>
         "id": "CORESO"
     },
     {
-        "description": "TSO 1 Group",
-        "name": "TSO1 group",
-        "id": "TSO1"
+        "description": "Dispatcher Group",
+        "name": "Dispatcher",
+        "id": "Dispatcher"
     },
     {
-        "description": "TSO 2 Group",
-        "name": "TSO2 group",
-        "id": "TSO2"
+        "description": "Planner Group",
+        "name": "Planner",
+        "id": "Planner"
     },
     {
-        "description": "Transnationnal Group",
-        "name": "TRANS group",
-        "id": "TRANS"
+        "description": "ReadOnly Group",
+        "name": "ReadOnly",
+        "id": "ReadOnly"
     }
 ]</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_group_or_entity"><a class="anchor" href="#_create_a_new_group_or_entity"></a>4.2.2. Create a new group (or entity)</h4>
+<h4 id="_create_a_new_group_or_entity"><a class="anchor" href="#_create_a_new_group_or_entity"></a>5.2.2. Create a new group (or entity)</h4>
 <div class="paragraph">
 <p>Firstly, the group called <code>OPERATORS</code> has to be
 <a href="../../../../documentation/current/api/users/index.html#/groups/createGroup">added to the system</a>
@@ -2417,7 +2487,7 @@ using the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>echo '{"id":"OPERATORS","decription":"This is the brand new  group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+<pre>echo '{"id":"OPERATORS","decription":"This is the brand new group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2425,7 +2495,7 @@ using the following command:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","decription":"This is the brand new  group of operator"}'</pre>
+<pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","decription":"This is the brand new group of operator"}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2436,6 +2506,7 @@ using the following command:</p>
 <pre>HTTP/1.1 200 OK
 
 {
+    "perimeters": [],
     "description": null,
     "name": null,
     "id": "OPERATORS"
@@ -2444,7 +2515,7 @@ using the following command:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_details_of_a_given_group_or_entity"><a class="anchor" href="#_fetch_details_of_a_given_group_or_entity"></a>4.2.3. Fetch details of a given group (or entity)</h4>
+<h4 id="_fetch_details_of_a_given_group_or_entity"><a class="anchor" href="#_fetch_details_of_a_given_group_or_entity"></a>5.2.3. Fetch details of a given group (or entity)</h4>
 <div class="paragraph">
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="../../../../documentation/current/api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
@@ -2474,6 +2545,7 @@ called <code>OPERATORS</code>, use the following command:</p>
 <pre>HTTP/1.1 200 OK
 
 {
+    "perimeters": [],
     "description": null,
     "name": null,
     "id": "OPERATORS"
@@ -2482,7 +2554,7 @@ called <code>OPERATORS</code>, use the following command:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_details_of_a_group_or_entity"><a class="anchor" href="#_update_details_of_a_group_or_entity"></a>4.2.4. Update details of a group (or entity)</h4>
+<h4 id="_update_details_of_a_group_or_entity"><a class="anchor" href="#_update_details_of_a_group_or_entity"></a>5.2.4. Update details of a group (or entity)</h4>
 <div class="paragraph">
 <p>The description is really null. After verification, in our first command used to create the group,
 the attribute for the description is misspelled. Using the following command
@@ -2511,6 +2583,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 <div class="literalblock">
 <div class="content">
 <pre>{
+    "perimeters": []
     "description": "This is the brand-new group of operator",
     "name": null,
     "id": "OPERATORS"
@@ -2519,7 +2592,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_a_user_to_a_group_or_entity"><a class="anchor" href="#_add_a_user_to_a_group_or_entity"></a>4.2.5. Add a user to a group (or entity)</h4>
+<h4 id="_add_a_user_to_a_group_or_entity"><a class="anchor" href="#_add_a_user_to_a_group_or_entity"></a>5.2.5. Add a user to a group (or entity)</h4>
 <div class="paragraph">
 <p>As both new group and new user are correct it&#8217;s time
 <a href="../../../../documentation/current/api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
@@ -2586,7 +2659,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_remove_a_user_from_a_group_or_entity"><a class="anchor" href="#_remove_a_user_from_a_group_or_entity"></a>4.2.6. Remove a user from a group (or entity)</h4>
+<h4 id="_remove_a_user_from_a_group_or_entity"><a class="anchor" href="#_remove_a_user_from_a_group_or_entity"></a>5.2.6. Remove a user from a group (or entity)</h4>
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
@@ -2659,11 +2732,94 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_entity_parents"><a class="anchor" href="#_entity_parents"></a>5.2.7. Entity parents</h4>
+<div class="paragraph">
+<p>Entities have a 'parents' attribute instead of a 'perimeters' one.
+This attribute is a string array.
+Each element of the array is the id of another Entity.
+When adding or patching an Entity into the system, operatorFabric performs a cycle detection.
+On a positive cycle detection cancels the addition or the patch.</p>
+</div>
+<div class="sect4">
+<h5 id="_add_a_new_entity_without_a_cycle_in_the_parent_declaration"><a class="anchor" href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration"></a>5.2.7.1. Add a new Entity without a cycle in the parent declaration</h5>
+<div class="paragraph">
+<p>using httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1"]}' \
+| http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>using cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2103/entities -H "Authorization:Bearer $token" -H "Content-Type:application/json" \
+--data '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1"]}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+
+{
+    "id": "NEW_ENTITY",
+    "parents": ["ENTITY1"],
+    "name": "Last New Entity",
+    "description":"This is the last new entity"
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_add_a_new_entity_with_a_cycle"><a class="anchor" href="#_add_a_new_entity_with_a_cycle"></a>5.2.7.2. Add a new Entity with a cycle</h5>
+<div class="paragraph">
+<p>For simplicity, in this example the new entity will declare itself as a parent.
+This auto-referencing triggers a cycle detection.</p>
+</div>
+<div class="paragraph">
+<p>using httpie:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["NEW_ENTITY"]}' | http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>using cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2103/entities -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["NEW_ENTITY"]}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>response</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+    "status":"BAD_REQUEST",
+    "message":"A cycle has been detected: NEW_ENTITY-&gt;NEW_ENTITY"
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with a <code>400</code> as http status return.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_service_port_table"><a class="anchor" href="#_service_port_table"></a>5. Service port table</h2>
+<h2 id="_service_port_table"><a class="anchor" href="#_service_port_table"></a>6. Service port table</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>By default all service built artifacts are configured with server.port set
@@ -2773,7 +2929,7 @@ the used ports are:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_restricted_operations_administration"><a class="anchor" href="#_restricted_operations_administration"></a>6. Restricted operations (administration)</h2>
+<h2 id="_restricted_operations_administration"><a class="anchor" href="#_restricted_operations_administration"></a>7. Restricted operations (administration)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Some operations are restricted to users with the <strong>ADMIN</strong> role, either because they are administration

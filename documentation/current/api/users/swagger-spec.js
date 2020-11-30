@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric User Management API",
-    "version" : "1.7.0.RELEASE",
+    "version" : "1.8.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -126,13 +126,20 @@ window.swaggerSpec={
         },
         "description" : {
           "type" : "string"
+        },
+        "parents" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : true
+          }
         }
       },
       "required" : [ "id" ],
       "example" : {
         "id" : "ENTITY1",
-        "name" : "Entity 1 name",
-        "description" : "Entity 1 short description"
+        "name" : "Control Room 1",
+        "description" : "Control Room 1"
       }
     },
     "RightsEnum" : {
@@ -193,10 +200,6 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "User login"
         },
-        "email" : {
-          "type" : "string",
-          "description" : "User email"
-        },
         "description" : {
           "type" : "string",
           "description" : "Free user description label (ex: organization role)"
@@ -208,18 +211,6 @@ window.swaggerSpec={
         "locale" : {
           "type" : "string",
           "description" : "User using browser format"
-        },
-        "timeFormat" : {
-          "type" : "string",
-          "description" : "Time formatting (See https://momentjs.com)"
-        },
-        "dateFormat" : {
-          "type" : "string",
-          "description" : "Date formatting (See https://momentjs.com)"
-        },
-        "dateTimeFormat" : {
-          "type" : "string",
-          "description" : "Date Time formatting (See https://momentjs.com). If not set dateFormat and timeFormat are used to deduce date time format."
         },
         "defaultTags" : {
           "type" : "array",
@@ -244,17 +235,25 @@ window.swaggerSpec={
         "playSoundForInformation" : {
           "type" : "boolean",
           "description" : "If this is set to true, a sound will be played for incoming cards with INFORMATION severity."
+        },
+        "processesStatesNotNotified" : {
+          "type" : "object",
+          "description" : "Filters on processes and states for user feed (exclusion filter)",
+          "additionalProperties" : {
+            "type" : "array",
+            "description" : "List of process states for which the user will not be notified",
+            "items" : {
+              "type" : "string"
+            }
+          }
         }
       },
       "required" : [ "login" ],
       "example" : {
         "login" : "jcleese",
-        "email" : "john.cleese@monty.python.org",
         "description" : "once played Sir Lancelot",
         "timezone" : "Europe/London",
         "locale" : "en-GB",
-        "timeFormat" : "LT",
-        "dateFormat" : "L",
         "defaultTags" : [ "humor", "movies" ]
       }
     },
@@ -272,6 +271,17 @@ window.swaggerSpec={
             "$ref" : "#/definitions/ComputedPerimeter",
             "uniqueItems" : true
           }
+        },
+        "processesStatesNotNotified" : {
+          "type" : "object",
+          "description" : "Filters on processes and states for user feed (exclusion filter)",
+          "additionalProperties" : {
+            "type" : "array",
+            "description" : "List of process states for which the user will not be notified",
+            "items" : {
+              "type" : "string"
+            }
+          }
         }
       }
     },
@@ -286,6 +296,20 @@ window.swaggerSpec={
         },
         "rights" : {
           "$ref" : "#/definitions/RightsEnum"
+        }
+      }
+    },
+    "NotificationFilter" : {
+      "type" : "object",
+      "properties" : {
+        "process" : {
+          "type" : "string"
+        },
+        "states" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     }
@@ -960,12 +984,12 @@ window.swaggerSpec={
             "examples" : {
               "application/json" : [ {
                 "id" : "ENTITY1",
-                "name" : "Enity 1 name",
-                "description" : "Entity 1 short description"
+                "name" : "Control Room 1",
+                "description" : "Control Room 1"
               }, {
                 "id" : "ENTITY2",
-                "name" : "Entity 2 name",
-                "description" : "Entity 2 short description"
+                "name" : "Control Room 2",
+                "description" : "Control Room 2"
               } ]
             }
           },

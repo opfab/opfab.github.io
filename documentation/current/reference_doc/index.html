@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 1.7.0.RELEASE,</span>
-<span id="revdate">19 October 2020</span>
+<span id="revnumber">version 1.8.0.RELEASE,</span>
+<span id="revdate">30 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -555,8 +555,7 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_presentation_information_of_the_card">2.1.3. Presentation Information of the card</a>
 <ul class="sectlevel4">
-<li><a href="#_details_details">2.1.3.1. details (<code>details</code>)</a></li>
-<li><a href="#_timespans_timespans">2.1.3.2. TimeSpans (<code>timeSpans</code>)</a></li>
+<li><a href="#_timespans_timespans">2.1.3.1. TimeSpans (<code>timeSpans</code>)</a></li>
 </ul>
 </li>
 </ul>
@@ -581,14 +580,15 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_card_rendering">3. Card rendering</a>
 <ul class="sectlevel2">
-<li><a href="#_declaring_a_process_and_its_configuration">3.1. Declaring a Process and its configuration</a>
+<li><a href="#_process_declaration_and_configuration">3.1. Process: Declaration and Configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_the_config_json_file">3.1.1. The config.json file</a></li>
-<li><a href="#_i18n">3.1.2. i18n</a>
+<li><a href="#_bundle_as_process_declaration">3.1.1. Bundle as Process declaration</a></li>
+<li><a href="#_the_config_json_file">3.1.2. The config.json file</a></li>
+<li><a href="#_i18n">3.1.3. i18n</a>
 <ul class="sectlevel4">
-<li><a href="#_template_folder">3.1.2.1. Template folder</a></li>
-<li><a href="#_processes_and_states">3.1.2.2. Processes and States</a></li>
-<li><a href="#_upload">3.1.2.3. Upload</a></li>
+<li><a href="#_template_folder">3.1.3.1. Template folder</a></li>
+<li><a href="#_processes_and_states">3.1.3.2. Processes and States</a></li>
+<li><a href="#_upload">3.1.3.3. Upload</a></li>
 </ul>
 </li>
 </ul>
@@ -620,51 +620,75 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#response_cards">4. Response cards</a>
+<li><a href="#_card_notification">4. Card notification</a>
 <ul class="sectlevel2">
-<li><a href="#_steps_needed_to_use_a_response_card">4.1. Steps needed to use a response card</a>
+<li><a href="#_sound_notification">4.1. Sound notification</a></li>
+<li><a href="#_card_read">4.2. Card read</a></li>
+<li><a href="#_card_acknowledgment">4.3. Card acknowledgment</a></li>
+<li><a href="#card_reminder">4.4. Card reminder</a>
 <ul class="sectlevel3">
-<li><a href="#_define_a_third_party_tool">4.1.1. Define a third party tool</a></li>
-<li><a href="#_configure_the_response_in_config_json">4.1.2. Configure the response in config.json</a></li>
-<li><a href="#_design_the_question_form_in_the_template">4.1.3. Design the question form in the template</a></li>
-<li><a href="#_define_permissions">4.1.4. Define permissions</a></li>
-</ul>
-</li>
-<li><a href="#_send_a_question_card">4.2. Send a question card</a></li>
-<li><a href="#_integrate_child_cards">4.3. Integrate child cards</a></li>
-</ul>
-</li>
-<li><a href="#_archived_cards">5. Archived Cards</a>
-<ul class="sectlevel2">
-<li><a href="#_key_concepts">5.1. Key concepts</a></li>
-<li><a href="#_archives_screen_in_the_ui">5.2. Archives screen in the UI</a></li>
-</ul>
-</li>
-<li><a href="#users_management">6. User management</a>
-<ul class="sectlevel2">
-<li><a href="#_users_groups_entities_and_perimeters">6.1. Users, groups, entities and perimeters</a>
-<ul class="sectlevel3">
-<li><a href="#_users">6.1.1. Users</a>
+<li><a href="#_simple_reminder">4.4.1. Simple reminder</a></li>
+<li><a href="#_recurrent_reminder">4.4.2. Recurrent reminder</a>
 <ul class="sectlevel4">
-<li><a href="#_automated_user_creation">6.1.1.1. Automated user creation</a></li>
+<li><a href="#_recurrent_reminder_example">4.4.2.1. Recurrent reminder example</a></li>
 </ul>
 </li>
-<li><a href="#_groups">6.1.2. Groups</a></li>
-<li><a href="#_entities">6.1.3. Entities</a></li>
-<li><a href="#_perimeters">6.1.4. Perimeters</a></li>
-<li><a href="#_alternative_way_to_manage_groups_and_entities">6.1.5. Alternative way to manage groups and entities</a></li>
+<li><a href="#_last_time_for_reminding">4.4.3. Last time for reminding</a></li>
+<li><a href="#_debugging">4.4.4. Debugging</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_ui_customization">7. UI Customization</a>
+<li><a href="#response_cards">5. Response cards</a>
 <ul class="sectlevel2">
-<li><a href="#_ui_configuration">7.1. UI configuration</a></li>
-<li><a href="#menu_entries">7.2. Menu Entries</a>
+<li><a href="#_steps_needed_to_use_a_response_card">5.1. Steps needed to use a response card</a>
 <ul class="sectlevel3">
-<li><a href="#_config_json_declaration">7.2.1. config.json declaration</a></li>
-<li><a href="#_examples_2">7.2.2. Examples</a></li>
-<li><a href="#_operator_fabric_theme">7.2.3. Operator Fabric theme</a></li>
+<li><a href="#_define_a_third_party_tool">5.1.1. Define a third party tool</a></li>
+<li><a href="#_configure_the_response_in_config_json">5.1.2. Configure the response in config.json</a></li>
+<li><a href="#_design_the_question_form_in_the_template">5.1.3. Design the question form in the template</a></li>
+<li><a href="#_define_permissions">5.1.4. Define permissions</a></li>
+</ul>
+</li>
+<li><a href="#_send_a_question_card">5.2. Send a question card</a></li>
+<li><a href="#_integrate_child_cards">5.3. Integrate child cards</a>
+<ul class="sectlevel3">
+<li><a href="#_entity_name">5.3.1. Entity name</a></li>
+<li><a href="#_example">5.3.2. Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_archived_cards">6. Archived Cards</a>
+<ul class="sectlevel2">
+<li><a href="#_key_concepts">6.1. Key concepts</a></li>
+<li><a href="#_archives_screen_in_the_ui">6.2. Archives screen in the UI</a></li>
+</ul>
+</li>
+<li><a href="#users_management">7. User management</a>
+<ul class="sectlevel2">
+<li><a href="#_users_groups_entities_and_perimeters">7.1. Users, groups, entities and perimeters</a>
+<ul class="sectlevel3">
+<li><a href="#_users">7.1.1. Users</a>
+<ul class="sectlevel4">
+<li><a href="#_automated_user_creation">7.1.1.1. Automated user creation</a></li>
+</ul>
+</li>
+<li><a href="#_groups">7.1.2. Groups</a></li>
+<li><a href="#_entities">7.1.3. Entities</a></li>
+<li><a href="#_perimeters">7.1.4. Perimeters</a></li>
+<li><a href="#_alternative_way_to_manage_groups_and_entities">7.1.5. Alternative way to manage groups and entities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_ui_customization">8. UI Customization</a>
+<ul class="sectlevel2">
+<li><a href="#_ui_configuration">8.1. UI configuration</a></li>
+<li><a href="#menu_entries">8.2. Menu Entries</a>
+<ul class="sectlevel3">
+<li><a href="#_ui_menu_json_declaration">8.2.1. ui-menu.json declaration</a></li>
+<li><a href="#_examples_2">8.2.2. Examples</a></li>
+<li><a href="#_operator_fabric_theme">8.2.3. Operator Fabric theme</a></li>
 </ul>
 </li>
 </ul>
@@ -930,6 +954,13 @@ A color is associated in the GUI to each severity. Here the details about severi
 <p>Fixes the moment until when a <code>response</code> is possible for the card. After this moment, the response button won&#8217;t be useable. When lttd time is approaching, a clock is visible on the card in the feed with the residual time.  The lttd time can be set for cards that don&#8217;t expect any response</p>
 </div>
 </div>
+<div class="sect5">
+<h6 id="_secondsbeforetimespanforreminder_secondsbeforetimespanforreminder"><a class="anchor" href="#_secondsbeforetimespanforreminder_secondsbeforetimespanforreminder"></a>SecondsBeforeTimeSpanForReminder (<code>secondsBeforeTimeSpanForReminder</code>)</h6>
+<div class="paragraph">
+<p>Fixes the time for remind before the event define by the card see
+<a href="../../../../documentation/current/reference_doc/index.html#card_reminder">Card reminder</a></p>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_business_period"><a class="anchor" href="#_business_period"></a>2.1.1.5. Business period</h5>
@@ -1011,34 +1042,7 @@ You must not use dot in json field names. In this case, the card will be refused
 <div class="sect3">
 <h4 id="_presentation_information_of_the_card"><a class="anchor" href="#_presentation_information_of_the_card"></a>2.1.3. Presentation Information of the card</h4>
 <div class="sect4">
-<h5 id="_details_details"><a class="anchor" href="#_details_details"></a>2.1.3.1. details (<code>details</code>)</h5>
-<div class="paragraph">
-<p>This attribute is a string of objects containing a <code>title</code> attribute which is <code>i18n</code> key and a <code>template</code> attribute
-which refers to a template name contained in the publisher bundle. The bundle in which those resources will be looked
-for is the one corresponding to the
-<a href="../../../../documentation/current/reference_doc/index.html#card_process_version">version</a>
-declared in the card for the current
-<a href="../../../../documentation/current/reference_doc/index.html#card_process">process</a>
-.
-If no resource is found, either because there is no bundle for the given version or
-there is no resource for the given key, then the corresponding key is displayed in the details section of the GUI.</p>
-</div>
-<div class="paragraph">
-<p><strong>example:</strong></p>
-</div>
-<div class="paragraph">
-<p>The <code>TEST</code> process only has a <code>0.1</code> version uploaded in the current <code>OperatorFabric</code> system. The <code>details</code> value is
-<code>[{"title":{"key":"first.tab.title"},"template":"template0"}]</code>.</p>
-</div>
-<div class="paragraph">
-<p>If the <code>processVersion</code> of the card is <code>2</code> then only the <code>title</code> key declared in the <code>details</code> array will be displayed
-without any translation, i.e. the tab will contains <code>TEST.2.first.tab.title</code> and will be empty. If the <code>l10n</code> for
-the title is not available, then the tab title will be still <code>TEST.2.first.tab.title</code> but the template will be computed
-and the details section will display the template content.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_timespans_timespans"><a class="anchor" href="#_timespans_timespans"></a>2.1.3.2. TimeSpans (<code>timeSpans</code>)</h5>
+<h5 id="_timespans_timespans"><a class="anchor" href="#_timespans_timespans"></a>2.1.3.1. TimeSpans (<code>timeSpans</code>)</h5>
 <div class="paragraph">
 <p>When the simple startDate and endDate are not enough to characterize your
 process business times, you can add a list of TimeSpan to your card. TimeSpans
@@ -1055,7 +1059,7 @@ card:</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"TSO1",
+	"publisher":"Dispatcher",
 	"publisherVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -1098,7 +1102,7 @@ start date will be ignored.</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"TSO1",
+	"publisher":"Dispatcher",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -1107,15 +1111,15 @@ start date will be ignored.</p>
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"userRecipients": ["tso1-operator"]
+	"userRecipients": ["operator1"]
 
 }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This an information about the process instance <code>process-000</code> of process <code>process</code>, sent by <code>TSO1</code>. The title and the summary refer to <code>i18n</code> keys
+<p>This an information about the process instance <code>process-000</code> of process <code>process</code>, sent by <code>Dispatcher</code>. The title and the summary refer to <code>i18n</code> keys
 defined in the associated <code>i18n</code> files of the process. This card is displayable since the first january 2019 and
-should only be received by the user using the <code>tso1-operator</code> login.</p>
+should only be received by the user using the <code>operator1</code> login.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1128,7 +1132,7 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"TSO1",
+	"publisher":"Dispatcher",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -1137,12 +1141,12 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"groupRecipients": ["TSO1"]
+	"groupRecipients": ["Dispatcher"]
 }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Here, the recipient is a group, the <code>TSO1</code>. So all users who are members of this group will receive the card.</p>
+<p>Here, the recipient is a group, the <code>Dispatcher</code>. So all users who are members of this group will receive the card.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1153,7 +1157,7 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"TSO1",
+	"publisher":"Dispatcher",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -1162,13 +1166,13 @@ should only be received by the user using the <code>tso1-operator</code> login.<
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"groupRecipients": ["TSO1"],
+	"groupRecipients": ["Dispatcher"],
 	"entityRecipients" : ["ENTITY1"]
 }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Here, the recipients are a group and an entity, the <code>TSO1</code> group and <code>ENTITY1</code> entity. So all users who are both members
+<p>Here, the recipients are a group and an entity, the <code>Dispatcher</code> group and <code>ENTITY1</code> entity. So all users who are both members
 of this group and this entity will receive the card.</p>
 </div>
 </div>
@@ -1180,7 +1184,7 @@ of this group and this entity will receive the card.</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"TSO1",
+	"publisher":"Dispatcher",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -1201,24 +1205,24 @@ of this group and this entity will receive the card.</p>
 <div class="sect5">
 <h6 id="_complex_case"><a class="anchor" href="#_complex_case"></a>Complex case</h6>
 <div class="paragraph">
-<p>If this card need to be viewed by a user who is not in the <code>TSO1</code> group, it&#8217;s possible to tune more precisely the
-definition of the recipient. If the <code>tso2-operator</code> needs to see also this card, the recipient definition could be(the following code details only the recipient part):</p>
+<p>If this card need to be viewed by a user who is not in the <code>Dispatcher</code> group, it&#8217;s possible to tune more precisely the
+definition of the recipient. If the <code>operator2</code> needs to see also this card, the recipient definition could be(the following code details only the recipient part):</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"groupRecipients": ["TSO1"],
-"userRecipients": ["tso2-operator"]</pre>
+<pre>"groupRecipients": ["Dispatcher"],
+"userRecipients": ["operator2"]</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>So here, all the users of the <code>TSO1</code> group will receive the <code>INFORMATION</code> as should the <code>tos2-operator</code> user.</p>
+<p>So here, all the users of the <code>Dispatcher</code> group will receive the <code>INFORMATION</code> as should the <code>tos2-operator</code> user.</p>
 </div>
 <div class="paragraph">
-<p>Another example, if a card is destined to the operators of <code>TSO1</code> and <code>TSO2</code> and needs to be also seen by the <code>admin</code>, the recipient configuration looks like:</p>
+<p>Another example, if a card is destined to the operators of <code>Dispatcher</code> and <code>Planner</code> and needs to be also seen by the <code>admin</code>, the recipient configuration looks like:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"groupRecipients": ["TSO1", "TSO2"],
+<pre>"groupRecipients": ["Dispatcher", "Planner"],
 "userRecipients": ["admin"]</pre>
 </div>
 </div>
@@ -1230,8 +1234,8 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 <pre>"recipient":{
 	"type":"UNION",
 	"recipients":[
-		{ "type": "GROUP", "identity":"TSO1"},
-		{ "type": "USER", "identity":"tso2-operator"}
+		{ "type": "GROUP", "identity":"Dispatcher"},
+		{ "type": "USER", "identity":"operator2"}
 		]
 	}</pre>
 </div>
@@ -1247,12 +1251,12 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 <div class="sect4">
 <h5 id="_full_of_hidden_data"><a class="anchor" href="#_full_of_hidden_data"></a>2.2.2.1. Full of Hidden data</h5>
 <div class="paragraph">
-<p>For this example we will use our previous example for the <code>TSO1</code> group with a <code>data</code> attribute containing the definition of a <code>json</code> object containing two attributes: <code>stringExample</code> and <code>numberExample</code>.</p>
+<p>For this example we will use our previous example for the <code>Dispatcher</code> group with a <code>data</code> attribute containing the definition of a <code>json</code> object containing two attributes: <code>stringExample</code> and <code>numberExample</code>.</p>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"TSO1",
+	"publisher":"Dispatcher",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -1261,7 +1265,7 @@ definition of the recipient. If the <code>tso2-operator</code> needs to see also
 	"severity":"INFORMATION",
 	"title":{"key":"card.title.key"},
 	"summary":{"key":"card.summary.key"},
-	"userRecipients": ["tso1-operator"],
+	"userRecipients": ["operator1"],
 	"data":{
 		"stringExample":"This is a not so random string of characters.",
 		"numberExample":123
@@ -1285,7 +1289,7 @@ The way details are formatted depends on the template contained in the bundle as
 configuration.The one presents in the development version of OperatorFabric, for test purpose(<code>TEST</code> bundle).</p>
 </div>
 <div class="paragraph">
-<p>At the card level, the attributes in the card telling OperatorFabric which template to use is the <code>details</code> attributes.</p>
+<p>At the card level, the attributes in the card telling OperatorFabric which template to use are the <code>process</code> and <code>state</code> attributes, the <code>templateName</code> can be retrieved from the definition of the bundle.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -1299,17 +1303,14 @@ configuration.The one presents in the development version of OperatorFabric, for
 	"severity":"INFORMATION",
 	"title":{"key":"process.title"},
 	"summary":{"key":"process.summary"},
-	"userRecipients": ["tso1-operator"]
+	"userRecipients": ["operator1"],
 	"data":{"rootProp":"Data displayed in the detail panel"},
-	"details":[{"title":{"key":"process.detail.tab.first"}, "templateName":"template1"}]
 
 }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>So here a single custom data is defined and it&#8217;s <code>rootProp</code>. This attribute is used by the template called by the
-<code>details</code> attribute. This attribute contains an array of <code>json</code> object containing an <code>i18n</code> key and a <code>template</code>
-reference. Each of those object is a tab in the detail panel of the GUI.</p>
+<p>So here a single custom data is defined and it&#8217;s <code>rootProp</code>. This attribute is used by the template called by the <code>templateName</code> attribute.</p>
 </div>
 </div>
 </div>
@@ -1331,57 +1332,65 @@ several languages are supported.  Configuration is done via files zipped in a "b
 to the third-party application) that can be integrated either as iframe or external links.</p>
 </div>
 <div class="sect2">
-<h3 id="_declaring_a_process_and_its_configuration"><a class="anchor" href="#_declaring_a_process_and_its_configuration"></a>3.1. Declaring a Process and its configuration</h3>
+<h3 id="_process_declaration_and_configuration"><a class="anchor" href="#_process_declaration_and_configuration"></a>3.1. Process: Declaration and Configuration</h3>
 <div class="paragraph">
-<p>The business configuration for processes is declared in the form of a bundle, as described below.
-Once this bundle fully created, it must be uploaded to the server through the Businessconfig service.</p>
+<p>To declare and configure a <code>Process</code>, OperatorFabric uses <code>bundles</code>.
+This section describes their content and how to use them.
+An <code>OperatorFabric Process</code> is a way to define a business configuration.
+Once this bundle fully created, it must be uploaded to the server through the <code>Businessconfig service</code>.</p>
 </div>
 <div class="paragraph">
-<p>The way configuration is done is explained with examples before a more technical review of the configuration details.
-The following instructions describe tests to perform on OperatorFabric to understand how customization is working in it.
-The card data used here are sent automatically using a script as described
+<p>Some examples show how to configure a <code>process</code> using a <code>bundle</code> before diving in more technical details of the configuration.
+The following instructions describe tests to perform on OperatorFabric to understand how customizations are possible.
+The cards used in the examples of this section are automatically sent by a script described
 <a href="../../../../documentation/current/reference_doc/index.html#card_sending_script">here</a></p>
 </div>
+<div class="sect3">
+<h4 id="_bundle_as_process_declaration"><a class="anchor" href="#_bundle_as_process_declaration"></a>3.1.1. Bundle as Process declaration</h4>
 <div class="paragraph">
-<p>A bundle contains all the configuration regarding a given business process, describing for example the various steps
-of the process but also how the associated cards and card details should be displayed.
-Those <code>tar.gz</code> archives contain a descriptor file
-named <code>config.json</code>, eventually some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> to do so.</p>
+<p>A bundle contains all the configuration regarding a given business process, describing for example the various steps of the process but also how the associated cards and card details should be displayed.</p>
 </div>
 <div class="paragraph">
-<p>For didactic purposes, in this section, the businessconfig name is <code>BUNDLE_TEST</code> (to match the parameters used by the script).
-This bundle is localized for <code>en</code> and <code>fr</code>.</p>
+<p>Bundle are technically <code>tar.gz</code> archives containing at least a descriptor file named <code>config.json</code>.
+To display the card date, some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> must be added.</p>
 </div>
 <div class="paragraph">
-<p>As detailed in the <code>Businessconfig core service README</code> the bundle contains at least a metadata file called <code>config.json</code>,
-a <code>css</code> folder, an <code>i18n</code> folder and a <code>template</code> folder.
-All elements except the <code>config.json file</code> are optional.</p>
+<p>For didactic purposes, in this section, the businessconfig bundle name is <code>BUNDLE_TEST</code> (to match the parameters used by the script).
+The l10n (localization) configurations are english, referred as <code>en</code> and french, referred as <code>fr</code>.</p>
 </div>
 <div class="paragraph">
-<p>The files of this example are organized as below:</p>
+<p>As detailed in the <code>Businessconfig core service README</code> the bundle contains at least a metadata file called <code>config.json</code>, a <code>css</code> folder, an <code>i18n</code> folder and a <code>template</code> folder.</p>
 </div>
-<div class="literalblock">
+<div class="paragraph">
+<p>Except for the <code>config.json file</code>, all elements are optional.</p>
+</div>
+<div class="paragraph">
+<p>The file organization within a bundle:</p>
+</div>
+<div class="listingblock">
 <div class="content">
 <pre>bundle
 ├── config.json
 ├── css
-│   └── bundleTest.css
+│   └── bundleTest.css
 ├── i18n
-│   ├── en.json
-│   └── fr.json
+│   ├── en.json
+│   └── fr.json
 └── template
     ├── en
-    │   ├── template1.handlebars
-    │   └── template2.handlebars
+    │   ├── template1.handlebars
+    │   └── template2.handlebars
     └── fr
         ├── template1.handlebars
         └── template2.handlebars</pre>
 </div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_the_config_json_file"><a class="anchor" href="#_the_config_json_file"></a>3.1.1. The config.json file</h4>
+<h4 id="_the_config_json_file"><a class="anchor" href="#_the_config_json_file"></a>3.1.2. The config.json file</h4>
 <div class="paragraph">
-<p>It&#8217;s a description file in <code>json</code> format. It lists the content of the bundle.</p>
+<p>It&#8217;s a description file in <code>json</code> format.
+It lists the content of the bundle.</p>
 </div>
 <div class="paragraph">
 <p><strong>example</strong></p>
@@ -1398,33 +1407,14 @@ All elements except the <code>config.json file</code> are optional.</p>
   },
   <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultLocale</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">menuLabel</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.label</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">menuEntries</span><span class="delimiter">&quot;</span></span>: [
-    {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 0</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.first</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
-    },
-    {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid test 1</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.lfenergy.org/</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu.second</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">TAB</span><span class="delimiter">&quot;</span></span>
-    }
-  ],
   <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:  <span class="string"><span class="delimiter">&quot;</span><span class="content">state.label</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">color</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">blue</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
-        {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
-          },
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>
-        }
-      ],
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgementAllowed</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>
     }
   }
@@ -1434,33 +1424,23 @@ All elements except the <code>config.json file</code> are optional.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>id: id of the process</p>
+<p><code>id</code>: id of the process;</p>
 </li>
 <li>
-<p>name: process name (i18n key);</p>
+<p><code>name</code>: process name (i18n key);</p>
 </li>
 <li>
-<p>version: enable the correct display, even the old ones as all versions are stored by the server. Your <strong>card</strong> has a version
-field that will be matched to businessconfig configuration for correct rendering ;</p>
+<p><code>version</code>: enables the correct display of the card data, even for the old ones.
+The server store the previous versions in its file system.
+This field value should match a businessconfig configuration for a correct rendering;</p>
 </li>
 <li>
-<p>states  : list the available  states; actions and templates are associated to states, in the same way is the possibility of making the cards enabled for being acknowledged by user;</p>
-</li>
-<li>
-<p>menuLabel in the main bar menu as <code>i18nLabelKey</code>: optional, used if the businessconfig service add one or several entry in
-the OperatorFabric main menu bar, see the
-<a href="../../../../documentation/current/reference_doc/index.html#menu_entries">menu entries</a>
-section for details;</p>
-</li>
-<li>
-<p>extra menu entries as <code>menuEntries</code>: optional, see below for the declaration format of objects of this array, see the
-<a href="../../../../documentation/current/reference_doc/index.html#menu_entries">menu entries</a>
-section for details;</p>
+<p><code>states</code>: lists the available states which each declares associated actions, associated templates and if cards could be acknowledged by users;</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The mandatory declarations are <code>id</code>,'name' and <code>version</code> attributes.</p>
+<p>The mandatory field are <code>id</code>,'name' and <code>version</code>.</p>
 </div>
 <div class="paragraph">
 <p>See the
@@ -1469,182 +1449,161 @@ for details.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_i18n"><a class="anchor" href="#_i18n"></a>3.1.2. i18n</h4>
+<h4 id="_i18n"><a class="anchor" href="#_i18n"></a>3.1.3. i18n</h4>
 <div class="paragraph">
-<p>There are two ways of i18n for businessconfig service. The first one is done using l10n files which are located in the <code>i18n</code>
-folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
+<p>There are two ways of internationalization (i18n) for businessconfig service.
+First one by using l10n files located in the <code>i18n</code> folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
 </div>
 <div class="paragraph">
 <p>The <code>i18n</code> folder contains one json file per l10n.</p>
 </div>
 <div class="paragraph">
-<p>These localisation is used for integration of the businessconfig service into OperatorFabric, i.e. the label displayed for the
-process , the state , the label displayed for each tab of the details of the card, the label of the actions&#8230;&#8203;</p>
+<p>The integration of the businessconfig service into OperatorFabric need this localisation, i.e. the label displayed for the process, the state, the label displayed for the details of the card&#8230;&#8203;</p>
 </div>
 <div class="sect4">
-<h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>3.1.2.1. Template folder</h5>
+<h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>3.1.3.1. Template folder</h5>
 <div class="paragraph">
-<p>The <code>template</code> folder must contain localized folder for the i18n of the card details. This is why in our example, as the bundle is localized for <code>en</code> and <code>fr</code> language, the <code>template</code> folder contains a <code>en</code> and a <code>fr</code> folder.</p>
+<p>The <code>template</code> folder must contain l10n folder for the i18n of the card details.
+This is why in our example, as the bundle contains an <code>en</code> and a <code>fr</code> l10n, the <code>template</code> folder contains an <code>en</code> and a <code>fr</code> folder.</p>
 </div>
 <div class="sect5">
 <h6 id="_i18n_file"><a class="anchor" href="#_i18n_file"></a>i18n file</h6>
 <div class="paragraph">
-<p>If there is no i18n file or key is missing, the i18n key is displayed in OperatorFabric.</p>
+<p>If there is no i18n file or key is missing, OperatorFabric displays i18n key, such as <code>BUNDLE_TEST.1.missing-i18n-key</code>.
+In the case where the bundle declares no i18n key corresponds to <code>missing-i18n-key</code>.</p>
 </div>
 <div class="paragraph">
-<p>The choice of i18n keys is left to the Businessconfig service maintainer. The keys are referenced in the following places:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>config.json</code> file:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><code>i18nLabelKey</code>: key used for the label for the businessconfig service displayed in the main menu bar of OperatorFabric;</p>
-</li>
-<li>
-<p><code>label</code> of <code>menu entry declaration</code>: key used to l10n the <code>menu entries</code> declared by the Businessconfig party in the bundle;</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><code>card data</code>: values of <code>card title</code> and <code>card summary</code> refer to <code>i18n keys</code> as well as <code>key attribute</code> in the
-<code>card detail</code> section of the card data.</p>
-</li>
-</ul>
+<p>The choice of i18n keys is up to the maintainer of the Businessconfig process.</p>
 </div>
 <div class="paragraph">
-<p><strong>example</strong></p>
+<p><strong>Example</strong></p>
 </div>
 <div class="paragraph">
-<p>So in this example the process is named <code>Bundle Test</code> with <code>BUNDLE_TEST</code> technical name. The bundle provide an
-english and a french l10n.</p>
+<p>For this example, the name of the process is  <code>Bundle Test</code> and its technical name is <code>BUNDLE_TEST</code>.
+The bundle provides an english and a french l10n.</p>
 </div>
 <div class="paragraph">
-<p>The example bundle defined an new menu entry given access to 3 entries. The title and the summary have to be l10n,
-so needs to be the 2 tabs titles.</p>
-</div>
-<div class="paragraph">
-<p>The name of the process as displayed in the main menu bar of OperatorFabric. It will have the key
-<code>"businessconfig-name-in-menu-bar"</code>. The english l10n will be <code>Bundle Test</code> and the french one will be <code>Bundle de test</code>.</p>
-</div>
-<div class="paragraph">
-<p>A name for the three entries in the process entry menu. Their keys will be in order <code>"first-menu-entry"</code>, <code>"b-menu-entry"</code> and <code>"the-other-menu-entry"</code> for an english l10n as <code>Entry One</code>, <code>Entry Two</code> and <code>Entry Three</code> and in french as <code>Entrée une</code>, <code>Entrée deux</code> and <code>Entrée trois</code>.</p>
-</div>
-<div class="paragraph">
-<p>The title for the card and its summary. As the card used here are generated by the script of the <code>cards-publication</code> project we have to used the key declared there. So they are respectively <code>process.title</code> and <code>process.summary</code> with the following l10ns for english: <code>Card Title</code> and <code>Card short description</code>, and for french l10ns: <code>Titre de la carte</code> and <code>Courte description de la carte</code>.</p>
-</div>
-<div class="paragraph">
-<p>A title for each (two of them) tab of the detail cards. As for card title and card summary, those keys are already defined by the test script. There are <code>"process.detail.tab.first"</code> and <code>"process.detail.tab.second"</code>. For english l10n, the values are <code>First Detail List</code> and <code>Second Detail List</code> and for the french l10n, the values are <code>Première liste de détails</code> and <code>Seconde liste de détails</code>.</p>
+<p>Title and summary have to be localized.</p>
 </div>
 <div class="paragraph">
 <p>Here is the content of <code>en.json</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	"businessconfig-name-in-menu-bar":"Bundle Test",
-		"first-menu-entry":"Entry One",
-		"b-menu-entry":"Entry Two",
-		"the-other-menu-entry":"Entry Three",
-		"process":{
-			"title":"Card Title",
-			"summary":"Card short description",
-			"detail":{
-				"tab":{
-					"first":"First Detail List",
-					"second":"Second Detail List"
-				}
-			}
-		}
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Process {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">This sums up the content of the card: {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">card title</span><span class="delimiter">&quot;</span></span>
+    }
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test Process</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test State</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Asset details</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Here the content of <code>fr.json</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	"businessconfig-name-in-menu-bar":"Bundle de test",
-		"first-menu-entry":"Entrée une",
-		"b-menu-entry":"Entrée deux",
-		"the-other-menu-entry":"Entrée trois",
-		"process":{
-			"title":"Titre de la carte",
-			"summary":"Courte description de la carte",
-			"detail":{
-				"tab":{
-					"first":"Première liste de détails",
-					"second":"Deuxième liste de détails"
-				}
-			}
-		}
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>:{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Processus {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Cela résume la carte: {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Titre de la carte</span><span class="delimiter">&quot;</span></span>
+    }
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>:{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Processus de test</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">State de test</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menu</span><span class="delimiter">&quot;</span></span>:{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Menu du Processus de Test</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">Documentation Operator Fabric</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">second</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">LF Energy</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Onglet TEST</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Once the bundle is correctly uploaded, the way to verify if the i18n have been correctly uploaded is to use the GET 
-method of businessconfig api for i18n file.</p>
-</div>
-<div class="paragraph">
-<p>The endpoint is described
+<p>To check the i18n, after the upload of the bundle, use a <code>GET</code> request against the <code>businessconfig</code> service.
+The simpler is to ask for the i18n file, as described
 <a href="../../../../documentation/current/api/businessconfig/index.html#/businessconfig/getI18n">here</a>
 .</p>
 </div>
 <div class="paragraph">
-<p>The <code>locale</code> language, the <code>version</code> of the bundle and the <code>technical name</code> of the businessconfig party are needed to get
-json in the response.</p>
+<p>Set the <code>locale</code> language, the <code>version</code> of the bundle and the <code>technical name</code> of the businessconfig party to get json in the response.</p>
 </div>
 <div class="paragraph">
-<p>To verify if the french l10n data of the version 1 of the BUNDLE_TEST businessconfig party we could use the following
-command line</p>
+<p>For example, to check if the french l10n data of the version 1 of the <code>BUNDLE_TEST</code> businessconfig party use the following command line:</p>
 </div>
-<div class="paragraph">
-<p><code>curl -X GET "http://localhost:2100/businessconfig/BUNDLE_TEST/i18n?locale=fr&amp;version=1" -H  "accept: application/json"</code></p>
-</div>
-<div class="paragraph">
-<p>The service response with a 200 status and with the json corresponding to the defined fr.json file show below.</p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-"businessconfig-name-in-menu-bar":"Bundle de test",
-"first-menu-entry":"Entrée une",
-"b-menu-entry":"Entrée deux",
-"the-other-menu-entry":"Entrée trois",
-"tests":{
-	"title":"Titre de la carte",
-	"summary":"Courte description de la carte",
-	"detail":{
-		"tab":{
-			"first":"Première liste de détails",
-			"second":"Deuxième liste de détails"
-			}
-		}
-}
-}</pre>
+<pre>curl "http://localhost:2100/businessconfig/processes/BUNDLE_TEST/i18n?locale=fr&amp;version=1" \
+-H  "Authorization: Bearer ${token}"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid token for operatorfabric use.</p>
+</div>
+<div class="paragraph">
+<p>The <code>businessconfig</code> service should answer with a 200 status associated with the following json:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Process {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">This sums up the content of the card: {{value}}</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">card title</span><span class="delimiter">&quot;</span></span>
+    }
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test Process</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test State</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Asset details</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_processes_and_states"><a class="anchor" href="#_processes_and_states"></a>3.1.2.2. Processes and States</h5>
+<h5 id="_processes_and_states"><a class="anchor" href="#_processes_and_states"></a>3.1.3.2. Processes and States</h5>
 <div class="paragraph">
-<p>Processes and their states allows to match a Businessconfig Party service process specific state to a list of templates for card details and
-actions allowing specific card rendering for each state of the business process.</p>
+<p>Each Process declares associated states.
+Each state declares specific templates for card details and specific actions.</p>
 </div>
 <div class="paragraph">
 <p>The purpose of this section is to display elements of businessconfig card data in a custom format.</p>
 </div>
 <div class="paragraph">
-<p>Regarding the card detail customization, all the examples in this section will be based on the cards generated by the script existing in the <code>Cards-Publication</code> project. For the examples given here, this script is run with arguments detailed in the following command line:</p>
+<p>Regarding the card detail customization, all the examples in this section refer to the cards generated by the script existing in the <code>Cards-Publication</code> project.
+For the examples given here, run this script  with arguments detailed in the following command line:</p>
 </div>
-<div id="card_sending_script" class="literalblock">
+<div id="card_sending_script" class="listingblock">
 <div class="content">
-<pre>$OPERATOR_FABRIC_HOME/services/core/cards-publication/src/main/bin/push_card_loop.sh</pre>
+<pre>$OPERATOR_FABRIC_HOME/services/core/cards-publication/src/main/bin/push_card_loop.sh BUNDLE_TEST tests</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1653,7 +1612,7 @@ actions allowing specific card rendering for each state of the business process.
 <div class="ulist">
 <ul>
 <li>
-<p><code>$OPERATOR_FABRIC_HOME</code> is the root folder of OperatorFabric where tests are performed;</p>
+<p><code>$OPERATOR_FABRIC_HOME</code> is the root folder of OperatorFabric used to perform tests;</p>
 </li>
 <li>
 <p><code>BUNDLE_TEST</code> is the name of the Businessconfig party;</p>
@@ -1667,80 +1626,71 @@ actions allowing specific card rendering for each state of the business process.
 <h6 id="_configuration"><a class="anchor" href="#_configuration"></a>configuration</h6>
 <div class="paragraph">
 <p>The process entry in the configuration file is a dictionary of processes, each key maps to a process definition.
-A process definition is itself a dictionary of states, each key maps to a state definition. A state is defined by:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a list of details: details are a combination of an internationalized title (title), css class styling element
-(titleStyle) and a template reference</p>
-</li>
-<li>
-<p>a dictionary of actions: actions are described below</p>
-</li>
-</ul>
+A process definition is itself a dictionary of states, each key maps to a state definition.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_templates"><a class="anchor" href="#_templates"></a>Templates</h6>
 <div class="paragraph">
-<p>For demonstration purposes, there will be two simple templates. For more advance feature go to the section detailing the handlebars templates in general and helpers available in OperatorFabric.
+<p>For demonstration purposes, there will be two simple templates.
+For more advance feature go to the section detailing the handlebars templates and associated helpers available in OperatorFabric.
 As the card used in this example are created
 <a href="../../../../documentation/current/reference_doc/index.html#card_sending_script">above</a>
 , the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
 </div>
 <div class="paragraph">
-<p>examples of template (i18n versions)</p>
+<p><strong>Examples of template (i18n versions)</strong></p>
+</div>
+<div class="paragraph">
+<p>The following templates display a l10n title and a line containing the value of the scope property <code>card.level1.level1Prop</code>.
+In english, the translation of this key is '<em>This is a root property</em>'.</p>
 </div>
 <div class="paragraph">
 <p><code>/template/en/template1.handlers</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Template Number One&lt;/h2&gt;
-&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Template Number One<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>/template/fr/template1.handlers</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Patron numéro Un&lt;/h2&gt;
-&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Patron numéro Un<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Those templates display a l10n title and an line containing the value of the scope property <code>card.level1.level1Prop</code> which is <code>This is a root property</code>.</p>
+<p>The two following template examples display also a l10n title and a list of numeric values from 1 to 3.</p>
 </div>
 <div class="paragraph">
 <p><code>/template/en/template2.handelbars</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Second Template&lt;/h2&gt;
-&lt;ul class="bundle-test-list"&gt;
-	{{#each card.data.level1.level1Array}}
-		&lt;li class="bunle-test-list-item"&gt;{{this.level1ArrayProp}}&lt;/li&gt;
-	{{/each}}
-&lt;/ul&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second Template<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        {{#each card.data.level1.level1Array}}
+                <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
+        {{/each}}
+<span class="tag">&lt;/ul&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>/template/fr/template2.handelbars</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>&lt;h2&gt;Second patron&lt;/h2&gt;
-&lt;ul class="bundle-test-list"&gt;
-	{{#each card.data.level1.level1Array}}
-		&lt;li class="bunle-test-list-item"&gt;{{this.level1ArrayProp}}&lt;/li&gt;
-	{{/each}}
-&lt;/ul&gt;</pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second patron<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        {{#each card.data.level1.level1Array}}
+                <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
+        {{/each}}
+<span class="tag">&lt;/ul&gt;</span></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Those templates display also a l10n title and a list of numeric values from 1 to 3.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1757,26 +1707,28 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <div class="paragraph">
 <p><strong>Declaration of css files in <code>config.json</code> file</strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	…
-    "states" : {
-            "state1" : {
-                  …
-	                "styles":["bundleTest"]
-	…
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="json">{
+        <span class="error">…</span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span> : {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">state1</span><span class="delimiter">&quot;</span></span> : {
+                  <span class="error">…</span>
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>:[<span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest</span><span class="delimiter">&quot;</span></span>]
+                  }
+              }
+        <span class="error">…</span>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><strong>CSS Class used in <code>./template/en/template1.handlebars</code></strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>	…
-	&lt;div class="bundle-test"&gt;'{{card.data.level1.level1Prop}}'&lt;/div&gt;
-	…</pre>
+<pre class="CodeRay highlight"><code data-lang="html">        …
+        <span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span>
+        …</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1785,12 +1737,12 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <div class="paragraph">
 <p><strong>Style declaration in <code>./css/bundleTest.css</code></strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>.h2{
-	color:#fd9312;
-	font-weight: bold;
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="css"><span class="class">.h2</span>{
+        <span class="key">color</span>:<span class="color">#fd9312</span>;
+        <span class="key">font-weight</span>: <span class="value">bold</span>;
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1805,19 +1757,22 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_upload"><a class="anchor" href="#_upload"></a>3.1.2.3. Upload</h5>
+<h5 id="_upload"><a class="anchor" href="#_upload"></a>3.1.3.3. Upload</h5>
 <div class="paragraph">
-<p>For this, the bundle is submitted to the OperatorFabric server using a POST http method as described in the
+<p>To upload a bundle to the OperatorFabric server use a <code>POST</code> http request as described in the
 <a href="../../../../documentation/current/api/businessconfig/.html#/businessconfig/uploadBundle">Businessconfig Service API documentation</a>
 .</p>
 </div>
 <div class="paragraph">
-<p>Example :</p>
+<p><strong>Example</strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>cd $BUNDLE_FOLDER
-curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/json" -H  "Content-Type: multipart/form-data" -F "file=@bundle-test.tar.gz;type=application/gzip"</pre>
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${BUNDLE_FOLDER}
+curl -X POST &quot;http://localhost:2100/businessconfig/processes&quot;\
+        -H  &quot;accept: application/json&quot;\
+        -H  &quot;Content-Type: multipart/form-data&quot;\
+        -F &quot;file=@bundle-test.tar.gz;type=application/gzip&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1826,7 +1781,7 @@ curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/jso
 <div class="ulist">
 <ul>
 <li>
-<p><code>$BUNDLE_FOLDER</code> is the folder containing the bundle archive to be uploaded.</p>
+<p><code>${BUNDLE_FOLDER}</code> is the folder containing the bundle archive to be uploaded.</p>
 </li>
 <li>
 <p><code>bundle-test.tar.gz</code> is the name of the uploaded bundle.</p>
@@ -1834,78 +1789,36 @@ curl -X POST "http://localhost:2100/businessconfig" -H  "accept: application/jso
 </ul>
 </div>
 <div class="paragraph">
-<p>These command line should return a <code>200 http status</code> response with the details of the of the bundle in the response body such as :</p>
+<p>These command line should return a <code>200 http status</code> response with the details of the bundle in the response body such as :</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-  "menuEntriesData": [
-    {
-      "id": "uid test 0",
-      "url": "https://opfab.github.io/whatisopfab/",
-      "label": "first-menu-entry"
-    },
-    {
-      "id": "uid test 0",
-      "url": "https://www.lfenergy.org/",
-      "label": "b-menu-entry"
-    },
-    {
-      "id": "uid test 1",
-      "url": "https://github.com/opfab/opfab.github.io",
-      "label": "the-other-menu-entry"
-    }
-  ],
-  "id":"BUNDLE_TEST"
-  "name": "BUNDLE_TEST",
-  "version": "1",
-  "i18nLabelKey": "businessconfig-name-in-menu-bar",
-  "menuEntries": [
-    {
-      "id": "uid test 0",
-      "url": "https://opfab.github.io/whatisopfab/",
-      "label": "first-menu-entry"
-    },
-    {
-      "id": "uid test 0",
-      "url": "https://www.lfenergy.org/",
-      "label": "b-menu-entry"
-    },
-    {
-      "id": "uid test 1",
-      "url": "https://github.com/opfab/opfab.github.io",
-      "label": "the-other-menu-entry"
-    }
-  ],
-  "states" : {
-          "start" : {
-            "details" : [ {
-              "title" : {
-                "key" : "start.first.title"
-              },
-              "titleStyle" : "startTitle text-danger",
-              "templateName" : "template1"
-            } ]
-
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">BUNDLE_TEST</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BUNDLE_TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span> : {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">start</span><span class="delimiter">&quot;</span></span> : {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span> : {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">start.first.title</span><span class="delimiter">&quot;</span></span>
+            },
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>
           },
-          "end" : {
-            "details" : [ {
-              "title" : {
-                "key" : "end.first.title"
-              },
-              "titleStyle" : "startTitle text-info",
-              "templateName" : "template2",
-              "styles" : [ "bundleTest.css" ]
-            } ]
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">end</span><span class="delimiter">&quot;</span></span> : {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span> : {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">end.first.title</span><span class="delimiter">&quot;</span></span>
+            },
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest.css</span><span class="delimiter">&quot;</span></span> ]
           }
       }
-}</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Otherwise please refer to the
+<p>For further help check the
 <a href="../../../../documentation/current/getting_started/index.html#troubleshooting_bundle">Troubleshooting</a>
-section to resolve the problem.</p>
+section which resumes how to resolve common problems.</p>
 </div>
 </div>
 </div>
@@ -2506,16 +2419,129 @@ users :
 </div>
 </div>
 <div class="sect1">
-<h2 id="response_cards"><a class="anchor" href="#response_cards"></a>4. Response cards</h2>
+<h2 id="_card_notification"><a class="anchor" href="#_card_notification"></a>4. Card notification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a user receives a card, he is notified via a resume of the card on the left panel of the UI, what is called the "feed".</p>
+</div>
+<div class="sect2">
+<h3 id="_sound_notification"><a class="anchor" href="#_sound_notification"></a>4.1. Sound notification</h3>
+<div class="paragraph">
+<p>If the option is activated in the general configuration file web-ui.json, the user can choose to have a sound when a card is arriving. The configuration is to be set by the user with the settings menu.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_read"><a class="anchor" href="#_card_read"></a>4.2. Card read</h3>
+<div class="paragraph">
+<p>When the user receives a new card, he see it in the feed with an eye icon on the right of the card resume. When he opens the cards, the icon disappears.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_acknowledgment"><a class="anchor" href="#_card_acknowledgment"></a>4.3. Card acknowledgment</h3>
+<div class="paragraph">
+<p>The user can set a card as "acknowledged" so he will not see it anymore by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
+</div>
+<div class="paragraph">
+<p>To offer the possibility for the user to acknowledged card, it has to be configured in process definition. The configuration is set on a state based with the acknowledgementAllowed field set to true  (default is false). You can see examples in src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/config.json</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="card_reminder"><a class="anchor" href="#card_reminder"></a>4.4. Card reminder</h3>
+<div class="paragraph">
+<p>For certain process and state, it is possible to configure a reminder. The reminder "reactivate" the card in the feed at a certain time. "Reactivate" means setting the card to the status "unread" and "unacknowledged".</p>
+</div>
+<div class="paragraph">
+<p>The time for "reactivation" is defined with the parameter "secondsBeforeTimeSpanForReminder" in the card.</p>
+</div>
+<div class="paragraph">
+<p>The remind is done related to the timespans values :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the startDate</p>
+</li>
+<li>
+<p>or recurrently if a recurrence objet is defined.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>4.4.1. Simple reminder</h4>
+<div class="paragraph">
+<p>If a timespan is present without a recurrence object, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>4.4.2. Recurrent reminder</h4>
+<div class="paragraph">
+<p>It is possible to set a recurrent reminder via the structure recurrence which define a regular event in the timespan structure. It is defined with the following fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>HoursAndMinutes : hours and minutes of day when the event arise</p>
+</li>
+<li>
+<p>DayOfWeeks : a list of day of the week when the event arise. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
+</li>
+<li>
+<p>TimeZone : the time zone of reference for the recurrence definition (default value is Europe/Paris)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
+</div>
+<div class="sect4">
+<h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>4.4.2.1. Recurrent reminder example</h5>
+<div class="paragraph">
+<p>If timespan is defined as follow :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>startDate : 1231135161
+recurrence : {
+    HoursAndMinutes : { hours:10 ,minutes:30},
+    DaysOfWeeks : [6,7]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If secondsBeforeTimeSpanForReminder is set to 600 seconds, the reminder will arise every saturday and sunday at 10:20 starting from startDate</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_last_time_for_reminding"><a class="anchor" href="#_last_time_for_reminding"></a>4.4.3. Last time for reminding</h4>
+<div class="paragraph">
+<p>If the user is not connected at the time of the remind,  when he connects if current time is superior to 15 minutes from the event date, no  remind will arise.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_debugging"><a class="anchor" href="#_debugging"></a>4.4.4. Debugging</h4>
+<div class="paragraph">
+<p>When the user receives a card with a reminder to set, the log (console) of the browser contains a line with the date when the remind will arise . For example :</p>
+</div>
+<div class="paragraph">
+<p><code>2020-11-22T21:00:36.011Z Reminder Will remind card userCardExamples.0cf5537b-f0df-4314-f17f-2797ccd8e4e9 at
+                         Sun Nov 22 2020 22:55:00 GMT+0100 (heure normale d’Europe centrale)</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="response_cards"><a class="anchor" href="#response_cards"></a>5. Response cards</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Within your template, you can allow the user to perform some action (respond to a form, answer a question, &#8230;&#8203;). The user fills these information and then clicks on a submit button. When he submits this action, a new card is created and emitted to a third-party tool.</p>
 </div>
 <div class="paragraph">
-<p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This child card is also send to the users that have received the parent card. From the ui point of view, the information of the child cards can be integrated in real time in the parent card if configured.</p>
+<p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This child card is also sent to the users that have received the parent card. From the ui point of view, the information of the child cards can be integrated in real time in the parent card if configured.</p>
 </div>
 <div class="paragraph">
-<p>The process can be represented as follow :</p>
+<p>The process can be represented as follows :</p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -2534,9 +2560,9 @@ users :
 </div>
 </div>
 <div class="sect2">
-<h3 id="_steps_needed_to_use_a_response_card"><a class="anchor" href="#_steps_needed_to_use_a_response_card"></a>4.1. Steps needed to use a response card</h3>
+<h3 id="_steps_needed_to_use_a_response_card"><a class="anchor" href="#_steps_needed_to_use_a_response_card"></a>5.1. Steps needed to use a response card</h3>
 <div class="sect3">
-<h4 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>4.1.1. Define a third party tool</h4>
+<h4 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>5.1.1. Define a third party tool</h4>
 <div class="paragraph">
 <p>The response card is to be received by a third party application for business processing. The third-party application will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card). The field data in the json contains the user response.</p>
 </div>
@@ -2570,7 +2596,7 @@ users :
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configure_the_response_in_config_json"><a class="anchor" href="#_configure_the_response_in_config_json"></a>4.1.2. Configure the response in config.json</h4>
+<h4 id="_configure_the_response_in_config_json"><a class="anchor" href="#_configure_the_response_in_config_json"></a>5.1.2. Configure the response in config.json</h4>
 <div class="paragraph">
 <p>A card can have a response only if it&#8217;s in a process/state that is configured for. To do that you need to setup the good  configuration in the config.json of the concerned process. Here is an example of configuration :</p>
 </div>
@@ -2592,17 +2618,13 @@ users :
           "key": "question.button.text"
         }
       },
-      "details": [
-        {
-          "title": {
-            "key": "question.title"
-          },
-          "templateName": "question",
-          "styles": [
-            "style"
-          ]
-        }
-      ],
+      "detailTitle": {
+        "key": "question.title"
+      },
+      "templateName": "question",
+      "styles": [
+        "style"
+      ]
       "acknowledgementAllowed": false
     }
   }
@@ -2630,7 +2652,7 @@ users :
 </div>
 </div>
 <div class="sect3">
-<h4 id="_design_the_question_form_in_the_template"><a class="anchor" href="#_design_the_question_form_in_the_template"></a>4.1.3. Design the question form in the template</h4>
+<h4 id="_design_the_question_form_in_the_template"><a class="anchor" href="#_design_the_question_form_in_the_template"></a>5.1.3. Design the question form in the template</h4>
 <div class="paragraph">
 <p>For the user to response you need to define the response form in the template with standard HTML syntax</p>
 </div>
@@ -2658,7 +2680,7 @@ users :
 </div>
 </div>
 <div class="sect3">
-<h4 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>4.1.4. Define permissions</h4>
+<h4 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>5.1.4. Define permissions</h4>
 <div class="paragraph">
 <p>To respond to a card a user must have the right privileges, it is done using "perimeters". The user must be in a group that is attached to a perimeter with  a right "Write" for the concerned process/state, the state being the response state defined in the config.json.</p>
 </div>
@@ -2700,7 +2722,7 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>4.2. Send a question card</h3>
+<h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>5.2. Send a question card</h3>
 <div class="paragraph">
 <p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
 </div>
@@ -2715,9 +2737,21 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 ...</pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+By default, OperatorFabric considers that if the parent card (question card) is modified, then the child cards are deleted. If you want to keep the child cards when the parent card is changed, then you must add in the parent card the field "keepChildCards" and set it to true.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_integrate_child_cards"><a class="anchor" href="#_integrate_child_cards"></a>4.3. Integrate child cards</h3>
+<h3 id="_integrate_child_cards"><a class="anchor" href="#_integrate_child_cards"></a>5.3. Integrate child cards</h3>
 <div class="paragraph">
 <p>For each user response, a child card containing the response is emitted and stored in OperatorFabric like a normal card. It is not directly visible on the ui but this child card can be integrated in real time to the parent card of all the users watching the card. To do that, you need  some code in the template to process child data:</p>
 </div>
@@ -2734,17 +2768,26 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 </li>
 </ul>
 </div>
+<div class="sect3">
+<h4 id="_entity_name"><a class="anchor" href="#_entity_name"></a>5.3.1. Entity name</h4>
+<div class="paragraph">
+<p>If you want to show the name of an entity that send the response, you need to get the id of the entity via the publisher field of the child card and then you  can get the name of the entity by calling <em>templateGateway.getEntityName(entityId)</em></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example"><a class="anchor" href="#_example"></a>5.3.2. Example</h4>
 <div class="paragraph">
 <p>You can find an example in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars.</p>
 </div>
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_archived_cards"><a class="anchor" href="#_archived_cards"></a>5. Archived Cards</h2>
+<h2 id="_archived_cards"><a class="anchor" href="#_archived_cards"></a>6. Archived Cards</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_key_concepts"><a class="anchor" href="#_key_concepts"></a>5.1. Key concepts</h3>
+<h3 id="_key_concepts"><a class="anchor" href="#_key_concepts"></a>6.1. Key concepts</h3>
 <div class="paragraph">
 <p>Every time a card is published, in addition to being delivered to the users
 and persisted as a "current" card in MongoDB, it is also immediately
@@ -2760,7 +2803,7 @@ show all the states that a given process instance went through.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_archives_screen_in_the_ui"><a class="anchor" href="#_archives_screen_in_the_ui"></a>5.2. Archives screen in the UI</h3>
+<h3 id="_archives_screen_in_the_ui"><a class="anchor" href="#_archives_screen_in_the_ui"></a>6.2. Archives screen in the UI</h3>
 <div class="paragraph">
 <p>The Archives screen in the UI allows the users to query these archives with different filters.
 The layout of this screen is very similar to the Feed screen: the results are displayed in a
@@ -2789,7 +2832,7 @@ The layout of this screen is very similar to the Feed screen: the results are di
 </div>
 </div>
 <div class="sect1">
-<h2 id="users_management"><a class="anchor" href="#users_management"></a>6. User management</h2>
+<h2 id="users_management"><a class="anchor" href="#users_management"></a>7. User management</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The User service manages users, groups, entities and perimeters (linked to groups).</p>
@@ -2853,12 +2896,12 @@ In the following commands the <code>$token</code> is an authentication token cur
 </table>
 </div>
 <div class="sect2">
-<h3 id="_users_groups_entities_and_perimeters"><a class="anchor" href="#_users_groups_entities_and_perimeters"></a>6.1. Users, groups, entities and perimeters</h3>
+<h3 id="_users_groups_entities_and_perimeters"><a class="anchor" href="#_users_groups_entities_and_perimeters"></a>7.1. Users, groups, entities and perimeters</h3>
 <div class="paragraph">
 <p>User service manages users, groups, entities and perimeters.</p>
 </div>
 <div class="sect3">
-<h4 id="_users"><a class="anchor" href="#_users"></a>6.1.1. Users</h4>
+<h4 id="_users"><a class="anchor" href="#_users"></a>7.1.1. Users</h4>
 <div class="paragraph">
 <p>Users are the individuals and mainly physical person who can log in OperatorFabric.</p>
 </div>
@@ -2866,7 +2909,7 @@ In the following commands the <code>$token</code> is an authentication token cur
 <p>The access to this service has to be authorized, in the <code>OAuth2</code> service used by the current <code>OperatorFabric</code> instance, at least to access User information and to manage Users. The membership of groups and entities are stored in the user information.</p>
 </div>
 <div class="sect4">
-<h5 id="_automated_user_creation"><a class="anchor" href="#_automated_user_creation"></a>6.1.1.1. Automated user creation</h5>
+<h5 id="_automated_user_creation"><a class="anchor" href="#_automated_user_creation"></a>7.1.1.1. Automated user creation</h5>
 <div class="paragraph">
 <p>In case of a user does exist in a provided authentication service but he does not exist in the <code>OperatorFabric</code>
 instance, when he is authenticated and connected for the first time in the <code>OperatorFabric</code> instance, the user is
@@ -2879,7 +2922,7 @@ More details about automated user creation
 </div>
 </div>
 <div class="sect3">
-<h4 id="_groups"><a class="anchor" href="#_groups"></a>6.1.2. Groups</h4>
+<h4 id="_groups"><a class="anchor" href="#_groups"></a>7.1.2. Groups</h4>
 <div class="paragraph">
 <p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code>.
 Groups are used to send cards to several users without a name specifically. The information about membership to a
@@ -2889,7 +2932,7 @@ group is stored in the user information. A group contains a list of perimeters w
 </div>
 </div>
 <div class="sect3">
-<h4 id="_entities"><a class="anchor" href="#_entities"></a>6.1.3. Entities</h4>
+<h4 id="_entities"><a class="anchor" href="#_entities"></a>7.1.3. Entities</h4>
 <div class="paragraph">
 <p>Entities are used to send cards to several users without a name specifically. The information about membership to an
 entity is stored in the user information. Examples using entities can be found
@@ -2898,7 +2941,7 @@ entity is stored in the user information. Examples using entities can be found
 </div>
 </div>
 <div class="sect3">
-<h4 id="_perimeters"><a class="anchor" href="#_perimeters"></a>6.1.4. Perimeters</h4>
+<h4 id="_perimeters"><a class="anchor" href="#_perimeters"></a>7.1.4. Perimeters</h4>
 <div class="paragraph">
 <p>Perimeters are used to define rights for reading/writing cards. A perimeter is composed of an identifier (unique), a process name and a list of state/rights couple.
 Possible rights for receiving/writing cards are :</p>
@@ -2918,7 +2961,7 @@ Possible rights for receiving/writing cards are :</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_alternative_way_to_manage_groups_and_entities"><a class="anchor" href="#_alternative_way_to_manage_groups_and_entities"></a>6.1.5. Alternative way to manage groups and entities</h4>
+<h4 id="_alternative_way_to_manage_groups_and_entities"><a class="anchor" href="#_alternative_way_to_manage_groups_and_entities"></a>7.1.5. Alternative way to manage groups and entities</h4>
 <div class="paragraph">
 <p>The standard way to handle groups and entities in <code>OperatorFabric</code> instance is dealt on the user information.
 There is an alternative way to manage groups and entities through the authentication token, the groups and entities are defined by the administrator of the authentication service.
@@ -2931,29 +2974,41 @@ for more details to use this feature.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ui_customization"><a class="anchor" href="#_ui_customization"></a>7. UI Customization</h2>
+<h2 id="_ui_customization"><a class="anchor" href="#_ui_customization"></a>8. UI Customization</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_ui_configuration"><a class="anchor" href="#_ui_configuration"></a>7.1. UI configuration</h3>
+<h3 id="_ui_configuration"><a class="anchor" href="#_ui_configuration"></a>8.1. UI configuration</h3>
 <div class="paragraph">
-<p>The web-ui.json file permit to configure parameters for customization , the list of parameters is
-<a href="../deployment/index.html#ui_properties">described here</a></p>
+<p>To customize the UI, declare specific parameters in the <code>web-ui.json</code> file as <a href="../deployment/index.html#ui_properties">listed here</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="menu_entries"><a class="anchor" href="#menu_entries"></a>7.2. Menu Entries</h3>
+<h3 id="menu_entries"><a class="anchor" href="#menu_entries"></a>8.2. Menu Entries</h3>
 <div class="paragraph">
-<p>It is possible to declare specific business menu in the upper part of  OperatorFabric. Those elements are declared  in the <code>config.json</code> file of the bundles.</p>
+<p>The <code>ui-menu.json</code> file declares specific business menus to be displayed in the navigation bar of OperatorFabric.</p>
 </div>
 <div class="paragraph">
-<p>If there are several items to declare for a businessconfig service, a title for the businessconfig menu section need to be declared
-within the <code>i18nLabelKey</code> attribute, otherwise the first and only <code>menu entry</code> item is used to create an entry in the
-menu nav bar of OperatorFabric.</p>
+<p>A menu can target directly a link or give access to several sub-menus when clicked.
+Those sub-menus can only target a link.
+A targeted link can be open in an iframe or in a new tab.</p>
+</div>
+<div class="paragraph">
+<p>Menus support i18n following the i18n OperatorFabric rules.
+The ui-menu.json file contains directly the i18n dictionary for the menus.</p>
+</div>
+<div class="paragraph">
+<p>In case of a single menu, the navigation bar displays the l10n of the <code>label</code> of the entry menu.
+In this case, the <code>label</code> declared at the root level of the menu is useless and can be omitted (see example below).</p>
 </div>
 <div class="sect3">
-<h4 id="_config_json_declaration"><a class="anchor" href="#_config_json_declaration"></a>7.2.1. config.json declaration</h4>
+<h4 id="_ui_menu_json_declaration"><a class="anchor" href="#_ui_menu_json_declaration"></a>8.2.1. ui-menu.json declaration</h4>
 <div class="paragraph">
-<p>This kind of objects contains the following attributes :</p>
+<p>A single menu or a menu with sub-menus has at least attributes named <code>id</code> and <code>entries</code>.
+The <code>entries</code> attribute is an array of <code>menu entry</code>.
+Note that menus with sub-menus need a <code>label</code> declaring an i18n key.</p>
+</div>
+<div class="paragraph">
+<p>Each <code>menu entry</code> declares the attributes listed below:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2967,20 +3022,17 @@ menu nav bar of OperatorFabric.</p>
 <p><code>label</code>: it&#8217;s an i18n key used to l10n the entry in the UI.</p>
 </li>
 <li>
-<p><code>linkType</code>: Defines how business menu links are displayed in the navigation bar and how
-they open. Possible values:</p>
+<p><code>linkType</code>: Defines how to display business menu links in the navigation bar and how to open them. Possible values:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>TAB: Only a text link is displayed, and clicking it opens the link in a new tab.</p>
+<p><code>TAB</code>: displays only a text link. Clicking it opens the link in a new tab.</p>
 </li>
 <li>
-<p>IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below
-the navigation bar.</p>
+<p><code>IFRAME</code>: displays only a text link. Clicking it opens the link in an iframe in the main content zone below the navigation bar.</p>
 </li>
 <li>
-<p>BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe
-while clicking the icon opens in a new tab. This is also the default value.</p>
+<p><code>BOTH</code>: default value. Displays a text link plus a little arrow icon. Clicking the text link opens the link in an iframe while clicking the icon opens in a new tab.</p>
 </li>
 </ul>
 </div>
@@ -2989,72 +3041,107 @@ while clicking the icon opens in a new tab. This is also the default value.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_2"><a class="anchor" href="#_examples_2"></a>7.2.2. Examples</h4>
+<h4 id="_examples_2"><a class="anchor" href="#_examples_2"></a>8.2.2. Examples</h4>
 <div class="paragraph">
-<p>In the following examples, only the part relative to menu entries in the <code>config.json</code> file is detailed, the other parts are omitted and represented with a '…'.</p>
+<p>In following example, the configuration file declares two additional business menus.
+The first has only one entry, the second has two entries.
+The sample contain also the i18n translations in english and in french.</p>
 </div>
-<div class="paragraph">
-<p><strong>Single menu entry</strong></p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>{
-	…
-	"menuEntries":[{
-			"id": "identifer-single-menu-entry",
-			"url": "https://opfab.github.io",
-			"label": "single-menu-entry-i18n-key",
-			"linkType": "BOTH"
-		}],
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Several menu entries</strong></p>
-</div>
-<div class="paragraph">
-<p>Here a sample with 3 menu entries.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{
-	…
-	"i18nLabelKey":"businessconfig-name-in-menu-navbar",
-	"menuEntries": [{
-			"id": "firstEntryIdentifier",
-			"url": "https://opfab.github.io/whatisopfab/",
-			"label": "first-menu-entry",
-			"linkType": "BOTH"
-		},
-		{
-			"id": "secondEntryIdentifier",
-			"url": "https://www.lfenergy.org/",
-			"label": "second-menu-entry"
-		} ,
-		{
-			"id": "businessconfigEntryIdentifier",
-			"url": "https://opfab.github.io",
-			"label": "businessconfig-menu-entry"
-		}]
-}</pre>
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">menus</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">entries</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_0</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.single</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
+        }
+      ]
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">title.multi</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">entries</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_1</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.entry1</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
+        },
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_2</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://www.wikipedia.org/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.entry2</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
+        }
+      ]
+    }
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">locales</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">language</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">i18n</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">single</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Single menu entry</span><span class="delimiter">&quot;</span></span>
+          }
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu2</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">multi</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Second menu</span><span class="delimiter">&quot;</span></span>
+          },
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">First menu entry</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Second menu entry</span><span class="delimiter">&quot;</span></span>
+          }
+        }
+      }
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">language</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">i18n</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">single</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Unique menu entry</span><span class="delimiter">&quot;</span></span>
+          }
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">menu2</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">multi</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Deuxieme menu</span><span class="delimiter">&quot;</span></span>
+          },
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entry</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Premiere menu entry</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">entry2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Deuxieme menu entry</span><span class="delimiter">&quot;</span></span>
+          }
+        }
+      }
+    }
+  ]
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_operator_fabric_theme"><a class="anchor" href="#_operator_fabric_theme"></a>7.2.3. Operator Fabric theme</h4>
+<h4 id="_operator_fabric_theme"><a class="anchor" href="#_operator_fabric_theme"></a>8.2.3. Operator Fabric theme</h4>
 <div class="paragraph">
-<p>If the page opened via the menu is in a iframe, the current theme of operator fabric will be passed as a parameter in the request send to the web site. The parameter is named opfab_theme and has the value of the current theme : DAY, NIGHT or LEGACY.</p>
+<p>For iframes opened from menu, the associated request uses an extra parameter containing the current theme information.
+Named <code>opfab_theme</code>, this parameter has a value corresponding to the current theme:<br>
+<code>DAY</code>, <code>NIGHT</code> or <code>LEGACY</code>.</p>
 </div>
 <div class="paragraph">
-<p>Example :</p>
+<p><strong>Example:</strong></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
 <pre> http://mysite.com/index.htm?opfab_theme=NIGHT</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>When user is switching theme and the iframe is opened, the iframe will be reloaded.</p>
+<p>Switching theme will trigger reload of open iframes.</p>
 </div>
 </div>
 </div>

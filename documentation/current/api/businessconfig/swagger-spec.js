@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric BusinessconfigParty Management API",
-    "version" : "1.7.0.RELEASE",
+    "version" : "1.8.0.RELEASE",
     "title" : "Businessconfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -273,50 +273,6 @@ window.swaggerSpec={
         }
       }
     },
-    "/businessconfig/processes/{processId}/{state}/details" : {
-      "get" : {
-        "summary" : "Get details for a given state of a given process",
-        "description" : "Get details associated with a given state of a given process, returns an array of details (application/json)",
-        "operationId" : "getDetails",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "processId",
-          "in" : "path",
-          "description" : "Id of the process to retrieve",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "state",
-          "in" : "path",
-          "description" : "Name of state",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "version",
-          "in" : "query",
-          "required" : false,
-          "description" : "Required version of process (defaults to latest)",
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Detail"
-              }
-            }
-          },
-          "404" : {
-            "description" : "No such process/state"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          }
-        }
-      }
-    },
     "/businessconfig/processes/{processId}/{state}/response" : {
       "get" : {
         "summary" : "Get response associated with a given state of a given process",
@@ -439,33 +395,6 @@ window.swaggerSpec={
     }
   },
   "definitions" : {
-    "MenuEntry" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "string",
-          "description" : "unique identifier of this menu item for the current process"
-        },
-        "url" : {
-          "type" : "string",
-          "description" : "url of the endpoint for this menu item"
-        },
-        "label" : {
-          "type" : "string",
-          "description" : "i18n key for the label of this menu item. The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
-        },
-        "linkType" : {
-          "$ref" : "#/definitions/LinkTypeEnum",
-          "default" : "BOTH",
-          "description" : "link type"
-        }
-      }
-    },
-    "LinkTypeEnum" : {
-      "type" : "string",
-      "enum" : [ "TAB", "IFRAME", "BOTH" ],
-      "description" : "Defines how business menu links are displayed in the navigation bar and how they open. Possible values: * TAB: Only a text link is displayed, and clicking it opens the link in a new tab. * IFRAME: Only a text link is displayed, and clicking it opens the link in an iframe in the main content zone below\n  the navigation bar.\n* BOTH: Both a text link and a little arrow icon are displayed. Clicking the text link opens the link in an iframe\n  while clicking the icon opens in a new tab."
-    },
     "Process" : {
       "type" : "object",
       "description" : "Business process definition, also listing available resources",
@@ -487,13 +416,6 @@ window.swaggerSpec={
           "additionalProperties" : {
             "type" : "object",
             "properties" : {
-              "details" : {
-                "type" : "array",
-                "description" : "List of details",
-                "items" : {
-                  "$ref" : "#/definitions/Detail"
-                }
-              },
               "response" : {
                 "$ref" : "#/definitions/Response"
               },
@@ -512,6 +434,21 @@ window.swaggerSpec={
               "userCardTemplate" : {
                 "type" : "string",
                 "description" : "Name of the template to use when creating a new card"
+              },
+              "detailTitle" : {
+                "description" : "Detail i18n title",
+                "$ref" : "#/definitions/I18n"
+              },
+              "templateName" : {
+                "description" : "Name of the template to use",
+                "type" : "string"
+              },
+              "styles" : {
+                "description" : "Name of the css files to apply",
+                "type" : "array",
+                "items" : {
+                  "type" : "string"
+                }
               }
             }
           }
@@ -532,17 +469,6 @@ window.swaggerSpec={
               "description" : "If this flag is set to true, the cards of this process will be visible on the calendar screen"
             }
           }
-        },
-        "menuLabel" : {
-          "type" : "string",
-          "description" : "i18n key for the label of the menu attached to this process (used in case there are several menuEntries) The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
-        },
-        "menuEntries" : {
-          "type" : "array",
-          "description" : "describes the menu items to add to UI navbar",
-          "items" : {
-            "$ref" : "#/definitions/MenuEntry"
-          }
         }
       },
       "required" : [ "id", "version" ],
@@ -550,40 +476,24 @@ window.swaggerSpec={
         "id" : "some_business_process",
         "name" : "some_business_process.label",
         "version" : "v1.0",
-        "menuLabel" : "some_business_process.menu.label",
-        "menuEntries" : [ {
-          "id" : "website",
-          "url" : "http://www.mybusinessconfigpartyapp.com",
-          "label" : "menu.website"
-        }, {
-          "id" : "status",
-          "url" : "http://www.mybusinessconfigpartyapp.com/status",
-          "label" : "menu.status"
-        } ],
         "initial_state" : {
-          "details" : [ {
-            "title" : {
-              "key" : "template.title",
-              "parameters" : {
-                "param" : "value"
-              }
-            },
-            "titleStyle" : "titleClass",
-            "templateName" : "template1"
-          } ]
+          "detailTitle" : {
+            "key" : "template.title",
+            "parameters" : {
+              "param" : "value"
+            }
+          },
+          "templateName" : "template1"
         },
         "other_state" : {
-          "details" : [ {
-            "title" : {
-              "key" : "template2.title",
-              "parameters" : {
-                "param" : "value"
-              }
-            },
-            "titleStyle" : "titleClass2",
-            "templateName" : "template2",
-            "styles" : [ "my-template.css" ]
-          } ]
+          "detailTitle" : {
+            "key" : "template2.title",
+            "parameters" : {
+              "param" : "value"
+            }
+          },
+          "templateName" : "template2",
+          "styles" : [ "my-template.css" ]
         }
       }
     },
@@ -611,43 +521,6 @@ window.swaggerSpec={
         }
       },
       "required" : [ "key" ]
-    },
-    "Detail" : {
-      "description" : "Defines the rendering of card details. Each Detail object corresponds to a tab in the details pane.",
-      "type" : "object",
-      "properties" : {
-        "title" : {
-          "description" : "Detail i18n title",
-          "$ref" : "#/definitions/I18n"
-        },
-        "titleStyle" : {
-          "description" : "css classes applied to the title",
-          "type" : "string"
-        },
-        "templateName" : {
-          "description" : "Name of the template to use",
-          "type" : "string"
-        },
-        "styles" : {
-          "description" : "Name of the css files to apply",
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "required" : [ "templateName" ],
-      "example" : {
-        "title" : {
-          "key" : "template.title",
-          "parameters" : {
-            "param" : "value"
-          }
-        },
-        "titleStyle" : "titleClass",
-        "templateName" : "template1",
-        "styles" : [ "bundleTest.css", "otherStyle.css" ]
-      }
     },
     "Response" : {
       "description" : "defines a response to an action on the business process associated with the card",

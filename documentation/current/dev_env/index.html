@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 1.7.0.RELEASE,</span>
-<span id="revdate">19 October 2020</span>
+<span id="revnumber">version 1.8.0.RELEASE,</span>
+<span id="revdate">30 November 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -545,7 +545,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">2.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</a></li>
 <li><a href="#_deploy_needed_docker_containers">2.3. Deploy needed docker containers</a>
 <ul class="sectlevel3">
-<li><a href="#_minimal_configuration_for_gradle_build">2.3.1. Minimal configuration for <code>gradle</code> build</a></li>
+<li><a href="#_a_minimal_configuration_for_gradle_build">2.3.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
 <li><a href="#_enabling_local_quality_report_generation">2.3.2. Enabling local quality report generation</a></li>
 <li><a href="#_docker_dev_env">2.3.3. Development environment</a></li>
 </ul>
@@ -655,6 +655,24 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_extract_token_2">10.4. Extract token</a></li>
+</ul>
+</li>
+<li><a href="#_kafka_implementation">11. Kafka Implementation</a>
+<ul class="sectlevel2">
+<li><a href="#_enabling_kafka">11.1. Enabling Kafka</a></li>
+<li><a href="#_operatorfabric_kafka_source_code">11.2. OperatorFabric Kafka source code</a></li>
+<li><a href="#_listener_deserializer">11.3. Listener / deserializer</a>
+<ul class="sectlevel3">
+<li><a href="#_kafka_operatorfabric_avro_schema">11.3.1. Kafka OperatorFabric AVRO schema</a></li>
+</ul>
+</li>
+<li><a href="#_configure_kafka">11.4. Configure Kafka</a>
+<ul class="sectlevel3">
+<li><a href="#_setting_a_new_deserializer">11.4.1. Setting a new deserializer</a></li>
+</ul>
+</li>
+<li><a href="#_kafka_card_producer">11.5. Kafka card producer</a></li>
+<li><a href="#_response_cards">11.6. Response Cards</a></li>
 </ul>
 </li>
 </ul>
@@ -892,28 +910,36 @@ the home repository of <code>OperatorFabric</code>.
 <div class="sect2">
 <h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>2.3. Deploy needed docker containers</h3>
 <div class="sect3">
-<h4 id="_minimal_configuration_for_gradle_build"><a class="anchor" href="#_minimal_configuration_for_gradle_build"></a>2.3.1. Minimal configuration for <code>gradle</code> build</h4>
+<h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>2.3.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
-<p>Two docker container must be available during a gradle build of <code>OperatorFabric</code>:
-* RabbitMQ;
-* MongoDB.</p>
+<p>The gradle build of <code>OperatorFabric</code> needs two docker containers running:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>RabbitMQ;</p>
+</li>
+<li>
+<p>MongoDB.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>They can be launch using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
+<p>Launch them using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
 </div>
 <div class="paragraph">
-<p>Remind that, during a gradle build, before the <code>assemble</code> task, the <code>test</code> one is called. The Unit tests depend on those
-two software.</p>
+<p>Remind that, during a gradle build the <code>test</code> task runs before the <code>assemble</code> one.
+The Unit tests depend on those two software.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>2.3.2. Enabling local quality report generation</h4>
 <div class="paragraph">
-<p>To get a Sonarqube report, in addition to the two previously listed docker containers, a <code>SonarQube</code> docker container is
-required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
+<p>Sonarqube reporting, in addition to the two previously listed docker containers, needs a <code>SonarQube</code> docker container.
+Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
 </div>
 <div class="paragraph">
-<p>To generate the quality report use the following command:</p>
+<p>To generate the quality report, run the following commands:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -922,16 +948,27 @@ required. Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/dock
 </div>
 </div>
 <div class="paragraph">
-<p>To export the different report into the <code>SonarQube</code> docker instance you need to install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
+<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>2.3.3. Development environment</h4>
 <div class="paragraph">
-<p>During <code>OperatorFabric</code> development the running docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> are needed.</p>
+<p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.
+The <code>web-ui</code> configuration needs a <code>nginx.conf</code>.</p>
 </div>
 <div class="paragraph">
-<p>The <code>docker-compose</code> can be run in detached mode:</p>
+<p>The <code>${OF_HOME}/config/dev/$docker-compose.sh</code> creates the <code>nginx.conf</code> file and then runs <code>docker-compose</code> in detached mode.
+For this, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
+./docker-compose.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the <code>nginx.conf</code> created, run <code>docker-compose</code> independently is possible using:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -941,7 +978,7 @@ docker-compose up -d</code></pre>
 </div>
 <div class="paragraph">
 <p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be useful to spot the <code>OperatorFabric</code> dev tab in the browser.
-Sometime a <code>CTRL+F5</code> on the tab is required to refresh the favicon.</p>
+To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 </div>
 </div>
 </div>
@@ -1005,11 +1042,11 @@ bin/run_all.sh status</code></pre>
 <h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.7. Log into the UI</h3>
 <div class="paragraph">
 <p><strong><em>URL:</em></strong> localhost:2002/ui/<br>
-<strong><em>login:</em></strong> tso1-operator<br>
+<strong><em>login:</em></strong> operator1<br>
 <strong><em>password:</em></strong> test</p>
 </div>
 <div class="paragraph">
-<p>The other users available in development mode are <code>rte-operator</code> and <code>admin</code>, both with <code>test</code> as password.</p>
+<p>The other users available in development mode are <code>operator3</code> and <code>admin</code>, both with <code>test</code> as password.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1093,7 +1130,7 @@ SPA
 <div class="sect3">
 <h4 id="_front_end_development"><a class="anchor" href="#_front_end_development"></a>3.1.1. Front End development</h4>
 <div class="paragraph">
-<p>OperatorFabric uses 4 external services to run properly :</p>
+<p>OperatorFabric uses 4 external services to run properly :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1107,13 +1144,17 @@ SPA
 <p>an authentication provider: keycloak;</p>
 </li>
 <li>
-<p>a web server: Nginx.
-Those instances are available as docker images in the project. Use <code>docker-compose</code> and the <code>${OF_HOME}/config/dev/docker-compose.yml</code>
-to run them.
-After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.
-Once the whole application is ready, you should have the following output in your terminal:</p>
+<p>a web server: Nginx.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Those instances are available as docker images in the project.
+se <code>docker-compose</code> and the <code>${OF_HOME}/config/dev/docker-compose.yml</code> to run them.
+After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.</p>
+</div>
+<div class="paragraph">
+<p>Once the whole application is ready, you should have the following output in your terminal:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1149,7 +1190,7 @@ Started with pid: 7501</code></pre>
 <p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code>.</p>
 </div>
 <div class="paragraph">
-<p>To log in you need to use a valid user among the following: <code>tso1-operator</code>, <code>rte-operator</code> or <code>admin</code>.
+<p>To log in you need to use a valid user among the following: <code>operator1</code>, <code>operator3</code> or <code>admin</code>.
 The common password is <code>test</code> for them all.</p>
 </div>
 <div class="paragraph">
@@ -1181,12 +1222,31 @@ The common password is <code>test</code> for them all.</p>
 <div class="sect2">
 <h3 id="_build"><a class="anchor" href="#_build"></a>3.2. Build</h3>
 <div class="paragraph">
-<p>Run <code>ng build</code> to build the project. The build artifacts will be stored in :</p>
+<p>Within the folder <code>${OF_HOME}/ui/main</code>, run <code>ng build</code> to build the project.</p>
+</div>
+<div class="paragraph">
+<p>The build artifacts will be stored in:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/ui/main/build/distribution</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The previous command could lead to the following error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">Generating ES5 bundles for differential loading...
+An unhandled exception occurred: Call retries were exceeded
+See &quot;/tmp/ng-&lt;random-string&gt;/angular-errors.log&quot; for further details.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>ng-&lt;random-string&gt;</code> is a temporary folder created by Angular to build the front-end.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build</code> instead to solve this problem.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2168,6 +2228,264 @@ Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpect
 <div class="paragraph">
 <p> </div></details> </p>
 </div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong>curl get Failed to connect to localhost:2002: Connection refused</strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/ui/</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>curl: (7) Failed to connect to localhost port 2002: Connexion refused</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>The <code>web-ui</code> docker container stops running. Check its configuration.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong>curl 404 status return by ngnix</strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/thirds/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx/1.17.10&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>The requested page is not or no more mapped by the <code>nginx.conf</code> of <code>web-ui</code>.
+Update it or check for the new end point of the desired page.</p>
+</div>
+<div class="paragraph">
+<p>For this example, <code>businessconfig</code> replaces now the former <code>thirds</code> end-point.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong>curl 404 status return by OperatorFabric</strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/businessconfig/ -H "Authorization: Bearer ${token}"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid OAuth2 JWT.</p>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>{"timestamp":"XXXX-XX-XXTXX:XX:XX.XXX+00:00","status":404,"error":"Not Found","message":"","path":"/businessconfig"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>XXXX-XX-XXTXX:XX:XX.XXX+00:00</code> is a time stamp corresponding to the moment when the request has been sent.</p>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>The requested end-point is not or no more valid in <code>OperatorFabric</code>.
+Check the API documentation for correct path.</p>
+</div>
+<div class="paragraph">
+<p>For this example, <code>businessconfig/processes</code> is a correct end-point whereas <code>businessconfig</code> alone is not.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong><code>ERROR: for web-ui</code> when running docker-compose in <code>${OF_HOME}/config/dev</code></strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+docker-compose up -d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>ERROR: for web-ui  Cannot start service web-ui: OCI runtime create failed: container_linux.go:345: starting container process caused "process_linux.go:430: container init caused \"rootfs_linux.go:58: mounting \\\"/home/legallron/projects/operatorfabric-core/config/dev/nginx.conf\\\" to rootfs …</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>…</code> is specific to the runtime environment.</p>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>There is no <code>nginx.conf</code> file in the <code>${OF_HOME}/conf/dev</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>A first run of OperatorFabric <code>docker-compose</code> in dev config needs a <code>nginx.conf</code> file.
+To create it, and run a docker-compose environment use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+./docker-compose.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If docker-compose has created a <code>nginx.conf</code> directory, delete it before running the previous commands.</p>
+</div>
+<div class="paragraph">
+<p>Once this <code>nginx.conf</code> file created a simple <code>docker-compose up -d</code> is enough to run a dev docker-compose environment.
+Sometimes a <code>nginx.conf</code> has been created as an attempt to launch the <code>web-ui</code> docker.
+See the following section to resolve this.</p>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong><code>/docker-compose.sh: ligne 7: ./nginx.conf: is a folder</code> when running <code>${OF_HOME}/config/dev/docker-compose.sh</code></strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+./docker-compose.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>./docker-compose.sh: ligne 7: ./nginx.conf: is a folder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes</div>
+<p>A <code>docker-compose up</code> has been run previously without <code>nginx.conf</code>.
+A folder named <code>nginx.conf</code> has been created by <code>docker-compose</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Resolution</div>
+<p>You have rights to delete the folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+rm -rf nginx.conf
+./docker-compose.sh # if you want to run OperatorFabric directly after.
+cd ${OF_HOME}
+bin/run_all.sh start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You don&#8217;t have the rights to delete the folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
+docker run -ti --rm -v $(pwd):/current alpine # if there is no `alpine` docker available it will pull it from dockerHub
+# your are now in the alpine docker container
+cd /current
+rm -rf nginxconf
+&lt;ctrl-d&gt; # to exit the `alpine` container bash environement
+./docker-compose.sh # if you want to run OperatorFabric directly after.
+cd ${OF_HOME}
+bin/run_all.sh start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
+<div class="paragraph">
+<p> <details><summary> 
+<strong><code>An unhandled exception occurred: Call retries were exceeded</code> occurs when using <code>ng build</code></strong>
+ </summary><div> </p>
+</div>
+<div class="paragraph">
+<p>When using the following command line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ${OF_HOME}/ui/main
+ng build</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following error appears:</p>
+</div>
+<div class="listingblock">
+<div class="title">Error message</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>Generating ES5 bundles for differential loading...
+An unhandled exception occurred: Call retries were exceeded
+See "/tmp/ng-&lt;random-string&gt;/angular-errors.log" for further details.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>ng-&lt;random-string&gt;</code> is a temporary folder created by Angular to build the front-end.</p>
+</div>
+<div class="paragraph">
+<div class="title">Possible causes &amp; resolution</div>
+<p>There is not enough allocated memory space to build the front-end.</p>
+</div>
+<div class="paragraph">
+<p>Use the following command to solve the problem:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p> </div></details> </p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2310,7 +2628,7 @@ Default credentials are admin/admin.</p>
 </div>
 <div class="paragraph">
 <p>repeat process for other users:
-rte-operator, tso1-operator, tso2-operator</p>
+operator3, operator1, operator2</p>
 </div>
 <div class="sect3">
 <h4 id="_development_specific_configuration"><a class="anchor" href="#_development_specific_configuration"></a>9.3.1. Development-specific configuration</h4>
@@ -2593,16 +2911,181 @@ transfer-encoding: chunked
 <div class="sect2">
 <h3 id="_extract_token_2"><a class="anchor" href="#_extract_token_2"></a>10.4. Extract token</h3>
 <div class="paragraph">
-<p>The utility <code>jq</code>, not always available on every Linux distro, parse json input and can extract requested json path value.
+<p>The utility <code>jq</code>, sadly not always available on some Linux distro, parses json input and extracts requested json path value(<code>access_token</code> here).
 Here is a way to do so.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=&amp;dminpassword=test&amp;grant_type=password&amp;client_id=opfab-client&amp;secret=opfab-keycloack-secret&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=${user}&amp;password=${password}&amp;grant_type=password&amp;client_id=opfab-client&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>-r</code> opttion, for raw, leaves the output without any quotes.</p>
+<p>where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>${user}</code>: login existing on keycloak for operatorfabric;</p>
+</li>
+<li>
+<p><code>${password}</code>: password for the previous login in keycloak;</p>
+</li>
+<li>
+<p><code>opfab-client</code>:  is the id of the client for OperatorFabric associated to the <code>dev</code> realm in Keycloak in a <code>dev</code>(<code>${OF_HOME/config/dev</code>) or <code>docker</code>(<code>${OF_HOME/config/docker</code>) configuration of operatorFabric.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>-r</code> option, for raw, leaves the output without any quotes.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_kafka_implementation"><a class="anchor" href="#_kafka_implementation"></a>11. Kafka Implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic.
+In the default configuration Kafka is disabled.</p>
+</div>
+<div class="sect2">
+<h3 id="_enabling_kafka"><a class="anchor" href="#_enabling_kafka"></a>11.1. Enabling Kafka</h3>
+<div class="paragraph">
+<p>To enable Kafka support you need to set the <code>kafka.consumer.group_id property</code> in the cards-publication yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default topic from which the messages are consumed is called 'opfab'. This setting can be modified by setting 'opfab.kafka.card.topics.topicname'.</p>
+</div>
+<div class="paragraph">
+<p>Make sure you also set the registry to either an empty string (<code>""</code>) or to the server providing the schema registry service.
+With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.
+<a href="#Cards-publication service">[Cards-publication service]</a> for more settings.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://docs.confluent.io/current/schema-registry/index.html">Schema management</a> for detailed information on using and benefits of a schema registry.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_operatorfabric_kafka_source_code"><a class="anchor" href="#_operatorfabric_kafka_source_code"></a>11.2. OperatorFabric Kafka source code</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_listener_deserializer"><a class="anchor" href="#_listener_deserializer"></a>11.3. Listener / deserializer</h3>
+<div class="paragraph">
+<p>Most of the OperatorFabric Kafka implementation can be found at</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>org.lfenergy.operatorfabric.cards.publication.kafka</code></dt>
+<dd>
+<p>for
+the implementation of the deserializers and mapping of Kafka topics to OperatorFabric cards and</p>
+</dd>
+<dt class="hdlist1"><code>org.lfenergy.operatorfabric.autoconfigure.kafka</code> </dt>
+<dd>
+<p>for the various Kafka configuration options.</p>
+</dd>
+</dl>
+</div>
+<div class="sect3">
+<h4 id="_kafka_operatorfabric_avro_schema"><a class="anchor" href="#_kafka_operatorfabric_avro_schema"></a>11.3.1. Kafka OperatorFabric AVRO schema</h4>
+<div class="paragraph">
+<p>The AVRO schema, the byte format in which messages are transferred using Kafka topics, can be found at <code>client/src/main/avro</code>.
+Message are wrapped in a CardCommand object before being sent to a Kafka topic. The CardCommand consists of some additional information and the
+OperatorFabric card itself, see also <a href="#card_structure">[card_structure]</a>. The additional information, for example CommandType, consists mostly of the information
+present in a REST operation but not in Kafka. For example the http method (POST, DELETE, UPDATE) used.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_kafka"><a class="anchor" href="#_configure_kafka"></a>11.4. Configure Kafka</h3>
+<div class="sect3">
+<h4 id="_setting_a_new_deserializer"><a class="anchor" href="#_setting_a_new_deserializer"></a>11.4.1. Setting a new deserializer</h4>
+<div class="paragraph">
+<p>By default, OperatorFabric uses the  <code>io.confluent.kafka.serializers.KafkaAvroDeserializer</code> from <a href="https://www.confluent.io/">Confluent</a>. However, you can write your own
+deserializer. To use your own deserializer, make sure
+<code>spring.deserializer.value.delegate.class</code> points to your deserializer.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kafka_card_producer"><a class="anchor" href="#_kafka_card_producer"></a>11.5. Kafka card producer</h3>
+<div class="paragraph">
+<p>To send a CardCommand to OperatorFabric, start by implementing a simple Kafka producer by following for example <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a>.
+Note that some properties of CardCommand or its embedded Card are required. If not set, the card will be rejected by OperatorFabric.</p>
+</div>
+<div class="paragraph">
+<p>When you dump the card (which is about to be put on a topic) to stdout, you should see something like the line below. Do ignore the actual values from
+the dump below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">command</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CREATE_CARD</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">integrationTest</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">processInstanceId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">fa6ce61f-192f-11eb-a6e3-eea952defe56</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">card</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">parentCardUid</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">publisher</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">myFirstPublisher</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processVersion</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FirstUserTask</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">publishDate</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">lttd</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span>: <span class="integer">1603897942000</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">endDate</span><span class="delimiter">&quot;</span></span>: <span class="integer">1604070742000</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">severity</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">timeSpans</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FirstUserTask.title</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">FirstUserTask.summary</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">userRecipients</span><span class="delimiter">&quot;</span></span>: [
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">tso1-operator</span><span class="delimiter">&quot;</span></span>,
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">tso2-operator</span><span class="delimiter">&quot;</span></span>
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">groupRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">externalRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesAllowedToRespond</span><span class="delimiter">&quot;</span></span>: [
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1</span><span class="delimiter">&quot;</span></span>
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">hasBeenAcknowledged</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{</span><span class="char">\&quot;</span><span class="content">action</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">Just do something</span><span class="char">\&quot;</span><span class="content">}</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_cards"><a class="anchor" href="#_response_cards"></a>11.6. Response Cards</h3>
+<div class="paragraph">
+<p>OperatorFabric <a href="#response_cards">[response_cards]</a> can be sent by REST of put on a Kafka topic. The Kafka response card configuration follows the
+convention to configure a REST endpoint. Instead of setting the 'http://host/api' URL, you set it to 'kafka:response-topic' in the <code>externalRecipients-url:</code>
+section from the cards-publication.yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
+           processAction: \&quot;http://localhost:8090/test\&quot;, \
+           mykafka: \&quot;kafka:topicname\&quot;
+           }</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka topic.</p>
 </div>
 </div>
 </div>

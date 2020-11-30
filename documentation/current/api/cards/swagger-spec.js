@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "OperatorFabric Card Consumer Service",
-    "version" : "1.7.0.RELEASE",
+    "version" : "1.8.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -46,11 +46,6 @@ window.swaggerSpec={
       "type" : "object",
       "description" : "Number of items",
       "example" : 10
-    },
-    "TimeSpanDisplayModeEnum" : {
-      "type" : "string",
-      "description" : "Time span display mode >\n* BUBBLE: Only displays Time span start\n* LINE: displays start and end with a junction line",
-      "enum" : [ "BUBBLE", "LINE" ]
     },
     "CardOperationTypeEnum" : {
       "type" : "string",
@@ -159,49 +154,6 @@ window.swaggerSpec={
         "cardIds" : [ 12345, 12346, 12347 ]
       }
     },
-    "Detail" : {
-      "description" : "detail defines html data rendering",
-      "type" : "object",
-      "properties" : {
-        "title" : {
-          "description" : "Card i18n title",
-          "$ref" : "#/definitions/I18n"
-        },
-        "titleStyle" : {
-          "description" : "css classes applied to title",
-          "type" : "string"
-        },
-        "titlePosition" : {
-          "description" : "Title position",
-          "$ref" : "#/definitions/TitlePositionEnum"
-        },
-        "templateName" : {
-          "description" : "template unique name as defined by Businessconfig Party Bundle in Businessconfig Party Service",
-          "type" : "string"
-        },
-        "styles" : {
-          "description" : "css files names to load as defined by Businessconfig Party Bundle in Businessconfig Party Service",
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "required" : [ "title", "templateName" ],
-      "example" : {
-        "title" : {
-          "key" : "myCard.title",
-          "parameters" : {
-            "EN" : "My card title",
-            "FR" : "Mon titre de carte"
-          },
-          "titlePosition" : "UP",
-          "titleStyle" : "myTitleStyle.css",
-          "templateName" : "template1",
-          "styles" : [ "bundleTest.css", "otherStyle.css" ]
-        }
-      }
-    },
     "Recipient" : {
       "description" : "Recipient object defines rules for recipient computation",
       "type" : "object",
@@ -249,12 +201,46 @@ window.swaggerSpec={
           "$ref" : "#/definitions/EpochDate",
           "description" : "Span end (must be after start)"
         },
-        "display" : {
-          "$ref" : "#/definitions/TimeSpanDisplayModeEnum",
-          "description" : "defaults to BUBBLE if only start is set and to LINE if start and end are set"
+        "recurrence" : {
+          "$ref" : "#/definitions/Recurrence",
+          "description" : "recurrence of the timeSpan"
         }
       },
       "required" : [ "start" ]
+    },
+    "Recurrence" : {
+      "type" : "object",
+      "description" : "An object to define recurrence of timeSpans",
+      "properties" : {
+        "hoursAndMinutes" : {
+          "$ref" : "#/definitions/HoursAndMinutes",
+          "description" : "hours and minutes"
+        },
+        "daysOfWeek" : {
+          "description" : "Days of the week for the recurrence",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "timeZone" : {
+          "description" : "Time zone reference for the recurrence definition",
+          "type" : "string"
+        }
+      },
+      "required" : [ "hoursAndMinutes" ]
+    },
+    "HoursAndMinutes" : {
+      "type" : "object",
+      "description" : "An object to represent a time with only hours and minutes",
+      "properties" : {
+        "hours" : {
+          "type" : "integer"
+        },
+        "minutes" : {
+          "type" : "integer"
+        }
+      }
     },
     "Card" : {
       "type" : "object",
@@ -270,10 +256,19 @@ window.swaggerSpec={
           "description" : "Unique card ID (as defined in the associated process)",
           "readOnly" : true
         },
-        "parentCardUid" : {
+        "parentCardId" : {
           "type" : "string",
-          "description" : "The id of the parent card (optional)",
+          "description" : "The id of the parent card if it's a child card (optional)",
           "readOnly" : true
+        },
+        "initialParentCardUid" : {
+          "type" : "string",
+          "description" : "The uid of the initial parent card if it's a child card (optional). When a card is updated, its id is still the same but not its uid, that's why we store this field initialParentCardUid.",
+          "readOnly" : true
+        },
+        "keepChildCards" : {
+          "type" : "boolean",
+          "description" : "Is true if OperatorFabric must not delete child cards when their parent card is updated"
         },
         "publisher" : {
           "type" : "string",
@@ -330,13 +325,6 @@ window.swaggerSpec={
             "$ref" : "#/definitions/TimeSpan"
           }
         },
-        "details" : {
-          "type" : "array",
-          "description" : "List of card associated details",
-          "items" : {
-            "$ref" : "#/definitions/Detail"
-          }
-        },
         "title" : {
           "description" : "Card i18n title",
           "$ref" : "#/definitions/I18n"
@@ -377,7 +365,7 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           },
-          "example" : [ "tso1", "tso2" ]
+          "example" : [ "Dispatcher", "Planner" ]
         },
         "entityRecipients" : {
           "description" : "List of entity recipients",
@@ -385,7 +373,7 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           },
-          "example" : [ "tso1", "tso2" ]
+          "example" : [ "Dispatcher", "Planner" ]
         },
         "data" : {
           "type" : "object",
@@ -401,6 +389,9 @@ window.swaggerSpec={
         },
         "publisherType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
+        },
+        "secondsBeforeTimeSpanForReminder" : {
+          "type" : "integer"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
@@ -433,19 +424,6 @@ window.swaggerSpec={
             }
           }
         } ],
-        "details" : {
-          "title" : {
-            "key" : "myCard.title",
-            "parameters" : {
-              "EN" : "My card title",
-              "FR" : "Mon titre de carte"
-            }
-          },
-          "titlePosition" : "UP",
-          "titleStyle" : "myTitleStyle.css",
-          "templateName" : "template1",
-          "styles" : [ "bundleTest.css", "otherStyle.css" ]
-        },
         "title" : {
           "key" : "myservice.myprocess.title",
           "parameters" : {
@@ -561,7 +539,7 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           },
-          "example" : [ "tso1", "tso2" ]
+          "example" : [ "Dispatcher", "Planner" ]
         },
         "title" : {
           "description" : "Card i18n title",
@@ -586,12 +564,19 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "Is true if the card was read by current user"
         },
-        "parentCardUid" : {
+        "parentCardId" : {
           "type" : "string",
-          "description" : "The uid of its parent card if it's a child card"
+          "description" : "The id of its parent card if it's a child card"
+        },
+        "initialParentCardUid" : {
+          "type" : "string",
+          "description" : "The uid of the initial parent card if it's a child card (optional). When a card is updated, its id is still the same but not its uid, that's why we store this field initialParentCardUid."
         },
         "publisherType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
+        },
+        "secondsBeforeTimeSpanForReminder" : {
+          "type" : "integer"
         }
       },
       "required" : [ "uid", "id", "processInstanceId", "startDate" ],
@@ -1011,7 +996,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/userRead/{uid}" : {
+    "/cards/userCardRead/{uid}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "uid",
@@ -1019,11 +1004,11 @@ window.swaggerSpec={
         "required" : true,
         "description" : "The card uid"
       } ],
-      "post" : {
-        "operationId" : "postUserRead",
+      "delete" : {
+        "operationId" : "deleteUserRead",
         "tags" : [ "cards", "update", "read" ],
-        "summary" : "update current card adding a user read",
-        "description" : "update current card users reads, adding a new item, by card id and authenticated user",
+        "summary" : "update current card removing a user read",
+        "description" : "update current card users reads, removing an item, by card id and authenticated user",
         "responses" : {
           "201" : {
             "description" : "Created"
