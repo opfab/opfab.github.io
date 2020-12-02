@@ -431,9 +431,9 @@ window.swaggerSpec={
                 "type" : "string",
                 "description" : "use as a display cue in the UI"
               },
-              "userCardTemplate" : {
-                "type" : "string",
-                "description" : "Name of the template to use when creating a new card"
+              "userCard" : {
+                "description" : "User card template and visibility options",
+                "$ref" : "#/definitions/UserCard"
               },
               "detailTitle" : {
                 "description" : "Detail i18n title",
@@ -603,6 +603,22 @@ window.swaggerSpec={
               }
             }
           }
+        }
+      }
+    },
+    "UserCard" : {
+      "properties" : {
+        "template" : {
+          "type" : "string"
+        },
+        "severityVisible" : {
+          "type" : "boolean"
+        },
+        "startDateVisible" : {
+          "type" : "boolean"
+        },
+        "endDateVisible" : {
+          "type" : "boolean"
         }
       }
     }
