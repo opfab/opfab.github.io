@@ -226,6 +226,10 @@ window.swaggerSpec={
         "timeZone" : {
           "description" : "Time zone reference for the recurrence definition",
           "type" : "string"
+        },
+        "durationInMinutes" : {
+          "description" : "Duration in minutes of the event",
+          "type" : "integer"
         }
       },
       "required" : [ "hoursAndMinutes" ]

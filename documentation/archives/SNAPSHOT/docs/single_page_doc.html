@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">03 December 2020</span>
+<span id="revdate">04 December 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -639,10 +639,9 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel4">
 <li><a href="#_mandatory_information">9.1.1.1. Mandatory information</a></li>
 <li><a href="#_state_in_the_process_state">9.1.1.2. State in the process (<code>state</code>)</a></li>
-<li><a href="#_recipient_recipient">9.1.1.3. Recipient (<code>recipient</code>)</a></li>
-<li><a href="#_optional_information">9.1.1.4. Optional information</a></li>
-<li><a href="#_business_period">9.1.1.5. Business period</a></li>
-<li><a href="#_store_information">9.1.1.6. Store information</a></li>
+<li><a href="#_optional_information">9.1.1.3. Optional information</a></li>
+<li><a href="#_business_period">9.1.1.4. Business period</a></li>
+<li><a href="#_store_information">9.1.1.5. Store information</a></li>
 </ul>
 </li>
 <li><a href="#_user_destined_information_of_the_card">9.1.2. User destined Information of the card</a>
@@ -771,8 +770,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_automated_user_creation">14.1.1.1. Automated user creation</a></li>
 </ul>
 </li>
-<li><a href="#_groups">14.1.2. Groups</a></li>
-<li><a href="#_entities">14.1.3. Entities</a></li>
+<li><a href="#_entities">14.1.2. Entities</a></li>
+<li><a href="#_groups">14.1.3. Groups</a></li>
 <li><a href="#_perimeters">14.1.4. Perimeters</a></li>
 <li><a href="#_alternative_way_to_manage_groups_and_entities">14.1.5. Alternative way to manage groups and entities</a></li>
 </ul>
@@ -1264,10 +1263,10 @@ of the cards, the operator can send back information to the third party via a "r
 <p>User : the operator receiving cards and responding via response cards</p>
 </li>
 <li>
-<p>Group : a group (containing a list of users)</p>
+<p>Entity : an entity (containing a list of users) , it can be used to model organizations (examples : control center, company , department&#8230;&#8203; )</p>
 </li>
 <li>
-<p>Entity : an entity (containing a list of users)</p>
+<p>Group : a group (containing a list of users) , it can be used to model roles in organizations (examples : supervisor, dispatcher &#8230;&#8203; )</p>
 </li>
 <li>
 <p>Process : the process the card is about</p>
@@ -1282,6 +1281,9 @@ of the cards, the operator can send back information to the third party via a "r
 <p>Card Rendering : data for card rendering</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>A card can have a parent card, in this case the card can be named child card.</p>
 </div>
 </div>
 </div>
@@ -2619,15 +2621,7 @@ A color is associated in the GUI to each severity. Here the details about severi
 </div>
 </div>
 <div class="sect4">
-<h5 id="_recipient_recipient"><a class="anchor" href="#_recipient_recipient"></a>9.1.1.3. Recipient (<code>recipient</code>)</h5>
-<div class="paragraph">
-<p>Declares to whom the card is send. For more details about way recipient works see
-<a href="#display_rules">Display rules</a>
-. Without recipient declaration a card is useless in <code>OperatorFabric</code> system.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_optional_information"><a class="anchor" href="#_optional_information"></a>9.1.1.4. Optional information</h5>
+<h5 id="_optional_information"><a class="anchor" href="#_optional_information"></a>9.1.1.3. Optional information</h5>
 <div class="sect5">
 <h6 id="end_date"><a class="anchor" href="#end_date"></a>End Date (<code>endDate</code>)</h6>
 <div class="paragraph">
@@ -2643,7 +2637,13 @@ A color is associated in the GUI to each severity. Here the details about severi
 <div class="sect5">
 <h6 id="_entityrecipients_entityrecipients"><a class="anchor" href="#_entityrecipients_entityrecipients"></a>EntityRecipients (<code>entityRecipients</code>)</h6>
 <div class="paragraph">
-<p>Used to send cards to entity : all users members of the listed entities who have the right for the process/state of the card will receive it. If this field is used in conjunction with groups recipients, to receive the cards :</p>
+<p>Used to send cards to entity : all users members of the listed entities who have the right for the process/state of the card will receive it.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_grouprecipients_grouprecipients"><a class="anchor" href="#_grouprecipients_grouprecipients"></a>GroupRecipients (<code>groupRecipients</code>)</h6>
+<div class="paragraph">
+<p>Used to send cards to groups : all users members of the groups will receive it. If this field is used in conjunction with entityRecipients, to receive the cards :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2664,6 +2664,12 @@ A color is associated in the GUI to each severity. Here the details about severi
 </div>
 </div>
 <div class="sect5">
+<h6 id="_userrecipients_userrecipients"><a class="anchor" href="#_userrecipients_userrecipients"></a>UserRecipients (<code>userRecipients</code>)</h6>
+<div class="paragraph">
+<p>Used to send cards directly to users without using groups or entities for card routing.</p>
+</div>
+</div>
+<div class="sect5">
 <h6 id="_last_time_to_decide_lttd"><a class="anchor" href="#_last_time_to_decide_lttd"></a>Last Time to Decide (<code>lttd</code>)</h6>
 <div class="paragraph">
 <p>Fixes the moment until when a <code>response</code> is possible for the card. After this moment, the response button won&#8217;t be useable. When lttd time is approaching, a clock is visible on the card in the feed with the residual time.  The lttd time can be set for cards that don&#8217;t expect any response</p>
@@ -2678,13 +2684,13 @@ A color is associated in the GUI to each severity. Here the details about severi
 </div>
 </div>
 <div class="sect4">
-<h5 id="_business_period"><a class="anchor" href="#_business_period"></a>9.1.1.5. Business period</h5>
+<h5 id="_business_period"><a class="anchor" href="#_business_period"></a>9.1.1.4. Business period</h5>
 <div class="paragraph">
 <p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e the period selected on  the timeline). If endDate is not set, the  card will be visible as soon as the startDate is before the end of the chosen period.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_store_information"><a class="anchor" href="#_store_information"></a>9.1.1.6. Store information</h5>
+<h5 id="_store_information"><a class="anchor" href="#_store_information"></a>9.1.1.5. Store information</h5>
 <div class="sect5">
 <h6 id="_uid_uid"><a class="anchor" href="#_uid_uid"></a>uid (<code>uid</code>)</h6>
 <div class="paragraph">
@@ -4198,10 +4204,13 @@ users :
 <p>HoursAndMinutes : hours and minutes of day when the event arise</p>
 </li>
 <li>
-<p>DayOfWeeks : a list of day of the week when the event arise. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
+<p>DaysOfWeek : a list of day of the week when the event arise. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
 </li>
 <li>
 <p>TimeZone : the time zone of reference for the recurrence definition (default value is Europe/Paris)</p>
+</li>
+<li>
+<p>DurationInMinutes : the duration in minutes of the event</p>
 </li>
 </ul>
 </div>
@@ -4217,8 +4226,9 @@ users :
 <div class="content">
 <pre>startDate : 1231135161
 recurrence : {
-    HoursAndMinutes : { hours:10 ,minutes:30},
-    DaysOfWeeks : [6,7]
+    hoursAndMinutes : { hours:10 ,minutes:30},
+    daysOfWeek : [6,7],
+    durationInMinutes : 15
 }</pre>
 </div>
 </div>
@@ -4558,6 +4568,22 @@ The layout of this screen is very similar to the Feed screen: the results are di
 <dd>
 <p>represent account information for a person destined to receive cards in the OperatorFabric instance.</p>
 </dd>
+<dt class="hdlist1">Entities</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>represent set of users destined to receive collectively some cards.</p>
+</li>
+<li>
+<p>can be used to model organizations, for examples : control center, company , department&#8230;&#8203;</p>
+</li>
+<li>
+<p>can be used in a way to handle rights on card reception in OperatorFabric.</p>
+</li>
+</ul>
+</div>
+</dd>
 <dt class="hdlist1">Groups</dt>
 <dd>
 <div class="ulist">
@@ -4568,18 +4594,8 @@ The layout of this screen is very similar to the Feed screen: the results are di
 <li>
 <p>has a set of perimeters to define rights for card reception in OperatorFabric.</p>
 </li>
-</ul>
-</div>
-</dd>
-<dt class="hdlist1">Entities</dt>
-<dd>
-<div class="ulist">
-<ul>
 <li>
-<p>represent set of users destined to receive collectively some cards.</p>
-</li>
-<li>
-<p>can be used in a way to handle rights on card reception in OperatorFabric.</p>
+<p>can be used to model roles in organizations, for examples : supervisor, dispatcher &#8230;&#8203;</p>
 </li>
 </ul>
 </div>
@@ -4631,27 +4647,28 @@ instance, when he is authenticated and connected for the first time in the <code
 automatically created in the system without attached group or entity.
 The administration of the groups, entities and perimeters is dealt by the administrator manually.
 More details about automated user creation
-<a href="#opfab_spec_conf">here</a>
-.</p>
+<a href="#opfab_spec_conf">here</a></p>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_groups"><a class="anchor" href="#_groups"></a>14.1.2. Groups</h4>
+<h4 id="_entities"><a class="anchor" href="#_entities"></a>14.1.2. Entities</h4>
 <div class="paragraph">
-<p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code>.
+<p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).
+Entities are used to send cards to several users without a name specifically. The information about membership to an
+entity is stored in the user information. Examples using entities can be found
+<a href="#_send_to_several_users">here</a>
+.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_groups"><a class="anchor" href="#_groups"></a>14.1.3. Groups</h4>
+<div class="paragraph">
+<p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code> (examples : supervisor, dispatcher &#8230;&#8203; ).
 Groups are used to send cards to several users without a name specifically. The information about membership to a
 group is stored in the user information. A group contains a list of perimeters which define the rights of reception/writing for a couple process/state. The rules used to send cards are described in the
 <a href="#card_recipients">recipients section</a>
-.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_entities"><a class="anchor" href="#_entities"></a>14.1.3. Entities</h4>
-<div class="paragraph">
-<p>Entities are used to send cards to several users without a name specifically. The information about membership to an
-entity is stored in the user information. Examples using entities can be found
-<a href="#_send_to_several_users">here</a>
+.
 .</p>
 </div>
 </div>
@@ -5418,6 +5435,24 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">style to apply if not using day night mode, possible value are DAY,NIGHT or LEGACY (black background and white timeline)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format for date rendering (example : DD/MM/YYYY )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.timeFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format for time rendering (example : HH:mm )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateTimeFormat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm DD/MM/YYYY )</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.description</p></td>
