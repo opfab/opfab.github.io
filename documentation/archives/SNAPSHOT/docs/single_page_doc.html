@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">07 December 2020</span>
+<span id="revdate">08 December 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -688,6 +688,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_upload">10.1.3.3. Upload</a></li>
 </ul>
 </li>
+<li><a href="#_processes_groups">10.1.4. Processes groups</a></li>
 </ul>
 </li>
 <li><a href="#template_description">10.2. Templates</a>
@@ -3367,7 +3368,7 @@ As the card used in this example are created
 In english, the translation of this key is '<em>This is a root property</em>'.</p>
 </div>
 <div class="paragraph">
-<p><code>/template/en/template1.handlers</code></p>
+<p><code>/template/en/template1.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3376,7 +3377,7 @@ In english, the translation of this key is '<em>This is a root property</em>'.</
 </div>
 </div>
 <div class="paragraph">
-<p><code>/template/fr/template1.handlers</code></p>
+<p><code>/template/fr/template1.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3388,7 +3389,7 @@ In english, the translation of this key is '<em>This is a root property</em>'.</
 <p>The two following template examples display also a l10n title and a list of numeric values from 1 to 3.</p>
 </div>
 <div class="paragraph">
-<p><code>/template/en/template2.handelbars</code></p>
+<p><code>/template/en/template2.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3401,7 +3402,7 @@ In english, the translation of this key is '<em>This is a root property</em>'.</
 </div>
 </div>
 <div class="paragraph">
-<p><code>/template/fr/template2.handelbars</code></p>
+<p><code>/template/fr/template2.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3541,6 +3542,84 @@ curl -X POST &quot;http://localhost:2100/businessconfig/processes&quot;\
 <a href="#troubleshooting_bundle">Troubleshooting</a>
 section which resumes how to resolve common problems.</p>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processes_groups"><a class="anchor" href="#_processes_groups"></a>10.1.4. Processes groups</h4>
+<div class="paragraph">
+<p>OperatorFabric offers the possibility of defining processes groups. These groups have an impact only on the UI, for example on the notification configuration screen, by offering a more organized view of all the processes.</p>
+</div>
+<div class="paragraph">
+<p>To define processes groups, you have to upload a file via a <code>POST</code> http request as described in the
+<a href="../api/businessconfig/.html#/businessconfig/uploadProcessgroups">Businessconfig Service API documentation</a>
+.</p>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${PROCESSES_GROUPS_FOLDER}
+curl -X POST &quot;http://localhost:2100/businessconfig/processgroups&quot;\
+        -H &quot;accept: application/json&quot;\
+        -H &quot;Content-Type: multipart/form-data&quot;\
+        -F &quot;file=@processesGroups.json&quot;\
+        -H &quot;Authorization: Bearer ${token}&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>${PROCESSES_GROUPS_FOLDER}</code> is the folder containing the processes groups file to upload.</p>
+</li>
+<li>
+<p><code>processesGroups.json</code> is the name of the uploaded file.</p>
+</li>
+<li>
+<p><code>${token}</code> is a valid token for OperatorFabric use.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example of content for uploaded file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process1</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process2</span><span class="delimiter">&quot;</span></span>
+      ]
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process3</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process4</span><span class="delimiter">&quot;</span></span>
+      ]
+    }
+  ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">locale</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 2</span><span class="delimiter">&quot;</span></span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Groupe de process 1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Groupe de process 2</span><span class="delimiter">&quot;</span></span>
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These command line should return a <code>201 http status</code>.</p>
 </div>
 </div>
 </div>
