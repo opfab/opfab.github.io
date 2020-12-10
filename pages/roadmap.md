@@ -5,21 +5,31 @@ layout: default
 # OperatorFabric Roadmap
 
 
-## Technical Roadmap
+# Short Term
 
-* Lighten the software architecture to simplify development and deployment
-* Upgrade the technical stack
-* Implement API testing using KARATE DSL
-
-
-## Functional Roadmap
+### Functional Roadmap
  
-* Propose new features such as card routing, sound playing on card’s arrival, triggering actions  …
-* Implement end user tests using tools such as Cypres and Selinium
-* Enhance the UX experience
+* New UI design
+* Generic notification filter page for users
+* Administration page(v1)
+* A production-ready new features: smart notification, card creation (manually), agenda view,new archiving screen, monitoring and logging screens.
 
-## Other 
 
- * Restructure documentation
+### Technical Roadmap
 
-The roadmap is under refinement by the team, a detailed one will be published soon.
+* Upgrade the technical stack (JAVA 11 & Angular 10)
+* UI testing using cypress DSL
+* A production-ready Kafka connector
+
+
+## Long Term (More than 6 months)
+
+### Functional Roadmap
+
+* Enhancement of the existing features (sound notification, timeline, administration screen, smart notification...) 
+* Mail notification
+* Automatic update of the UI when the process configuration or the perimeters changes
+* Substation/electrical grid view integration (in coordination with powsybl project )
+* Geographical view integration
+* Task assignement, card forwarding
+* Multi-instance
