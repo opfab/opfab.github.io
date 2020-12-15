@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">14 December 2020</span>
+<span id="revdate">15 December 2020</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -3137,7 +3137,7 @@ It lists the content of the bundle.</p>
         <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
       },
       <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgementAllowed</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgmentAllowed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Never</span><span class="delimiter">&quot;</span></span>
     }
   }
 }</code></pre>
@@ -4242,7 +4242,24 @@ users :
 <p>The user can set a card as "acknowledged" so he will not see it anymore by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
 </div>
 <div class="paragraph">
-<p>To offer the possibility for the user to acknowledged card, it has to be configured in process definition. The configuration is set on a state based with the acknowledgementAllowed field set to true  (default is false). You can see examples in src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/config.json</p>
+<p>To offer the possibility for the user to acknowledged card, it has to be configured in process definition. The configuration is done on a state by setting the acknowledgmentAllowed field. Allowed values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Never": acknowledgement not allowed (default value)</p>
+</li>
+<li>
+<p>"Always": acknowledgement allowed</p>
+</li>
+<li>
+<p>"OnlyWhenResponseDisabledForUser": acknowledgement allowed only when
+the response is disabled for the user</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can see examples in src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/config.json</p>
 </div>
 </div>
 <div class="sect2">
@@ -4428,8 +4445,8 @@ recurrence : {
       "templateName": "question",
       "styles": [
         "style"
-      ]
-      "acknowledgementAllowed": false
+      ],
+      "acknowledgmentAllowed": "Never"
     }
   }
 }</pre>

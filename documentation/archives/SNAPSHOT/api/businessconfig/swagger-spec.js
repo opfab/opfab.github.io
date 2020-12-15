@@ -420,8 +420,9 @@ window.swaggerSpec={
                 "$ref" : "#/definitions/Response"
               },
               "acknowledgmentAllowed" : {
-                "type" : "boolean",
-                "description" : "This flag indicates the possibility for a card of this kind to be acknowledged on user basis"
+                "description" : "Response button color",
+                "$ref" : "#/definitions/AcknowledgmentAllowedEnum",
+                "default" : "Never"
               },
               "name" : {
                 "type" : "string",
@@ -557,6 +558,11 @@ window.swaggerSpec={
       "description" : "Response button color >\n* RED - The button will be red in the template\n* GREEN - The button will be green in the template\n* YELLOW - The button will be yellow in the template",
       "enum" : [ "RED", "GREEN", "YELLOW" ],
       "example" : "RED"
+    },
+    "AcknowledgmentAllowedEnum" : {
+      "type" : "string",
+      "description" : "Acknowledgment allowed >\n* ALWAYS - Acknowledgment always allowed\n* NEVER - Acknowledgment not allowed\n* ONLY_WHEN_RESPONSE_DISABLED_FOR_USER - Acknowledgment allowed only if response is disabled for the user",
+      "enum" : [ "Always", "Never", "OnlyWhenResponseDisabledForUser" ]
     },
     "ProcessGroup" : {
       "description" : "Object containing a list of processes.",
