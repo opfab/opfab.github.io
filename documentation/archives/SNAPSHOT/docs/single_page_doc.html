@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">05 January 2021</span>
+<span id="revdate">06 January 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -711,6 +711,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#toBreakage">10.2.1.14. toBreakage</a></li>
 <li><a href="#keyValue">10.2.1.15. keyValue</a></li>
 <li><a href="#_keepspacesandendofline">10.2.1.16. keepSpacesAndEndOfLine</a></li>
+<li><a href="#arrayContainsOneOf">10.2.1.17. arrayContainsOneOf</a></li>
+<li><a href="#mergeArrays">10.2.1.18. mergeArrays</a></li>
 </ul>
 </li>
 <li><a href="#_charts">10.2.2. Charts</a></li>
@@ -754,6 +756,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_example">12.3.2. Example</a></li>
 </ul>
 </li>
+<li><a href="#_lock_mechanism">12.4. Lock mechanism</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">13. Archived Cards</a>
@@ -1436,15 +1439,7 @@ compliant accesses. It provides the rooting for accessing the services from outs
 <div class="sect2">
 <h3 id="_example_1_send_and_update_a_basic_card"><a class="anchor" href="#_example_1_send_and_update_a_basic_card"></a>6.1. Example 1: Send and update a basic card</h3>
 <div class="paragraph">
-<p>Go in directory <code>client/example1</code> and send a card:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @card.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use the provided script</p>
+<p>Go in directory <code>client/example1</code> and send a card, using the provided script :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1493,6 +1488,21 @@ section of the reference documentation.</p>
         <span class="key"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span> : {<span class="key"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello World !!! That's my first message</span><span class="delimiter">&quot;</span></span>}
 }</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you open the json file of the card, you will see '${current_date_in_milliseconds_from_epoch}' for the field 'startDate'.
+      We have used this so that the date of the card is the current day (or the next day in some other examples). Indeed, in the shell script
+      that sends the card, you will see that we create an environment variable with the current date which is then injected
+      into the json file.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -2026,15 +2036,7 @@ second the end of the maintenance operation.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>You can use this command line :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @cardSentToEntity.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use the provided script :</p>
+<p>Use the provided script :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2152,15 +2154,7 @@ the user is both a member of this entity and a member of this group.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>You can use this command line :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @cardSentToEntityAndGroup_1.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use the provided script :</p>
+<p>Use the provided script :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2208,15 +2202,7 @@ the user is a member of this entity and have the process/state of the card withi
 </div>
 </div>
 <div class="paragraph">
-<p>You can use this command line :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl -X POST http://localhost:2102/cards -H "Content-type:application/json" --data @cardSentToEntityAndGroup_2.json</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or use the provided script :</p>
+<p>Use the provided script :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4210,6 +4196,32 @@ users :
 </ul>
 </div>
 </div>
+<div class="sect4">
+<h5 id="arrayContainsOneOf"><a class="anchor" href="#arrayContainsOneOf"></a>10.2.1.17. arrayContainsOneOf</h5>
+<div class="paragraph">
+<p>If the first array contains at least one element of the second array, return true. Otherwise, return false.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#if (arrayContainsOneOf arr1 arr2)}}
+  &lt;p&gt;Arr1 contains at least one element of arr2&lt;/p&gt;
+{{/if}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="mergeArrays"><a class="anchor" href="#mergeArrays"></a>10.2.1.18. mergeArrays</h5>
+<div class="paragraph">
+<p>Return an array that is a merge of the two arrays.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#each (mergeArrays arr1 arr2)}}
+  &lt;p&gt;{{@index}} element: {{this}}&lt;/p&gt;
+{{/each}}</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_charts"><a class="anchor" href="#_charts"></a>10.2.2. Charts</h4>
@@ -4604,6 +4616,26 @@ By default, OperatorFabric considers that if the parent card (question card) is 
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_lock_mechanism"><a class="anchor" href="#_lock_mechanism"></a>12.4. Lock mechanism</h3>
+<div class="paragraph">
+<p>When a user has never answered to a response card, the button will be marked as "VALIDATE ANSWER" and the card will be unlocked.
+When the user responds for the first time (and the response succeeds), the button will then be marked as "MODIFY ANSWER" and the information that the card has been locked will be sent to the third template (by calling the <em>templateGateway.lockAnswer()</em> function).</p>
+</div>
+<div class="paragraph">
+<p>Once a user has responded to a response card, its entity status will be considered as "already answered" for this card.
+Then all the users having the same entity will be in this status for this card.</p>
+</div>
+<div class="paragraph">
+<p>From there, as soon as they will open this card the button will be marked as "MODIFY ANSWER" and this information (i.e. that this entity has already responded) will be send to the third template (via the <em>templateGateway.isLocked</em> variable).</p>
+</div>
+<div class="paragraph">
+<p>The user can then click on "MODIFY ANSWER" and the button will come back to its initial state ("VALIDATE ANSWER") and the information that the user wants to modify its initial answer will be sent to the third template (by calling the <em>templateGateway.unlockAnswer()</em> function).</p>
+</div>
+<div class="paragraph">
+<p>Once again, after validating its answer, the information will be sent to the third template that the card has been locked (by calling the templateGateway.lockAnswer() function).</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4736,6 +4768,18 @@ In the following commands the <code>$token</code> is an authentication token cur
 </div>
 <div class="paragraph">
 <p>The access to this service has to be authorized, in the <code>OAuth2</code> service used by the current <code>OperatorFabric</code> instance, at least to access User information and to manage Users. The membership of groups and entities are stored in the user information.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+User login must be lowercase. Otherwise, it will be converted to lowercase before saving to the database.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_automated_user_creation"><a class="anchor" href="#_automated_user_creation"></a>14.1.1.1. Automated user creation</h5>

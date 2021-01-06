@@ -358,7 +358,7 @@ window.swaggerSpec={
       "post" : {
         "tags" : [ "users" ],
         "summary" : "Create a new user",
-        "description" : "Create a new user. If the user already exists, then an update of the user will be made.",
+        "description" : "Create a new user. If the user already exists, then an update of the user will be made. Be careful, user login must be lowercase. Otherwise, it will be converted to lowercase before saving to the database.",
         "operationId" : "createUser",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],

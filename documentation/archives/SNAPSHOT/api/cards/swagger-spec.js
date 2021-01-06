@@ -132,26 +132,20 @@ window.swaggerSpec={
         "type" : {
           "$ref" : "#/definitions/CardOperationTypeEnum"
         },
-        "cardIds" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          },
-          "description" : "IDs of cards to be deleted. Only used for CardOperations of DELETE type."
+        "cardId" : {
+          "type" : "string",
+          "description" : "ID of card to be deleted. Only used for CardOperations of DELETE type."
         },
-        "cards" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/LightCard"
-          },
-          "description" : "Card objects to be added or updated. Only used for CardOperations of ADD or UPDATE type."
+        "card" : {
+          "$ref" : "#/definitions/LightCard",
+          "description" : "Card object to be added or updated. Only used for CardOperations of ADD or UPDATE type."
         }
       },
       "example" : {
         "number" : 3,
         "publishDate" : 1546300800000,
         "type" : "DELETE",
-        "cardIds" : [ 12345, 12346, 12347 ]
+        "cardId" : [ 12345 ]
       }
     },
     "Recipient" : {
