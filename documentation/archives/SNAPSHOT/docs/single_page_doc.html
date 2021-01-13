@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">12 January 2021</span>
+<span id="revdate">13 January 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1269,7 +1269,7 @@ of the cards, the operator can send back information to the third party via a "r
 <p>User : the operator receiving cards and responding via response cards</p>
 </li>
 <li>
-<p>Entity : an entity (containing a list of users) , it can be used to model organizations (examples : control center, company , department&#8230;&#8203; )</p>
+<p>Entity : an entity (containing a list of users) , it can be used to model organizations (examples : control center, company , department&#8230;&#8203; ) . An entity can be part of another entity or even of several entities.</p>
 </li>
 <li>
 <p>Group : a group (containing a list of users) , it can be used to model roles in organizations (examples : supervisor, dispatcher &#8230;&#8203; )</p>
@@ -4711,6 +4711,9 @@ The layout of this screen is very similar to the Feed screen: the results are di
 <li>
 <p>can be used in a way to handle rights on card reception in OperatorFabric.</p>
 </li>
+<li>
+<p>can be part of another entity (or even several entities). This relationship is modeled using the "parent entity" property</p>
+</li>
 </ul>
 </div>
 </dd>
@@ -4798,7 +4801,10 @@ More details about automated user creation
 <div class="paragraph">
 <p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).
 Entities are used to send cards to several users without a name specifically. The information about membership to an
-entity is stored in the user information. Examples using entities can be found
+entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.</p>
+</div>
+<div class="paragraph">
+<p>Examples using entities can be found
 <a href="#_send_to_several_users">here</a>
 .</p>
 </div>
