@@ -428,6 +428,10 @@ window.swaggerSpec={
                 "type" : "string",
                 "description" : "i18n key for UI"
               },
+              "description" : {
+                "type" : "string",
+                "description" : "i18n key for UI"
+              },
               "color" : {
                 "type" : "string",
                 "description" : "use as a display cue in the UI"
