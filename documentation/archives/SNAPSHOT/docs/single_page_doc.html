@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">22 January 2021</span>
+<span id="revdate">23 January 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -723,19 +723,20 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_card_notification">11. Card notification</a>
 <ul class="sectlevel2">
-<li><a href="#_sound_notification">11.1. Sound notification</a></li>
-<li><a href="#_card_read">11.2. Card read</a></li>
-<li><a href="#_card_acknowledgment">11.3. Card acknowledgment</a></li>
-<li><a href="#card_reminder">11.4. Card reminder</a>
+<li><a href="#_notification_configuration">11.1. Notification configuration</a></li>
+<li><a href="#_sound_notification">11.2. Sound notification</a></li>
+<li><a href="#_card_read">11.3. Card read</a></li>
+<li><a href="#_card_acknowledgment">11.4. Card acknowledgment</a></li>
+<li><a href="#card_reminder">11.5. Card reminder</a>
 <ul class="sectlevel3">
-<li><a href="#_simple_reminder">11.4.1. Simple reminder</a></li>
-<li><a href="#_recurrent_reminder">11.4.2. Recurrent reminder</a>
+<li><a href="#_simple_reminder">11.5.1. Simple reminder</a></li>
+<li><a href="#_recurrent_reminder">11.5.2. Recurrent reminder</a>
 <ul class="sectlevel4">
-<li><a href="#_recurrent_reminder_example">11.4.2.1. Recurrent reminder example</a></li>
+<li><a href="#_recurrent_reminder_example">11.5.2.1. Recurrent reminder example</a></li>
 </ul>
 </li>
-<li><a href="#_last_time_for_reminding">11.4.3. Last time for reminding</a></li>
-<li><a href="#_debugging">11.4.4. Debugging</a></li>
+<li><a href="#_last_time_for_reminding">11.5.3. Last time for reminding</a></li>
+<li><a href="#_debugging">11.5.4. Debugging</a></li>
 </ul>
 </li>
 </ul>
@@ -4284,19 +4285,35 @@ users :
 <p>When a user receives a card, he is notified via a resume of the card on the left panel of the UI, what is called the "feed".</p>
 </div>
 <div class="sect2">
-<h3 id="_sound_notification"><a class="anchor" href="#_sound_notification"></a>11.1. Sound notification</h3>
+<h3 id="_notification_configuration"><a class="anchor" href="#_notification_configuration"></a>11.1. Notification configuration</h3>
+<div class="paragraph">
+<p>For each process/state, the user can choose to be notified or not when receiving a card. If he chooses not to be
+notified then the card will not be visible in the feed. However, it will be visible in the archives screen.</p>
+</div>
+<div class="paragraph">
+<p>The notification configuration screen can be made accessible or not for the OperatorFabric instance via the variable
+feedConfiguration.hidden in the web-ui.json file.</p>
+</div>
+<div class="paragraph">
+<p>In order to have a better visual organization of the processes in the UI, you can define processes groups.
+You can find more information
+<a href="#_processes_groups">here</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sound_notification"><a class="anchor" href="#_sound_notification"></a>11.2. Sound notification</h3>
 <div class="paragraph">
 <p>If the option is activated in the general configuration file web-ui.json, the user can choose to have a sound when a card is arriving. The configuration is to be set by the user with the settings menu.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_read"><a class="anchor" href="#_card_read"></a>11.2. Card read</h3>
+<h3 id="_card_read"><a class="anchor" href="#_card_read"></a>11.3. Card read</h3>
 <div class="paragraph">
 <p>When the user receives a new card, he see it in the feed with an eye icon on the right of the card resume. When he opens the cards, the icon disappears.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_acknowledgment"><a class="anchor" href="#_card_acknowledgment"></a>11.3. Card acknowledgment</h3>
+<h3 id="_card_acknowledgment"><a class="anchor" href="#_card_acknowledgment"></a>11.4. Card acknowledgment</h3>
 <div class="paragraph">
 <p>The user can set a card as "acknowledged" so he will not see it anymore by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
 </div>
@@ -4322,7 +4339,7 @@ the response is disabled for the user</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="card_reminder"><a class="anchor" href="#card_reminder"></a>11.4. Card reminder</h3>
+<h3 id="card_reminder"><a class="anchor" href="#card_reminder"></a>11.5. Card reminder</h3>
 <div class="paragraph">
 <p>For certain process and state, it is possible to configure a reminder. The reminder "reactivate" the card in the feed at a certain time. "Reactivate" means setting the card to the status "unread" and "unacknowledged".</p>
 </div>
@@ -4343,13 +4360,13 @@ the response is disabled for the user</p>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>11.4.1. Simple reminder</h4>
+<h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>11.5.1. Simple reminder</h4>
 <div class="paragraph">
 <p>If a timespan is present without a recurrence object, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>11.4.2. Recurrent reminder</h4>
+<h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>11.5.2. Recurrent reminder</h4>
 <div class="paragraph">
 <p>It is possible to set a recurrent reminder via the structure recurrence which define a regular event in the timespan structure. It is defined with the following fields :</p>
 </div>
@@ -4373,7 +4390,7 @@ the response is disabled for the user</p>
 <p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
 </div>
 <div class="sect4">
-<h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>11.4.2.1. Recurrent reminder example</h5>
+<h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>11.5.2.1. Recurrent reminder example</h5>
 <div class="paragraph">
 <p>If timespan is defined as follow :</p>
 </div>
@@ -4393,13 +4410,13 @@ recurrence : {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_last_time_for_reminding"><a class="anchor" href="#_last_time_for_reminding"></a>11.4.3. Last time for reminding</h4>
+<h4 id="_last_time_for_reminding"><a class="anchor" href="#_last_time_for_reminding"></a>11.5.3. Last time for reminding</h4>
 <div class="paragraph">
 <p>If the user is not connected at the time of the remind,  when he connects if current time is superior to 15 minutes from the event date, no  remind will arise.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_debugging"><a class="anchor" href="#_debugging"></a>11.4.4. Debugging</h4>
+<h4 id="_debugging"><a class="anchor" href="#_debugging"></a>11.5.4. Debugging</h4>
 <div class="paragraph">
 <p>When the user receives a card with a reminder to set, the log (console) of the browser contains a line with the date when the remind will arise . For example :</p>
 </div>
@@ -5732,6 +5749,12 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, new cards are notified in the OS through web-push notifications</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feedConfiguration.hidden</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the notification configuration screen</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForAlarm</p></td>
