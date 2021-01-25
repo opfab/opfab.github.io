@@ -420,7 +420,7 @@ window.swaggerSpec={
                 "$ref" : "#/definitions/Response"
               },
               "acknowledgmentAllowed" : {
-                "description" : "Response button color",
+                "description" : "Acknowledgment allowed or not",
                 "$ref" : "#/definitions/AcknowledgmentAllowedEnum",
                 "default" : "Never"
               },
@@ -431,6 +431,10 @@ window.swaggerSpec={
               "description" : {
                 "type" : "string",
                 "description" : "i18n key for UI"
+              },
+              "showDetailCardHeader" : {
+                "type" : "boolean",
+                "description" : "Hide or show header card for question card"
               },
               "color" : {
                 "type" : "string",
