@@ -4,22 +4,31 @@ layout: default
 
 # A Smart Assistant For System Operators
 
-OperatorFabric is a modular, extensible, industrial-strength and field-tested
-platform for use in electricity, water, and other utility operations.
+OperatorFabric is a modular, extensible, industrial-strength platform for use in electricity, water, and other utility operations.
 
-* System visualization and console integration
-* Precise alerting
-* Workflow scheduling (*)
-* Historian
-* Scripting (ex: Python, JavaScript)
+It aims to facilitate operational activities for utilities in two ways :
 
-_* This feature could be addressed either as an internal module or through simplified and standardized (BPMN) 
-integration with external workflow engines, we're still weighing the pros and cons of the two options._
+* Centralize real time business events in a single place to avoid having multiple screens/software. To do so,  OperatorFabric provides 
+    * event notifications named "cards"  with filtering features (severity , date , process ... )
+    * event dispatching rules on a per user basis (based on groups, organizational entities, processes... )
+    * event-sending endpoints for business applications 
+    * a mechanism of templating to customize events rendering (using HTML5 )
+    * a view of the events on a timeline and agenda view 
+    * storage of all the events (archive feature)
+    * notifications via sounds 
+    * possibilities  to integrate screen form other applications
+    
+* Facilitate interactions between operational control centers:
+    * Share information in real time, as pre-formatted cards that can be sent either manually by operators or automatically by external solutions.
+    * Introduce pre-formatted question/response exchanges between control centers. This can be used to implement operational processes (with the notion of "last time to respond").  
+    * Share events in calendar (also allowing repeating events)
 
-It is an open source project initiated by [RTE](http://www.rte-france.com/)
-with [LF Energy](https://www.lfenergy.org/).
+In addition, the following features are available :  internationalization, time-zone management, light/dark mode for the UI,  authorization mechanism.
 
-# What does it do?
+Integration with existing IT systems is an overarching concern: support of Firefox and Chromium-based browsers, docker deployment, communication with business applications via REST API or Kafka, integration with external authentication systems (via OAuth2), monitoring via Prometheus endpoints.
+
+
+# What does it do  
 
 To perform their duties, an operator has to interact with multiple applications
 (perform actions, watch for alerts, etc.), which can prove difficult if
