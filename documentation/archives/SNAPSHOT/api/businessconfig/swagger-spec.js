@@ -444,10 +444,6 @@ window.swaggerSpec={
                 "description" : "User card template and visibility options",
                 "$ref" : "#/definitions/UserCard"
               },
-              "detailTitle" : {
-                "description" : "Detail i18n title",
-                "$ref" : "#/definitions/I18n"
-              },
               "templateName" : {
                 "description" : "Name of the template to use",
                 "type" : "string"
@@ -486,21 +482,9 @@ window.swaggerSpec={
         "name" : "some_business_process.label",
         "version" : "v1.0",
         "initial_state" : {
-          "detailTitle" : {
-            "key" : "template.title",
-            "parameters" : {
-              "param" : "value"
-            }
-          },
           "templateName" : "template1"
         },
         "other_state" : {
-          "detailTitle" : {
-            "key" : "template2.title",
-            "parameters" : {
-              "param" : "value"
-            }
-          },
           "templateName" : "template2",
           "styles" : [ "my-template.css" ]
         }
