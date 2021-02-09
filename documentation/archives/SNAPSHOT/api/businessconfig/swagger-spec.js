@@ -454,6 +454,10 @@ window.swaggerSpec={
                 "items" : {
                   "type" : "string"
                 }
+              },
+              "type" : {
+                "description" : "Type of state (\"INPROGRESS\", \"FINISHED\" or \"CANCELED\")",
+                "$ref" : "#/definitions/TypeOfStateEnum"
               }
             }
           }
@@ -555,6 +559,11 @@ window.swaggerSpec={
       "type" : "string",
       "description" : "Acknowledgment allowed >\n* ALWAYS - Acknowledgment always allowed\n* NEVER - Acknowledgment not allowed\n* ONLY_WHEN_RESPONSE_DISABLED_FOR_USER - Acknowledgment allowed only if response is disabled for the user",
       "enum" : [ "Always", "Never", "OnlyWhenResponseDisabledForUser" ]
+    },
+    "TypeOfStateEnum" : {
+      "type" : "string",
+      "description" : "Type of state >\n* INPROGRESS - In Progress\n* FINISHED - Finished\n* CANCELED - Canceled",
+      "enum" : [ "INPROGRESS", "FINISHED", "CANCELED" ]
     },
     "ProcessGroup" : {
       "description" : "Object containing a list of processes.",
