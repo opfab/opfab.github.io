@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">17 February 2021</span>
+<span id="revdate">18 February 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -818,12 +818,13 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_business_service_configuration">18.1. Business service configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_shared_business_service_configuration">18.1.1. Shared business service configuration</a></li>
-<li><a href="#_business_service_specific_configurations">18.1.2. Business service specific configurations</a>
+<li><a href="#_specify_an_external_configuration">18.1.1. Specify an external configuration</a></li>
+<li><a href="#_shared_business_service_configuration">18.1.2. Shared business service configuration</a></li>
+<li><a href="#_business_service_specific_configurations">18.1.3. Business service specific configurations</a>
 <ul class="sectlevel4">
-<li><a href="#_businessconfig_service">18.1.2.1. Businessconfig service</a></li>
-<li><a href="#_users_service">18.1.2.2. Users service</a></li>
-<li><a href="#_cards_publication_service">18.1.2.3. Cards-publication service</a></li>
+<li><a href="#_businessconfig_service">18.1.3.1. Businessconfig service</a></li>
+<li><a href="#_users_service">18.1.3.2. Users service</a></li>
+<li><a href="#_cards_publication_service">18.1.3.3. Cards-publication service</a></li>
 </ul>
 </li>
 </ul>
@@ -5372,7 +5373,30 @@ while the <strong>docker</strong> sub-directory is a specific configuration mean
 <div class="sect2">
 <h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>18.1. Business service configuration</h3>
 <div class="sect3">
-<h4 id="_shared_business_service_configuration"><a class="anchor" href="#_shared_business_service_configuration"></a>18.1.1. Shared business service configuration</h4>
+<h4 id="_specify_an_external_configuration"><a class="anchor" href="#_specify_an_external_configuration"></a>18.1.1. Specify an external configuration</h4>
+<div class="paragraph">
+<p>When starting docker in the full docker environment an external environment file could be provided like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ./config/docker
+./docker-compose.sh ~/config/local.env</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the provided environment file the Spring active profiles can be set.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SPRING_PROFILES_ACTIVE=docker,local</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This way the configuration file 'cards-publication-local.yml' can be provided in the same configuration directory and can be read by SpringBoot</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_shared_business_service_configuration"><a class="anchor" href="#_shared_business_service_configuration"></a>18.1.2. Shared business service configuration</h4>
 <div class="paragraph">
 <p>The configuration shared by all business services is in a yaml file, you can find an example with the file
 /config/docker/common-docker.yml.
@@ -5404,7 +5428,7 @@ In this file you will find, among others, the parameters below :</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_business_service_specific_configurations"><a class="anchor" href="#_business_service_specific_configurations"></a>18.1.2. Business service specific configurations</h4>
+<h4 id="_business_service_specific_configurations"><a class="anchor" href="#_business_service_specific_configurations"></a>18.1.3. Business service specific configurations</h4>
 <div class="paragraph">
 <p>Each business service has a specific yaml configuration file. It should a least contain the name of the service:</p>
 </div>
@@ -5430,7 +5454,7 @@ In this file you will find, among others, the parameters below :</p>
 the type of deployment you&#8217;re looking for.</p>
 </div>
 <div class="sect4">
-<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>18.1.2.1. Businessconfig service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>18.1.3.1. Businessconfig service</h5>
 <div class="paragraph">
 <p>The businessconfig service has this specific property :</p>
 </div>
@@ -5460,7 +5484,7 @@ the type of deployment you&#8217;re looking for.</p>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>18.1.2.2. Users service</h5>
+<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>18.1.3.2. Users service</h5>
 <div class="paragraph">
 <p>The user service has these specific properties :</p>
 </div>
@@ -5508,7 +5532,7 @@ the type of deployment you&#8217;re looking for.</p>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>18.1.2.3. Cards-publication service</h5>
+<h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>18.1.3.3. Cards-publication service</h5>
 <div class="paragraph">
 <p>The cards-publication service has these specific properties :</p>
 </div>
