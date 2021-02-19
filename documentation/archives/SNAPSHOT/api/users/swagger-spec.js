@@ -969,7 +969,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "entities" ],
         "summary" : "Fetch a list of all existing entities.",
-        "description" : "Fetch a list of all existing entities, with pagination and filter options. Caution : work is still in progress, please do not use it.",
+        "description" : "Fetch a list of all existing entities, with pagination and filter options.",
         "operationId" : "fetchEntities",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -1001,7 +1001,7 @@ window.swaggerSpec={
       "post" : {
         "tags" : [ "entities" ],
         "summary" : "Create a new entity of users",
-        "description" : "Create a new entity of users. Caution : work is still in progress, please do not use it.",
+        "description" : "Create a new entity of users.",
         "operationId" : "createEntity",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -1042,7 +1042,7 @@ window.swaggerSpec={
       "put" : {
         "tags" : [ "entities" ],
         "summary" : "Update existing entity",
-        "description" : "Update existing entity. Caution : work is still in progress, please do not use it.",
+        "description" : "Update existing entity.",
         "operationId" : "updateEntity",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -1087,7 +1087,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "entities" ],
         "summary" : "Fetch an existing entity of users",
-        "description" : "Fetch an existing entity of users. Caution : work is still in progress, please do not use it.",
+        "description" : "Fetch an existing entity of users.",
         "operationId" : "fetchEntity",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1151,7 +1151,7 @@ window.swaggerSpec={
       "put" : {
         "tags" : [ "entities", "users" ],
         "summary" : "Update list of entity users",
-        "description" : "Update list of entity users, users not included in given list are removed from entity. Caution : work is still in progress, please do not use it.",
+        "description" : "Update list of entity users, users not included in given list are removed from entity.",
         "operationId" : "updateEntityUsers",
         "produces" : [ "application/json" ],
         "consumes" : [ "application/json" ],
@@ -1193,7 +1193,7 @@ window.swaggerSpec={
       "patch" : {
         "tags" : [ "entities", "users" ],
         "summary" : "Add users to entity",
-        "description" : "ONLY add users to entity (no deletion). Caution : work is still in progress, please do not use it.",
+        "description" : "ONLY add users to entity (no deletion).",
         "operationId" : "addEntityUsers",
         "produces" : [ "application/json" ],
         "consumes" : [ "application/json" ],
@@ -1235,7 +1235,7 @@ window.swaggerSpec={
       "delete" : {
         "tags" : [ "entities", "users" ],
         "summary" : "Remove all users from entity",
-        "description" : "remove all users from entity. Caution : work is still in progress, please do not use it.",
+        "description" : "remove all users from entity.",
         "operationId" : "deleteEntityUsers",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1268,7 +1268,7 @@ window.swaggerSpec={
       "delete" : {
         "tags" : [ "entities", "users" ],
         "summary" : "Remove user from entity",
-        "description" : "ONLY remove user from entity (no addition). Caution : work is still in progress, please do not use it.",
+        "description" : "ONLY remove user from entity (no addition).",
         "operationId" : "deleteEntityUser",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1307,7 +1307,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "perimeters" ],
         "summary" : "Fetch a list of all existing perimeters",
-        "description" : "Fetch a list of all existing perimeters. Caution : work is still in progress, please do not use it.",
+        "description" : "Fetch a list of all existing perimeters.",
         "operationId" : "fetchPerimeters",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -1354,7 +1354,7 @@ window.swaggerSpec={
       "post" : {
         "tags" : [ "perimeters" ],
         "summary" : "Create a new perimeter",
-        "description" : "Create a new perimeter. Caution : work is still in progress, please do not use it.",
+        "description" : "Create a new perimeter.",
         "operationId" : "createPerimeter",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -1389,7 +1389,7 @@ window.swaggerSpec={
       "put" : {
         "tags" : [ "perimeters" ],
         "summary" : "Update existing perimeter",
-        "description" : "Update existing perimeter. Caution : work is still in progress, please do not use it.",
+        "description" : "Update existing perimeter.",
         "operationId" : "updatePerimeter",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -1434,7 +1434,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "perimeters" ],
         "summary" : "Fetch an existing perimeter",
-        "description" : "Fetch an existing perimeter. Caution : work is still in progress, please do not use it.",
+        "description" : "Fetch an existing perimeter.",
         "operationId" : "fetchPerimeter",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1498,7 +1498,7 @@ window.swaggerSpec={
       "put" : {
         "tags" : [ "perimeters", "groups" ],
         "summary" : "Update list of groups that have this perimeter",
-        "description" : "Update list of groups that have this perimeter, groups not included in given list lose this perimeter. Caution : work is still in progress, please do not use it.",
+        "description" : "Update list of groups that have this perimeter, groups not included in given list lose this perimeter.",
         "operationId" : "updatePerimeterGroups",
         "produces" : [ "application/json" ],
         "consumes" : [ "application/json" ],
@@ -1540,7 +1540,7 @@ window.swaggerSpec={
       "patch" : {
         "tags" : [ "perimeters", "groups" ],
         "summary" : "Add groups to perimeter",
-        "description" : "ONLY add groups to perimeter (no deletion). Caution : work is still in progress, please do not use it.",
+        "description" : "ONLY add groups to perimeter (no deletion).",
         "operationId" : "addPerimeterGroups",
         "produces" : [ "application/json" ],
         "consumes" : [ "application/json" ],
@@ -1582,7 +1582,7 @@ window.swaggerSpec={
       "delete" : {
         "tags" : [ "perimeters", "groups" ],
         "summary" : "Remove all groups from perimeter",
-        "description" : "remove all groups from perimeter. Caution : work is still in progress, please do not use it.",
+        "description" : "remove all groups from perimeter.",
         "operationId" : "deletePerimeterGroups",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1615,7 +1615,7 @@ window.swaggerSpec={
       "delete" : {
         "tags" : [ "perimeters", "groups" ],
         "summary" : "Remove group from perimeter",
-        "description" : "ONLY remove group from perimeter (no addition). Caution : work is still in progress, please do not use it.",
+        "description" : "ONLY remove group from perimeter (no addition).",
         "operationId" : "deletePerimeterGroup",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1654,7 +1654,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "groups", "perimeters" ],
         "summary" : "Fetch an existing group's perimeters",
-        "description" : "Fetch existing group's perimeters from their id. Caution : work is still in progress, please do not use it.",
+        "description" : "Fetch existing group's perimeters from their id.",
         "operationId" : "fetchGroupPerimeters",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1711,7 +1711,7 @@ window.swaggerSpec={
       "put" : {
         "tags" : [ "groups", "perimeters" ],
         "summary" : "Update list of perimeters for group",
-        "description" : "Update list of perimeters for group, perimeters not included in given list are no longer linked to the group. Caution : work is still in progress, please do not use it.",
+        "description" : "Update list of perimeters for group, perimeters not included in given list are no longer linked to the group.",
         "operationId" : "updateGroupPerimeters",
         "produces" : [ "application/json" ],
         "consumes" : [ "application/json" ],
@@ -1753,7 +1753,7 @@ window.swaggerSpec={
       "patch" : {
         "tags" : [ "groups", "perimeters" ],
         "summary" : "Add perimeters to group",
-        "description" : "ONLY add perimeters to group (no deletion). Caution : work is still in progress, please do not use it.",
+        "description" : "ONLY add perimeters to group (no deletion).",
         "operationId" : "addGroupPerimeters",
         "produces" : [ "application/json" ],
         "consumes" : [ "application/json" ],
@@ -1797,7 +1797,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "users", "perimeters" ],
         "summary" : "Fetch an existing user's perimeters",
-        "description" : "Fetch existing user's perimeters from their login. Caution : work is still in progress, please do not use it.",
+        "description" : "Fetch existing user's perimeters from their login.",
         "operationId" : "fetchUserPerimeters",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -1856,7 +1856,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "users" ],
         "summary" : "Get information about the user connected and his perimeters",
-        "description" : "Get information about the user connected and his perimeters. Caution : work is still in progress, please do not use it.",
+        "description" : "Get information about the user connected and his perimeters.",
         "operationId" : "fetchCurrentUserWithPerimeters",
         "produces" : [ "application/json" ],
         "responses" : {
