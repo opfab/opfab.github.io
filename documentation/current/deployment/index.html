@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 2.0.0.RELEASE,</span>
-<span id="revdate">01 February 2021</span>
+<span id="revnumber">version 2.1.0.RELEASE,</span>
+<span id="revdate">22 February 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -537,12 +537,13 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_business_service_configuration">2.1. Business service configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_shared_business_service_configuration">2.1.1. Shared business service configuration</a></li>
-<li><a href="#_business_service_specific_configurations">2.1.2. Business service specific configurations</a>
+<li><a href="#_specify_an_external_configuration">2.1.1. Specify an external configuration</a></li>
+<li><a href="#_shared_business_service_configuration">2.1.2. Shared business service configuration</a></li>
+<li><a href="#_business_service_specific_configurations">2.1.3. Business service specific configurations</a>
 <ul class="sectlevel4">
-<li><a href="#_businessconfig_service">2.1.2.1. Businessconfig service</a></li>
-<li><a href="#_users_service">2.1.2.2. Users service</a></li>
-<li><a href="#_cards_publication_service">2.1.2.3. Cards-publication service</a></li>
+<li><a href="#_businessconfig_service">2.1.3.1. Businessconfig service</a></li>
+<li><a href="#_users_service">2.1.3.2. Users service</a></li>
+<li><a href="#_cards_publication_service">2.1.3.3. Cards-publication service</a></li>
 </ul>
 </li>
 </ul>
@@ -688,7 +689,30 @@ while the <strong>docker</strong> sub-directory is a specific configuration mean
 <div class="sect2">
 <h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>2.1. Business service configuration</h3>
 <div class="sect3">
-<h4 id="_shared_business_service_configuration"><a class="anchor" href="#_shared_business_service_configuration"></a>2.1.1. Shared business service configuration</h4>
+<h4 id="_specify_an_external_configuration"><a class="anchor" href="#_specify_an_external_configuration"></a>2.1.1. Specify an external configuration</h4>
+<div class="paragraph">
+<p>When starting docker in the full docker environment an external environment file could be provided like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ./config/docker
+./docker-compose.sh ~/config/local.env</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the provided environment file the Spring active profiles can be set.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SPRING_PROFILES_ACTIVE=docker,local</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This way the configuration file 'cards-publication-local.yml' can be provided in the same configuration directory and can be read by SpringBoot</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_shared_business_service_configuration"><a class="anchor" href="#_shared_business_service_configuration"></a>2.1.2. Shared business service configuration</h4>
 <div class="paragraph">
 <p>The configuration shared by all business services is in a yaml file, you can find an example with the file
 /config/docker/common-docker.yml.
@@ -720,7 +744,7 @@ In this file you will find, among others, the parameters below :</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_business_service_specific_configurations"><a class="anchor" href="#_business_service_specific_configurations"></a>2.1.2. Business service specific configurations</h4>
+<h4 id="_business_service_specific_configurations"><a class="anchor" href="#_business_service_specific_configurations"></a>2.1.3. Business service specific configurations</h4>
 <div class="paragraph">
 <p>Each business service has a specific yaml configuration file. It should a least contain the name of the service:</p>
 </div>
@@ -746,7 +770,7 @@ In this file you will find, among others, the parameters below :</p>
 the type of deployment you&#8217;re looking for.</p>
 </div>
 <div class="sect4">
-<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>2.1.2.1. Businessconfig service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>2.1.3.1. Businessconfig service</h5>
 <div class="paragraph">
 <p>The businessconfig service has this specific property :</p>
 </div>
@@ -776,7 +800,7 @@ the type of deployment you&#8217;re looking for.</p>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>2.1.2.2. Users service</h5>
+<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>2.1.3.2. Users service</h5>
 <div class="paragraph">
 <p>The user service has these specific properties :</p>
 </div>
@@ -824,7 +848,7 @@ the type of deployment you&#8217;re looking for.</p>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>2.1.2.3. Cards-publication service</h5>
+<h5 id="_cards_publication_service"><a class="anchor" href="#_cards_publication_service"></a>2.1.3.3. Cards-publication service</h5>
 <div class="paragraph">
 <p>The cards-publication service has these specific properties :</p>
 </div>
@@ -1104,12 +1128,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.notify</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, new cards are notified in the OS through web-push notifications</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feedConfiguration.hidden</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1285,6 +1303,18 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OperatorFabric</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Title of the application, displayed on the browser</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">environmentName</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the environment to display on the top-right corner (examples: PROD , TEST .. ), if the value not set the environnement name is not shown .</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">environmentColor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">blue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Color of the background of the environnement name. The format of color is css, for example : <code>red</code> , <code>#4052FF</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">navbar.hidden</p></td>

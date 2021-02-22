@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 2.0.0.RELEASE,</span>
-<span id="revdate">01 February 2021</span>
+<span id="revnumber">version 2.1.0.RELEASE,</span>
+<span id="revdate">22 February 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -619,6 +619,11 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#opfab_template_style">3.2.2. OperatorFabric css styles</a></li>
 <li><a href="#_charts">3.2.3. Charts</a></li>
+<li><a href="#_operatorfabric_specific_functions">3.2.4. OperatorFabric specific functions</a>
+<ul class="sectlevel4">
+<li><a href="#_set_screen_size">3.2.4.1. Set screen size</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -661,6 +666,7 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_lock_mechanism">5.4. Lock mechanism</a></li>
+<li><a href="#_last_time_to_decide_lttd_2">5.5. Last Time to Decide (<code>lttd</code>)</a></li>
 </ul>
 </li>
 <li><a href="#user_cards">6. User cards</a>
@@ -1430,9 +1436,6 @@ It lists the content of the bundle.</p>
     <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:  <span class="string"><span class="delimiter">&quot;</span><span class="content">state.label</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">color</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">blue</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span>: {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
-      },
       <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgmentAllowed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Never</span><span class="delimiter">&quot;</span></span>
     }
@@ -1824,15 +1827,9 @@ curl -X POST &quot;http://localhost:2100/businessconfig/processes&quot;\
   <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span> : {
           <span class="key"><span class="delimiter">&quot;</span><span class="content">start</span><span class="delimiter">&quot;</span></span> : {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span> : {
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">start.first.title</span><span class="delimiter">&quot;</span></span>
-            },
             <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template1</span><span class="delimiter">&quot;</span></span>
           },
           <span class="key"><span class="delimiter">&quot;</span><span class="content">end</span><span class="delimiter">&quot;</span></span> : {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">detailTitle</span><span class="delimiter">&quot;</span></span> : {
-              <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">end.first.title</span><span class="delimiter">&quot;</span></span>
-            },
             <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">template2</span><span class="delimiter">&quot;</span></span>,
             <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">bundleTest.css</span><span class="delimiter">&quot;</span></span> ]
           }
@@ -1850,11 +1847,26 @@ section which resumes how to resolve common problems.</p>
 <div class="sect3">
 <h4 id="_processes_groups"><a class="anchor" href="#_processes_groups"></a>3.1.4. Processes groups</h4>
 <div class="paragraph">
-<p>OperatorFabric offers the possibility of defining processes groups. These groups have an impact only on the UI, for example on the notification configuration screen, by offering a more organized view of all the processes.</p>
+<p>OperatorFabric offers the possibility of defining process groups. These groups have an impact only on the UI, for
+example on the notification configuration screen, by offering a more organized view of all the processes.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+A process can only belong to one process group.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>To define processes groups, you have to upload a file via a <code>POST</code> http request as described in the
-<a href="../../../../documentation/current/api/businessconfig/.html#/businessconfig/uploadProcessgroups">Businessconfig Service API documentation</a>
+<p>To define processes groups, you have to upload a file via a <code>POST</code> http request as described in the</p>
+</div>
+<div class="paragraph">
+<p><a href="../../../../documentation/current/api/businessconfig/index.html#/default/uploadProcessgroups">Businessconfig Service API documentation</a>
 .</p>
 </div>
 <div class="paragraph">
@@ -2578,6 +2590,25 @@ users :
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/businessconfig/resources/bundle_defautlProcess">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess</a>).</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>3.2.4. OperatorFabric specific functions</h4>
+<div class="sect4">
+<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>3.2.4.1. Set screen size</h5>
+<div class="paragraph">
+<p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a javascript function in your template called templateGateway.setScreenSize(size) which receives as input a string parameter with one of the following values :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>'md' : medium size window</p>
+</li>
+<li>
+<p>'lg' : large size window</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2818,9 +2849,6 @@ recurrence : {
           "key": "question.button.text"
         }
       },
-      "detailTitle": {
-        "key": "question.title"
-      },
       "templateName": "question",
       "styles": [
         "style"
@@ -3000,6 +3028,12 @@ Then all the users having the same entity will be in this status for this card.<
 <p>Once again, after validating its answer, the information will be sent to the third template that the card has been locked (by calling the templateGateway.lockAnswer() function).</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_last_time_to_decide_lttd_2"><a class="anchor" href="#_last_time_to_decide_lttd_2"></a>5.5. Last Time to Decide (<code>lttd</code>)</h3>
+<div class="paragraph">
+<p>If the card has a last time to decide (lttd) configured, when the time is expired this information will be sent to the third template (by calling the template.setLttdExpired(true) function).</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3030,9 +3064,6 @@ you need to define it in the bundle for this process.</p>
       "severityVisible" : true,
       "startDateVisible" : true,
       "endDateVisible" : true
-    },
-    "detailTitle": {
-      "key": "message.title"
     },
     "templateName": "message",
     "styles": [],

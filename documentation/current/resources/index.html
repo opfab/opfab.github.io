@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 2.0.0.RELEASE,</span>
-<span id="revdate">01 February 2021</span>
+<span id="revnumber">version 2.1.0.RELEASE,</span>
+<span id="revdate">22 February 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -566,6 +566,12 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_card_detail_definition_in_business_configuration">3.1. Card detail definition in business configuration</a></li>
 <li><a href="#_business_menu_definition">3.2. Business menu definition</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_1_8_0_to_release_2_0_0">4. Migration Guide from release 1.8.0 to release 2.0.0</a>
+<ul class="sectlevel2">
+<li><a href="#_acknowledgmentallowed_field_in_business_configuration">4.1. AcknowledgmentAllowed field in business configuration</a></li>
+<li><a href="#_response_card_templategateway_applychild">4.2. Response card : templateGateway.applyChild()</a></li>
 </ul>
 </li>
 </ul>
@@ -1381,6 +1387,65 @@ $set: { &quot;process&quot;: &quot;SOME_PROCESS&quot;}
 <p>The business menu are not configured anymore in the business definition but in a specific single configuration file called ui-menu.json. You must move your configuration from the config.json to this new file, see
 <a href="../../../../documentation/current/reference_doc/index.html#menu_entries">documentation</a>
 .</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_1_8_0_to_release_2_0_0"><a class="anchor" href="#_migration_guide_from_release_1_8_0_to_release_2_0_0"></a>4. Migration Guide from release 1.8.0 to release 2.0.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_acknowledgmentallowed_field_in_business_configuration"><a class="anchor" href="#_acknowledgmentallowed_field_in_business_configuration"></a>4.1. AcknowledgmentAllowed field in business configuration</h3>
+<div class="paragraph">
+<p>In the process state definition the <code>acknowledgementAllowed</code> has been renamed to <code>acknowledgmentAllowed</code>.
+The acknowledgmentAllowed field in no more a boolean type and can now assume one of the following values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Never": acknowledgment not allowed (default value)</p>
+</li>
+<li>
+<p>"Always": acknowledgment allowed</p>
+</li>
+<li>
+<p>"OnlyWhenResponseDisabledForUser": acknowledgment allowed only when the response is disabled for the user</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is an example of a simple config.json file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.label</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">firstState</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> :<span class="string"><span class="delimiter">&quot;</span><span class="content">mystate.label</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">details</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">template.title</span><span class="delimiter">&quot;</span></span>
+          },
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operation</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">styles</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">style1</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">style2</span><span class="delimiter">&quot;</span></span>]
+        }
+      ],
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">acknowledgmentAllowed</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Never</span><span class="delimiter">&quot;</span></span>
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_card_templategateway_applychild"><a class="anchor" href="#_response_card_templategateway_applychild"></a>4.2. Response card : templateGateway.applyChild()</h3>
+<div class="paragraph">
+<p>For card with responses, it is not necessary to call templateGateway.applyChildCards() in your template on loading
+anymore, OperatorFabric will do it.</p>
 </div>
 </div>
 </div>
