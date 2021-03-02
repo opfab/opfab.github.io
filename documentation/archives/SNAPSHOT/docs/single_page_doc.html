@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">01 March 2021</span>
+<span id="revdate">02 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -695,25 +695,26 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel3">
 <li><a href="#_operatorfabric_specific_handlebars_helpers">10.2.1. OperatorFabric specific handlebars helpers</a>
 <ul class="sectlevel4">
-<li><a href="#numberformat">10.2.1.1. numberFormat</a></li>
-<li><a href="#dateformat">10.2.1.2. dateFormat</a></li>
-<li><a href="#slice">10.2.1.3. slice</a></li>
-<li><a href="#now">10.2.1.4. now</a></li>
-<li><a href="#preservespace">10.2.1.5. preserveSpace</a></li>
-<li><a href="#bool">10.2.1.6. bool</a></li>
-<li><a href="#math">10.2.1.7. math</a></li>
-<li><a href="#split">10.2.1.8. split</a></li>
-<li><a href="#svg">10.2.1.9. svg</a></li>
-<li><a href="#i18n">10.2.1.10. i18n</a></li>
-<li><a href="#sort">10.2.1.11. sort</a></li>
-<li><a href="#arrayContains">10.2.1.12. arrayContains</a></li>
-<li><a href="#times">10.2.1.13. times</a></li>
-<li><a href="#toBreakage">10.2.1.14. toBreakage</a></li>
-<li><a href="#keyValue">10.2.1.15. keyValue</a></li>
-<li><a href="#_keepspacesandendofline">10.2.1.16. keepSpacesAndEndOfLine</a></li>
-<li><a href="#arrayContainsOneOf">10.2.1.17. arrayContainsOneOf</a></li>
-<li><a href="#mergeArrays">10.2.1.18. mergeArrays</a></li>
-<li><a href="#conditionalAttribute">10.2.1.19. conditionalAttribute</a></li>
+<li><a href="#arrayContains">10.2.1.1. arrayContains</a></li>
+<li><a href="#arrayContainsOneOf">10.2.1.2. arrayContainsOneOf</a></li>
+<li><a href="#bool">10.2.1.3. bool</a></li>
+<li><a href="#conditionalAttribute">10.2.1.4. conditionalAttribute</a></li>
+<li><a href="#dateformat">10.2.1.5. dateFormat</a></li>
+<li><a href="#i18n">10.2.1.6. i18n</a></li>
+<li><a href="#json">10.2.1.7. json</a></li>
+<li><a href="#_keepspacesandendofline">10.2.1.8. keepSpacesAndEndOfLine</a></li>
+<li><a href="#keyValue">10.2.1.9. keyValue</a></li>
+<li><a href="#math">10.2.1.10. math</a></li>
+<li><a href="#mergeArrays">10.2.1.11. mergeArrays</a></li>
+<li><a href="#now">10.2.1.12. now</a></li>
+<li><a href="#numberformat">10.2.1.13. numberFormat</a></li>
+<li><a href="#preservespace">10.2.1.14. preserveSpace</a></li>
+<li><a href="#slice">10.2.1.15. slice</a></li>
+<li><a href="#sort">10.2.1.16. sort</a></li>
+<li><a href="#split">10.2.1.17. split</a></li>
+<li><a href="#svg">10.2.1.18. svg</a></li>
+<li><a href="#times">10.2.1.19. times</a></li>
+<li><a href="#toBreakage">10.2.1.20. toBreakage</a></li>
 </ul>
 </li>
 <li><a href="#opfab_template_style">10.2.2. OperatorFabric css styles</a></li>
@@ -3691,141 +3692,39 @@ following helpers :</p>
 <div class="sect3">
 <h4 id="_operatorfabric_specific_handlebars_helpers"><a class="anchor" href="#_operatorfabric_specific_handlebars_helpers"></a>10.2.1. OperatorFabric specific handlebars helpers</h4>
 <div class="sect4">
-<h5 id="numberformat"><a class="anchor" href="#numberformat"></a>10.2.1.1. numberFormat</h5>
+<h5 id="arrayContains"><a class="anchor" href="#arrayContains"></a>10.2.1.1. arrayContains</h5>
 <div class="paragraph">
-<p>formats a number parameter using
-<a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu" class="bare">developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu</a>
-mberFormat[Intl.NumberFormat].
-The locale used is the current user selected one, and options are passed as hash
-parameters (<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+<p>Verify if an array contains a specified element. If the array does contain the element, it returns true. Otherwise, it returns false.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{numberFormat card.data.price style="currency" currency="EUR"}}</pre>
+<pre>&lt;p {{#if (arrayContains colors 'red')}}class="text-danger"{{/if}}&gt;test&lt;/p&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the colors array contains 'red', the output is:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;p class="text-danger"&gt;test&lt;/p&gt;</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="dateformat"><a class="anchor" href="#dateformat"></a>10.2.1.2. dateFormat</h5>
+<h5 id="arrayContainsOneOf"><a class="anchor" href="#arrayContainsOneOf"></a>10.2.1.2. arrayContainsOneOf</h5>
 <div class="paragraph">
-<p>formats the submitted parameters (millisecond since epoch) using
-<a href="https://momentjs.com/">mement.format</a>. The locale used is the current user
-selected one, the format is "format" hash parameter
-(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+<p>If the first array contains at least one element of the second array, return true. Otherwise, return false.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{dateFormat card.data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
+<pre>{{#if (arrayContainsOneOf arr1 arr2)}}
+  &lt;p&gt;Arr1 contains at least one element of arr2&lt;/p&gt;
+{{/if}}</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="slice"><a class="anchor" href="#slice"></a>10.2.1.3. slice</h5>
-<div class="paragraph">
-<p>extracts a sub array from ann array</p>
-</div>
-<div class="paragraph">
-<p>example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;!--
-{"array": ["foo","bar","baz"]}
---&gt;
-&lt;ul&gt;
-{{#each (slice array 0 2)}}
-  &lt;li&gt;{{this}}&lt;/li&gt;
-{{/each}}
-&lt;/ul&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;ul&gt;
-  &lt;li&gt;foo&lt;/li&gt;
-  &lt;li&gt;bar&lt;/li&gt;
-&lt;/ul&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;!--
-{"array": ["foo","bar","baz"]}
---&gt;
-&lt;ul&gt;
-{{#each (slice array 1)}}
-  &lt;li&gt;{{this}}&lt;/li&gt;
-{{/each}}
-&lt;/ul&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;ul&gt;
-  &lt;li&gt;bar&lt;/li&gt;
-  &lt;li&gt;baz&lt;/li&gt;
-&lt;/ul&gt;</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="now"><a class="anchor" href="#now"></a>10.2.1.4. now</h5>
-<div class="paragraph">
-<p>outputs the current date in millisecond from epoch. The date is computed from
-application internal time service and thus may be different from the date that
-one can compute from javascript api which relies on the browsers' system time.</p>
-</div>
-<div class="paragraph">
-<p>NB: Due to Handlebars limitation you must provide at least one argument to
-helpers otherwise, Handlebars will confuse a helper and a variable. In the
-bellow example, we simply pass an empty string.</p>
-</div>
-<div class="paragraph">
-<p>example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;div&gt;{{now ""}}&lt;/div&gt;
-&lt;br&gt;
-&lt;div&gt;{{dateFormat (now "") format="MMMM Do YYYY, h:mm:ss a"}}&lt;/div&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;div&gt;1551454795179&lt;/div&gt;
-&lt;br&gt;
-&lt;div&gt;mars 1er 2019, 4:39:55 pm&lt;/div&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>for a local set to <code>FR_fr</code></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="preservespace"><a class="anchor" href="#preservespace"></a>10.2.1.5. preserveSpace</h5>
-<div class="paragraph">
-<p>preserves space in parameter string to avoid html standard space trimming.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{preserveSpace card.data.businessId}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="bool"><a class="anchor" href="#bool"></a>10.2.1.6. bool</h5>
+<h5 id="bool"><a class="anchor" href="#bool"></a>10.2.1.3. bool</h5>
 <div class="paragraph">
 <p>returns a boolean result value on an arithmetical operation (including object
 equality) or boolean operation.</p>
@@ -3892,7 +3791,140 @@ value operand</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="math"><a class="anchor" href="#math"></a>10.2.1.7. math</h5>
+<h5 id="conditionalAttribute"><a class="anchor" href="#conditionalAttribute"></a>10.2.1.4. conditionalAttribute</h5>
+<div class="paragraph">
+<p>Adds the specified attribute to an HTML element if the given condition is truthy.
+This is useful for attributes such as <code>checked</code> where it is the presence or absence of the attribute that matters (i.e.
+an checkbox with <code>checked=false</code> will still be checked).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;input type="checkbox" id="optionA" {{conditionalAttribute card.data.optionA 'checked'}}&gt;&lt;/input&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="dateformat"><a class="anchor" href="#dateformat"></a>10.2.1.5. dateFormat</h5>
+<div class="paragraph">
+<p>formats the submitted parameters (millisecond since epoch) using
+<a href="https://momentjs.com/">mement.format</a>. The locale used is the current user
+selected one, the format is "format" hash parameter
+(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{dateFormat card.data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="i18n"><a class="anchor" href="#i18n"></a>10.2.1.6. i18n</h5>
+<div class="paragraph">
+<p>outputs a i18n result from a key and some parameters. There are two ways of
+configuration :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pass an object as sole argument. The object must contain a key field (string)
+and an optional parameter field (map of parameterKey &#8658; value)</p>
+<div class="literalblock">
+<div class="content">
+<pre>{{i18n card.data.i18nTitle}}</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Pass a string key as sole argument and use hash parameters
+(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>) for i18n string
+parameters.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;!--
+emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
+--&gt;
+{{i18n "emergency.title" date="2018-06-14" cause="Broken Coffee Machine"}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>outputs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Emergency situation happened on 2018-06-14. Cause : Broken Cofee Machine</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="json"><a class="anchor" href="#json"></a>10.2.1.7. json</h5>
+<div class="paragraph">
+<p>Convert the element in json, this can be useful to use the element as a javascript object in the template. For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>var myAttribute = {{json data.myAttribute}};</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_keepspacesandendofline"><a class="anchor" href="#_keepspacesandendofline"></a>10.2.1.8. keepSpacesAndEndOfLine</h5>
+<div class="paragraph">
+<p>Convert a string to a light HTML by replacing :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>each new line character with &lt;br/&gt;</p>
+</li>
+<li>
+<p>spaces with &amp;nbsp; when there is at least two consecutive spaces.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="keyValue"><a class="anchor" href="#keyValue"></a>10.2.1.9. keyValue</h5>
+<div class="paragraph">
+<p>This allows to traverse a map.</p>
+</div>
+<div class="paragraph">
+<p>Notice that this should normally be feasible by using the built-in each helper, but a client was having some troubles using it so we added this custom helper.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#keyValue studentGrades}}
+  &lt;p&gt;{{key}}: {{value}}&lt;/p&gt;
+{{/keyValue}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the value of the studentGrades map is:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+  'student1': 15,
+  'student2': 12,
+  'student3': 9
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output will be:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;p&gt;student1: 15&lt;/p&gt;
+&lt;p&gt;student2: 12&lt;/p&gt;
+&lt;p&gt;student3: 9&lt;/p&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="math"><a class="anchor" href="#math"></a>10.2.1.10. math</h5>
 <div class="paragraph">
 <p>returns the result of a mathematical operation.</p>
 </div>
@@ -3944,91 +3976,140 @@ value operand</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="split"><a class="anchor" href="#split"></a>10.2.1.8. split</h5>
+<h5 id="mergeArrays"><a class="anchor" href="#mergeArrays"></a>10.2.1.11. mergeArrays</h5>
 <div class="paragraph">
-<p>splits a string into an array based on a split string.</p>
+<p>Return an array that is a merge of the two arrays.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#each (mergeArrays arr1 arr2)}}
+  &lt;p&gt;{{@index}} element: {{this}}&lt;/p&gt;
+{{/each}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="now"><a class="anchor" href="#now"></a>10.2.1.12. now</h5>
+<div class="paragraph">
+<p>outputs the current date in millisecond from epoch. The date is computed from
+application internal time service and thus may be different from the date that
+one can compute from javascript api which relies on the browsers' system time.</p>
+</div>
+<div class="paragraph">
+<p>NB: Due to Handlebars limitation you must provide at least one argument to
+helpers otherwise, Handlebars will confuse a helper and a variable. In the
+bellow example, we simply pass an empty string.</p>
 </div>
 <div class="paragraph">
 <p>example:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;ul&gt;
-{{#each (split 'my.example.string' '.')}}
+<pre>&lt;div&gt;{{now ""}}&lt;/div&gt;
+&lt;br&gt;
+&lt;div&gt;{{dateFormat (now "") format="MMMM Do YYYY, h:mm:ss a"}}&lt;/div&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>outputs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;div&gt;1551454795179&lt;/div&gt;
+&lt;br&gt;
+&lt;div&gt;mars 1er 2019, 4:39:55 pm&lt;/div&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>for a local set to <code>FR_fr</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="numberformat"><a class="anchor" href="#numberformat"></a>10.2.1.13. numberFormat</h5>
+<div class="paragraph">
+<p>formats a number parameter using
+<a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu" class="bare">developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu</a>
+mberFormat[Intl.NumberFormat].
+The locale used is the current user selected one, and options are passed as hash
+parameters (<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{numberFormat card.data.price style="currency" currency="EUR"}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="preservespace"><a class="anchor" href="#preservespace"></a>10.2.1.14. preserveSpace</h5>
+<div class="paragraph">
+<p>preserves space in parameter string to avoid html standard space trimming.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{preserveSpace card.data.businessId}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="slice"><a class="anchor" href="#slice"></a>10.2.1.15. slice</h5>
+<div class="paragraph">
+<p>extracts a sub array from ann array</p>
+</div>
+<div class="paragraph">
+<p>example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;!--
+{"array": ["foo","bar","baz"]}
+--&gt;
+&lt;ul&gt;
+{{#each (slice array 0 2)}}
   &lt;li&gt;{{this}}&lt;/li&gt;
 {{/each}}
 &lt;/ul&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>outputs</p>
+<p>outputs:</p>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>&lt;ul&gt;
-  &lt;li&gt;my&lt;/li&gt;
-  &lt;li&gt;example&lt;/li&gt;
-  &lt;li&gt;string&lt;/li&gt;
+  &lt;li&gt;foo&lt;/li&gt;
+  &lt;li&gt;bar&lt;/li&gt;
+&lt;/ul&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;!--
+{"array": ["foo","bar","baz"]}
+--&gt;
+&lt;ul&gt;
+{{#each (slice array 1)}}
+  &lt;li&gt;{{this}}&lt;/li&gt;
+{{/each}}
+&lt;/ul&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>outputs:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;ul&gt;
+  &lt;li&gt;bar&lt;/li&gt;
+  &lt;li&gt;baz&lt;/li&gt;
 &lt;/ul&gt;</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="svg"><a class="anchor" href="#svg"></a>10.2.1.9. svg</h5>
-<div class="paragraph">
-<p>outputs a svg tag with lazy loading, and missing image replacement message. The
-image url is the concatenation of an arbitrary number of helper arguments</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{{svg baseUri scheduledOpId "/" substation "/before/"
-computationPhaseOrdinal}}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="i18n"><a class="anchor" href="#i18n"></a>10.2.1.10. i18n</h5>
-<div class="paragraph">
-<p>outputs a i18n result from a key and some parameters. There are two ways of
-configuration :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Pass an object as sole argument. The object must contain a key field (string)
-and an optional parameter field (map of parameterKey &#8658; value)</p>
-<div class="literalblock">
-<div class="content">
-<pre>{{i18n card.data.i18nTitle}}</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Pass a string key as sole argument and use hash parameters
-(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>) for i18n string
-parameters.</p>
-</li>
-</ul>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;!--
-emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
---&gt;
-{{i18n "emergency.title" date="2018-06-14" cause="Broken Coffee Machine"}}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Emergency situation happened on 2018-06-14. Cause : Broken Cofee Machine</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="sort"><a class="anchor" href="#sort"></a>10.2.1.11. sort</h5>
+<h5 id="sort"><a class="anchor" href="#sort"></a>10.2.1.16. sort</h5>
 <div class="paragraph">
 <p>sorts an array or some object&#8217;s properties (first argument) using an optional
 field name (second argument) to sort the collection on this fields natural
@@ -4111,26 +4192,50 @@ users :
 </div>
 </div>
 <div class="sect4">
-<h5 id="arrayContains"><a class="anchor" href="#arrayContains"></a>10.2.1.12. arrayContains</h5>
+<h5 id="split"><a class="anchor" href="#split"></a>10.2.1.17. split</h5>
 <div class="paragraph">
-<p>Verify if an array contains a specified element. If the array does contain the element, it returns true. Otherwise, it returns false.</p>
+<p>splits a string into an array based on a split string.</p>
+</div>
+<div class="paragraph">
+<p>example:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;p {{#if (arrayContains colors 'red')}}class="text-danger"{{/if}}&gt;test&lt;/p&gt;</pre>
+<pre>&lt;ul&gt;
+{{#each (split 'my.example.string' '.')}}
+  &lt;li&gt;{{this}}&lt;/li&gt;
+{{/each}}
+&lt;/ul&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the colors array contains 'red', the output is:</p>
+<p>outputs</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;p class="text-danger"&gt;test&lt;/p&gt;</pre>
+<pre>&lt;ul&gt;
+  &lt;li&gt;my&lt;/li&gt;
+  &lt;li&gt;example&lt;/li&gt;
+  &lt;li&gt;string&lt;/li&gt;
+&lt;/ul&gt;</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="times"><a class="anchor" href="#times"></a>10.2.1.13. times</h5>
+<h5 id="svg"><a class="anchor" href="#svg"></a>10.2.1.18. svg</h5>
+<div class="paragraph">
+<p>outputs a svg tag with lazy loading, and missing image replacement message. The
+image url is the concatenation of an arbitrary number of helper arguments</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{{svg baseUri scheduledOpId "/" substation "/before/"
+computationPhaseOrdinal}}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="times"><a class="anchor" href="#times"></a>10.2.1.19. times</h5>
 <div class="paragraph">
 <p>Allows to perform the same action a certain number of times. Internally, this uses a for loop.</p>
 </div>
@@ -4153,7 +4258,7 @@ users :
 </div>
 </div>
 <div class="sect4">
-<h5 id="toBreakage"><a class="anchor" href="#toBreakage"></a>10.2.1.14. toBreakage</h5>
+<h5 id="toBreakage"><a class="anchor" href="#toBreakage"></a>10.2.1.20. toBreakage</h5>
 <div class="paragraph">
 <p>Change the breakage of a string. The arguments that you can specify are:</p>
 </div>
@@ -4178,99 +4283,6 @@ users :
 <div class="literalblock">
 <div class="content">
 <pre>tests</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="keyValue"><a class="anchor" href="#keyValue"></a>10.2.1.15. keyValue</h5>
-<div class="paragraph">
-<p>This allows to traverse a map.</p>
-</div>
-<div class="paragraph">
-<p>Notice that this should normally be feasible by using the built-in each helper, but a client was having some troubles using it so we added this custom helper.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{#keyValue studentGrades}}
-  &lt;p&gt;{{key}}: {{value}}&lt;/p&gt;
-{{/keyValue}}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the value of the studentGrades map is:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{
-  'student1': 15,
-  'student2': 12,
-  'student3': 9
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The output will be:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;p&gt;student1: 15&lt;/p&gt;
-&lt;p&gt;student2: 12&lt;/p&gt;
-&lt;p&gt;student3: 9&lt;/p&gt;</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_keepspacesandendofline"><a class="anchor" href="#_keepspacesandendofline"></a>10.2.1.16. keepSpacesAndEndOfLine</h5>
-<div class="paragraph">
-<p>Convert a string to a light HTML by replacing :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>each new line character with &lt;br/&gt;</p>
-</li>
-<li>
-<p>spaces with &amp;nbsp; when there is at least two consecutive spaces.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="arrayContainsOneOf"><a class="anchor" href="#arrayContainsOneOf"></a>10.2.1.17. arrayContainsOneOf</h5>
-<div class="paragraph">
-<p>If the first array contains at least one element of the second array, return true. Otherwise, return false.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{#if (arrayContainsOneOf arr1 arr2)}}
-  &lt;p&gt;Arr1 contains at least one element of arr2&lt;/p&gt;
-{{/if}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="mergeArrays"><a class="anchor" href="#mergeArrays"></a>10.2.1.18. mergeArrays</h5>
-<div class="paragraph">
-<p>Return an array that is a merge of the two arrays.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{#each (mergeArrays arr1 arr2)}}
-  &lt;p&gt;{{@index}} element: {{this}}&lt;/p&gt;
-{{/each}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="conditionalAttribute"><a class="anchor" href="#conditionalAttribute"></a>10.2.1.19. conditionalAttribute</h5>
-<div class="paragraph">
-<p>Adds the specified attribute to an HTML element if the given condition is truthy.
-This is useful for attributes such as <code>checked</code> where it is the presence or absence of the attribute that matters (i.e.
-an checkbox with <code>checked=false</code> will still be checked).</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;input type="checkbox" id="optionA" {{conditionalAttribute card.data.optionA 'checked'}}&gt;&lt;/input&gt;</pre>
 </div>
 </div>
 </div>
