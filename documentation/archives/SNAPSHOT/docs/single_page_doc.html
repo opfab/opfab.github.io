@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 March 2021</span>
+<span id="revdate">03 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -4569,7 +4569,8 @@ recurrence : {
 <div class="sect3">
 <h4 id="_configure_the_response_in_config_json"><a class="anchor" href="#_configure_the_response_in_config_json"></a>12.1.2. Configure the response in config.json</h4>
 <div class="paragraph">
-<p>A card can have a response only if it&#8217;s in a process/state that is configured for. To do that you need to setup the good  configuration in the config.json of the concerned process. Here is an example of configuration :</p>
+<p>A card can have a response only if it&#8217;s in a process/state that is configured for. To do that you need to define the
+appropriate configuration in the config.json of the concerned process. Here is an example of configuration:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -4600,7 +4601,8 @@ recurrence : {
 </div>
 </div>
 <div class="paragraph">
-<p>We define here a state name "questionState" with a response field. Now, if we send a card with process "defaultProcess" and state "questionState" , the user will have the possibility to respond if he has the good privileges.</p>
+<p>We define here a state name "questionState" with a response field. Now, if we send a card with process "defaultProcess"
+and state "questionState", the user will have the possibility to respond if he has the required privileges.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4608,15 +4610,30 @@ recurrence : {
 <p>The field "state" in the response field is used to define the state to use for the response (the child card).</p>
 </li>
 <li>
-<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
+<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in
+the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
 </li>
 <li>
-<p>The field "btnColor" define the color of the submit button for the response, it is optional and there is 3 possibilities : RED , GREEN , YELLOW</p>
+<p>The field "btnColor" define the color of the submit button for the response, it is optional and there are 3
+possibilities : RED , GREEN , YELLOW</p>
 </li>
 <li>
-<p>The field "btnText"is the i18n key of the title of the submit button, it is optional.</p>
+<p>The field "btnText" is the i18n key of the title of the submit button, it is optional.</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The state to be used for the response can also be set dynamically based on the contents of the card or the
+response by returning it in the <code>templateGateway.validyForm</code> method (see below for details).
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -4625,7 +4642,8 @@ recurrence : {
 <p>For the user to response you need to define the response form in the template with standard HTML syntax</p>
 </div>
 <div class="paragraph">
-<p>To enable operator fabric to send the response, you need to implement a javascript function in your template called templateGateway.validyForm which return an object containing three fields :</p>
+<p>To enable operator fabric to send the response, you need to implement a javascript function in your template called
+<code>templateGateway.validyForm</code> which returns an object containing four fields :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4638,19 +4656,52 @@ recurrence : {
 <li>
 <p>formData (<em>any</em>) : the user input to send in the data field of the child card. If valid is false this field is not necessary.</p>
 </li>
+<li>
+<p>responseState : name of the response state to use. This field is not mandatory, if it is not set the state defined in
+<code>config.json</code> will be used for the response.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This method will be called by OperatorFabric when user click on the button to send the response</p>
+<p>This method will be called by OperatorFabric when the user clicks on the button to send the response.</p>
 </div>
 <div class="paragraph">
-<p>You can find an example in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars.</p>
+<p>In the example below, the <code>validyForm</code> creates a <code>formData</code> object by retrieving the user&#8217;s inputs from the HTML.
+In addition, if the user chose several options, it overrides the response state defined in the <code>config.json</code> with another
+state.</p>
+</div>
+<div class="listingblock">
+<div class="title">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">validyForm</span> = <span class="keyword">function</span>() {
+
+    const formData = {};
+    const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
+    <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
+        (key <span class="keyword">in</span> formData) ? formData[key].push(value) : formData[key] = [value];
+    }
+
+    const result = {
+        <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+        <span class="key">formData</span>: formData
+    };
+
+      <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+    const choiceRequiresFollowUp = Object.entries(formData).length&gt;<span class="integer">1</span>;
+    <span class="keyword">if</span>(choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
+
+    <span class="keyword">return</span> result;
+
+    };</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>12.1.4. Define permissions</h4>
 <div class="paragraph">
-<p>To respond to a card a user must have the right privileges, it is done using "perimeters". The user must be in a group that is attached to a perimeter with  a right "Write" for the concerned process/state, the state being the response state defined in the config.json.</p>
+<p>To respond to a card a user must have the right privileges, it is done using "perimeters". The user must be in a group
+that is attached to a perimeter with  a right "Write" for the concerned process/state, the state being the response
+state defined in the config.json.</p>
 </div>
 <div class="paragraph">
 <p>Here is an example of definition of a perimeter :</p>
@@ -4673,7 +4724,8 @@ recurrence : {
 <p>To configure it in OperatorFabric , you need to make a POST of this json file to the end point /users/perimeters.</p>
 </div>
 <div class="paragraph">
-<p>To add it to a group name for example "mygroup", you need to make a PATCH request  to end point 'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
+<p>To add it to a group name for example "mygroup", you need to make a PATCH request  to endpoint
+'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4692,7 +4744,8 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 <div class="sect2">
 <h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>12.2. Send a question card</h3>
 <div class="paragraph">
-<p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
+<p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the
+entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -4712,7 +4765,9 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-By default, OperatorFabric considers that if the parent card (question card) is modified, then the child cards are deleted. If you want to keep the child cards when the parent card is changed, then you must add in the parent card the field "keepChildCards" and set it to true.
+By default, OperatorFabric considers that if the parent card (question card) is modified, then the child cards
+are deleted. If you want to keep the child cards when the parent card is changed, then you must add in the parent
+card the field "keepChildCards" and set it to true.
 </td>
 </tr>
 </table>
@@ -4738,7 +4793,8 @@ This method will be called by OperatorFabric when loading the card and every tim
 <div class="sect3">
 <h4 id="_entity_name"><a class="anchor" href="#_entity_name"></a>12.3.1. Entity name</h4>
 <div class="paragraph">
-<p>If you want to show the name of an entity that send the response, you need to get the id of the entity via the publisher field of the child card and then you  can get the name of the entity by calling <em>templateGateway.getEntityName(entityId)</em></p>
+<p>If you want to show the name of an entity that send the response, you need to get the id of the entity via the publisher
+field of the child card and then you  can get the name of the entity by calling <em>templateGateway.getEntityName(entityId)</em></p>
 </div>
 </div>
 <div class="sect3">
@@ -4751,8 +4807,10 @@ This method will be called by OperatorFabric when loading the card and every tim
 <div class="sect2">
 <h3 id="_lock_mechanism"><a class="anchor" href="#_lock_mechanism"></a>12.4. Lock mechanism</h3>
 <div class="paragraph">
-<p>When a user has never answered to a response card, the button will be marked as "VALIDATE ANSWER" and the card will be unlocked.
-When the user responds for the first time (and the response succeeds), the button will then be marked as "MODIFY ANSWER" and the information that the card has been locked will be sent to the third template (by calling the <em>templateGateway.lockAnswer()</em> function).</p>
+<p>When a user has never answered to a response card, the button will be marked as "VALIDATE ANSWER" and the card will be
+unlocked.
+When the user responds for the first time (and the response succeeds), the button will then be marked as "MODIFY ANSWER"
+and the information that the card has been locked will be sent to the third template (by calling the <em>templateGateway.lockAnswer()</em> function).</p>
 </div>
 <div class="paragraph">
 <p>Once a user has responded to a response card, its entity status will be considered as "already answered" for this card.
@@ -4996,6 +5054,18 @@ The layout of this screen is very similar to the Feed screen: the results are di
 </div>
 <div class="paragraph">
 <p>If a card is sent to an entity and a group, then this user must be part of both the group and the entity.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Currently, child cards are not shown in the Archives, only the parent card is shown.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
