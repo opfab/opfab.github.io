@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">03 March 2021</span>
+<span id="revdate">04 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -722,6 +722,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_operatorfabric_specific_functions">10.2.4. OperatorFabric specific functions</a>
 <ul class="sectlevel4">
 <li><a href="#_set_screen_size">10.2.4.1. Set screen size</a></li>
+<li><a href="#_redirect_to_business_application_from_a_card">10.2.4.2. Redirect to business application from a card</a></li>
 </ul>
 </li>
 </ul>
@@ -4346,6 +4347,50 @@ computationPhaseOrdinal}}}</pre>
 <p>'lg' : large size window</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>10.2.4.2. Redirect to business application from a card</h5>
+<div class="paragraph">
+<p>It&#8217;s possible to redirect from a card to a business application declared in <code>ui-menu.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>This can be done by calling the following function from the template :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu(idMenu,idEntry)</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>idMenu is the id of the menu defined in ui-menu.json</p>
+</li>
+<li>
+<p>idEntry is the id of the entry defined in ui-menu.json</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is also possible to append parameters to the url that will be called:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/chart.handlebars</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This can be useful to pass context from the card to the business application.</p>
 </div>
 </div>
 </div>
