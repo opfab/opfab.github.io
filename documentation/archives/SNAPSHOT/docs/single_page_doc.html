@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 March 2021</span>
+<span id="revdate">10 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -5218,7 +5218,8 @@ More details about automated user creation
 <div class="paragraph">
 <p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).
 Entities are used to send cards to several users without a name specifically. The information about membership to an
-entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.</p>
+entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.
+The boolean property <code>entityAllowedToSendCard</code> (default value <code>true</code>) can be used to mark an Entity as not eligible as card publisher. This can be useful for a group of entities where only child entities should be used as card publishers while the parent is just a logical group usable as card recipient.</p>
 </div>
 <div class="paragraph">
 <p>Examples using entities can be found
@@ -7879,10 +7880,7 @@ below for details on:</p>
 <p>Gradle 6<br></p>
 </li>
 <li>
-<p>Java 8.0<br></p>
-</li>
-<li>
-<p>Maven 3.5.3<br></p>
+<p>Java 11.0<br></p>
 </li>
 <li>
 <p>Docker</p>
@@ -7893,6 +7891,9 @@ below for details on:</p>
 <li>
 <p>Chrome (needed for UI tests in build)</p>
 </li>
+<li>
+<p>Angular CLI</p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -7902,7 +7903,7 @@ below for details on:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-the current Jdk used for the project is Java 8.0.252-zulu.
+the current Jdk used for the project is Java 11.0.9-zulu.
 </td>
 </tr>
 </table>
@@ -7915,7 +7916,7 @@ the current Jdk used for the project is Java 8.0.252-zulu.
 </td>
 <td class="content">
 It is highly recommended to use <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions.
+<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions. The following steps rely on these tools.
 </td>
 </tr>
 </table>
@@ -7941,7 +7942,7 @@ Java, Maven and project variables set):</p>
 service communication</p>
 </li>
 <li>
-<p>MongoDB 4.0 +: Card persistent storage</p>
+<p>MongoDB 4.4 +: Card persistent storage</p>
 </li>
 </ul>
 </div>
@@ -7993,7 +7994,7 @@ files at
 <div class="sect2">
 <h3 id="_browser_support"><a class="anchor" href="#_browser_support"></a>24.3. Browser support</h3>
 <div class="paragraph">
-<p>Project is supported on recent version of firefox , chromium and chrome</p>
+<p>The project is tested on recent versions of Firefox, Chromium and Chrome.</p>
 </div>
 </div>
 </div>
@@ -8075,7 +8076,7 @@ the home repository of <code>OperatorFabric</code>.
 <div class="sect3">
 <h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>25.3.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
-<p>The gradle build of <code>OperatorFabric</code> needs two docker containers running:</p>
+<p>The gradle build of <code>OperatorFabric</code> requires (for the unit tests) two docker containers running:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -8089,10 +8090,6 @@ the home repository of <code>OperatorFabric</code>.
 </div>
 <div class="paragraph">
 <p>Launch them using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
-</div>
-<div class="paragraph">
-<p>Remind that, during a gradle build the <code>test</code> task runs before the <code>assemble</code> one.
-The Unit tests depend on those two software.</p>
 </div>
 </div>
 <div class="sect3">
@@ -8444,6 +8441,29 @@ on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-
 <p>test your changes in your browser using this url: <code><a href="http://localhost:4200" class="bare">localhost:4200</a></code> which leads to <code><a href="http://localhost:4200/#/feed" class="bare">localhost:4200/#/feed</a></code>.</p>
 </li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If <code>ng serve</code> returns the error <code>Command 'ng' not found</code>, install the Angular CLI globally with the following
+command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>+
+<code>npm install -g @angular/cli</code></p>
+</div>
+<div class="paragraph">
+<p>+
+This will install the latest version of the Angular command line, which might not be in line with the one used by the
+project, but it&#8217;s not an issue as when you run <code>ng serve</code> the local version of the Angular CLI
+(as defined in the package.json file) will be used.</p>
 </div>
 </div>
 </div>
