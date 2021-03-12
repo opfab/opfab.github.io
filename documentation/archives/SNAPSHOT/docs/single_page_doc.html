@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">11 March 2021</span>
+<span id="revdate">12 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -2703,7 +2703,7 @@ A color is associated in the GUI to each severity. Here the details about severi
 <div class="sect4">
 <h5 id="_business_period"><a class="anchor" href="#_business_period"></a>9.1.1.4. Business period</h5>
 <div class="paragraph">
-<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e the period selected on  the timeline). If endDate is not set, the  card will be visible as soon as the startDate is before the end of the chosen period.</p>
+<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e the period selected on  the timeline). If endDate is not set, the card will be visible as soon as the startDate is between start and end date of the chosen period.</p>
 </div>
 </div>
 <div class="sect4">
@@ -4550,10 +4550,14 @@ recurrence : {
 <h2 id="response_cards"><a class="anchor" href="#response_cards"></a>12. Response cards</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Within your template, you can allow the user to perform some action (respond to a form, answer a question, &#8230;&#8203;). The user fills these information and then clicks on a submit button. When he submits this action, a new card is created and emitted to a third-party tool.</p>
+<p>Within your template, you can allow the user to perform some actions (respond to a form, answer a question, &#8230;&#8203;).
+The user fills these information and then clicks on a submit button. When he submits this action, a new card is created
+and emitted to a third-party tool.</p>
 </div>
 <div class="paragraph">
-<p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This child card is also sent to the users that have received the parent card. From the ui point of view, the information of the child cards can be integrated in real time in the parent card if configured.</p>
+<p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This
+child card is also sent to the users that have received the parent card. From the ui point of view, the information of
+the child cards can be integrated in real time in the parent card if configured.</p>
 </div>
 <div class="paragraph">
 <p>The process can be represented as follows :</p>
@@ -4564,7 +4568,9 @@ recurrence : {
 </div>
 </div>
 <div class="paragraph">
-<p>Notice that the response will be associated to the entity and not to the user, i.e the user responds on behalf of his entity. A user can respond more than one time to a card (a future evolution could add the possibility to limit to one response per entity).</p>
+<p>Notice that the response will be associated to the entity and not to the user, i.e the user responds on behalf of his
+entity. A user can respond more than one time to a card (a future evolution could add the possibility to limit to one
+response per entity).</p>
 </div>
 <div class="paragraph">
 <p>You can view a screenshot of an example of card with responses :</p>
@@ -4579,10 +4585,13 @@ recurrence : {
 <div class="sect3">
 <h4 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>12.1.1. Define a third party tool</h4>
 <div class="paragraph">
-<p>The response card is to be received by a third party application for business processing. The third-party application will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card). The field data in the json contains the user response.</p>
+<p>The response card is to be received by a third party application for business processing. The third-party application
+will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card).
+The field data in the json contains the user response.</p>
 </div>
 <div class="paragraph">
-<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is an example with two third parties configured.</p>
+<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is
+an example with two third parties configured.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -4603,7 +4612,8 @@ recurrence : {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>For the url, do not use localhost if you run OperatorFabric in a docker, as the publication-service will not be able to join your third party.</p>
+<p>For the url, do not use localhost if you run OperatorFabric in a docker, as the publication-service will not be able to
+join your third party.</p>
 </div>
 </td>
 </tr>
@@ -4812,6 +4822,52 @@ entities allowed to respond to the card. If the user is not in the entity, he wi
 By default, OperatorFabric considers that if the parent card (question card) is modified, then the child cards
 are deleted. If you want to keep the child cards when the parent card is changed, then you must add in the parent
 card the field "keepChildCards" and set it to true.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The header in the card details will list the entities from which a response is expected, color-coding them depending
+on whether they&#8217;ve already responded (green) or not (orange).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can also set the property <code>entitiesRequiredToRespond</code> to differentiate between entities can respond
+(<code>entitiesAllowedToRespond</code>) and those who must respond (<code>entitiesRequiredToRespond</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>...
+"process"  :"defaultProcess",
+"processInstanceId" : "process4",
+"state": "questionState",
+"entitiesAllowedToRespond": ["ENTITY1","ENTITY2","ENTITY3"],
+"entitiesRequiredToRespond": ["ENTITY1","ENTITY2"],
+"severity" : "ACTION",
+...</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If <code>entitiesRequiredToRespond</code> is set and not empty, the card detail header will use this list instead of
+<code>entitiesAllowedToRespond</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If set, <code>entitiesRequiredToRespond</code> should be a subset of <code>entitiesAllowedToRespond</code> or the card will be
+rejected.
 </td>
 </tr>
 </table>
@@ -6481,7 +6537,7 @@ There are several common properties:</p>
           <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
           <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>
       },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
     }
@@ -6525,7 +6581,7 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
           <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
           <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev</span><span class="delimiter">&quot;</span></span>
       },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
       }
@@ -8218,7 +8274,7 @@ bin/run_all.sh status</code></pre>
 <div class="sect2">
 <h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>25.7. Log into the UI</h3>
 <div class="paragraph">
-<p><strong><em>URL:</em></strong> localhost:2002/ui/<br>
+<p><strong><em>URL:</em></strong> localhost:2002/<br>
 <strong><em>login:</em></strong> operator1<br>
 <strong><em>password:</em></strong> test</p>
 </div>
@@ -8364,7 +8420,7 @@ Started with pid: 7501</code></pre>
 <p>Wait a moment before trying to connect to the`SPA`, leaving time for the OperatorFabricServices to boot up completely.</p>
 </div>
 <div class="paragraph">
-<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code>.</p>
+<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a></code>.</p>
 </div>
 <div class="paragraph">
 <p>To log in you need to use a valid user among the following: <code>operator1</code>, <code>operator3</code> or <code>admin</code>.
@@ -8392,7 +8448,7 @@ The common password is <code>test</code> for them all.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Once logged in, after one of those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/ui/feed" class="bare">localhost:2002/ui/feed</a></code>.</p>
+<p>Once logged in, after one of those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a></code>.</p>
 </div>
 </div>
 </div>
@@ -9438,7 +9494,7 @@ Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpect
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>curl http://localhost:2002/ui/</code></pre>
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/</code></pre>
 </div>
 </div>
 <div class="listingblock">
