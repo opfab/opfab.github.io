@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 2.1.0.RELEASE,</span>
-<span id="revdate">22 February 2021</span>
+<span id="revnumber">version 2.2.0.RELEASE,</span>
+<span id="revdate">15 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -597,24 +597,26 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel3">
 <li><a href="#_operatorfabric_specific_handlebars_helpers">3.2.1. OperatorFabric specific handlebars helpers</a>
 <ul class="sectlevel4">
-<li><a href="#numberformat">3.2.1.1. numberFormat</a></li>
-<li><a href="#dateformat">3.2.1.2. dateFormat</a></li>
-<li><a href="#slice">3.2.1.3. slice</a></li>
-<li><a href="#now">3.2.1.4. now</a></li>
-<li><a href="#preservespace">3.2.1.5. preserveSpace</a></li>
-<li><a href="#bool">3.2.1.6. bool</a></li>
-<li><a href="#math">3.2.1.7. math</a></li>
-<li><a href="#split">3.2.1.8. split</a></li>
-<li><a href="#svg">3.2.1.9. svg</a></li>
-<li><a href="#i18n">3.2.1.10. i18n</a></li>
-<li><a href="#sort">3.2.1.11. sort</a></li>
-<li><a href="#arrayContains">3.2.1.12. arrayContains</a></li>
-<li><a href="#times">3.2.1.13. times</a></li>
-<li><a href="#toBreakage">3.2.1.14. toBreakage</a></li>
-<li><a href="#keyValue">3.2.1.15. keyValue</a></li>
-<li><a href="#_keepspacesandendofline">3.2.1.16. keepSpacesAndEndOfLine</a></li>
-<li><a href="#arrayContainsOneOf">3.2.1.17. arrayContainsOneOf</a></li>
-<li><a href="#mergeArrays">3.2.1.18. mergeArrays</a></li>
+<li><a href="#arrayContains">3.2.1.1. arrayContains</a></li>
+<li><a href="#arrayContainsOneOf">3.2.1.2. arrayContainsOneOf</a></li>
+<li><a href="#bool">3.2.1.3. bool</a></li>
+<li><a href="#conditionalAttribute">3.2.1.4. conditionalAttribute</a></li>
+<li><a href="#dateformat">3.2.1.5. dateFormat</a></li>
+<li><a href="#i18n">3.2.1.6. i18n</a></li>
+<li><a href="#json">3.2.1.7. json</a></li>
+<li><a href="#_keepspacesandendofline">3.2.1.8. keepSpacesAndEndOfLine</a></li>
+<li><a href="#keyValue">3.2.1.9. keyValue</a></li>
+<li><a href="#math">3.2.1.10. math</a></li>
+<li><a href="#mergeArrays">3.2.1.11. mergeArrays</a></li>
+<li><a href="#now">3.2.1.12. now</a></li>
+<li><a href="#numberformat">3.2.1.13. numberFormat</a></li>
+<li><a href="#preservespace">3.2.1.14. preserveSpace</a></li>
+<li><a href="#slice">3.2.1.15. slice</a></li>
+<li><a href="#sort">3.2.1.16. sort</a></li>
+<li><a href="#split">3.2.1.17. split</a></li>
+<li><a href="#svg">3.2.1.18. svg</a></li>
+<li><a href="#times">3.2.1.19. times</a></li>
+<li><a href="#toBreakage">3.2.1.20. toBreakage</a></li>
 </ul>
 </li>
 <li><a href="#opfab_template_style">3.2.2. OperatorFabric css styles</a></li>
@@ -622,6 +624,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_operatorfabric_specific_functions">3.2.4. OperatorFabric specific functions</a>
 <ul class="sectlevel4">
 <li><a href="#_set_screen_size">3.2.4.1. Set screen size</a></li>
+<li><a href="#_redirect_to_business_application_from_a_card">3.2.4.2. Redirect to business application from a card</a></li>
 </ul>
 </li>
 </ul>
@@ -666,7 +669,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_lock_mechanism">5.4. Lock mechanism</a></li>
-<li><a href="#_last_time_to_decide_lttd_2">5.5. Last Time to Decide (<code>lttd</code>)</a></li>
+<li><a href="#_response_enabled">5.5. Response enabled</a></li>
+<li><a href="#_last_time_to_decide_lttd_2">5.6. Last Time to Decide (<code>lttd</code>)</a></li>
 </ul>
 </li>
 <li><a href="#user_cards">6. User cards</a>
@@ -674,6 +678,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_configure_the_bundle">6.1. Configure the bundle</a></li>
 <li><a href="#_method_getspecificcardinformation">6.2. Method getSpecificCardInformation</a></li>
 <li><a href="#_define_permissions_2">6.3. Define permissions</a></li>
+<li><a href="#_misc">6.4. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">7. Archived Cards</a>
@@ -990,7 +995,7 @@ A color is associated in the GUI to each severity. Here the details about severi
 <div class="sect4">
 <h5 id="_business_period"><a class="anchor" href="#_business_period"></a>2.1.1.4. Business period</h5>
 <div class="paragraph">
-<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e the period selected on  the timeline). If endDate is not set, the  card will be visible as soon as the startDate is before the end of the chosen period.</p>
+<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e the period selected on  the timeline). If endDate is not set, the card will be visible as soon as the startDate is between start and end date of the chosen period.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1979,141 +1984,39 @@ following helpers :</p>
 <div class="sect3">
 <h4 id="_operatorfabric_specific_handlebars_helpers"><a class="anchor" href="#_operatorfabric_specific_handlebars_helpers"></a>3.2.1. OperatorFabric specific handlebars helpers</h4>
 <div class="sect4">
-<h5 id="numberformat"><a class="anchor" href="#numberformat"></a>3.2.1.1. numberFormat</h5>
+<h5 id="arrayContains"><a class="anchor" href="#arrayContains"></a>3.2.1.1. arrayContains</h5>
 <div class="paragraph">
-<p>formats a number parameter using
-<a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu" class="bare">developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu</a>
-mberFormat[Intl.NumberFormat].
-The locale used is the current user selected one, and options are passed as hash
-parameters (<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+<p>Verify if an array contains a specified element. If the array does contain the element, it returns true. Otherwise, it returns false.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{numberFormat card.data.price style="currency" currency="EUR"}}</pre>
+<pre>&lt;p {{#if (arrayContains colors 'red')}}class="text-danger"{{/if}}&gt;test&lt;/p&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the colors array contains 'red', the output is:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;p class="text-danger"&gt;test&lt;/p&gt;</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="dateformat"><a class="anchor" href="#dateformat"></a>3.2.1.2. dateFormat</h5>
+<h5 id="arrayContainsOneOf"><a class="anchor" href="#arrayContainsOneOf"></a>3.2.1.2. arrayContainsOneOf</h5>
 <div class="paragraph">
-<p>formats the submitted parameters (millisecond since epoch) using
-<a href="https://momentjs.com/">mement.format</a>. The locale used is the current user
-selected one, the format is "format" hash parameter
-(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+<p>If the first array contains at least one element of the second array, return true. Otherwise, return false.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{dateFormat card.data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
+<pre>{{#if (arrayContainsOneOf arr1 arr2)}}
+  &lt;p&gt;Arr1 contains at least one element of arr2&lt;/p&gt;
+{{/if}}</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="slice"><a class="anchor" href="#slice"></a>3.2.1.3. slice</h5>
-<div class="paragraph">
-<p>extracts a sub array from ann array</p>
-</div>
-<div class="paragraph">
-<p>example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;!--
-{"array": ["foo","bar","baz"]}
---&gt;
-&lt;ul&gt;
-{{#each (slice array 0 2)}}
-  &lt;li&gt;{{this}}&lt;/li&gt;
-{{/each}}
-&lt;/ul&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;ul&gt;
-  &lt;li&gt;foo&lt;/li&gt;
-  &lt;li&gt;bar&lt;/li&gt;
-&lt;/ul&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>and</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;!--
-{"array": ["foo","bar","baz"]}
---&gt;
-&lt;ul&gt;
-{{#each (slice array 1)}}
-  &lt;li&gt;{{this}}&lt;/li&gt;
-{{/each}}
-&lt;/ul&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;ul&gt;
-  &lt;li&gt;bar&lt;/li&gt;
-  &lt;li&gt;baz&lt;/li&gt;
-&lt;/ul&gt;</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="now"><a class="anchor" href="#now"></a>3.2.1.4. now</h5>
-<div class="paragraph">
-<p>outputs the current date in millisecond from epoch. The date is computed from
-application internal time service and thus may be different from the date that
-one can compute from javascript api which relies on the browsers' system time.</p>
-</div>
-<div class="paragraph">
-<p>NB: Due to Handlebars limitation you must provide at least one argument to
-helpers otherwise, Handlebars will confuse a helper and a variable. In the
-bellow example, we simply pass an empty string.</p>
-</div>
-<div class="paragraph">
-<p>example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;div&gt;{{now ""}}&lt;/div&gt;
-&lt;br&gt;
-&lt;div&gt;{{dateFormat (now "") format="MMMM Do YYYY, h:mm:ss a"}}&lt;/div&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;div&gt;1551454795179&lt;/div&gt;
-&lt;br&gt;
-&lt;div&gt;mars 1er 2019, 4:39:55 pm&lt;/div&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>for a local set to <code>FR_fr</code></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="preservespace"><a class="anchor" href="#preservespace"></a>3.2.1.5. preserveSpace</h5>
-<div class="paragraph">
-<p>preserves space in parameter string to avoid html standard space trimming.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{preserveSpace card.data.businessId}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="bool"><a class="anchor" href="#bool"></a>3.2.1.6. bool</h5>
+<h5 id="bool"><a class="anchor" href="#bool"></a>3.2.1.3. bool</h5>
 <div class="paragraph">
 <p>returns a boolean result value on an arithmetical operation (including object
 equality) or boolean operation.</p>
@@ -2180,7 +2083,140 @@ value operand</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="math"><a class="anchor" href="#math"></a>3.2.1.7. math</h5>
+<h5 id="conditionalAttribute"><a class="anchor" href="#conditionalAttribute"></a>3.2.1.4. conditionalAttribute</h5>
+<div class="paragraph">
+<p>Adds the specified attribute to an HTML element if the given condition is truthy.
+This is useful for attributes such as <code>checked</code> where it is the presence or absence of the attribute that matters (i.e.
+an checkbox with <code>checked=false</code> will still be checked).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;input type="checkbox" id="optionA" {{conditionalAttribute card.data.optionA 'checked'}}&gt;&lt;/input&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="dateformat"><a class="anchor" href="#dateformat"></a>3.2.1.5. dateFormat</h5>
+<div class="paragraph">
+<p>formats the submitted parameters (millisecond since epoch) using
+<a href="https://momentjs.com/">mement.format</a>. The locale used is the current user
+selected one, the format is "format" hash parameter
+(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{dateFormat card.data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="i18n"><a class="anchor" href="#i18n"></a>3.2.1.6. i18n</h5>
+<div class="paragraph">
+<p>outputs a i18n result from a key and some parameters. There are two ways of
+configuration :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pass an object as sole argument. The object must contain a key field (string)
+and an optional parameter field (map of parameterKey &#8658; value)</p>
+<div class="literalblock">
+<div class="content">
+<pre>{{i18n card.data.i18nTitle}}</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Pass a string key as sole argument and use hash parameters
+(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>) for i18n string
+parameters.</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;!--
+emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
+--&gt;
+{{i18n "emergency.title" date="2018-06-14" cause="Broken Coffee Machine"}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>outputs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Emergency situation happened on 2018-06-14. Cause : Broken Cofee Machine</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="json"><a class="anchor" href="#json"></a>3.2.1.7. json</h5>
+<div class="paragraph">
+<p>Convert the element in json, this can be useful to use the element as a javascript object in the template. For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>var myAttribute = {{json data.myAttribute}};</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_keepspacesandendofline"><a class="anchor" href="#_keepspacesandendofline"></a>3.2.1.8. keepSpacesAndEndOfLine</h5>
+<div class="paragraph">
+<p>Convert a string to a light HTML by replacing :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>each new line character with &lt;br/&gt;</p>
+</li>
+<li>
+<p>spaces with &amp;nbsp; when there is at least two consecutive spaces.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="keyValue"><a class="anchor" href="#keyValue"></a>3.2.1.9. keyValue</h5>
+<div class="paragraph">
+<p>This allows to traverse a map.</p>
+</div>
+<div class="paragraph">
+<p>Notice that this should normally be feasible by using the built-in each helper, but a client was having some troubles using it so we added this custom helper.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#keyValue studentGrades}}
+  &lt;p&gt;{{key}}: {{value}}&lt;/p&gt;
+{{/keyValue}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the value of the studentGrades map is:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+  'student1': 15,
+  'student2': 12,
+  'student3': 9
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output will be:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;p&gt;student1: 15&lt;/p&gt;
+&lt;p&gt;student2: 12&lt;/p&gt;
+&lt;p&gt;student3: 9&lt;/p&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="math"><a class="anchor" href="#math"></a>3.2.1.10. math</h5>
 <div class="paragraph">
 <p>returns the result of a mathematical operation.</p>
 </div>
@@ -2232,91 +2268,140 @@ value operand</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="split"><a class="anchor" href="#split"></a>3.2.1.8. split</h5>
+<h5 id="mergeArrays"><a class="anchor" href="#mergeArrays"></a>3.2.1.11. mergeArrays</h5>
 <div class="paragraph">
-<p>splits a string into an array based on a split string.</p>
+<p>Return an array that is a merge of the two arrays.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#each (mergeArrays arr1 arr2)}}
+  &lt;p&gt;{{@index}} element: {{this}}&lt;/p&gt;
+{{/each}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="now"><a class="anchor" href="#now"></a>3.2.1.12. now</h5>
+<div class="paragraph">
+<p>outputs the current date in millisecond from epoch. The date is computed from
+application internal time service and thus may be different from the date that
+one can compute from javascript api which relies on the browsers' system time.</p>
+</div>
+<div class="paragraph">
+<p>NB: Due to Handlebars limitation you must provide at least one argument to
+helpers otherwise, Handlebars will confuse a helper and a variable. In the
+bellow example, we simply pass an empty string.</p>
 </div>
 <div class="paragraph">
 <p>example:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;ul&gt;
-{{#each (split 'my.example.string' '.')}}
+<pre>&lt;div&gt;{{now ""}}&lt;/div&gt;
+&lt;br&gt;
+&lt;div&gt;{{dateFormat (now "") format="MMMM Do YYYY, h:mm:ss a"}}&lt;/div&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>outputs</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;div&gt;1551454795179&lt;/div&gt;
+&lt;br&gt;
+&lt;div&gt;mars 1er 2019, 4:39:55 pm&lt;/div&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>for a local set to <code>FR_fr</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="numberformat"><a class="anchor" href="#numberformat"></a>3.2.1.13. numberFormat</h5>
+<div class="paragraph">
+<p>formats a number parameter using
+<a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu" class="bare">developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Nu</a>
+mberFormat[Intl.NumberFormat].
+The locale used is the current user selected one, and options are passed as hash
+parameters (<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>).</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{numberFormat card.data.price style="currency" currency="EUR"}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="preservespace"><a class="anchor" href="#preservespace"></a>3.2.1.14. preserveSpace</h5>
+<div class="paragraph">
+<p>preserves space in parameter string to avoid html standard space trimming.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{preserveSpace card.data.businessId}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="slice"><a class="anchor" href="#slice"></a>3.2.1.15. slice</h5>
+<div class="paragraph">
+<p>extracts a sub array from ann array</p>
+</div>
+<div class="paragraph">
+<p>example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;!--
+{"array": ["foo","bar","baz"]}
+--&gt;
+&lt;ul&gt;
+{{#each (slice array 0 2)}}
   &lt;li&gt;{{this}}&lt;/li&gt;
 {{/each}}
 &lt;/ul&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>outputs</p>
+<p>outputs:</p>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>&lt;ul&gt;
-  &lt;li&gt;my&lt;/li&gt;
-  &lt;li&gt;example&lt;/li&gt;
-  &lt;li&gt;string&lt;/li&gt;
+  &lt;li&gt;foo&lt;/li&gt;
+  &lt;li&gt;bar&lt;/li&gt;
+&lt;/ul&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;!--
+{"array": ["foo","bar","baz"]}
+--&gt;
+&lt;ul&gt;
+{{#each (slice array 1)}}
+  &lt;li&gt;{{this}}&lt;/li&gt;
+{{/each}}
+&lt;/ul&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>outputs:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;ul&gt;
+  &lt;li&gt;bar&lt;/li&gt;
+  &lt;li&gt;baz&lt;/li&gt;
 &lt;/ul&gt;</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="svg"><a class="anchor" href="#svg"></a>3.2.1.9. svg</h5>
-<div class="paragraph">
-<p>outputs a svg tag with lazy loading, and missing image replacement message. The
-image url is the concatenation of an arbitrary number of helper arguments</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{{svg baseUri scheduledOpId "/" substation "/before/"
-computationPhaseOrdinal}}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="i18n"><a class="anchor" href="#i18n"></a>3.2.1.10. i18n</h5>
-<div class="paragraph">
-<p>outputs a i18n result from a key and some parameters. There are two ways of
-configuration :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Pass an object as sole argument. The object must contain a key field (string)
-and an optional parameter field (map of parameterKey &#8658; value)</p>
-<div class="literalblock">
-<div class="content">
-<pre>{{i18n card.data.i18nTitle}}</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Pass a string key as sole argument and use hash parameters
-(<a href="https://handlebarsjs.com/">see Handlebars doc Literals section</a>) for i18n string
-parameters.</p>
-</li>
-</ul>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;!--
-emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
---&gt;
-{{i18n "emergency.title" date="2018-06-14" cause="Broken Coffee Machine"}}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>outputs</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Emergency situation happened on 2018-06-14. Cause : Broken Cofee Machine</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="sort"><a class="anchor" href="#sort"></a>3.2.1.11. sort</h5>
+<h5 id="sort"><a class="anchor" href="#sort"></a>3.2.1.16. sort</h5>
 <div class="paragraph">
 <p>sorts an array or some object&#8217;s properties (first argument) using an optional
 field name (second argument) to sort the collection on this fields natural
@@ -2399,26 +2484,50 @@ users :
 </div>
 </div>
 <div class="sect4">
-<h5 id="arrayContains"><a class="anchor" href="#arrayContains"></a>3.2.1.12. arrayContains</h5>
+<h5 id="split"><a class="anchor" href="#split"></a>3.2.1.17. split</h5>
 <div class="paragraph">
-<p>Verify if an array contains a specified element. If the array does contain the element, it returns true. Otherwise, it returns false.</p>
+<p>splits a string into an array based on a split string.</p>
+</div>
+<div class="paragraph">
+<p>example:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;p {{#if (arrayContains colors 'red')}}class="text-danger"{{/if}}&gt;test&lt;/p&gt;</pre>
+<pre>&lt;ul&gt;
+{{#each (split 'my.example.string' '.')}}
+  &lt;li&gt;{{this}}&lt;/li&gt;
+{{/each}}
+&lt;/ul&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the colors array contains 'red', the output is:</p>
+<p>outputs</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;p class="text-danger"&gt;test&lt;/p&gt;</pre>
+<pre>&lt;ul&gt;
+  &lt;li&gt;my&lt;/li&gt;
+  &lt;li&gt;example&lt;/li&gt;
+  &lt;li&gt;string&lt;/li&gt;
+&lt;/ul&gt;</pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="times"><a class="anchor" href="#times"></a>3.2.1.13. times</h5>
+<h5 id="svg"><a class="anchor" href="#svg"></a>3.2.1.18. svg</h5>
+<div class="paragraph">
+<p>outputs a svg tag with lazy loading, and missing image replacement message. The
+image url is the concatenation of an arbitrary number of helper arguments</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{{svg baseUri scheduledOpId "/" substation "/before/"
+computationPhaseOrdinal}}}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="times"><a class="anchor" href="#times"></a>3.2.1.19. times</h5>
 <div class="paragraph">
 <p>Allows to perform the same action a certain number of times. Internally, this uses a for loop.</p>
 </div>
@@ -2441,7 +2550,7 @@ users :
 </div>
 </div>
 <div class="sect4">
-<h5 id="toBreakage"><a class="anchor" href="#toBreakage"></a>3.2.1.14. toBreakage</h5>
+<h5 id="toBreakage"><a class="anchor" href="#toBreakage"></a>3.2.1.20. toBreakage</h5>
 <div class="paragraph">
 <p>Change the breakage of a string. The arguments that you can specify are:</p>
 </div>
@@ -2466,86 +2575,6 @@ users :
 <div class="literalblock">
 <div class="content">
 <pre>tests</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="keyValue"><a class="anchor" href="#keyValue"></a>3.2.1.15. keyValue</h5>
-<div class="paragraph">
-<p>This allows to traverse a map.</p>
-</div>
-<div class="paragraph">
-<p>Notice that this should normally be feasible by using the built-in each helper, but a client was having some troubles using it so we added this custom helper.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{#keyValue studentGrades}}
-  &lt;p&gt;{{key}}: {{value}}&lt;/p&gt;
-{{/keyValue}}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the value of the studentGrades map is:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{
-  'student1': 15,
-  'student2': 12,
-  'student3': 9
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The output will be:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>&lt;p&gt;student1: 15&lt;/p&gt;
-&lt;p&gt;student2: 12&lt;/p&gt;
-&lt;p&gt;student3: 9&lt;/p&gt;</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_keepspacesandendofline"><a class="anchor" href="#_keepspacesandendofline"></a>3.2.1.16. keepSpacesAndEndOfLine</h5>
-<div class="paragraph">
-<p>Convert a string to a light HTML by replacing :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>each new line character with &lt;br/&gt;</p>
-</li>
-<li>
-<p>spaces with &amp;nbsp; when there is at least two consecutive spaces.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="arrayContainsOneOf"><a class="anchor" href="#arrayContainsOneOf"></a>3.2.1.17. arrayContainsOneOf</h5>
-<div class="paragraph">
-<p>If the first array contains at least one element of the second array, return true. Otherwise, return false.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{#if (arrayContainsOneOf arr1 arr2)}}
-  &lt;p&gt;Arr1 contains at least one element of arr2&lt;/p&gt;
-{{/if}}</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="mergeArrays"><a class="anchor" href="#mergeArrays"></a>3.2.1.18. mergeArrays</h5>
-<div class="paragraph">
-<p>Return an array that is a merge of the two arrays.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{{#each (mergeArrays arr1 arr2)}}
-  &lt;p&gt;{{@index}} element: {{this}}&lt;/p&gt;
-{{/each}}</pre>
 </div>
 </div>
 </div>
@@ -2575,13 +2604,16 @@ users :
 <li>
 <p>opfab-table : a HTML table</p>
 </li>
+<li>
+<p>opfab-border-box : a box with a label</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
 <p>These styles are especially useful for templates used in user card or card with responses.</p>
 </div>
 <div class="paragraph">
-<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/businessconfig/resources/bundle_userCardExamples">src/test/utils/karate/businessconfig/resources/bundle_userCardExamples</a>).</p>
+<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/businessconfig/resources">src/test/utils/karate/businessconfig/resources</a>).</p>
 </div>
 </div>
 <div class="sect3">
@@ -2606,6 +2638,50 @@ users :
 <p>'lg' : large size window</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>3.2.4.2. Redirect to business application from a card</h5>
+<div class="paragraph">
+<p>It&#8217;s possible to redirect from a card to a business application declared in <code>ui-menu.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>This can be done by calling the following function from the template :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu(idMenu,idEntry)</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>idMenu is the id of the menu defined in ui-menu.json</p>
+</li>
+<li>
+<p>idEntry is the id of the entry defined in ui-menu.json</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is also possible to append parameters to the url that will be called:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/chart.handlebars</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This can be useful to pass context from the card to the business application.</p>
 </div>
 </div>
 </div>
@@ -2766,10 +2842,14 @@ recurrence : {
 <h2 id="response_cards"><a class="anchor" href="#response_cards"></a>5. Response cards</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Within your template, you can allow the user to perform some action (respond to a form, answer a question, &#8230;&#8203;). The user fills these information and then clicks on a submit button. When he submits this action, a new card is created and emitted to a third-party tool.</p>
+<p>Within your template, you can allow the user to perform some actions (respond to a form, answer a question, &#8230;&#8203;).
+The user fills these information and then clicks on a submit button. When he submits this action, a new card is created
+and emitted to a third-party tool.</p>
 </div>
 <div class="paragraph">
-<p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This child card is also sent to the users that have received the parent card. From the ui point of view, the information of the child cards can be integrated in real time in the parent card if configured.</p>
+<p>This card is called "a child card" as it is attached to the card where the question came from : "the parent card". This
+child card is also sent to the users that have received the parent card. From the ui point of view, the information of
+the child cards can be integrated in real time in the parent card if configured.</p>
 </div>
 <div class="paragraph">
 <p>The process can be represented as follows :</p>
@@ -2780,7 +2860,9 @@ recurrence : {
 </div>
 </div>
 <div class="paragraph">
-<p>Notice that the response will be associated to the entity and not to the user, i.e the user responds on behalf of his entity. A user can respond more than one time to a card (a future evolution could add the possibility to limit to one response per entity).</p>
+<p>Notice that the response will be associated to the entity and not to the user, i.e the user responds on behalf of his
+entity. A user can respond more than one time to a card (a future evolution could add the possibility to limit to one
+response per entity).</p>
 </div>
 <div class="paragraph">
 <p>You can view a screenshot of an example of card with responses :</p>
@@ -2795,10 +2877,13 @@ recurrence : {
 <div class="sect3">
 <h4 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>5.1.1. Define a third party tool</h4>
 <div class="paragraph">
-<p>The response card is to be received by a third party application for business processing. The third-party application will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card). The field data in the json contains the user response.</p>
+<p>The response card is to be received by a third party application for business processing. The third-party application
+will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card).
+The field data in the json contains the user response.</p>
 </div>
 <div class="paragraph">
-<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is an example with two third parties configured.</p>
+<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is
+an example with two third parties configured.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -2819,7 +2904,8 @@ recurrence : {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>For the url, do not use localhost if you run OperatorFabric in a docker, as the publication-service will not be able to join your third party.</p>
+<p>For the url, do not use localhost if you run OperatorFabric in a docker, as the publication-service will not be able to
+join your third party.</p>
 </div>
 </td>
 </tr>
@@ -2829,7 +2915,8 @@ recurrence : {
 <div class="sect3">
 <h4 id="_configure_the_response_in_config_json"><a class="anchor" href="#_configure_the_response_in_config_json"></a>5.1.2. Configure the response in config.json</h4>
 <div class="paragraph">
-<p>A card can have a response only if it&#8217;s in a process/state that is configured for. To do that you need to setup the good  configuration in the config.json of the concerned process. Here is an example of configuration :</p>
+<p>A card can have a response only if it&#8217;s in a process/state that is configured for. To do that you need to define the
+appropriate configuration in the config.json of the concerned process. Here is an example of configuration:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -2860,7 +2947,8 @@ recurrence : {
 </div>
 </div>
 <div class="paragraph">
-<p>We define here a state name "questionState" with a response field. Now, if we send a card with process "defaultProcess" and state "questionState" , the user will have the possibility to respond if he has the good privileges.</p>
+<p>We define here a state name "questionState" with a response field. Now, if we send a card with process "defaultProcess"
+and state "questionState", the user will have the possibility to respond if he has the required privileges.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2868,15 +2956,30 @@ recurrence : {
 <p>The field "state" in the response field is used to define the state to use for the response (the child card).</p>
 </li>
 <li>
-<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
+<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in
+the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
 </li>
 <li>
-<p>The field "btnColor" define the color of the submit button for the response, it is optional and there is 3 possibilities : RED , GREEN , YELLOW</p>
+<p>The field "btnColor" define the color of the submit button for the response, it is optional and there are 3
+possibilities : RED , GREEN , YELLOW</p>
 </li>
 <li>
-<p>The field "btnText"is the i18n key of the title of the submit button, it is optional.</p>
+<p>The field "btnText" is the i18n key of the title of the submit button, it is optional.</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The state to be used for the response can also be set dynamically based on the contents of the card or the
+response by returning it in the <code>templateGateway.validyForm</code> method (see below for details).
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -2885,7 +2988,8 @@ recurrence : {
 <p>For the user to response you need to define the response form in the template with standard HTML syntax</p>
 </div>
 <div class="paragraph">
-<p>To enable operator fabric to send the response, you need to implement a javascript function in your template called templateGateway.validyForm which return an object containing three fields :</p>
+<p>To enable operator fabric to send the response, you need to implement a javascript function in your template called
+<code>templateGateway.validyForm</code> which returns an object containing four fields :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2898,19 +3002,52 @@ recurrence : {
 <li>
 <p>formData (<em>any</em>) : the user input to send in the data field of the child card. If valid is false this field is not necessary.</p>
 </li>
+<li>
+<p>responseState : name of the response state to use. This field is not mandatory, if it is not set the state defined in
+<code>config.json</code> will be used for the response.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This method will be called by OperatorFabric when user click on the button to send the response</p>
+<p>This method will be called by OperatorFabric when the user clicks on the button to send the response.</p>
 </div>
 <div class="paragraph">
-<p>You can find an example in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars.</p>
+<p>In the example below, the <code>validyForm</code> creates a <code>formData</code> object by retrieving the user&#8217;s inputs from the HTML.
+In addition, if the user chose several options, it overrides the response state defined in the <code>config.json</code> with another
+state.</p>
+</div>
+<div class="listingblock">
+<div class="title">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">validyForm</span> = <span class="keyword">function</span>() {
+
+    const formData = {};
+    const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
+    <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
+        (key <span class="keyword">in</span> formData) ? formData[key].push(value) : formData[key] = [value];
+    }
+
+    const result = {
+        <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+        <span class="key">formData</span>: formData
+    };
+
+      <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+    const choiceRequiresFollowUp = Object.entries(formData).length&gt;<span class="integer">1</span>;
+    <span class="keyword">if</span>(choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
+
+    <span class="keyword">return</span> result;
+
+    };</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>5.1.4. Define permissions</h4>
 <div class="paragraph">
-<p>To respond to a card a user must have the right privileges, it is done using "perimeters". The user must be in a group that is attached to a perimeter with  a right "Write" for the concerned process/state, the state being the response state defined in the config.json.</p>
+<p>To respond to a card a user must have the right privileges, it is done using "perimeters". The user must be in a group
+that is attached to a perimeter with  a right "Write" for the concerned process/state, the state being the response
+state defined in the config.json.</p>
 </div>
 <div class="paragraph">
 <p>Here is an example of definition of a perimeter :</p>
@@ -2933,7 +3070,8 @@ recurrence : {
 <p>To configure it in OperatorFabric , you need to make a POST of this json file to the end point /users/perimeters.</p>
 </div>
 <div class="paragraph">
-<p>To add it to a group name for example "mygroup", you need to make a PATCH request  to end point 'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
+<p>To add it to a group name for example "mygroup", you need to make a PATCH request  to endpoint
+'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2952,7 +3090,8 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 <div class="sect2">
 <h3 id="_send_a_question_card"><a class="anchor" href="#_send_a_question_card"></a>5.2. Send a question card</h3>
 <div class="paragraph">
-<p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
+<p>The question card is like a usual card except that you have the field "entitiesAllowedToRespond" to set with the
+entities allowed to respond to the card. If the user is not in the entity, he will not be able to respond.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -2972,7 +3111,55 @@ If you don&#8217;t want OperatorFabric to check for user perimeter when respondi
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-By default, OperatorFabric considers that if the parent card (question card) is modified, then the child cards are deleted. If you want to keep the child cards when the parent card is changed, then you must add in the parent card the field "keepChildCards" and set it to true.
+By default, OperatorFabric considers that if the parent card (question card) is modified, then the child cards
+are deleted. If you want to keep the child cards when the parent card is changed, then you must add in the parent
+card the field "keepChildCards" and set it to true.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The header in the card details will list the entities from which a response is expected, color-coding them depending
+on whether they&#8217;ve already responded (green) or not (orange).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can also set the property <code>entitiesRequiredToRespond</code> to differentiate between entities can respond
+(<code>entitiesAllowedToRespond</code>) and those who must respond (<code>entitiesRequiredToRespond</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>...
+"process"  :"defaultProcess",
+"processInstanceId" : "process4",
+"state": "questionState",
+"entitiesAllowedToRespond": ["ENTITY1","ENTITY2","ENTITY3"],
+"entitiesRequiredToRespond": ["ENTITY1","ENTITY2"],
+"severity" : "ACTION",
+...</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If <code>entitiesRequiredToRespond</code> is set and not empty, the card detail header will use this list instead of
+<code>entitiesAllowedToRespond</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If set, <code>entitiesRequiredToRespond</code> should be a subset of <code>entitiesAllowedToRespond</code> or the card will be
+rejected.
 </td>
 </tr>
 </table>
@@ -2998,7 +3185,8 @@ This method will be called by OperatorFabric when loading the card and every tim
 <div class="sect3">
 <h4 id="_entity_name"><a class="anchor" href="#_entity_name"></a>5.3.1. Entity name</h4>
 <div class="paragraph">
-<p>If you want to show the name of an entity that send the response, you need to get the id of the entity via the publisher field of the child card and then you  can get the name of the entity by calling <em>templateGateway.getEntityName(entityId)</em></p>
+<p>If you want to show the name of an entity that send the response, you need to get the id of the entity via the publisher
+field of the child card and then you  can get the name of the entity by calling <em>templateGateway.getEntityName(entityId)</em></p>
 </div>
 </div>
 <div class="sect3">
@@ -3011,8 +3199,10 @@ This method will be called by OperatorFabric when loading the card and every tim
 <div class="sect2">
 <h3 id="_lock_mechanism"><a class="anchor" href="#_lock_mechanism"></a>5.4. Lock mechanism</h3>
 <div class="paragraph">
-<p>When a user has never answered to a response card, the button will be marked as "VALIDATE ANSWER" and the card will be unlocked.
-When the user responds for the first time (and the response succeeds), the button will then be marked as "MODIFY ANSWER" and the information that the card has been locked will be sent to the third template (by calling the <em>templateGateway.lockAnswer()</em> function).</p>
+<p>When a user has never answered to a response card, the button will be marked as "VALIDATE ANSWER" and the card will be
+unlocked.
+When the user responds for the first time (and the response succeeds), the button will then be marked as "MODIFY ANSWER"
+and the information that the card has been locked will be sent to the third template (by calling the <em>templateGateway.lockAnswer()</em> function).</p>
 </div>
 <div class="paragraph">
 <p>Once a user has responded to a response card, its entity status will be considered as "already answered" for this card.
@@ -3029,7 +3219,14 @@ Then all the users having the same entity will be in this status for this card.<
 </div>
 </div>
 <div class="sect2">
-<h3 id="_last_time_to_decide_lttd_2"><a class="anchor" href="#_last_time_to_decide_lttd_2"></a>5.5. Last Time to Decide (<code>lttd</code>)</h3>
+<h3 id="_response_enabled"><a class="anchor" href="#_response_enabled"></a>5.5. Response enabled</h3>
+<div class="paragraph">
+<p>The template will be informed if the current user has the permission to answer by calling the <em>templateGateway.setUserCanRespond(boolean)</em> function.
+An example of templateGateway.setUserCanRespond() implementation can be found in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/incidentInProgress.handlebars.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_last_time_to_decide_lttd_2"><a class="anchor" href="#_last_time_to_decide_lttd_2"></a>5.6. Last Time to Decide (<code>lttd</code>)</h3>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information will be sent to the third template (by calling the template.setLttdExpired(true) function).</p>
 </div>
@@ -3203,6 +3400,12 @@ edit or delete it.
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.4. Misc</h3>
+<div class="paragraph">
+<p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3249,6 +3452,18 @@ The layout of this screen is very similar to the Feed screen: the results are di
 </div>
 <div class="paragraph">
 <p>If a card is sent to an entity and a group, then this user must be part of both the group and the entity.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Currently, child cards are not shown in the Archives, only the parent card is shown.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -3368,7 +3583,8 @@ More details about automated user creation
 <div class="paragraph">
 <p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).
 Entities are used to send cards to several users without a name specifically. The information about membership to an
-entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.</p>
+entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.
+The boolean property <code>entityAllowedToSendCard</code> (default value <code>true</code>) can be used to mark an Entity as not eligible as card publisher. This can be useful for a group of entities where only child entities should be used as card publishers while the parent is just a logical group usable as card recipient.</p>
 </div>
 <div class="paragraph">
 <p>Examples using entities can be found

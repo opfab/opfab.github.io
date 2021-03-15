@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 2.1.0.RELEASE,</span>
-<span id="revdate">22 February 2021</span>
+<span id="revnumber">version 2.2.0.RELEASE,</span>
+<span id="revdate">15 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -563,9 +563,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_configuration_file_web_ui_json">2.3.1.3. Configuration file web-ui.json</a></li>
 <li><a href="#_oauth2_password_or_code_flows">2.3.1.4. OAuth2 PASSWORD or CODE Flows</a></li>
 <li><a href="#_oauth2_implicit_flow">2.3.1.5. OAuth2 IMPLICIT Flow</a></li>
+<li><a href="#_none_flow">2.3.1.6. NONE Flow</a></li>
 </ul>
 </li>
-<li><a href="#_user_creation">2.3.2. User creation</a></li>
+<li><a href="#_user_creation">2.3.2. User creation</a>
+<ul class="sectlevel5">
+<li><a href="#_automated_user_creation_with_none_flow">Automated User creation with NONE flow</a></li>
+</ul>
+</li>
 <li><a href="#jwt_mode">2.3.3. Alternative way to manage groups (and/or entities)</a></li>
 <li><a href="#custom_certificates">2.3.4. Adding certification authorities or certificates to the Java keystore</a></li>
 </ul>
@@ -672,13 +677,13 @@ configuration which is described in the following documentation:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/">Springboot documentation</a></p>
+<p><a href="https://docs.spring.io/spring-boot/docs/2.4.0-M1/reference/htmlsingle//reference/htmlsingle/">Springboot documentation</a></p>
 </li>
 <li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#boot-features-external-config">Springboot external configuration</a></p>
+<p><a href="https://docs.spring.io/spring-boot/docs/2.4.0-M1/reference/htmlsingle//reference/htmlsingle/#boot-features-external-config">Springboot external configuration</a></p>
 </li>
 <li>
-<p><a href="https://docs.spring.io/spring-boot/docs/2.1.2.RELEASE//reference/htmlsingle/#common-application-properties">Common application properties from Springboot documentation</a></p>
+<p><a href="https://docs.spring.io/spring-boot/docs/2.4.0-M1/reference/htmlsingle//reference/htmlsingle/#common-application-properties">Common application properties from Springboot documentation</a></p>
 </li>
 </ul>
 </div>
@@ -1432,6 +1437,20 @@ Currently the <code>application routes</code> are:</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Alternatively there is also another flow available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>none flow: referred as <code>NONE</code> mode flow.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>NONE</code> flow assumes that the application is behind a secured proxy wich handles login and token generation.
+Calls to backend services will get a valid token added to the headers and the token will not be visible for the (web)client.</p>
+</div>
 <div class="sect4">
 <h5 id="_nginx_configuration_2"><a class="anchor" href="#_nginx_configuration_2"></a>2.3.1.1. Nginx Configuration</h5>
 <div class="paragraph">
@@ -1639,7 +1658,7 @@ There are several common properties:</p>
           <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
           <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>
       },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
     }
@@ -1683,7 +1702,7 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
           <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
           <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev</span><span class="delimiter">&quot;</span></span>
       },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/ui/</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
       }
@@ -1696,6 +1715,99 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
 <p>Within the <code>delegate-url</code> property <code>dev</code> is the keycloak client realm of OperatorFabric.
 For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred.
 The url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_none_flow"><a class="anchor" href="#_none_flow"></a>2.3.1.6. NONE Flow</h5>
+<div class="paragraph">
+<p>The configuration for the NONE flow is a bit different because the token isn&#8217;t handled/visible in the front-end.</p>
+</div>
+<div class="sect5">
+<h6 id="_nginx"><a class="anchor" href="#_nginx"></a>Nginx</h6>
+<div class="paragraph">
+<p>The following variables can be removed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$KeycloakBaseUrl</code></p>
+</li>
+<li>
+<p><code>$OperatorFabricRealm</code></p>
+</li>
+<li>
+<p><code>$ClientPairOFAuthentication</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The locations for handling tokens can be edited to return a 401 by default.
+If one of these locations is called, the token generated by the secured proxy has expired.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="config">location /auth/check_token {
+  return 401;
+}
+location /auth/token {
+  return 401;
+}
+location /auth/code/ {
+  return 401;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_web_ui_json"><a class="anchor" href="#_web_ui_json"></a>Web-ui.json</h6>
+<div class="paragraph">
+<p>Set the security.oauth2.flow.mode to <code>NONE</code>;</p>
+</div>
+<div class="paragraph">
+<p>Set the security.oauth2.client-id to <code>Your Oauth client ID</code>;</p>
+</div>
+<div class="paragraph">
+<p>Use the security.jwt.login-claim to select value from the token will be used to identify your account. In this example <code>preferred_username</code> is used;</p>
+</div>
+<div class="paragraph">
+<p>Settings that are not required are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>delegate-url</p>
+</li>
+<li>
+<p>provider-realm</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_example_of_configuration"><a class="anchor" href="#_example_of_configuration"></a>Example of configuration</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">operatorfabric</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">jwt</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">expire-claim</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">exp</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">login-claim</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">preferred_username</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">client-id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">OAUTHCLIENTID</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My Secured Proxy</span><span class="delimiter">&quot;</span></span>
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://my-secured-proxy/OAUTHTENANTID/oauth2/logout?client_id=OAUTHCLIENTID&amp;post_logout_redirect_uri=https%3A%2F%2Flocalhost:2002%2Fui%2Fui/</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://my-secured-proxy/</span><span class="delimiter">&quot;</span></span>
+      }
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1741,6 +1853,13 @@ The url look up by the implicit ui mechanism is <code><a href="http://localhost:
 </tr>
 </tbody>
 </table>
+<div class="sect5">
+<h6 id="_automated_user_creation_with_none_flow"><a class="anchor" href="#_automated_user_creation_with_none_flow"></a>Automated User creation with NONE flow</h6>
+<div class="paragraph">
+<p>Currently users with not be automatically created when using the <code>NONE</code> flow.
+An administrator can add the users that are allowed to login to Operator Fabric.</p>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="jwt_mode"><a class="anchor" href="#jwt_mode"></a>2.3.3. Alternative way to manage groups (and/or entities)</h4>

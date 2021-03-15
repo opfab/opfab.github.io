@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 2.1.0.RELEASE,</span>
-<span id="revdate">22 February 2021</span>
+<span id="revnumber">version 2.2.0.RELEASE,</span>
+<span id="revdate">15 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -718,10 +718,7 @@ below for details on:</p>
 <p>Gradle 6<br></p>
 </li>
 <li>
-<p>Java 8.0<br></p>
-</li>
-<li>
-<p>Maven 3.5.3<br></p>
+<p>Java 11.0<br></p>
 </li>
 <li>
 <p>Docker</p>
@@ -732,6 +729,9 @@ below for details on:</p>
 <li>
 <p>Chrome (needed for UI tests in build)</p>
 </li>
+<li>
+<p>Angular CLI</p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -741,7 +741,7 @@ below for details on:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-the current Jdk used for the project is Java 8.0.252-zulu.
+the current Jdk used for the project is Java 11.0.9-zulu.
 </td>
 </tr>
 </table>
@@ -754,7 +754,7 @@ the current Jdk used for the project is Java 8.0.252-zulu.
 </td>
 <td class="content">
 It is highly recommended to use <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions.
+<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions. The following steps rely on these tools.
 </td>
 </tr>
 </table>
@@ -780,7 +780,7 @@ Java, Maven and project variables set):</p>
 service communication</p>
 </li>
 <li>
-<p>MongoDB 4.0 +: Card persistent storage</p>
+<p>MongoDB 4.4 +: Card persistent storage</p>
 </li>
 </ul>
 </div>
@@ -832,7 +832,7 @@ files at
 <div class="sect2">
 <h3 id="_browser_support"><a class="anchor" href="#_browser_support"></a>1.3. Browser support</h3>
 <div class="paragraph">
-<p>Project is supported on recent version of firefox , chromium and chrome</p>
+<p>The project is tested on recent versions of Firefox, Chromium and Chrome.</p>
 </div>
 </div>
 </div>
@@ -914,7 +914,7 @@ the home repository of <code>OperatorFabric</code>.
 <div class="sect3">
 <h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>2.3.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
-<p>The gradle build of <code>OperatorFabric</code> needs two docker containers running:</p>
+<p>The gradle build of <code>OperatorFabric</code> requires (for the unit tests) two docker containers running:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -928,10 +928,6 @@ the home repository of <code>OperatorFabric</code>.
 </div>
 <div class="paragraph">
 <p>Launch them using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
-</div>
-<div class="paragraph">
-<p>Remind that, during a gradle build the <code>test</code> task runs before the <code>assemble</code> one.
-The Unit tests depend on those two software.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1043,7 +1039,7 @@ bin/run_all.sh status</code></pre>
 <div class="sect2">
 <h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.7. Log into the UI</h3>
 <div class="paragraph">
-<p><strong><em>URL:</em></strong> localhost:2002/ui/<br>
+<p><strong><em>URL:</em></strong> localhost:2002/<br>
 <strong><em>login:</em></strong> operator1<br>
 <strong><em>password:</em></strong> test</p>
 </div>
@@ -1143,7 +1139,7 @@ SPA
 <p>a no SQL database: MongoDB;</p>
 </li>
 <li>
-<p>an authentication provider: keycloak;</p>
+<p>an authentication provider: Keycloak;</p>
 </li>
 <li>
 <p>a web server: Nginx.</p>
@@ -1189,7 +1185,7 @@ Started with pid: 7501</code></pre>
 <p>Wait a moment before trying to connect to the`SPA`, leaving time for the OperatorFabricServices to boot up completely.</p>
 </div>
 <div class="paragraph">
-<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a></code>.</p>
+<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a></code>.</p>
 </div>
 <div class="paragraph">
 <p>To log in you need to use a valid user among the following: <code>operator1</code>, <code>operator3</code> or <code>admin</code>.
@@ -1217,7 +1213,7 @@ The common password is <code>test</code> for them all.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Once logged in, after one of those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/ui/feed" class="bare">localhost:2002/ui/feed</a></code>.</p>
+<p>Once logged in, after one of those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a></code>.</p>
 </div>
 </div>
 </div>
@@ -1283,6 +1279,29 @@ on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-
 <p>test your changes in your browser using this url: <code><a href="http://localhost:4200" class="bare">localhost:4200</a></code> which leads to <code><a href="http://localhost:4200/#/feed" class="bare">localhost:4200/#/feed</a></code>.</p>
 </li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If <code>ng serve</code> returns the error <code>Command 'ng' not found</code>, install the Angular CLI globally with the following
+command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>+
+<code>npm install -g @angular/cli</code></p>
+</div>
+<div class="paragraph">
+<p>+
+This will install the latest version of the Angular command line, which might not be in line with the one used by the
+project, but it&#8217;s not an issue as when you run <code>ng serve</code> the local version of the Angular CLI
+(as defined in the package.json file) will be used.</p>
 </div>
 </div>
 </div>
@@ -2240,7 +2259,7 @@ Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpect
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>curl http://localhost:2002/ui/</code></pre>
+<pre class="CodeRay highlight"><code>curl http://localhost:2002/</code></pre>
 </div>
 </div>
 <div class="listingblock">
