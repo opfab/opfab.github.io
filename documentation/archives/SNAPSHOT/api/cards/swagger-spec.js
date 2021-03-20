@@ -59,12 +59,6 @@ window.swaggerSpec={
       "enum" : [ "ALARM", "ACTION", "COMPLIANT", "INFORMATION" ],
       "example" : "INFORMATION"
     },
-    "ActionEnum" : {
-      "type" : "string",
-      "description" : "Action type >\n* EXTERNAL - Not defined (not implemented)\n* URL - The action is tied to a url which must conform the specification of 3rd Party actions (see reference manual)\n* JNLP - The action triggers a JNLP link (not implemented)",
-      "enum" : [ "EXTERNAL", "URL", "JNLP" ],
-      "example" : "URL"
-    },
     "TitlePositionEnum" : {
       "type" : "string",
       "description" : "Possible title positions >\n* UP - At the top of the detail\n* DOWN - At the bottom of the detail\n* NONE - Not displayed",
