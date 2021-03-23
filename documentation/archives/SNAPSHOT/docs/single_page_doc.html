@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">22 March 2021</span>
+<span id="revdate">23 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -4328,13 +4328,13 @@ computationPhaseOrdinal}}}</pre>
 <p>These styles are especially useful for templates used in user card or card with responses.</p>
 </div>
 <div class="paragraph">
-<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/businessconfig/resources">src/test/utils/karate/businessconfig/resources</a>).</p>
+<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles">src/test/resources/bundles</a>).</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_charts"><a class="anchor" href="#_charts"></a>10.2.3. Charts</h4>
 <div class="paragraph">
-<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/businessconfig/resources/bundle_defautlProcess">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess</a>).</p>
+<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defautlProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
 </div>
 <div class="sect3">
@@ -4390,9 +4390,9 @@ computationPhaseOrdinal}}}</pre>
 <p>For example:</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/chart.handlebars</div>
+<div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/chart.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="html">Unresolved directive in ../reference_doc/template_description.adoc - include::../../../test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/chart.handlebars[tag=templateGateway.redirectToBusinessMenu_example]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4460,7 +4460,7 @@ the response is disabled for the user</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>You can see examples in src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/config.json</p>
+<p>You can see examples in src/test/resources/bundles/defaultProcess_V1/config.json</p>
 </div>
 </div>
 <div class="sect2">
@@ -4732,9 +4732,28 @@ In addition, if the user chose several options, it overrides the response state 
 state.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars</div>
+<div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="js">Unresolved directive <span class="keyword">in</span> ..<span class="regexp"><span class="delimiter">/</span><span class="content">reference_doc</span><span class="delimiter">/</span></span>response_cards.adoc - include::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">test</span><span class="delimiter">/</span></span>utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars[tag=templateGateway.validyForm_example]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">validyForm</span> = <span class="keyword">function</span>() {
+
+    const formData = {};
+    const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
+    <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
+        (key <span class="keyword">in</span> formData) ? formData[key].push(value) : formData[key] = [value];
+    }
+
+    const result = {
+        <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+        <span class="key">formData</span>: formData
+    };
+
+      <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+    const choiceRequiresFollowUp = Object.entries(formData).length&gt;<span class="integer">1</span>;
+    <span class="keyword">if</span>(choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
+
+    <span class="keyword">return</span> result;
+
+    };</code></pre>
 </div>
 </div>
 </div>
@@ -4854,8 +4873,21 @@ You can also set the property <code>entitiesRequiredToRespond</code> to differen
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If set, <code>entitiesRequiredToRespond</code> should be a subset of <code>entitiesAllowedToRespond</code> or the card will be
-rejected.
+If set, <code>entitiesRequiredToRespond</code> does not have to be a subset of <code>entitiesAllowedToRespond</code>. To determine
+if a user has the right to respond, OperatorFabric consider the union of the two lists.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If several entities are allowed/required to respond and if the user is part of several of these entities, so
+the ability for the user to respond to this card is desactivated.
 </td>
 </tr>
 </table>
@@ -4888,7 +4920,7 @@ field of the child card and then you  can get the name of the entity by calling 
 <div class="sect3">
 <h4 id="_example"><a class="anchor" href="#_example"></a>12.3.2. Example</h4>
 <div class="paragraph">
-<p>You can find an example in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/question.handlebars.</p>
+<p>You can find an example in the file src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars.</p>
 </div>
 </div>
 </div>
@@ -4918,7 +4950,7 @@ Then all the users having the same entity will be in this status for this card.<
 <h3 id="_response_enabled"><a class="anchor" href="#_response_enabled"></a>12.5. Response enabled</h3>
 <div class="paragraph">
 <p>The template will be informed if the current user has the permission to answer by calling the <em>templateGateway.setUserCanRespond(boolean)</em> function.
-An example of templateGateway.setUserCanRespond() implementation can be found in the file src/test/utils/karate/businessconfig/resources/bundle_defaultProcess/template/en/incidentInProgress.handlebars.</p>
+An example of templateGateway.setUserCanRespond() implementation can be found in the file src/test/resources/bundles/defaultProcess_V1/template/en/incidentInProgress.handlebars.</p>
 </div>
 </div>
 <div class="sect2">
@@ -5025,7 +5057,7 @@ with the value of the field <code>message</code> from the card&#8217;s data.</p>
 </div>
 <div class="paragraph">
 <p>To have a better understanding of this feature, we encourage you to have a look at the examples in the OperatorFabric
-core repository under (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/utils/karate/businessconfig/resources/bundle_userCardExamples">src/test/utils/karate/businessconfig/resources/bundle_userCardExamples</a>).</p>
+core repository under (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/userCardExamples">src/test/resources/bundles/userCardExamples</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -8537,10 +8569,10 @@ The common password is <code>test</code> for them all.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>${OF_HOME}/src/test/utils/karate/loadBundles.sh</code></p>
+<p><code>${OF_HOME}/src/test/resources/loadTestConf.sh</code></p>
 </li>
 <li>
-<p><code>${OF_HOME}/src/test/utils/karate/postTestCards.sh</code></p>
+<p><code>${OF_HOME}/src/test/resources/send6TestCards.sh</code></p>
 </li>
 </ul>
 </div>
@@ -8859,7 +8891,7 @@ tests and demonstrations</p>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/cypress">cypress</a> : cypress code for automatic ui testing</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/utils">utils</a> : karate code for manual testing</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources">resources</a> : scripts and data for manual testing</p>
 </li>
 </ul>
 </div>
@@ -11240,10 +11272,10 @@ contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 <p>Run the <code>./docker-compose.sh</code> script (or use the <code>docker-compose.yml</code> with a <code>docker-compose</code> command);</p>
 </li>
 <li>
-<p>Go to <code>${OF_HOME}/src/test/utils/karate</code>;</p>
+<p>Go to <code>${OF_HOME}/src/test/resources/</code>;</p>
 </li>
 <li>
-<p>Run the following scripts: <code>./loadBundle.sh &amp;&amp; ./setPerimeterForTest.sh &amp;&amp; ./postTestCards.sh</code>;</p>
+<p>Run the following scripts: <code>./loadTestConf.sh &amp;&amp;  ./send6TestCards.sh</code>;</p>
 </li>
 <li>
 <p>Open the front-end in a browser and look for any regression.</p>

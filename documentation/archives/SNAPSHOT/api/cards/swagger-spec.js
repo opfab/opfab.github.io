@@ -365,7 +365,7 @@ window.swaggerSpec={
             "type" : "string"
           },
           "example" : [ "Dispatcher", "Planner" ],
-          "description" : "List of entities that have to respond (should be a subset of entitiesAllowedToRespond). If present and not empty, this list will be used for display in the card detail header instead of entitiesAllowedToRespond."
+          "description" : "List of entities that have to respond. It will be taken into account in addition to entitiesAllowedToRespond to determine if a user can send a response. If present and not empty, this list will be used for display in the card detail header instead of entitiesAllowedToRespond."
         },
         "entityRecipients" : {
           "description" : "List of entity recipients",
@@ -547,7 +547,7 @@ window.swaggerSpec={
             "type" : "string"
           },
           "example" : [ "Dispatcher", "Planner" ],
-          "description" : "List of entities that have to respond (should be a subset of entitiesAllowedToRespond). If present and not empty, this list will be used for display in the card detail header instead of entitiesAllowedToRespond."
+          "description" : "List of entities that have to respond. It will be taken into account in addition to entitiesAllowedToRespond to determine if a user can send a response. If present and not empty, this list will be used for display in the card detail header instead of entitiesAllowedToRespond."
         },
         "title" : {
           "description" : "Card i18n title",
