@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">29 March 2021</span>
+<span id="revdate">30 March 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1225,6 +1225,16 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_acknowledgmentallowed_field_in_business_configuration">46.1. AcknowledgmentAllowed field in business configuration</a></li>
 <li><a href="#_response_card_templategateway_applychild">46.2. Response card : templateGateway.applyChild()</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_2_2_2_to_release_2_3_0">47. Migration Guide from release 2.2.2 to release 2.3.0</a>
+<ul class="sectlevel2">
+<li><a href="#_communication_between_template_and_opfab">47.1. Communication between template and opfab</a>
+<ul class="sectlevel3">
+<li><a href="#_getting_response_data_from_template">47.1.1. Getting response data from template</a></li>
+<li><a href="#_getting_the_information_if_the_user_can_respond">47.1.2. Getting the information if the user can respond</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -4691,7 +4701,7 @@ possibilities : RED , GREEN , YELLOW</p>
 </td>
 <td class="content">
 The state to be used for the response can also be set dynamically based on the contents of the card or the
-response by returning it in the <code>templateGateway.validyForm</code> method (see below for details).
+response by returning it in the <code>templateGateway.getUserResponse</code> method (see below for details).
 </td>
 </tr>
 </table>
@@ -4704,7 +4714,7 @@ response by returning it in the <code>templateGateway.validyForm</code> method (
 </div>
 <div class="paragraph">
 <p>To enable operator fabric to send the response, you need to implement a javascript function in your template called
-<code>templateGateway.validyForm</code> which returns an object containing four fields :</p>
+<code>templateGateway.getUserResponse</code> which returns an object containing four fields :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4715,7 +4725,7 @@ response by returning it in the <code>templateGateway.validyForm</code> method (
 <p>errorMsg (<em>string</em>) : message in case of invalid user input. If valid is true this field is not necessary.</p>
 </li>
 <li>
-<p>formData (<em>any</em>) : the user input to send in the data field of the child card. If valid is false this field is not necessary.</p>
+<p>responseCardData (<em>any</em>) : the user input to send in the data field of the child card. If valid is false this field is not necessary.</p>
 </li>
 <li>
 <p>responseState : name of the response state to use. This field is not mandatory, if it is not set the state defined in
@@ -4727,28 +4737,28 @@ response by returning it in the <code>templateGateway.validyForm</code> method (
 <p>This method will be called by OperatorFabric when the user clicks on the button to send the response.</p>
 </div>
 <div class="paragraph">
-<p>In the example below, the <code>validyForm</code> creates a <code>formData</code> object by retrieving the user&#8217;s inputs from the HTML.
+<p>In the example below, the <code>getUserResponse</code> creates a <code>responseCardData</code> object by retrieving the user&#8217;s inputs from the HTML.
 In addition, if the user chose several options, it overrides the response state defined in the <code>config.json</code> with another
 state.</p>
 </div>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">validyForm</span> = <span class="keyword">function</span>() {
+<pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">getUserResponse</span> = <span class="keyword">function</span>() {
 
-    const formData = {};
+    const responseCardData = {};
     const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
     <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
-        (key <span class="keyword">in</span> formData) ? formData[key].push(value) : formData[key] = [value];
+        (key <span class="keyword">in</span> responseCardData) ? responseCardData[key].push(value) : responseCardData[key] = [value];
     }
 
     const result = {
         <span class="key">valid</span>: <span class="predefined-constant">true</span>,
-        <span class="key">formData</span>: formData
+        <span class="key">responseCardData</span>: responseCardData
     };
 
       <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
-    const choiceRequiresFollowUp = Object.entries(formData).length&gt;<span class="integer">1</span>;
+    const choiceRequiresFollowUp = Object.entries(responseCardData).length&gt;<span class="integer">1</span>;
     <span class="keyword">if</span>(choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
 
     <span class="keyword">return</span> result;
@@ -4949,14 +4959,14 @@ Then all the users having the same entity will be in this status for this card.<
 <div class="sect2">
 <h3 id="_response_enabled"><a class="anchor" href="#_response_enabled"></a>12.5. Response enabled</h3>
 <div class="paragraph">
-<p>The template will be informed if the current user has the permission to answer by calling the <em>templateGateway.setUserCanRespond(boolean)</em> function.
-An example of templateGateway.setUserCanRespond() implementation can be found in the file src/test/resources/bundles/defaultProcess_V1/template/en/incidentInProgress.handlebars.</p>
+<p>The template can know if the current user has the permission to answer by calling the <em>templateGateway.isUserAllowedToRespond()</em> function.
+An example of <em>templateGateway.isUserAllowedToRespond()</em> usage can be found in the file src/test/resources/bundles/defaultProcess_V1/template/en/incidentInProgress.handlebars.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_last_time_to_decide_lttd_2"><a class="anchor" href="#_last_time_to_decide_lttd_2"></a>12.6. Last Time to Decide (<code>lttd</code>)</h3>
 <div class="paragraph">
-<p>If the card has a last time to decide (lttd) configured, when the time is expired this information will be sent to the third template (by calling the template.setLttdExpired(true) function).</p>
+<p>If the card has a last time to decide (lttd) configured, when the time is expired this information will be sent to the third template (by calling the <em>templateGateway.setLttdExpired(true)</em> function).</p>
 </div>
 </div>
 </div>
@@ -14071,6 +14081,93 @@ The acknowledgmentAllowed field in no more a boolean type and can now assume one
 <div class="paragraph">
 <p>For card with responses, it is not necessary to call templateGateway.applyChildCards() in your template on loading
 anymore, OperatorFabric will do it.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_2_2_2_to_release_2_3_0"><a class="anchor" href="#_migration_guide_from_release_2_2_2_to_release_2_3_0"></a>47. Migration Guide from release 2.2.2 to release 2.3.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_communication_between_template_and_opfab"><a class="anchor" href="#_communication_between_template_and_opfab"></a>47.1. Communication between template and opfab</h3>
+<div class="sect3">
+<h4 id="_getting_response_data_from_template"><a class="anchor" href="#_getting_response_data_from_template"></a>47.1.1. Getting response data from template</h4>
+<div class="paragraph">
+<p>Some renaming has been done in version 2.3.0 :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the method to have the response information from template is rename in <em>getUserResponse</em> instead of <em>validyForm</em>.</p>
+</li>
+<li>
+<p>the return object of this method shall now contains the response data in field <em>responseCardData</em> instead of <em>formData</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So if you have the following code in your template :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    templateGateway.<span class="function">validyForm</span> = <span class="keyword">function</span> () {
+        const response = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">response</span><span class="delimiter">'</span></span>).value;
+        const formData = { <span class="key">response</span>: response };
+        <span class="keyword">return</span> {
+            <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+            <span class="key">formData</span>: formData
+        };
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It must be modify this way :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    templateGateway.<span class="function">getUserResponse</span> = <span class="keyword">function</span> () {
+        const response = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">response</span><span class="delimiter">'</span></span>).value;
+        const responseCardData = { <span class="key">response</span>: response };
+        <span class="keyword">return</span> {
+            <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+            <span class="key">responseCardData</span>: responseCardData
+        };
+
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_getting_the_information_if_the_user_can_respond"><a class="anchor" href="#_getting_the_information_if_the_user_can_respond"></a>47.1.2. Getting the information if the user can respond</h4>
+<div class="paragraph">
+<p>To know from a template that the user can respond to a card you must now call templateGateway.isUserAllowedToRespond() instead of implementing the method templateGateway.setUserCanRespond()</p>
+</div>
+<div class="paragraph">
+<p>So if you have the following code in your template :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    templateGateway.<span class="function">setUserCanRespond</span> = <span class="keyword">function</span>(responseEnabled) {
+        <span class="keyword">if</span> (responseEnabled) {
+            <span class="comment">// do something</span>
+        } <span class="keyword">else</span> {
+            <span class="comment">// do something</span>
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It must be modify this way :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    <span class="keyword">if</span> (templateGateway.isUserAllowedToRespond()) {
+         <span class="comment">// do something</span>
+    } <span class="keyword">else</span> {
+        <span class="comment">// do something</span>
+    }</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
