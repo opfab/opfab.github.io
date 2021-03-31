@@ -59,12 +59,6 @@ window.swaggerSpec={
       "enum" : [ "ALARM", "ACTION", "COMPLIANT", "INFORMATION" ],
       "example" : "INFORMATION"
     },
-    "TitlePositionEnum" : {
-      "type" : "string",
-      "description" : "Possible title positions >\n* UP - At the top of the detail\n* DOWN - At the bottom of the detail\n* NONE - Not displayed",
-      "enum" : [ "UP", "DOWN", "NONE" ],
-      "example" : "UP"
-    },
     "RecipientEnum" : {
       "type" : "string",
       "description" : "Recipient type >\n* DEADEND - Card is sent to no one (mostly for testing purposes)\n* GROUP - Card is sent to every user belonging to a group (identity)\n* USER - Card is sent to a single user (identity)\n* UNION - Card is sent to users according to the union of a recipient list  (recipients)",
