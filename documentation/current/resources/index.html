@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 2.2.0.RELEASE,</span>
-<span id="revdate">15 March 2021</span>
+<span id="revnumber">version 2.3.0.RELEASE,</span>
+<span id="revdate">06 April 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -572,6 +572,16 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_acknowledgmentallowed_field_in_business_configuration">4.1. AcknowledgmentAllowed field in business configuration</a></li>
 <li><a href="#_response_card_templategateway_applychild">4.2. Response card : templateGateway.applyChild()</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_2_2_2_to_release_2_3_0">5. Migration Guide from release 2.2.2 to release 2.3.0</a>
+<ul class="sectlevel2">
+<li><a href="#_communication_between_template_and_opfab">5.1. Communication between template and opfab</a>
+<ul class="sectlevel3">
+<li><a href="#_getting_response_data_from_template">5.1.1. Getting response data from template</a></li>
+<li><a href="#_getting_the_information_if_the_user_can_respond">5.1.2. Getting the information if the user can respond</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1388,7 +1398,7 @@ $set: { &quot;process&quot;: &quot;SOME_PROCESS&quot;}
 <h3 id="_business_menu_definition"><a class="anchor" href="#_business_menu_definition"></a>3.2. Business menu definition</h3>
 <div class="paragraph">
 <p>The business menu are not configured anymore in the business definition but in a specific single configuration file called ui-menu.json. You must move your configuration from the config.json to this new file, see
-<a href="../../../../documentation/current/reference_doc/index.html#menu_entries">documentation</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/reference_doc/index.html#menu_entries">documentation</a>
 .</p>
 </div>
 </div>
@@ -1449,6 +1459,93 @@ The acknowledgmentAllowed field in no more a boolean type and can now assume one
 <div class="paragraph">
 <p>For card with responses, it is not necessary to call templateGateway.applyChildCards() in your template on loading
 anymore, OperatorFabric will do it.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_2_2_2_to_release_2_3_0"><a class="anchor" href="#_migration_guide_from_release_2_2_2_to_release_2_3_0"></a>5. Migration Guide from release 2.2.2 to release 2.3.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_communication_between_template_and_opfab"><a class="anchor" href="#_communication_between_template_and_opfab"></a>5.1. Communication between template and opfab</h3>
+<div class="sect3">
+<h4 id="_getting_response_data_from_template"><a class="anchor" href="#_getting_response_data_from_template"></a>5.1.1. Getting response data from template</h4>
+<div class="paragraph">
+<p>Some renaming has been done in version 2.3.0 :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the method to have the response information from template is rename in <em>getUserResponse</em> instead of <em>validyForm</em>.</p>
+</li>
+<li>
+<p>the return object of this method shall now contains the response data in field <em>responseCardData</em> instead of <em>formData</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So if you have the following code in your template :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    templateGateway.<span class="function">validyForm</span> = <span class="keyword">function</span> () {
+        const response = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">response</span><span class="delimiter">'</span></span>).value;
+        const formData = { <span class="key">response</span>: response };
+        <span class="keyword">return</span> {
+            <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+            <span class="key">formData</span>: formData
+        };
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It must be modify this way :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    templateGateway.<span class="function">getUserResponse</span> = <span class="keyword">function</span> () {
+        const response = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">response</span><span class="delimiter">'</span></span>).value;
+        const responseCardData = { <span class="key">response</span>: response };
+        <span class="keyword">return</span> {
+            <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+            <span class="key">responseCardData</span>: responseCardData
+        };
+
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_getting_the_information_if_the_user_can_respond"><a class="anchor" href="#_getting_the_information_if_the_user_can_respond"></a>5.1.2. Getting the information if the user can respond</h4>
+<div class="paragraph">
+<p>To know from a template that the user can respond to a card you must now call templateGateway.isUserAllowedToRespond() instead of implementing the method templateGateway.setUserCanRespond()</p>
+</div>
+<div class="paragraph">
+<p>So if you have the following code in your template :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    templateGateway.<span class="function">setUserCanRespond</span> = <span class="keyword">function</span>(responseEnabled) {
+        <span class="keyword">if</span> (responseEnabled) {
+            <span class="comment">// do something</span>
+        } <span class="keyword">else</span> {
+            <span class="comment">// do something</span>
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It must be modify this way :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">    <span class="keyword">if</span> (templateGateway.isUserAllowedToRespond()) {
+         <span class="comment">// do something</span>
+    } <span class="keyword">else</span> {
+        <span class="comment">// do something</span>
+    }</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>

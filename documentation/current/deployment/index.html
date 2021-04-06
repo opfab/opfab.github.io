@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 2.2.0.RELEASE,</span>
-<span id="revdate">15 March 2021</span>
+<span id="revnumber">version 2.3.0.RELEASE,</span>
+<span id="revdate">06 April 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -654,7 +654,7 @@ deployment as a docker-compose file
 </div>
 <div class="paragraph">
 <p>To run OperatorFabric in development mode, see
-<a href="../../../../documentation/current/dev_env/index.html#dev_env">the development environment documentation</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/dev_env/index.html#dev_env">the development environment documentation</a>
 .</p>
 </div>
 </div>
@@ -667,7 +667,7 @@ deployment as a docker-compose file
 </div>
 <div class="paragraph">
 <p>See the
-<a href="../../../../documentation/current/architecture/index.html#architecture">architecture documentation</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/architecture/index.html#architecture">architecture documentation</a>
 for more information on the different services.</p>
 </div>
 <div class="paragraph">
@@ -1091,12 +1091,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.timeline.hide</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the time line is not loaded in the feed screen. If the timeline is not loaded , the time filter on the feed is filtering on business date otherwise it is filtering on publish date.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.hideTimeFilter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1119,6 +1113,12 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the option to sort cards by severity in the feed page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.hideAckAllCardsFeature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the option for acknowledging all the visible cards of the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.secondsBeforeLttdForClockDisplay</p></td>
@@ -1191,7 +1191,7 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.tags.hide</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in settings and feed page</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in feed page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.nightDayMode</p></td>
@@ -2215,7 +2215,7 @@ are to be returned via Kafka by setting the <code>externalRecipients-url</code> 
 </div>
 </div>
 <div class="paragraph">
-<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka topic.</p>
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka response topic, as specified in the <code>opfab.kafka.topics.response-card</code> field.</p>
 </div>
 <div class="paragraph">
 <p>Also note enabling Kafka does not disable the REST interface.</p>
@@ -2505,7 +2505,7 @@ We can add him in our OperatorFabric instance using the following command use ht
 <div class="paragraph">
 <p>As shown by this result, the firstName of the new operator has been misspelled.
 We need
-<a href="../../../../documentation/current/api/users/index.html#/users/updateUser">to update the existing user</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/api/users/index.html#/users/updateUser">to update the existing user</a>
 with <code>john-doe-operator</code> login.
 To correct this mistake, the following commands can be used:</p>
 </div>
@@ -2576,7 +2576,7 @@ To correct this mistake, the following commands can be used:</p>
 <div class="paragraph">
 <p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in
 the system. As shown when we
-<a href="../../../../documentation/current/api/users/index.html#/groups/fetchGroups">list the groups</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/api/users/index.html#/groups/fetchGroups">list the groups</a>
 existing in the server.</p>
 </div>
 <div class="paragraph">
@@ -2646,7 +2646,7 @@ existing in the server.</p>
 <h4 id="_create_a_new_group_or_entity"><a class="anchor" href="#_create_a_new_group_or_entity"></a>5.2.2. Create a new group (or entity)</h4>
 <div class="paragraph">
 <p>Firstly, the group called <code>OPERATORS</code> has to be
-<a href="../../../../documentation/current/api/users/index.html#/groups/createGroup">added to the system</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/api/users/index.html#/groups/createGroup">added to the system</a>
 using the following command:</p>
 </div>
 <div class="paragraph">
@@ -2685,7 +2685,7 @@ using the following command:</p>
 <h4 id="_fetch_details_of_a_given_group_or_entity"><a class="anchor" href="#_fetch_details_of_a_given_group_or_entity"></a>5.2.3. Fetch details of a given group (or entity)</h4>
 <div class="paragraph">
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
-<a href="../../../../documentation/current/api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
 called <code>OPERATORS</code>, use the following command:</p>
 </div>
 <div class="paragraph">
@@ -2725,7 +2725,7 @@ called <code>OPERATORS</code>, use the following command:</p>
 <div class="paragraph">
 <p>The description is really null. After verification, in our first command used to create the group,
 the attribute for the description is misspelled. Using the following command
-<a href="../../../../documentation/current/api/users/index.html#/groups/updateGroup">to update the group</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/api/users/index.html#/groups/updateGroup">to update the group</a>
 with the correct spelling, the new group of operator gets a proper description:</p>
 </div>
 <div class="paragraph">
@@ -2762,7 +2762,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 <h4 id="_add_a_user_to_a_group_or_entity"><a class="anchor" href="#_add_a_user_to_a_group_or_entity"></a>5.2.5. Add a user to a group (or entity)</h4>
 <div class="paragraph">
 <p>As both new group and new user are correct it&#8217;s time
-<a href="../../../../documentation/current/api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
 . To achieve this, use the following command:</p>
 </div>
 <div class="paragraph">

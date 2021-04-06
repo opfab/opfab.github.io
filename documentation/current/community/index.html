@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Community</h1>
 <div class="details">
-<span id="revnumber">version 2.2.0.RELEASE,</span>
-<span id="revdate">15 March 2021</span>
+<span id="revnumber">version 2.3.0.RELEASE,</span>
+<span id="revdate">06 April 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -542,19 +542,20 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel4">
 <li><a href="#_develop_branch">3.1.1.1. <code>develop</code> branch</a></li>
 <li><a href="#_master_branch">3.1.1.2. <code>master</code> branch</a></li>
-<li><a href="#_feature_branches">3.1.1.3. Feature branches</a></li>
-<li><a href="#_release_branches">3.1.1.4. Release branches</a></li>
-<li><a href="#_hotfix_branches">3.1.1.5. Hotfix branches</a></li>
+<li><a href="#_hotfix_branches">3.1.1.3. Hotfix branches</a></li>
+<li><a href="#_feature_branches">3.1.1.4. Feature branches</a></li>
+<li><a href="#_release_branches">3.1.1.5. Release branches</a></li>
 </ul>
 </li>
 <li><a href="#_examples_and_commands">3.1.2. Examples and commands</a>
 <ul class="sectlevel4">
 <li><a href="#_initial_state">3.1.2.1. Initial state</a></li>
-<li><a href="#_starting_work_on_a_new_feature">3.1.2.2. Starting work on a new feature</a></li>
-<li><a href="#_submitting_a_pull_request">3.1.2.3. Submitting a pull request</a></li>
-<li><a href="#_reviewing_a_pull_request">3.1.2.4. Reviewing a Pull Request</a></li>
-<li><a href="#_merging_a_pull_request">3.1.2.5. Merging a Pull Request</a></li>
-<li><a href="#_creating_a_release_or_hotfix">3.1.2.6. Creating a release or hotfix</a></li>
+<li><a href="#_starting_work_on_a_new_feature_for_the_next_version">3.1.2.2. Starting work on a new feature for the next version</a></li>
+<li><a href="#_submitting_a_pull_request_to_develop">3.1.2.3. Submitting a pull request to develop</a></li>
+<li><a href="#working_on_hotfix">3.1.2.4. Working on a fix for a previous version</a></li>
+<li><a href="#_reviewing_a_pull_request">3.1.2.5. Reviewing a Pull Request</a></li>
+<li><a href="#_merging_a_pull_request">3.1.2.6. Merging a Pull Request</a></li>
+<li><a href="#_creating_a_release_or_hotfix">3.1.2.7. Creating a release or hotfix</a></li>
 </ul>
 </li>
 </ul>
@@ -734,35 +735,67 @@ release"</em>.</p>
 <div class="paragraph">
 <p>The daily CRON Travis job generating the documentation and docker images for the <code>SNAPSHOT</code> version are run from
 this branch (see our
-<a href="#../../../../documentation/current/CICD/index.adoc">CICD documentation</a>
+<a href="#/home/travis/build/opfab/operatorfabric-core/documentation/current/CICD/index.adoc">CICD documentation</a>
 for details).</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_master_branch"><a class="anchor" href="#_master_branch"></a>3.1.1.2. <code>master</code> branch</h5>
 <div class="paragraph">
-<p><em>"When the source code in the develop branch reaches a stable point and is ready to be released, all of the changes
+<p><em>"When the source code in the develop branch reaches a stable point and is ready to be released, all the changes
 should be merged back into master somehow and then tagged with a release number."</em></p>
 </div>
 <div class="paragraph">
-<p>This means that any commit on master is a production-ready release, be it a patch, a minor or a major version.</p>
+<p>This means that any commit on master is a production-ready release, be it a minor or a major version.</p>
 </div>
 <div class="paragraph">
 <p>Any commit on <code>master</code> triggers a Travis build generating and pushing documentation and docker images for the
-corresponding release version. If the <code>ci_latest</code> keyword is used in the commit message, the docker images are also
-tagged with <code>latest</code>.</p>
+corresponding release version. As a version released from master is also by design the latest version, it will also
+update the <code>latest</code> docker images and the <code>current</code> documentation folder on the website.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_feature_branches"><a class="anchor" href="#_feature_branches"></a>3.1.1.3. Feature branches</h5>
+<h5 id="_hotfix_branches"><a class="anchor" href="#_hotfix_branches"></a>3.1.1.3. Hotfix branches</h5>
 <div class="paragraph">
-<p>Feature branches are used to develop new features or fix bugs <strong>for the next release</strong>. The version number for this next
-release is usually not known during the developments as it is its final contents that will determine whether it&#8217;s a
-major or minor version (or even a simple patch).
-By contrast, hotfix branches fix bugs in existing releases and give rise to new patches.</p>
+<p>While minor and major versions are tagged in increasing and linear order on the <code>master</code> branch, it might be necessary
+to create patches on previous releases.</p>
 </div>
 <div class="paragraph">
-<p>The lifecycle of feature branches is as follows:</p>
+<p>To do so, we create hotfix branches branching off version commits on the <code>master</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>For example, the <code>1.8.hotfixes</code> branch branches off the commit tagged <code>1.8.0.RELEASE</code> on the <code>master</code> branch, and will
+contain tags for <code>1.8.1.RELEASE</code>, <code>1.8.2.RELEASE</code> and so on.</p>
+</div>
+<div class="paragraph">
+<p><strong>Naming convention:</strong> Hotfix branches names should always start with the two digits representing the minor version
+they&#8217;re patching, followed by ".hotfixes".</p>
+</div>
+<div class="ulist">
+<div class="title">Examples of valid feature branch names:</div>
+<ul>
+<li>
+<p>1.8.hotfixes</p>
+</li>
+<li>
+<p>2.0.hotfixes</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_feature_branches"><a class="anchor" href="#_feature_branches"></a>3.1.1.4. Feature branches</h5>
+<div class="paragraph">
+<p>Feature branches are used to develop new features or fix bugs described in JIRA issues.
+They have two distinct use cases with similar workflows.</p>
+</div>
+<div class="sect5">
+<h6 id="_feature_branches_for_the_next_release"><a class="anchor" href="#_feature_branches_for_the_next_release"></a>Feature branches for the next release</h6>
+<div class="paragraph">
+<p>These feature branches are used to develop new features or fix bugs <strong>for the next release</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Their lifecycle is as follows:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -786,6 +819,23 @@ features (comments, proposed changes, etc.) to make changes to the PR until it m
 </li>
 </ol>
 </div>
+</div>
+<div class="sect5">
+<h6 id="_feature_branches_for_hotfixes"><a class="anchor" href="#_feature_branches_for_hotfixes"></a>Feature branches for hotfixes</h6>
+<div class="paragraph">
+<p>These feature branches fix bugs in existing releases and give rise to new patches.</p>
+</div>
+<div class="paragraph">
+<p>Their lifecycle is similar to regular feature branches, except they should be branched off (and merged back to) the
+<code>X.X.hotfixes</code> branch corresponding to the release they are fixing.</p>
+</div>
+<div class="paragraph">
+<p>Example: A feature branch working on bug OC-1234 affecting version 1.8.0.RELEASE should be branched off
+branch <code>1.8.hotfixes</code>.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_common_conventions"><a class="anchor" href="#_common_conventions"></a>Common conventions</h6>
 <div class="paragraph">
 <p><strong>Naming convention:</strong> Feature branches names should always start with the reference of the JIRA issue they&#8217;re addressing,
 optionally followed by additional information if several branches are associated with a given JIRA issue.</p>
@@ -825,8 +875,9 @@ optionally followed by additional information if several branches are associated
 <p>This allows the branch, PR and commits to be directly accessible from the JIRA issue.</p>
 </div>
 </div>
+</div>
 <div class="sect4">
-<h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>3.1.1.4. Release branches</h5>
+<h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>3.1.1.5. Release branches</h5>
 <div class="paragraph">
 <p>Once developments are in a release-ready state and have been tested on the <code>develop</code> branch, a release branch should
 be created off <code>develop</code> to prepare the merge into master.</p>
@@ -870,7 +921,8 @@ is to detect any issue with this generation before moving to master.</p>
 The resulting merge commit on <code>master</code> should then be tagged with <code>X.X.X.RELEASE</code>.</p>
 </div>
 <div class="paragraph">
-<p>All commits on <code>master</code> should be merge commits from <code>release</code> branches, direct pushes on master will be disabled.</p>
+<p>All commits on <code>master</code> should be merged commits from <code>release</code> branches, direct pushes on master will be disabled in
+the future.</p>
 </div>
 <div class="paragraph">
 <p><strong>Naming convention:</strong> The name of a release branch should match the repository version it is meant to merge into
@@ -878,50 +930,6 @@ The resulting merge commit on <code>master</code> should then be tagged with <co
 </div>
 <div class="paragraph">
 <p>Example: The valid branch name for the branch bringing 1.3.0.RELEASE into <code>master</code> is 1.3.0.release</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_hotfix_branches"><a class="anchor" href="#_hotfix_branches"></a>3.1.1.5. Hotfix branches</h5>
-<div class="paragraph">
-<p>Work in progress: detail hotfix branches lifecycle and constraints.</p>
-</div>
-<div class="paragraph">
-<p><strong>Naming convention:</strong> Hotfix branches names should always start with "HF_" and the reference of the JIRA issue they&#8217;re
-addressing, optionally followed by additional information if several branches are associated with a given JIRA issue.</p>
-</div>
-<div class="ulist">
-<div class="title">Examples of valid hotfix branch names:</div>
-<ul>
-<li>
-<p>HF_OC-123</p>
-</li>
-<li>
-<p>HF_OC-123_Documentation</p>
-</li>
-<li>
-<p>HF_OC-123_1</p>
-</li>
-</ul>
-</div>
-<div class="ulist">
-<div class="title">Examples of invalid hotfix branch names:</div>
-<ul>
-<li>
-<p>123</p>
-</li>
-<li>
-<p>OC-123</p>
-</li>
-<li>
-<p>OC123</p>
-</li>
-<li>
-<p>HF_SomeTextDescribingTheFix</p>
-</li>
-<li>
-<p>SomeTextDescribingTheFix</p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -943,7 +951,7 @@ Git flow.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_starting_work_on_a_new_feature"><a class="anchor" href="#_starting_work_on_a_new_feature"></a>3.1.2.2. Starting work on a new feature</h5>
+<h5 id="_starting_work_on_a_new_feature_for_the_next_version"><a class="anchor" href="#_starting_work_on_a_new_feature_for_the_next_version"></a>3.1.2.2. Starting work on a new feature for the next version</h5>
 <div class="paragraph">
 <p>Let&#8217;s say we want to start working on feature OC-Feature1 described in our JIRA.</p>
 </div>
@@ -1061,7 +1069,7 @@ for examples.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_submitting_a_pull_request"><a class="anchor" href="#_submitting_a_pull_request"></a>3.1.2.3. Submitting a pull request</h5>
+<h5 id="_submitting_a_pull_request_to_develop"><a class="anchor" href="#_submitting_a_pull_request_to_develop"></a>3.1.2.3. Submitting a pull request to develop</h5>
 <div class="paragraph">
 <p>Once you are satisfied with the state of your developments, you can submit it as a pull request.</p>
 </div>
@@ -1083,7 +1091,7 @@ and review.</p>
 </div>
 <div class="paragraph">
 <p>You should also take a look at the
-<a href="../../../../documentation/current/community/index.html#review_checklist">review check list</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/community/index.html#review_checklist">review check list</a>
 below to make sure your branch meets its criteria.</p>
 </div>
 <div class="paragraph">
@@ -1100,8 +1108,7 @@ Click the "New Pull Request" button for your branch.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If you haven&#8217;t done so before, <strong>read through the PR checklist</strong> pasted in the comment block, and then <strong>replace it with your
-own comment</strong> containing a short summary of the PR goal and any information that should go into the release notes.
+<p>Add a comment containing a short summary of the PR goal and any information that should go into the release notes.
 It&#8217;s especially important for PRs that have a direct impact on existing OperatorFabric deployments, to alert administrators
 of the impacts of deploying a new version and help them with the migration.
 Whenever possible/relevant, a link to the corresponding documentation is appreciated.</p>
@@ -1254,9 +1261,16 @@ automatically.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>3.1.2.4. Reviewing a Pull Request</h5>
+<h5 id="working_on_hotfix"><a class="anchor" href="#working_on_hotfix"></a>3.1.2.4. Working on a fix for a previous version</h5>
 <div class="paragraph">
-<p>As of today, only developers from the <code>reviewers</code> group can merge pull requests into <code>develop</code>, but this shouldn&#8217;t
+<p>To work on a fix for an existing version, the steps are similar to those described above, substituting <code>X.X.hotfix</code> for
+<code>develop</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>3.1.2.5. Reviewing a Pull Request</h5>
+<div class="paragraph">
+<p>Only developers from the <code>reviewers</code> group can merge pull requests into <code>develop</code>, but this shouldn&#8217;t
 stop anyone interested in the topic of a PR to comment and review it.</p>
 </div>
 <div class="sect5">
@@ -1349,10 +1363,10 @@ contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 <p>Run the <code>./docker-compose.sh</code> script (or use the <code>docker-compose.yml</code> with a <code>docker-compose</code> command);</p>
 </li>
 <li>
-<p>Go to <code>${OF_HOME}/src/test/utils/karate</code>;</p>
+<p>Go to <code>${OF_HOME}/src/test/resources/</code>;</p>
 </li>
 <li>
-<p>Run the following scripts: <code>./loadBundle.sh &amp;&amp; ./setPerimeterForTest.sh &amp;&amp; ./postTestCards.sh</code>;</p>
+<p>Run the following scripts: <code>./loadTestConf.sh &amp;&amp;  ./send6TestCards.sh</code>;</p>
 </li>
 <li>
 <p>Open the front-end in a browser and look for any regression.</p>
@@ -1365,7 +1379,7 @@ contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>3.1.2.5. Merging a Pull Request</h5>
+<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>3.1.2.6. Merging a Pull Request</h5>
 <div class="paragraph">
 <p>Once the pull request meets all the criteria from the above check list, you can merge it into the <code>develop</code> branch.</p>
 </div>
@@ -1375,7 +1389,7 @@ contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 <p>Go to the pull request page on GitHub</p>
 </li>
 <li>
-<p>Check that the base branch for the pull request is <code>develop</code>. This information is visible at the top of the page.</p>
+<p>Check that the base branch for the pull request is <code>develop</code> (or <code>X.X.hotfixes</code>). This information is visible at the top of the page.</p>
 <div class="imageblock">
 <div class="content">
 <img src="../images/existing_PR_check_base.png" alt="existing PR check base">
@@ -1393,7 +1407,7 @@ contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Set the <code>Fix version</code> field to <code>Next Version</code></p>
+<p>Set the <code>Fix version</code> field to <code>Next Version</code> (or the corresponding <code>X.X.X.RELEASE</code> in the case of a hotfix)</p>
 </li>
 <li>
 <p>Set the <code>Status</code> field to <code>Done</code></p>
@@ -1409,10 +1423,10 @@ the information provided in the PR comments.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>3.1.2.6. Creating a release or hotfix</h5>
+<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>3.1.2.7. Creating a release or hotfix</h5>
 <div class="paragraph">
 <p>See the
-<a href="../../../../documentation/current/CICD/index.html#release_process">release process</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/CICD/index.html#release_process">release process</a>
 described in our CICD documentation for details.</p>
 </div>
 </div>

@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 2.2.0.RELEASE,</span>
-<span id="revdate">15 March 2021</span>
+<span id="revnumber">version 2.3.0.RELEASE,</span>
+<span id="revdate">06 April 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -547,23 +547,24 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#release_process">2. Release process</a>
 <ul class="sectlevel2">
 <li><a href="#_version_numbers">2.1. Version numbers</a></li>
-<li><a href="#_releasing_a_version">2.2. Releasing a Version</a>
+<li><a href="#_releasing_a_major_or_minor_version">2.2. Releasing a Major or Minor Version</a>
 <ul class="sectlevel3">
 <li><a href="#_checking_the_release_notes">2.2.1. Checking the release notes</a></li>
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">2.2.2. Creating a release branch and preparing the release</a></li>
 <li><a href="#_merging_the_release_branch_into_master">2.2.3. Merging the release branch into <code>master</code></a></li>
 <li><a href="#_checking_the_docker_compose_files">2.2.4. Checking the docker-compose files</a></li>
 <li><a href="#_in_jira">2.2.5. In Jira</a></li>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.2.6. Advertising the new release on the LFE mailing list</a></li>
+<li><a href="#_preparing_the_next_version">2.2.7. Preparing the next version</a>
+<ul class="sectlevel4">
+<li><a href="#_in_jira_2">2.2.7.1. In Jira</a></li>
+<li><a href="#_on_the_release_notes_repository">2.2.7.2. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">2.2.7.3. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
-<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.3. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_the_next_version">2.4. Preparing the next version</a>
-<ul class="sectlevel3">
-<li><a href="#_in_jira_2">2.4.1. In Jira</a></li>
-<li><a href="#_on_the_release_notes_repository">2.4.2. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">2.4.3. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
+<li><a href="#_releasing_a_patch_hotfixes_version">2.3. Releasing a Patch (Hotfixes) Version</a></li>
 </ul>
 </li>
 </ul>
@@ -583,7 +584,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>This section briefly describes the organization of our CICD pipeline. If you are looking for more detailed information,
 see
-<a href="../../../../documentation/current/resources/index.html#mock_pipeline">this document</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/resources/index.html#mock_pipeline">this document</a>
 describing the steps that were necessary to create our mock pipeline as well as the issues we ran into.</p>
 </div>
 <div class="paragraph">
@@ -623,7 +624,17 @@ doc
 </td>
 <td class="hdlist2">
 <p>Generates the documentation (from asciidoc sources and API documentation) and pushes it to the opfab.github.io
-repository to update the website.</p>
+repository to update the documentation for this release on the website.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+doc-latest
+</td>
+<td class="hdlist2">
+<p>Generates the documentation (from asciidoc sources and API documentation) and pushes it to the
+opfab.github.io repository to update the documentation for this release, as well as the "current" documentation on the
+website.</p>
 </td>
 </tr>
 <tr>
@@ -715,28 +726,32 @@ latest hook
 </table>
 </div>
 <table class="tableblock frame-all grid-all stripes-even stretch">
-<caption class="title">Summary of stage triggers</caption>
+<caption class="title">Summary of stage triggers depending on branch</caption>
 <colgroup>
-<col style="width: 21.4285%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1435%;">
+<col style="width: 17.647%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8823%;">
+<col style="width: 5.8831%;">
 </colgroup>
 <tbody>
 <tr>
 <th class="tableblock halign-left valign-top"></th>
 <th class="tableblock halign-center valign-top" colspan="4"><p class="tableblock">develop</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">release</p></th>
-<th class="tableblock halign-center valign-top" colspan="2"><p class="tableblock">master</p></th>
-<th class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">feature or hotfix</p></th>
+<th class="tableblock halign-center valign-top"><p class="tableblock">master</p></th>
+<th class="tableblock halign-center valign-top" colspan="4"><p class="tableblock">hotfixes</p></th>
+<th class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">feature</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">pull request</p></th>
 </tr>
 <tr>
@@ -747,6 +762,9 @@ latest hook
 <th class="tableblock halign-center valign-top"><p class="tableblock">docker hook</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
+<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
+<th class="tableblock halign-center valign-top"><p class="tableblock">doc hook</p></th>
+<th class="tableblock halign-center valign-top"><p class="tableblock">docker hook</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">latest hook</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">doc hook</p></th>
@@ -761,6 +779,9 @@ latest hook
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -769,6 +790,9 @@ latest hook
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>test</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -788,8 +812,28 @@ latest hook
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>doc-latest</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -802,6 +846,9 @@ latest hook
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -819,6 +866,9 @@ latest hook
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -828,6 +878,9 @@ latest hook
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -844,6 +897,9 @@ latest hook
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
@@ -945,7 +1001,7 @@ the same major version.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_a_version"><a class="anchor" href="#_releasing_a_version"></a>2.2. Releasing a Version</h3>
+<h3 id="_releasing_a_major_or_minor_version"><a class="anchor" href="#_releasing_a_major_or_minor_version"></a>2.2. Releasing a Major or Minor Version</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -998,7 +1054,7 @@ explanations if need be.</p>
 <code>X.X.X.release</code> (note the lowercase <code>release</code> to distinguish it from <code>X.X.X.RELEASE</code> tags).</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>git checkout -b X.X.X.release</code></pre>
+<pre>git checkout -b X.X.X.release</pre>
 </div>
 </div>
 </li>
@@ -1018,7 +1074,7 @@ title by <code>Version X.X.X.RELEASE</code></p>
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</code></pre>
+<pre>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1058,8 +1114,8 @@ The following files have been updated:
 <p>Commit the changes with the template message:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>git add .
-git commit -m "[RELEASE] X.X.X.RELEASE"</code></pre>
+<pre>git add .
+git commit -m "[RELEASE] X.X.X.RELEASE"</pre>
 </div>
 </div>
 </li>
@@ -1067,7 +1123,7 @@ git commit -m "[RELEASE] X.X.X.RELEASE"</code></pre>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>git push --set-upstream origin X.X.X.release</code></pre>
+<pre>git push --set-upstream origin X.X.X.release</pre>
 </div>
 </div>
 </li>
@@ -1090,6 +1146,21 @@ generation.</p>
 </div>
 </li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Specific keywords such as "ci_docker" etc. are no longer required in the case of a release on master as
+by design any release on master becomes the "latest" version, so docker images generation (both for the version
+tag and the latest tag) and documentation update (both for the release and the "current" folder) should always
+be triggered.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -1232,9 +1303,8 @@ that it&#8217;s working correctly.</p>
 <p>In the "Releases" screen, release <code>X.X.X.RELEASE</code>.</p>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>2.3. Advertising the new release on the LFE mailing list</h3>
+<div class="sect3">
+<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>2.2.6. Advertising the new release on the LFE mailing list</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1256,8 +1326,8 @@ in case there is an issue.
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.4. Preparing the next version</h3>
+<div class="sect3">
+<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.2.7. Preparing the next version</h4>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1273,20 +1343,20 @@ new version will make rolling back or correcting any mistake on the release more
 </tr>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>2.4.1. In Jira</h4>
+<div class="sect4">
+<h5 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>2.2.7.1. In Jira</h5>
 <div class="paragraph">
 <p>In the "Releases" screen create a new release called <code>Next Release</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.4.2. On the release-notes repository</h4>
+<div class="sect4">
+<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.2.7.2. On the release-notes repository</h5>
 <div class="paragraph">
 <p>Remove the items listed in the release_notes.adoc file so it&#8217;s ready for the next version.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.4.3. On the operatorfabric-core repository</h4>
+<div class="sect4">
+<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.2.7.3. On the operatorfabric-core repository</h5>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
@@ -1316,6 +1386,120 @@ The branch will automatically be deleted from GitHub after it is merged (new rep
 </tr>
 </table>
 </div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_releasing_a_patch_hotfixes_version"><a class="anchor" href="#_releasing_a_patch_hotfixes_version"></a>2.3. Releasing a Patch (Hotfixes) Version</h3>
+<div class="paragraph">
+<p>Let&#8217;s say fixes are needed on version X.X.0.RELEASE, and will be released as X.X.X.RELEASE. If it&#8217;s the first patch
+version to be released for this minor version (i.e. version X.X.1.RELEASE), you will need to create the <code>X.X.hotfixes</code>
+branch.
+To do so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">git checkout X.X.0.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
+git checkout -b X.X.hotfixes <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Checkout X.X.0.RELEASE tag</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Create (and checkout) branch <code>X.X.hotfixes</code> from this commit</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If branch <code>X.X.hotfixes</code> already exists, you can just check it out.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">git checkout X.X.hotfixes</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You also need to create the corresponding release on JIRA so it can be defined as "Fix version" once the fixes are
+completed.</p>
+</div>
+<div class="paragraph">
+<p>Then, follow the process described
+ifndef::single-page-doc[<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/community/index.html#working_on_hotfix">here</a>] to
+create feature branches, work on fixes and merge them back into <code>X.X.hotfixes</code>.</p>
+</div>
+<div class="paragraph">
+<p>Once all the big fixes that need to go into the version X.X.X.RELEASE have been merged into branch <code>X.X.hotfix</code>, you
+can release the patch version. To do so:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write a release notes detailing the bug fixes in the release_notes.adoc file found under
+<strong>src/docs/asciidoc/docs</strong> in the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>.</p>
+</li>
+<li>
+<p>Make sure all the issues that have been fixed have "X.X.X.RELEASE" as their "Fix Version" on JIRA.</p>
+</li>
+<li>
+<p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
+<div class="listingblock">
+<div class="content">
+<pre>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Commit the changes, tag them and push both to GitHub:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git add .
+git commit -m "[RELEASE] X.X.X.RELEASE ci_docker ci_documentation" <i class="conum" data-value="1"></i><b>(1)</b>
+git tag X.X.X.RELEASE <i class="conum" data-value="2"></i><b>(2)</b>
+git push <i class="conum" data-value="3"></i><b>(3)</b>
+git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Commit the changes</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Tag the release</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Push the commit</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Push the tag</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+In the case of a patch on the last major/minor version tagged on master, this version will become the
+<code>latest</code> version. In this case, add <code>ci_latest</code> instead of <code>ci_docker ci_documentation</code> to the commit message
+to also update the <code>latest</code> docker images on DockerHub and the <code>current</code> documentation on the website.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

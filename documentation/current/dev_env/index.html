@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 2.2.0.RELEASE,</span>
-<span id="revdate">15 March 2021</span>
+<span id="revnumber">version 2.3.0.RELEASE,</span>
+<span id="revdate">06 April 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -697,7 +697,7 @@ describe the structure of the project and point out useful tools (Gradle tasks, 
 <div class="paragraph">
 <p>This section describes the projects requirements regardless of installation options.
 Please see
-<a href="../../../../documentation/current/dev_env/index.html#setup_dev_env">Setting up your environment</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/dev_env/index.html#setup_dev_env">Setting up your environment</a>
 below for details on:</p>
 </div>
 <div class="ulist">
@@ -867,7 +867,7 @@ the section that best fits your needs.</p>
 </td>
 <td class="content">
 If you encounter any issue, see
-<a href="../../../../documentation/current/dev_env/index.html#troubleshooting">Troubleshooting</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/dev_env/index.html#troubleshooting">Troubleshooting</a>
 below. In particular,
 a command that hangs then fails is often a proxy issue.
 </td>
@@ -1205,10 +1205,10 @@ The common password is <code>test</code> for them all.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>${OF_HOME}/src/test/utils/karate/loadBundles.sh</code></p>
+<p><code>${OF_HOME}/src/test/resources/loadTestConf.sh</code></p>
 </li>
 <li>
-<p><code>${OF_HOME}/src/test/utils/karate/postTestCards.sh</code></p>
+<p><code>${OF_HOME}/src/test/resources/send6TestCards.sh</code></p>
 </li>
 </ul>
 </div>
@@ -1527,7 +1527,7 @@ tests and demonstrations</p>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/cypress">cypress</a> : cypress code for automatic ui testing</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/utils">utils</a> : karate code for manual testing</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources">resources</a> : scripts and data for manual testing</p>
 </li>
 </ul>
 </div>
@@ -1668,7 +1668,7 @@ definition must declare two files:</p>
 <h4 id="_docker"><a class="anchor" href="#_docker"></a>5.3.3. Docker</h4>
 <div class="paragraph">
 <p>Services project all have docker image generated in their build cycle. See
-<a href="../../../../documentation/current/dev_env/index.html#gradle_tasks">Gradle Tasks</a>
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/dev_env/index.html#gradle_tasks">Gradle Tasks</a>
 for details.</p>
 </div>
 <div class="paragraph">
@@ -3014,12 +3014,36 @@ a free broker like a bitnami Kafka image to docker compose. To do so, add the fo
 </div>
 </div>
 <div class="paragraph">
-<p>The default topic from which the messages are consumed is called 'opfab'. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>.</p>
+<p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>.
+The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below.</p>
 </div>
 <div class="paragraph">
-<p>Make sure you also set the registry to either an empty string (<code>""</code>) or to the server providing the schema registry service.
-With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.
-<a href="#Cards-publication service">[Cards-publication service]</a> for more settings.</p>
+<p>The default Kafka Avro serializers and deserializers need a registry service. Make sure the registry service setting is provided in
+the <code>card-publication.yml</code> file. When you use the provided <code>KafkaAvroWithoutRegistrySerializer</code> and
+<code>KafkaAvroWithoutRegistryDeserializer</code> no schema registry setting is needed.</p>
+</div>
+<div class="paragraph">
+<p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
+</div>
+<div class="paragraph">
+<p>Example settings for the cards-publication.yml file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-response</span></span>
+    <span class="key">schema</span>:
+      <span class="key">registry</span>:
+        <span class="key">url</span>: <span class="string"><span class="content">http://localhost:8081</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#Cards-publication service">[Cards-publication service]</a> for more settings.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="https://docs.confluent.io/current/schema-registry/index.html">Schema management</a> for detailed information on using and benefits of a schema registry.</p>
@@ -3089,8 +3113,7 @@ Operator Fabric where the broker can be found. You can do so by setting the boot
 Note that some properties of CardCommand or its embedded Card are required. If not set, the card will be rejected by OperatorFabric.</p>
 </div>
 <div class="paragraph">
-<p>When you dump the card (which is about to be put on a topic) to stdout, you should see something like the line below. Do ignore the actual values from
-the dump below.</p>
+<p>When you dump the card (which is about to be put on a topic) to stdout, you should see something like the line below. Do ignore the actual values from the dump below.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3152,7 +3175,7 @@ section from the cards-publication.yml file:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka topic.</p>
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka response topic, as specified in the <code>opfab.kafka.topics.response-card</code> field.</p>
 </div>
 </div>
 </div>
