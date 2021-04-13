@@ -658,30 +658,6 @@ window.swaggerSpec={
     }
   },
   "paths" : {
-    "/async/cards" : {
-      "post" : {
-        "tags" : [ "cards", "creation" ],
-        "summary" : "publish cards",
-        "description" : "Publish one or more cards to OperatorFabric The response for this method is always a `201` status. To make sure the cards have been published, check the count returned in the body of the request.",
-        "operationId" : "publishCardsAsync",
-        "consumes" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "cards",
-          "in" : "body",
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/definitions/Card"
-            }
-          }
-        } ],
-        "responses" : {
-          "202" : {
-            "description" : "accepted"
-          }
-        }
-      }
-    },
     "/cardSubscription" : {
       "get" : {
         "tags" : [ "cards", "read", "subscription" ],
@@ -775,19 +751,16 @@ window.swaggerSpec={
     },
     "/cards" : {
       "post" : {
-        "tags" : [ "cards", "creation" ],
+        "tags" : [ "card", "creation" ],
         "summary" : "publish cards",
-        "description" : "Publish one or more card to OperatorFabric. Be careful, to know if the cards were published well, then it is necessary to consult the report returned in the body of the request (do not rely only on the response code).",
-        "operationId" : "publishCards",
+        "description" : "Publish one card to OperatorFabric",
+        "operationId" : "publishCard",
         "consumes" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "cards",
+          "name" : "card",
           "in" : "body",
           "schema" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/definitions/Card"
-            }
+            "$ref" : "#/definitions/Card"
           }
         } ],
         "responses" : {
