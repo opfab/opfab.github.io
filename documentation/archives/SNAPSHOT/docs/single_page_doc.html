@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">28 April 2021</span>
+<span id="revdate">29 April 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -991,7 +991,13 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_toolsgeneric">29.2.1.4. tools/generic</a></li>
 </ul>
 </li>
-<li><a href="#_gradle_plugins">29.2.2. Gradle Plugins</a></li>
+<li><a href="#_client_library">29.2.2. Client Library</a>
+<ul class="sectlevel4">
+<li><a href="#client_lib_pub_conf">29.2.2.1. Configuration</a></li>
+<li><a href="#_relevant_tasks">29.2.2.2. Relevant tasks</a></li>
+</ul>
+</li>
+<li><a href="#_gradle_plugins">29.2.3. Gradle Plugins</a></li>
 </ul>
 </li>
 </ul>
@@ -1169,13 +1175,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">42.2.2. Creating a release branch and preparing the release</a></li>
 <li><a href="#_merging_the_release_branch_into_master">42.2.3. Merging the release branch into <code>master</code></a></li>
 <li><a href="#_checking_the_docker_compose_files">42.2.4. Checking the docker-compose files</a></li>
-<li><a href="#_in_jira">42.2.5. In Jira</a></li>
-<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">42.2.6. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_the_next_version">42.2.7. Preparing the next version</a>
+<li><a href="#publishing_client_lib_release">42.2.5. Publishing the jars for the client library to Maven Central</a></li>
+<li><a href="#_in_jira">42.2.6. In Jira</a></li>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">42.2.7. Advertising the new release on the LFE mailing list</a></li>
+<li><a href="#_preparing_the_next_version">42.2.8. Preparing the next version</a>
 <ul class="sectlevel4">
-<li><a href="#_in_jira_2">42.2.7.1. In Jira</a></li>
-<li><a href="#_on_the_release_notes_repository">42.2.7.2. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">42.2.7.3. On the operatorfabric-core repository</a></li>
+<li><a href="#_in_jira_2">42.2.8.1. In Jira</a></li>
+<li><a href="#_on_the_release_notes_repository">42.2.8.2. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">42.2.8.3. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
@@ -6332,6 +6339,12 @@ Currently the <code>application routes</code> are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not check that a user has write rights on a process/state to respond to a card.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">checkPerimeterForSearchFields</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, to see a service, process or state in the archives/logging/monitoring/feedconfiguration screens of OperatorFabric, you must have a "Receive" or "ReceiveAndWrite" right enabled in the corresponding process/state.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -9380,7 +9393,102 @@ build/test-data/</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_gradle_plugins"><a class="anchor" href="#_gradle_plugins"></a>29.2.2. Gradle Plugins</h4>
+<h4 id="_client_library"><a class="anchor" href="#_client_library"></a>29.2.2. Client Library</h4>
+<div class="paragraph">
+<p>The jars produced by the projects under "client" will now be published to Maven Central after each release to make
+integration in client applications more manageable (see <a href="https://central.sonatype.org/publish">the official Sonatype
+documentation</a>) for more information about the requirements and publishing process.</p>
+</div>
+<div class="paragraph">
+<p>To that end, we are using:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the <a href="https://docs.gradle.org/current/userguide/publishing_maven.html">Maven Publish</a> Gradle plugin to take care of the
+metadata (producing the required pom.xml for example) and publishing the artifacts to a staging repository</p>
+</li>
+<li>
+<p>the <a href="https://docs.gradle.org/current/userguide/signing_plugin.html">Signing</a> Gradle plugin to sign the produced artifacts
+using a GPG key.</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="client_lib_pub_conf"><a class="anchor" href="#client_lib_pub_conf"></a>29.2.2.1. Configuration</h5>
+<div class="paragraph">
+<p>For the signing task to work, you need to set the following properties in your gradle.properties file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>signing.gnupg.keyName=ID_OF_THE_GPG_KEY_TO_USE
+signing.secretKeyRingFile=LOCATION_OF_THE_KEYRING_HOLDING_THE_GPG_KEY</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the publication to the staging repository (OSSRH) to work, you need to set the credentials in your gradle.properties file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ossrhUsername=SONATYPE_JIRA_USERNAME
+ossrhPassword=SONATYPE_JIRA_PASSWORD</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The credentials need to belong to an account that has been granted the required privileges on the project (this
+is done by Sonatype on request via the same JIRA).
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_relevant_tasks"><a class="anchor" href="#_relevant_tasks"></a>29.2.2.2. Relevant tasks</h5>
+<div class="paragraph">
+<p>These plugins and the associated configuration in the <code>client.gradle</code> file make the following tasks available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>publishClientLibraryMavenPublicationToOssrhRepository</code>: this will publish the client jars to the OSSRH repository (in the
+case of a X.X.X.RELEASE version) or to a <code>repos</code> directory in the build directory (in the case of a <code>SNAPSHOT</code> version).</p>
+</li>
+<li>
+<p><code>publishClientLibraryMavenPublicationToMavenLocal</code>: this will publish the client jars to the local Maven repository</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The publication tasks will call the signing task automatically.</p>
+</div>
+<div class="paragraph">
+<p>See the plugins documentations for more details on the other tasks available and the dependencies between them.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As the client library publication is currently the only configured publication in our build, it is also possible
+to use the corresponding aggregate tasks as shortcuts: <code>publish</code> instead of
+<code>publishClientLibraryMavenPublicationToOssrhRepository</code> and <code>publishToMavenLocal</code> instead of
+<code>publishClientLibraryMavenPublicationToMavenLocal</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gradle_plugins"><a class="anchor" href="#_gradle_plugins"></a>29.2.3. Gradle Plugins</h4>
 <div class="paragraph">
 <p>In addition to these custom tasks and standard Gradle tasks, OperatorFabric
 uses several Gradle plugins, among which:</p>
@@ -13043,13 +13151,106 @@ that it&#8217;s working correctly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>42.2.5. In Jira</h4>
+<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>42.2.5. Publishing the jars for the client library to Maven Central</h4>
+<div class="paragraph">
+<p>Once everything else looks ok, you can publish the jars for the client library to MavenCentral. This is done as a last
+step once we are pretty sure we won&#8217;t need to go back and change things on the release because jars are not meant to be
+removed from Maven Central once they are published (even briefly), and it&#8217;s not something that could be managed by the
+project.</p>
+</div>
+<div class="paragraph">
+<p>To do so:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the appropriate properties (credentials and GPG key information) as described in the
+<a href="#client_lib_pub_conf">documentation for the publishing task</a></p>
+</li>
+<li>
+<p>Run the following command from the project root:</p>
+<div class="listingblock">
+<div class="content">
+<pre>./gradlew publish</pre>
+</div>
+</div>
+</li>
+<li>
+<p>After a while you should be prompted to enter the passphrase for the GPG key.</p>
+</li>
+<li>
+<p>Once the task has completed, log in to the <a href="https://s01.oss.sonatype.org/">OSSRH Repository</a> using the same credentials
+as for the Sonatype JIRA.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ossrh_repo_welcome.png" alt="Welcome page for the OSSRH repository manager">
+</div>
+</div>
+</li>
+<li>
+<p>Click on <code>Staging repositories</code> link on the left. After a while (and maybe after clicking the refresh button), you
+should see a repository with the name orgopfab-XXXX (where XXXX is a Sonatype-generated id, not related to the
+release number).</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ossrh_staging_repos.png" alt="Staging repositories">
+</div>
+</div>
+</li>
+<li>
+<p>Click on the repository then on the "content" tab below to check its content and metadata.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/check_staging_repo.png" alt="Check staging repository">
+</div>
+</div>
+</li>
+<li>
+<p>If there is an issue with the repository, click on the "Drop" button and start the process again after making the
+necessary changes. If everything looks in order, click on the "Close" button and add a small comment when prompted to
+confirm.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/close_staging_repo.png" alt="Close staging repository">
+</div>
+</div>
+</li>
+<li>
+<p>This will trigger validation of the <a href="https://central.sonatype.org/publish/requirements/">Sonatype requirements</a> (for
+example, making sure that the pom file contains the required information), as you can see from the Activity tab below
+(Refresh might be needed).</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/closing_and_validation_of_repo.png" alt="Closing and validation of the staging repository">
+</div>
+</div>
+</li>
+<li>
+<p>If all the validations pass, the "Release" button will become available. Click it to send the jars to Maven Central.
+When prompted, write a comment then confirm (keeping the "Automatically Drop" option checked).</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/confirm_release_to_maven_central.png" alt="Release to Maven Central">
+</div>
+</div>
+</li>
+<li>
+<p>The jars for the release should then be available on the <a href="https://repo1.maven.org/maven2/org/opfab/">project space in the Maven repository</a> within 10 minutes.</p>
+</li>
+<li>
+<p>It can take up to two hours for them to appear on the <a href="https://search.maven.org/search?q=opfab">Maven Central Repository Search</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>42.2.6. In Jira</h4>
 <div class="paragraph">
 <p>In the "Releases" screen, release <code>X.X.X.RELEASE</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>42.2.6. Advertising the new release on the LFE mailing list</h4>
+<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>42.2.7. Advertising the new release on the LFE mailing list</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -13072,7 +13273,7 @@ in case there is an issue.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>42.2.7. Preparing the next version</h4>
+<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>42.2.8. Preparing the next version</h4>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -13089,19 +13290,19 @@ new version will make rolling back or correcting any mistake on the release more
 </table>
 </div>
 <div class="sect4">
-<h5 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>42.2.7.1. In Jira</h5>
+<h5 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>42.2.8.1. In Jira</h5>
 <div class="paragraph">
 <p>In the "Releases" screen create a new release called <code>Next Release</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>42.2.7.2. On the release-notes repository</h5>
+<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>42.2.8.2. On the release-notes repository</h5>
 <div class="paragraph">
 <p>Remove the items listed in the release_notes.adoc file so it&#8217;s ready for the next version.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>42.2.7.3. On the operatorfabric-core repository</h5>
+<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>42.2.8.3. On the operatorfabric-core repository</h5>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
@@ -13246,6 +13447,10 @@ to also update the <code>latest</code> docker images on DockerHub and the <code>
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>You then need to release the client library jars for the hotfix version. To do so, refer to the
+<a href="#publishing_client_lib_release">corresponding section</a> for standard releases.</p>
 </div>
 </div>
 </div>
