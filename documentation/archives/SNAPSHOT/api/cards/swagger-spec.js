@@ -90,23 +90,6 @@ window.swaggerSpec={
         }
       }
     },
-    "CardCreationReport" : {
-      "type" : "object",
-      "properties" : {
-        "count" : {
-          "type" : "integer",
-          "description" : "Number of created cards"
-        },
-        "message" : {
-          "type" : "string"
-        }
-      },
-      "required" : [ "count", "message" ],
-      "example" : {
-        "count" : 10,
-        "message" : "Cards successfully created."
-      }
-    },
     "CardOperation" : {
       "type" : "object",
       "description" : "This object holds an operation to be performed as well as a collection of cards (published in the same second) so as to be able to perform the operation on a batch of cards rather than on a single card.",
@@ -752,7 +735,7 @@ window.swaggerSpec={
     "/cards" : {
       "post" : {
         "tags" : [ "card", "creation" ],
-        "summary" : "publish cards",
+        "summary" : "publish card",
         "description" : "Publish one card to OperatorFabric",
         "operationId" : "publishCard",
         "consumes" : [ "application/json" ],
@@ -765,10 +748,10 @@ window.swaggerSpec={
         } ],
         "responses" : {
           "201" : {
-            "description" : "created",
-            "schema" : {
-              "$ref" : "#/definitions/CardCreationReport"
-            }
+            "description" : "created"
+          },
+          "400" : {
+            "description" : "bad request"
           }
         }
       },
