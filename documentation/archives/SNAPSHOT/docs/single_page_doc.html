@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 May 2021</span>
+<span id="revdate">03 May 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1260,6 +1260,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_migration_guide_from_release_2_4_0_to_release_2_5_0">50. Migration Guide from release 2.4.0 to release 2.5.0</a>
 <ul class="sectlevel2">
 <li><a href="#_send_card_2">50.1. Send card</a></li>
+<li><a href="#_card_recipients">50.2. Card recipients</a></li>
 </ul>
 </li>
 </ul>
@@ -2984,20 +2985,6 @@ definition of the recipient. If the <code>operator2</code> needs to see also thi
 <div class="content">
 <pre>"groupRecipients": ["Dispatcher", "Planner"],
 "userRecipients": ["admin"]</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>There is and alternative way to declare recipients of card, this syntax is more complex and will be deprecated:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>"recipient":{
-	"type":"UNION",
-	"recipients":[
-		{ "type": "GROUP", "identity":"Dispatcher"},
-		{ "type": "USER", "identity":"operator2"}
-		]
-	}</pre>
 </div>
 </div>
 </div>
@@ -5155,7 +5142,7 @@ edit or delete it.
 <div class="sect2">
 <h3 id="_recipients"><a class="anchor" href="#_recipients"></a>13.4. Recipients</h3>
 <div class="paragraph">
-<p>When sending a user card, by default it is possibile to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the field <code>recipientList</code> in <code>config.json</code></p>
+<p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the field <code>recipientList</code> in <code>config.json</code></p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -14511,6 +14498,13 @@ The endPoint <code>cards</code> now returns :</p>
 </div>
 <div class="paragraph">
 <p>So if you use CardCreationReport object when you send card, you need to modify your code to not use it anymore and to test the status code returned.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_recipients"><a class="anchor" href="#_card_recipients"></a>50.2. Card recipients</h3>
+<div class="paragraph">
+<p>The deprecated card field <code>recipient</code> is now deleted. So you have to use the fields <code>userRecipients</code>, <code>groupRecipients</code>
+and <code>entityRecipients</code> to send a card.</p>
 </div>
 </div>
 </div>

@@ -59,12 +59,6 @@ window.swaggerSpec={
       "enum" : [ "ALARM", "ACTION", "COMPLIANT", "INFORMATION" ],
       "example" : "INFORMATION"
     },
-    "RecipientEnum" : {
-      "type" : "string",
-      "description" : "Recipient type >\n* DEADEND - Card is sent to no one (mostly for testing purposes)\n* GROUP - Card is sent to every user belonging to a group (identity)\n* USER - Card is sent to a single user (identity)\n* UNION - Card is sent to users according to the union of a recipient list  (recipients)",
-      "enum" : [ "DEADEND", "GROUP", "USER", "UNION" ],
-      "example" : "GROUP"
-    },
     "I18n" : {
       "type" : "object",
       "description" : "describes an i18n label",
@@ -117,41 +111,6 @@ window.swaggerSpec={
         "publishDate" : 1546300800000,
         "type" : "DELETE",
         "cardId" : [ 12345 ]
-      }
-    },
-    "Recipient" : {
-      "description" : "Recipient object defines rules for recipient computation",
-      "type" : "object",
-      "properties" : {
-        "type" : {
-          "$ref" : "#/definitions/RecipientEnum",
-          "description" : "Specifies the recipient type. Please note that DEADEND do not expose any other properties"
-        },
-        "recipients" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Recipient"
-          },
-          "description" : "Used by UNION with multiple Recipients."
-        },
-        "identity" : {
-          "type" : "string",
-          "description" : "Used by USER, GROUP"
-        }
-      },
-      "required" : [ "type" ],
-      "example" : {
-        "type" : "UNION",
-        "recipients" : [ {
-          "type" : "GROUP",
-          "identity" : "myGroupA"
-        }, {
-          "type" : "GROUP",
-          "identity" : "myGroupB"
-        }, {
-          "type" : "USER",
-          "identity" : "aGivenUser"
-        } ]
       }
     },
     "TimeSpan" : {
@@ -302,10 +261,6 @@ window.swaggerSpec={
           "description" : "Card i18n summary",
           "$ref" : "#/definitions/I18n"
         },
-        "recipient" : {
-          "description" : "Recipient computation rule",
-          "$ref" : "#/definitions/Recipient"
-        },
         "userRecipients" : {
           "description" : "List of user recipients",
           "type" : "array",
@@ -414,19 +369,6 @@ window.swaggerSpec={
             "EN" : "Summary of card content",
             "FR" : "Resume du contenu de la carte"
           }
-        },
-        "recipient" : {
-          "type" : "UNION",
-          "recipients" : [ {
-            "type" : "GROUP",
-            "identity" : "myGroupA"
-          }, {
-            "type" : "GROUP",
-            "identity" : "myGroupB"
-          }, {
-            "type" : "USER",
-            "identity" : "aGivenUser"
-          } ]
         }
       }
     },
