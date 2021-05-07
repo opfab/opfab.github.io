@@ -322,6 +322,13 @@ window.swaggerSpec={
         "publisherType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
         },
+        "representative" : {
+          "type" : "string",
+          "description" : "Used in case of sending card as a representative of an entity or a publisher (unique ID of the entity or publisher)"
+        },
+        "representativeType" : {
+          "$ref" : "#/definitions/PublisherTypeEnum"
+        },
         "secondsBeforeTimeSpanForReminder" : {
           "type" : "integer"
         }
@@ -500,6 +507,13 @@ window.swaggerSpec={
           "description" : "The uid of the initial parent card if it's a child card (optional). When a card is updated, its id is still the same but not its uid, that's why we store this field initialParentCardUid."
         },
         "publisherType" : {
+          "$ref" : "#/definitions/PublisherTypeEnum"
+        },
+        "representative" : {
+          "type" : "string",
+          "description" : "Used in case of sending card as a representative of an entity or a publisher (unique ID of the entity or publisher)"
+        },
+        "representativeType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
         },
         "secondsBeforeTimeSpanForReminder" : {
