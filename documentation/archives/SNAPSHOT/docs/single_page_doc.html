@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 May 2021</span>
+<span id="revdate">10 May 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1079,7 +1079,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_operatorfabric_community">OperatorFabric Community</a>
 <ul class="sectlevel1">
 <li><a href="#_license_and_developer_certificate_of_origin">36. License and Developer Certificate of Origin</a></li>
-<li><a href="#_reporting_bugs_and_suggesting_enhancements">37. Reporting Bugs and Suggesting Enhancements</a></li>
+<li><a href="#_reporting_bugs_or_vulnerabilities_and_suggesting_enhancements">37. Reporting Bugs or Vulnerabilities and Suggesting Enhancements</a></li>
 <li><a href="#_contributing_code_or_documentation">38. Contributing Code or Documentation</a>
 <ul class="sectlevel2">
 <li><a href="#_contribution_workflow">38.1. Contribution Workflow</a>
@@ -2895,7 +2895,7 @@ start date will be ignored.</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"Dispatcher",
+	"publisher":"TEST_PUBLISHER",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -2910,7 +2910,7 @@ start date will be ignored.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This an information about the process instance <code>process-000</code> of process <code>process</code>, sent by <code>Dispatcher</code>. The title and the summary refer to <code>i18n</code> keys
+<p>This an information about the process instance <code>process-000</code> of process <code>process</code>, sent by <code>TEST_PUBLISHER</code>. The title and the summary refer to <code>i18n</code> keys
 defined in the associated <code>i18n</code> files of the process. This card is displayable since the first january 2019 and
 should only be received by the user using the <code>operator1</code> login.</p>
 </div>
@@ -2925,7 +2925,7 @@ should only be received by the user using the <code>operator1</code> login.</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"Dispatcher",
+	"publisher":"TEST_PUBLISHER",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -2943,6 +2943,90 @@ should only be received by the user using the <code>operator1</code> login.</p>
 </div>
 </div>
 <div class="sect5">
+<h6 id="_simple_case_sending_to_an_entity"><a class="anchor" href="#_simple_case_sending_to_an_entity"></a>Simple case (sending to an entity)</h6>
+<div class="paragraph">
+<p>The following example is nearly the same as the previous one except for the recipient.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+	"publisher":"TEST_PUBLISHER",
+	"processVersion":"0.1",
+	"process":"process",
+	"processInstanceId":"process-000",
+	"state":"myState",
+	"startDate":1546297200000,
+	"severity":"INFORMATION",
+	"title":{"key":"card.title.key"},
+	"summary":{"key":"card.summary.key"},
+	"entityRecipients" : ["ENTITY1"]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the recipient is an entity, <code>ENTITY1</code>, and there is no group recipient anymore. So all users who have a receive right (<code>Receive</code> or <code>ReceiveAndWrite</code>) for the process/state of the card and who are members of this entity will receive the card. More information on perimeters can be found in
+&lt;&lt;'users_management,user documentation'&gt;&gt;</p>
+</div>
+<div class="paragraph">
+<p>Example :
+Given this perimeter :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+    "id" : "perimeter1",
+    "process" : "process",
+    "stateRights" : [
+        {
+            "state" : "myState",
+            "right" : "Receive"
+        },
+        {
+            "state" : "myState2",
+            "right" : "Write"
+        }
+    ]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Given this group :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+    "id": "group1",
+    "name": "group number 1",
+    "description": "group number 1 for documentation example"
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Perimeters can only be linked to groups, so let&#8217;s link the perimeter <code>perimeter1</code> to the group <code>group1</code>. You can do this with this command line for example ($token is your access token) :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl -X PUT http://localhost:2103/perimeters/perimeter1/groups -H "Content-type:application/json" -H "Authorization:Bearer $token" --data "[\"group1\"]"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you can see <code>group1</code> is now :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+    "id": "group1",
+    "name": "group number 1",
+    "description": "group number 1 for documentation example",
+    "perimeters": ["perimeter1"]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the connected user is a member of <code>group1</code>, then he has a <code>Receive</code> right on process/state <code>process/myState</code>. So if the user is also a member of <code>ENTITY1</code> then he will receive the card.</p>
+</div>
+</div>
+<div class="sect5">
 <h6 id="_simple_case_sending_to_a_group_and_an_entity"><a class="anchor" href="#_simple_case_sending_to_a_group_and_an_entity"></a>Simple case (sending to a group and an entity)</h6>
 <div class="paragraph">
 <p>The following example is nearly the same as the previous one except for the recipient.</p>
@@ -2950,7 +3034,7 @@ should only be received by the user using the <code>operator1</code> login.</p>
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"Dispatcher",
+	"publisher":"TEST_PUBLISHER",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -2965,34 +3049,17 @@ should only be received by the user using the <code>operator1</code> login.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here, the recipients are a group and an entity, the <code>Dispatcher</code> group and <code>ENTITY1</code> entity. So all users who are both members
-of this group and this entity will receive the card.</p>
+<p>Here, the recipients are a group and an entity, the <code>Dispatcher</code> group and <code>ENTITY1</code> entity. In this case, there are two possibilities to receive the card.</p>
 </div>
-</div>
-<div class="sect5">
-<h6 id="_simple_case_sending_to_an_entity"><a class="anchor" href="#_simple_case_sending_to_an_entity"></a>Simple case (sending to an entity)</h6>
-<div class="paragraph">
-<p>The following example is nearly the same as the previous one except for the recipient.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>{
-	"publisher":"Dispatcher",
-	"processVersion":"0.1",
-	"process":"process",
-	"processInstanceId":"process-000",
-	"state":"myState",
-	"startDate":1546297200000,
-	"severity":"INFORMATION",
-	"title":{"key":"card.title.key"},
-	"summary":{"key":"card.summary.key"},
-	"entityRecipients" : ["ENTITY1"]
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Here, the recipient is an entity and there is no more groups. So all users who has the right perimeter and who are members of this entity will receive the card. More information on perimeter can be found in
-&lt;&lt;'users_management,user documentation'&gt;&gt;</p>
+<div class="ulist">
+<ul>
+<li>
+<p>First possibility : the user is both a member of this entity and a member of this group.</p>
+</li>
+<li>
+<p>Second possibility : the user is a member of this entity and has a receive right (<code>Receive</code> or <code>ReceiveAndWrite</code>)  for the process/state of the card within his perimeters.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect5">
@@ -3035,7 +3102,7 @@ definition of the recipient. If the <code>operator2</code> needs to see also thi
 <div class="literalblock">
 <div class="content">
 <pre>{
-	"publisher":"Dispatcher",
+	"publisher":"TEST_PUBLISHER",
 	"processVersion":"0.1",
 	"process":"process",
 	"processInstanceId":"process-000",
@@ -10855,10 +10922,11 @@ project.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reporting_bugs_and_suggesting_enhancements"><a class="anchor" href="#_reporting_bugs_and_suggesting_enhancements"></a>37. Reporting Bugs and Suggesting Enhancements</h2>
+<h2 id="_reporting_bugs_or_vulnerabilities_and_suggesting_enhancements"><a class="anchor" href="#_reporting_bugs_or_vulnerabilities_and_suggesting_enhancements"></a>37. Reporting Bugs or Vulnerabilities and Suggesting Enhancements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Reporting bug and suggesting enhancements shall be done via issues on github.</p>
+<p>Anyone is welcome to report bugs and suggest enhancements or new features by opening a GitHub issue on this repository.
+Vulnerabilities can be reported publicly in the same way.</p>
 </div>
 </div>
 </div>
