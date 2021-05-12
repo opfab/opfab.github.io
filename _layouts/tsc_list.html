@@ -1,0 +1,31 @@
+---
+layout: default
+---
+
+<div class="container-lg px-3 my-5 markdown-body">
+
+    {{ content }}
+
+
+
+    <!-- Filtering and sorting pages ("where" liquid filters can't be used directly in for loops)-->
+    {% assign tsc_files = site.static_files | where_exp:"url", "url.path contains site.tsc_path" %}
+    {% assign sorted_tsc_files = tsc_files | sort: "name" | reverse %}
+
+    <h2>Minutes of previous TSC meetings</h2>
+
+    <ul>
+        {% for file in sorted_tsc_files %}
+
+        {% assign year = file.name | slice: 0, 4 %}
+        {% assign month = file.name | slice: 4, 2 | prepend: "-" %}
+        {% assign day = file.name | slice: 6, 2 | prepend: "-" %}
+        {% assign dashed_date = year | append: month | append: day %}
+
+        <li><a href="{{ file.path | relative_url }}">{{ dashed_date | date: "%B %d, %Y"}}</a></li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
