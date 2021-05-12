@@ -77,6 +77,13 @@ window.swaggerSpec={
             "type" : "string",
             "uniqueItems" : true
           }
+        },
+        "authorizedIPAddresses" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : true
+          }
         }
       },
       "required" : [ "login" ],
