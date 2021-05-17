@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 2.4.0.RELEASE,</span>
-<span id="revdate">26 April 2021</span>
+<span id="revnumber">version 2.5.0.RELEASE,</span>
+<span id="revdate">17 May 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -553,13 +553,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">2.2.2. Creating a release branch and preparing the release</a></li>
 <li><a href="#_merging_the_release_branch_into_master">2.2.3. Merging the release branch into <code>master</code></a></li>
 <li><a href="#_checking_the_docker_compose_files">2.2.4. Checking the docker-compose files</a></li>
-<li><a href="#_in_jira">2.2.5. In Jira</a></li>
-<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.2.6. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_the_next_version">2.2.7. Preparing the next version</a>
+<li><a href="#publishing_client_lib_release">2.2.5. Publishing the jars for the client library to Maven Central</a></li>
+<li><a href="#_in_jira">2.2.6. In Jira</a></li>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.2.7. Advertising the new release on the LFE mailing list</a></li>
+<li><a href="#_preparing_the_next_version">2.2.8. Preparing the next version</a>
 <ul class="sectlevel4">
-<li><a href="#_in_jira_2">2.2.7.1. In Jira</a></li>
-<li><a href="#_on_the_release_notes_repository">2.2.7.2. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">2.2.7.3. On the operatorfabric-core repository</a></li>
+<li><a href="#_in_jira_2">2.2.8.1. In Jira</a></li>
+<li><a href="#_on_the_release_notes_repository">2.2.8.2. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">2.2.8.3. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
@@ -1147,21 +1148,6 @@ generation.</p>
 </li>
 </ol>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Specific keywords such as "ci_docker" etc. are no longer required in the case of a release on master as
-by design any release on master becomes the "latest" version, so docker images generation (both for the version
-tag and the latest tag) and documentation update (both for the release and the "current" folder) should always
-be triggered.
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>2.2.3. Merging the release branch into <code>master</code></h4>
@@ -1193,15 +1179,17 @@ git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
 </tr>
 </table>
 </div>
-<div class="admonitionblock important">
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-important" title="Important"></i>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If you also want the new docker images to be tagged <code>latest</code> (as should be the case for most release
-versions), you should add the keyword <code>ci_latest</code> to the merge commit message.
+Specific keywords such as "ci_docker" etc. are no longer required in the case of a release on master as
+by design any release on master becomes the "latest" version, so docker images generation (both for the version
+tag and the latest tag) and documentation update (both for the release and the "current" folder) should always
+be triggered.
 </td>
 </tr>
 </table>
@@ -1298,13 +1286,106 @@ that it&#8217;s working correctly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>2.2.5. In Jira</h4>
+<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>2.2.5. Publishing the jars for the client library to Maven Central</h4>
+<div class="paragraph">
+<p>Once everything else looks ok, you can publish the jars for the client library to MavenCentral. This is done as a last
+step once we are pretty sure we won&#8217;t need to go back and change things on the release because jars are not meant to be
+removed from Maven Central once they are published (even briefly), and it&#8217;s not something that could be managed by the
+project.</p>
+</div>
+<div class="paragraph">
+<p>To do so:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the appropriate properties (credentials and GPG key information) as described in the
+<a href="/home/travis/build/opfab/operatorfabric-core/documentation/current/dev_env/index.html#client_lib_pub_conf">documentation for the publishing task</a></p>
+</li>
+<li>
+<p>Run the following command from the project root:</p>
+<div class="listingblock">
+<div class="content">
+<pre>./gradlew publish</pre>
+</div>
+</div>
+</li>
+<li>
+<p>After a while you should be prompted to enter the passphrase for the GPG key.</p>
+</li>
+<li>
+<p>Once the task has completed, log in to the <a href="https://s01.oss.sonatype.org/">OSSRH Repository</a> using the same credentials
+as for the Sonatype JIRA.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ossrh_repo_welcome.png" alt="Welcome page for the OSSRH repository manager">
+</div>
+</div>
+</li>
+<li>
+<p>Click on <code>Staging repositories</code> link on the left. After a while (and maybe after clicking the refresh button), you
+should see a repository with the name orgopfab-XXXX (where XXXX is a Sonatype-generated id, not related to the
+release number).</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ossrh_staging_repos.png" alt="Staging repositories">
+</div>
+</div>
+</li>
+<li>
+<p>Click on the repository then on the "content" tab below to check its content and metadata.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/check_staging_repo.png" alt="Check staging repository">
+</div>
+</div>
+</li>
+<li>
+<p>If there is an issue with the repository, click on the "Drop" button and start the process again after making the
+necessary changes. If everything looks in order, click on the "Close" button and add a small comment when prompted to
+confirm.</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/close_staging_repo.png" alt="Close staging repository">
+</div>
+</div>
+</li>
+<li>
+<p>This will trigger validation of the <a href="https://central.sonatype.org/publish/requirements/">Sonatype requirements</a> (for
+example, making sure that the pom file contains the required information), as you can see from the Activity tab below
+(Refresh might be needed).</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/closing_and_validation_of_repo.png" alt="Closing and validation of the staging repository">
+</div>
+</div>
+</li>
+<li>
+<p>If all the validations pass, the "Release" button will become available. Click it to send the jars to Maven Central.
+When prompted, write a comment then confirm (keeping the "Automatically Drop" option checked).</p>
+<div class="imageblock">
+<div class="content">
+<img src="../images/confirm_release_to_maven_central.png" alt="Release to Maven Central">
+</div>
+</div>
+</li>
+<li>
+<p>The jars for the release should then be available on the <a href="https://repo1.maven.org/maven2/org/opfab/">project space in the Maven repository</a> within 10 minutes.</p>
+</li>
+<li>
+<p>It can take up to two hours for them to appear on the <a href="https://search.maven.org/search?q=opfab">Maven Central Repository Search</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>2.2.6. In Jira</h4>
 <div class="paragraph">
 <p>In the "Releases" screen, release <code>X.X.X.RELEASE</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>2.2.6. Advertising the new release on the LFE mailing list</h4>
+<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>2.2.7. Advertising the new release on the LFE mailing list</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1327,7 +1408,7 @@ in case there is an issue.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.2.7. Preparing the next version</h4>
+<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.2.8. Preparing the next version</h4>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1344,19 +1425,19 @@ new version will make rolling back or correcting any mistake on the release more
 </table>
 </div>
 <div class="sect4">
-<h5 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>2.2.7.1. In Jira</h5>
+<h5 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>2.2.8.1. In Jira</h5>
 <div class="paragraph">
 <p>In the "Releases" screen create a new release called <code>Next Release</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.2.7.2. On the release-notes repository</h5>
+<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.2.8.2. On the release-notes repository</h5>
 <div class="paragraph">
 <p>Remove the items listed in the release_notes.adoc file so it&#8217;s ready for the next version.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.2.7.3. On the operatorfabric-core repository</h5>
+<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.2.8.3. On the operatorfabric-core repository</h5>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
@@ -1500,6 +1581,10 @@ to also update the <code>latest</code> docker images on DockerHub and the <code>
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>You then need to release the client library jars for the hotfix version. To do so, refer to the
+<a href="#publishing_client_lib_release">corresponding section</a> for standard releases.</p>
 </div>
 </div>
 </div>
