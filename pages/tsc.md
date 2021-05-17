@@ -4,6 +4,9 @@ layout: tsc_list
 
 # Technical Steering Committee
 
+The Technical Steering Committee (TSC) is composed of voting members elected by the active Committers as described in
+the project’s Technical Charter.
+
 The current voting members for the Technical Steering Committee are:
 
 * [Frédéric Didier](https://github.com/freddidierRTE)
