@@ -492,7 +492,7 @@ window.swaggerSpec={
         },
         "hasBeenAcknowledged" : {
           "type" : "boolean",
-          "description" : "Is true if the card was acknoledged by current user"
+          "description" : "Is true if the card was acknowledged by current user"
         },
         "hasBeenRead" : {
           "type" : "boolean",
