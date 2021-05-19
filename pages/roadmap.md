@@ -11,13 +11,13 @@ layout: default
 * Mail notification
 * Introduce notion of representative when sending card
 * Automatic update of the UI when the process configuration or the perimeters changes
-* Substation/electrical grid view integration (in coordination with gridsuite project )
+* Substation diagram and network view integration (in coordination with the [GridSuite](https://github.com/gridsuite) project )
 * Geographical view integration
 * Task assignment, card forwarding
 * Multi-instance
-* Mobility 
+* Availability on mobile devices
 
 ## Technical 
 
-* Strengthening of UI testing using cypress DSL
-* Introduce Dynamic Security Analysis in development process
+* Broadening the scope of the UI tests (using Cypress)
+* Making dynamic security analysis part of the development process
