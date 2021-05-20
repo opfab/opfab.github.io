@@ -1,7 +1,7 @@
 window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
-    "description" : "OperatorFabric Card Consumer Service",
+    "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
     "version" : "SNAPSHOT",
     "title" : "Card Management API",
     "termsOfService" : "",
@@ -14,8 +14,8 @@ window.swaggerSpec={
       "url" : "http://mozilla.org/MPL/2.0/"
     }
   },
-  "host" : "localhost",
-  "basePath" : "/apis",
+  "host" : "localhost:2002",
+  "basePath" : "/cards",
   "tags" : [ {
     "name" : "cards",
     "description" : "Everything concerning cards"
@@ -396,6 +396,16 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           }
+        }
+      }
+    },
+    "Connection" : {
+      "type" : "object",
+      "description" : "Object representing a user connection (subscription)",
+      "properties" : {
+        "login" : {
+          "type" : "string",
+          "description" : "Login of user"
         }
       }
     },
@@ -945,6 +955,23 @@ window.swaggerSpec={
         "required" : true,
         "description" : "The card uid"
       } ],
+      "post" : {
+        "operationId" : "postUserRead",
+        "tags" : [ "cards", "update", "read" ],
+        "summary" : "update current card adding a user read",
+        "description" : "update current card users reads, adding a new item, by card id and authenticated user",
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          },
+          "200" : {
+            "description" : "No action done, the item already exists"
+          },
+          "404" : {
+            "description" : "Try to remove item from unexisting card"
+          }
+        }
+      },
       "delete" : {
         "operationId" : "deleteUserRead",
         "tags" : [ "cards", "update", "read" ],

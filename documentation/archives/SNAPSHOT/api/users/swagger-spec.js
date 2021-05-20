@@ -1,7 +1,7 @@
 window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
-    "description" : "OperatorFabric User Management API",
+    "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
     "version" : "SNAPSHOT",
     "title" : "User Management",
     "termsOfService" : "",
@@ -14,8 +14,8 @@ window.swaggerSpec={
       "url" : "http://mozilla.org/MPL/2.0/"
     }
   },
-  "host" : "localhost",
-  "basePath" : "/apis",
+  "host" : "localhost:2002",
+  "basePath" : "/users",
   "tags" : [ {
     "name" : "users",
     "description" : "Everything concerning users"

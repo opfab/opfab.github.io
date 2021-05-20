@@ -1,9 +1,9 @@
 window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
-    "description" : "OperatorFabric BusinessconfigParty Management API",
+    "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
     "version" : "SNAPSHOT",
-    "title" : "Businessconfig Management",
+    "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
       "email" : "opfab_AT_lists.lfenergy.org",
@@ -14,8 +14,7 @@ window.swaggerSpec={
       "url" : "http://mozilla.org/MPL/2.0/"
     }
   },
-  "host" : "localhost",
-  "basePath" : "/apis",
+  "host" : "localhost:2002",
   "schemes" : [ "http" ],
   "paths" : {
     "/businessconfig/processes" : {
