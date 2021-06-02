@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">01 June 2021</span>
+<span id="revdate">02 June 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1262,6 +1262,11 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_send_card_2">50.1. Send card</a></li>
 <li><a href="#_card_recipients">50.2. Card recipients</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_2_5_0_to_release_2_6_0">51. Migration Guide from release 2.5.0 to release 2.6.0</a>
+<ul class="sectlevel2">
+<li><a href="#_inter_service_communication_ribbon">51.1. Inter-service communication - Ribbon</a></li>
 </ul>
 </li>
 </ul>
@@ -5842,6 +5847,12 @@ In this file you will find, among others, the parameters below :</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether or not operatorfabric should record business logs</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.users</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates where the Users service can we reached (to get information about the current user).</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -5855,16 +5866,6 @@ In this file you will find, among others, the parameters below :</p>
 <pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
   <span class="key">application</span>:
     <span class="key">name</span>: <span class="string"><span class="content">businessconfig</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>It can contain references to other services as well, for example :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">users</span>:
-  <span class="key">ribbon</span>:
-    <span class="key">listOfServers</span>: <span class="string"><span class="content">users:8080</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -14562,6 +14563,70 @@ The endPoint <code>cards</code> now returns :</p>
 <div class="paragraph">
 <p>The deprecated card field <code>recipient</code> is now deleted. So you have to use the fields <code>userRecipients</code>, <code>groupRecipients</code>
 and <code>entityRecipients</code> to send a card.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_2_5_0_to_release_2_6_0"><a class="anchor" href="#_migration_guide_from_release_2_5_0_to_release_2_6_0"></a>51. Migration Guide from release 2.5.0 to release 2.6.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_inter_service_communication_ribbon"><a class="anchor" href="#_inter_service_communication_ribbon"></a>51.1. Inter-service communication - Ribbon</h3>
+<div class="paragraph">
+<p>Ribbon was used by our Feign client that lets business services get information on the current user from the Users
+service.</p>
+</div>
+<div class="paragraph">
+<p>Ribbon is no longer maintained, so we chose to remove it from our dependencies (mostly because it was blocking any
+update of the other Spring dependencies).</p>
+</div>
+<div class="paragraph">
+<p>Instead, the Feign client now relies on an external property to know where the Users service can be reached, and there
+is no load-balancing for now.</p>
+</div>
+<div class="paragraph">
+<p>This requires a change to service configuration: the <code>users.ribbon.listOfServers</code> property should be removed and
+replaced with <code>operatorfabric.servicesUrls.users</code>.</p>
+</div>
+<div class="paragraph">
+<p>It should be set in the configuration of all business services (except users), or in the common configuration.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">servicesUrls</span>:
+    <span class="key">users</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:2103</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>According to the Feign documentation, the property should contain "an absolute URL or resolvable hostname (the protocol
+is optional)".</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This property is mandatory, if it is absent the application won&#8217;t start.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+While the ribbon property could handle an array of several urls, this new property expects a single url as
+there is no load-balancing mechanism for now.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
