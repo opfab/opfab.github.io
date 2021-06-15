@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 June 2021</span>
+<span id="revdate">15 June 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -3287,10 +3287,13 @@ This field value should match a businessconfig configuration for a correct rende
 <li>
 <p><code>states</code>: lists the available states which each declares associated actions, associated templates and if cards could be acknowledged by users;</p>
 </li>
+<li>
+<p><code>uiVisibility</code>: in the monitoring, logging and calendar screens, not all the cards are visible, it depends on the business process they are part of. For a card to be visible in these screens, the corresponding parameter must be set to true.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The mandatory field are <code>id</code>,'name' and <code>version</code>.</p>
+<p>The mandatory field are <code>id</code>,<code>name</code> and <code>version</code>.</p>
 </div>
 <div class="paragraph">
 <p>See the
@@ -3772,6 +3775,18 @@ for more information)</p>
 </div>
 </li>
 </ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Please do not prefix <code>id</code> attributes of DOM elements of your templates with "opfab". Indeed, so that there is no confusion between the elements of OperatorFabric and those of your templates, we have prefixed all our <code>id</code> attributes with "opfab".
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>In addition to Handlebars basic syntax and helpers, OperatorFabric defines the
@@ -11728,7 +11743,7 @@ to have to maintain these mentions (since this information is tracked by git any
 <div class="ulist">
 <ul>
 <li>
-<p>Use <code>!!myVariable</code> to test if a variable is undefined or null</p>
+<p>Use <code>!!myVariable</code> to test if a variable is undefined or null except for number where zero will return false ( !!0 is equal to false)</p>
 </li>
 <li>
 <p>Use <code>foreach</code> to iterate over an array (instead of <code>for(let i = ..</code>) . In some cases, foreach do not work and you can use it this way <code>Array.prototype.forEach.call(myArray, element &#8658; &#8230;&#8203;. )</code> (see <a href="https://stackoverflow.com/questions/43743560/foreach-vs-array-prototype-foreach-call" class="bare">stackoverflow.com/questions/43743560/foreach-vs-array-prototype-foreach-call</a>)</p>
@@ -11739,6 +11754,9 @@ to have to maintain these mentions (since this information is tracked by git any
 </li>
 <li>
 <p>ngInit() :  ngInit is called when component is created, the creation is made by the parent component : be careful to check when initialization is done when calling method inside ngInit. When the context of the parent component change, it can lead to a new initialization or not.</p>
+</li>
+<li>
+<p>Do not store Moment objects in ngrx store (see for example : <a href="https://github.com/ngrx/platform/issues/2690" class="bare">github.com/ngrx/platform/issues/2690</a>)</p>
 </li>
 </ul>
 </div>
