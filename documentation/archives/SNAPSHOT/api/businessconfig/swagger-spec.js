@@ -481,7 +481,7 @@ window.swaggerSpec={
               },
               "color" : {
                 "type" : "string",
-                "description" : "use as a display cue in the UI"
+                "description" : "color for the state in the logging screen (optional)"
               },
               "userCard" : {
                 "description" : "User card template and visibility options",
