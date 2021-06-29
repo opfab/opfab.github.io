@@ -566,11 +566,6 @@ window.swaggerSpec={
       "description" : "defines a response to an action on the business process associated with the card",
       "type" : "object",
       "properties" : {
-        "btnColor" : {
-          "description" : "Response button color",
-          "$ref" : "#/definitions/ResponseBtnColorEnum",
-          "default" : "GREEN"
-        },
         "btnText" : {
           "description" : "Response i18n button text",
           "$ref" : "#/definitions/I18n"
@@ -591,12 +586,6 @@ window.swaggerSpec={
           }
         }
       }
-    },
-    "ResponseBtnColorEnum" : {
-      "type" : "string",
-      "description" : "Response button color >\n* RED - The button will be red in the template\n* GREEN - The button will be green in the template\n* YELLOW - The button will be yellow in the template",
-      "enum" : [ "RED", "GREEN", "YELLOW" ],
-      "example" : "RED"
     },
     "AcknowledgmentAllowedEnum" : {
       "type" : "string",

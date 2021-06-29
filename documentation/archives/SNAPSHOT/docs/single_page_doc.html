@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">28 June 2021</span>
+<span id="revdate">29 June 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1273,6 +1273,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_migration_guide_from_release_2_6_0_to_release_2_7_0">52. Migration Guide from release 2.6.0 to release 2.7.0</a>
 <ul class="sectlevel2">
 <li><a href="#_send_card_3">52.1. Send card</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_2_7_0_to_release_2_8_0">53. Migration Guide from release 2.7.0 to release 2.8.0</a>
+<ul class="sectlevel2">
+<li><a href="#_ui_configuration_management">53.1. UI Configuration Management</a></li>
 </ul>
 </li>
 </ul>
@@ -8353,6 +8358,9 @@ below for details on:</p>
 <li>
 <p>Angular CLI</p>
 </li>
+<li>
+<p><a href="https://stedolan.github.io/jq/">jq</a></p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -9582,7 +9590,20 @@ using a GPG key.</p>
 <div class="sect4">
 <h5 id="client_lib_pub_conf"><a class="anchor" href="#client_lib_pub_conf"></a>30.2.2.1. Configuration</h5>
 <div class="paragraph">
-<p>For the signing task to work, you need to set the following properties in your gradle.properties file:</p>
+<p>For the signing task to work, you need to :</p>
+</div>
+<div class="sect5">
+<h6 id="_import_the_opfab_secret_key_file"><a class="anchor" href="#_import_the_opfab_secret_key_file"></a>Import the opfab secret key file</h6>
+<div class="listingblock">
+<div class="content">
+<pre>gpg2 --import OPFAB_KEY_FILE</pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_set_the_signing_configuration_in_your_gradle_properties_file"><a class="anchor" href="#_set_the_signing_configuration_in_your_gradle_properties_file"></a>Set the signing configuration in your gradle.properties file</h6>
+<div class="paragraph">
+<p>Add to your gradle.properties :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -9590,31 +9611,20 @@ using a GPG key.</p>
 signing.secretKeyRingFile=LOCATION_OF_THE_KEYRING_HOLDING_THE_GPG_KEY</pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-See <a href="https://makandracards.com/makandra-orga/notes/37763-gpg-extract-private-key-and-import-on-different-machine">this link</a>
-about importing a GPG key to your machine and getting its id.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>To get the keyName (ID_OF_THE_GPG_KEY_TO_USE) use :</p>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-The gradle signing plugins uses gpg2 rather than gpg, so you should <a href="https://makandracards.com/makandra-orga/37763-gpg-extract-private-key-and-import-on-different-machine#note-section-enigmail&#8212;&#8203;gnupg-v2">import the key to the gpg2 keyring</a>.
-</td>
-</tr>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre>gpg2 --list-secret-keys</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>LOCATION_OF_THE_KEYRING_HOLDING_THE_GPG_KEY is usually /YOUR_HOME_DIRECTORY/.gnupg/secring.gpg</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_set_the_credential_for_the_publication"><a class="anchor" href="#_set_the_credential_for_the_publication"></a>Set the credential for the publication</h6>
 <div class="paragraph">
 <p>For the publication to the staging repository (OSSRH) to work, you need to set the credentials in your gradle.properties file:</p>
 </div>
@@ -9636,6 +9646,14 @@ is done by Sonatype on request via the same JIRA).
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_more_information"><a class="anchor" href="#_more_information"></a>More information</h6>
+<div class="paragraph">
+<p>See <a href="https://makandracards.com/makandra-orga/notes/37763-gpg-extract-private-key-and-import-on-different-machine">this link</a>
+for more information about importing a GPG key to your machine and getting its id.</p>
+</div>
 </div>
 </div>
 <div class="sect4">
@@ -14713,6 +14731,63 @@ there is no load-balancing mechanism for now.
 <div class="paragraph">
 <p>The API endPoint <code>cards</code> will now require authentication by default.
 It is possible to configure the endpoint to not require authentication by setting the configuration parameter <code>checkAuthenticationForCardSending</code> to <code>false</code> in cards-publication service configuration file.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_2_7_0_to_release_2_8_0"><a class="anchor" href="#_migration_guide_from_release_2_7_0_to_release_2_8_0"></a>53. Migration Guide from release 2.7.0 to release 2.8.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ui_configuration_management"><a class="anchor" href="#_ui_configuration_management"></a>53.1. UI Configuration Management</h3>
+<div class="paragraph">
+<p>The web-ui container has two configuration files: <code>web-ui.json</code> and <code>ui-menu.json</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid maintaining separate copies of these files for each <code>run environment</code> (docker, dev, Cypress), the reference
+configuration will be the one for the <code>docker</code> mode, with the others being created by script, changing only the
+properties that should be different between environments (e.g. environmentName).
+Only the docker configuration will be version-controlled. The scripts creating the configuration are launched by
+the <code>docker-compose.sh</code> and <code>docker-compose-cypress.sh</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+As a consequence, the web-ui.json and ui-menu.json files have been moved from <code>config/xxx/</code> to
+<code>config/xxx/ui-config</code>. The volumes in the <code>docker-compose.yml</code> files have been updated accordingly.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This new organization will also allow us to run Cypress tests against different versions of the configuration, for
+example to test the behaviour of a property meant to hide a component. See the Cypress tests README
+(src/test/cypress/README.adoc) for more information.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+All modes (dev, docker, config) now use the <code>PASSWORD</code> authentication flow by default. If you want to test
+with another authentication flow, you should use the <code>setSecurityAuthFlow.sh</code> script AFTER the containers have been
+started.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Example to use the CODE flow in dev mode</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">cd src/test/resources
+.setSecurityAuthFlow.sh dev CODE</code></pre>
+</div>
 </div>
 </div>
 </div>
