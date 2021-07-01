@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">30 June 2021</span>
+<span id="revdate">01 July 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -11178,27 +11178,27 @@ features (comments, proposed changes, etc.) to make changes to the PR until it m
 <code>X.X.hotfixes</code> branch corresponding to the release they are fixing.</p>
 </div>
 <div class="paragraph">
-<p>Example: A feature branch working on bug OC-1234 affecting version 1.8.0.RELEASE should be branched off
+<p>Example: A feature branch working on bug 1234 affecting version 1.8.0.RELEASE should be branched off
 branch <code>1.8.hotfixes</code>.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="_common_conventions"><a class="anchor" href="#_common_conventions"></a>Common conventions</h6>
 <div class="paragraph">
-<p><strong>Naming convention:</strong> Feature branches names should always start with the reference of the JIRA issue they&#8217;re addressing,
-optionally followed by additional information if several branches are associated with a given JIRA issue.</p>
+<p><strong>Naming convention:</strong> Feature branches names should always start with "FE-" followed by the reference of the GitHub issue
+they&#8217;re addressing, optionally followed by additional information if several branches are associated with a given issue.</p>
 </div>
 <div class="ulist">
 <div class="title">Examples of valid feature branch names:</div>
 <ul>
 <li>
-<p>OC-123</p>
+<p>FE-123</p>
 </li>
 <li>
-<p>OC-123_Documentation</p>
+<p>FE-123_Documentation</p>
 </li>
 <li>
-<p>OC-123_1</p>
+<p>FE-123_1</p>
 </li>
 </ul>
 </div>
@@ -11209,7 +11209,7 @@ optionally followed by additional information if several branches are associated
 <p>123</p>
 </li>
 <li>
-<p>OC123</p>
+<p>FE123</p>
 </li>
 <li>
 <p>SomeTextDescribingTheBranch</p>
@@ -11217,10 +11217,23 @@ optionally followed by additional information if several branches are associated
 </ul>
 </div>
 <div class="paragraph">
-<p>Commit messages should also start with the JIRA issue ID between brackets: <code>[OC-123] My commit message</code></p>
+<p>Commit messages should also start with the GitHub issue reference: <code>#123 My commit message</code></p>
 </div>
 <div class="paragraph">
-<p>This allows the branch, PR and commits to be directly accessible from the JIRA issue.</p>
+<p>This allows the branch, PR and commits to be directly accessible from the GitHub issue.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The deprecated OC-XXX notation (from when we tracked issues in JIRA) is still accepted by the CI/CD pipeline
+but won&#8217;t be in the future.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -11301,13 +11314,13 @@ Git flow.</p>
 <div class="sect4">
 <h5 id="_starting_work_on_a_new_feature_for_the_next_version"><a class="anchor" href="#_starting_work_on_a_new_feature_for_the_next_version"></a>38.1.2.2. Starting work on a new feature for the next version</h5>
 <div class="paragraph">
-<p>Let&#8217;s say we want to start working on feature OC-Feature1 described in our JIRA.</p>
+<p>Let&#8217;s say we want to start working on a feature described in GitHub issue #123.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>git checkout develop <i class="conum" data-value="1"></i><b>(1)</b>
 git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git checkout -b OC-Feature1 <i class="conum" data-value="3"></i><b>(3)</b></pre>
+git checkout -b FE-123 <i class="conum" data-value="3"></i><b>(3)</b></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -11322,7 +11335,7 @@ git checkout -b OC-Feature1 <i class="conum" data-value="3"></i><b>(3)</b></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Create a <code>OC-Feature1</code> off the <code>develop</code> branch</td>
+<td>Create a <code>FE-123</code> off the <code>develop</code> branch</td>
 </tr>
 </table>
 </div>
@@ -11331,13 +11344,15 @@ git checkout -b OC-Feature1 <i class="conum" data-value="3"></i><b>(3)</b></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>git commit -m "[OC-Feature1] Developments for OC-Feature1"</pre>
+<pre>git commit -m "#123 Short message describing content of commit"</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>At any point during your work you can push your feature branch to the GitHub repository, to back your work up, let
-others look at your work or contribute to the feature, and also to trigger a build (see above).
-To do this, just run:</p>
+others look at your work or contribute to the feature.</p>
+</div>
+<div class="paragraph">
+<p>To do this, just run:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -11357,7 +11372,7 @@ your local branch with the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>git push --set-upstream origin OC-Feature1</pre>
+<pre>git push --set-upstream origin FE-123</pre>
 </div>
 </div>
 </td>
@@ -11365,12 +11380,11 @@ your local branch with the following command:</p>
 </table>
 </div>
 <div class="paragraph">
-<p>You can re-work, squash your commits and push as many times as you want on a feature branch, but try limiting pushes so
-as to make good use of the build resources provided by Travis.
+<p>You can re-work, squash your commits and push as many times as you want on a feature branch.
 Force pushes are allowed on feature branches.</p>
 </div>
 <div class="paragraph">
-<p>To see your branch (and the status of the associated builds):</p>
+<p>To see your branch:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -11381,24 +11395,6 @@ Force pushes are allowed on feature branches.</p>
 <p>Click the <code>branches</code> tab</p>
 </li>
 </ol>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/branches_tab.png" alt="branches tab">
-</div>
-</div>
-<div class="paragraph">
-<p>You can see your OC-Feature1 branch, and the green check mark next to it indicates that the associated build(s) is/are
-passing.</p>
-</div>
-<div class="paragraph">
-<p>Clicking this check mark displays a pop-up describing the associated build(s), and clicking "Details" redirects you
-to the build report on Travis.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/build_checkmark_popup.png" alt="build checkmark popup">
-</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -11450,21 +11446,11 @@ to assign a reviewer to each of them.</p>
 <p>To do so, go to the <code>branches</code> tab of the repository as described above.
 Click the "New Pull Request" button for your branch.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/feature1_new_PR.png" alt="feature1 new PR">
-</div>
-</div>
 <div class="paragraph">
 <p>Add a comment containing a short summary of the PR goal and any information that should go into the release notes.
 It&#8217;s especially important for PRs that have a direct impact on existing OperatorFabric deployments, to alert administrators
 of the impacts of deploying a new version and help them with the migration.
 Whenever possible/relevant, a link to the corresponding documentation is appreciated.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/PR_comment.png" alt="PR comment">
-</div>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -11478,11 +11464,6 @@ Whenever possible/relevant, a link to the corresponding documentation is appreci
 <code>develop</code>. This should be the default value since <code>develop</code> is the default branch on this repository, but if not, select
 it in the base branch dropdown list.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/develop_base_PR.png" alt="develop base PR">
-</div>
-</div>
 </td>
 </tr>
 </table>
@@ -11493,11 +11474,6 @@ there are conflicts to be fixed.</p>
 </div>
 <div class="sect5">
 <h6 id="_case_1_github_is_able_to_automatically_merge_your_branch"><a class="anchor" href="#_case_1_github_is_able_to_automatically_merge_your_branch"></a>Case 1: GitHub is able to automatically merge your branch</h6>
-<div class="imageblock">
-<div class="content">
-<img src="../images/feature1_PR_autom_merge_OK.png" alt="feature1 PR autom merge OK">
-</div>
-</div>
 <div class="paragraph">
 <p>This means that either your branch was up to date with develop or there were no conflicts.
 In this case, just go ahead and fill in the PR title and message, then click "Create pull request".</p>
@@ -11505,11 +11481,6 @@ In this case, just go ahead and fill in the PR title and message, then click "Cr
 </div>
 <div class="sect5">
 <h6 id="_case_2_github_cant_merge_your_branch_automatically"><a class="anchor" href="#_case_2_github_cant_merge_your_branch_automatically"></a>Case 2: GitHub can&#8217;t merge your branch automatically</h6>
-<div class="imageblock">
-<div class="content">
-<img src="../images/feature1_PR_autom_merge_KO.png" alt="feature1 PR autom merge KO">
-</div>
-</div>
 <div class="paragraph">
 <p>This means that there are conflicts with the current state of the <code>develop</code> branch on GitHub.
 To fix these conflicts, you need to update your local copy of the develop branch and merge it into your feature branch.</p>
@@ -11518,7 +11489,7 @@ To fix these conflicts, you need to update your local copy of the develop branch
 <div class="content">
 <pre>git checkout develop <i class="conum" data-value="1"></i><b>(1)</b>
 git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git checkout OC-Feature1 <i class="conum" data-value="3"></i><b>(3)</b>
+git checkout FE-123 <i class="conum" data-value="3"></i><b>(3)</b>
 git merge develop <i class="conum" data-value="4"></i><b>(4)</b></pre>
 </div>
 </div>
@@ -11534,7 +11505,7 @@ git merge develop <i class="conum" data-value="4"></i><b>(4)</b></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Check out the <code>OC-Feature1</code> branch</td>
+<td>Check out the <code>FR-123</code> branch</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -11559,9 +11530,9 @@ Automatic merge failed; fix conflicts and then commit the result.</pre>
 <div class="title">dummy1.txt</div>
 <div class="content">
 <pre> &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
- Some content from feature 1.
+ Some content from FE-123.
  =======
- Some content that has been changed on develop since Feature 1 branched off.
+ Some content that has been changed on develop since FE-123 branched off.
  &gt;&gt;&gt;&gt;&gt;&gt;&gt; develop</pre>
 </div>
 </div>
@@ -11571,7 +11542,7 @@ Automatic merge failed; fix conflicts and then commit the result.</pre>
 <div class="listingblock">
 <div class="title">dummy1.txt</div>
 <div class="content">
-<pre>Some content from feature 1 and some content that has been changed on develop since Feature 1 branched off.</pre>
+<pre>Some content from FE-123 and some content that has been changed on develop since FE-123 branched off.</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -11600,11 +11571,6 @@ git push <i class="conum" data-value="3"></i><b>(3)</b></pre>
 <div class="paragraph">
 <p>Now, if you go back to GitHub and try to create a pull request again, GitHub should indicate that it is able to merge
 automatically.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/feature1_PR_autom_merge_OK.png" alt="feature1 PR autom merge OK">
-</div>
 </div>
 </div>
 </div>
@@ -11641,7 +11607,7 @@ pull requests, this branch should be <code>develop</code>.</p>
 no secret information, no malicious changes) and to see if you have remarks on the way things are implemented</p>
 </li>
 <li>
-<p>Check that the commit(s) message(s) is(are) relevant and follow conventions ([OC-XXX] &#8230;&#8203; )</p>
+<p>Check that the commit(s) message(s) is(are) relevant and follow conventions (#XXX &#8230;&#8203; )</p>
 </li>
 <li>
 <p>If there is more than one commit, is it meaningful or do we need to squash ?</p>
