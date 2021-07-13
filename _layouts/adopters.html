@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+<div id="adopters_carousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-ride="carousel">
+    <div class="carousel-inner" style="text-align: center">
+        {% assign first_item_name = site.adopters.first.name %}
+        {% for adopter in site.adopters %}
+        <div {% if adopter.name == first_item_name %}class="carousel-item active"{% else %}class="carousel-item"{% endif %}>
+            <div class="d-block w-100">
+                <a href="{{ adopter.organization_url }}">
+                    <img src="{{baseUrl}}/assets/img/logos/{{adopter.logo}}" alt="{{ adopter.name }}" style="height:150px; width:auto">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#adopters_carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#adopters_carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<br>
+<p>If you would like to know more about the way these organizations use OperatorFabric, please take a look at the
+    resources below or contact us!</p>
+<ul class="list-group list-group-flush">
+    {% for usage_link in site.data.usage_links %}
+    <li class="list-group-item"><a href="{{usage_link.url}}">{{usage_link.title}}</a></li>
+    {% endfor %}
+</ul>
+
+
+
+
