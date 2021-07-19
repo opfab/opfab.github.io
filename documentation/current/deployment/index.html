@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 2.7.0.RELEASE,</span>
-<span id="revdate">28 June 2021</span>
+<span id="revnumber">version 2.8.0.RELEASE,</span>
+<span id="revdate">19 July 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1147,18 +1147,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feedConfiguration.hidden</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the notification configuration screen</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">realTimeUsers.hidden</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the real time users screen</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForAlarm</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1212,12 +1200,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in feed page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.nightDayMode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if you want to activate toggle for night or day mode</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.styleWhenNightDayModeDesactivated</p></td>
@@ -1340,39 +1322,6 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">blue</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Color of the background of the environnement name. The format of color is css, for example : <code>red</code> , <code>#4052FF</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">navbar.hidden</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">["logging","monitoring"]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Lists the application menu to hide in the navbar.<br>
-The <code>keys</code> used are the <code>route.path</code> declared in the <code>${OF_HOME}ui/main/src/app/app-routing.module.ts</code> file.<br>
-Currently the <code>application routes</code> are:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>feed</code>;</p>
-</li>
-<li>
-<p><code>archives</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>There will be two new routes with the release of the <code>[OC-936]</code>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>logging</code>;</p>
-</li>
-<li>
-<p><code>monitoring</code>.</p>
-</li>
-</ul>
-</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">checkPerimeterForResponseCard</p></td>
@@ -2080,9 +2029,25 @@ In the <code>Operator-Fabric</code> configuration, the opfab administrator has t
 <p>If you&#8217;re using certificates (for example for Keycloak) that are not from a certification authority trusted by the JVM,
 this will cause errors such as this one:</p>
 </div>
-<div class="imageblock">
+<div class="listingblock">
+<div class="title">Missing certificate error message</div>
 <div class="content">
-<img src="../images/certificate_error.png" alt="Missing certificate error message">
+<pre>Caused by: sun.security.validator. ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to
+requested target
+at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:397)
+at sun.security.validator.PKIXValidator.engineValidate(PKIXValidator.java:302)
+at sun.security.validator.Validator.validate(Validator.java:262)
+at sun.security.ssl.X509TrustManager Impl.validate(x509TrustManagerImpl.java:330)
+at sun.security.ssl.X509TrustManagerImpl.checkTrusted(x509TrustManagerImpl.java:237)
+at sun.security.ssl.X509TrustManager Impl.checkServerTrusted(x509TrustManager Impl.java:132)
+at sun.security.ssl.clientHandshaker.serverCertificate(ClientHandshaker.java:1621)
+94 common frames omitted
+Caused by: sun.security.provider.certpath. SunCertPathBuilderException: unable to find valid certification path to requested target
+at sun.security.provider.certpath. SunCertPathBuilder.build(SunCertPathBuilder.java:141)
+at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:126)
+at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:280)
+at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:392)
+... 100 common frames omitted</pre>
 </div>
 </div>
 <div class="paragraph">

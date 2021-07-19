@@ -526,8 +526,8 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 2.7.0.RELEASE,</span>
-<span id="revdate">28 June 2021</span>
+<span id="revnumber">version 2.8.0.RELEASE,</span>
+<span id="revdate">19 July 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -562,8 +562,9 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel3">
 <li><a href="#minimal_card">2.2.1. Minimal Card</a>
 <ul class="sectlevel4">
-<li><a href="#_send_to_one_user">2.2.1.1. Send to One User</a></li>
-<li><a href="#_send_to_several_users">2.2.1.2. Send to several users</a></li>
+<li><a href="#_rules_for_receiving_cards">2.2.1.1. Rules for receiving cards</a></li>
+<li><a href="#_send_to_one_user">2.2.1.2. Send to One User</a></li>
+<li><a href="#_send_to_several_users">2.2.1.3. Send to several users</a></li>
 </ul>
 </li>
 <li><a href="#_regular_card">2.2.2. Regular Card</a>
@@ -617,6 +618,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#svg">3.2.1.19. svg</a></li>
 <li><a href="#times">3.2.1.20. times</a></li>
 <li><a href="#toBreakage">3.2.1.21. toBreakage</a></li>
+<li><a href="#objectContainsKey">3.2.1.22. objectContainsKey</a></li>
 </ul>
 </li>
 <li><a href="#opfab_template_style">3.2.2. OperatorFabric css styles</a></li>
@@ -655,7 +657,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_steps_needed_to_use_a_response_card">5.1. Steps needed to use a response card</a>
 <ul class="sectlevel3">
-<li><a href="#_define_a_third_party_tool">5.1.1. Define a third party tool</a></li>
+<li><a href="#define_a_third_party_tool">5.1.1. Define a third party tool</a></li>
 <li><a href="#_configure_the_response_in_config_json">5.1.2. Configure the response in config.json</a></li>
 <li><a href="#_design_the_question_form_in_the_template">5.1.3. Design the question form in the template</a></li>
 <li><a href="#_define_permissions">5.1.4. Define permissions</a></li>
@@ -718,9 +720,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_ui_configuration">10.1. UI configuration</a></li>
 <li><a href="#menu_entries">10.2. Menu Entries</a>
 <ul class="sectlevel3">
-<li><a href="#_ui_menu_json_declaration">10.2.1. ui-menu.json declaration</a></li>
-<li><a href="#_examples_2">10.2.2. Examples</a></li>
-<li><a href="#_operator_fabric_theme">10.2.3. Operator Fabric theme</a></li>
+<li><a href="#core_menu_config">10.2.1. Core menus</a></li>
+<li><a href="#_custom_business_menus">10.2.2. Custom business menus</a></li>
 </ul>
 </li>
 </ul>
@@ -1166,7 +1167,49 @@ start date will be ignored.</p>
 <p>The OperatorFabric Card specification defines mandatory attributes, but some optional attributes are needed for cards to be useful in OperatorFabric. Let&#8217;s clarify those point through few examples of minimal cards and what happens when they&#8217;re used as if.</p>
 </div>
 <div class="sect4">
-<h5 id="_send_to_one_user"><a class="anchor" href="#_send_to_one_user"></a>2.2.1.1. Send to One User</h5>
+<h5 id="_rules_for_receiving_cards"><a class="anchor" href="#_rules_for_receiving_cards"></a>2.2.1.1. Rules for receiving cards</h5>
+<div class="paragraph">
+<p>Whatever the recipient(s) of the card (user directly, group and/or entity), the user must have the receive right on the process/state of the card to receive it (<code>Receive</code> or <code>ReceiveAndWrite</code>).
+So the rules for receiving cards are :</p>
+</div>
+<div class="paragraph">
+<p>1) If the card is sent to user1, the card is received and visible for user1 if he has the receive right for the corresponding process/state</p>
+</div>
+<div class="paragraph">
+<p>2) If the card is sent to GROUP1 (or ENTITY1), the card is received and visible for user if <strong>all</strong> of the following is true :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>he&#8217;s a member of GROUP1 (or ENTITY1)</p>
+</li>
+<li>
+<p>he has the receive right for the corresponding process/state</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>3) If the card is sent to ENTITY1 and GROUP1, the card is received and visible for user if <strong>all</strong> of the following is true :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>he&#8217;s a member of ENTITY1 (either directly or through one of its children entities)</p>
+</li>
+<li>
+<p>he&#8217;s a member of GROUP1</p>
+</li>
+<li>
+<p>he has the receive right for the corresponding process/state</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In this chapter, when we talk about receive right, it means <code>Receive</code> or <code>ReceiveAndWrite</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_send_to_one_user"><a class="anchor" href="#_send_to_one_user"></a>2.2.1.2. Send to One User</h5>
 <div class="paragraph">
 <p>The following card contains only the mandatory attributes.</p>
 </div>
@@ -1190,11 +1233,11 @@ start date will be ignored.</p>
 <div class="paragraph">
 <p>This an information about the process instance <code>process-000</code> of process <code>process</code>, sent by <code>TEST_PUBLISHER</code>. The title and the summary refer to <code>i18n</code> keys
 defined in the associated <code>i18n</code> files of the process. This card is displayable since the first january 2019 and
-should only be received by the user using the <code>operator1</code> login.</p>
+should only be received by the user using the <code>operator1</code> login (provided that this user has receive right on this process/state).</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_send_to_several_users"><a class="anchor" href="#_send_to_several_users"></a>2.2.1.2. Send to several users</h5>
+<h5 id="_send_to_several_users"><a class="anchor" href="#_send_to_several_users"></a>2.2.1.3. Send to several users</h5>
 <div class="sect5">
 <h6 id="_simple_case_sending_to_a_group"><a class="anchor" href="#_simple_case_sending_to_a_group"></a>Simple case (sending to a group)</h6>
 <div class="paragraph">
@@ -1217,7 +1260,7 @@ should only be received by the user using the <code>operator1</code> login.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here, the recipient is a group, the <code>Dispatcher</code>. So all users who are members of this group will receive the card.</p>
+<p>Here, the recipient is a group, the <code>Dispatcher</code>. So all users who are members of this group and who have receive right on the process/state of the card will receive it.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1242,7 +1285,7 @@ should only be received by the user using the <code>operator1</code> login.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here, the recipient is an entity, <code>ENTITY1</code>, and there is no group recipient anymore. So all users who have a receive right (<code>Receive</code> or <code>ReceiveAndWrite</code>) for the process/state of the card and who are members of this entity will receive the card. More information on perimeters can be found in
+<p>Here, the recipient is an entity, <code>ENTITY1</code>, and there is no group recipient anymore. So all users who are members of this entity and who have a receive right for the process/state of the card will receive it. More information on perimeters can be found in
 <a href="../../../../documentation/current/reference_doc/index.html#users_management">user documentation</a></p>
 </div>
 <div class="paragraph">
@@ -1327,17 +1370,7 @@ Given this perimeter :</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here, the recipients are a group and an entity, the <code>Dispatcher</code> group and <code>ENTITY1</code> entity. In this case, there are two possibilities to receive the card.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>First possibility : the user is both a member of this entity and a member of this group.</p>
-</li>
-<li>
-<p>Second possibility : the user is a member of this entity and has a receive right (<code>Receive</code> or <code>ReceiveAndWrite</code>)  for the process/state of the card within his perimeters.</p>
-</li>
-</ul>
+<p>Here, the recipients are a group and an entity, the <code>Dispatcher</code> group and <code>ENTITY1</code> entity. To receive the card, the user must be a member of both ENTITY1 and GROUP1 and must have the receive right for the corresponding process/state.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1715,12 +1748,6 @@ The simpler is to ask for the i18n file, as described
 <div class="paragraph">
 <p>Each Process declares associated states.
 Each state declares specific templates for card details and specific actions.</p>
-</div>
-<div class="paragraph">
-<p>For question cards, you can choose to display the card header or not. This header contains the list of entities
-that have already responded or not, and a countdown indicating the time remaining to respond, if necessary.
-This setting is done using the <code>showDetailCardHeader</code> variable, in the definition of
-the process state, in <code>config.json</code> file.</p>
 </div>
 <div class="paragraph">
 <p>The purpose of this section is to display elements of businessconfig card data in a custom format.</p>
@@ -2200,6 +2227,15 @@ selected one, the format is "format" hash parameter
 <pre>{{dateFormat card.data.birthday format="MMMM Do YYYY, h:mm:ss a"}}</pre>
 </div>
 </div>
+<div class="paragraph">
+<p><em>Note</em><br>
+You can also pass a milliseconds value as a string.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{dateFormat card.data.birthdayAsString format="MMMM Do YYYY, h:mm:ss a"}}</pre>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="i18n"><a class="anchor" href="#i18n"></a>3.2.1.7. i18n</h5>
@@ -2670,6 +2706,17 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="objectContainsKey"><a class="anchor" href="#objectContainsKey"></a>3.2.1.22. objectContainsKey</h5>
+<div class="paragraph">
+<p>Verify if a JavaScript object contains the specified key. It returns true if it contains it, false otherwise.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{objectContainsKey card.data.myObject 'myKey' }}</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="opfab_template_style"><a class="anchor" href="#opfab_template_style"></a>3.2.2. OperatorFabric css styles</h4>
@@ -2711,7 +2758,7 @@ computationPhaseOrdinal}}}</pre>
 <div class="sect3">
 <h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.3. Charts</h4>
 <div class="paragraph">
-<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defautlProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
+<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
 </div>
 <div class="sect3">
@@ -2791,10 +2838,6 @@ computationPhaseOrdinal}}}</pre>
 <div class="paragraph">
 <p>For each process/state, the user can choose to be notified or not when receiving a card. If he chooses not to be
 notified then the card will not be visible in the feed. However, it will be visible in the archives screen.</p>
-</div>
-<div class="paragraph">
-<p>The notification configuration screen can be made accessible or not for the OperatorFabric instance via the variable
-feedConfiguration.hidden in the web-ui.json file.</p>
 </div>
 <div class="paragraph">
 <p>In order to have a better visual organization of the processes in the UI, you can define processes groups.
@@ -2967,7 +3010,7 @@ response per entity).</p>
 <div class="sect2">
 <h3 id="_steps_needed_to_use_a_response_card"><a class="anchor" href="#_steps_needed_to_use_a_response_card"></a>5.1. Steps needed to use a response card</h3>
 <div class="sect3">
-<h4 id="_define_a_third_party_tool"><a class="anchor" href="#_define_a_third_party_tool"></a>5.1.1. Define a third party tool</h4>
+<h4 id="define_a_third_party_tool"><a class="anchor" href="#define_a_third_party_tool"></a>5.1.1. Define a third party tool</h4>
 <div class="paragraph">
 <p>The response card is to be received by a third party application for business processing. The third-party application
 will receive the card as an HTTP POST request. The card is in json format (the same format as when we send a card).
@@ -3031,7 +3074,8 @@ appropriate configuration in the config.json of the concerned process. Here is a
       "styles": [
         "style"
       ],
-      "acknowledgmentAllowed": "Never"
+      "acknowledgmentAllowed": "Never",
+      "showDetailCardHeader" : true
     },
     "responseState" :{
       "name" :"response.title"
@@ -3055,6 +3099,10 @@ the config file of cards-publication service, in "externalRecipients-url" elemen
 </li>
 <li>
 <p>The field "btnText" is the i18n key of the title of the submit button, it is optional.</p>
+</li>
+<li>
+<p>The field "showDetailCardHeader" permits to display the card header or not. This header contains the list of entities
+that have already responded or not, and a countdown indicating the time remaining to respond, if necessary.</p>
 </li>
 </ul>
 </div>
@@ -3457,7 +3505,7 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <p>summary</p>
 </li>
 <li>
-<p>keepChildCard</p>
+<p>keepChildCards</p>
 </li>
 <li>
 <p>secondsBeforeTimeSpanForReminder</p>
@@ -3467,6 +3515,11 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 </li>
 <li>
 <p>data</p>
+</li>
+<li>
+<p>externalRecipients (use to send cards to third party , see
+<a href="../../../../documentation/current/reference_doc/index.html#define_a_third_party_tool">Define a third party tool</a>
+for more information)</p>
 </li>
 </ul>
 </div>
@@ -3629,9 +3682,6 @@ This feature is experimental
 </div>
 <div class="paragraph">
 <p>The monitoring screen is a realtime view of processes based on current cards received by the user (i.e the last version of cards visible by the user). It can be seen as an another view of the feed.</p>
-</div>
-<div class="paragraph">
-<p>The feature can be disabled via configuration in web-ui.json (by adding <code>"monitoring"</code> in array <code>navbar.hidden</code> )</p>
 </div>
 <div class="paragraph">
 <p>Not all the cards are visible, it depends on the business process they are part of. For a card to be visible in this screen, the parameter <code>uiVisibility.monitoring</code> must be set to <code>true</code> in the config.json file of its process.</p>
@@ -3857,8 +3907,167 @@ for more details to use this feature.</p>
 <div class="sect2">
 <h3 id="menu_entries"><a class="anchor" href="#menu_entries"></a>10.2. Menu Entries</h3>
 <div class="paragraph">
-<p>The <code>ui-menu.json</code> file declares specific business menus to be displayed in the navigation bar of OperatorFabric.</p>
+<p>The <code>ui-menu.json</code> file is used:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>To manage the visibility of core OperatorFabric menus (feed, monitoring, etc.)</p>
+</li>
+<li>
+<p>To declare specific business menus to be displayed in the navigation bar of OperatorFabric</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="core_menu_config"><a class="anchor" href="#core_menu_config"></a>10.2.1. Core menus</h4>
+<div class="paragraph">
+<p>The <code>coreMenusConfiguration</code> property of the <code>ui-menu.json</code> files should contain one object with the following properties
+for each core menu:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>id</code>: Id of the core menu (string)</p>
+</li>
+<li>
+<p><code>visible</code>: Whether this menu should be visible for this OperatorFabric instance (boolean)</p>
+</li>
+<li>
+<p><code>showOnlyForGroups</code> : List of groups for which this menu should be visible (array, optional)</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Menu visibility summary</div>
+<ul>
+<li>
+<p>If a core menu is not present in <code>coreMenusVisibility</code>, it won&#8217;t be visible.</p>
+</li>
+<li>
+<p>If a core menu doesn&#8217;t have a <code>visible</code> property, or it is set to null or false, it won&#8217;t be visible.</p>
+</li>
+<li>
+<p>For a core menu with <code>"visible": true</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If <code>showOnlyForGroups</code> is not present, null or an empty array : the menu is visible for all users.</p>
+</li>
+<li>
+<p>If <code>showOnlyForGroups</code> is present and with a non-empty array as a value: menu is visible only for users from the
+listed groups.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. List of core menus and corresponding ids</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Location of menu</th>
+<th class="tableblock halign-left valign-top">Menu</th>
+<th class="tableblock halign-left valign-top">Id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Navigation bar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Archives</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archives</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Monitoring</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">monitoring</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logging</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logging</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Navigation bar (icon)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User card</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercard</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calendar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">calendar</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="7"><p class="tableblock">Top-right menu</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">admin</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Settings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Notification Reception Configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feedconfiguration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Real time users</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">realtimeusers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Night/Day toggle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nightdaymode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">About</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">about</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logout</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>See <code>/config/docker/ui-menu.json</code> for an example containing all core menus.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This property only manages menu visibility, not resource access rights. For example, if visibility of the
+Administration menu is granted to groups other than the <code>ADMIN</code> group, users will be able to see the administration
+screen but not to perform administration tasks, as they require administrator privileges.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you decide not to make the night/day toggle visible (globally or for certain users), you should consider
+setting the <code>settings.styleWhenNightDayModeDesactivated</code> property in <code>web-ui.json</code> to specify which mode should be used.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_custom_business_menus"><a class="anchor" href="#_custom_business_menus"></a>10.2.2. Custom business menus</h4>
 <div class="paragraph">
 <p>A menu can target directly a link or give access to several sub-menus when clicked.
 Those sub-menus can only target a link.
@@ -3872,11 +4081,10 @@ The ui-menu.json file contains directly the i18n dictionary for the menus.</p>
 <p>In case of a single menu, the navigation bar displays the l10n of the <code>label</code> of the entry menu.
 In this case, the <code>label</code> declared at the root level of the menu is useless and can be omitted (see example below).</p>
 </div>
-<div class="sect3">
-<h4 id="_ui_menu_json_declaration"><a class="anchor" href="#_ui_menu_json_declaration"></a>10.2.1. ui-menu.json declaration</h4>
 <div class="paragraph">
 <p>A single menu or a menu with sub-menus has at least attributes named <code>id</code> and <code>entries</code>.
-The <code>entries</code> attribute is an array of <code>menu entry</code>. It is possible to restrict the visibility of one menu entry the one or more user groups by setting the <code>showOnlyForGroups</code> parameter.
+The <code>entries</code> attribute is an array of <code>menu entry</code>. It is possible to restrict the visibility of one menu entry the one
+or more user groups by setting the <code>showOnlyForGroups</code> parameter.
 Note that menus with sub-menus need a <code>label</code> declaring an i18n key.</p>
 </div>
 <div class="paragraph">
@@ -3915,15 +4123,13 @@ Note that menus with sub-menus need a <code>label</code> declaring an i18n key.<
 </li>
 </ul>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_examples_2"><a class="anchor" href="#_examples_2"></a>10.2.2. Examples</h4>
 <div class="paragraph">
-<p>In following example, the configuration file declares two additional business menus.
+<p>In the following example, the configuration file declares two additional business menus.
 The first has only one entry, the second has two entries.
 The sample also contains the i18n translations in English and in French.</p>
 </div>
 <div class="listingblock">
+<div class="title">Example</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">menus</span><span class="delimiter">&quot;</span></span>: [
@@ -4002,24 +4208,19 @@ The sample also contains the i18n translations in English and in French.</p>
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_operator_fabric_theme"><a class="anchor" href="#_operator_fabric_theme"></a>10.2.3. Operator Fabric theme</h4>
-<div class="paragraph">
-<p>For iframes opened from menu, the associated request uses an extra parameter containing the current theme information.
-Named <code>opfab_theme</code>, this parameter has a value corresponding to the current theme:<br>
-<code>DAY</code> or <code>NIGHT</code></p>
-</div>
-<div class="paragraph">
-<p><strong>Example:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre> http://mysite.com/index.htm?opfab_theme=NIGHT</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Switching theme will trigger reload of open iframes.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For iframes opened from menu, the associated request uses an extra parameter containing the current theme information.
+Named <code>opfab_theme</code>, this parameter has a value corresponding to the current theme: <code>DAY</code> or <code>NIGHT</code>. For example:
+<code><a href="http://mysite.com/index.htm?opfab_theme=NIGHT" class="bare">mysite.com/index.htm?opfab_theme=NIGHT</a></code>. Switching theme will trigger reload of open iframes.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

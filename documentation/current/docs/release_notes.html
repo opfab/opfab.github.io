@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Version 2.7.0.RELEASE</title>
+<title>Version 2.8.0.RELEASE</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -524,10 +524,10 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Version 2.7.0.RELEASE</h1>
+<h1>Version 2.8.0.RELEASE</h1>
 <div class="details">
-<span id="revnumber">version 2.7.0.RELEASE,</span>
-<span id="revdate">28 June 2021</span>
+<span id="revnumber">version 2.8.0.RELEASE,</span>
+<span id="revdate">19 July 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -545,26 +545,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="ulist">
 <ul>
 <li>
-<p>Monitoring &amp; logging screen :</p>
-<div class="ulist">
-<ul>
-<li>
-<p>OC-1772 : Monitoring and logging screen adjustment</p>
+<p>#1241 : Take into account lttd when ack set to OnlyWhenResponseDisabledForUser</p>
 </li>
 <li>
-<p>OC-1691 : Add publisherName in child card for custom export in monitoring</p>
-</li>
-<li>
-<p>OC-1794 : Monitoring export : allow exporting more that one array from json</p>
-</li>
-<li>
-<p>OC-1768 : Cards with a process state that doesn&#8217;t have a 'type' property won&#8217;t be displayed in monitoring screen</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>OC-1734 : Secure endPoint for sending card</p>
+<p>#1242 : Always use perimeter when routing cards</p>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -572,21 +556,32 @@ table.CodeRay td.code>pre{padding:0}
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-The API endPoint <code>cards</code> will now require authentication by default.
-It is possible to configure the endpoint to not require authentication by setting the configuration parameter <code>checkAuthenticationForCardSending</code> to <code>false</code> in cards-publication service configuration file.
+From now, whatever the type(s) of recipient(s), the perimeters are always checked. So if you are using users directly or groups as card recipients, you will now need to add receive rights (Receive or ReceiveAndWrite) for the corresponding process/state of the card.
 </td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p>OC-1742 : Add a spinner in feed when opfab is loading cards in background</p>
+<p>#1264 : Date filters : make impossible to enter a start date later than end date</p>
 </li>
 <li>
-<p>OC-1671 : UI -Automatic reload user perimeter when changed by admin</p>
+<p>#1257 : Manage core menu visibility</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Core menus such as the archives, usercard creation, settings etc. are now managed in the ui-menu.json file, and can be made visible to certain groups only just like custom menus. See the <a href="https://opfab.github.io/documentation/archives/2.8.0.RELEASE/docs/single_page_doc.html#_management_of_visible_menus">migration guide</a> for details as it will require changes to your configuration.
+</td>
+</tr>
+</table>
+</div>
 </li>
 <li>
-<p>OC-1762 : When all user entities are not allowed to send card do not show user card form</p>
+<p>#1275 : Add the possibility to send a user card to a third party via the use of externalRecipients</p>
 </li>
 </ul>
 </div>
@@ -598,55 +593,28 @@ It is possible to configure the endpoint to not require authentication by settin
 <div class="ulist">
 <ul>
 <li>
-<p>OC-1750 : Sometimes cards does not show on calendar</p>
+<p>#1245 : Error in style when showing field description in settings tab</p>
 </li>
 <li>
-<p>OC-1717 : Issue with usercard process template</p>
+<p>#1243 : Deleting cards by endDateBefore using api does not remove cards from the feed</p>
 </li>
 <li>
-<p>OC-1776 : Bug in dev mode when using moment object in ngrx store</p>
+<p>#1273 : In Archive page the values of service multifilter should not wrap</p>
 </li>
 <li>
-<p>OC-1775 : Reminder isn&#8217;t triggered when "Minutes to remind before task" is 0</p>
+<p>#1272 : Posting a perimeter with blank string state cause 500 internal error</p>
 </li>
 <li>
-<p>OC-1760 : Monitoring screen : need to click again on search sometimes</p>
+<p>#1384 : Clean templateGateway when loading card from archives or usercard</p>
 </li>
 <li>
-<p>OC-1759 : Monitoring screen : cards no longer displayed unless you click on search</p>
+<p>#1387 : Card publication service does not start if rabbit goes up too late</p>
 </li>
 <li>
-<p>OC-1765 : UI does not take into account uiVisibility configuration</p>
+<p>#1412 : Users with a login claim containing capital letters are not authenticated</p>
 </li>
 <li>
-<p>OC-1752 : User card: changing process/state does not reset startDate, endDate and lttd</p>
-</li>
-<li>
-<p>OC-1790 : Card not seen when removing sender entity</p>
-</li>
-<li>
-<p>OC-1786 : Bug when using entity with name matching an i18n prefix</p>
-</li>
-<li>
-<p>OC-1791 : Bug when a non existing entity is set in userCard.recipientList</p>
-</li>
-<li>
-<p>OC-1761 : Admin interface - Deal with invalid perimeter</p>
-</li>
-<li>
-<p>OC-1804 : Do not round up publish date to the second</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In previous versions, when a card was published its publication date was rounded up to the nearest second (that&#8217;s why all publishDate values ended with 000). It caused issues when several updates of the cards were published in rapid succession (in the same second) as their order was not taken into account.
-</td>
-</tr>
-</table>
-</div>
+<p>#1256 : Make sound notifications behaviour more consistent when switching from feed to monitoring</p>
 </li>
 </ul>
 </div>
@@ -658,53 +626,101 @@ In previous versions, when a card was published its publication date was rounded
 <div class="ulist">
 <ul>
 <li>
-<p>OC-1748 : Card detail screen deleted when the card is deleted : Adding a cypress test</p>
+<p>#1244 : Remove unused btnColor in process.state (businessConfig)</p>
 </li>
 <li>
-<p>OC-1739 : Simplify Gradle dependency management</p>
+<p>#1240 : Manage Web-UI configuration variants</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+See <a href="https://opfab.github.io/documentation/archives/2.8.0.RELEASE/docs/single_page_doc.html#_ui_configuration_management">migration guide</a> for details.
+</td>
+</tr>
+</table>
+</div>
 </li>
 <li>
-<p>OC-1779 : Updating swagger-codegen-cli to 2.4.20</p>
+<p>#1247 : Move documentation for "showDetailCardHeader" config value</p>
 </li>
 <li>
-<p>OC-1777 : Remove dead code related to old version of monitoring screen</p>
-</li>
-<li>
-<p>OC-1747 : Authorize the use of . for login when creating new user in admin screen</p>
-</li>
-<li>
-<p>OC-1698 : Fix validation conditions for login in admin screen to only allow lowercase</p>
-</li>
-<li>
-<p>OC-1788 : Doc adjustment regarding response card</p>
-</li>
-<li>
-<p>OC-1787 : Refactoring of logging screen</p>
-</li>
-<li>
-<p>OC-1792 : Fixed the failing Kafka Autoconfiguration Unit test by adding a default for the value deserializer.</p>
-</li>
-<li>
-<p>OC-1746 : Update Spring librairies</p>
+<p>Dependency updates:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Spring Boot 2.5.1</p>
+<p>#1253 : Update ngrx to v12</p>
 </li>
 <li>
-<p>Spring Cloud 2020.0.3</p>
+<p>#1372 : Update Angular to v12.1.1</p>
 </li>
 <li>
-<p>Spring Webflux 5.3.8</p>
+<p>#1282 : Update timeline dependency @swimlane/ngx-charts to v18</p>
 </li>
 <li>
-<p>Spring Security 5.5.0</p>
+<p>#1193 : Update spring security to v5.5.1</p>
 </li>
 <li>
-<p>Spring Retry 1.3.1</p>
+<p>#1271 : Upgrade to rxjs 7.1.0</p>
+</li>
+<li>
+<p>#1285 : Update feign to v11.2</p>
+</li>
+<li>
+<p>#1302 : Update Kafka/AVRO libraries</p>
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p>#1236 : Add cypress tests for archives screen</p>
+</li>
+<li>
+<p>#1169 : Add cypress tests for Real time users screen</p>
+</li>
+<li>
+<p>#1303 : Create external-config folder in Dockerfile</p>
+</li>
+<li>
+<p>#1265 : Admin table styling</p>
+</li>
+<li>
+<p>#1396 : Add common library (/tools) analysis in SonarCloud</p>
+</li>
+<li>
+<p>#1392 : Simplified MongoDB configuration</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This requires a change in your configuration files. See <a href="https://opfab.github.io/documentation/archives/2.8.0.RELEASE/docs/single_page_doc.html#_simplification_mongodb_configuration">migration guide</a> for details.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>#1417 : Remove unused code in tools/generic/utilities</p>
+</li>
+<li>
+<p>#1312 : Caching cypress installation to speed up CI/CD</p>
+</li>
+<li>
+<p>#1413 : Only trigger UI build if inputs or outputs have changed</p>
+</li>
+<li>
+<p>#1359 : Remove dependency reporting plugins from Gradle build</p>
+<div class="paragraph">
+<p>Reports regarding dependency licences and security vulnerabilities are now provided by LFX Security</p>
+</div>
+</li>
+<li>
+<p>#1454 : Handlebars helpers - Fix dateFormat to work with strings + new helper objectContainsKey</p>
 </li>
 </ul>
 </div>

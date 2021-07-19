@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "2.7.0.RELEASE",
+    "version" : "2.8.0.RELEASE",
     "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -566,11 +566,6 @@ window.swaggerSpec={
       "description" : "defines a response to an action on the business process associated with the card",
       "type" : "object",
       "properties" : {
-        "btnColor" : {
-          "description" : "Response button color",
-          "$ref" : "#/definitions/ResponseBtnColorEnum",
-          "default" : "GREEN"
-        },
         "btnText" : {
           "description" : "Response i18n button text",
           "$ref" : "#/definitions/I18n"
@@ -591,12 +586,6 @@ window.swaggerSpec={
           }
         }
       }
-    },
-    "ResponseBtnColorEnum" : {
-      "type" : "string",
-      "description" : "Response button color >\n* RED - The button will be red in the template\n* GREEN - The button will be green in the template\n* YELLOW - The button will be yellow in the template",
-      "enum" : [ "RED", "GREEN", "YELLOW" ],
-      "example" : "RED"
     },
     "AcknowledgmentAllowedEnum" : {
       "type" : "string",
