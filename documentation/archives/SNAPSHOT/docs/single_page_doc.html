@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 July 2021</span>
+<span id="revdate">20 July 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1187,14 +1187,13 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">43.2.2. Creating a release branch and preparing the release</a></li>
 <li><a href="#_merging_the_release_branch_into_master">43.2.3. Merging the release branch into <code>master</code></a></li>
 <li><a href="#_checking_the_docker_compose_files">43.2.4. Checking the docker-compose files</a></li>
-<li><a href="#publishing_client_lib_release">43.2.5. Publishing the jars for the client library to Maven Central</a></li>
-<li><a href="#_in_jira">43.2.6. In Jira</a></li>
+<li><a href="#_publishing_the_release_on_github">43.2.5. Publishing the release on GitHub</a></li>
+<li><a href="#publishing_client_lib_release">43.2.6. Publishing the jars for the client library to Maven Central</a></li>
 <li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">43.2.7. Advertising the new release on the LFE mailing list</a></li>
 <li><a href="#_preparing_the_next_version">43.2.8. Preparing the next version</a>
 <ul class="sectlevel4">
-<li><a href="#_in_jira_2">43.2.8.1. In Jira</a></li>
-<li><a href="#_on_the_release_notes_repository">43.2.8.2. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">43.2.8.3. On the operatorfabric-core repository</a></li>
+<li><a href="#_on_the_release_notes_repository">43.2.8.1. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">43.2.8.2. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
@@ -13175,23 +13174,17 @@ It is thus crucial to double-check the content of this file before any push (tri
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Click the <code>Next Release</code> from
-<a href="https://opfab.atlassian.net/projects/OC?orderField=RANK&amp;selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&amp;status=all">JIRA the release list</a>
-to get the release notes (click "Release notes" under the version name at the top) listing new features, fixed bugs etc&#8230;&#8203;</p>
-<div class="imageblock">
-<div class="content">
-<img src="../images/release_notes.png" alt="Release notes link">
-</div>
-</div>
+<p>On the <a href="https://github.com/opfab/operatorfabric-core/projects"><code>Projects</code> tab</a> of the core repository, click on the
+project corresponding to the release that is about to be released.</p>
 </li>
 <li>
 <p>Make sure that the
-<a href="https://github.com/opfab/release-notes/blob/master/release_notes.adoc">release_notes.adoc</a>
+<a href="https://github.com/opfab/release-notes/blob/master/release_notes.md">release_notes.md</a>
 file lists all the issues, bugs, tags or feature requests that are relevant for OperatorFabric users along with
 explanations if need be.</p>
 </li>
 <li>
-<p>Based on the content of this version and the rules listed above, determine the version number for next version.</p>
+<p>Based on the content of this version and the rules listed above, make sure that the version number is appropriate.</p>
 </li>
 </ol>
 </div>
@@ -13208,18 +13201,6 @@ explanations if need be.</p>
 <pre>git checkout -b X.X.X.release</pre>
 </div>
 </div>
-</li>
-<li>
-<p>Cut the contents from the release_notes.adoc file from the
-<a href="https://github.com/opfab/release-notes/">release-notes repository</a> and paste it to the release_notes.adoc file
-found under <strong>src/docs/asciidoc/docs</strong> in the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>.</p>
-</li>
-<li>
-<p>In the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a> release-notes.adoc file, replace the <code>Version SNAPSHOT</code>
-title by <code>Version X.X.X.RELEASE</code></p>
-</li>
-<li>
-<p>In the <a href="https://opfab.atlassian.net/projects/OC?orderField=RANK&amp;selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&amp;status=all">releases page on JIRA</a>, change the name from "Next Version" to "X.X.X.RELEASE"</p>
 </li>
 <li>
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
@@ -13266,7 +13247,7 @@ The following files have been updated:
 <div class="listingblock">
 <div class="content">
 <pre>git add .
-git commit -m "[RELEASE] X.X.X.RELEASE"</pre>
+git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
 </div>
 </div>
 </li>
@@ -13283,20 +13264,15 @@ git commit -m "[RELEASE] X.X.X.RELEASE"</pre>
 <div class="paragraph">
 <p>You can check the status of the build job triggered by the commit on
 <a href="https://travis-ci.com/opfab/operatorfabric-core/branches">Travis CI</a>.
-The build job should have the following three stages:</p>
+The build job should have two stages: <code>test-sonar</code> and <code>docker-tag-version</code>.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/release_branch_build.png" alt="Running build for release branch screenshot">
-</div>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>Wait for the build to complete (around 20 minutes) and check that all stages have been successful.
 This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
 generation.</p>
-</div>
-</li>
-</ol>
 </div>
 </div>
 <div class="sect3">
@@ -13379,7 +13355,7 @@ The build job should have the following four stages (or three if the images aren
 </div>
 </div>
 <div class="paragraph">
-<p>Wait for the build to complete (around 20 minutes) and check that all stages have been successful.</p>
+<p>Wait for the build to complete (around 40 minutes) and check that all stages have been successful.</p>
 </div>
 </li>
 <li>
@@ -13405,7 +13381,7 @@ and that the links work.</p>
 </li>
 <li>
 <p>Check that the tag was correctly pushed to GitHub and is visible under the
-<a href="https://github.com/opfab/operatorfabric-core/releases">releases page</a> for the repository.</p>
+<a href="https://github.com/opfab/operatorfabric-core/tags">tags page</a> for the repository.</p>
 </li>
 </ol>
 </div></td>
@@ -13436,7 +13412,38 @@ that it&#8217;s working correctly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>43.2.5. Publishing the jars for the client library to Maven Central</h4>
+<h4 id="_publishing_the_release_on_github"><a class="anchor" href="#_publishing_the_release_on_github"></a>43.2.5. Publishing the release on GitHub</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the <a href="https://github.com/opfab/operatorfabric-core/releases"><code>releases</code> screen</a> for the core repository, draft a new
+release.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Select the existing X.X.X.RELEASE tag</p>
+</li>
+<li>
+<p>The title should be X.X.X.RELEASE</p>
+</li>
+<li>
+<p>In the description field, paste the content from the release_notes.md file from the
+<a href="https://github.com/opfab/release-notes/">release-notes repository</a>.</p>
+</li>
+<li>
+<p>Replace any "TODO" comments with the appropriate links to the documentation.</p>
+</li>
+<li>
+<p>Click "Publish release"</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>43.2.6. Publishing the jars for the client library to Maven Central</h4>
 <div class="paragraph">
 <p>Once everything else looks ok, you can publish the jars for the client library to MavenCentral. This is done as a last
 step once we are pretty sure we won&#8217;t need to go back and change things on the release because jars are not meant to be
@@ -13529,17 +13536,11 @@ When prompted, write a comment then confirm (keeping the "Automatically Drop" op
 </div>
 </div>
 <div class="sect3">
-<h4 id="_in_jira"><a class="anchor" href="#_in_jira"></a>43.2.6. In Jira</h4>
-<div class="paragraph">
-<p>In the "Releases" screen, release <code>X.X.X.RELEASE</code>.</p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>43.2.7. Advertising the new release on the LFE mailing list</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Send an email to the <a href="mailto:opfab-announce@lists.lfenergy.org">opfab-announce@lists.lfenergy.org</a> mailing list with a link to the release notes on the website.</p>
+<p>Send an email to the <a href="mailto:opfab-announce@lists.lfenergy.org">opfab-announce@lists.lfenergy.org</a> mailing list with a link to the release notes on GitHub.</p>
 </li>
 </ol>
 </div>
@@ -13559,35 +13560,14 @@ in case there is an issue.
 </div>
 <div class="sect3">
 <h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>43.2.8. Preparing the next version</h4>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-You should wait for all the tasks associated with creating the X.X.X.RELEASE
-version to finish and make sure that they&#8217;ve had the expected output before starting the
-preparation of the next version. This is because any committed/pushed changes preparing the
-new version will make rolling back or correcting any mistake on the release more complicated.
-</td>
-</tr>
-</table>
-</div>
 <div class="sect4">
-<h5 id="_in_jira_2"><a class="anchor" href="#_in_jira_2"></a>43.2.8.1. In Jira</h5>
+<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>43.2.8.1. On the release-notes repository</h5>
 <div class="paragraph">
-<p>In the "Releases" screen create a new release called <code>Next Release</code>.</p>
+<p>Remove the items listed in the release_notes.md file so it&#8217;s ready for the next version.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>43.2.8.2. On the release-notes repository</h5>
-<div class="paragraph">
-<p>Remove the items listed in the release_notes.adoc file so it&#8217;s ready for the next version.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>43.2.8.3. On the operatorfabric-core repository</h5>
+<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>43.2.8.2. On the operatorfabric-core repository</h5>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
@@ -13616,6 +13596,10 @@ You should also delete the branch on GitHub.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>You should also close the project for this version, and create one for the next version if it doesn&#8217;t already exist
+(use the "Automated Kanban" template).</p>
 </div>
 </div>
 </div>
@@ -13655,10 +13639,6 @@ git checkout -b X.X.hotfixes <i class="conum" data-value="2"></i><b>(2)</b></cod
 </div>
 </div>
 <div class="paragraph">
-<p>You also need to create the corresponding release on JIRA so it can be defined as "Fix version" once the fixes are
-completed.</p>
-</div>
-<div class="paragraph">
 <p>Then, follow the process described
 <a href="#working_on_hotfix">here</a>
 ifndef::single-page-doc[<a href="../../../../documentation/current/community/index.html#working_on_hotfix">here</a>] to
@@ -13671,11 +13651,8 @@ can release the patch version. To do so:</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Write a release notes detailing the bug fixes in the release_notes.adoc file found under
+<p>Write a release notes detailing the bug fixes in the release_notes.md file found under
 <strong>src/docs/asciidoc/docs</strong> in the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>.</p>
-</li>
-<li>
-<p>Make sure all the issues that have been fixed have "X.X.X.RELEASE" as their "Fix Version" on JIRA.</p>
 </li>
 <li>
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
