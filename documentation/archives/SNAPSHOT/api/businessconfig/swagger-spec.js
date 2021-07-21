@@ -715,6 +715,10 @@ window.swaggerSpec={
           "description" : "Name of the field corresponding to the column name",
           "type" : "string"
         },
+        "type" : {
+          "description" : "Type of the field (for now only type EPOCHDATE is used)",
+          "type" : "MonitoringExportFieldTypeEnum"
+        },
         "fields" : {
           "description" : "Nested fields description",
           "type" : "array",
@@ -723,6 +727,11 @@ window.swaggerSpec={
           }
         }
       }
+    },
+    "MonitoringExportFieldTypeEnum" : {
+      "type" : "string",
+      "description" : "Type of field to export",
+      "enum" : [ "STRING", "EPOCHDATE" ]
     }
   }
 }
