@@ -501,6 +501,10 @@ window.swaggerSpec={
               "type" : {
                 "description" : "Type of state (\"INPROGRESS\", \"FINISHED\" or \"CANCELED\")",
                 "$ref" : "#/definitions/TypeOfStateEnum"
+              },
+              "isOnlyAChildState" : {
+                "description" : "If true, this state is only used for child cards and shall not be seen on feed notification screen and in archives filters",
+                "type" : "boolean"
               }
             }
           }
