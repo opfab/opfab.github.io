@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "2.8.0.RELEASE",
+    "version" : "2.9.0.RELEASE",
     "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -501,6 +501,10 @@ window.swaggerSpec={
               "type" : {
                 "description" : "Type of state (\"INPROGRESS\", \"FINISHED\" or \"CANCELED\")",
                 "$ref" : "#/definitions/TypeOfStateEnum"
+              },
+              "isOnlyAChildState" : {
+                "description" : "If true, this state is only used for child cards and shall not be seen on feed notification screen and in archives filters",
+                "type" : "boolean"
               }
             }
           }
@@ -566,10 +570,6 @@ window.swaggerSpec={
       "description" : "defines a response to an action on the business process associated with the card",
       "type" : "object",
       "properties" : {
-        "btnText" : {
-          "description" : "Response i18n button text",
-          "$ref" : "#/definitions/I18n"
-        },
         "lock" : {
           "description" : "If true, user can only act once",
           "type" : "boolean"
@@ -715,6 +715,10 @@ window.swaggerSpec={
           "description" : "Name of the field corresponding to the column name",
           "type" : "string"
         },
+        "type" : {
+          "description" : "Type of the field (for now only type EPOCHDATE is used)",
+          "type" : "MonitoringExportFieldTypeEnum"
+        },
         "fields" : {
           "description" : "Nested fields description",
           "type" : "array",
@@ -723,6 +727,11 @@ window.swaggerSpec={
           }
         }
       }
+    },
+    "MonitoringExportFieldTypeEnum" : {
+      "type" : "string",
+      "description" : "Type of field to export",
+      "enum" : [ "STRING", "EPOCHDATE" ]
     }
   }
 }
