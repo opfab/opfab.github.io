@@ -379,6 +379,20 @@ window.swaggerSpec={
         }
       }
     },
+    "CardCreationReport" : {
+      "type" : "object",
+      "description" : "Created card identifiers",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID of the process instance to which this card refers"
+        },
+        "uid" : {
+          "type" : "string",
+          "description" : "Unique card ID"
+        }
+      }
+    },
     "Subscription" : {
       "type" : "object",
       "description" : "LightCard Subscription object",
@@ -705,6 +719,7 @@ window.swaggerSpec={
         "description" : "Publish one card to OperatorFabric",
         "operationId" : "publishCard",
         "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "card",
           "in" : "body",
@@ -714,7 +729,10 @@ window.swaggerSpec={
         } ],
         "responses" : {
           "201" : {
-            "description" : "created"
+            "description" : "created",
+            "schema" : {
+              "$ref" : "#/definitions/CardCreationReport"
+            }
           },
           "400" : {
             "description" : "bad request"
