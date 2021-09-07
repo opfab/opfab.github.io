@@ -634,6 +634,32 @@ window.swaggerSpec={
         }
       }
     },
+    "/users/synchronizeWithToken" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "synchronize user data",
+        "description" : "synchronize user data with JWT token",
+        "operationId" : "synchronizeWithToken",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          }
+        }
+      }
+    },
     "/groups" : {
       "get" : {
         "tags" : [ "groups" ],
