@@ -331,6 +331,10 @@ window.swaggerSpec={
         },
         "secondsBeforeTimeSpanForReminder" : {
           "type" : "integer"
+        },
+        "toNotify" : {
+          "type" : "boolean",
+          "description" : "Is false if the card must not be displayed in the feed and in monitoring screen"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
