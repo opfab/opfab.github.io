@@ -769,7 +769,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "archives", "read" ],
         "summary" : "get archived cards matching given criteria",
-        "description" : "get archived cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients).",
+        "description" : "get archived cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients). For performance reasons, the response  does not contain all lightCard fields, the returned fields are : id, uid,publisher, processVersion,process, processInstanceId,state,title,summary,publishDate,startDate,endDate,severity, publisherType, representative,representativeType. The other fields are set to null.",
         "operationId" : "fetchArchivedCardsWithParams",
         "consumes" : [ "application/json" ],
         "parameters" : [ {
