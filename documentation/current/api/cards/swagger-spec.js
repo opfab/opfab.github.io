@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "2.9.0.RELEASE",
+    "version" : "2.10.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -331,6 +331,10 @@ window.swaggerSpec={
         },
         "secondsBeforeTimeSpanForReminder" : {
           "type" : "integer"
+        },
+        "toNotify" : {
+          "type" : "boolean",
+          "description" : "Is false if the card must not be displayed in the feed and in monitoring screen"
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
@@ -376,6 +380,20 @@ window.swaggerSpec={
             "EN" : "Summary of card content",
             "FR" : "Resume du contenu de la carte"
           }
+        }
+      }
+    },
+    "CardCreationReport" : {
+      "type" : "object",
+      "description" : "Created card identifiers",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID of the process instance to which this card refers"
+        },
+        "uid" : {
+          "type" : "string",
+          "description" : "Unique card ID"
         }
       }
     },
@@ -705,6 +723,7 @@ window.swaggerSpec={
         "description" : "Publish one card to OperatorFabric",
         "operationId" : "publishCard",
         "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "card",
           "in" : "body",
@@ -714,7 +733,10 @@ window.swaggerSpec={
         } ],
         "responses" : {
           "201" : {
-            "description" : "created"
+            "description" : "created",
+            "schema" : {
+              "$ref" : "#/definitions/CardCreationReport"
+            }
           },
           "400" : {
             "description" : "bad request"
@@ -747,7 +769,7 @@ window.swaggerSpec={
       "get" : {
         "tags" : [ "archives", "read" ],
         "summary" : "get archived cards matching given criteria",
-        "description" : "get archived cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients).",
+        "description" : "get archived cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients). For performance reasons, the response  does not contain all lightCard fields, the returned fields are : id, uid,publisher, processVersion,process, processInstanceId,state,title,summary,publishDate,startDate,endDate,severity, publisherType, representative,representativeType. The other fields are set to null.",
         "operationId" : "fetchArchivedCardsWithParams",
         "consumes" : [ "application/json" ],
         "parameters" : [ {

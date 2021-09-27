@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Community</h1>
 <div class="details">
-<span id="revnumber">version 2.9.0.RELEASE,</span>
-<span id="revdate">06 September 2021</span>
+<span id="revnumber">version 2.10.0.RELEASE,</span>
+<span id="revdate">27 September 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -654,7 +654,7 @@ release"</em>.</p>
 <div class="paragraph">
 <p>The daily CRON Travis job generating the documentation and docker images for the <code>SNAPSHOT</code> version are run from
 this branch (see our
-<a href="#/documentation/current/CICD/index.adoc">CICD documentation</a>
+<a href="/documentation/current/CICD/index.html#CICD">CICD documentation</a>
 for details).</p>
 </div>
 </div>
@@ -800,8 +800,7 @@ they&#8217;re addressing, optionally followed by additional information if sever
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The deprecated OC-XXX notation (from when we tracked issues in JIRA) is still accepted by the CI/CD pipeline
-but won&#8217;t be in the future.
+The deprecated OC-XXX notation (from when we tracked issues in JIRA) is no longer accepted by the CI/CD pipeline.
 </td>
 </tr>
 </table>
@@ -1371,6 +1370,9 @@ to have to maintain these mentions (since this information is tracked by git any
 <li>
 <p>Do not store Moment objects in ngrx store (see for example : <a href="https://github.com/ngrx/platform/issues/2690" class="bare">github.com/ngrx/platform/issues/2690</a>)</p>
 </li>
+<li>
+<p>Prefer using <code>*ngIf</code> over <code>hidden</code> property  to hide elements : <a href="https://stackoverflow.com/questions/51317666/when-should-i-use-ngif-over-hidden-property-and-vice-versa/51317774" class="bare">stackoverflow.com/questions/51317666/when-should-i-use-ngif-over-hidden-property-and-vice-versa/51317774</a></p>
+</li>
 </ul>
 </div>
 </div>
@@ -1574,17 +1576,17 @@ set in the configuration of the asciidoctor gradle task:</p>
         }
     }
     attributes  nofooter            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
-                revnumber           : operatorfabric.version,
-                revdate             : operatorfabric.revisionDate,
-                sectnums            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
-                sectnumlevels       : <span class="string"><span class="delimiter">'</span><span class="content">4</span><span class="delimiter">'</span></span>,
-                sectanchors         : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
-                toc                 : <span class="string"><span class="delimiter">'</span><span class="content">left</span><span class="delimiter">'</span></span>,
-                toclevels           : <span class="string"><span class="delimiter">'</span><span class="content">4</span><span class="delimiter">'</span></span>,
-                icons               : <span class="string"><span class="delimiter">'</span><span class="content">font</span><span class="delimiter">'</span></span>,
-                imagesdir           : <span class="string"><span class="delimiter">'</span><span class="content">../images</span><span class="delimiter">'</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">hide-uri-scheme</span><span class="delimiter">&quot;</span></span>   : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">source-highlighter</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">coderay</span><span class="delimiter">'</span></span>
+            revnumber           : operatorfabric.version,
+            revdate             : operatorfabric.revisionDate,
+            sectnums            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+            sectnumlevels       : <span class="string"><span class="delimiter">'</span><span class="content">4</span><span class="delimiter">'</span></span>,
+            sectanchors         : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+            toc                 : <span class="string"><span class="delimiter">'</span><span class="content">left</span><span class="delimiter">'</span></span>,
+            toclevels           : <span class="string"><span class="delimiter">'</span><span class="content">4</span><span class="delimiter">'</span></span>,
+            icons               : <span class="string"><span class="delimiter">'</span><span class="content">font</span><span class="delimiter">'</span></span>,
+            imagesdir           : <span class="string"><span class="delimiter">'</span><span class="content">../images</span><span class="delimiter">'</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">hide-uri-scheme</span><span class="delimiter">&quot;</span></span>   : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">source-highlighter</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">coderay</span><span class="delimiter">'</span></span>
 }</code></pre>
 </div>
 </div>
@@ -1624,7 +1626,7 @@ document, one needs to use the following external cross-reference:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>&lt;&lt;{gradle-rootdir}/documentation/current/reference_doc/index.adoc#card_structure, Card Structure&gt;&gt;</pre>
+<pre>&lt;&lt;/documentation/current/reference_doc/index.adoc#card_structure, Card Structure&gt;&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1644,7 +1646,7 @@ define which link syntax should be used:</p>
 <div class="listingblock">
 <div class="content">
 <pre>ifdef::single-page-doc[&lt;&lt;card_structure, Card Structure&gt;&gt;]
-ifndef::single-page-doc[&lt;&lt;{gradle-rootdir}/documentation/current/reference_doc/index.adoc#card_structure, Card Structure&gt;&gt;]</pre>
+ifndef::single-page-doc[&lt;&lt;/documentation/current/reference_doc/index.adoc#card_structure, Card Structure&gt;&gt;]</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1666,7 +1668,7 @@ target file along with the ID (<code>[[my_section_id, text to display]]</code>) 
 <div class="listingblock">
 <div class="content">
 <pre>ifdef::single-page-doc[link:../api/cards/index.html#/archives[here]]
-ifndef::single-page-doc[link:{gradle-rootdir}/documentation/current/api/cards/index.html#/archives[here]]</pre>
+ifndef::single-page-doc[link:/documentation/current/api/cards/index.html#/archives[here]]</pre>
 </div>
 </div>
 <div class="admonitionblock important">

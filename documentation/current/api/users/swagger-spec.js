@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "2.9.0.RELEASE",
+    "version" : "2.10.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -630,6 +630,32 @@ window.swaggerSpec={
           },
           "404" : {
             "description" : "User not found"
+          }
+        }
+      }
+    },
+    "/users/synchronizeWithToken" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "synchronize user data",
+        "description" : "synchronize user data with JWT token",
+        "operationId" : "synchronizeWithToken",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
           }
         }
       }

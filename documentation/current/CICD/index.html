@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 2.9.0.RELEASE,</span>
-<span id="revdate">06 September 2021</span>
+<span id="revnumber">version 2.10.0.RELEASE,</span>
+<span id="revdate">27 September 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -513,7 +513,26 @@ to the account of any member of the team.</p>
 <div class="sect3">
 <h4 id="_travis_ci"><a class="anchor" href="#_travis_ci"></a>1.1.1. Travis CI</h4>
 <div class="paragraph">
-<p>We use Travis CI to manage our pipeline. As of today, it is composed of 7 stages:</p>
+<p>We use Travis CI to manage our pipeline. Pushes (of commits or tags) and pull request creations are sent by GitHub to
+Travis CI (these calls are visible on
+the <a href="https://app.travis-ci.com/github/opfab/operatorfabric-core/requests">Requests page</a> on Travis CI).
+Then, a build is started except for tag pushes (to avoid duplicate builds with the corresponding commit push) or
+for commit pushes on feature branches (to avoid duplicate builds with the corresponding PR if it exists).</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you want to force a build to be triggered on a feature branch push, add <code>ci_build</code> to the commit message.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>As of today, the build is composed of 7 stages:</p>
 </div>
 <div class="hdlist">
 <table>
@@ -630,6 +649,14 @@ latest hook
 <p>stands for adding the keyword <code>ci_latest</code> to the commit message</p>
 </td>
 </tr>
+<tr>
+<td class="hdlist1">
+force build hook
+</td>
+<td class="hdlist2">
+<p>stands for adding the keyword <code>ci_build</code> to the commit message</p>
+</td>
+</tr>
 </table>
 </div>
 <table class="tableblock frame-all grid-all stripes-even stretch">
@@ -658,7 +685,7 @@ latest hook
 <th class="tableblock halign-center valign-top"><p class="tableblock">release</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">master</p></th>
 <th class="tableblock halign-center valign-top" colspan="4"><p class="tableblock">hotfixes</p></th>
-<th class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">feature</p></th>
+<th class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">force build hook</p></th>
 <th class="tableblock halign-center valign-top"><p class="tableblock">pull request</p></th>
 </tr>
 <tr>
@@ -725,7 +752,7 @@ latest hook
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
 <td class="tableblock halign-center valign-top"></td>
 <td class="tableblock halign-center valign-top"></td>
 </tr>
@@ -1379,9 +1406,11 @@ git checkout -b X.X.hotfixes <i class="conum" data-value="2"></i><b>(2)</b></cod
 </div>
 </div>
 <div class="paragraph">
-<p>Then, follow the process described
-ifndef::single-page-doc[<a href="/documentation/current/community/index.html#working_on_hotfix">here</a>] to
-create feature branches, work on fixes and merge them back into <code>X.X.hotfixes</code>.</p>
+<p>Then, follow the process described</p>
+</div>
+<div class="paragraph">
+<p><a href="/documentation/current/community/index.html#working_on_hotfix">here</a>
+to create feature branches, work on fixes and merge them back into <code>X.X.hotfixes</code>.</p>
 </div>
 <div class="paragraph">
 <p>Once all the big fixes that need to go into the version X.X.X.RELEASE have been merged into branch <code>X.X.hotfix</code>, you
