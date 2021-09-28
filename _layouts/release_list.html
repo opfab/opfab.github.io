@@ -2,45 +2,30 @@
 layout: default
 ---
 
-<!-- Filtering and sorting pages ("where" liquid filters can't be used directly in for loops)-->
-{% assign archived_files = site.static_files | where_exp:"url", "url.path contains site.archives_path" | where_exp:"url", "url.path contains 'single_page_doc.html'" %}
-<!-- A version will only appear in the table if there is a single_page_doc.html file associated to it-->
-
-{% assign sorted_archived_files = archived_files | sort: "modified_time" | reverse %}
-
 <table class="table">
     <tbody>
-
-    {% for file in sorted_archived_files %}
-    {% assign path_elements = file.path | relative_url | split : "/" %}
-    {% assign version = path_elements[3] %}
-    {% assign version_elements = version | split : "." %}
-    {% assign version_type = version_elements[3] %}
-
+    {% for version in site.data.versions %}
+    {% assign base_version_path = site.url | append: '/documentation/archives/'| append: version.id %}
     <tr>
-        <th scope="row">{{ version }}
-            {% if version_type == "RELEASE" %}{% assign release_counter = release_counter | plus:1 %}{% endif %}
-            {% if release_counter == 1 %}<span class="badge badge-primary badge-pill">Current</span>{% endif %}
-        </th>
+        <th scope="row">{{ version.id }} <span class="badge badge-primary badge-pill">{{ version.badge }}</span></th>
         <!--No point in showing now always empty SNAPSHOT release notes-->
         <!--We could link to the release-notes repo if we decide to make it public later so people can see what is going to be in the release-->
-        <td>{% if version_type == "RELEASE" %}<a href="https://github.com/opfab/operatorfabric-core/releases/tag/{{ version }}">Release Notes</a>{% endif %}</li></td>
-        <td><a href="{{ file.path | relative_url }}">Documentation</a></li></td>
+        <td>{% if version.type != "SNAPSHOT" %}<a href="https://github.com/opfab/operatorfabric-core/releases/tag/{{ version.id }}">Release Notes</a>{% endif %}</td>
+        <td><a href="{{ base_version_path | append: '/docs/single_page_doc.html' }}">Documentation</a></li></td>
         <td>
-            <!--The Actions API only exists for releases <= 1.3.0-->
-            {% if version == "1.0.0.RELEASE" or version == "1.1.0.RELEASE" or version == "1.2.0.RELEASE" or version == "1.3.0.RELEASE" %}
-            <a href="{{ file.path | relative_url | replace: 'docs/single_page_doc.html', 'api/actions/index.html' }}">Actions API</a>{% endif %}</li>
+            {% if version.actions_api %}<a href="{{ base_version_path | append: '/api/actions/index.html' }}">Actions API</a>{% endif %}
         </td>
-        <td><a href="{{ file.path | relative_url | replace: 'docs/single_page_doc.html', 'api/cards/index.html' }}">Cards API</a></li></td>
+        <td><a href="{{ base_version_path | append: '/api/cards/index.html' }}">Cards API</a></td>
         <td>
-            {% if version == "1.0.0.RELEASE" or version == "1.1.0.RELEASE" or version == "1.2.0.RELEASE" or version == "1.3.0.RELEASE" or version == "1.4.0.RELEASE" %}
-            <a href="{{ file.path | relative_url | replace: 'docs/single_page_doc.html', 'api/thirds/index.html' }}">Thirds API</a></li>
+            {% if version.thirds_api %}
+            <a href="{{ base_version_path | append: '/api/thirds/index.html' }}">Thirds API</a></li>
             {% else %}
-            <a href="{{ file.path | relative_url | replace: 'docs/single_page_doc.html', 'api/businessconfig/index.html' }}">Businessconfig API</a>{% endif %}</li>
+            <a href="{{ base_version_path | append: '/api/businessconfig/index.html' }}">Businessconfig API</a>
+            {% endif %}
         </td>
-        <td><a href="{{ file.path | relative_url | replace: 'docs/single_page_doc.html', 'api/users/index.html' }}">Users API</a></li></td>
+        <td><a href="{{ base_version_path | append: '/api/users/index.html' }}">Users API</a></td>
     </tr>
-
     {% endfor %}
     </tbody>
 </table>
+
