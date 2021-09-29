@@ -448,7 +448,7 @@ window.swaggerSpec={
         },
         "name" : {
           "type" : "string",
-          "description" : "i18n key for the label of this process The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
+          "description" : "Name of the process"
         },
         "version" : {
           "type" : "string",
@@ -469,11 +469,11 @@ window.swaggerSpec={
               },
               "name" : {
                 "type" : "string",
-                "description" : "i18n key for UI"
+                "description" : "Name of the state"
               },
               "description" : {
                 "type" : "string",
-                "description" : "i18n key for UI"
+                "description" : "Description of the state"
               },
               "showDetailCardHeader" : {
                 "type" : "boolean",
