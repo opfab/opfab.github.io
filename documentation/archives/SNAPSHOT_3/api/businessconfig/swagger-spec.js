@@ -272,6 +272,42 @@ window.swaggerSpec={
         }
       }
     },
+    "/businessconfig/processes/{processId}/translation" : {
+      "get" : {
+        "summary" : "Get i18n translation file",
+        "description" : "Get i18n file, if file exists return file (text/plain) otherwise return error message (application/json)",
+        "operationId" : "getTranslation",
+        "produces" : [ "application/json", "text/plain" ],
+        "parameters" : [ {
+          "name" : "processId",
+          "in" : "path",
+          "description" : "Id of the process to retrieve",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : false,
+          "description" : "Expected version of i18n (defaults to latest)",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "string",
+              "format" : "binary"
+            }
+          },
+          "404" : {
+            "description" : "No such template"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          }
+        }
+      }
+    },
     "/businessconfig/processes/{processId}/{state}/response" : {
       "get" : {
         "summary" : "Get response associated with a given state of a given process",
@@ -604,6 +640,10 @@ window.swaggerSpec={
           "description" : "Id of the group",
           "type" : "string"
         },
+        "name" : {
+          "description" : "Name of the group",
+          "type" : "string"
+        },
         "processes" : {
           "description" : "List of processes included in the group",
           "type" : "array",
@@ -624,23 +664,6 @@ window.swaggerSpec={
           "type" : "array",
           "items" : {
             "$ref" : "#/definitions/ProcessGroup"
-          }
-        },
-        "locale" : {
-          "type" : "object",
-          "properties" : {
-            "en" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            },
-            "fr" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            }
           }
         }
       }
