@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT_3,</span>
-<span id="revdate">30 September 2021</span>
+<span id="revdate">01 October 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -3236,12 +3236,8 @@ The l10n (localization) configurations are English, referred as <code>en</code> 
 │   ├── en.json
 │   └── fr.json
 └── template
-    ├── en
-    │   ├── template1.handlebars
-    │   └── template2.handlebars
-    └── fr
-        ├── template1.handlebars
-        └── template2.handlebars</pre>
+    ├── template1.handlebars
+    └── template2.handlebars</pre>
 </div>
 </div>
 </div>
@@ -3316,8 +3312,8 @@ for details.</p>
 <div class="sect3">
 <h4 id="_i18n"><a class="anchor" href="#_i18n"></a>10.1.4. i18n</h4>
 <div class="paragraph">
-<p>There are two ways of internationalization (i18n) for businessconfig service.
-First one by using l10n files located in the <code>i18n</code> folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
+<p>There is a possibility of internationalization (i18n) for businessconfig service.
+You can do it by using l10n files located in the <code>i18n</code> folder.</p>
 </div>
 <div class="paragraph">
 <p>The <code>i18n</code> folder contains one json file per l10n.</p>
@@ -3328,8 +3324,7 @@ First one by using l10n files located in the <code>i18n</code> folder, the secon
 <div class="sect4">
 <h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>10.1.4.1. Template folder</h5>
 <div class="paragraph">
-<p>The <code>template</code> folder must contain l10n folder for the i18n of the card details.
-This is why in our example, as the bundle contains an <code>en</code> and a <code>fr</code> l10n, the <code>template</code> folder contains an <code>en</code> and a <code>fr</code> folder.</p>
+<p>The <code>template</code> folder contains one template file for each process/state. They will be used for the card details rendering.</p>
 </div>
 <div class="sect5">
 <h6 id="_i18n_file"><a class="anchor" href="#_i18n_file"></a>i18n file</h6>
@@ -3480,11 +3475,11 @@ As the card used in this example are created above, the bundle template folder n
 <p><strong>Examples of template (i18n versions)</strong></p>
 </div>
 <div class="paragraph">
-<p>The following templates display a l10n title and a line containing the value of the scope property <code>card.level1.level1Prop</code>.
-In english, the translation of this key is '<em>This is a root property</em>'.</p>
+<p>The following template displays a title and a line containing the value of the scope property <code>card.level1.level1Prop</code>.
+The value of this key is '<em>This is a root property</em>'.</p>
 </div>
 <div class="paragraph">
-<p><code>/template/en/template1.handlebars</code></p>
+<p><code>/template/template1.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3493,36 +3488,14 @@ In english, the translation of this key is '<em>This is a root property</em>'.</
 </div>
 </div>
 <div class="paragraph">
-<p><code>/template/fr/template1.handlebars</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Patron numéro Un<span class="tag">&lt;/h2&gt;</span>
-<span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span></code></pre>
-</div>
+<p>The following template example displays also a title and a list of numeric values from 1 to 3.</p>
 </div>
 <div class="paragraph">
-<p>The two following template examples display also a l10n title and a list of numeric values from 1 to 3.</p>
-</div>
-<div class="paragraph">
-<p><code>/template/en/template2.handlebars</code></p>
+<p><code>/template/template2.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second Template<span class="tag">&lt;/h2&gt;</span>
-<span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-        {{#each card.data.level1.level1Array}}
-                <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
-        {{/each}}
-<span class="tag">&lt;/ul&gt;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>/template/fr/template2.handlebars</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second patron<span class="tag">&lt;/h2&gt;</span>
 <span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
         {{#each card.data.level1.level1Array}}
                 <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
@@ -3560,7 +3533,7 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 </div>
 <div class="paragraph">
-<p><strong>CSS Class used in <code>./template/en/template1.handlebars</code></strong></p>
+<p><strong>CSS Class used in <code>./template/template1.handlebars</code></strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4504,7 +4477,7 @@ The function returns a string with one of the following values :</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>An example of usage can be found in operator fabric git: (<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/en/question.handlebars">src/test/resources/bundles/userCardExamples2/template/en/question.handlebars</a>).</p>
+<p>An example of usage can be found in operator fabric git: (<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>).</p>
 </div>
 </div>
 <div class="sect4">
@@ -4542,7 +4515,7 @@ The function returns a string with one of the following values :</p>
 <p>For example:</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/chart.handlebars</div>
+<div class="title">src/test/resources/bundles/defaultProcess_V1/template/chart.handlebars</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
 </div>
@@ -4882,7 +4855,7 @@ In addition, if the user chose several options, it overrides the response state 
 state.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</div>
+<div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">getUserResponse</span> = <span class="keyword">function</span>() {
 
@@ -5070,7 +5043,7 @@ field of the child card and then you  can get the name of the entity by calling 
 <div class="sect3">
 <h4 id="_example"><a class="anchor" href="#_example"></a>12.3.2. Example</h4>
 <div class="paragraph">
-<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</a>.</p>
+<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -5101,34 +5074,34 @@ Then all the users having the same entity will be in this status for this card.<
 <div class="paragraph">
 <p>The template can know if the current user has the permission to answer by calling the <em>templateGateway.isUserAllowedToRespond()</em> function.
 An example of <em>templateGateway.isUserAllowedToRespond()</em> usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples/template/en/incidentInProgress.handlebars">src/test/resources/bundles/userCardExamples/template/en/incidentInProgress.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples/template/incidentInProgress.handlebars">src/test/resources/bundles/userCardExamples/template/incidentInProgress.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_required"><a class="anchor" href="#_response_required"></a>12.6. Response required</h3>
 <div class="paragraph">
 <p>The template can know if the current user is member of an Entity required to respond by calling the <em>templateGateway.isUserMemberOfAnEntityRequiredToRespond()</em> function.
-An example of <em>templateGateway.isUserMemberOfAnEntityRequiredToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</a>.</p>
+An example of <em>templateGateway.isUserMemberOfAnEntityRequiredToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_last_time_to_decide_lttd_2"><a class="anchor" href="#_last_time_to_decide_lttd_2"></a>12.7. Last Time to Decide (<code>lttd</code>)</h3>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information will be sent to the third template (by calling the <em>templateGateway.setLttdExpired(true)</em> function).
-An example of <em>templateGateway.setLttdExpired(true)</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</a>.</p>
+An example of <em>templateGateway.setLttdExpired(true)</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_entities_allowed_to_respond"><a class="anchor" href="#_entities_allowed_to_respond"></a>12.8. Entities allowed to respond</h3>
 <div class="paragraph">
-<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method <em>templateGateway.getEntitiesAllowedToRespond()</em> . This method returns an array containing the ids. An example of <em>templateGateway.getEntitiesAllowedToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/en/question.handlebars">src/test/resources/bundles/userCardExamples2/template/en/question.handlebars</a>.</p>
+<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method <em>templateGateway.getEntitiesAllowedToRespond()</em> . This method returns an array containing the ids. An example of <em>templateGateway.getEntitiesAllowedToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_entity_used_for_user_to_respond"><a class="anchor" href="#_entity_used_for_user_to_respond"></a>12.9. Entity used for user to respond</h3>
 <div class="paragraph">
 <p>If inside your template, you want to get the id of the entity used by the user to send a response, you can call the method <em>templateGateway.getEntityUsedForUserResponse()</em> .
-An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/en/question.handlebars">src/test/resources/bundles/userCardExamples2/template/en/question.handlebars</a>.</p>
+An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -6484,30 +6457,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForAlarm</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Alarm cards are added or updated in the feed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForAction</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Action cards are added or updated in the feed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForCompliant</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Compliant cards are added or updated in the feed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForInformation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -6569,34 +6518,70 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm DD/MM/YYYY )</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the user description in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.language</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.language</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the language in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.timezone</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.timezone</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timezone in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the tags in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.sounds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.sounds</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the checkboxes for sound notifications in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForAlarm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Alarm cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForAction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Action cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForCompliant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Compliant cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayEnabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, sounds are replayed every <code>settings.replayInterval</code> seconds until the user interacts with the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayInterval</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval between sound replays (see <code>settings.replayEnabled</code>)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.about</p></td>
@@ -8468,7 +8453,7 @@ describe the structure of the project and point out useful tools (Gradle tasks, 
 <div class="sectionbody">
 <div class="paragraph">
 <p>This section describes the projects requirements regardless of installation options.
-Please see AGU
+Please see
 <a href="#setup_dev_env">Setting up your environment</a>
 below for details on:</p>
 </div>

@@ -156,12 +156,6 @@ window.swaggerSpec={
           "required" : true,
           "type" : "string"
         }, {
-          "name" : "locale",
-          "in" : "query",
-          "description" : "Locale iso code",
-          "required" : false,
-          "type" : "string"
-        }, {
           "name" : "templateName",
           "in" : "path",
           "description" : "Name of template to retrieve (w.o. extension)",
