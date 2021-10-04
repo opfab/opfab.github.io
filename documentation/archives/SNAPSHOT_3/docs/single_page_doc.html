@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT_3,</span>
-<span id="revdate">03 October 2021</span>
+<span id="revdate">04 October 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -934,6 +934,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_running_sub_project_from_jar_file">31.1. Running sub-project from jar file</a></li>
 <li><a href="#_overriding_properties_when_running_from_jar_file">31.2. Overriding properties when running from jar file</a></li>
 <li><a href="#_generating_docker_images">31.3. Generating docker images</a></li>
+<li><a href="#_generating_documentation_from_asciidoc_sources">31.4. Generating documentation (from AsciiDoc sources)</a></li>
+<li><a href="#_generating_api_documentation">31.5. Generating API documentation</a></li>
 </ul>
 </li>
 <li><a href="#troubleshooting">32. Troubleshooting</a></li>
@@ -9955,6 +9957,40 @@ value)</p>
 <p>APK_PROXY_PASSWORD</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generating_documentation_from_asciidoc_sources"><a class="anchor" href="#_generating_documentation_from_asciidoc_sources"></a>31.4. Generating documentation (from AsciiDoc sources)</h3>
+<div class="paragraph">
+<p>The sources for the documentation are located under <code>src/docs/asciidoc</code>. To generate HTML pages from these sources,
+use the <code>asciidoctor</code> gradle task from the project root:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">cd $OF_HOME
+./gradlew asciidoctor</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task output can be found under <code>$OF_HOME/build/docs/asciidoc</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generating_api_documentation"><a class="anchor" href="#_generating_api_documentation"></a>31.5. Generating API documentation</h3>
+<div class="paragraph">
+<p>The documentation for the API is generated from the <code>swagger.yaml</code> definitions using SwaggerUI. To generate the
+API documentation, use the <code>generateSwaggerUI</code> gradle task, either from the project root or from one of the services:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">cd $OF_HOME
+./gradlew generateSwaggerUI</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task output can be found for each service under <code>[service-path]/build/docs/api</code>
+(for example <code>services/core/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
+the generated SwaggerUI.</p>
 </div>
 </div>
 </div>
