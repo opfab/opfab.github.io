@@ -261,6 +261,14 @@ window.swaggerSpec={
           "description" : "Card i18n summary",
           "$ref" : "#/definitions/I18n"
         },
+        "titleTranslated" : {
+          "description" : "Card title translated",
+          "type" : "string"
+        },
+        "summaryTranslated" : {
+          "description" : "Card summary translated",
+          "type" : "string"
+        },
         "userRecipients" : {
           "description" : "List of user recipients",
           "type" : "array",
@@ -511,6 +519,14 @@ window.swaggerSpec={
           "description" : "Card i18n summary",
           "$ref" : "#/definitions/I18n"
         },
+        "titleTranslated" : {
+          "description" : "Card title translated",
+          "type" : "string"
+        },
+        "summaryTranslated" : {
+          "description" : "Card summary translated",
+          "type" : "string"
+        },
         "timeSpans" : {
           "type" : "array",
           "description" : "List of business time span associated to card",
@@ -573,7 +589,9 @@ window.swaggerSpec={
             "EN" : "Summary of card content",
             "FR" : "Resume du contenu de la carte"
           }
-        }
+        },
+        "titleTranslated" : "My process name",
+        "summaryTranslated" : "Summary of card content"
       }
     },
     "LightCardPage" : {
