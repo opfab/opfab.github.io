@@ -246,6 +246,14 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, a sound will be played for incoming cards with INFORMATION severity."
         },
+        "replayEnabled" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, sounds for incoming cards or reminders will be replayed until the user clicks\nanywhere on the screen."
+        },
+        "replayInterval" : {
+          "type" : "integer",
+          "description" : "Interval (in seconds) between sound replays."
+        },
         "processesStatesNotNotified" : {
           "type" : "object",
           "description" : "Filters on processes and states for user feed (exclusion filter)",
