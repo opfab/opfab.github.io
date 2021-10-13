@@ -13,6 +13,7 @@ The current voting members for the Technical Steering Committee are:
 * [Boris Dolley](https://github.com/0x62646f727465)
 * [Alexandra Guironnet](https://github.com/AlexGuironnetRTE)
 * [Valérie Longa](https://github.com/vlo-rte)
+* [Olivier Pigeon](https://github.com/olivierPigeon-RTE)
 * Floris van der Meulen
 * [Guillaume Trimbach](https://github.com/gtrimbach-RTE)
 
