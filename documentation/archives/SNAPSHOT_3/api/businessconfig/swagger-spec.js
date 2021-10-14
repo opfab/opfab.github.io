@@ -224,11 +224,11 @@ window.swaggerSpec={
         }
       }
     },
-    "/businessconfig/processes/{processId}/translation" : {
+    "/businessconfig/processes/{processId}/i18n" : {
       "get" : {
         "summary" : "Get i18n translation file",
         "description" : "Get i18n file, if file exists return file (text/plain) otherwise return error message (application/json)",
-        "operationId" : "getTranslation",
+        "operationId" : "getI18n",
         "produces" : [ "application/json", "text/plain" ],
         "parameters" : [ {
           "name" : "processId",
