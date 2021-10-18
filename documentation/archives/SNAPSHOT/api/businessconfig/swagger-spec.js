@@ -156,12 +156,6 @@ window.swaggerSpec={
           "required" : true,
           "type" : "string"
         }, {
-          "name" : "locale",
-          "in" : "query",
-          "description" : "Locale iso code",
-          "required" : false,
-          "type" : "string"
-        }, {
           "name" : "templateName",
           "in" : "path",
           "description" : "Name of template to retrieve (w.o. extension)",
@@ -232,7 +226,7 @@ window.swaggerSpec={
     },
     "/businessconfig/processes/{processId}/i18n" : {
       "get" : {
-        "summary" : "Get i18n file",
+        "summary" : "Get i18n translation file",
         "description" : "Get i18n file, if file exists return file (text/plain) otherwise return error message (application/json)",
         "operationId" : "getI18n",
         "produces" : [ "application/json", "text/plain" ],
@@ -240,12 +234,6 @@ window.swaggerSpec={
           "name" : "processId",
           "in" : "path",
           "description" : "Id of the process to retrieve",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "locale",
-          "in" : "query",
-          "description" : "Locale iso code",
           "required" : true,
           "type" : "string"
         }, {
@@ -448,7 +436,7 @@ window.swaggerSpec={
         },
         "name" : {
           "type" : "string",
-          "description" : "i18n key for the label of this process The value attached to this key should be defined in each XX.json file in the i18n folder of the bundle (where XX stands for the locale iso code, for example 'EN')"
+          "description" : "Name of the process"
         },
         "version" : {
           "type" : "string",
@@ -469,11 +457,11 @@ window.swaggerSpec={
               },
               "name" : {
                 "type" : "string",
-                "description" : "i18n key for UI"
+                "description" : "Name of the state"
               },
               "description" : {
                 "type" : "string",
-                "description" : "i18n key for UI"
+                "description" : "Description of the state"
               },
               "showDetailCardHeader" : {
                 "type" : "boolean",
@@ -604,6 +592,10 @@ window.swaggerSpec={
           "description" : "Id of the group",
           "type" : "string"
         },
+        "name" : {
+          "description" : "Name of the group",
+          "type" : "string"
+        },
         "processes" : {
           "description" : "List of processes included in the group",
           "type" : "array",
@@ -624,23 +616,6 @@ window.swaggerSpec={
           "type" : "array",
           "items" : {
             "$ref" : "#/definitions/ProcessGroup"
-          }
-        },
-        "locale" : {
-          "type" : "object",
-          "properties" : {
-            "en" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            },
-            "fr" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            }
           }
         }
       }

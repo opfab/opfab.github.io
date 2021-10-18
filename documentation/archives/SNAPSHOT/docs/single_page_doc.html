@@ -596,7 +596,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_bundle_as_process_declaration">10.1.1. Bundle as Process declaration</a></li>
 <li><a href="#_the_config_json_file">10.1.2. The config.json file</a></li>
-<li><a href="#_i18n">10.1.3. i18n</a>
+<li><a href="#_the_i18n_json_file">10.1.3. The i18n.json file</a>
 <ul class="sectlevel4">
 <li><a href="#_template_folder">10.1.3.1. Template folder</a></li>
 <li><a href="#_processes_and_states">10.1.3.2. Processes and States</a></li>
@@ -933,6 +933,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_running_sub_project_from_jar_file">31.1. Running sub-project from jar file</a></li>
 <li><a href="#_overriding_properties_when_running_from_jar_file">31.2. Overriding properties when running from jar file</a></li>
 <li><a href="#_generating_docker_images">31.3. Generating docker images</a></li>
+<li><a href="#_generating_documentation_from_asciidoc_sources">31.4. Generating documentation (from AsciiDoc sources)</a></li>
+<li><a href="#_generating_api_documentation">31.5. Generating API documentation</a></li>
 </ul>
 </li>
 <li><a href="#troubleshooting">32. Troubleshooting</a></li>
@@ -2939,7 +2941,7 @@ So the rules for receiving cards are :</p>
 </div>
 <div class="paragraph">
 <p>This an information about the process instance <code>process-000</code> of process <code>process</code>, sent by <code>TEST_PUBLISHER</code>. The title and the summary refer to <code>i18n</code> keys
-defined in the associated <code>i18n</code> files of the process. This card is displayable since the first january 2019 and
+defined in the associated <code>i18n</code> file of the process. This card is displayable since the first january 2019 and
 should only be received by the user using the <code>operator1</code> login (provided that this user has receive right on this process/state).</p>
 </div>
 </div>
@@ -3214,14 +3216,14 @@ The following instructions describe tests to perform on OperatorFabric to unders
 </div>
 <div class="paragraph">
 <p>Bundle are technically <code>tar.gz</code> archives containing at least a descriptor file named <code>config.json</code>.
-To display the card date, some <code>css files</code>, <code>i18n files</code> and <code>handlebars templates</code> must be added.</p>
+To display the card date, some <code>css files</code>, <code>i18n file</code> and <code>handlebars templates</code> must be added.</p>
 </div>
 <div class="paragraph">
 <p>For didactic purposes, in this section, the businessconfig bundle name is <code>BUNDLE_TEST</code> (to match the parameters used by the script).
-The l10n (localization) configurations are English, referred as <code>en</code> and French, referred as <code>fr</code>.</p>
+The l10n (localization) configurations is English.</p>
 </div>
 <div class="paragraph">
-<p>As detailed in the <code>Businessconfig core service README</code> the bundle contains at least a metadata file called <code>config.json</code>, a <code>css</code> folder, an <code>i18n</code> folder and a <code>template</code> folder.</p>
+<p>As detailed in the <code>Businessconfig core service README</code> the bundle contains at least a metadata file called <code>config.json</code>, a file <code>i18n.json</code>, a <code>css</code> folder and a <code>template</code> folder.</p>
 </div>
 <div class="paragraph">
 <p>Except for the <code>config.json file</code>, all elements are optional.</p>
@@ -3233,18 +3235,12 @@ The l10n (localization) configurations are English, referred as <code>en</code> 
 <div class="content">
 <pre>bundle
 ├── config.json
+├── i18n.json
 ├── css
 │   └── bundleTest.css
-├── i18n
-│   ├── en.json
-│   └── fr.json
 └── template
-    ├── en
-    │   ├── template1.handlebars
-    │   └── template2.handlebars
-    └── fr
-        ├── template1.handlebars
-        └── template2.handlebars</pre>
+    ├── template1.handlebars
+    └── template2.handlebars</pre>
 </div>
 </div>
 </div>
@@ -3286,7 +3282,7 @@ It lists the content of the bundle.</p>
 <p><code>id</code>: id of the process;</p>
 </li>
 <li>
-<p><code>name</code>: process name (i18n key);</p>
+<p><code>name</code>: process name;</p>
 </li>
 <li>
 <p><code>version</code>: enables the correct display of the card data, even for the old ones.
@@ -3311,44 +3307,32 @@ for details.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_i18n"><a class="anchor" href="#_i18n"></a>10.1.3. i18n</h4>
+<h4 id="_the_i18n_json_file"><a class="anchor" href="#_the_i18n_json_file"></a>10.1.3. The i18n.json file</h4>
 <div class="paragraph">
-<p>There are two ways of internationalization (i18n) for businessconfig service.
-First one by using l10n files located in the <code>i18n</code> folder, the second one throughout l10n name folder nested in the <code>template</code> folder.</p>
-</div>
-<div class="paragraph">
-<p>The <code>i18n</code> folder contains one json file per l10n.</p>
-</div>
-<div class="paragraph">
-<p>The integration of the businessconfig service into OperatorFabric need this localisation, i.e. the label displayed for the process, the state, the label displayed for the details of the card&#8230;&#8203;</p>
-</div>
-<div class="sect4">
-<h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>10.1.3.1. Template folder</h5>
-<div class="paragraph">
-<p>The <code>template</code> folder must contain l10n folder for the i18n of the card details.
-This is why in our example, as the bundle contains an <code>en</code> and a <code>fr</code> l10n, the <code>template</code> folder contains an <code>en</code> and a <code>fr</code> folder.</p>
-</div>
-<div class="sect5">
-<h6 id="_i18n_file"><a class="anchor" href="#_i18n_file"></a>i18n file</h6>
-<div class="paragraph">
-<p>If there is no i18n file or key is missing, OperatorFabric displays i18n key, such as <code>BUNDLE_TEST.1.missing-i18n-key</code>.
+<p>This file contains internationalization information, in particular the translation for title and summary fields
+If there is no i18n file or key is missing, OperatorFabric displays i18n key, such as <code>BUNDLE_TEST.1.missing-i18n-key</code>.
 In the case where the bundle declares no i18n key corresponds to <code>missing-i18n-key</code>.</p>
 </div>
 <div class="paragraph">
 <p>The choice of i18n keys is up to the maintainer of the Businessconfig process.</p>
+</div>
+<div class="sect4">
+<h5 id="_template_folder"><a class="anchor" href="#_template_folder"></a>10.1.3.1. Template folder</h5>
+<div class="paragraph">
+<p>The <code>template</code> folder contains one template file for each process/state. They will be used for the card details rendering.</p>
 </div>
 <div class="paragraph">
 <p><strong>Example</strong></p>
 </div>
 <div class="paragraph">
 <p>For this example, the name of the process is  <code>Bundle Test</code> and its technical name is <code>BUNDLE_TEST</code>.
-The bundle provides an english and a french l10n.</p>
+The bundle provides an english l10n.</p>
 </div>
 <div class="paragraph">
 <p>Title and summary have to be localized.</p>
 </div>
 <div class="paragraph">
-<p>Here is the content of <code>en.json</code></p>
+<p>Here is the content of <code>i18n.json</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3373,50 +3357,20 @@ The bundle provides an english and a french l10n.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here the content of <code>fr.json</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">TEST</span><span class="delimiter">&quot;</span></span>:{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Test: Processus {{value}}</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Cela résume la carte: {{value}}</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Titre de la carte</span><span class="delimiter">&quot;</span></span>
-    }
-  },
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>:{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Processus de test</span><span class="delimiter">&quot;</span></span>
-  },
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">State de test</span><span class="delimiter">&quot;</span></span>
-  },
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">menu</span><span class="delimiter">&quot;</span></span>:{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Menu du Processus de Test</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">Documentation Operator Fabric</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">second</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">LF Energy</span><span class="delimiter">&quot;</span></span>
-  },
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span>: {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Onglet TEST</span><span class="delimiter">&quot;</span></span>
-  }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
 <p>To check the i18n, after the upload of the bundle, use a <code>GET</code> request against the <code>businessconfig</code> service.
 The simpler is to ask for the i18n file, as described
 <a href="../api/businessconfig/index.html#/businessconfig/getI18n">here</a>
 .</p>
 </div>
 <div class="paragraph">
-<p>Set the <code>locale</code> language, the <code>version</code> of the bundle and the <code>technical name</code> of the businessconfig party to get json in the response.</p>
+<p>Set the <code>version</code> of the bundle and the <code>technical name</code> of the businessconfig party to get json in the response.</p>
 </div>
 <div class="paragraph">
 <p>For example, to check if the french l10n data of the version 1 of the <code>BUNDLE_TEST</code> businessconfig party use the following command line:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>curl "http://localhost:2100/businessconfig/processes/BUNDLE_TEST/i18n?locale=fr&amp;version=1" \
+<pre>curl "http://localhost:2100/businessconfig/processes/BUNDLE_TEST/i18n?version=1" \
 -H  "Authorization: Bearer ${token}"</pre>
 </div>
 </div>
@@ -3449,7 +3403,6 @@ The simpler is to ask for the i18n file, as described
 </div>
 </div>
 </div>
-</div>
 <div class="sect4">
 <h5 id="_processes_and_states"><a class="anchor" href="#_processes_and_states"></a>10.1.3.2. Processes and States</h5>
 <div class="paragraph">
@@ -3477,11 +3430,11 @@ As the card used in this example are created above, the bundle template folder n
 <p><strong>Examples of template (i18n versions)</strong></p>
 </div>
 <div class="paragraph">
-<p>The following templates display a l10n title and a line containing the value of the scope property <code>card.level1.level1Prop</code>.
-In english, the translation of this key is '<em>This is a root property</em>'.</p>
+<p>The following template displays a title and a line containing the value of the scope property <code>card.level1.level1Prop</code>.
+The value of this key is '<em>This is a root property</em>'.</p>
 </div>
 <div class="paragraph">
-<p><code>/template/en/template1.handlebars</code></p>
+<p><code>/template/template1.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3490,36 +3443,14 @@ In english, the translation of this key is '<em>This is a root property</em>'.</
 </div>
 </div>
 <div class="paragraph">
-<p><code>/template/fr/template1.handlebars</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Patron numéro Un<span class="tag">&lt;/h2&gt;</span>
-<span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>'{{card.data.level1.level1Prop}}'<span class="tag">&lt;/div&gt;</span></code></pre>
-</div>
+<p>The following template example displays also a title and a list of numeric values from 1 to 3.</p>
 </div>
 <div class="paragraph">
-<p>The two following template examples display also a l10n title and a list of numeric values from 1 to 3.</p>
-</div>
-<div class="paragraph">
-<p><code>/template/en/template2.handlebars</code></p>
+<p><code>/template/template2.handlebars</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second Template<span class="tag">&lt;/h2&gt;</span>
-<span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-        {{#each card.data.level1.level1Array}}
-                <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
-        {{/each}}
-<span class="tag">&lt;/ul&gt;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>/template/fr/template2.handlebars</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;h2&gt;</span>Second patron<span class="tag">&lt;/h2&gt;</span>
 <span class="tag">&lt;ul</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bundle-test-list</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
         {{#each card.data.level1.level1Array}}
                 <span class="tag">&lt;li</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunle-test-list-item</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{this.level1ArrayProp}}<span class="tag">&lt;/li&gt;</span>
@@ -3557,7 +3488,7 @@ The file name must be declared in the <code>config.json</code> file in order to 
 </div>
 </div>
 <div class="paragraph">
-<p><strong>CSS Class used in <code>./template/en/template1.handlebars</code></strong></p>
+<p><strong>CSS Class used in <code>./template/template1.handlebars</code></strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3714,6 +3645,7 @@ curl -X POST &quot;http://localhost:2100/businessconfig/processgroups&quot;\
   <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
     {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 1</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: [
         <span class="string"><span class="delimiter">&quot;</span><span class="content">process1</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">process2</span><span class="delimiter">&quot;</span></span>
@@ -3721,22 +3653,13 @@ curl -X POST &quot;http://localhost:2100/businessconfig/processgroups&quot;\
     },
     {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 2</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: [
         <span class="string"><span class="delimiter">&quot;</span><span class="content">process3</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">process4</span><span class="delimiter">&quot;</span></span>
       ]
     }
-  ],
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">locale</span><span class="delimiter">&quot;</span></span>: {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">en</span><span class="delimiter">&quot;</span></span>: {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 1</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 2</span><span class="delimiter">&quot;</span></span>
-    },
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">fr</span><span class="delimiter">&quot;</span></span>: {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Groupe de process 1</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Groupe de process 2</span><span class="delimiter">&quot;</span></span>
-    }
-  }
+  ]
 }</code></pre>
 </div>
 </div>
@@ -4509,7 +4432,7 @@ The function returns a string with one of the following values :</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>An example of usage can be found in operator fabric git: (<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/en/question.handlebars">src/test/resources/bundles/userCardExamples2/template/en/question.handlebars</a>).</p>
+<p>An example of usage can be found in operator fabric git: (<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>).</p>
 </div>
 </div>
 <div class="sect4">
@@ -4547,7 +4470,7 @@ The function returns a string with one of the following values :</p>
 <p>For example:</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/chart.handlebars</div>
+<div class="title">src/test/resources/bundles/defaultProcess_V1/template/chart.handlebars</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
 </div>
@@ -4887,7 +4810,7 @@ In addition, if the user chose several options, it overrides the response state 
 state.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</div>
+<div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="js">  templateGateway.<span class="function">getUserResponse</span> = <span class="keyword">function</span>() {
 
@@ -5075,7 +4998,7 @@ field of the child card and then you  can get the name of the entity by calling 
 <div class="sect3">
 <h4 id="_example"><a class="anchor" href="#_example"></a>12.3.2. Example</h4>
 <div class="paragraph">
-<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</a>.</p>
+<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -5106,34 +5029,34 @@ Then all the users having the same entity will be in this status for this card.<
 <div class="paragraph">
 <p>The template can know if the current user has the permission to answer by calling the <em>templateGateway.isUserAllowedToRespond()</em> function.
 An example of <em>templateGateway.isUserAllowedToRespond()</em> usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples/template/en/incidentInProgress.handlebars">src/test/resources/bundles/userCardExamples/template/en/incidentInProgress.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples/template/incidentInProgress.handlebars">src/test/resources/bundles/userCardExamples/template/incidentInProgress.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_required"><a class="anchor" href="#_response_required"></a>12.6. Response required</h3>
 <div class="paragraph">
 <p>The template can know if the current user is member of an Entity required to respond by calling the <em>templateGateway.isUserMemberOfAnEntityRequiredToRespond()</em> function.
-An example of <em>templateGateway.isUserMemberOfAnEntityRequiredToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</a>.</p>
+An example of <em>templateGateway.isUserMemberOfAnEntityRequiredToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_last_time_to_decide_lttd_2"><a class="anchor" href="#_last_time_to_decide_lttd_2"></a>12.7. Last Time to Decide (<code>lttd</code>)</h3>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information will be sent to the third template (by calling the <em>templateGateway.setLttdExpired(true)</em> function).
-An example of <em>templateGateway.setLttdExpired(true)</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/en/question.handlebars</a>.</p>
+An example of <em>templateGateway.setLttdExpired(true)</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_entities_allowed_to_respond"><a class="anchor" href="#_entities_allowed_to_respond"></a>12.8. Entities allowed to respond</h3>
 <div class="paragraph">
-<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method <em>templateGateway.getEntitiesAllowedToRespond()</em> . This method returns an array containing the ids. An example of <em>templateGateway.getEntitiesAllowedToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/en/question.handlebars">src/test/resources/bundles/userCardExamples2/template/en/question.handlebars</a>.</p>
+<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method <em>templateGateway.getEntitiesAllowedToRespond()</em> . This method returns an array containing the ids. An example of <em>templateGateway.getEntitiesAllowedToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_entity_used_for_user_to_respond"><a class="anchor" href="#_entity_used_for_user_to_respond"></a>12.9. Entity used for user to respond</h3>
 <div class="paragraph">
 <p>If inside your template, you want to get the id of the entity used by the user to send a response, you can call the method <em>templateGateway.getEntityUsedForUserResponse()</em> .
-An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/en/question.handlebars">src/test/resources/bundles/userCardExamples2/template/en/question.handlebars</a>.</p>
+An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -6556,31 +6479,31 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm DD/MM/YYYY )</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the user description in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.language</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.language</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the language in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.timezone</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.timezone</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timezone in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.tags</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.tags</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the tags in the settings page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.sounds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.sounds</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the checkboxes for sound notifications in the settings page</p></td>
@@ -9993,6 +9916,40 @@ value)</p>
 <p>APK_PROXY_PASSWORD</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generating_documentation_from_asciidoc_sources"><a class="anchor" href="#_generating_documentation_from_asciidoc_sources"></a>31.4. Generating documentation (from AsciiDoc sources)</h3>
+<div class="paragraph">
+<p>The sources for the documentation are located under <code>src/docs/asciidoc</code>. To generate HTML pages from these sources,
+use the <code>asciidoctor</code> gradle task from the project root:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">cd $OF_HOME
+./gradlew asciidoctor</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task output can be found under <code>$OF_HOME/build/docs/asciidoc</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generating_api_documentation"><a class="anchor" href="#_generating_api_documentation"></a>31.5. Generating API documentation</h3>
+<div class="paragraph">
+<p>The documentation for the API is generated from the <code>swagger.yaml</code> definitions using SwaggerUI. To generate the
+API documentation, use the <code>generateSwaggerUI</code> gradle task, either from the project root or from one of the services:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">cd $OF_HOME
+./gradlew generateSwaggerUI</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task output can be found for each service under <code>[service-path]/build/docs/api</code>
+(for example <code>services/core/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
+the generated SwaggerUI.</p>
 </div>
 </div>
 </div>
