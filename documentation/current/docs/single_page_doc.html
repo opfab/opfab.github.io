@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 2.10.0.RELEASE,</span>
-<span id="revdate">27 September 2021</span>
+<span id="revnumber">version 2.11.0.RELEASE,</span>
+<span id="revdate">18 October 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1208,6 +1208,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ui_configuration_management">54.1. UI Configuration Management</a></li>
 <li><a href="#_management_of_visible_menus">54.2. Management of visible menus</a></li>
 <li><a href="#_simplification_mongodb_configuration">54.3. Simplification MongoDB Configuration</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_2_10_0_to_release_2_11_0">55. Migration Guide from release 2.10.0 to release 2.11.0</a>
+<ul class="sectlevel2">
+<li><a href="#_logging_screen_filter_with_tags_list">55.1. Logging screen : Filter with tags list</a></li>
 </ul>
 </li>
 </ul>
@@ -6484,30 +6489,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForAlarm</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Alarm cards are added or updated in the feed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForAction</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Action cards are added or updated in the feed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForCompliant</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Compliant cards are added or updated in the feed</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">playSoundForInformation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -6536,7 +6517,13 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.tags.list</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in archives</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in archives page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logging.filters.tags.list</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in logging page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.tags.hide</p></td>
@@ -6597,6 +6584,42 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the checkboxes for sound notifications in the settings page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForAlarm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Alarm cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForAction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Action cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForCompliant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Compliant cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundForInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayEnabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, sounds are replayed every <code>settings.replayInterval</code> seconds until the user interacts with the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayInterval</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval between sound replays (see <code>settings.replayEnabled</code>)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.about</p></td>
@@ -8468,7 +8491,7 @@ describe the structure of the project and point out useful tools (Gradle tasks, 
 <div class="sectionbody">
 <div class="paragraph">
 <p>This section describes the projects requirements regardless of installation options.
-Please see AGU
+Please see
 <a href="#setup_dev_env">Setting up your environment</a>
 below for details on:</p>
 </div>
@@ -15208,6 +15231,34 @@ This property can only hold a single URI.
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_2_10_0_to_release_2_11_0"><a class="anchor" href="#_migration_guide_from_release_2_10_0_to_release_2_11_0"></a>55. Migration Guide from release 2.10.0 to release 2.11.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_logging_screen_filter_with_tags_list"><a class="anchor" href="#_logging_screen_filter_with_tags_list"></a>55.1. Logging screen : Filter with tags list</h3>
+<div class="paragraph">
+<p>As for archives screen, now you have to specify the list of tags you want to see in the filter of logging screen.
+You have to set this list in the <code>web-ui.json</code> file, with the parameter <code>logging.filters.tags.list</code>. For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">logging</span><span class="delimiter">&quot;</span></span>: {
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">filters</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">list</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Label for tag 1</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">tag1</span><span class="delimiter">&quot;</span></span>
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
