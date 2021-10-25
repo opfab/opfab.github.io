@@ -640,6 +640,23 @@ window.swaggerSpec={
       "description" : "Publisher type >\n* EXTERNAL - The sender is an external service\n* ENTITY - The sender of the card is the user on behalf of the entity",
       "enum" : [ "EXTERNAL", "ENTITY" ],
       "example" : "EXTERNAL"
+    },
+    "FieldToTranslate" : {
+      "description" : "Card field to translate with i18n value",
+      "properties" : {
+        "i18nValue" : {
+          "description" : "i18n value to translate",
+          "$ref" : "#/definitions/I18n"
+        },
+        "process" : {
+          "description" : "Id of the process",
+          "type" : "string"
+        },
+        "processVersion" : {
+          "description" : "Version of the process",
+          "type" : "string"
+        }
+      }
     }
   },
   "paths" : {
@@ -1026,6 +1043,36 @@ window.swaggerSpec={
           },
           "404" : {
             "description" : "Try to remove item from unexisting card"
+          }
+        }
+      }
+    },
+    "/cards/translateCardField" : {
+      "post" : {
+        "summary" : "Get translated field",
+        "description" : "Get translated field for a given i18n value",
+        "operationId" : "translateCardField",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldToTranslate",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/FieldToTranslate"
+          }
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
           }
         }
       }
