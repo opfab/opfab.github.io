@@ -572,6 +572,10 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           }
+        },
+        "emittingEntityAllowedToRespond" : {
+          "description" : "If true, entity emitting a card is allowed to respond",
+          "type" : "boolean"
         }
       }
     },
