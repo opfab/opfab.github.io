@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 2.11.0.RELEASE,</span>
-<span id="revdate">18 October 2021</span>
+<span id="revnumber">version 3.0.0.RELEASE,</span>
+<span id="revdate">08 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -541,6 +541,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_2_10_0_to_release_2_11_0">12. Migration Guide from release 2.10.0 to release 2.11.0</a>
 <ul class="sectlevel2">
 <li><a href="#_logging_screen_filter_with_tags_list">12.1. Logging screen : Filter with tags list</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_2_11_0_to_release_3_0_0">13. Migration Guide from release 2.11.0 to release 3.0.0</a>
+<ul class="sectlevel2">
+<li><a href="#_changes_in_configuration_due_to_business_translation_mechanism_removal">13.1. Changes in configuration due to business translation mechanism removal</a>
+<ul class="sectlevel3">
+<li><a href="#_template_directory">13.1.1. Template directory</a></li>
+<li><a href="#_changes_in_config_json">13.1.2. Changes in config.json</a></li>
+<li><a href="#_new_file_i18n_json">13.1.3. New file i18n.json</a></li>
+<li><a href="#_i18n_folder">13.1.4. i18n folder</a></li>
+<li><a href="#_processes_groups">13.1.5. Processes groups</a></li>
+<li><a href="#_script_to_migrate_an_existing_database">13.1.6. Script to migrate an existing database</a></li>
+</ul>
+</li>
+<li><a href="#_configuration_file_web_ui_json">13.2. Configuration file <code>web-ui.json</code></a></li>
+<li><a href="#_nginx_conf_template_file">13.3. Nginx.conf.template file</a></li>
 </ul>
 </li>
 </ul>
@@ -2048,6 +2064,154 @@ You have to set this list in the <code>web-ui.json</code> file, with the paramet
   }
 }</code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_2_11_0_to_release_3_0_0"><a class="anchor" href="#_migration_guide_from_release_2_11_0_to_release_3_0_0"></a>13. Migration Guide from release 2.11.0 to release 3.0.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changes_in_configuration_due_to_business_translation_mechanism_removal"><a class="anchor" href="#_changes_in_configuration_due_to_business_translation_mechanism_removal"></a>13.1. Changes in configuration due to business translation mechanism removal</h3>
+<div class="paragraph">
+<p>In order to remove unnecessary complexity for third-party, we have decided to remove translation for
+some of business data, this implies the following migration tasks :</p>
+</div>
+<div class="sect3">
+<h4 id="_template_directory"><a class="anchor" href="#_template_directory"></a>13.1.1. Template directory</h4>
+<div class="paragraph">
+<p>The <code>template</code> directory does not contain language repository anymore. There is one template per process/state
+ and the templates are located directly in this directory. So you have to move your template for your language directly to the template directory</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_changes_in_config_json"><a class="anchor" href="#_changes_in_config_json"></a>13.1.2. Changes in config.json</h4>
+<div class="paragraph">
+<p>In config.json, the fields <code>process.name</code>, <code>state.name</code> and <code>state.description</code> must not contain i18n data anymore, they must only contain string data. These data will be simply displayed on the screen.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_file_i18n_json"><a class="anchor" href="#_new_file_i18n_json"></a>13.1.3. New file i18n.json</h4>
+<div class="paragraph">
+<p>The bundle shall contain a new i18n.json file in the root directory. The i18n.json file contains internationalization information for title and summary fields. We keep an i18n mechanism for these two fields in order to have the possibility to adapt the title or summary of the card without having to modify the code of the third party tool sending the card (using only one "language" for translation)</p>
+</div>
+<div class="paragraph">
+<p>Here is an example file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+	"message":{
+		"title":"Message",
+		"summary":"Message received"
+	},
+	"chartDetail" : { "title":"A Chart"},
+	"chartLine" : { "title":"Electricity consumption forecast"},
+	"question" : {"title": "⚡ Planned Outage"},
+	"contingencies": {"title" : "⚠️ Network Contingencies ⚠️","summary":"Contingencies report for French network"},
+	"processState": {
+		"title":"Process state ({{status}})"
+	}
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_i18n_folder"><a class="anchor" href="#_i18n_folder"></a>13.1.4. i18n folder</h4>
+<div class="paragraph">
+<p>The folder <code>i18n</code> and contained files has to be removed from bundle structure.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processes_groups"><a class="anchor" href="#_processes_groups"></a>13.1.5. Processes groups</h4>
+<div class="paragraph">
+<p>There is no possibility anymore to have translation for the process group name. You can just define
+the name of the group in the uploaded file. Here is an example of this file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">processgroup1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process1</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process2</span><span class="delimiter">&quot;</span></span>
+      ]
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">processgroup2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Process Group 2</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">processes</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process3</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">process4</span><span class="delimiter">&quot;</span></span>
+      ]
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_script_to_migrate_an_existing_database"><a class="anchor" href="#_script_to_migrate_an_existing_database"></a>13.1.6. Script to migrate an existing database</h4>
+<div class="paragraph">
+<p>Opfab 3.0 needs two new fields in database : <code>titleTranslated</code> and <code>summaryTranslated</code>.
+In order to add these two new fields to an existing database, you have to pull the image <code>migration-opfab3</code>,
+go to the directory <code>OF_HOME/src/tooling/migration-opfab3</code> and execute the script <code>docker-compose.sh</code>, this way :</p>
+</div>
+<div class="paragraph">
+<p><code>./docker-compose.sh &lt;containerNameMongoDB&gt; &lt;portMongoDB&gt; &lt;loginMongoDB&gt; &lt;passwordMongoDB&gt; &lt;pathToBundlesDirectory&gt;</code></p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The bundles directory is the directory where you store all the "untar" bundles in the new
+format with the <code>i18n.json</code> file. It is not the directory where the opfab instance stores the bundles.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_file_web_ui_json"><a class="anchor" href="#_configuration_file_web_ui_json"></a>13.2. Configuration file <code>web-ui.json</code></h3>
+<div class="paragraph">
+<p>Some attributes have been renamed to be more consistent with their meaning.
+Here are these attributes :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>settings.infos.description</code> renamed <code>settings.infos.hide.description</code></p>
+</li>
+<li>
+<p><code>settings.infos.language</code> renamed <code>settings.infos.hide.language</code></p>
+</li>
+<li>
+<p><code>settings.infos.timezone</code> renamed <code>settings.infos.hide.timezone</code></p>
+</li>
+<li>
+<p><code>settings.infos.tags</code> renamed <code>settings.infos.hide.tags</code></p>
+</li>
+<li>
+<p><code>settings.infos.sounds</code> renamed <code>settings.infos.hide.sounds</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So if you use these fields in <code>web-ui.json</code> file, you have to rename them.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nginx_conf_template_file"><a class="anchor" href="#_nginx_conf_template_file"></a>13.3. Nginx.conf.template file</h3>
+<div class="paragraph">
+<p>In order to have a better organized file, we have modified <code>nginx.conf.template</code> file, more precisely the information
+for location <code>/cardspub/cards</code>. Please report this modification to your local config.</p>
 </div>
 </div>
 </div>

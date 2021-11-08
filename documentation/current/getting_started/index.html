@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Getting Started</h1>
 <div class="details">
-<span id="revnumber">version 2.11.0.RELEASE,</span>
-<span id="revdate">18 October 2021</span>
+<span id="revnumber">version 3.0.0.RELEASE,</span>
+<span id="revdate">08 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -464,7 +464,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_get_a_token">3.2.2. Get a Token</a></li>
 <li><a href="#_send_the_bundle">3.2.3. Send the bundle</a></li>
 <li><a href="#_send_a_card">3.2.4. Send a card</a></li>
-<li><a href="#_internationalization">3.2.5. Internationalization</a></li>
 </ul>
 </li>
 <li><a href="#_example_3_process_with_state">3.3. Example 3: Process with state</a></li>
@@ -501,18 +500,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_solution_3">4.3.2. Solution</a></li>
 </ul>
 </li>
-<li><a href="#_no_template_display">4.4. No template display</a>
+<li><a href="#_my_template_is_not_used">4.4. My template is not used.</a>
 <ul class="sectlevel3">
-<li><a href="#_verification">4.4.1. Verification</a></li>
-<li><a href="#_solution_4">4.4.2. Solution</a></li>
+<li><a href="#_solution_4">4.4.1. Solution</a></li>
 </ul>
 </li>
-<li><a href="#_my_template_is_not_used">4.5. My template is not used.</a>
-<ul class="sectlevel3">
-<li><a href="#_solution_5">4.5.1. Solution</a></li>
-</ul>
-</li>
-<li><a href="#_my_value_is_not_displayed_in_the_detail_template">4.6. My value is not displayed in the detail template</a></li>
+<li><a href="#_my_value_is_not_displayed_in_the_detail_template">4.5. My value is not displayed in the detail template</a></li>
 </ul>
 </li>
 </ul>
@@ -734,11 +727,9 @@ If you open the json file of the card, you will see '${current_date_in_milliseco
 <div class="listingblock">
 <div class="content">
 <pre>├── css : stylesheets files
-├── i18n :   internalization files
-└── template :
-    ├── en : handlebar templates for detail card rendering
-    ├── ....
-config.json : process description and global configuration</pre>
+└── template : handlebar templates for detail card rendering
+config.json : process description and global configuration
+i18n.json : internalization file</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -763,7 +754,7 @@ The message</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you look at the template file (template/en/template.handlebars):</p>
+<p>If you look at the template file (template/template.handlebars):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -921,16 +912,6 @@ The token will be valid for 10 hours, after you will need to ask for a new one.
 <p>You should see in the UI the detail card with the new template.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_internationalization"><a class="anchor" href="#_internationalization"></a>3.2.5. Internationalization</h4>
-<div class="paragraph">
-<p>If you switch language to French in the UI (Settings menu on the top right of the screen), you should see the
-cards in french.</p>
-</div>
-<div class="paragraph">
-<p>OperatorFabric will use templates define in repository "template/fr" and keys define in "i18n/fr.json".</p>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_example_3_process_with_state"><a class="anchor" href="#_example_3_process_with_state"></a>3.3. Example 3: Process with state</h3>
@@ -958,7 +939,7 @@ of the bundle:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="JSON">{
         <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">criticalSituation</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">process.name</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Critical situation process</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>:{
                 <span class="key"><span class="delimiter">&quot;</span><span class="content">criticalSituation-begin</span><span class="delimiter">&quot;</span></span> : {
@@ -986,14 +967,11 @@ criticalSituation-update and criticalSituation-end. For each state we define a t
 a stylesheets to use.</p>
 </div>
 <div class="paragraph">
-<p>The title is a key which refer to an i18n found in the corresponding i18n repository:</p>
+<p>The title is a key which refer to i18n.json file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="JSON">{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Critical situation process</span><span class="delimiter">&quot;</span></span>
-    },
         <span class="key"><span class="delimiter">&quot;</span><span class="content">criticalSituation-begin</span><span class="delimiter">&quot;</span></span>:{
                 <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">CRITICAL SITUATION</span><span class="delimiter">&quot;</span></span>,
                 <span class="key"><span class="delimiter">&quot;</span><span class="content">summary</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content"> CRITICAL SITUATION ON THE GRID , SEE DETAIL FOR INSTRUCTION</span><span class="delimiter">&quot;</span></span>
@@ -1449,7 +1427,7 @@ tar: Error is not recoverable: exiting now</pre>
 <h4 id="_solution_2"><a class="anchor" href="#_solution_2"></a>4.2.2. Solution</h4>
 <div class="paragraph">
 <p>Use <code>tar.gz</code> format for the archive compression. Shell command is <code>tar -czvf
-MyBundleToTest.tar.gz config.json template/ css/</code> for a bundle containing
+MyBundleToTest.tar.gz config.json i18n.json template/ css/</code> for a bundle containing
 templates and css files.</p>
 </div>
 </div>
@@ -1481,45 +1459,12 @@ requirements.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_no_template_display"><a class="anchor" href="#_no_template_display"></a>4.4. No template display</h3>
-<div class="paragraph">
-<p>The server send 404 for requested template with a response like
-<code>{"status":"NOT_FOUND","message":"The specified resource does not
-exist","errors":["$OPERATOR_FABRIC_INSTANCE_PATH/businessconfig-storage/BUNDLE_TEST/1/te
-mplate/fr/template1.handlebars (Aucun fichier ou dossier de ce type)"]}</code></p>
-</div>
-<div class="sect3">
-<h4 id="_verification"><a class="anchor" href="#_verification"></a>4.4.1. Verification</h4>
-<div class="paragraph">
-<p>The previous server response is return for a request like:
-<code>http://localhost:2002/businessconfig/BUNDLE_TEST/templates/template1?locale=fr&amp;version
-=1</code></p>
-</div>
-<div class="paragraph">
-<p>The bundle is lacking localized folder and doesn&#8217;t contain the requested
-localization.</p>
-</div>
-<div class="paragraph">
-<p>If you have access to the <code>businessconfig</code> micro service source code you
-should list the content of
-<code>$THIRDS_PROJECT/build/docker-volume/businessconfig-storage</code></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_4"><a class="anchor" href="#_solution_4"></a>4.4.2. Solution</h4>
-<div class="paragraph">
-<p>Either request another l10n or add the requested one to the bundle and
-re-upload it.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_my_template_is_not_used"><a class="anchor" href="#_my_template_is_not_used"></a>4.5. My template is not used.</h3>
+<h3 id="_my_template_is_not_used"><a class="anchor" href="#_my_template_is_not_used"></a>4.4. My template is not used.</h3>
 <div class="paragraph">
 <p>It need to be declared in the config.json of the bundle.</p>
 </div>
 <div class="sect3">
-<h4 id="_solution_5"><a class="anchor" href="#_solution_5"></a>4.5.1. Solution</h4>
+<h4 id="_solution_4"><a class="anchor" href="#_solution_4"></a>4.4.1. Solution</h4>
 <div class="paragraph">
 <p>Add or verify the name of the templates declared in the <code>config.json</code> file of
 the bundle.</p>
@@ -1527,7 +1472,7 @@ the bundle.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_my_value_is_not_displayed_in_the_detail_template"><a class="anchor" href="#_my_value_is_not_displayed_in_the_detail_template"></a>4.6. My value is not displayed in the detail template</h3>
+<h3 id="_my_value_is_not_displayed_in_the_detail_template"><a class="anchor" href="#_my_value_is_not_displayed_in_the_detail_template"></a>4.5. My value is not displayed in the detail template</h3>
 <div class="paragraph">
 <p>There are several possibilities:</p>
 </div>

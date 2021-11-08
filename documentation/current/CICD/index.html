@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 2.11.0.RELEASE,</span>
-<span id="revdate">18 October 2021</span>
+<span id="revnumber">version 3.0.0.RELEASE,</span>
+<span id="revdate">08 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -466,15 +466,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_checking_the_release_notes">2.2.1. Checking the release notes</a></li>
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">2.2.2. Creating a release branch and preparing the release</a></li>
-<li><a href="#_merging_the_release_branch_into_master">2.2.3. Merging the release branch into <code>master</code></a></li>
-<li><a href="#_checking_the_docker_compose_files">2.2.4. Checking the docker-compose files</a></li>
-<li><a href="#_publishing_the_release_on_github">2.2.5. Publishing the release on GitHub</a></li>
-<li><a href="#publishing_client_lib_release">2.2.6. Publishing the jars for the client library to Maven Central</a></li>
-<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.2.7. Advertising the new release on the LFE mailing list</a></li>
-<li><a href="#_preparing_the_next_version">2.2.8. Preparing the next version</a>
+<li><a href="#_updating_the_version_list_on_the_website">2.2.3. Updating the version list on the website</a></li>
+<li><a href="#_merging_the_release_branch_into_master">2.2.4. Merging the release branch into <code>master</code></a></li>
+<li><a href="#_checking_the_docker_compose_files">2.2.5. Checking the docker-compose files</a></li>
+<li><a href="#_publishing_the_release_on_github">2.2.6. Publishing the release on GitHub</a></li>
+<li><a href="#publishing_client_lib_release">2.2.7. Publishing the jars for the client library to Maven Central</a></li>
+<li><a href="#_advertising_the_new_release_on_the_lfe_mailing_list">2.2.8. Advertising the new release on the LFE mailing list</a></li>
+<li><a href="#_preparing_the_next_version">2.2.9. Preparing the next version</a>
 <ul class="sectlevel4">
-<li><a href="#_on_the_release_notes_repository">2.2.8.1. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">2.2.8.2. On the operatorfabric-core repository</a></li>
+<li><a href="#_on_the_release_notes_repository">2.2.9.1. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">2.2.9.2. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
@@ -1043,7 +1044,54 @@ generation.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>2.2.3. Merging the release branch into <code>master</code></h4>
+<h4 id="_updating_the_version_list_on_the_website"><a class="anchor" href="#_updating_the_version_list_on_the_website"></a>2.2.3. Updating the version list on the website</h4>
+<div class="paragraph">
+<p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
+edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/versions.yml"></em>/data/versions.yml</a> file to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the version being released to the list with the <code>current</code> badge</p>
+</li>
+<li>
+<p>Remove the <code>current</code> badge from the previous version</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+- <span class="string"><span class="content">id: X.X.X.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This file determines which versions (and in which order) are displayed on the
+<a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>2.2.4. Merging the release branch into <code>master</code></h4>
 <div class="paragraph">
 <p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
 developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
@@ -1157,7 +1205,7 @@ and that the links work.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_checking_the_docker_compose_files"><a class="anchor" href="#_checking_the_docker_compose_files"></a>2.2.4. Checking the docker-compose files</h4>
+<h4 id="_checking_the_docker_compose_files"><a class="anchor" href="#_checking_the_docker_compose_files"></a>2.2.5. Checking the docker-compose files</h4>
 <div class="paragraph">
 <p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
 branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
@@ -1179,7 +1227,7 @@ that it&#8217;s working correctly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_publishing_the_release_on_github"><a class="anchor" href="#_publishing_the_release_on_github"></a>2.2.5. Publishing the release on GitHub</h4>
+<h4 id="_publishing_the_release_on_github"><a class="anchor" href="#_publishing_the_release_on_github"></a>2.2.6. Publishing the release on GitHub</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1210,7 +1258,7 @@ release.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>2.2.6. Publishing the jars for the client library to Maven Central</h4>
+<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>2.2.7. Publishing the jars for the client library to Maven Central</h4>
 <div class="paragraph">
 <p>Once everything else looks ok, you can publish the jars for the client library to MavenCentral. This is done as a last
 step once we are pretty sure we won&#8217;t need to go back and change things on the release because jars are not meant to be
@@ -1303,7 +1351,7 @@ When prompted, write a comment then confirm (keeping the "Automatically Drop" op
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>2.2.7. Advertising the new release on the LFE mailing list</h4>
+<h4 id="_advertising_the_new_release_on_the_lfe_mailing_list"><a class="anchor" href="#_advertising_the_new_release_on_the_lfe_mailing_list"></a>2.2.8. Advertising the new release on the LFE mailing list</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1326,15 +1374,15 @@ in case there is an issue.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.2.8. Preparing the next version</h4>
+<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.2.9. Preparing the next version</h4>
 <div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.2.8.1. On the release-notes repository</h5>
+<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.2.9.1. On the release-notes repository</h5>
 <div class="paragraph">
 <p>Remove the items listed in the release_notes.md file so it&#8217;s ready for the next version.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.2.8.2. On the operatorfabric-core repository</h5>
+<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.2.9.2. On the operatorfabric-core repository</h5>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
