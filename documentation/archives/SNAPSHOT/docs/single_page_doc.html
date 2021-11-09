@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 November 2021</span>
+<span id="revdate">09 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1249,7 +1249,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_configuration_file_web_ui_json_2">56.2. Configuration file <code>web-ui.json</code></a></li>
-<li><a href="#_nginx_conf_template_file">56.3. Nginx.conf.template file</a></li>
+<li><a href="#_configuration_file_common_docker_yml">56.3. Configuration file common-docker.yml</a></li>
+<li><a href="#_nginx_conf_template_file">56.4. Nginx.conf.template file</a></li>
 </ul>
 </li>
 </ul>
@@ -15730,7 +15731,36 @@ Here are these attributes :</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_nginx_conf_template_file"><a class="anchor" href="#_nginx_conf_template_file"></a>56.3. Nginx.conf.template file</h3>
+<h3 id="_configuration_file_common_docker_yml"><a class="anchor" href="#_configuration_file_common_docker_yml"></a>56.3. Configuration file common-docker.yml</h3>
+<div class="paragraph">
+<p>A new parameter named <code>operatorfabric.servicesUrls.businessconfig</code>  has to be added to your configuration file <code>common-docker.yml</code> (or equivalent)</p>
+</div>
+<div class="paragraph">
+<p>For example the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric:
+  businessLogActivated: true
+  servicesUrls:
+    users: &quot;users:8080&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>becomes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric:
+  businessLogActivated: true
+  servicesUrls:
+    users: &quot;users:8080&quot;
+    businessconfig: &quot;businessconfig:8080&quot;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nginx_conf_template_file"><a class="anchor" href="#_nginx_conf_template_file"></a>56.4. Nginx.conf.template file</h3>
 <div class="paragraph">
 <p>In order to have a better organized file, we have modified <code>nginx.conf.template</code> file, more precisely the information
 for location <code>/cardspub/cards</code>. Please report this modification to your local config.</p>
