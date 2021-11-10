@@ -31,26 +31,6 @@ window.swaggerSpec={
   } ],
   "schemes" : [ "http" ],
   "definitions" : {
-    "SimpleUser" : {
-      "type" : "object",
-      "description" : "User (basic properties)",
-      "properties" : {
-        "login" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        }
-      },
-      "example" : {
-        "login" : "jlcurtis",
-        "firstName" : "Jamie Lee",
-        "lastName" : "Curtis"
-      }
-    },
     "User" : {
       "type" : "object",
       "description" : "User",
