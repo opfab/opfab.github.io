@@ -226,6 +226,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, a sound will be played for incoming cards with INFORMATION severity."
         },
+        "playSoundOnExternalDevice" : {
+          "type" : "boolean",
+          "description" : "If set to true and the user has an external device configured, sounds will be played on this device rather\nthan in the browser"
+        },
         "replayEnabled" : {
           "type" : "boolean",
           "description" : "If this is set to true, sounds for incoming cards or reminders will be replayed until the user clicks\nanywhere on the screen."

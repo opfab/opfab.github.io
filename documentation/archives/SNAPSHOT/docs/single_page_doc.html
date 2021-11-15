@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">14 November 2021</span>
+<span id="revdate">15 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -6529,6 +6529,12 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundOnExternalDevice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true (and <code>externalDevicesEnabled</code> is set to true as well) and the user has an external device configured, sounds will be played on this device rather than in the browser</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayEnabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -6625,6 +6631,12 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, show entity <code>description</code> field instead of <code>name</code> in user card page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">externalDevicesEnabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, users have the opportunity to play sounds on external devices rather than in the browser. See <code>settings.playSoundOnExternalDevice</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -8302,6 +8314,12 @@ the used ports are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External devices management service http (REST)</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
@@ -8322,6 +8340,12 @@ the used ports are:</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
@@ -9017,16 +9041,10 @@ project, but it&#8217;s not an issue as when you run <code>ng serve</code> the l
 <p>OF_HOME: OperatorFabric root dir</p>
 </li>
 <li>
-<p>OF_CORE: OperatorFabric business services subroot dir</p>
+<p>OF_VERSION : OperatorFabric version, as defined in the <code>$OF_HOME/VERSION</code> file</p>
 </li>
 <li>
-<p>OF_INFRA: OperatorFabric infrastructure services subroot dir</p>
-</li>
-<li>
-<p>OF_CLIENT: OperatorFabric client data definition subroot dir</p>
-</li>
-<li>
-<p>OF_TOOLS: OperatorFabric tooling libraries subroot dir</p>
+<p>OF_CLIENT_REL_COMPONENTS : List of modules for the client libraries</p>
 </li>
 </ul>
 </div>
