@@ -6,13 +6,13 @@ layout: default
 
 ## Functional
 
-
 #### Medium term
 
-* Enhancement of the existing features (sound notification, timeline, administration screen, smart notification...) 
-* Mail notification
-* Dynamic realtime perimeter of responsibility for operator
+* Enhancement of existing features (sound notifications, timeline, administration screen, smart notifications...) 
+* Mail notifications
+* Dynamic scope of responsibilities for operators in realtime 
 * Advanced agenda feature
+
 #### Long  term 
 
 * Substation diagram and network view integration (in coordination with the [GridSuite](https://github.com/gridsuite) project )
