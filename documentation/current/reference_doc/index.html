@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.0.2.RELEASE,</span>
-<span id="revdate">09 November 2021</span>
+<span id="revnumber">version 3.1.0.RELEASE,</span>
+<span id="revdate">29 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -2720,7 +2720,21 @@ You can find more information
 <div class="sect2">
 <h3 id="_sound_notification"><a class="anchor" href="#_sound_notification"></a>4.2. Sound notification</h3>
 <div class="paragraph">
-<p>If the option is activated in the general configuration file web-ui.json, the user can choose to have a sound when a card is arriving. The configuration is to be set by the user with the settings menu.</p>
+<p>If the option is activated in the general configuration file web-ui.json, the user can choose to have a sound played
+when they receive a card (either by the browser or by an external device if configured).
+This can be managed by the user in the settings screen.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To customize the sounds played by the browser, see <code>config/docker/custom-sounds/README.adoc</code>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -2968,7 +2982,7 @@ and state "questionState", the user will have the possibility to respond if he h
 the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
 </li>
 <li>
-<p>The field "emittingEntityAllowedToRespond" in the response field is used to allow the emitting entity to respond to a card. To be able to respond, however, the emitting entity has to be one of the recipients of the card.</p>
+<p>The field "emittingEntityAllowedToRespond" in the response field is used to allow the emitting entity to respond to a card. To be able to respond, however, the emitting entity has to be one of the recipients of the card. Default value is false.</p>
 </li>
 <li>
 <p>The field "showDetailCardHeader" permits to display the card header or not. This header contains the list of entities
@@ -3408,9 +3422,12 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <li>
 <p>externalRecipients (use to send cards to third party , see
 <a href="/documentation/current/reference_doc/index.html#define_a_third_party_tool">Define a third party tool</a>
-for more information)</p>
+for more information) .</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>If you send a card to an ExternalRecipient, when the user delete it, the external recipient will receive the information via an HTTP DELETE request with the id of the deleted card at the end of the request (example : <a href="http://myexternal_app/myendpoint/ID_CARD" class="bare">myexternal_app/myendpoint/ID_CARD</a>).</p>
 </div>
 <div class="paragraph">
 <p>If you want the card to be visible in the agenda feature, you need to set 'viewCardInAgenda' to true in the object returned by the method.</p>
@@ -3894,7 +3911,7 @@ listed groups.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">calendar</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="7"><p class="tableblock">Top-right menu</p></td>
+<td class="tableblock halign-left valign-top" rowspan="8"><p class="tableblock">Top-right menu</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Administration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">admin</p></td>
 </tr>
@@ -3917,6 +3934,10 @@ listed groups.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">About</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">about</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Change password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">changepassword</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Logout</p></td>

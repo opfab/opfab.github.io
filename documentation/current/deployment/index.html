@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.0.2.RELEASE,</span>
-<span id="revdate">09 November 2021</span>
+<span id="revnumber">version 3.1.0.RELEASE,</span>
+<span id="revdate">29 November 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -466,7 +466,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_web_ui_configuration">2.2. Web UI Configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_nginx_configuration">2.2.1. NGINX configuration</a></li>
-<li><a href="#ui_properties">2.2.2. UI properties</a></li>
+<li><a href="#ui_properties">2.2.2. UI properties</a>
+<ul class="sectlevel4">
+<li><a href="#_external_devices_service">2.2.2.1. External Devices Service</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#opfab_spec_conf">2.3. Security Configuration</a>
@@ -931,6 +935,12 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </div></div></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">security.changePasswordUrl</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL to change the user password (if the top-right menu item "Change password" is visible)</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">security.oauth2.flow.mode</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PASSWORD</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1179,6 +1189,12 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundOnExternalDevice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true (and <code>externalDevicesEnabled</code> is set to true as well) and the user has an external device configured, sounds will be played on this device rather than in the browser</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayEnabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1276,6 +1292,12 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, show entity <code>description</code> field instead of <code>name</code> in user card page</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">externalDevicesEnabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, users have the opportunity to play sounds on external devices rather than in the browser. See <code>settings.playSoundOnExternalDevice</code></p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -1315,6 +1337,48 @@ It should look like:</p>
 </tr>
 </tbody>
 </table>
+<div class="sect4">
+<h5 id="_external_devices_service"><a class="anchor" href="#_external_devices_service"></a>2.2.2.1. External Devices Service</h5>
+<div class="paragraph">
+<p>The external devices service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.externaldevices.watchdog.enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If true, watchdog signals will be sent to external devices to show that the OperatorFabric is running and connected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.externaldevices.watchdog.cron</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*/5 * * * * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CRON expression determining when watchdog signals should be sent to external devices.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.externaldevices.watchdog.signalId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Id the signal the external devices are expecting as watchdog</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -2952,6 +3016,12 @@ the used ports are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External devices management service http (REST)</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
@@ -2972,6 +3042,12 @@ the used ports are:</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
 </tr>
