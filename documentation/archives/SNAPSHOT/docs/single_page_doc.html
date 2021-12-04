@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 December 2021</span>
+<span id="revdate">04 December 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1260,6 +1260,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_0_0_to_release_3_1_0">57. Migration Guide from release 3.0.0 to release 3.1.0</a>
 <ul class="sectlevel2">
 <li><a href="#_kafka_date_format">57.1. Kafka date format</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_1_0_to_release_3_2_0">58. Migration Guide from release 3.1.0 to release 3.2.0</a>
+<ul class="sectlevel2">
+<li><a href="#_cache_configuration_for_i18n_files">58.1. Cache configuration for i18n files</a></li>
 </ul>
 </li>
 </ul>
@@ -15933,6 +15938,28 @@ of sending the date in seconds since epoch, you can now use the Java Instant obj
 </div>
 <div class="paragraph">
 <p><code>Card card = Card.newBuilder().setStartDate(Instant.now()).build();</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_1_0_to_release_3_2_0"><a class="anchor" href="#_migration_guide_from_release_3_1_0_to_release_3_2_0"></a>58. Migration Guide from release 3.1.0 to release 3.2.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_cache_configuration_for_i18n_files"><a class="anchor" href="#_cache_configuration_for_i18n_files"></a>58.1. Cache configuration for i18n files</h3>
+<div class="paragraph">
+<p>Add the following lines in your nginx.conf to avoid keeping in cache old translation files when migrating opfab</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location /ui/assets/i18n/ {
+    add_header Cache-Control &quot;no-cache&quot;;
+    alias /usr/share/nginx/html/assets/i18n/;
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>see the reference nginx configuration file : <a href="https://github.com/opfab/operatorfabric-core/blob/master/config/docker/nginx.conf" class="bare">github.com/opfab/operatorfabric-core/blob/master/config/docker/nginx.conf</a></p>
 </div>
 </div>
 </div>
