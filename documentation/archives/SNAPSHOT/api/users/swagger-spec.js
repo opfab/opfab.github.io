@@ -202,14 +202,6 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "User using browser format"
         },
-        "defaultTags" : {
-          "type" : "array",
-          "description" : "Default tags used in tag filter",
-          "items" : {
-            "type" : "string",
-            "uniqueItems" : true
-          }
-        },
         "playSoundForAlarm" : {
           "type" : "boolean",
           "description" : "If this is set to true, a sound will be played for incoming cards with ALARM severity."
@@ -255,8 +247,7 @@ window.swaggerSpec={
         "login" : "jcleese",
         "description" : "once played Sir Lancelot",
         "timezone" : "Europe/London",
-        "locale" : "en-GB",
-        "defaultTags" : [ "humor", "movies" ]
+        "locale" : "en-GB"
       }
     },
     "CurrentUserWithPerimeters" : {
