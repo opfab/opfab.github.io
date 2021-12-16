@@ -493,6 +493,14 @@ window.swaggerSpec={
               "isOnlyAChildState" : {
                 "description" : "If true, this state is only used for child cards and shall not be seen on feed notification screen and in archives filters",
                 "type" : "boolean"
+              },
+              "validateAnswerButtonLabel" : {
+                "description" : "If this field is present, it is used for the label of the button, otherwise, the default label is used",
+                "type" : "string"
+              },
+              "modifyAnswerButtonLabel" : {
+                "description" : "If this field is present, it is used for the label of the button, otherwise, the default label is used",
+                "type" : "string"
               }
             }
           }
@@ -639,6 +647,9 @@ window.swaggerSpec={
           "type" : "boolean"
         },
         "lttdVisible" : {
+          "type" : "boolean"
+        },
+        "recipientVisible" : {
           "type" : "boolean"
         },
         "recipientList" : {
