@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 3.1.0.RELEASE,</span>
-<span id="revdate">29 November 2021</span>
+<span id="revnumber">version 3.2.0.RELEASE,</span>
+<span id="revdate">20 December 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -495,13 +495,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_environment_variables">4. Environment variables</a></li>
 <li><a href="#_project_structure">5. Project Structure</a>
 <ul class="sectlevel2">
-<li><a href="#_tree_view">5.1. Tree View</a></li>
-<li><a href="#_content_details">5.2. Content Details</a></li>
-<li><a href="#_conventions_regarding_project_structure_and_configuration">5.3. Conventions regarding project structure and configuration</a>
+<li><a href="#_conventions_regarding_project_structure_and_configuration">5.1. Conventions regarding project structure and configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_java">5.3.1. Java</a></li>
-<li><a href="#_modeling">5.3.2. Modeling</a></li>
-<li><a href="#_docker">5.3.3. Docker</a></li>
+<li><a href="#_java">5.1.1. Java</a></li>
+<li><a href="#_modeling">5.1.2. Modeling</a></li>
+<li><a href="#_docker">5.1.3. Docker</a></li>
 </ul>
 </li>
 </ul>
@@ -519,9 +517,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_services">6.2.1. Services</a>
 <ul class="sectlevel4">
 <li><a href="#_common_tasks_for_all_sub_projects">6.2.1.1. Common tasks for all sub-projects</a></li>
-<li><a href="#_core">6.2.1.2. Core</a></li>
-<li><a href="#_businessconfig_service">6.2.1.3. Businessconfig Service</a></li>
-<li><a href="#_toolsgeneric">6.2.1.4. tools/generic</a></li>
+<li><a href="#_businessconfig_service">6.2.1.2. Businessconfig Service</a></li>
+<li><a href="#_toolsgeneric">6.2.1.3. tools/generic</a></li>
 </ul>
 </li>
 <li><a href="#_client_library">6.2.2. Client Library</a>
@@ -1113,25 +1110,25 @@ After launching docker containers, use the following command line <code>$OF_HOME
 <pre class="CodeRay highlight"><code data-lang="shell">##########################################################
 Starting users-business-service, debug port: 5009
 ##########################################################
-pid file: $OF_HOME/services/core/users/build/PIDFILE
+pid file: $OF_HOME/services/users/build/PIDFILE
 Started with pid: 7483
 
 ##########################################################
 Starting cards-consultation-business-service, debug port: 5011
 ##########################################################
-pid file: $OF_HOME/services/core/cards-consultation/build/PIDFILE
+pid file: $OF_HOME/services/cards-consultation/build/PIDFILE
 Started with pid: 7493
 
 ##########################################################
 Starting cards-publication-business-service, debug port: 5012
 ##########################################################
-pid file: $OF_HOME/services/core/cards-publication/build/PIDFILE
+pid file: $OF_HOME/services/cards-publication/build/PIDFILE
 Started with pid: 7500
 
 ##########################################################
 Starting businessconfig-business-service, debug port: 5008
 ##########################################################
-pid file: $OF_HOME//services/core/businessconfig/build/PIDFILE
+pid file: $OF_HOME//services/businessconfig/build/PIDFILE
 Started with pid: 7501</code></pre>
 </div>
 </div>
@@ -1299,56 +1296,6 @@ settings)</p>
 <div class="sect1">
 <h2 id="_project_structure"><a class="anchor" href="#_project_structure"></a>5. Project Structure</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_tree_view"><a class="anchor" href="#_tree_view"></a>5.1. Tree View</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>project
-├──bin
-├──CICD
-│   └─ travis
-├──client
-│   ├──cards (cards-client-data)
-│   ├──src
-│   └──users (users-client-data)
-├──config
-│   ├──dev
-│   ├──docker
-│   └──keycloak
-├──services
-│   ├──core
-│   │   ├──cards-consultation (cards-consultation-business-service)
-│   │   ├──cards-publication (cards-publication-business-service)
-│   │   ├──src
-│   │   ├──businessconfig (businessconfig-business-service)
-│   │   └──users (users-business-service)
-├──web-ui
-├──src
-|   ├──docs
-|   │   └──asciidoc
-|   |──main
-|   |    ├──docker
-|   |    └──headers
-|   |──test
-|   |    ├──api
-|   |    ├──cypress
-|   |    └──utils
-├──tools
-│   ├──generic
-│   │   ├──test-utilities
-│   │   └──utilities
-│   ├── spring
-│   │   ├──spring-mongo-utilities
-│   │   ├──spring-oauth2-utilities
-│   │   ├──spring-test-utilities
-│   │   └──spring-utilities
-│   └──swagger-spring-generators
-└─ui</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_content_details"><a class="anchor" href="#_content_details"></a>5.2. Content Details</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1356,7 +1303,7 @@ settings)</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/CICD/travis">travis</a>: scripts used by Travis for the
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/CICD/github">github</a>: scripts used by Github for the
 build process</p>
 </li>
 </ul>
@@ -1389,31 +1336,27 @@ OperatorFabric</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core">core</a>: contains core business microservices</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/cards-consultation">cards-consultation
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/cards-consultation">cards-consultation
 (cards-consultation-business-service)</a>: Card consultation service</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/cards-publication">cards-publication
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/cards-publication">cards-publication
 (cards-publication-business-service)</a>: Card publication service</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/src">src</a>: contains swagger templates for core business
-microservices</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/external-devices">external-devices
+(external-devices-service)</a>: External Devices service</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/businessconfig">businessconfig (businessconfig-business-service)</a>:
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/src">src</a>: contains swagger templates for services</p>
+</li>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/businessconfig">businessconfig (businessconfig-business-service)</a>:
 Businessconfig-party information management service</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/core/users">users (users-business-service)</a>: Users management
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services/users">users (users-business-service)</a>: Users management
 service</p>
-</li>
-</ul>
-</div>
 </li>
 </ul>
 </div>
@@ -1526,15 +1469,14 @@ Boot generator for swagger, tailored for OperatorFabric needs</p>
 </li>
 </ul>
 </div>
-</div>
 <div class="sect2">
-<h3 id="_conventions_regarding_project_structure_and_configuration"><a class="anchor" href="#_conventions_regarding_project_structure_and_configuration"></a>5.3. Conventions regarding project structure and configuration</h3>
+<h3 id="_conventions_regarding_project_structure_and_configuration"><a class="anchor" href="#_conventions_regarding_project_structure_and_configuration"></a>5.1. Conventions regarding project structure and configuration</h3>
 <div class="paragraph">
 <p>Sub-projects must conform to a few rules in order for the configured Gradle
 tasks to work:</p>
 </div>
 <div class="sect3">
-<h4 id="_java"><a class="anchor" href="#_java"></a>5.3.1. Java</h4>
+<h4 id="_java"><a class="anchor" href="#_java"></a>5.1.1. Java</h4>
 <div class="hdlist">
 <table>
 <tr>
@@ -1573,7 +1515,7 @@ tasks to work:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_modeling"><a class="anchor" href="#_modeling"></a>5.3.2. Modeling</h4>
+<h4 id="_modeling"><a class="anchor" href="#_modeling"></a>5.1.2. Modeling</h4>
 <div class="paragraph">
 <p>Core services projects declaring REST APIS that use Swagger for their
 definition must declare two files:</p>
@@ -1600,7 +1542,7 @@ definition must declare two files:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_docker"><a class="anchor" href="#_docker"></a>5.3.3. Docker</h4>
+<h4 id="_docker"><a class="anchor" href="#_docker"></a>5.1.3. Docker</h4>
 <div class="paragraph">
 <p>Services project all have docker image generated in their build cycle. See
 <a href="/documentation/current/dev_env/index.html#gradle_tasks">Gradle Tasks</a>
@@ -1797,28 +1739,7 @@ to gradle and plugins official documentation.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_core"><a class="anchor" href="#_core"></a>6.2.1.2. Core</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Swagger Generator tasks</p>
-<div class="ulist">
-<ul>
-<li>
-<p>debugSwaggerOperations: generate swagger code from
-/src/main/modeling/config.json to build/swagger-analyse</p>
-</li>
-<li>
-<p>swaggerHelp: display help regarding swagger configuration options for java</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>6.2.1.3. Businessconfig Service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>6.2.1.2. Businessconfig Service</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1857,7 +1778,7 @@ catching lombok that must be sent for sonarqube</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>6.2.1.4. tools/generic</h5>
+<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>6.2.1.3. tools/generic</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1934,7 +1855,7 @@ signing.secretKeyRingFile=LOCATION_OF_THE_KEYRING_HOLDING_THE_GPG_KEY</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>LOCATION_OF_THE_KEYRING_HOLDING_THE_GPG_KEY is usually /YOUR_HOME_DIRECTORY/.gnupg/secring.gpg</p>
+<p>LOCATION_OF_THE_KEYRING_HOLDING_THE_GPG_KEY is usually /YOUR_HOME_DIRECTORY/.gnupg/pubring.kbx</p>
 </div>
 </div>
 <div class="sect5">
@@ -2491,7 +2412,7 @@ API documentation, use the <code>generateSwaggerUI</code> gradle task, either fr
 </div>
 <div class="paragraph">
 <p>The task output can be found for each service under <code>[service-path]/build/docs/api</code>
-(for example <code>services/core/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
+(for example <code>services/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
 the generated SwaggerUI.</p>
 </div>
 </div>

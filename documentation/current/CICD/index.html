@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 3.1.0.RELEASE,</span>
-<span id="revdate">29 November 2021</span>
+<span id="revnumber">version 3.2.0.RELEASE,</span>
+<span id="revdate">20 December 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_cicd_pipeline">1.1. CICD Pipeline</a>
 <ul class="sectlevel3">
-<li><a href="#_travis_ci">1.1.1. Travis CI</a></li>
+<li><a href="#_github_actions">1.1.1. Github Actions</a></li>
 <li><a href="#_sonarcloud">1.1.2. SonarCloud</a></li>
 <li><a href="#_github_documentation">1.1.3. GitHub (documentation)</a></li>
 <li><a href="#_dockerhub">1.1.4. DockerHub</a></li>
@@ -498,13 +498,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_pipeline_configuration"><a class="anchor" href="#_pipeline_configuration"></a>1. Pipeline Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section briefly describes the organization of our CICD pipeline. If you are looking for more detailed information,
-see
-<a href="/documentation/current/resources/index.html#mock_pipeline">this document</a>
-describing the steps that were necessary to create our mock pipeline as well as the issues we ran into.</p>
+<p>This section briefly describes the organization of our CICD pipeline.</p>
 </div>
 <div class="paragraph">
-<p>Most of the access and permissions required by our CICD plateform (Travis) are managed by tokens that are created on
+<p>Most of the access and permissions required by our CICD plateform are managed by tokens that are created on
 each of the required services (SonarCloud, DockerHub, GitHub).
 A technical user account (opfabtech) has been created for each of these services so that these tokens are not linked
 to the account of any member of the team.</p>
@@ -512,349 +509,24 @@ to the account of any member of the team.</p>
 <div class="sect2">
 <h3 id="_cicd_pipeline"><a class="anchor" href="#_cicd_pipeline"></a>1.1. CICD Pipeline</h3>
 <div class="sect3">
-<h4 id="_travis_ci"><a class="anchor" href="#_travis_ci"></a>1.1.1. Travis CI</h4>
+<h4 id="_github_actions"><a class="anchor" href="#_github_actions"></a>1.1.1. Github Actions</h4>
 <div class="paragraph">
-<p>We use Travis CI to manage our pipeline. Pushes (of commits or tags) and pull request creations are sent by GitHub to
-Travis CI (these calls are visible on
-the <a href="https://app.travis-ci.com/github/opfab/operatorfabric-core/requests">Requests page</a> on Travis CI).
-Then, a build is started except for tag pushes (to avoid duplicate builds with the corresponding commit push) or
-for commit pushes on feature branches (to avoid duplicate builds with the corresponding PR if it exists).</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-If you want to force a build to be triggered on a feature branch push, add <code>ci_build</code> to the commit message.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>As of today, the build is composed of 7 stages:</p>
-</div>
-<div class="hdlist">
-<table>
-<tr>
-<td class="hdlist1">
-test-sonar
-</td>
-<td class="hdlist2">
-<p>Builds the commit, runs tests and sonar analysis</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-test
-</td>
-<td class="hdlist2">
-<p>Similar to <code>test-sonar</code> but without sonar analysis</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-doc
-</td>
-<td class="hdlist2">
-<p>Generates the documentation (from asciidoc sources and API documentation) and pushes it to the opfab.github.io
-repository to update the documentation for this release on the website.</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-doc-latest
-</td>
-<td class="hdlist2">
-<p>Generates the documentation (from asciidoc sources and API documentation) and pushes it to the
-opfab.github.io repository to update the documentation for this release, as well as the "current" documentation on the
-website.</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-docker-push-version
-</td>
-<td class="hdlist2">
-<p>Builds Docker images, tags them with the current version (either <code>SNAPSHOT</code> or <code>X.X.X.RELEASE</code>) and
-pushes them to DockerHub</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-docker-push-latest
-</td>
-<td class="hdlist2">
-<p>Builds Docker images, tags them with <code>latest</code> and pushes them to DockerHub</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-docker-tag-version
-</td>
-<td class="hdlist2">
-<p>Builds Docker images and tags them with the current version, without pushing them anywhere. This
-stage can be triggered when we just want to check that the images can be built without actually updating them on DockerHub.</p>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Among these stages, four can be considered "sensitive" because they push public content that serves as a reference for
-the project (docker images, documentation and to a lesser extent, sonar analysis), meaning we don&#8217;t want it tampered with.
-These stages are <code>test-sonar</code>, <code>doc</code> and the two <code>docker-push</code> stages.</p>
-</div>
-<div class="paragraph">
-<p>These stages are triggered depending on:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>branch type</p>
-</li>
-<li>
-<p>event type (CRON job, push or pull request)</p>
-</li>
-<li>
-<p>commit message hooks</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In the table below:</p>
-</div>
-<div class="hdlist">
-<table>
-<tr>
-<td class="hdlist1">
-doc hook
-</td>
-<td class="hdlist2">
-<p>stands for adding the keyword <code>ci_documentation</code> to the commit message</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-docker hook
-</td>
-<td class="hdlist2">
-<p>stands for adding the keyword <code>ci_docker</code> to the commit message</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-latest hook
-</td>
-<td class="hdlist2">
-<p>stands for adding the keyword <code>ci_latest</code> to the commit message</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-force build hook
-</td>
-<td class="hdlist2">
-<p>stands for adding the keyword <code>ci_build</code> to the commit message</p>
-</td>
-</tr>
-</table>
-</div>
-<table class="tableblock frame-all grid-all stripes-even stretch">
-<caption class="title">Summary of stage triggers depending on branch</caption>
-<colgroup>
-<col style="width: 17.647%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8823%;">
-<col style="width: 5.8831%;">
-</colgroup>
-<tbody>
-<tr>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-center valign-top" colspan="4"><p class="tableblock">develop</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">release</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">master</p></th>
-<th class="tableblock halign-center valign-top" colspan="4"><p class="tableblock">hotfixes</p></th>
-<th class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">force build hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">pull request</p></th>
-</tr>
-<tr>
-<th class="tableblock halign-left valign-top"><p class="tableblock">Stage</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">CRON</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">doc hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">docker hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">doc hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">docker hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">latest hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">doc hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">docker hook</p></th>
-<th class="tableblock halign-center valign-top"><p class="tableblock">push</p></th>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>test-sonar</em></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">internal</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>test</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">external</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>doc</em></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>doc-latest</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>docker-push-version</em></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>docker-push-latest</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>docker-tag-version</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-</tbody>
-</table>
-<div class="ulist">
-<ul>
-<li>
-<p>The <code>test-sonar</code> phase is ran for every build except those triggered by external PRs (i.e. originating from a fork
-of the repository). This is because the <code>sonar-scanner</code> step it comprises requires access to an encrypted token
-(to be able to push the analysis to
-<a href="https://sonarcloud.io/dashboard?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core">SonarCloud</a>, see below for details)
-that is not shared with external PRs for security reasons, so this would cause the stage (and the build) to fail.
-This is why in the case of external PRs the <code>test</code> phase is ran instead (leaving out sonar-scanner).</p>
-</li>
-</ul>
+<p>We use github Actions to manage our pipeline (<a href="https://github.com/opfab/operatorfabric-core/actions" class="bare">github.com/opfab/operatorfabric-core/actions</a>).</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_sonarcloud"><a class="anchor" href="#_sonarcloud"></a>1.1.2. SonarCloud</h4>
 <div class="paragraph">
-<p>To be allowed to push results to SonarCloud, Travis needs to be authenticated. This is done by generating a token on
-SonarCloud with an account (opfabtech) that has admin rights to the organization, and then providing this token to Travis
-either through the .travis.yml file or as an environment variable through Travis settings.</p>
+<p>To be allowed to push results to SonarCloud, github needs to be authenticated. This is done by generating a token on
+SonarCloud with an account (opfabtech) that has admin rights to the organization, and then providing this token to github using <a href="https://github.com/opfab/operatorfabric-core/settings/secrets/actions">actions secrets</a> .</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_github_documentation"><a class="anchor" href="#_github_documentation"></a>1.1.3. GitHub (documentation)</h4>
 <div class="paragraph">
-<p>To be allowed to push the generated documentation to the opfab.github.io, Travis needs write access to the repository.
+<p>To be allowed to push the generated documentation to the opfab.github.io, Github needs write access to the repository.
 This is done by setting up a Personal Access Token in GitHub using the technical account.
-This token is then passed to Travis as an environment variable through Travis settings, and is used in the .travis.yml file.
-Right now the scope of this token is maximal, it can probably be reduced (see <a href="https://opfab.atlassian.net/browse/OC-755">OC-755</a>).</p>
+This token is then passed to Github  using <a href="https://github.com/opfab/operatorfabric-core/settings/secrets/actions">actions secrets</a> .</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -874,9 +546,7 @@ depending on how busy the service is.
 <div class="sect3">
 <h4 id="_dockerhub"><a class="anchor" href="#_dockerhub"></a>1.1.4. DockerHub</h4>
 <div class="paragraph">
-<p>To be allowed to push images to DockerHub, Travis needs to be authenticated. This is done by setting the DockerHub
-login and password of the technical account as environment variables through Travis settings and referencing them in
-the .travis.yml file.</p>
+<p>To be allowed to push images to DockerHub, Github needs to be authenticated. This is done again by generating a token in DockerHub using the technical account and provide it to github via actions secrets.</p>
 </div>
 </div>
 </div>
@@ -927,9 +597,10 @@ the same major version.</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-To release a version we use some Travis dedicated jobs. These jobs are triggered by specific commit keywords
-and rely on the VERSION file at the root of this repository to know which version is being produced.
-It is thus crucial to double-check the content of this file before any push (triggering the Travis jobs) is made.
+To release a version we use some GitHub Actions dedicated jobs. These jobs are triggered when pushing a commit in branches
+containing the keyword release at the end (**release) and rely on the VERSION file at the root of this repository to
+know which version is being produced. It is thus crucial to double-check the content of this file before any push
+(triggering the GitHub Actions jobs) is made.
 </td>
 </tr>
 </table>
@@ -994,9 +665,9 @@ The following files have been updated:
  M VERSION
  M config/dev/docker-compose.yml
  M config/docker/docker-compose.yml
- M services/core/cards-publication/src/main/modeling/swagger.yaml
- M services/core/businessconfig/src/main/modeling/swagger.yaml
- M services/core/users/src/main/modeling/swagger.yaml</pre>
+ M services/cards-publication/src/main/modeling/swagger.yaml
+ M services/businessconfig/src/main/modeling/swagger.yaml
+ M services/users/src/main/modeling/swagger.yaml</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1033,15 +704,14 @@ git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
 <li>
 <p>Check that the build is correctly triggered</p>
 <div class="paragraph">
-<p>You can check the status of the build job triggered by the commit on
-<a href="https://travis-ci.com/opfab/operatorfabric-core/branches">Travis CI</a>.
-The build job should have two stages: <code>test-sonar</code> and <code>docker-tag-version</code>.</p>
+<p>You can check the status of the GitHub Actions triggered by the commit on
+<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
 </div>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Wait for the build to complete (around 20 minutes) and check that all stages have been successful.
+<p>Wait for the build to complete (around 30 minutes) and check that all jobs have been successful.
 This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
 generation.</p>
 </div>
@@ -1070,8 +740,10 @@ edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
   <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
   <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
   <span class="comment">#... end of file omitted</span></code></pre>
 </div>
@@ -1081,9 +753,12 @@ edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
   <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: X.X.X.RELEASE</span></span>
   <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
   <span class="comment">#... end of file omitted</span></code></pre>
 </div>
@@ -1091,6 +766,19 @@ edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/
 <div class="paragraph">
 <p>This file determines which versions (and in which order) are displayed on the
 <a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>external_devices_api</code> property should be set to true for all new versions, so the API documentation for
+the External Devices API is displayed on the website.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -1123,21 +811,6 @@ git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
 </tr>
 </table>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Specific keywords such as "ci_docker" etc. are no longer required in the case of a release on master as
-by design any release on master becomes the "latest" version, so docker images generation (both for the version
-tag and the latest tag) and documentation update (both for the release and the "current" folder) should always
-be triggered.
-</td>
-</tr>
-</table>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre>git tag X.X.X.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
@@ -1163,19 +836,27 @@ git push origin X.X.X.RELEASE <i class="conum" data-value="3"></i><b>(3)</b></pr
 <li>
 <p>Check that the build is correctly triggered</p>
 <div class="paragraph">
-<p>You can check the status of the build job triggered by the commit on
-<a href="https://travis-ci.com/opfab/operatorfabric-core/branches">Travis CI</a>.
-The build job should have the following four stages (or three if the images aren&#8217;t tagged as latest)</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/master_branch_build.png" alt="Running build for master branch screenshot">
-</div>
-</div>
-<div class="paragraph">
-<p>Wait for the build to complete (around 40 minutes) and check that all stages have been successful.</p>
+<p>You can check the status of the GitHub Action workflow triggered by the commit on
+<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.
+The Github Actions workflow should have the following six jobs executed :
+- Build
+- Karate tests
+- Cypress tests
+- Publish Documentation (latest)
+- Push images to dockerhub
+- Push images latest to dockerhub</p>
 </div>
 </li>
+</ol>
+</div></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Wait for the build to complete (around 40 minutes) and check that all jobs have been successful.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Check that the <code>X.X.X.RELEASE</code> images have been generated and pushed to DockerHub.</p>
 </li>
@@ -1202,9 +883,6 @@ and that the links work.</p>
 <a href="https://github.com/opfab/operatorfabric-core/tags">tags page</a> for the repository.</p>
 </li>
 </ol>
-</div></td>
-</tr>
-</table>
 </div>
 </div>
 <div class="sect3">
@@ -1486,7 +1164,7 @@ can release the patch version. To do so:</p>
 <div class="listingblock">
 <div class="content">
 <pre>git add .
-git commit -m "[RELEASE] X.X.X.RELEASE ci_docker ci_documentation" <i class="conum" data-value="1"></i><b>(1)</b>
+git commit -m "[RELEASE] X.X.X.RELEASE " <i class="conum" data-value="1"></i><b>(1)</b>
 git tag X.X.X.RELEASE <i class="conum" data-value="2"></i><b>(2)</b>
 git push <i class="conum" data-value="3"></i><b>(3)</b>
 git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pre>
@@ -1515,6 +1193,12 @@ git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pr
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>This will trigger the build and tests in GitHub Actions.</p>
+</div>
+<div class="paragraph">
+<p>If the build and tests are successful, launch manually GitHubActions with jobs : <code>Build</code> , <code>Docker Push</code> and <code>Build and publish documentation</code></p>
+</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1523,8 +1207,7 @@ git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pr
 </td>
 <td class="content">
 In the case of a patch on the last major/minor version tagged on master, this version will become the
-<code>latest</code> version. In this case, add <code>ci_latest</code> instead of <code>ci_docker ci_documentation</code> to the commit message
-to also update the <code>latest</code> docker images on DockerHub and the <code>current</code> documentation on the website.
+<code>latest</code> version. In this case, add the jobs <code>Docker Push - Latest</code> and  <code>Build and publish documentation - Latest</code> instead of <code>Build and publish documentation</code> to also update the <code>latest</code> docker images on DockerHub and the <code>current</code> documentation on the website.
 </td>
 </tr>
 </table>

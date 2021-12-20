@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.1.0.RELEASE,</span>
-<span id="revdate">29 November 2021</span>
+<span id="revnumber">version 3.2.0.RELEASE,</span>
+<span id="revdate">20 December 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -468,7 +468,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_nginx_configuration">2.2.1. NGINX configuration</a></li>
 <li><a href="#ui_properties">2.2.2. UI properties</a>
 <ul class="sectlevel4">
-<li><a href="#_external_devices_service">2.2.2.1. External Devices Service</a></li>
+<li><a href="#external-devices-conf">2.2.2.1. External Devices Service</a></li>
 </ul>
 </li>
 </ul>
@@ -931,7 +931,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <p>The keycloak logout URL. Is a composition of:
  - Your keycloak instance and the <em>auth</em> keyword (ex: <a href="https://www.keycloakurl.com/auth" class="bare">www.keycloakurl.com/auth</a>), but we also support domains without <em>auth</em> (ex: <a href="https://www.keycloakurl.com/customPath" class="bare">www.keycloakurl.com/customPath</a>)
  - The realm name (Ex: dev)
- - The redirect URL (<em>redirect_uri</em>): The redirect URL after success authentification</p>
+ - The redirect URL (<em>redirect_uri</em>): The redirect URL after success authentication</p>
 </div></div></td>
 </tr>
 <tr>
@@ -945,7 +945,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">PASSWORD</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>authentication mode, awailable options:</p>
+<p>authentication mode, available options:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1032,6 +1032,12 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the response filter in the feed page</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.hideApplyFiltersToTimeLineChoice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the option of applying filters or not to timeline in the feed page</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.hideReadSort</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1105,12 +1111,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in logging page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.tags.hide</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if you want to show or hide the tags filter in feed page</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.styleWhenNightDayModeDesactivated</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1151,12 +1151,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timezone in the settings page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.tags</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the tags in the settings page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.sounds</p></td>
@@ -1266,13 +1260,13 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">environmentName</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the environment to display on the top-right corner (examples: PROD , TEST .. ), if the value not set the environnement name is not shown .</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the environment to display in the top-right corner (examples: PROD , TEST .. ), if the value not set the environment name is not shown .</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">environmentColor</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">blue</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Color of the background of the environnement name. The format of color is css, for example : <code>red</code> , <code>#4052FF</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Color of the background of the environment name. The format of color is css, for example : <code>red</code> , <code>#4052FF</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">showUserEntitiesOnTopRightOfTheScreen</p></td>
@@ -1329,16 +1323,10 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default user locale (use en if not set)</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.default-tags</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default user list of filtered in tags</p></td>
-</tr>
 </tbody>
 </table>
 <div class="sect4">
-<h5 id="_external_devices_service"><a class="anchor" href="#_external_devices_service"></a>2.2.2.1. External Devices Service</h5>
+<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>2.2.2.1. External Devices Service</h5>
 <div class="paragraph">
 <p>The external devices service can be configured with the following properties:</p>
 </div>

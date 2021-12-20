@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Community</h1>
 <div class="details">
-<span id="revnumber">version 3.1.0.RELEASE,</span>
-<span id="revdate">29 November 2021</span>
+<span id="revnumber">version 3.2.0.RELEASE,</span>
+<span id="revdate">20 December 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -653,7 +653,7 @@ release"</em>.</p>
 <p>The repository version on the <code>develop</code> branch should always be <code>SNAPSHOT</code>.</p>
 </div>
 <div class="paragraph">
-<p>The daily CRON Travis job generating the documentation and docker images for the <code>SNAPSHOT</code> version are run from
+<p>The daily CRON GitHub Action generating the documentation and docker images for the <code>SNAPSHOT</code> version are run from
 this branch (see our
 <a href="/documentation/current/CICD/index.html#CICD">CICD documentation</a>
 for details).</p>
@@ -669,7 +669,7 @@ should be merged back into master somehow and then tagged with a release number.
 <p>This means that any commit on master is a production-ready release, be it a minor or a major version.</p>
 </div>
 <div class="paragraph">
-<p>Any commit on <code>master</code> triggers a Travis build generating and pushing documentation and docker images for the
+<p>Any commit on <code>master</code> triggers a GitHub Action build generating and pushing documentation and docker images for the
 corresponding release version. As a version released from master is also by design the latest version, it will also
 update the <code>latest</code> docker images and the <code>current</code> documentation folder on the website.</p>
 </div>
@@ -1184,22 +1184,20 @@ stop anyone interested in the topic of a PR to comment and review it.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>The PR comment contains the text to insert in release note. Otherwise, it should say why this development doesn&#8217;t need
-to be on the release notes.</p>
+<p>The PR comment contains the text to insert in release note. Otherwise, it should say why this development doesn&#8217;t need to be on the release notes.</p>
 </li>
 <li>
 <p>If necessary, the PR should create or add content to a migration guide for the next version, under
 <code>src/docs/asciidoc/resources</code></p>
 </li>
 <li>
-<p>Check that Travis build is passing for the PR</p>
+<p>Check that GitHub Action build is passing for the PR</p>
 </li>
 <li>
 <p>The SonarCloud analysis should report no new bug or code smells, and should pass the quality gate</p>
 </li>
 <li>
-<p>Check that the base branch (i.e. the branch into which we want to merge changes) is correct: for feature branches
-pull requests, this branch should be <code>develop</code>.</p>
+<p>Check that the base branch (i.e. the branch into which we want to merge changes) is correct: for feature branches pull requests, this branch should be <code>develop</code>.</p>
 </li>
 <li>
 <p>Look through changed files to make sure everything is relevant to the PR (no mistakenly added changes,
@@ -1215,12 +1213,7 @@ no secret information, no malicious changes) and to see if you have remarks on t
 <p>Meaningful and sufficient unit tests for the backend (we aim for 80% coverage)</p>
 </li>
 <li>
-<p>Meaningful unit tests for the frontend (Angular tests can be complex to implement, we should focus on testing complex
-logic and not the framework itself)</p>
-</li>
-<li>
-<p>Note: Because currently Sonar doesn&#8217;t distinguish between back and front, the quality gate only enforces a 50% coverage
-threshold.</p>
+<p>Meaningful unit tests for the frontend (Angular tests can be complex to implement, we should focus on testing complex logic and not the framework itself)</p>
 </li>
 <li>
 <p>API testing via Karate has been updated</p>
@@ -1242,14 +1235,188 @@ of making sure that the configuration documentation is correct and easily unders
 <p>Depending on the scope of the PR , build docker images and test in docker mode</p>
 </li>
 <li>
-<p>Check that the copyright header has been updated on the changed files if need be, and in the case of a first-time
-contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
+<p>Check that the copyright header has been updated on the changed files if need be, and in the case of a first-time contributor, make sure they&#8217;re added to the AUTHORS.txt file.</p>
 </li>
 <li>
-<p>Check new dependencies added to the project to see if they are compatible with the OperatorFabric license</p>
+<p>Check new dependencies added to the project to see if they are compatible with the OperatorFabric license , see the following table</p>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect5">
+<h6 id="_license_usage_restrictions"><a class="anchor" href="#_license_usage_restrictions"></a>License usage restrictions</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>License Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>SPX Identifier</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Usage, Restrictions</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Academic Free License v1.1, v1.2, v2.0, v2.1, v3.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AFL-1.1, AFL-1.2, AFL-2.0, AFL-2.1, AFL-3.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None , Be careful of incompatibility with GPL license.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apache License 2.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apache-2.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BSD 2-Clause "Simplified" License</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BSD-2-Clause</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BSD 3-Clause "New" or "Revised" License</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BSD-3-Clause</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BSD 4-Clause "Original" or "Old" License</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BSD-4-Clause</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usage prohibited due to advertising clause.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Common Development and Distribution License 1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CDDL-1.0 Moderate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library. Be careful of incompatibility with GPL license.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Common Development and Distribution License 1.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CDDL-1.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moderate copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library.Be careful of incompatibility with GPL license.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creative Commons Attribution 3.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CC-BY-3.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None. Suitable for documentation material.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creative Commons Attribution 4.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CC-BY-4.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None. Suitable for documentation material.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creative Commons Attribution Non Commercial (any version)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CC-BY-NC-&#8230;&#8203;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Non commercial</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usage prohibited due to non commercial restriction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creative Commons Zero v1.0 Universal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CC0-1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Free usage (public domain)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None. Suitable for documentation material.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eclipse Public License 1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPL-1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moderate copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library.Be careful of incompatibility with GPL license.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eclipse Public License 2.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPL-2.0 Moderate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library GNU General Public License v2.0 only GPL-2.0-only Strong copyleft  Usage prohibited. Exemptions on a case by case basis.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU General Public License v2.0 or later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPL-2.0-or-later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Strong copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usage prohibited. Exemptions on a case by case basis.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU General Public License v3.0 only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPL-3.0-only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Strong copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usage prohibited. Exemptions on a case by case basis.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU General Public License v3.0 or later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPL-3.0-or-later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Strong copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usage prohibited. Exemptions on a case by case basis.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU Lesser General Public License v2.1 only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LGPL-2.1-only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moderate copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU Lesser General Public License v2.1 or later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LGPL-2.1-or-later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moderate copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU Lesser General Public License v3.0 only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LGPL-3.0-only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moderate copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GNU Lesser General Public License v3.0 or later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LGPL-3.0-or-later</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moderate copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ISC License</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ISC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MIT License</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MIT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mozilla Public License 2.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MPL-2.0 Moderate (weak)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copyleft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only as a distinct library</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public domain</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Free usage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SIL Open Font License 1.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OFL-1.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive in relation to combination with non-font code (strong copyleft for font code)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only for font components</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">zlib License</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zlib</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permissive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect5">
 <h6 id="_testing_environment_for_reviewer"><a class="anchor" href="#_testing_environment_for_reviewer"></a>Testing environment for reviewer</h6>
@@ -1558,7 +1725,7 @@ and then goes into more technical details when needed.</p></td>
 <p>In addition to this asciidoctor documentation, API documentation is available in the form of SwaggerUI-generated html
 pages. It is generated by the <code>generateSwaggerUI</code> Gradle task, using the swagger.yaml files from each service (for
 example for the
-<a href="https://github.com/opfab/operatorfabric-core/blob/master/services/core/actions/src/main/modeling/swagger.yaml">Actions API</a>
+<a href="https://github.com/opfab/operatorfabric-core/blob/master/services/businessconfig/src/main/modeling/swagger.yaml">BusinessConfig API</a>
 ). It can be found under the <strong>build/docs/api</strong> folder for each client or service project.</p>
 </div>
 </div>
