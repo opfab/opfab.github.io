@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 December 2021</span>
+<span id="revdate">21 December 2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -739,12 +739,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_external_devices_service">18. External Devices Service</a>
 <ul class="sectlevel2">
 <li><a href="#_specification">18.1. Specification</a></li>
-<li><a href="#_implementation">18.2. Implementation</a></li>
-<li><a href="#_configuration_2">18.3. Configuration</a></li>
-<li><a href="#_connexion_management">18.4. Connexion Management</a></li>
-<li><a href="#_drivers">18.5. Drivers</a>
+<li><a href="#_implementation">18.2. Implementation</a>
 <ul class="sectlevel3">
-<li><a href="#_modbus_driver">18.5.1. Modbus Driver</a></li>
+<li><a href="#_architecture">18.2.1. Architecture</a></li>
+<li><a href="#_configuration_2">18.2.2. Configuration</a></li>
+</ul>
+</li>
+<li><a href="#_configuration_3">18.3. Configuration</a></li>
+<li><a href="#_connexion_management">18.4. Connexion Management</a></li>
+<li><a href="#_configuration_management">18.5. Configuration Management</a></li>
+<li><a href="#_drivers">18.6. Drivers</a>
+<ul class="sectlevel3">
+<li><a href="#_modbus_driver">18.6.1. Modbus Driver</a></li>
+<li><a href="#_adding_new_drivers">18.6.2. Adding new drivers</a></li>
 </ul>
 </li>
 </ul>
@@ -754,7 +761,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_deployment_and_administration_of_operatorfabric">Deployment and Administration of OperatorFabric</a>
 <ul class="sectlevel1">
 <li><a href="#_deployment">19. Deployment</a></li>
-<li><a href="#_configuration_3">20. Configuration</a>
+<li><a href="#_configuration_4">20. Configuration</a>
 <ul class="sectlevel2">
 <li><a href="#_business_service_configuration">20.1. Business service configuration</a>
 <ul class="sectlevel3">
@@ -955,7 +962,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_guidelines_and_tips">31.3.9.2. Guidelines and tips</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_4">31.3.10. Configuration</a></li>
+<li><a href="#_configuration_5">31.3.10. Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -6010,28 +6017,201 @@ protocols (and ultimately allow people to supply their own drivers) in the futur
 </div>
 <div class="sect2">
 <h3 id="_implementation"><a class="anchor" href="#_implementation"></a>18.2. Implementation</h3>
+<div class="sect3">
+<h4 id="_architecture"><a class="anchor" href="#_architecture"></a>18.2.1. Architecture</h4>
 <div class="paragraph">
-<p>Given the use case described above, the following elements need to be configurable:</p>
+<p>Given the use case described above, a new service was necessary to act as a link between the OperatorFabric UI and
+the external devices. This service is in charge of:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>How to connect to a given external device (host, port)</p>
+<p>Managing the configuration relative to external devices (see below for details)</p>
 </li>
 <li>
-<p>How to map an OperatorFabric signal key <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> to a signal (sound, light) on the external system</p>
+<p>Process requests from the UI (e.g. "play the sound for ALARM for user operator1") and translate them as requests to
+the appropriate device in their supported protocol, based on the above configuration</p>
 </li>
 <li>
-<p>For each user, which device to use</p>
+<p>Allow the pool of devices to be managed (connection, disconnection)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The external devices system is</p>
+<p>This translates as three APIs.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ExtDevArchitecture.drawio.png" alt="Architecture diagram">
+</div>
+</div>
+<div class="paragraph">
+<p>Here is what happens when user operator1 receives a card with severity ALARM:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the Angular code, the reception of the card triggers a sound notification.</p>
+</li>
+<li>
+<p>If the external devices feature is enabled and the user has chosen to play sounds on external devices
+(instead of the browser), the UI code sends a POST request on the <code>external-devices/notifications</code> endpoint on the
+NGINX gateway, with the following payload:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">opfabSignalId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The NGINX server, acting as a gateway, forwards it to the <code>/notifications</code> endpoint on the External Devices service.</p>
+</li>
+<li>
+<p>The External Devices service queries the configuration repositories to find out which external device is configured
+for operator1, how to connect to it and what signal "ALARM" translates to on this particular device.</p>
+</li>
+<li>
+<p>It then creates the appropriate connection if it doesn&#8217;t exist yet, and sends the signal.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>18.2.2. Configuration</h4>
+<div class="paragraph">
+<p>The following elements need to be configurable:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For each user, which device to use:</p>
+<div class="listingblock">
+<div class="title">userConfiguration</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">userLogin</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operator1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">externalDeviceId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_1</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>How to connect to a given external device (host, port)</p>
+<div class="listingblock">
+<div class="title">deviceConfiguration</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_1</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">host</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">4300</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">signalMappingId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">default_CDS_mapping</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>How to map an OperatorFabric signal key <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> to a signal (sound, light) on the external system</p>
+<div class="listingblock">
+<div class="title">signalMapping</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">default_CDS_mapping</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">supportedSignals</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ACTION</span><span class="delimiter">&quot;</span></span>: <span class="integer">2</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>: <span class="integer">4</span>
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This means that a single physical device allowing 2 different sets of sounds to be played (for example one set for desk
+A and another set for desk B) would be represented as two different device configurations, with different ids.</p>
+</div>
+<div class="listingblock">
+<div class="title">Device configurations</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">[{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_A</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">host</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">4300</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">signalMappingId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">mapping_A</span><span class="delimiter">&quot;</span></span>
+},
+{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_B</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">host</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">localhost</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">4300</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">signalMappingId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">mapping_B</span><span class="delimiter">&quot;</span></span>
+}]</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Signal mappings</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">[{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">mapping_A</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">supportedSignals</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ACTION</span><span class="delimiter">&quot;</span></span>: <span class="integer">2</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>: <span class="integer">4</span>
+  }
+},
+{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">mapping_B</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">supportedSignals</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>: <span class="integer">5</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ACTION</span><span class="delimiter">&quot;</span></span>: <span class="integer">6</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>: <span class="integer">7</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>: <span class="integer">8</span>
+  }
+}]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The signalMapping object is built as a Map with String keys (rather than the Severity enum or any otherwise
+constrained type) because there is a strong possibility that in the future we might want to map something other than
+severities.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Please see the <a href="https://opfab.github.io/documentation/current/api/external-devices/">API documentation</a> for details.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There is a <code>Device</code> object distinct from <code>DeviceConfiguration</code> because the latter represents static information
+about how to reach a device, while the former contains information about the actual connexion and its status.
+For example, this is why the device configuration contains a <code>host</code> (which can be a hostname) while the device
+has a <code>resolvedAddress</code>.
+As a result, they are managed through separate endpoints, which might also make things easier if we need to secure
+them differently (some people might be allowed to connect/disconnect devices but not change their configuration).
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>18.3. Configuration</h3>
+<h3 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>18.3. Configuration</h3>
 
 </div>
 <div class="sect2">
@@ -6048,14 +6228,76 @@ configured but not connected yet, the connection will be performed automatically
 </div>
 </div>
 <div class="sect2">
-<h3 id="_drivers"><a class="anchor" href="#_drivers"></a>18.5. Drivers</h3>
+<h3 id="_configuration_management"><a class="anchor" href="#_configuration_management"></a>18.5. Configuration Management</h3>
+<div class="paragraph">
+<p>In coherence with the way Entities, Perimeters, Users and Groups are managed, SignalMapping, UserConfiguration and
+DeviceConfiguration resources can be deleted even if other resources link to them.
+For example, if a device configuration lists <code>someMapping</code> as its <code>signalMappingId</code> and a DELETE request is sent
+on <code>someMapping</code>, the deletion will be performed and return a 200 Success, and the device will have a <code>null</code>
+<code>signalMappingId</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_drivers"><a class="anchor" href="#_drivers"></a>18.6. Drivers</h3>
 <div class="paragraph">
 <p>This section contains information that is specific to each type of driver. Currently, the only supported driver uses
 the <a href="https://en.wikipedia.org/wiki/Modbus">Modbus protocol</a>.</p>
 </div>
 <div class="sect3">
-<h4 id="_modbus_driver"><a class="anchor" href="#_modbus_driver"></a>18.5.1. Modbus Driver</h4>
-
+<h4 id="_modbus_driver"><a class="anchor" href="#_modbus_driver"></a>18.6.1. Modbus Driver</h4>
+<div class="paragraph">
+<p>The Modbus driver is based on the <a href="https://github.com/kochedykov/jlibmodbus">jlibmodbus</a> library to create a
+<code>ModbusMaster</code> for each device and then send requests through it using the
+<a href="https://github.com/kochedykov/jlibmodbus/blob/master/src/com/intelligt/modbus/jlibmodbus/msg/request/WriteSingleRegisterRequest.java">WriteSingleRegisterRequest</a>
+object.</p>
+</div>
+<div class="paragraph">
+<p>We are currently using the "BROADCAST" mode, which (at least in the jlibmodbus implementation) means that the Modbus
+master doesn&#8217;t expect any response to its requests (which makes sense because if there really are several clients
+responding to the broadcast, )
+This is mitigated by the fact that if watchdog signals are enabled, the external devices will be able to detect that
+they are not receiving signals correctly.
+In the future, it could be interesting to switch to the TCP default so OperatorFabric can be informed of any exception
+in the processing of the request, allowing for example to give a more meaningful connection status
+(see <a href="https://github.com/opfab/operatorfabric-core/issues/2294">#2294</a>)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_new_drivers"><a class="anchor" href="#_adding_new_drivers"></a>18.6.2. Adding new drivers</h4>
+<div class="paragraph">
+<p>New drivers should implement the <code>ExternalDeviceDriver</code> interface, and a corresponding factory implementing the
+<code>ExternalDeviceDriverFactory</code> interface should be created with it.</p>
+</div>
+<div class="paragraph">
+<p>The idea is that in the future, using dependency injection, Spring should be able to pick up any factory on the classpath implementing
+the correct interface.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>ExternalDeviceDriver</code>, <code>ExternalDeviceDriverFactory</code> and the accompanying custom exceptions should be made
+available as a jar on Maven Central if we want to allow project users to provide their own drivers.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If several drivers need to be used on a given OperatorFabric instance at the same time, we will need to introduce
+a device type in the deviceConfiguration object.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -6089,7 +6331,7 @@ deployment as a docker-compose file
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>20. Configuration</h2>
+<h2 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>20. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>OperatorFabric has multiple services to configure.</p>
@@ -9393,6 +9635,9 @@ tests and demonstrations</p>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/cypress">cypress</a> : cypress code for automatic ui testing</p>
 </li>
 <li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/dummyModbusDevice">dummyModbusDevice</a> : application emulating a Modbus device for test purposes</p>
+</li>
+<li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources">resources</a> : scripts and data for manual testing</p>
 </li>
 </ul>
@@ -10246,7 +10491,7 @@ explanation</a> and <a href="https://docs.cypress.io/guides/core-concepts/retry-
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>31.3.10. Configuration</h4>
+<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>31.3.10. Configuration</h4>
 <div class="paragraph">
 <p>In <code>cypress.json</code>:</p>
 </div>
@@ -14080,11 +14325,6 @@ In the case of a patch on the last major/minor version tagged on master, this ve
 </div>
 </div>
 <h1 id="_resources" class="sect0"><a class="anchor" href="#_resources"></a>Resources</h1>
-<div class="openblock partintro">
-<div class="content">
-Unresolved directive in ../resources/index.adoc - include::mock_pipeline.adoc[leveloffset=+1]
-</div>
-</div>
 <div class="sect1">
 <h2 id="_appendix_b_publication_of_the_client_library_jars_to_maven_central"><a class="anchor" href="#_appendix_b_publication_of_the_client_library_jars_to_maven_central"></a>45. Appendix B: Publication of the client library jars to Maven Central</h2>
 <div class="sectionbody">
