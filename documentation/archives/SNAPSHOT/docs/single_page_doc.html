@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 January 2022</span>
+<span id="revdate">10 January 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1144,8 +1144,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_checking_the_release_notes">45.2.1. Checking the release notes</a></li>
 <li><a href="#_creating_a_release_branch_and_preparing_the_release">45.2.2. Creating a release branch and preparing the release</a></li>
-<li><a href="#_updating_the_version_list_on_the_website">45.2.3. Updating the version list on the website</a></li>
-<li><a href="#_merging_the_release_branch_into_master">45.2.4. Merging the release branch into <code>master</code></a></li>
+<li><a href="#_merging_the_release_branch_into_master">45.2.3. Merging the release branch into <code>master</code></a></li>
+<li><a href="#_updating_the_version_list_on_the_website">45.2.4. Updating the version list on the website</a></li>
 <li><a href="#_checking_the_docker_compose_files">45.2.5. Checking the docker-compose files</a></li>
 <li><a href="#_publishing_the_release_on_github">45.2.6. Publishing the release on GitHub</a></li>
 <li><a href="#publishing_client_lib_release">45.2.7. Publishing the jars for the client library to Maven Central</a></li>
@@ -7981,6 +7981,155 @@ are to be returned via Kafka by setting the <code>externalRecipients-url</code> 
 <div class="paragraph">
 <p>Also note enabling Kafka does not disable the REST interface.</p>
 </div>
+<div class="paragraph">
+<p>Example Kafka configuration plain:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">properties</span>:
+        <span class="key">specific</span>:
+          <span class="key">avro</span>:
+            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9092</span></span>
+<span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-commands_dev</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-response_dev</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration SASL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">security</span>:
+        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+      <span class="key">properties</span>:
+        <span class="key">specific</span>:
+          <span class="key">avro</span>:
+            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
+        <span class="key">sasl</span>:
+          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
+          <span class="key">jaas</span>:
+            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
+      <span class="key">security</span>:
+        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+      <span class="key">properties</span>:
+        <span class="key">sasl</span>:
+          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
+          <span class="key">jaas</span>:
+            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
+    <span class="key">ssl</span>:
+      <span class="key">trust-store-type</span>: <span class="string"><span class="content">PKCS12</span></span>
+      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
+      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs</span></span>
+    <span class="key">properties</span>:
+      <span class="key">ssl</span>:
+        <span class="key">endpoint</span>:
+          <span class="key">identification</span>:
+            <span class="key">algorithm</span>: <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
+<span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration Kerberos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">key</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">security</span>:
+      <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+    <span class="key">properties</span>:
+      <span class="key">sasl.mechanism</span>: <span class="string"><span class="content">GSSAPI</span></span>
+      <span class="key">sasl</span>:
+        <span class="key">jaas</span>:
+          <span class="key">config</span>: <span class="string"><span class="content">com.sun.security.auth.module.Krb5LoginModule required useKeyTab=true keyTab=&quot;/etc/kafkaUsername.keytab&quot; storeKey=true useTicketCache=false serviceName=&quot;kafka&quot; principal=&quot;kafkaUsername@DOMAIN&quot;;</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
+    <span class="key">ssl</span>:
+      <span class="key">trust-store-type</span>: <span class="string"><span class="content">pkcs12</span></span>
+      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
+      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs12</span></span>
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">key-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
+      <span class="key">value-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
+      <span class="key">properties</span>:
+        <span class="key">spring</span>:
+          <span class="key">deserializer</span>:
+            <span class="key">key</span>:
+              <span class="key">delegate</span>:
+                <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
+            <span class="key">value</span>:
+              <span class="key">delegate</span>:
+                <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">value-serializer</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+<span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -13949,72 +14098,7 @@ generation.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_updating_the_version_list_on_the_website"><a class="anchor" href="#_updating_the_version_list_on_the_website"></a>45.2.3. Updating the version list on the website</h4>
-<div class="paragraph">
-<p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
-edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/versions.yml"></em>/data/versions.yml</a> file to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the version being released to the list with the <code>current</code> badge</p>
-</li>
-<li>
-<p>Remove the <code>current</code> badge from the previous version</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>For example:</p>
-</div>
-<div class="listingblock">
-<div class="title">Before</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
-  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
-  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
-  <span class="comment">#... end of file omitted</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">After</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
-  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: X.X.X.RELEASE</span></span>
-  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
-  <span class="comment">#... end of file omitted</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This file determines which versions (and in which order) are displayed on the
-<a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The <code>external_devices_api</code> property should be set to true for all new versions, so the API documentation for
-the External Devices API is displayed on the website.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>45.2.4. Merging the release branch into <code>master</code></h4>
+<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>45.2.3. Merging the release branch into <code>master</code></h4>
 <div class="paragraph">
 <p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
 developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
@@ -14115,6 +14199,71 @@ and that the links work.</p>
 <a href="https://github.com/opfab/operatorfabric-core/tags">tags page</a> for the repository.</p>
 </li>
 </ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_updating_the_version_list_on_the_website"><a class="anchor" href="#_updating_the_version_list_on_the_website"></a>45.2.4. Updating the version list on the website</h4>
+<div class="paragraph">
+<p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
+edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/versions.yml"></em>/data/versions.yml</a> file to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the version being released to the list with the <code>current</code> badge</p>
+</li>
+<li>
+<p>Remove the <code>current</code> badge from the previous version</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: X.X.X.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This file determines which versions (and in which order) are displayed on the
+<a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>external_devices_api</code> property should be set to true for all new versions, so the API documentation for
+the External Devices API is displayed on the website.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
