@@ -138,7 +138,7 @@ window.swaggerSpec={
       },
       "required" : [ "userLogin" ],
       "example" : {
-        "userLogin" : "operator1",
+        "userLogin" : "operator1_fr",
         "externalDeviceId" : "CDS_1"
       }
     }
