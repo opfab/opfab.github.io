@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 January 2022</span>
+<span id="revdate">25 January 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -2317,6 +2317,9 @@ of the cards, the operator can send back information to the third party via a "r
 <li>
 <p>User Management : this component is used to manage users, groups, entities and perimeters.</p>
 </li>
+<li>
+<p>External devices : this optional component permit to send alarm to an external device instead of playing a sound on the user computer. For now, only one driver exists using modbus protocol.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -2349,6 +2352,9 @@ of the cards, the operator can send back information to the third party via a "r
 </li>
 <li>
 <p>Process : the process the card is about</p>
+</li>
+<li>
+<p>Process Group : a way to group processes on the user interface</p>
 </li>
 <li>
 <p>State : the step in the process</p>
@@ -4520,6 +4526,9 @@ The function returns an array of entity object :</p>
 <li>
 <p>'parents' : list of parent entities</p>
 </li>
+<li>
+<p>'labels' : list of labels associated to the entity</p>
+</li>
 </ul>
 </div>
 </div>
@@ -5627,7 +5636,7 @@ More details about automated user creation
 <p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).
 Entities are used to send cards to several users without a name specifically. The information about membership to an
 entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.
-The boolean property <code>entityAllowedToSendCard</code> (default value <code>true</code>) can be used to mark an Entity as not eligible as card publisher. This can be useful for a group of entities where only child entities should be used as card publishers while the parent is just a logical group usable as card recipient.</p>
+The boolean property <code>entityAllowedToSendCard</code> (default value <code>true</code>) can be used to mark an Entity as not eligible as card publisher. This can be useful for a group of entities where only child entities should be used as card publishers while the parent is just a logical group usable as card recipient. The <code>labels</code> property (array) allows to associate string labels to an Entity object.</p>
 </div>
 <div class="paragraph">
 <p>Examples using entities can be found
@@ -5686,10 +5695,192 @@ for more details to use this feature.</p>
 <div class="sect2">
 <h3 id="_real_time_users"><a class="anchor" href="#_real_time_users"></a>16.3. Real time users</h3>
 <div class="paragraph">
-<p>As an admin (or member of the ADMIN group), OperatorFabric allows you to see which "real-time" users are logged in and not logged in. To be part of the "real-time" users, you must be a member of the REALTIME_USERS group.</p>
+<p>OperatorFabric allows you to see which entities/groups are logged in and not logged in. To have this information, you must upload a configuration file, using the endpoint /businessconfig/realtimescreens, via a POST request. In this file, you can configure several screens, each one containing the list of entities/groups you want to see.</p>
 </div>
 <div class="paragraph">
 <p>This interface is accessible via the user menu (top right of the screen).</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of the configuration file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">realTimeScreens</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">All Control Centers</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenColumns</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">French Control Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_FR</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY2_FR</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY3_FR</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY4_FR</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Dispatcher</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Planner</span><span class="delimiter">&quot;</span></span>
+              ]
+            },
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Italian Control Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_IT</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY2_IT</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY3_IT</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Dispatcher</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Planner</span><span class="delimiter">&quot;</span></span>
+              ]
+            },
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Dutch Control Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_NL</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY2_NL</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Dispatcher</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Planner</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        },
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Central Supervision Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">IT_SUPERVISOR_ENTITY</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Supervisor</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">French Control Centers</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenColumns</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">French Control Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_FR</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY2_FR</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY3_FR</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY4_FR</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Dispatcher</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Planner</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        },
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Central Supervision Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">IT_SUPERVISOR_ENTITY</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Supervisor</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Italian Control Centers</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenColumns</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Italian Control Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_IT</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY2_IT</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY3_IT</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Dispatcher</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Planner</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        },
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Central Supervision Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">IT_SUPERVISOR_ENTITY</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Supervisor</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Dutch Control Centers</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">screenColumns</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Dutch Control Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_NL</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY2_NL</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Dispatcher</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Planner</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        },
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesGroups</span><span class="delimiter">&quot;</span></span>: [
+            {
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Central Supervision Centers</span><span class="delimiter">&quot;</span></span>,
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">entities</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">IT_SUPERVISOR_ENTITY</span><span class="delimiter">&quot;</span></span>
+              ],
+              <span class="key"><span class="delimiter">&quot;</span><span class="content">groups</span><span class="delimiter">&quot;</span></span>: [
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Supervisor</span><span class="delimiter">&quot;</span></span>
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With this configuration file, 4 different screens will be available : "All Control Centers", "French Control Centers", "Italian Control Centers" and "Dutch Control Centers".</p>
+</div>
+<div class="paragraph">
+<p>For example, in the UI, "All Control Centers" will look like :</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../images/realtimescreens_screenshot.png" alt="Real Time Screens screenshot">
+</div>
 </div>
 </div>
 </div>
@@ -8942,7 +9133,8 @@ On a positive cycle detection cancels the addition or the patch.</p>
     "id": "NEW_ENTITY",
     "parents": ["ENTITY1_FR"],
     "name": "Last New Entity",
-    "description":"This is the last new entity"
+    "description":"This is the last new entity",
+    "labels":[]
 }</pre>
 </div>
 </div>

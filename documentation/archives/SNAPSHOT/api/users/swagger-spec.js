@@ -114,6 +114,12 @@ window.swaggerSpec={
         "description" : {
           "type" : "string"
         },
+        "labels" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "entityAllowedToSendCard" : {
           "type" : "boolean"
         },
