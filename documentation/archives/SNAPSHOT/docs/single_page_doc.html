@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">25 January 2022</span>
+<span id="revdate">28 January 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -695,7 +695,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_define_permissions_2">13.3. Define permissions</a></li>
 <li><a href="#_recipients">13.4. Recipients</a></li>
 <li><a href="#_card_editing">13.5. Card editing</a></li>
-<li><a href="#_misc">13.6. Misc</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">13.6. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">13.7. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">14. Archived Cards</a>
@@ -5394,7 +5395,46 @@ It is possible to allow other entities to edit the card by specifing the 'entiti
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.6. Misc</h3>
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.6. Send response automatically (experimental feature)</h3>
+<div class="paragraph">
+<p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
+The response card will be sent only if the user is enabled to respond to the card.</p>
+</div>
+<div class="paragraph">
+<p>To enable the automated response the template should add a <code>childCard</code> field to the object returned by
+ <code>getSpecificCardInformation</code> method. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> &lt;script&gt;
+    templateGateway.getSpecificCardInformation = function () {
+        const card = {...}
+
+        childCard : {
+          summary : {key : "exampe.summary"},
+          title : {key : "example.title"},
+          state : "mystateForResponse"
+          data : {
+                  // specific child  card date
+                  }
+          };
+        ...
+        return {
+            valid: true,
+            card: card,
+            childCard: childCard
+        };
+
+    }
+  &lt;/script&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The card preview will display the card detail with the automated response as it will be displayed in Feed page.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.7. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>

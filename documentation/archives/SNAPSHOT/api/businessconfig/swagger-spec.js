@@ -19,8 +19,8 @@ window.swaggerSpec={
   "paths" : {
     "/businessconfig/processes" : {
       "get" : {
-        "summary" : "List existing processes",
-        "description" : "List existing processes",
+        "summary" : "List latest version of existing processes",
+        "description" : "List latest version of existing processes",
         "operationId" : "getProcesses",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -139,6 +139,38 @@ window.swaggerSpec={
           },
           "500" : {
             "description" : "Unable to delete process"
+          }
+        }
+      }
+    },
+    "/businessconfig/processhistory/{processId}" : {
+      "get" : {
+        "summary" : "Access all versions of configuration data for a given process",
+        "description" : "Access all versions of configuration data for a given process",
+        "operationId" : "getProcessHistory",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "processId",
+          "in" : "path",
+          "description" : "Id of the process to retrieve",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Process"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Not found"
           }
         }
       }
