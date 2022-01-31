@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "3.3.0.RELEASE",
+    "version" : "3.4.0.RELEASE",
     "title" : "External Devices Management",
     "termsOfService" : "",
     "contact" : {
@@ -138,7 +138,7 @@ window.swaggerSpec={
       },
       "required" : [ "userLogin" ],
       "example" : {
-        "userLogin" : "operator1",
+        "userLogin" : "operator1_fr",
         "externalDeviceId" : "CDS_1"
       }
     }

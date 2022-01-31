@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.3.0.RELEASE,</span>
-<span id="revdate">10 January 2022</span>
+<span id="revnumber">version 3.4.0.RELEASE,</span>
+<span id="revdate">31 January 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -795,7 +795,7 @@ the type of deployment you&#8217;re looking for.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">checkAuthenticationForCardSending</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not require user authentication to send or delete a card via endpoint /cards (it does not concerned user cards which always need authentication)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not require user authentication to send or delete a card via endpoint /cards (it does not concern user cards which always need authentication). Be careful when setting the value to false, nginx conf must be adapted for security reasons (see security warning in <a href="https://github.com/opfab/operatorfabric-core/blob/master/config/docker/nginx.conf">the reference nginx.conf</a>)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.consumer.group-id</p></td>
@@ -821,7 +821,7 @@ KafkaAvroSerializer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.producer.bootstrap-servers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:9092" class="bare">localhost:9092</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">comma seperated list of URL(s) of the broker(s) / bootstrap server(s)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">comma separated list of URL(s) of the broker(s) / bootstrap server(s)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.card.topicname</p></td>
@@ -2175,6 +2175,155 @@ are to be returned via Kafka by setting the <code>externalRecipients-url</code> 
 <div class="paragraph">
 <p>Also note enabling Kafka does not disable the REST interface.</p>
 </div>
+<div class="paragraph">
+<p>Example Kafka configuration plain:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">properties</span>:
+        <span class="key">specific</span>:
+          <span class="key">avro</span>:
+            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9092</span></span>
+<span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-commands_dev</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-response_dev</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration SASL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">security</span>:
+        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+      <span class="key">properties</span>:
+        <span class="key">specific</span>:
+          <span class="key">avro</span>:
+            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
+        <span class="key">sasl</span>:
+          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
+          <span class="key">jaas</span>:
+            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
+      <span class="key">security</span>:
+        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+      <span class="key">properties</span>:
+        <span class="key">sasl</span>:
+          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
+          <span class="key">jaas</span>:
+            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
+    <span class="key">ssl</span>:
+      <span class="key">trust-store-type</span>: <span class="string"><span class="content">PKCS12</span></span>
+      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
+      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs</span></span>
+    <span class="key">properties</span>:
+      <span class="key">ssl</span>:
+        <span class="key">endpoint</span>:
+          <span class="key">identification</span>:
+            <span class="key">algorithm</span>: <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
+<span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration Kerberos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">key</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">security</span>:
+      <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+    <span class="key">properties</span>:
+      <span class="key">sasl.mechanism</span>: <span class="string"><span class="content">GSSAPI</span></span>
+      <span class="key">sasl</span>:
+        <span class="key">jaas</span>:
+          <span class="key">config</span>: <span class="string"><span class="content">com.sun.security.auth.module.Krb5LoginModule required useKeyTab=true keyTab=&quot;/etc/kafkaUsername.keytab&quot; storeKey=true useTicketCache=false serviceName=&quot;kafka&quot; principal=&quot;kafkaUsername@DOMAIN&quot;;</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
+    <span class="key">ssl</span>:
+      <span class="key">trust-store-type</span>: <span class="string"><span class="content">pkcs12</span></span>
+      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
+      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs12</span></span>
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">key-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
+      <span class="key">value-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
+      <span class="key">properties</span>:
+        <span class="key">spring</span>:
+          <span class="key">deserializer</span>:
+            <span class="key">key</span>:
+              <span class="key">delegate</span>:
+                <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
+            <span class="key">value</span>:
+              <span class="key">delegate</span>:
+                <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">value-serializer</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+<span class="key">opfab</span>:
+  <span class="key">kafka</span>:
+    <span class="key">topics</span>:
+      <span class="key">card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+      <span class="key">response-card</span>:
+        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2396,8 +2545,8 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "ADMIN"
         ],
         "entities": [
-            "ENTITY1",
-            "ENTITY2"
+            "ENTITY1_FR",
+            "ENTITY2_FR"
         ],
         "lastName": null,
         "login": "admin"
@@ -2412,7 +2561,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "TEST"
         ],
         "lastName": null,
-        "login": "operator3"
+        "login": "operator3_fr"
     },
     {
         "firstName": null,
@@ -2438,10 +2587,10 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "TEST"
         ],
         "entities": [
-            "ENTITY1"
+            "ENTITY1_FR"
         ],
         "lastName": null,
-        "login": "operator1"
+        "login": "operator1_fr"
     },
     {
         "firstName": null,
@@ -2450,10 +2599,10 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "ReadOnly"
         ],
         "entities": [
-            "ENTITY2"
+            "ENTITY2_FR"
         ],
         "lastName": null,
-        "login": "operator2"
+        "login": "operator2_fr"
     },
 ]</pre>
 </div>
@@ -2946,7 +3095,7 @@ On a positive cycle detection cancels the addition or the patch.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1"]}' \
+<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1_FR"]}' \
 | http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
 </div>
 </div>
@@ -2956,7 +3105,7 @@ On a positive cycle detection cancels the addition or the patch.</p>
 <div class="literalblock">
 <div class="content">
 <pre>curl http://localhost:2103/entities -H "Authorization:Bearer $token" -H "Content-Type:application/json" \
---data '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1"]}'</pre>
+--data '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1_FR"]}'</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2968,9 +3117,10 @@ On a positive cycle detection cancels the addition or the patch.</p>
 
 {
     "id": "NEW_ENTITY",
-    "parents": ["ENTITY1"],
+    "parents": ["ENTITY1_FR"],
     "name": "Last New Entity",
-    "description":"This is the last new entity"
+    "description":"This is the last new entity",
+    "labels":[]
 }</pre>
 </div>
 </div>

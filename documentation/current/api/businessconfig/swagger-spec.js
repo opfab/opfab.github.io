@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "3.3.0.RELEASE",
+    "version" : "3.4.0.RELEASE",
     "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -19,8 +19,8 @@ window.swaggerSpec={
   "paths" : {
     "/businessconfig/processes" : {
       "get" : {
-        "summary" : "List existing processes",
-        "description" : "List existing processes",
+        "summary" : "List latest version of existing processes",
+        "description" : "List latest version of existing processes",
         "operationId" : "getProcesses",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -139,6 +139,38 @@ window.swaggerSpec={
           },
           "500" : {
             "description" : "Unable to delete process"
+          }
+        }
+      }
+    },
+    "/businessconfig/processhistory/{processId}" : {
+      "get" : {
+        "summary" : "Access all versions of configuration data for a given process",
+        "description" : "Access all versions of configuration data for a given process",
+        "operationId" : "getProcessHistory",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "processId",
+          "in" : "path",
+          "description" : "Id of the process to retrieve",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Process"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Not found"
           }
         }
       }
@@ -358,6 +390,50 @@ window.swaggerSpec={
         "summary" : "Upload file defining the groups of processes",
         "description" : "Upload file defining the groups of processes. This file must be in json format and is saved to disk, under the name 'processGroups.json'.",
         "operationId" : "uploadProcessgroups",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "file to upload",
+          "required" : true,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Successful creation"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      }
+    },
+    "/businessconfig/realtimescreens" : {
+      "get" : {
+        "summary" : "Get the configuration for the real time screen",
+        "description" : "Get the configuration for the real time screen",
+        "operationId" : "getRealTimeScreens",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/RealTimeScreens"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Upload file defining the configuration for the real time screen",
+        "description" : "Upload file defining the configuration for the real time screen. This file must be in json format and is saved to disk, under the name 'realtimescreens.json'.",
+        "operationId" : "uploadRealTimeScreens",
         "consumes" : [ "multipart/form-data" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -628,6 +704,58 @@ window.swaggerSpec={
           "type" : "array",
           "items" : {
             "$ref" : "#/definitions/ProcessGroup"
+          }
+        }
+      }
+    },
+    "RealTimeScreens" : {
+      "properties" : {
+        "realTimeScreens" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/RealTimeScreen"
+          }
+        }
+      }
+    },
+    "RealTimeScreen" : {
+      "properties" : {
+        "screenName" : {
+          "type" : "string"
+        },
+        "screenColumns" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ScreenColumn"
+          }
+        }
+      }
+    },
+    "ScreenColumn" : {
+      "properties" : {
+        "entitiesGroups" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EntitiesGroups"
+          }
+        }
+      }
+    },
+    "EntitiesGroups" : {
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "entities" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
           }
         }
       }
