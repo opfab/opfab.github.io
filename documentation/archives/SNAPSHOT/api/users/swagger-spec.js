@@ -200,10 +200,6 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "Free user description label (ex: organization role)"
         },
-        "timeZone" : {
-          "type" : "string",
-          "description" : "User time zone (See https://momentjs.com)"
-        },
         "locale" : {
           "type" : "string",
           "description" : "User using browser format"
@@ -252,7 +248,6 @@ window.swaggerSpec={
       "example" : {
         "login" : "jcleese",
         "description" : "once played Sir Lancelot",
-        "timezone" : "Europe/London",
         "locale" : "en-GB"
       }
     },
