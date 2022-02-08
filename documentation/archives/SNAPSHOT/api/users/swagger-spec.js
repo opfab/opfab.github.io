@@ -242,6 +242,13 @@ window.swaggerSpec={
               "type" : "string"
             }
           }
+        },
+        "entitiesDisconnected" : {
+          "description" : "Entities not represented by the user for his current session",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "required" : [ "login" ],
