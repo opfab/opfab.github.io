@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 February 2022</span>
+<span id="revdate">10 February 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1285,6 +1285,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_4_0_to_release_3_5_0">60. Migration Guide from release 3.4.0 to release 3.5.0</a>
 <ul class="sectlevel2">
 <li><a href="#_timezone_management_removal">60.1. Timezone management removal</a></li>
+<li><a href="#_kafka_card_format_changes">60.2. Kafka card format changes</a></li>
 </ul>
 </li>
 </ul>
@@ -7193,10 +7194,22 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in archives page</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.publishDate.days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default search period (days) for publish date filter in archives page</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logging.filters.tags.list</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in logging page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logging.filters.publishDate.days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default search period (days) for publish date filter in logging page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.styleWhenNightDayModeDesactivated</p></td>
@@ -12129,8 +12142,8 @@ a free broker like a bitnami Kafka image to docker compose. To do so, add the fo
 </div>
 </div>
 <div class="paragraph">
-<p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>.
-The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below.</p>
+<p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>. Messages are encoded in the <code>CardCommand.card</code> field.
+The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below. Messages produced by Operator Fabric are encoded in the <code>CardCommand.responseCard</code> field</p>
 </div>
 <div class="paragraph">
 <p>The default Kafka Avro serializers and deserializers need a registry service. Make sure the registry service setting is provided in
@@ -12263,7 +12276,6 @@ Note that some properties of CardCommand or its embedded Card are required. If n
       <span class="string"><span class="delimiter">&quot;</span><span class="content">tso2-operator</span><span class="delimiter">&quot;</span></span>
     ],
     <span class="key"><span class="delimiter">&quot;</span><span class="content">groupRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">externalRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesAllowedToRespond</span><span class="delimiter">&quot;</span></span>: [
       <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_FR</span><span class="delimiter">&quot;</span></span>
     ],
@@ -16265,6 +16277,36 @@ of sending the date in seconds since epoch, you can now use the Java Instant obj
 <p>settings.infos.hide.timezone</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kafka_card_format_changes"><a class="anchor" href="#_kafka_card_format_changes"></a>60.2. Kafka card format changes</h3>
+<div class="paragraph">
+<p>The Kafka message schema has been changed. The single card used to send messages to and receive from Operator Fabric
+has been split into two cards; one for sending to OpFab and one for receiving messages from OpFab. The CardCommand structure now contains a <code>card</code>  (to OpFab) and a <code>responseCard</code> (from OpFab).
+You will need to change the Kafka listener to get the response card.</p>
+</div>
+<div class="paragraph">
+<p>For example change</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@KafkaListener</span>
+    <span class="directive">public</span> <span class="type">void</span> receivedResponseCard(<span class="annotation">@Payload</span> ConsumerRecord&lt;<span class="predefined-type">String</span>, CardCommand&gt; consumerRecord) {
+        CardCommand cardCommand = consumerRecord.value();
+        Card = cardCommand.getCard();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@KafkaListener</span>
+    <span class="directive">public</span> <span class="type">void</span> receivedResponseCard(<span class="annotation">@Payload</span> ConsumerRecord&lt;<span class="predefined-type">String</span>, CardCommand&gt; consumerRecord) {
+        CardCommand cardCommand = consumerRecord.value();
+        ResponseCard = cardCommand.getResponseCard();</code></pre>
+</div>
 </div>
 </div>
 </div>

@@ -440,6 +440,18 @@ window.swaggerSpec={
         "login" : {
           "type" : "string",
           "description" : "Login of user"
+        },
+        "entitiesConnected" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },
