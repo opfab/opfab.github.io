@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">16 February 2022</span>
+<span id="revdate">17 February 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1285,7 +1285,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_4_0_to_release_3_5_0">60. Migration Guide from release 3.4.0 to release 3.5.0</a>
 <ul class="sectlevel2">
 <li><a href="#_timezone_management_removal">60.1. Timezone management removal</a></li>
-<li><a href="#_kafka_card_format_changes">60.2. Kafka card format changes</a></li>
+<li><a href="#_kafka_card_format_changes">60.2. Kafka card format changes</a>
+<ul class="sectlevel3">
+<li><a href="#_redirect_to_business_application_from_a_card_2">60.2.1. Redirect to business application from a card</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -4488,11 +4492,11 @@ The function returns a string with one of the following values :</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>It is also possible to append parameters to the url that will be called:</p>
+<p>It is also possible to append url extension (sub paths and/or parameters) to the url that will be called:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','/extension?param1=aParam&amp;param2=anotherParam')</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4501,7 +4505,7 @@ The function returns a string with one of the following values :</p>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/chart.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','?search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -7389,6 +7393,12 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, users have the opportunity to play sounds on external devices rather than in the browser. See <code>settings.playSoundOnExternalDevice</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration</p></td>
 </tr>
 </tbody>
 </table>
@@ -13329,6 +13339,9 @@ to have to maintain these mentions (since this information is tracked by git any
 <li>
 <p>Prefer using <code>*ngIf</code> over <code>hidden</code> property  to hide elements : <a href="https://stackoverflow.com/questions/51317666/when-should-i-use-ngif-over-hidden-property-and-vice-versa/51317774" class="bare">stackoverflow.com/questions/51317666/when-should-i-use-ngif-over-hidden-property-and-vice-versa/51317774</a></p>
 </li>
+<li>
+<p>Do not use console.log or console.error, use specific opfab service : OpfabLoggerService</p>
+</li>
 </ul>
 </div>
 </div>
@@ -16309,6 +16322,31 @@ You will need to change the Kafka listener to get the response card.</p>
     <span class="directive">public</span> <span class="type">void</span> receivedResponseCard(<span class="annotation">@Payload</span> ConsumerRecord&lt;<span class="predefined-type">String</span>, CardCommand&gt; consumerRecord) {
         CardCommand cardCommand = consumerRecord.value();
         ResponseCard = cardCommand.getResponseCard();</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redirect_to_business_application_from_a_card_2"><a class="anchor" href="#_redirect_to_business_application_from_a_card_2"></a>60.2.1. Redirect to business application from a card</h4>
+<div class="paragraph">
+<p>The <code>templateGateway.redirectToBusinessMenu</code> function to redirect to business application from a card has changed. The third argument of the function is now a url extension that can contain sub paths and/or parameters instead of only parameters.</p>
+</div>
+<div class="paragraph">
+<p>You will need to change the call adding a '?' character at the beginning of the third argument.</p>
+</div>
+<div class="paragraph">
+<p>For example change:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','?param1=aParam&amp;param2=anotherParam')</pre>
+</div>
 </div>
 </div>
 </div>
