@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.4.1.RELEASE,</span>
-<span id="revdate">02 February 2022</span>
+<span id="revnumber">version 3.5.0.RELEASE,</span>
+<span id="revdate">21 February 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -695,8 +695,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_define_permissions_2">13.3. Define permissions</a></li>
 <li><a href="#_recipients">13.4. Recipients</a></li>
 <li><a href="#_card_editing">13.5. Card editing</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">13.6. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">13.7. Misc</a></li>
+<li><a href="#_get_edition_mode">13.6. Get edition mode</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">13.7. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">13.8. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">14. Archived Cards</a>
@@ -1281,6 +1282,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_tag_feed_filter_removal">59.2. Tag feed filter removal</a></li>
 </ul>
 </li>
+<li><a href="#_migration_guide_from_release_3_4_0_to_release_3_5_0">60. Migration Guide from release 3.4.0 to release 3.5.0</a>
+<ul class="sectlevel2">
+<li><a href="#_timezone_management_removal">60.1. Timezone management removal</a></li>
+<li><a href="#_kafka_card_format_changes">60.2. Kafka card format changes</a>
+<ul class="sectlevel3">
+<li><a href="#_redirect_to_business_application_from_a_card_2">60.2.1. Redirect to business application from a card</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1300,7 +1311,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Docker install with 4Gb of space</p>
 </li>
 <li>
-<p>16Gb of RAM minimal, 32 Gb recommended</p>
+<p>16Gb of RAM</p>
 </li>
 </ul>
 </div>
@@ -4481,11 +4492,11 @@ The function returns a string with one of the following values :</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>It is also possible to append parameters to the url that will be called:</p>
+<p>It is also possible to append url extension (sub paths and/or parameters) to the url that will be called:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','/extension?param1=aParam&amp;param2=anotherParam')</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4494,7 +4505,7 @@ The function returns a string with one of the following values :</p>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/chart.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','?search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5279,6 +5290,15 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <p>summary</p>
 </li>
 <li>
+<p>startDate (epoch date in ms)</p>
+</li>
+<li>
+<p>endDate (epoch date in ms)</p>
+</li>
+<li>
+<p>lttd (epoch date in ms)</p>
+</li>
+<li>
 <p>keepChildCards</p>
 </li>
 <li>
@@ -5395,7 +5415,27 @@ It is possible to allow other entities to edit the card by specifing the 'entiti
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.6. Send response automatically (experimental feature)</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.6. Get edition mode</h3>
+<div class="paragraph">
+<p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>'CREATE'</p>
+</li>
+<li>
+<p>'EDITION'</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An example of <em>usercardTemplateGateway.getEditionMode()</em> usage can be found in the file
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/usercard_question.handlebars">src/test/resources/bundles/userCardExamples2/template/usercard_question.handlebars</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.7. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -5432,9 +5472,16 @@ The response card will be sent only if the user is enabled to respond to the car
 <div class="paragraph">
 <p>The card preview will display the card detail with the automated response as it will be displayed in Feed page.</p>
 </div>
+<div class="paragraph">
+<p>When editing a user card, the template can get the response sent by current user by calling the <em>usercardTemplateGateway.getUserEntityChildCardFromCurrentCard()</em> function. The function will return the response child card sent by current user or null if there is no response from current user.</p>
+</div>
+<div class="paragraph">
+<p>An example of <em>usercardTemplateGateway.getUserEntityChildCardFromCurrentCard()</em> usage can be found in the file
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/usercard_confirmation.handlebars">src/test/resources/bundles/userCardExamples2/template/usercard_confirmation.handlebars</a>.</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.7. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.8. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
@@ -7132,13 +7179,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported locales (Only fr and en so far)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">i10n.supported.time-zones</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported time zones, for instance 'Europe/Paris'.
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of supported locales (Only fr and en so far)
 Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p></td>
 </tr>
 <tr>
@@ -7160,10 +7201,22 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in archives page</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.publishDate.days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default search period (days) for publish date filter in archives page</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logging.filters.tags.list</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of tags to choose from in the corresponding filter in logging page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logging.filters.publishDate.days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default search period (days) for publish date filter in logging page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.styleWhenNightDayModeDesactivated</p></td>
@@ -7200,12 +7253,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the language in the settings page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.timezone</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Control if we want to hide(true) or display(false or not specified) the timezone in the settings page</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.infos.hide.sounds</p></td>
@@ -7347,6 +7394,12 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, users have the opportunity to play sounds on external devices rather than in the browser. See <code>settings.playSoundOnExternalDevice</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -7365,12 +7418,6 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mandatory?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.timeZone</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default user time zone for users</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.locale</p></td>
@@ -9447,7 +9494,7 @@ below for details on:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-the current Jdk used for the project is Java 11.0.9-zulu.
+the current Jdk used for the project is Java 11.0.14-zulu.
 </td>
 </tr>
 </table>
@@ -12108,8 +12155,8 @@ a free broker like a bitnami Kafka image to docker compose. To do so, add the fo
 </div>
 </div>
 <div class="paragraph">
-<p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>.
-The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below.</p>
+<p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>. Messages are encoded in the <code>CardCommand.card</code> field.
+The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below. Messages produced by Operator Fabric are encoded in the <code>CardCommand.responseCard</code> field</p>
 </div>
 <div class="paragraph">
 <p>The default Kafka Avro serializers and deserializers need a registry service. Make sure the registry service setting is provided in
@@ -12242,7 +12289,6 @@ Note that some properties of CardCommand or its embedded Card are required. If n
       <span class="string"><span class="delimiter">&quot;</span><span class="content">tso2-operator</span><span class="delimiter">&quot;</span></span>
     ],
     <span class="key"><span class="delimiter">&quot;</span><span class="content">groupRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">externalRecipients</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">entitiesAllowedToRespond</span><span class="delimiter">&quot;</span></span>: [
       <span class="string"><span class="delimiter">&quot;</span><span class="content">ENTITY1_FR</span><span class="delimiter">&quot;</span></span>
     ],
@@ -13292,6 +13338,9 @@ to have to maintain these mentions (since this information is tracked by git any
 </li>
 <li>
 <p>Prefer using <code>*ngIf</code> over <code>hidden</code> property  to hide elements : <a href="https://stackoverflow.com/questions/51317666/when-should-i-use-ngif-over-hidden-property-and-vice-versa/51317774" class="bare">stackoverflow.com/questions/51317666/when-should-i-use-ngif-over-hidden-property-and-vice-versa/51317774</a></p>
+</li>
+<li>
+<p>Do not use console.log or console.error, use specific opfab service : OpfabLoggerService</p>
 </li>
 </ul>
 </div>
@@ -14429,19 +14478,8 @@ The Github Actions workflow should have the following six jobs executed :
 <p>Check that the <code>latest</code> images have been updated on DockerHub (if this has been triggered).</p>
 </li>
 <li>
-<p>Check that the documentation has been generated and pushed to the GitHub pages website</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Check the version and revision date at the top of the documents in the current documentation
+<p>Check that the documentation has been generated and pushed to the GitHub pages website : check the version and revision date at the top of the documents in the current documentation
 (for example <a href="https://opfab.github.io/documentation/current/architecture/">the architecture documentation</a>)</p>
-</li>
-<li>
-<p>Check that you see the X.X.X.RELEASE under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>
-and that the links work.</p>
-</li>
-</ol>
-</div>
 </li>
 <li>
 <p>Check that the tag was correctly pushed to GitHub and is visible under the
@@ -14454,7 +14492,7 @@ and that the links work.</p>
 <h4 id="_updating_the_version_list_on_the_website"><a class="anchor" href="#_updating_the_version_list_on_the_website"></a>45.2.4. Updating the version list on the website</h4>
 <div class="paragraph">
 <p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
-edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/versions.yml"></em>/data/versions.yml</a> file to:</p>
+edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/versions.yml">/_data/versions.yml</a> file to:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -14500,6 +14538,10 @@ edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/<em>data/
 <div class="paragraph">
 <p>This file determines which versions (and in which order) are displayed on the
 <a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
+</div>
+<div class="paragraph">
+<p>Check that you see the X.X.X.RELEASE under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>
+and that the links work (It may need a few minutes for the website to be updated).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -14796,7 +14838,7 @@ can release the patch version. To do so:</p>
 <pre>git add .
 git commit -m "[RELEASE] X.X.X.RELEASE " <i class="conum" data-value="1"></i><b>(1)</b>
 git tag X.X.X.RELEASE <i class="conum" data-value="2"></i><b>(2)</b>
-git push <i class="conum" data-value="3"></i><b>(3)</b>
+git push --set-upstream origin X.X.hotfixes <i class="conum" data-value="3"></i><b>(3)</b>
 git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pre>
 </div>
 </div>
@@ -16230,6 +16272,82 @@ of sending the date in seconds since epoch, you can now use the Java Instant obj
 <p>settings.infos.hide.tags</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_4_0_to_release_3_5_0"><a class="anchor" href="#_migration_guide_from_release_3_4_0_to_release_3_5_0"></a>60. Migration Guide from release 3.4.0 to release 3.5.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_timezone_management_removal"><a class="anchor" href="#_timezone_management_removal"></a>60.1. Timezone management removal</h3>
+<div class="paragraph">
+<p>The feature to manage timeline inside opfab has been removed. In consequence, you can remove the following parameters in your web-ui.json configuration file:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>i10n.supported.time-zones</p>
+</li>
+<li>
+<p>settings.infos.hide.timezone</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_kafka_card_format_changes"><a class="anchor" href="#_kafka_card_format_changes"></a>60.2. Kafka card format changes</h3>
+<div class="paragraph">
+<p>The Kafka message schema has been changed. The single card used to send messages to and receive from Operator Fabric
+has been split into two cards; one for sending to OpFab and one for receiving messages from OpFab. The CardCommand structure now contains a <code>card</code>  (to OpFab) and a <code>responseCard</code> (from OpFab).
+You will need to change the Kafka listener to get the response card.</p>
+</div>
+<div class="paragraph">
+<p>For example change</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@KafkaListener</span>
+    <span class="directive">public</span> <span class="type">void</span> receivedResponseCard(<span class="annotation">@Payload</span> ConsumerRecord&lt;<span class="predefined-type">String</span>, CardCommand&gt; consumerRecord) {
+        CardCommand cardCommand = consumerRecord.value();
+        Card = cardCommand.getCard();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@KafkaListener</span>
+    <span class="directive">public</span> <span class="type">void</span> receivedResponseCard(<span class="annotation">@Payload</span> ConsumerRecord&lt;<span class="predefined-type">String</span>, CardCommand&gt; consumerRecord) {
+        CardCommand cardCommand = consumerRecord.value();
+        ResponseCard = cardCommand.getResponseCard();</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redirect_to_business_application_from_a_card_2"><a class="anchor" href="#_redirect_to_business_application_from_a_card_2"></a>60.2.1. Redirect to business application from a card</h4>
+<div class="paragraph">
+<p>The <code>templateGateway.redirectToBusinessMenu</code> function to redirect to business application from a card has changed. The third argument of the function is now a url extension that can contain sub paths and/or parameters instead of only parameters.</p>
+</div>
+<div class="paragraph">
+<p>You will need to change the call adding a '?' character at the beginning of the third argument.</p>
+</div>
+<div class="paragraph">
+<p>For example change:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','?param1=aParam&amp;param2=anotherParam')</pre>
+</div>
+</div>
 </div>
 </div>
 </div>

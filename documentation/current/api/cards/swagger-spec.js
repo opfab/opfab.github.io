@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "3.4.1.RELEASE",
+    "version" : "3.5.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -440,6 +440,18 @@ window.swaggerSpec={
         "login" : {
           "type" : "string",
           "description" : "Login of user"
+        },
+        "entitiesConnected" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },

@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "3.4.1.RELEASE",
+    "version" : "3.5.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -200,10 +200,6 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "Free user description label (ex: organization role)"
         },
-        "timeZone" : {
-          "type" : "string",
-          "description" : "User time zone (See https://momentjs.com)"
-        },
         "locale" : {
           "type" : "string",
           "description" : "User using browser format"
@@ -236,6 +232,10 @@ window.swaggerSpec={
           "type" : "integer",
           "description" : "Interval (in seconds) between sound replays."
         },
+        "remoteLoggingEnabled" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, some of the ui logs are stored in the log file of cards-consultation service "
+        },
         "processesStatesNotNotified" : {
           "type" : "object",
           "description" : "Filters on processes and states for user feed (exclusion filter)",
@@ -246,13 +246,19 @@ window.swaggerSpec={
               "type" : "string"
             }
           }
+        },
+        "entitiesDisconnected" : {
+          "description" : "Entities not represented by the user for his current session",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       },
       "required" : [ "login" ],
       "example" : {
         "login" : "jcleese",
         "description" : "once played Sir Lancelot",
-        "timezone" : "Europe/London",
         "locale" : "en-GB"
       }
     },

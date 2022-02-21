@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.4.1.RELEASE,</span>
-<span id="revdate">02 February 2022</span>
+<span id="revnumber">version 3.5.0.RELEASE,</span>
+<span id="revdate">21 February 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -604,8 +604,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_define_permissions_2">6.3. Define permissions</a></li>
 <li><a href="#_recipients">6.4. Recipients</a></li>
 <li><a href="#_card_editing">6.5. Card editing</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">6.6. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">6.7. Misc</a></li>
+<li><a href="#_get_edition_mode">6.6. Get edition mode</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">6.7. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">6.8. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">7. Archived Cards</a>
@@ -2700,11 +2701,11 @@ The function returns a string with one of the following values :</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>It is also possible to append parameters to the url that will be called:</p>
+<p>It is also possible to append url extension (sub paths and/or parameters) to the url that will be called:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','param1=aParam&amp;param2=anotherParam')</pre>
+<pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','/extension?param1=aParam&amp;param2=anotherParam')</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2713,7 +2714,7 @@ The function returns a string with one of the following values :</p>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/chart.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;a</span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">javascript:templateGateway.redirectToBusinessMenu('menu1','uid_test_0','?search=chart</span><span class="content">&amp;</span><span class="content">fulltext=1')</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> Want more information about charts ? <span class="tag">&lt;/a&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3498,6 +3499,15 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <p>summary</p>
 </li>
 <li>
+<p>startDate (epoch date in ms)</p>
+</li>
+<li>
+<p>endDate (epoch date in ms)</p>
+</li>
+<li>
+<p>lttd (epoch date in ms)</p>
+</li>
+<li>
 <p>keepChildCards</p>
 </li>
 <li>
@@ -3614,7 +3624,27 @@ It is possible to allow other entities to edit the card by specifing the 'entiti
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>6.6. Send response automatically (experimental feature)</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>6.6. Get edition mode</h3>
+<div class="paragraph">
+<p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>'CREATE'</p>
+</li>
+<li>
+<p>'EDITION'</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An example of <em>usercardTemplateGateway.getEditionMode()</em> usage can be found in the file
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/usercard_question.handlebars">src/test/resources/bundles/userCardExamples2/template/usercard_question.handlebars</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>6.7. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -3651,9 +3681,16 @@ The response card will be sent only if the user is enabled to respond to the car
 <div class="paragraph">
 <p>The card preview will display the card detail with the automated response as it will be displayed in Feed page.</p>
 </div>
+<div class="paragraph">
+<p>When editing a user card, the template can get the response sent by current user by calling the <em>usercardTemplateGateway.getUserEntityChildCardFromCurrentCard()</em> function. The function will return the response child card sent by current user or null if there is no response from current user.</p>
+</div>
+<div class="paragraph">
+<p>An example of <em>usercardTemplateGateway.getUserEntityChildCardFromCurrentCard()</em> usage can be found in the file
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/usercard_confirmation.handlebars">src/test/resources/bundles/userCardExamples2/template/usercard_confirmation.handlebars</a>.</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.7. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.8. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
