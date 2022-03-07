@@ -98,14 +98,17 @@ The source code is hosted on GitHub in this repository : [operatorfabric-core](h
 ## Development
 OperatorFabric is mostly written in Java and based on the Spring framework. This makes writing and integrating software for a simplified and better coordination very easy.
 
-[![Using Java](https://img.shields.io/badge/Using-Java-%237473C0.svg?style=for-the-badge)]() 
+[![Using Java](https://img.shields.io/badge/Using-Java-%237473C0.svg?style=for-the-badge)](https://www.java.com) 
 [![Using Spring](https://img.shields.io/badge/Using-Spring-%236db33f.svg?style=for-the-badge)](https://spring.io/) 
 [![Using Angular](https://img.shields.io/badge/Using-Angular-%237473C0.svg?style=for-the-badge)](https://angular.io/)
+[![Using Spring](https://img.shields.io/badge/Using-MongoDB-%236db33f.svg?style=for-the-badge)](https://www.mongodb.com/community/) 
 [![Using Swagger](https://img.shields.io/badge/Using-Swagger-%237473C0.svg?style=for-the-badge)](https://swagger.io/)
+[![Using Spring](https://img.shields.io/badge/Using-RabbitMQ-%236db33f.svg?style=for-the-badge)](https://www.rabbitmq.com/) 
 
 ## Continuous Integration / Continuous Delivery
 OperatorFabric is built and integrated using battle-tested tools and (open) platforms. 
 
 [![Built with Gradle](https://img.shields.io/badge/Built%20with-Gradle-%23410099.svg?style=for-the-badge)](https://gradle.org/)
-[![Using Travis CI](https://img.shields.io/badge/Using-Travis%20CI-%23FF647D.svg?style=for-the-badge)](https://travis-ci.org/opfab/operatorfabric-core)
+[![Using Github Actions](https://img.shields.io/badge/Using-Github%20Actions-%23FF647D.svg?style=for-the-badge)](https://github.com/opfab/operatorfabric-core/actions)
 [![Using SonarCloud](https://img.shields.io/badge/Using-SonarCloud-%23FF647D.svg?style=for-the-badge)](https://sonarcloud.io/dashboard?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core)
+
