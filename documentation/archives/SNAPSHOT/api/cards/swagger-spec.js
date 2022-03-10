@@ -20,9 +20,6 @@ window.swaggerSpec={
     "name" : "cards",
     "description" : "Everything concerning cards"
   }, {
-    "name" : "actions",
-    "description" : "Everything concerning actions"
-  }, {
     "name" : "read",
     "description" : "Everything concerning resource state"
   }, {
@@ -41,11 +38,6 @@ window.swaggerSpec={
       "type" : "object",
       "description" : "Number of milliseconds since Epoch (long integer)",
       "example" : 1551868290379
-    },
-    "LongInteger" : {
-      "type" : "object",
-      "description" : "Number of items",
-      "example" : 10
     },
     "CardOperationTypeEnum" : {
       "type" : "string",
@@ -86,14 +78,8 @@ window.swaggerSpec={
     },
     "CardOperation" : {
       "type" : "object",
-      "description" : "This object holds an operation to be performed as well as a collection of cards (published in the same second) so as to be able to perform the operation on a batch of cards rather than on a single card.",
+      "description" : "Operation to do:  Add, Update or Delete a card",
       "properties" : {
-        "number" : {
-          "$ref" : "#/definitions/LongInteger"
-        },
-        "publishDate" : {
-          "$ref" : "#/definitions/EpochDate"
-        },
         "type" : {
           "$ref" : "#/definitions/CardOperationTypeEnum"
         },
@@ -107,10 +93,8 @@ window.swaggerSpec={
         }
       },
       "example" : {
-        "number" : 3,
-        "publishDate" : 1546300800000,
         "type" : "DELETE",
-        "cardId" : [ 12345 ]
+        "cardId" : 12345
       }
     },
     "TimeSpan" : {
@@ -367,41 +351,18 @@ window.swaggerSpec={
         "startDate" : 1546387200000,
         "endDate" : 1546387250000,
         "severity" : "ACTION",
-        "tags" : [ "MyService", "MyProcess", "ACTION" ],
-        "actions" : [ {
-          "type" : "URL",
-          "lockAction" : true,
-          "called" : false,
-          "updateStateBeforeAction" : false,
-          "hidden" : true,
-          "buttonStyle" : "button.css",
-          "label" : {
-            "key" : "myCard.myAction.label",
-            "parameters" : {
-              "EN" : "My actions label",
-              "FR" : "Mon intitule d'actions"
-            }
-          }
-        } ],
+        "tags" : [ "MyService", "MyProcess" ],
         "title" : {
-          "key" : "myservice.myprocess.title",
-          "parameters" : {
-            "EN" : "My process name",
-            "FR" : "Mon nom de processus"
-          }
+          "key" : "myservice.myprocess.title"
         },
         "summary" : {
-          "key" : "myservice.myprocess.title.summary",
-          "parameters" : {
-            "EN" : "Summary of card content",
-            "FR" : "Resume du contenu de la carte"
-          }
+          "key" : "myservice.myprocess.title.summary"
         }
       }
     },
     "CardCreationReport" : {
       "type" : "object",
-      "description" : "Created card identifiers",
+      "description" : "Created card report",
       "properties" : {
         "id" : {
           "type" : "string",
@@ -424,12 +385,6 @@ window.swaggerSpec={
         "rangeEnd" : {
           "$ref" : "#/definitions/EpochDate",
           "description" : "subscription range end time"
-        },
-        "loadedCards" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
         }
       }
     },
@@ -445,13 +400,15 @@ window.swaggerSpec={
           "type" : "array",
           "items" : {
             "type" : "string"
-          }
+          },
+          "description" : "List of entities the user is attached to"
         },
         "groups" : {
           "type" : "array",
           "items" : {
             "type" : "string"
-          }
+          },
+          "description" : "Groups of the user"
         }
       }
     },
