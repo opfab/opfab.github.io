@@ -953,6 +953,13 @@ window.swaggerSpec={
         "type" : "string",
         "required" : true,
         "description" : "The card uid"
+      }, {
+        "in" : "body",
+        "name" : "entitiesAcks",
+        "type" : "array",
+        "items" : {
+          "type" : "string"
+        }
       } ],
       "post" : {
         "operationId" : "postUserAcknowledgement",
