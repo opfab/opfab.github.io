@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 March 2022</span>
+<span id="revdate">21 March 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -693,14 +693,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configure_the_bundle">13.1. Configure the bundle</a></li>
 <li><a href="#_method_getspecificcardinformation">13.2. Method getSpecificCardInformation</a></li>
 <li><a href="#_define_permissions_2">13.3. Define permissions</a></li>
-<li><a href="#_recipients">13.4. Recipients</a></li>
-<li><a href="#_setting_card_dates">13.5. Setting card dates</a></li>
-<li><a href="#_card_editing">13.6. Card editing</a></li>
-<li><a href="#_get_edition_mode">13.7. Get edition mode</a></li>
-<li><a href="#_get_current_process_and_current_state_of_the_card">13.8. Get current process and current state of the card</a></li>
-<li><a href="#_receiving_emitter_entity_of_the_card">13.9. Receiving emitter entity of the card</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">13.10. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">13.11. Misc</a></li>
+<li><a href="#restrict_possible_recipients">13.4. Restrict the list of possible recipients</a></li>
+<li><a href="#set_recipients_via_code">13.5. Set the list of recipients via the template and not via user choice</a></li>
+<li><a href="#_setting_card_dates">13.6. Setting card dates</a></li>
+<li><a href="#_card_editing">13.7. Card editing</a></li>
+<li><a href="#_get_edition_mode">13.8. Get edition mode</a></li>
+<li><a href="#_get_current_process_and_current_state_of_the_card">13.9. Get current process and current state of the card</a></li>
+<li><a href="#_receiving_emitter_entity_of_the_card">13.10. Receiving emitter entity of the card</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">13.11. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">13.12. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">14. Archived Cards</a>
@@ -5311,6 +5312,9 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <p>data</p>
 </li>
 <li>
+<p>entityRecipients (in case recipient list is not visible from the user)</p>
+</li>
+<li>
 <p>entitiesAllowedToEdit</p>
 </li>
 <li>
@@ -5372,43 +5376,63 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_recipients"><a class="anchor" href="#_recipients"></a>13.4. Recipients</h3>
+<h3 id="restrict_possible_recipients"><a class="anchor" href="#restrict_possible_recipients"></a>13.4. Restrict the list of possible recipients</h3>
 <div class="paragraph">
-<p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the field <code>recipientList</code> in <code>config.json</code></p>
+<p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"states": {
-  "messageState": {
-    "name": "message.title",
-    "userCard" : {
-      "template" : "usercard_message",
-      "severityVisible" : true,
-      "startDateVisible" : true,
-      "endDateVisible" : true,
-      "lttdVisible" : false,
-      "recipientVisible": true,
-      "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
-    },
-    "templateName": "message",
-    "styles": [],
-    "acknowledgmentAllowed": "Always"
-  }
-}</pre>
+<pre>    usercardTemplateGateway.setDropdownEntityRecipientList([
+            {"id": "ENTITY_FR", "levels": [0,1]},
+            {"id": "IT_SUPERVISOR_ENTITY"}
+        ]);</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>In this example the list of available recipients will contain: "ENTITY_FR" (level 0), all the first level children of "ENTITY_FR" (level 1) and "IT_SUPERVISOR_ENTITY".</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>13.5. Set the list of recipients via the template and not via user choice</h3>
 <div class="paragraph">
-<p>The recipient field can be hidden using the attribute <code>recipientVisible</code> : if hidden, the card will be sent to all the recipients in recipientList and to the user.</p>
+<p>To do that , you have to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hide the recipient dropdown using the attribute <code>recipientVisible</code> in state definition in config.json</p>
+</li>
+<li>
+<p>provide the list of recipients when returning the card object in templateGateway.getSpecificCardInformation() in the field entityRecipients</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    templateGateway.getSpecificCardInformation = function () {
+        const message = document.getElementById('message').value;
+        const card = {
+          summary : {key : "message.summary"},
+          title : {key : "message.title"},
+          entityRecipients: ["ENTITY_FR","IT_SUPERVISOR_ENTITY"],
+          data : {message: message}
+        };
+        if (message.length&lt;1) return { valid:false , errorMsg:'You must provide a message'}
+        return {
+            valid: true,
+            card: card
+        };</pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>13.5. Setting card dates</h3>
+<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>13.6. Setting card dates</h3>
 <div class="paragraph">
 <p>From the template it is possible to set the initial values for <code>startDate</code>, <code>endDate</code> and <code>lttd</code> fields of the card by calling the following functions:</p>
 </div>
@@ -5443,14 +5467,14 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>13.6. Card editing</h3>
+<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>13.7. Card editing</h3>
 <div class="paragraph">
 <p>Once a user card has been sent it can be edited by a user member of the publisher entity.
 It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.7. Get edition mode</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.8. Get edition mode</h3>
 <div class="paragraph">
 <p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
 </div>
@@ -5470,13 +5494,13 @@ It is possible to allow other entities to edit the card by specifying the 'entit
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>13.8. Get current process and current state of the card</h3>
+<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>13.9. Get current process and current state of the card</h3>
 <div class="paragraph">
 <p>The template can know the process and the state of the card by calling the <em>usercardTemplateGateway.getCurrentProcess()</em> and <em>usercardTemplateGateway.getCurrentState()</em> functions. These functions will return a string corresponding to the process id (or state id).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>13.9. Receiving emitter entity of the card</h3>
+<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>13.10. Receiving emitter entity of the card</h3>
 <div class="paragraph">
 <p>The template can receive the emitter entity of the card by implementing the <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em>  function.
 This function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
@@ -5487,7 +5511,7 @@ This function will be called by OperatorFabric after loading the template and ev
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.10. Send response automatically (experimental feature)</h3>
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.11. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -5533,7 +5557,7 @@ The response card will be sent only if the user is enabled to respond to the car
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.11. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.12. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
