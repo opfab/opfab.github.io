@@ -315,6 +315,13 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "Is true if the card was acknowledged by current user"
         },
+        "entitiesAcks" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "description" : "List of entities that acknowledged the card"
+        },
         "hasBeenRead" : {
           "type" : "boolean",
           "description" : "Is true if the card was read by current user"
@@ -956,6 +963,7 @@ window.swaggerSpec={
       }, {
         "in" : "body",
         "name" : "entitiesAcks",
+        "description" : "List of user entities for which the card will be acknowledged",
         "type" : "array",
         "items" : {
           "type" : "string"
