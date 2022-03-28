@@ -577,6 +577,10 @@ window.swaggerSpec={
               "modifyAnswerButtonLabel" : {
                 "description" : "If this field is present, it is used for the label of the button, otherwise, the default label is used",
                 "type" : "string"
+              },
+              "automaticPinWhenAcknowledged" : {
+                "description" : "If true, card is automatically pinned on feed screen when it is acknowledged",
+                "type" : "boolean"
               }
             }
           }
