@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 3.5.0.RELEASE,</span>
-<span id="revdate">21 February 2022</span>
+<span id="revnumber">version 3.6.0.RELEASE,</span>
+<span id="revdate">04 April 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -457,7 +457,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#setup_dev_env">2. Setting up your development environment</a>
 <ul class="sectlevel2">
 <li><a href="#_clone_repository">2.1. Clone repository</a></li>
-<li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc">2.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</a></li>
+<li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_tools">2.2. Set up your environment (environment variables &amp; appropriate versions of tools)</a></li>
 <li><a href="#_deploy_needed_docker_containers">2.3. Deploy needed docker containers</a>
 <ul class="sectlevel3">
 <li><a href="#_a_minimal_configuration_for_gradle_build">2.3.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
@@ -474,18 +474,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_user_interface">3. User Interface</a>
 <ul class="sectlevel2">
-<li><a href="#_run">3.1. Run</a>
+<li><a href="#_build">3.1. Build</a></li>
+<li><a href="#_test">3.2. Test</a>
 <ul class="sectlevel3">
-<li><a href="#_front_end_development">3.1.1. Front End development</a></li>
-</ul>
-</li>
-<li><a href="#_build">3.2. Build</a></li>
-<li><a href="#_test">3.3. Test</a>
-<ul class="sectlevel3">
-<li><a href="#_standalone_tests">3.3.1. Standalone tests</a></li>
-<li><a href="#_test_during_ui_development">3.3.2. Test during UI development</a>
+<li><a href="#_standalone_tests">3.2.1. Standalone tests</a></li>
+<li><a href="#_test_during_ui_development">3.2.2. Test during UI development</a>
 <ul class="sectlevel4">
-<li><a href="#_troubleshooting">3.3.2.1. Troubleshooting :</a></li>
+<li><a href="#_troubleshooting">3.2.2.1. Troubleshooting :</a></li>
 </ul>
 </li>
 </ul>
@@ -509,7 +504,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_scripts_bin_and_cicd">6.1. Scripts (bin and CICD)</a>
 <ul class="sectlevel3">
 <li><a href="#_run_all_sh">6.1.1. run_all.sh</a></li>
-<li><a href="#_setup_dockerized_environment_sh">6.1.2. setup_dockerized_environment.sh</a></li>
 </ul>
 </li>
 <li><a href="#gradle_tasks">6.2. Gradle Tasks</a>
@@ -663,9 +657,6 @@ below for details on:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Gradle 7<br></p>
-</li>
-<li>
 <p>Java 11.0<br></p>
 </li>
 <li>
@@ -678,7 +669,7 @@ below for details on:</p>
 <p>Chrome (needed for UI tests in build)</p>
 </li>
 <li>
-<p>Angular CLI</p>
+<p>Node 14.15 (Npm 6.14)</p>
 </li>
 <li>
 <p><a href="https://stedolan.github.io/jq/">jq</a></p>
@@ -712,8 +703,8 @@ It is highly recommended to use <a href="https://sdkman.io/">sdkman</a> and
 </div>
 <div class="paragraph">
 <p>Once you have installed sdkman and nvm, you can <strong>source</strong> the following
-script to set up your development environment (appropriate versions of Gradle,
-Java, Maven and project variables set):</p>
+script to set up your development environment (appropriate versions of Node
+Java and project variables set):</p>
 </div>
 <div class="listingblock">
 <div class="title">Set up development environment (using sdkman and nvm)</div>
@@ -801,7 +792,7 @@ files at
 The steps below assume that you have installed and are using
 <a href="https://sdkman.io/">sdkman</a> and
 <a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tool versions ( for java,
-gradle, node and npm).
+ node and npm).
 </td>
 </tr>
 </table>
@@ -840,7 +831,7 @@ cd operatorfabric-core</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc"><a class="anchor" href="#_set_up_your_environment_environment_variables_appropriate_versions_of_gradle_maven_etc"></a>2.2. Set up your environment (environment variables &amp; appropriate versions of gradle, maven, etc…)</h3>
+<h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_tools"><a class="anchor" href="#_set_up_your_environment_environment_variables_appropriate_versions_of_tools"></a>2.2. Set up your environment (environment variables &amp; appropriate versions of tools)</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">source bin/load_environment_light.sh</code></pre>
@@ -907,7 +898,7 @@ Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose
 The <code>web-ui</code> configuration needs a <code>nginx.conf</code>.</p>
 </div>
 <div class="paragraph">
-<p>The <code>${OF_HOME}/config/dev/$docker-compose.sh</code> creates the <code>nginx.conf</code> file and then runs <code>docker-compose</code> in detached mode.
+<p>The <code>${OF_HOME}/config/dev/docker-compose.sh</code> creates the <code>nginx.conf</code> file and then runs <code>docker-compose</code> in detached mode.
 For this, use:</p>
 </div>
 <div class="listingblock">
@@ -1039,9 +1030,6 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 <div class="sect1">
 <h2 id="_user_interface"><a class="anchor" href="#_user_interface"></a>3. User Interface</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 6.0.8 has been used to generate this project.</p>
-</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1064,100 +1052,10 @@ CLI
 <p>stands for <strong>Command Line Interface</strong></p>
 </td>
 </tr>
-<tr>
-<td class="hdlist1">
-SPA
-</td>
-<td class="hdlist2">
-<p>stands for <strong>Single Page Application</strong></p>
-</td>
-</tr>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_run"><a class="anchor" href="#_run"></a>3.1. Run</h3>
-<div class="sect3">
-<h4 id="_front_end_development"><a class="anchor" href="#_front_end_development"></a>3.1.1. Front End development</h4>
-<div class="paragraph">
-<p>OperatorFabric uses 4 external services to run properly :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>an event queue: RabbitMQ;</p>
-</li>
-<li>
-<p>a no SQL database: MongoDB;</p>
-</li>
-<li>
-<p>an authentication provider: Keycloak;</p>
-</li>
-<li>
-<p>a web server: Nginx.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Those instances are available as docker images in the project.
-se <code>docker-compose</code> and the <code>${OF_HOME}/config/dev/docker-compose.yml</code> to run them.
-After launching docker containers, use the following command line <code>$OF_HOME/bin/run_all.sh start</code> to run the application.</p>
-</div>
-<div class="paragraph">
-<p>Once the whole application is ready, you should have the following output in your terminal:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">##########################################################
-Starting users-business-service, debug port: 5009
-##########################################################
-pid file: $OF_HOME/services/users/build/PIDFILE
-Started with pid: 7483
-
-##########################################################
-Starting cards-consultation-business-service, debug port: 5011
-##########################################################
-pid file: $OF_HOME/services/cards-consultation/build/PIDFILE
-Started with pid: 7493
-
-##########################################################
-Starting cards-publication-business-service, debug port: 5012
-##########################################################
-pid file: $OF_HOME/services/cards-publication/build/PIDFILE
-Started with pid: 7500
-
-##########################################################
-Starting businessconfig-business-service, debug port: 5008
-##########################################################
-pid file: $OF_HOME//services/businessconfig/build/PIDFILE
-Started with pid: 7501</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Wait a moment before trying to connect to the`SPA`, leaving time for the OperatorFabricServices to boot up completely.</p>
-</div>
-<div class="paragraph">
-<p>The <code>SPA</code>, on a local machine, is available at the following Url: <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a></code>.</p>
-</div>
-<div class="paragraph">
-<p>To log in you need to use a valid user among the following: <code>operator1_fr</code>, <code>operator3_fr</code> or <code>admin</code>.
-The common password is <code>test</code> for them all.</p>
-</div>
-<div class="paragraph">
-<p>To test the reception of cards, you can use the following scripts to push basic configuration and example cards:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">${OF_HOME}/src/test/resources/loadTestConf.sh
-${OF_HOME}/src/test/resources/send6TestCards.sh</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Once logged in with operator1_fr, after those scripts have been running, you should be able to see some cards displayed in <code><a href="http://localhost:2002/" class="bare">localhost:2002/</a></code>.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_build"><a class="anchor" href="#_build"></a>3.2. Build</h3>
+<h3 id="_build"><a class="anchor" href="#_build"></a>3.1. Build</h3>
 <div class="paragraph">
 <p>Within the folder <code>${OF_HOME}/ui/main</code>, run <code>ng build</code> to build the project.</p>
 </div>
@@ -1187,16 +1085,16 @@ See &quot;/tmp/ng-&lt;random-string&gt;/angular-errors.log&quot; for further det
 </div>
 </div>
 <div class="sect2">
-<h3 id="_test"><a class="anchor" href="#_test"></a>3.3. Test</h3>
+<h3 id="_test"><a class="anchor" href="#_test"></a>3.2. Test</h3>
 <div class="sect3">
-<h4 id="_standalone_tests"><a class="anchor" href="#_standalone_tests"></a>3.3.1. Standalone tests</h4>
+<h4 id="_standalone_tests"><a class="anchor" href="#_standalone_tests"></a>3.2.1. Standalone tests</h4>
 <div class="paragraph">
 <p>Run in the <code>${OF_HOME}/ui/main</code> directory the command <code>ng test --watch=false</code> to execute the unit tests
 on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-runner.github.io">Karma</a> to drive the browser.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_test_during_ui_development"><a class="anchor" href="#_test_during_ui_development"></a>3.3.2. Test during UI development</h4>
+<h4 id="_test_during_ui_development"><a class="anchor" href="#_test_during_ui_development"></a>3.2.2. Test during UI development</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1217,7 +1115,7 @@ on <a href="https://jasmine.github.io">Jasmine</a> using <a href="https://karma-
 </ol>
 </div>
 <div class="sect4">
-<h5 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a>3.3.2.1. Troubleshooting :</h5>
+<h5 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a>3.2.2.1. Troubleshooting :</h5>
 <div class="paragraph">
 <p>If <code>ng serve</code> returns the error <code>Command 'ng' not found</code>, install the Angular CLI globally with the following
 command.</p>
@@ -1387,9 +1285,6 @@ Getting Started Guide, etc.)</p>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker">docker</a>: contains docker-compose files to help with
 tests and demonstrations</p>
-</li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/headers">headers</a>: contains license header files</p>
 </li>
 </ul>
 </div>
@@ -1586,7 +1481,7 @@ bin/load_environment_light.sh
 </td>
 <td class="hdlist2">
 <p>sets up environment when <strong>sourced</strong> (java
-version, gradle version, maven version, node version)</p>
+version &amp; node version)</p>
 </td>
 </tr>
 <tr>
@@ -1595,14 +1490,6 @@ bin/run_all.sh
 </td>
 <td class="hdlist2">
 <p>runs all all services (see below)</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-bin/setup_dockerized_environment.sh
-</td>
-<td class="hdlist2">
-<p>generate docker images for all services</p>
 </td>
 </tr>
 </table>
@@ -1696,15 +1583,6 @@ instance).</p>
 </table>
 <div class="paragraph">
 <p> </div></details> </p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_setup_dockerized_environment_sh"><a class="anchor" href="#_setup_dockerized_environment_sh"></a>6.1.2. setup_dockerized_environment.sh</h4>
-<div class="paragraph">
-<p>Please see <code>setup_dockerized_environment.sh -h</code> usage before running.</p>
-</div>
-<div class="paragraph">
-<p>Builds all sub-projects, generate docker images and volumes for docker-compose.</p>
 </div>
 </div>
 </div>
@@ -2146,6 +2024,14 @@ ng serve</code></pre>
 <pre class="CodeRay highlight"><code data-lang="bash">./gradlew runCypressTests</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>You can run a subset of the tests, for example if you want to run all the tests starting with 'User':</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./gradlew runSomeCypressTests -PspecFiles=User*</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_clearing_mongodb"><a class="anchor" href="#_clearing_mongodb"></a>6.3.7. Clearing MongoDB</h4>
@@ -2293,10 +2179,7 @@ time to be changed globally for all steps to the value defined by this property.
 <div class="ulist">
 <ul>
 <li>
-<p>gradle :[sub-projectPath]:bootJar</p>
-</li>
-<li>
-<p>or java -jar [sub-projectPath]/build/libs/[sub-project].jar</p>
+<p>java -jar [sub-projectPath]/build/libs/[sub-project].jar</p>
 </li>
 </ul>
 </div>
@@ -2339,50 +2222,7 @@ save/load OperatorFabric Businessconfig  data</p>
 <div class="sect2">
 <h3 id="_generating_docker_images"><a class="anchor" href="#_generating_docker_images"></a>7.3. Generating docker images</h3>
 <div class="paragraph">
-<p>To Generate all docker images run <code>bin/setup_dockerized_environment.sh</code>.</p>
-</div>
-<div class="paragraph">
-<p>INFORMATION: If you work behind a proxy you need to specify the following
-properties to
-configure alpine apk package manager:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>apk.proxy.uri: proxy http uri ex:
-"http://somewhere:3128[<a href="http://somewhere:3128" class="bare">somewhere:3128</a>]" (defaults to blank)</p>
-</li>
-<li>
-<p>apk.proxy.httpsuri: proxy http uri ex:
-"http://somewhere:3128[<a href="http://somewhere:3128" class="bare">somewhere:3128</a>]" (defaults to apk.proxy.uri
-value)</p>
-</li>
-<li>
-<p>apk.proxy.user: proxy user</p>
-</li>
-<li>
-<p>apk.proxy.password: proxy <strong>unescaped</strong> password</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Alternatively, you may configure the following environment variables :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>APK_PROXY_URI</p>
-</li>
-<li>
-<p>APK_PROXY_HTTPS_URI</p>
-</li>
-<li>
-<p>APK_PROXY_USER</p>
-</li>
-<li>
-<p>APK_PROXY_PASSWORD</p>
-</li>
-</ul>
+<p>To Generate all docker images run `./gradlew dockerTagSnaphot'</p>
 </div>
 </div>
 <div class="sect2">
@@ -2487,7 +2327,7 @@ Metaspace</code></pre>
 </div>
 <div class="paragraph">
 <div class="title">Possible causes &amp; resolution</div>
-<p>Issue with the Gradle daemon. Stopping the daemon using <code>gradle --stop</code>
+<p>Issue with the Gradle daemon. Stopping the daemon using <code>./gradlew --stop</code>
 and re-launching the build should solve this issue.</p>
 </div>
 <div class="paragraph">

@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.5.0.RELEASE,</span>
-<span id="revdate">21 February 2022</span>
+<span id="revnumber">version 3.6.0.RELEASE,</span>
+<span id="revdate">04 April 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -558,16 +558,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_sound_notification">4.2. Sound notification</a></li>
 <li><a href="#_card_read">4.3. Card read</a></li>
 <li><a href="#_card_acknowledgment">4.4. Card acknowledgment</a></li>
-<li><a href="#card_reminder">4.5. Card reminder</a>
+<li><a href="#_pin_cards">4.5. Pin cards</a></li>
+<li><a href="#card_reminder">4.6. Card reminder</a>
 <ul class="sectlevel3">
-<li><a href="#_simple_reminder">4.5.1. Simple reminder</a></li>
-<li><a href="#_recurrent_reminder">4.5.2. Recurrent reminder</a>
+<li><a href="#_simple_reminder">4.6.1. Simple reminder</a></li>
+<li><a href="#_recurrent_reminder">4.6.2. Recurrent reminder</a>
 <ul class="sectlevel4">
-<li><a href="#_recurrent_reminder_example">4.5.2.1. Recurrent reminder example</a></li>
+<li><a href="#_recurrent_reminder_example">4.6.2.1. Recurrent reminder example</a></li>
 </ul>
 </li>
-<li><a href="#_last_time_for_reminding">4.5.3. Last time for reminding</a></li>
-<li><a href="#_debugging">4.5.4. Debugging</a></li>
+<li><a href="#_last_time_for_reminding">4.6.3. Last time for reminding</a></li>
+<li><a href="#_debugging">4.6.4. Debugging</a></li>
 </ul>
 </li>
 </ul>
@@ -602,11 +603,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configure_the_bundle">6.1. Configure the bundle</a></li>
 <li><a href="#_method_getspecificcardinformation">6.2. Method getSpecificCardInformation</a></li>
 <li><a href="#_define_permissions_2">6.3. Define permissions</a></li>
-<li><a href="#_recipients">6.4. Recipients</a></li>
-<li><a href="#_card_editing">6.5. Card editing</a></li>
-<li><a href="#_get_edition_mode">6.6. Get edition mode</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">6.7. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">6.8. Misc</a></li>
+<li><a href="#restrict_possible_recipients">6.4. Restrict the list of possible recipients</a></li>
+<li><a href="#set_recipients_via_code">6.5. Set the list of recipients via the template and not via user choice</a></li>
+<li><a href="#_setting_card_dates">6.6. Setting card dates</a></li>
+<li><a href="#_card_editing">6.7. Card editing</a></li>
+<li><a href="#_get_edition_mode">6.8. Get edition mode</a></li>
+<li><a href="#_get_current_process_and_current_state_of_the_card">6.9. Get current process and current state of the card</a></li>
+<li><a href="#_receiving_emitter_entity_of_the_card">6.10. Receiving emitter entity of the card</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">6.11. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">6.12. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">7. Archived Cards</a>
@@ -765,6 +770,9 @@ and the response could be seen by other operators.</p>
 </div>
 <div class="paragraph">
 <p>It is also possible for users to directly send card to other users using predefined card templates.</p>
+</div>
+<div class="paragraph">
+<p>OperatorFabric user interface is running on a browser (recent version of chrome, firefox and edge are supported). The minimum screen resolution is 1680x1050.</p>
 </div>
 </div>
 </div>
@@ -2188,7 +2196,7 @@ emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
 <div class="literalblock">
 <div class="content">
 <pre>{{#keyValue studentGrades}}
-  &lt;p&gt;{{key}}: {{value}}&lt;/p&gt;
+  &lt;p&gt; {{index}} - {{key}}: {{value}} &lt;/p&gt;
 {{/keyValue}}</pre>
 </div>
 </div>
@@ -2209,9 +2217,9 @@ emergency.title=Emergency situation happened on {{date}}. Cause : {{cause}}.
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>&lt;p&gt;student1: 15&lt;/p&gt;
-&lt;p&gt;student2: 12&lt;/p&gt;
-&lt;p&gt;student3: 9&lt;/p&gt;</pre>
+<pre>&lt;p&gt; 0 - student1: 15&lt;/p&gt;
+&lt;p&gt; 1 - student2: 12&lt;/p&gt;
+&lt;p&gt; 2 - student3: 9&lt;/p&gt;</pre>
 </div>
 </div>
 </div>
@@ -2635,6 +2643,9 @@ computationPhaseOrdinal}}}</pre>
 <div class="paragraph">
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
+<div class="paragraph">
+<p>The version of chartjs integrated in OperatorFabric is v3.7.1.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>3.2.4. OperatorFabric specific functions</h4>
@@ -2674,7 +2685,7 @@ The function returns a string with one of the following values :</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>An example of usage can be found in operator fabric git: (<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>).</p>
+<p>An example of usage can be found in operator fabric git: (<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars</a>).</p>
 </div>
 </div>
 <div class="sect4">
@@ -2861,7 +2872,32 @@ the response is disabled for the user</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="card_reminder"><a class="anchor" href="#card_reminder"></a>4.5. Card reminder</h3>
+<h3 id="_pin_cards"><a class="anchor" href="#_pin_cards"></a>4.5. Pin cards</h3>
+<div class="paragraph">
+<p>It is possible to configure the state of a process so that cards are automatically "pinned" when aknowledged. Pinned cards are displayed in Feed page as small boxes with the title of the card just under the timeline Pinned cards are still visible even if the card is no more visible in the feed. A pinned card remains visible until card end date. If no end date, card will always be visible unless it is updated or deleted.</p>
+</div>
+<div class="paragraph">
+<p>To configure a process state to automatically pin cards set the <code>automaticPinWhenAcknowledged</code> property to true in state definition.
+For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"pinnedState": {
+      "name": "⚠️ Network Contingencies ⚠️",
+      "description": "Contingencies state",
+      "templateName": "contingencies",
+      "styles": [
+        "contingencies"
+      ],
+      "acknowledgmentAllowed": "Always",
+      "type" : "INPROGRESS",
+      "automaticPinWhenAcknowledged" : true
+    }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="card_reminder"><a class="anchor" href="#card_reminder"></a>4.6. Card reminder</h3>
 <div class="paragraph">
 <p>For certain process and state, it is possible to configure a reminder. The reminder "reactivate" the card in the feed at a certain time. "Reactivate" means setting the card to the status "unread" and "unacknowledged".</p>
 </div>
@@ -2882,13 +2918,13 @@ the response is disabled for the user</p>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>4.5.1. Simple reminder</h4>
+<h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>4.6.1. Simple reminder</h4>
 <div class="paragraph">
 <p>If a timespan is present without a recurrence object, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>4.5.2. Recurrent reminder</h4>
+<h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>4.6.2. Recurrent reminder</h4>
 <div class="paragraph">
 <p>It is possible to set a recurrent reminder via the structure recurrence which define a regular event in the timespan structure. It is defined with the following fields :</p>
 </div>
@@ -2912,7 +2948,7 @@ the response is disabled for the user</p>
 <p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
 </div>
 <div class="sect4">
-<h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>4.5.2.1. Recurrent reminder example</h5>
+<h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>4.6.2.1. Recurrent reminder example</h5>
 <div class="paragraph">
 <p>If timespan is defined as follow :</p>
 </div>
@@ -2932,18 +2968,18 @@ recurrence : {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_last_time_for_reminding"><a class="anchor" href="#_last_time_for_reminding"></a>4.5.3. Last time for reminding</h4>
+<h4 id="_last_time_for_reminding"><a class="anchor" href="#_last_time_for_reminding"></a>4.6.3. Last time for reminding</h4>
 <div class="paragraph">
 <p>If the user is not connected at the time of the remind,  when he connects if current time is superior to 15 minutes from the event date, no  remind will arise.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_debugging"><a class="anchor" href="#_debugging"></a>4.5.4. Debugging</h4>
+<h4 id="_debugging"><a class="anchor" href="#_debugging"></a>4.6.4. Debugging</h4>
 <div class="paragraph">
 <p>When the user receives a card with a reminder to set, the log (console) of the browser contains a line with the date when the remind will arise . For example :</p>
 </div>
 <div class="paragraph">
-<p><code>2020-11-22T21:00:36.011Z Reminder Will remind card userCardExamples.0cf5537b-f0df-4314-f17f-2797ccd8e4e9 at
+<p><code>2020-11-22T21:00:36.011Z Reminder Will remind card conferenceAndITIncidentExample.0cf5537b-f0df-4314-f17f-2797ccd8e4e9 at
                          Sun Nov 22 2020 22:55:00 GMT+0100 (heure normale d’Europe centrale)</code></p>
 </div>
 </div>
@@ -3190,18 +3226,6 @@ state defined in the config.json.</p>
 <p>To add it to a group name for example "mygroup", you need to make a PATCH request  to endpoint
 'users/groups/mygroup/perimeters' with payload ["perimeterQuestion"]</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If you don&#8217;t want OperatorFabric to check for user perimeter when responding to a card, you can add the variable "checkPerimeterForResponseCard" and set it to false, in the config file of cards-publication and in web-ui.json.
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect2">
@@ -3353,7 +3377,7 @@ Then all the users having the same entity will be in this status for this card.<
 <div class="paragraph">
 <p>The template can know if the current user has the permission to answer by calling the <em>templateGateway.isUserAllowedToRespond()</em> function.
 An example of <em>templateGateway.isUserAllowedToRespond()</em> usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples/template/incidentInProgress.handlebars">src/test/resources/bundles/userCardExamples/template/incidentInProgress.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars">src/test/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3373,14 +3397,14 @@ An example of <em>templateGateway.setLttdExpired(true)</em> usage can be found i
 <div class="sect2">
 <h3 id="_entities_allowed_to_respond"><a class="anchor" href="#_entities_allowed_to_respond"></a>5.8. Entities allowed to respond</h3>
 <div class="paragraph">
-<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method <em>templateGateway.getEntitiesAllowedToRespond()</em> . This method returns an array containing the ids. An example of <em>templateGateway.getEntitiesAllowedToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>.</p>
+<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method <em>templateGateway.getEntitiesAllowedToRespond()</em> . This method returns an array containing the ids. An example of <em>templateGateway.getEntitiesAllowedToRespond()</em> usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_entity_used_for_user_to_respond"><a class="anchor" href="#_entity_used_for_user_to_respond"></a>5.9. Entity used for user to respond</h3>
 <div class="paragraph">
 <p>If inside your template, you want to get the id of the entity used by the user to send a response, you can call the method <em>templateGateway.getEntityUsedForUserResponse()</em> .
-An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/question.handlebars">src/test/resources/bundles/userCardExamples2/template/question.handlebars</a>.</p>
+An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -3402,8 +3426,8 @@ you need to define it in the bundle for this process.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"id": "userCardExamples",
-"name": "userCardExamples.label",
+<pre>"id": "conferenceAndITIncidentExample",
+"name": "conferenceAndITIncidentExample.label",
 "version": "1",
 "states": {
   "messageState": {
@@ -3441,7 +3465,7 @@ presented to the user (through the <code>Create Card</code> menu).</p>
 
 
 &lt;script&gt;
-    templateGateway.getSpecificCardInformation = function () {
+    usercardTemplateGateway.getSpecificCardInformation = function () {
         const message = document.getElementById('message').value;
         const card = {
           summary : {key : "message.summary"},
@@ -3482,7 +3506,7 @@ with the value of the field <code>message</code> from the card&#8217;s data.</p>
 </div>
 <div class="paragraph">
 <p>To have a better understanding of this feature, we encourage you to have a look at the examples in the OperatorFabric
-core repository under (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/userCardExamples">src/test/resources/bundles/userCardExamples</a>).</p>
+core repository under (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/conferenceAndITIncidentExample">src/test/resources/bundles/conferenceAndITIncidentExample</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -3518,6 +3542,9 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 </li>
 <li>
 <p>data</p>
+</li>
+<li>
+<p>entityRecipients (in case recipient list is not visible from the user)</p>
 </li>
 <li>
 <p>entitiesAllowedToEdit</p>
@@ -3556,7 +3583,7 @@ or <code>Write</code> for the chosen process and state. For example:</p>
 <div class="content">
 <pre>{
   "id" : "perimeterUserCard",
-  "process" : "userCardExamples",
+  "process" : "conferenceAndITIncidentExample",
   "stateRights" : [
     {
       "state" : "messageState",
@@ -3581,50 +3608,105 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_recipients"><a class="anchor" href="#_recipients"></a>6.4. Recipients</h3>
+<h3 id="restrict_possible_recipients"><a class="anchor" href="#restrict_possible_recipients"></a>6.4. Restrict the list of possible recipients</h3>
 <div class="paragraph">
-<p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the field <code>recipientList</code> in <code>config.json</code></p>
+<p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>"states": {
-  "messageState": {
-    "name": "message.title",
-    "userCard" : {
-      "template" : "usercard_message",
-      "severityVisible" : true,
-      "startDateVisible" : true,
-      "endDateVisible" : true,
-      "lttdVisible" : false,
-      "recipientVisible": true,
-      "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
-    },
-    "templateName": "message",
-    "styles": [],
-    "acknowledgmentAllowed": "Always"
-  }
-}</pre>
+<pre>    usercardTemplateGateway.setDropdownEntityRecipientList([
+            {"id": "ENTITY_FR", "levels": [0,1]},
+            {"id": "IT_SUPERVISOR_ENTITY"}
+        ]);</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>In this example the list of available recipients will contain: "ENTITY_FR" (level 0), all the first level children of "ENTITY_FR" (level 1) and "IT_SUPERVISOR_ENTITY".</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>6.5. Set the list of recipients via the template and not via user choice</h3>
 <div class="paragraph">
-<p>The recipient field can be hidden using the attribute <code>recipientVisible</code> : if hidden, the card will be sent to all the recipients in recipientList and to the user.</p>
+<p>To do that , you have to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hide the recipient dropdown using the attribute <code>recipientVisible</code> in state definition in config.json</p>
+</li>
+<li>
+<p>provide the list of recipients when returning the card object in usercardTemplateGateway.getSpecificCardInformation() in the field entityRecipients</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    usercardTemplateGateway.getSpecificCardInformation = function () {
+        const message = document.getElementById('message').value;
+        const card = {
+          summary : {key : "message.summary"},
+          title : {key : "message.title"},
+          entityRecipients: ["ENTITY_FR","IT_SUPERVISOR_ENTITY"],
+          data : {message: message}
+        };
+        if (message.length&lt;1) return { valid:false , errorMsg:'You must provide a message'}
+        return {
+            valid: true,
+            card: card
+        };</pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>6.5. Card editing</h3>
+<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>6.6. Setting card dates</h3>
+<div class="paragraph">
+<p>From the template it is possible to set the initial values for <code>startDate</code>, <code>endDate</code> and <code>lttd</code> fields of the card by calling the following functions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>usercardTemplateGateway.setInitialStartDate(epochMs)</em></p>
+</li>
+<li>
+<p><em>usercardTemplateGateway.setInitialEndDate(epochMs)</em></p>
+</li>
+<li>
+<p><em>usercardTemplateGateway.setInitialLttd(epochMs)</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is also possible to get the values of  <code>startDate</code>, <code>endDate</code> and <code>lttd</code> by calling the following functions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>usercardTemplateGateway.getStartDate()</em></p>
+</li>
+<li>
+<p><em>usercardTemplateGateway.getEndDate()</em></p>
+</li>
+<li>
+<p><em>usercardTemplateGateway.getLttd()</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>6.7. Card editing</h3>
 <div class="paragraph">
 <p>Once a user card has been sent it can be edited by a user member of the publisher entity.
-It is possible to allow other entities to edit the card by specifing the 'entitiesAllowedToEdit' card field.</p>
+It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>6.6. Get edition mode</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>6.8. Get edition mode</h3>
 <div class="paragraph">
 <p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
 </div>
@@ -3640,11 +3722,28 @@ It is possible to allow other entities to edit the card by specifing the 'entiti
 </div>
 <div class="paragraph">
 <p>An example of <em>usercardTemplateGateway.getEditionMode()</em> usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/usercard_question.handlebars">src/test/resources/bundles/userCardExamples2/template/usercard_question.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/usercard_question.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/usercard_question.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>6.7. Send response automatically (experimental feature)</h3>
+<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>6.9. Get current process and current state of the card</h3>
+<div class="paragraph">
+<p>The template can know the process and the state of the card by calling the <em>usercardTemplateGateway.getCurrentProcess()</em> and <em>usercardTemplateGateway.getCurrentState()</em> functions. These functions will return a string corresponding to the process id (or state id).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>6.10. Receiving emitter entity of the card</h3>
+<div class="paragraph">
+<p>The template can receive the emitter entity of the card by implementing the <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em>  function.
+This function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
+</div>
+<div class="paragraph">
+<p>An example of <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em> usage can be found in the file
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/usercard_message.handlebars">src/test/resources/bundles/defaultProcess_V1/template/usercard_message.handlebars</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>6.11. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -3656,7 +3755,7 @@ The response card will be sent only if the user is enabled to respond to the car
 <div class="literalblock">
 <div class="content">
 <pre> &lt;script&gt;
-    templateGateway.getSpecificCardInformation = function () {
+    usercardTemplateGateway.getSpecificCardInformation = function () {
         const card = {...}
 
         childCard : {
@@ -3686,11 +3785,11 @@ The response card will be sent only if the user is enabled to respond to the car
 </div>
 <div class="paragraph">
 <p>An example of <em>usercardTemplateGateway.getUserEntityChildCardFromCurrentCard()</em> usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/userCardExamples2/template/usercard_confirmation.handlebars">src/test/resources/bundles/userCardExamples2/template/usercard_confirmation.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/usercard_confirmation.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/usercard_confirmation.handlebars</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.8. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.12. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
@@ -3793,7 +3892,7 @@ To do so, a json file describing the expected output can be sent to the business
 <p>a script to load a monitoring configuration <code>loadMonitoringConfig.sh</code></p>
 </li>
 <li>
-<p>an example of configuration in <code>monitoringConfig.json</code> (for the response fields to be filled , you need to need to respond to a card question in process userCardExamples2 )</p>
+<p>an example of configuration in <code>monitoringConfig.json</code> (for the response fields to be filled , you need to need to respond to a card question in process messageOrQuestionExample )</p>
 </li>
 </ul>
 </div>
@@ -3910,6 +4009,18 @@ User login must be lowercase. Otherwise, it will be converted to lowercase befor
 </td>
 <td class="content">
 Resource identifiers such as login, group id, entity id and perimeter id must only contain the following characters: letters, _, - or digits.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+By default, a user cannot have several sessions at the same time. If you want to enable it, set checkIfUserIsAlreadyConnected to false in the configuration file of the card consultation service ( cards-consultation-XXX.yml ). However, this is not recommended as it may cause synchronization problems between the sessions using the same login
 </td>
 </tr>
 </table>
