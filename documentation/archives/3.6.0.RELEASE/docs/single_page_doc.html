@@ -1293,6 +1293,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#_migration_guide_from_release_3_5_0_to_release_3_6_0">62. Migration Guide from release 3.5.0 to release 3.6.0</a>
+<ul class="sectlevel2">
+<li><a href="#_template_rendering">62.1. Template rendering</a></li>
+<li><a href="#_mongo_data_migration_steps">62.2. Mongo data migration steps</a></li>
+<li><a href="#_about_screen">62.3. About screen</a></li>
+<li><a href="#_deprecated_feature">62.4. Deprecated feature</a>
+<ul class="sectlevel3">
+<li><a href="#_method_templategateway_getspecificinformation">62.4.1. Method templateGateway.getSpecificInformation()</a></li>
+<li><a href="#_restrict_recipient_dropdown_list_for_user">62.4.2. Restrict recipient dropdown list for user</a></li>
+<li><a href="#_set_the_list_of_recipients">62.4.3. Set the list of recipients</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -16337,6 +16351,150 @@ You will need to change the Kafka listener to get the response card.</p>
 <div class="literalblock">
 <div class="content">
 <pre>templateGateway.redirectToBusinessMenu('myMenu','myEntry','?param1=aParam&amp;param2=anotherParam')</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_5_0_to_release_3_6_0"><a class="anchor" href="#_migration_guide_from_release_3_5_0_to_release_3_6_0"></a>62. Migration Guide from release 3.5.0 to release 3.6.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_template_rendering"><a class="anchor" href="#_template_rendering"></a>62.1. Template rendering</h3>
+<div class="paragraph">
+<p>Bootstrap library has been migrate to v5.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you use bootstrap css classes in your templates, it&#8217;s strongly recommended to check your template rendering after migration.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Charts library has been upgraded from version 3.2.1 to 3.7.1</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you use charts in your templates, it&#8217;s strongly recommended to check your template rendering after migration.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mongo_data_migration_steps"><a class="anchor" href="#_mongo_data_migration_steps"></a>62.2. Mongo data migration steps</h3>
+<div class="paragraph">
+<p>This section outlines the necessary steps to migrate existing data.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you use response card feature, you need to perform these steps before starting up the OperatorFabric instance to avoid displaying wrong data in archives page.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Backup your existing Mongo data.</p>
+</li>
+<li>
+<p>Run the following scripts in the mongo shell to update the value of the new field <code>deletionDate</code> for archived cards:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">db.archivedCards.updateMany(
+{&quot;deletionDate&quot;: {&quot;$exists&quot;: false}},
+{&quot;$set&quot;: {&quot;deletionDate&quot;: new ISODate(&quot;1970-01-01T00:00:00Z&quot;)}}
+)</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_about_screen"><a class="anchor" href="#_about_screen"></a>62.3. About screen</h3>
+<div class="paragraph">
+<p>You do not need anymore to precise opfab version in web-ui.json to see it on about screen. So you need to remove the corresponding line. For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "operatorfabric": {
+        "name": "OperatorFabric",
+        "rank": 0,
+        "version": "2.5.0.RELEASE"
+      }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deprecated_feature"><a class="anchor" href="#_deprecated_feature"></a>62.4. Deprecated feature</h3>
+<div class="sect3">
+<h4 id="_method_templategateway_getspecificinformation"><a class="anchor" href="#_method_templategateway_getspecificinformation"></a>62.4.1. Method templateGateway.getSpecificInformation()</h4>
+<div class="paragraph">
+<p>Implementation of method templateGateway.getSpecificInformation() in usercard templates is now deprecated, replace it by usercardTemplateGateway.getSpecificInformation(). It is just a naming change, the behavior is the same.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_restrict_recipient_dropdown_list_for_user"><a class="anchor" href="#_restrict_recipient_dropdown_list_for_user"></a>62.4.2. Restrict recipient dropdown list for user</h4>
+<div class="paragraph">
+<p>Using "recipientList" in state definition (in config.json) is now deprecated</p>
+</div>
+<div class="paragraph">
+<p>If you use  "recipientList" to restrict the list of recipients shown to user, replace it with code in template as in the following example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    usercardTemplateGateway.setDropdownEntityRecipientList([
+            {"id": "ENTITY_FR", "levels": [0,1]},
+            {"id": "IT_SUPERVISOR_ENTITY"}
+        ]);</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_set_the_list_of_recipients"><a class="anchor" href="#_set_the_list_of_recipients"></a>62.4.3. Set the list of recipients</h4>
+<div class="paragraph">
+<p>Using "recipientList" in state definition (in config.json) is now deprecated</p>
+</div>
+<div class="paragraph">
+<p>If you use  "recipientList" to set the list of recipients, provide now the list of recipients when returning the card object in usercardTemplateGateway.getSpecificCardInformation() in the field entityRecipients.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    usercardTemplateGateway.getSpecificCardInformation = function () {
+        const message = document.getElementById('message').value;
+        const card = {
+          summary : {key : "message.summary"},
+          title : {key : "message.title"},
+          entityRecipients: ["ENTITY_FR","IT_SUPERVISOR_ENTITY"],
+          data : {message: message}
+        };
+        if (message.length&lt;1) return { valid:false , errorMsg:'You must provide a message'}
+        return {
+            valid: true,
+            card: card
+        };</pre>
 </div>
 </div>
 </div>
