@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">07 April 2022</span>
+<span id="revdate">08 April 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -948,28 +948,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_gradle_plugins">33.2.3. Gradle Plugins</a></li>
 </ul>
 </li>
-<li><a href="#_cypress_tests">33.3. Cypress Tests</a>
+<li><a href="#_api_testing_with_karate_dsl">33.3. API testing with Karate DSL</a>
 <ul class="sectlevel3">
-<li><a href="#_installation">33.3.1. Installation</a></li>
-<li><a href="#_cypress_file_structure">33.3.2. Cypress file structure</a></li>
-<li><a href="#_launching_the_opfab_instance_to_test">33.3.3. Launching the OpFab instance to test</a>
-<ul class="sectlevel4">
-<li><a href="#_commands">33.3.3.1. Commands</a></li>
-<li><a href="#_explanation">33.3.3.2. Explanation</a></li>
+<li><a href="#_run_a_feature">33.3.1. Run a feature</a></li>
+<li><a href="#_non_regression_tests">33.3.2. Non regression tests</a></li>
 </ul>
 </li>
-<li><a href="#_running_existing_tests">33.3.4. Running existing tests</a></li>
-<li><a href="#_running_tests_on_4200_ng_serve">33.3.5. Running tests on 4200 (ng serve)</a></li>
-<li><a href="#_running_tests_with_gradle">33.3.6. Running tests with Gradle</a></li>
-<li><a href="#_clearing_mongodb">33.3.7. Clearing MongoDB</a></li>
-<li><a href="#_current_status_of_tests">33.3.8. Current status of tests</a></li>
-<li><a href="#_creating_new_tests">33.3.9. Creating new tests</a>
+<li><a href="#_cypress_tests">33.4. Cypress Tests</a>
+<ul class="sectlevel3">
+<li><a href="#_installation">33.4.1. Installation</a></li>
+<li><a href="#_cypress_file_structure">33.4.2. Cypress file structure</a></li>
+<li><a href="#_launching_the_opfab_instance_to_test">33.4.3. Launching the OpFab instance to test</a>
 <ul class="sectlevel4">
-<li><a href="#_useful_documentation">33.3.9.1. Useful documentation</a></li>
-<li><a href="#_guidelines_and_tips">33.3.9.2. Guidelines and tips</a></li>
+<li><a href="#_commands">33.4.3.1. Commands</a></li>
+<li><a href="#_explanation">33.4.3.2. Explanation</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_5">33.3.10. Configuration</a></li>
+<li><a href="#_running_existing_tests">33.4.4. Running existing tests</a></li>
+<li><a href="#_running_tests_on_4200_ng_serve">33.4.5. Running tests on 4200 (ng serve)</a></li>
+<li><a href="#_running_tests_with_gradle">33.4.6. Running tests with Gradle</a></li>
+<li><a href="#_clearing_mongodb">33.4.7. Clearing MongoDB</a></li>
+<li><a href="#_current_status_of_tests">33.4.8. Current status of tests</a></li>
+<li><a href="#_creating_new_tests">33.4.9. Creating new tests</a>
+<ul class="sectlevel4">
+<li><a href="#_useful_documentation">33.4.9.1. Useful documentation</a></li>
+<li><a href="#_guidelines_and_tips">33.4.9.2. Guidelines and tips</a></li>
+</ul>
+</li>
+<li><a href="#_configuration_5">33.4.10. Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -2284,17 +2290,7 @@ the bundle.</p>
 <p>the path of the data used in the template is incorrect;</p>
 </li>
 <li>
-<p>number of pair of <code>{</code> and <code>}</code> has to follow those rules:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>with no helper the good number is only 2 pairs;</p>
-</li>
-<li>
-<p>with OperatorFabric helpers it&#8217;s 3 pairs of them.</p>
-</li>
-</ul>
-</div>
+<p>number of pair of <code>{</code> and <code>}</code> must be 2 (example : <code>{{card.data.myValue}}</code>)</p>
 </li>
 </ul>
 </div>
@@ -10800,7 +10796,59 @@ uses several Gradle plugins, among which:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cypress_tests"><a class="anchor" href="#_cypress_tests"></a>33.3. Cypress Tests</h3>
+<h3 id="_api_testing_with_karate_dsl"><a class="anchor" href="#_api_testing_with_karate_dsl"></a>33.3. API testing with Karate DSL</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If your OperatorFabric instance is not running on localhost, you need to replace localhost with the address
+of your running instance within the <code>karate-config.js</code> file.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All the scripts and test files are in src/test/api/karate.</p>
+</div>
+<div class="sect3">
+<h4 id="_run_a_feature"><a class="anchor" href="#_run_a_feature"></a>33.3.1. Run a feature</h4>
+<div class="paragraph">
+<p>To launch a specific test, launch in src/test/api/karate.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$OF_HOME/gradlew karate --args=myfeature.feature</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result will be available in the <code>target</code> repository.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_non_regression_tests"><a class="anchor" href="#_non_regression_tests"></a>33.3.2. Non regression tests</h4>
+<div class="paragraph">
+<p>You can launch operatorFabric non-regression tests via the script launchAll.sh in src/test/api/karate.</p>
+</div>
+<div class="paragraph">
+<p>To have the test passed, you need to have a clean Mongo DB database. To do that, you can use the scripts :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>src/test/resources/deleteAllCards.sh</p>
+</li>
+<li>
+<p>src/test/resources/deleteAllArchivedCards.sh</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cypress_tests"><a class="anchor" href="#_cypress_tests"></a>33.4. Cypress Tests</h3>
 <div class="paragraph">
 <p>Automatic UI testing</p>
 </div>
@@ -10817,7 +10865,7 @@ All paths for cd are given assuming you&#8217;re starting from <code>$OF_HOME</c
 </table>
 </div>
 <div class="sect3">
-<h4 id="_installation"><a class="anchor" href="#_installation"></a>33.3.1. Installation</h4>
+<h4 id="_installation"><a class="anchor" href="#_installation"></a>33.4.1. Installation</h4>
 <div class="paragraph">
 <p>Before running Cypress tests for the first time you need to install it using NPM.</p>
 </div>
@@ -10829,7 +10877,7 @@ npm install</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_cypress_file_structure"><a class="anchor" href="#_cypress_file_structure"></a>33.3.2. Cypress file structure</h4>
+<h4 id="_cypress_file_structure"><a class="anchor" href="#_cypress_file_structure"></a>33.4.2. Cypress file structure</h4>
 <div class="paragraph">
 <p>By default, all test files are located in <code>cypress/cypress/integration</code> but it is possible to put it on another directory</p>
 </div>
@@ -10838,9 +10886,9 @@ npm install</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_launching_the_opfab_instance_to_test"><a class="anchor" href="#_launching_the_opfab_instance_to_test"></a>33.3.3. Launching the OpFab instance to test</h4>
+<h4 id="_launching_the_opfab_instance_to_test"><a class="anchor" href="#_launching_the_opfab_instance_to_test"></a>33.4.3. Launching the OpFab instance to test</h4>
 <div class="sect4">
-<h5 id="_commands"><a class="anchor" href="#_commands"></a>33.3.3.1. Commands</h5>
+<h5 id="_commands"><a class="anchor" href="#_commands"></a>33.4.3.1. Commands</h5>
 <div class="paragraph">
 <p>You can launch the OpFab instance for Cypress tests either in dev or docker mode. The following commands launch the
 instance in docker mode, just substitute <code>dev</code> for <code>docker</code> to launch it in dev mode.</p>
@@ -10876,7 +10924,7 @@ docker-compose down</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_explanation"><a class="anchor" href="#_explanation"></a>33.3.3.2. Explanation</h5>
+<h5 id="_explanation"><a class="anchor" href="#_explanation"></a>33.4.3.2. Explanation</h5>
 <div class="paragraph">
 <p>The Cypress tests rely on a running OpFab instance that is an adaptation from the config/docker docker-compose file
 (environment name, shorter time before lttd clock display, etc.).</p>
@@ -10922,7 +10970,7 @@ before each test or series of test.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_existing_tests"><a class="anchor" href="#_running_existing_tests"></a>33.3.4. Running existing tests</h4>
+<h4 id="_running_existing_tests"><a class="anchor" href="#_running_existing_tests"></a>33.4.4. Running existing tests</h4>
 <div class="paragraph">
 <p>To launch the Cypress test runner:</p>
 </div>
@@ -10951,7 +10999,7 @@ display the browsers that are currently installed on your computer (and supporte
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_tests_on_4200_ng_serve"><a class="anchor" href="#_running_tests_on_4200_ng_serve"></a>33.3.5. Running tests on 4200 (ng serve)</h4>
+<h4 id="_running_tests_on_4200_ng_serve"><a class="anchor" href="#_running_tests_on_4200_ng_serve"></a>33.4.5. Running tests on 4200 (ng serve)</h4>
 <div class="paragraph">
 <p>Follow the steps described above in "Dev mode" to start a Cypress-flavoured OpFab instance in development mode, then
 run ng serve to start a dynamically generated ui on port 4200:</p>
@@ -10976,7 +11024,7 @@ ng serve</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_tests_with_gradle"><a class="anchor" href="#_running_tests_with_gradle"></a>33.3.6. Running tests with Gradle</h4>
+<h4 id="_running_tests_with_gradle"><a class="anchor" href="#_running_tests_with_gradle"></a>33.4.6. Running tests with Gradle</h4>
 <div class="paragraph">
 <p>The tests can also be run in command line mode using a Gradle task :</p>
 </div>
@@ -10995,7 +11043,7 @@ ng serve</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_clearing_mongodb"><a class="anchor" href="#_clearing_mongodb"></a>33.3.7. Clearing MongoDB</h4>
+<h4 id="_clearing_mongodb"><a class="anchor" href="#_clearing_mongodb"></a>33.4.7. Clearing MongoDB</h4>
 <div class="paragraph">
 <p>If you want to start with a clean database (from the cards and archived cards point of view), you can purge the
 associated collections through the MongoDB shell with the following commands:</p>
@@ -11011,14 +11059,14 @@ db.archivedCards.remove({})</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_current_status_of_tests"><a class="anchor" href="#_current_status_of_tests"></a>33.3.8. Current status of tests</h4>
+<h4 id="_current_status_of_tests"><a class="anchor" href="#_current_status_of_tests"></a>33.4.8. Current status of tests</h4>
 <div class="paragraph">
 <p>All tests should be passing when run alone (i.e. not with run all specs) against empty card/archived cards collections.
 However, tests in the "Flaky" folder can sometimes fail because they involve dates (round up errors for example).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_creating_new_tests"><a class="anchor" href="#_creating_new_tests"></a>33.3.9. Creating new tests</h4>
+<h4 id="_creating_new_tests"><a class="anchor" href="#_creating_new_tests"></a>33.4.9. Creating new tests</h4>
 <div class="paragraph">
 <p>Create a new XXXX.spec.js file under <code>cypress/cypress/integration</code></p>
 </div>
@@ -11035,7 +11083,7 @@ We will need to define a convention for naming and organizing tests.
 </table>
 </div>
 <div class="sect4">
-<h5 id="_useful_documentation"><a class="anchor" href="#_useful_documentation"></a>33.3.9.1. Useful documentation</h5>
+<h5 id="_useful_documentation"><a class="anchor" href="#_useful_documentation"></a>33.4.9.1. Useful documentation</h5>
 <div class="sect5">
 <h6 id="_cypress_documentation"><a class="anchor" href="#_cypress_documentation"></a>Cypress Documentation</h6>
 <div class="ulist">
@@ -11070,7 +11118,7 @@ We will need to define a convention for naming and organizing tests.
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidelines_and_tips"><a class="anchor" href="#_guidelines_and_tips"></a>33.3.9.2. Guidelines and tips</h5>
+<h5 id="_guidelines_and_tips"><a class="anchor" href="#_guidelines_and_tips"></a>33.4.9.2. Guidelines and tips</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -11108,7 +11156,7 @@ explanation</a> and <a href="https://docs.cypress.io/guides/core-concepts/retry-
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>33.3.10. Configuration</h4>
+<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>33.4.10. Configuration</h4>
 <div class="paragraph">
 <p>In <code>cypress.json</code>:</p>
 </div>
