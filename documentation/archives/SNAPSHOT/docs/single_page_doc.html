@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">10 April 2022</span>
+<span id="revdate">11 April 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -627,16 +627,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#objectContainsKey">10.2.1.22. objectContainsKey</a></li>
 </ul>
 </li>
-<li><a href="#opfab_template_style">10.2.2. OperatorFabric css styles</a></li>
-<li><a href="#_charts">10.2.3. Charts</a></li>
-<li><a href="#_operatorfabric_specific_functions">10.2.4. OperatorFabric specific functions</a>
+<li><a href="#_naming_convention">10.2.2. Naming convention</a></li>
+<li><a href="#opfab_template_style">10.2.3. OperatorFabric css styles</a></li>
+<li><a href="#_charts">10.2.4. Charts</a></li>
+<li><a href="#_operatorfabric_specific_functions">10.2.5. OperatorFabric specific functions</a>
 <ul class="sectlevel4">
-<li><a href="#_set_screen_size">10.2.4.1. Set screen size</a></li>
-<li><a href="#_get_display_context">10.2.4.2. Get display context</a></li>
-<li><a href="#_redirect_to_business_application_from_a_card">10.2.4.3. Redirect to business application from a card</a></li>
-<li><a href="#_get_list_of_all_entities">10.2.4.4. Get list of all entities</a></li>
-<li><a href="#_get_information_about_an_entity">10.2.4.5. Get information about an entity</a></li>
-<li><a href="#_method_ontemplaterenderingcomplete">10.2.4.6. Method onTemplateRenderingComplete()</a></li>
+<li><a href="#_set_screen_size">10.2.5.1. Set screen size</a></li>
+<li><a href="#_get_display_context">10.2.5.2. Get display context</a></li>
+<li><a href="#_redirect_to_business_application_from_a_card">10.2.5.3. Redirect to business application from a card</a></li>
+<li><a href="#_get_list_of_all_entities">10.2.5.4. Get list of all entities</a></li>
+<li><a href="#_get_information_about_an_entity">10.2.5.5. Get information about an entity</a></li>
+<li><a href="#_method_ontemplaterenderingcomplete">10.2.5.6. Method onTemplateRenderingComplete()</a></li>
 </ul>
 </li>
 </ul>
@@ -3744,22 +3745,35 @@ for more information)</p>
 <li>
 <p><strong>lastName</strong>: user last name</p>
 </li>
+<li>
+<p><strong>groups</strong> : user groups as an array of groups ID</p>
+</li>
+<li>
+<p><strong>entities</strong> : user entities as an array of entities ID</p>
+</li>
 </ul>
 </div>
 </li>
 </ul>
 </div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Please do not prefix <code>id</code> attributes of DOM elements of your templates with "opfab". Indeed, so that there is no confusion between the elements of OperatorFabric and those of your templates, we have prefixed all our <code>id</code> attributes with "opfab".
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>To use these data in the template , you need to reference them inside double braces. For example if you want to display the user login:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Your login is : {{userContext.login}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To display specific business data from the card, write for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>My data : {{card.data.mydataField}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Have a look to  <a href="https://handlebarsjs.com/" class="bare">handlebarsjs.com/</a> for more information on the templating mechanism.</p>
 </div>
 <div class="paragraph">
 <p>In addition to Handlebars basic syntax and helpers, OperatorFabric defines the
@@ -4396,7 +4410,22 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="opfab_template_style"><a class="anchor" href="#opfab_template_style"></a>10.2.2. OperatorFabric css styles</h4>
+<h4 id="_naming_convention"><a class="anchor" href="#_naming_convention"></a>10.2.2. Naming convention</h4>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Please do not prefix <code>id</code> attributes of DOM elements or css class names of your templates with "opfab". Indeed, so that there is no confusion between the elements of OperatorFabric and those of your templates, we have prefixed all our <code>id</code> attributes and css classes with "opfab".
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="opfab_template_style"><a class="anchor" href="#opfab_template_style"></a>10.2.3. OperatorFabric css styles</h4>
 <div class="paragraph">
 <p>OperatorFabric defines several css classes that you should use so your templates don&#8217;t clash with the rest of the OperatorFabric look and feel:</p>
 </div>
@@ -4436,7 +4465,7 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_charts"><a class="anchor" href="#_charts"></a>10.2.3. Charts</h4>
+<h4 id="_charts"><a class="anchor" href="#_charts"></a>10.2.4. Charts</h4>
 <div class="paragraph">
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
@@ -4445,9 +4474,9 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>10.2.4. OperatorFabric specific functions</h4>
+<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>10.2.5. OperatorFabric specific functions</h4>
 <div class="sect4">
-<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>10.2.4.1. Set screen size</h5>
+<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>10.2.5.1. Set screen size</h5>
 <div class="paragraph">
 <p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a javascript function in your template called templateGateway.setScreenSize(size) which receives as input a string parameter with one of the following values :</p>
 </div>
@@ -4463,7 +4492,7 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_display_context"><a class="anchor" href="#_get_display_context"></a>10.2.4.2. Get display context</h5>
+<h5 id="_get_display_context"><a class="anchor" href="#_get_display_context"></a>10.2.5.2. Get display context</h5>
 <div class="paragraph">
 <p>To adapt the template content to the display context it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function <em>templateGateway.getDisplayContext()</em>.
 The function returns a string with one of the following values :</p>
@@ -4486,7 +4515,7 @@ The function returns a string with one of the following values :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>10.2.4.3. Redirect to business application from a card</h5>
+<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>10.2.5.3. Redirect to business application from a card</h5>
 <div class="paragraph">
 <p>It&#8217;s possible to redirect from a card to a business application declared in <code>ui-menu.json</code>.</p>
 </div>
@@ -4530,7 +4559,7 @@ The function returns a string with one of the following values :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_list_of_all_entities"><a class="anchor" href="#_get_list_of_all_entities"></a>10.2.4.4. Get list of all entities</h5>
+<h5 id="_get_list_of_all_entities"><a class="anchor" href="#_get_list_of_all_entities"></a>10.2.5.4. Get list of all entities</h5>
 <div class="paragraph">
 <p>To have the list of all entities in OperatorFabric, you can call the javascript function <em>templateGateway.getAllEntities()</em>.
 The function returns an array of entity object :</p>
@@ -4562,14 +4591,14 @@ The function returns an array of entity object :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_information_about_an_entity"><a class="anchor" href="#_get_information_about_an_entity"></a>10.2.4.5. Get information about an entity</h5>
+<h5 id="_get_information_about_an_entity"><a class="anchor" href="#_get_information_about_an_entity"></a>10.2.5.5. Get information about an entity</h5>
 <div class="paragraph">
 <p>To have information about an entity in particular, you can call the javascript function <em>templateGateway.getEntity(entityId)</em>.
 The function returns an entity object whose fields are mentioned above.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_method_ontemplaterenderingcomplete"><a class="anchor" href="#_method_ontemplaterenderingcomplete"></a>10.2.4.6. Method onTemplateRenderingComplete()</h5>
+<h5 id="_method_ontemplaterenderingcomplete"><a class="anchor" href="#_method_ontemplaterenderingcomplete"></a>10.2.5.6. Method onTemplateRenderingComplete()</h5>
 <div class="paragraph">
 <p>OpFab calls this method when it has finished all tasks regarding rendering template :
 it is called after applyChildCard(), lockAnswer(), setLttdExpired() and setScreenSize()</p>
