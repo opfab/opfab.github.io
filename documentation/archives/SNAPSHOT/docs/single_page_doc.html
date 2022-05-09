@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 May 2022</span>
+<span id="revdate">09 May 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -4957,15 +4957,18 @@ will receive the card as an HTTP POST request. The card is in json format (the s
 The field data in the json contains the user response.</p>
 </div>
 <div class="paragraph">
-<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is
-an example with two third parties configured.</p>
+<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. It is also possible to configure wether he user token shall be propagated to the third party or not by setting the "propagateUserToken" boolean property. Here is an example with two third parties configured.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>externalRecipients-url: "{\
-           third-party1: \"http://thirdparty1/test1\", \
-           third-party2: \"http://thirdparty2:8090/test2\", \
-           }"</pre>
+<pre>external-recipients:
+  recipients:
+    - id: "third-party1"
+      url: "http://thirdparty1/test1"
+      propagateUserToken: true
+    - id: "third-party2"
+      url: "http://thirdparty2:8090/test2"
+      propagateUserToken: false</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5032,8 +5035,8 @@ and state "questionState", the user will have the possibility to respond if he h
 <p>The field "state" in the response field is used to define the state to use for the response (the child card).</p>
 </li>
 <li>
-<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in
-the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
+<p>The field "externalRecipients" define the recipients of the response card. These recipients are the ids of the objects referenced in
+the config file of cards-publication service, in "external-recipients" element. This field is optional.</p>
 </li>
 <li>
 <p>The field "emittingEntityAllowedToRespond" in the response field is used to allow the emitting entity to respond to a card. To be able to respond, however, the emitting entity has to be one of the recipients of the card. Default value is false.</p>
@@ -8547,14 +8550,18 @@ See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apa
 </div>
 <div class="paragraph">
 <p>Operator Fabric is also able to publish response cards to a Kafka topic. The default topic name  <code>opfab-response</code>. You can specify which response cards
-are to be returned via Kafka by setting the <code>externalRecipients-url</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
+are to be returned via Kafka by setting the <code>external-recipients</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
-           processAction: \&quot;http://localhost:8090/test\&quot;, \
-           mykafka: \&quot;kafka:topicname\&quot;
-           }</span><span class="delimiter">&quot;</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
+  <span class="key">recipients</span>:
+    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">true</span></span>
+    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -12491,15 +12498,19 @@ Note that some properties of CardCommand or its embedded Card are required. If n
 <p>OperatorFabric
 <a href="#response_cards">response cards</a>
 can be sent by REST of put on a Kafka topic. The Kafka response card configuration follows the
-convention to configure a REST endpoint. Instead of setting the 'http://host/api' URL, you set it to 'kafka:response-topic' in the <code>externalRecipients-url:</code>
+convention to configure a REST endpoint. Instead of setting the 'http://host/api' URL, you set it to 'kafka:response-topic' in the <code>external-recipients:</code>
 section from the cards-publication.yml file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
-           processAction: \&quot;http://localhost:8090/test\&quot;, \
-           mykafka: \&quot;kafka:topicname\&quot;
-           }</span><span class="delimiter">&quot;</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
+  <span class="key">recipents</span>:
+    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span>
+    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
