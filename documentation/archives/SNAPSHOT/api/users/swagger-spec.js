@@ -93,6 +93,9 @@ window.swaggerSpec={
             "type" : "string",
             "uniqueItems" : true
           }
+        },
+        "realtime" : {
+          "type" : "boolean"
         }
       },
       "required" : [ "id" ],

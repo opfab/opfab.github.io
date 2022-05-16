@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 May 2022</span>
+<span id="revdate">16 May 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -660,7 +660,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_notification_configuration">11.1. Notification configuration</a></li>
 <li><a href="#_sound_notification">11.2. Sound notification</a></li>
 <li><a href="#_card_read">11.3. Card read</a></li>
-<li><a href="#_card_acknowledgment">11.4. Card acknowledgment</a></li>
+<li><a href="#_card_acknowledgment">11.4. Card acknowledgment</a>
+<ul class="sectlevel3">
+<li><a href="#_acknowledgment_done_by_the_user">11.4.1. Acknowledgment done by the user</a></li>
+<li><a href="#_acknowledgment_done_by_entityies">11.4.2. Acknowledgment done by entity(ies)</a></li>
+</ul>
+</li>
 <li><a href="#_pin_cards">11.5. Pin cards</a></li>
 <li><a href="#card_reminder">11.6. Card reminder</a>
 <ul class="sectlevel3">
@@ -2713,6 +2718,25 @@ A color is associated in the GUI to each severity. Here the details about severi
 <div class="paragraph">
 <p>Tags are intended as an additional way to filter cards in the feed of the GUI.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Grouping cards is an experimental feature
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Tags can also be used to group cards together in the card feed. When <code>feed.enableGroupedCards</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file, cards that have the same tags are grouped together. In the feed window, only the top card will be visible and can be clicked to show  cards with the same tags.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="../images/grouped-cards.png" alt="Closed grouped cards"></span>
+<span class="image"><img src="../images/grouped-cards2.png" alt="Open grouped cards"></span></p>
+</div>
 </div>
 <div class="sect5">
 <h6 id="_entityrecipients_entityrecipients"><a class="anchor" href="#_entityrecipients_entityrecipients"></a>EntityRecipients (<code>entityRecipients</code>)</h6>
@@ -3434,7 +3458,7 @@ The simpler is to ask for the i18n file, as described
 </div>
 </div>
 <div class="paragraph">
-<p>where <code>${token}</code> is a valid token for operatorfabric use.</p>
+<p>where <code>${token}</code> is a valid token for OperatorFabric use.</p>
 </div>
 <div class="paragraph">
 <p>The <code>businessconfig</code> service should answer with a 200 status associated with the following json:</p>
@@ -4774,11 +4798,14 @@ To customize the sounds played by the browser, see <code>config/docker/custom-so
 </div>
 <div class="sect2">
 <h3 id="_card_acknowledgment"><a class="anchor" href="#_card_acknowledgment"></a>11.4. Card acknowledgment</h3>
+<div class="sect3">
+<h4 id="_acknowledgment_done_by_the_user"><a class="anchor" href="#_acknowledgment_done_by_the_user"></a>11.4.1. Acknowledgment done by the user</h4>
 <div class="paragraph">
 <p>The user can set a card as "acknowledged" so he will not see it anymore by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
 </div>
 <div class="paragraph">
-<p>To offer the possibility for the user to acknowledged card, it has to be configured in process definition. The configuration is done on a state by setting the acknowledgmentAllowed field. Allowed values are:</p>
+<p>To offer the possibility for the user to acknowledge card, it has to be configured in process definition.
+The configuration is done on a state by setting the <code>acknowledgmentAllowed</code> field. Allowed values are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4798,10 +4825,36 @@ the response is disabled for the user</p>
 <p>You can see examples in src/test/resources/bundles/defaultProcess_V1/config.json</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_acknowledgment_done_by_entityies"><a class="anchor" href="#_acknowledgment_done_by_entityies"></a>11.4.2. Acknowledgment done by entity(ies)</h4>
+<div class="paragraph">
+<p>A card can also be set as acknowledged if a member (or several) of the entity of the user has acknowledged it.
+A user can be member of several entities, so you can configure if acknowledgment done by only one entity
+(of the user) suffices for the card to appear as acknowledged or if all entities must acknowledge the card.</p>
+</div>
+<div class="paragraph">
+<p>To configure how a card is considered as acknowledged for the user, it has to be configured in process definition.
+The configuration is done on a state by setting the <code>consideredAcknowledgedForUserWhen</code> field. Allowed values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"UserHasAcknowledged": the card is set as acknowledged if the user acknowledges it</p>
+</li>
+<li>
+<p>"OneEntityOfUserHasAcknowledged": the card is set as acknowledged if one (or more) entity(ies) of the user acknowledges it</p>
+</li>
+<li>
+<p>"AllEntitiesOfUserHaveAcknowledged": the card is set as acknowledged if all the entities of the user acknowledge it</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_pin_cards"><a class="anchor" href="#_pin_cards"></a>11.5. Pin cards</h3>
 <div class="paragraph">
-<p>It is possible to configure the state of a process so that cards are automatically "pinned" when aknowledged. Pinned cards are displayed in Feed page as small boxes with the title of the card just under the timeline Pinned cards are still visible even if the card is no more visible in the feed. A pinned card remains visible until card end date. If no end date, card will always be visible unless it is updated or deleted.</p>
+<p>It is possible to configure the state of a process so that cards are automatically "pinned" when acknowledged. Pinned cards are displayed in Feed page as small boxes with the title of the card just under the timeline Pinned cards are still visible even if the card is no more visible in the feed. A pinned card remains visible until card end date. If no end date, card will always be visible unless it is updated or deleted.</p>
 </div>
 <div class="paragraph">
 <p>To configure a process state to automatically pin cards set the <code>automaticPinWhenAcknowledged</code> property to true in state definition.
@@ -6612,7 +6665,7 @@ signal for a given period of time.</p>
 sound systems. The sound system on which the sound will be played can depend on the user receiving the notification.
 For example, all operators working in control room A will have their sounds played on the control room&#8217;s central sound
 system, while operators from control room B will use theirs.
-Only one external device can be configured for each user.</p>
+Each user can have several external devices configured.</p>
 </div>
 <div class="paragraph">
 <p>So far, only sound systems using the Modbus protocol are supported, but we would like to be able to support other
@@ -6673,11 +6726,11 @@ NGINX gateway, with the following payload:</p>
 <p>The NGINX server, acting as a gateway, forwards it to the <code>/notifications</code> endpoint on the External Devices service.</p>
 </li>
 <li>
-<p>The External Devices service queries the configuration repositories to find out which external device is configured
-for operator1_fr, how to connect to it and what signal "ALARM" translates to on this particular device.</p>
+<p>The External Devices service queries the configuration repositories to find out which external devices are configured
+for operator1_fr, how to connect to them and what signal "ALARM" translates to on these particular devices.</p>
 </li>
 <li>
-<p>It then creates the appropriate connection if it doesn&#8217;t exist yet, and sends the signal.</p>
+<p>It then creates the appropriate connections if they don&#8217;t exist yet, and sends the signal.</p>
 </li>
 </ol>
 </div>
@@ -6690,13 +6743,13 @@ for operator1_fr, how to connect to it and what signal "ALARM" translates to on 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>For each user, which device to use:</p>
+<p>For each user, which devices to use:</p>
 <div class="listingblock">
 <div class="title">userConfiguration</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">userLogin</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operator1_fr</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">externalDeviceId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_1</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">externalDeviceIds</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_1</span><span class="delimiter">&quot;</span></span>]
 }</code></pre>
 </div>
 </div>
@@ -7275,7 +7328,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The line customized in the nginx configuration file must end with à semi-colon (';') otherwise the Nginx server will stop immediately</p>
+<p>The line customized in the nginx configuration file must end with à semicolon (';') otherwise the Nginx server will stop immediately</p>
 </div>
 </td>
 </tr>
@@ -7466,6 +7519,12 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.enableGroupedCards</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -7602,7 +7661,7 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.remoteLoggingEnabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, some logs form the UI are send to the back and write in the log file of the cards-consultation service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, some logs form the UI are sent to the back and write in the log file of the cards-consultation service</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.about</p></td>
@@ -7640,7 +7699,7 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logo.height</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The height of the logo (in px) (only taken into account if logo.base64 is set). The value cannot be more than 48px (if it is set to more than 48px, it will be ignore and set to 48px).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The height of the logo (in px) (only taken into account if logo.base64 is set). The value cannot be more than 48px (if it is set to more than 48px, it will be ignored and set to 48px).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logo.width</p></td>
@@ -12526,10 +12585,10 @@ section from the cards-publication.yml file:</p>
 <p>The aim of this document is to present the OperatorFabric community, its code of conduct and to welcome contributors!</p>
 </div>
 <div class="paragraph">
-<p>First of all, thank you for your interest !</p>
+<p>First, thank you for your interest !</p>
 </div>
 <div class="paragraph">
-<p>We can&#8217;t stress enough that feedback, discussions, questions and contributions on OperatorFabric are very much
+<p>We can&#8217;t stress enough that feedback, discussions, questions and contributions to OperatorFabric are very much
 appreciated.
 However, because the project is still in its early stages, we&#8217;re not fully equipped for any of it yet, so please bear
 with us while the contribution process and tooling are sorted out.</p>
@@ -13533,7 +13592,7 @@ to have to maintain these mentions (since this information is tracked by git any
 (around ten times per seconds), use instead variables and compute them only when necessary.</p>
 </li>
 <li>
-<p>ngInit() :  ngInit is called when component is created, the creation is made by the parent component : be careful to check when initialization is done when calling method inside ngInit. When the context of the parent component change, it can lead to a new initialization or not.</p>
+<p>ngOnInit() :  ngOnInit is called when component is created, the creation is made by the parent component : be careful to check when initialization is done when calling method inside ngOnInit. When the context of the parent component change, it can lead to a new initialization or not.</p>
 </li>
 <li>
 <p>Do not store Moment objects in ngrx store (see for example : <a href="https://github.com/ngrx/platform/issues/2690" class="bare">github.com/ngrx/platform/issues/2690</a>)</p>
@@ -13543,6 +13602,9 @@ to have to maintain these mentions (since this information is tracked by git any
 </li>
 <li>
 <p>Do not use console.log or console.error, use specific opfab service : OpfabLoggerService</p>
+</li>
+<li>
+<p>To give id to an HTML element, please use dashes between words and only lowercase letters. Example id="opfab-feed-filter-publish-date-to"</p>
 </li>
 </ul>
 </div>

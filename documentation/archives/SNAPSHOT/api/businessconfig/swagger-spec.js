@@ -531,6 +531,10 @@ window.swaggerSpec={
                 "$ref" : "#/definitions/AcknowledgmentAllowedEnum",
                 "default" : "Never"
               },
+              "consideredAcknowledgedForUserWhen" : {
+                "description" : "Define how a card is considered as acknowledged in the feed",
+                "$ref" : "#/definitions/ConsideredAcknowledgedForUserWhenEnum"
+              },
               "name" : {
                 "type" : "string",
                 "description" : "Name of the state"
@@ -676,6 +680,11 @@ window.swaggerSpec={
       "type" : "string",
       "description" : "Type of state >\n* INPROGRESS - In Progress\n* FINISHED - Finished\n* CANCELED - Canceled",
       "enum" : [ "INPROGRESS", "FINISHED", "CANCELED" ]
+    },
+    "ConsideredAcknowledgedForUserWhenEnum" : {
+      "type" : "string",
+      "description" : "This field is used to define how a card is considered as acknowledged in the feed. >\n* USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, it suffices that the user acknowledges it \n* ONE_ENTITY_OF_USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, one (or more) entity(ies) of the user must acknowledge it \n* ALL_ENTITIES_OF_USER_HAVE_ACKNOWLEDGED - For the card to appear acknowledged in the feed, all the entities of the user must acknowledge it",
+      "enum" : [ "UserHasAcknowledged", "OneEntityOfUserHasAcknowledged", "AllEntitiesOfUserHaveAcknowledged" ]
     },
     "ProcessGroup" : {
       "description" : "Object containing a list of processes.",
