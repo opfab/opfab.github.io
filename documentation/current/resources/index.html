@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 3.6.0.RELEASE,</span>
-<span id="revdate">04 April 2022</span>
+<span id="revnumber">version 3.7.0.RELEASE,</span>
+<span id="revdate">17 May 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -581,6 +581,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_method_templategateway_getspecificcardinformation">16.4.1. Method templateGateway.getSpecificCardInformation()</a></li>
 <li><a href="#_restrict_recipient_dropdown_list_for_user">16.4.2. Restrict recipient dropdown list for user</a></li>
 <li><a href="#_set_the_list_of_recipients">16.4.3. Set the list of recipients</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_6_0_to_release_3_7_0">17. Migration Guide from release 3.6.0 to release 3.7.0</a>
+<ul class="sectlevel2">
+<li><a href="#_docker_images_names_changed">17.1. Docker images names changed</a></li>
+<li><a href="#_third_parties_configuration">17.2. Third parties configuration</a></li>
+<li><a href="#_rename_attribute_externaldeviceid">17.3. Rename attribute externalDeviceId</a>
+<ul class="sectlevel3">
+<li><a href="#_in_the_configuration_file">17.3.1. In the configuration file</a></li>
+<li><a href="#_changes_in_the_mongo_data_base">17.3.2. Changes in the Mongo data base</a>
+<ul class="sectlevel4">
+<li><a href="#_before_the_migration">17.3.2.1. Before the migration</a></li>
+<li><a href="#_once_the_migration_is_done">17.3.2.2. Once the migration is done</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_deprecated_feature_2">17.4. Deprecated feature</a>
+<ul class="sectlevel3">
+<li><a href="#_field_recurrence">17.4.1. Field recurrence</a></li>
 </ul>
 </li>
 </ul>
@@ -2186,6 +2208,201 @@ If you use response card feature, you need to perform these steps before startin
         return {
             valid: true,
             card: card
+        };</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_6_0_to_release_3_7_0"><a class="anchor" href="#_migration_guide_from_release_3_6_0_to_release_3_7_0"></a>17. Migration Guide from release 3.6.0 to release 3.7.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_docker_images_names_changed"><a class="anchor" href="#_docker_images_names_changed"></a>17.1. Docker images names changed</h3>
+<div class="paragraph">
+<p>From version 3.7.0 the docker names of the former "business services" are changed. Here are there old names and the new ones.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Old docker name</th>
+<th class="tableblock halign-left valign-top">New docker name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-cards-consultation-business-service:3.6.0.RELEASE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-cards-consultation-service:3.7.0.RELEASE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-cards-publication-business-service:3.6.0.RELEASE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-cards-publication-service:3.7.0.RELEASE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-users-business-service:3.6.0.RELEASE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-users-service:3.7.0.RELEASE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-businessconfig-business-service:3.6.0.RELEASE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lfeoperatorfabric/of-businessconfig-service:3.7.0.RELEASE</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You must change your docker-compose files accordingly.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_third_parties_configuration"><a class="anchor" href="#_third_parties_configuration"></a>17.2. Third parties configuration</h3>
+<div class="paragraph">
+<p>The configuration of the third parties applications as external recipents has changed. It is now possible to configure wether the user token shall be propagated to the third party or not by setting the "propagateUserToken" boolean property.</p>
+</div>
+<div class="paragraph">
+<p>If you have third parties configured in your 'cards-publication.yml' you should change the configuration as follows:</p>
+</div>
+<div class="paragraph">
+<p>From:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>externalRecipients-url: "{\
+           third-party1: \"http://thirdparty1/test1\", \
+           third-party2: \"http://thirdparty2:8090/test2\", \
+           }"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>external-recipients:
+  recipients:
+    - id: "third-party1"
+      url: "http://thirdparty1/test1"
+      propagateUserToken: true
+    - id: "third-party2"
+      url: "http://thirdparty2:8090/test2"
+      propagateUserToken: true</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rename_attribute_externaldeviceid"><a class="anchor" href="#_rename_attribute_externaldeviceid"></a>17.3. Rename attribute externalDeviceId</h3>
+<div class="paragraph">
+<p>It is now possible to have several external device systems, therefore the attribute externalDeviceId is now renamed into externalDeviceIds and is now a list.</p>
+</div>
+<div class="sect3">
+<h4 id="_in_the_configuration_file"><a class="anchor" href="#_in_the_configuration_file"></a>17.3.1. In the configuration file</h4>
+<div class="paragraph">
+<p>In the configuration file, replace</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>userConfigurations:
+        - userLogin: operator1_fr
+          externalDeviceId: CDS_1
+        - userLogin: operator2_fr
+          externalDeviceId: CDS_2
+        - userLogin: operator3_fr
+          externalDeviceId: CDS_3
+        - userLogin: operator4_fr
+          externalDeviceId: CDS_1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>by</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>userConfigurations:
+        - userLogin: operator1_fr
+          externalDeviceIds: ["CDS_1"]
+        - userLogin: operator2_fr
+          externalDeviceIds: ["CDS_2"]
+        - userLogin: operator3_fr
+          externalDeviceIds: ["CDS_3"]
+        - userLogin: operator4_fr
+          externalDeviceIds: ["CDS_1"]</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_changes_in_the_mongo_data_base"><a class="anchor" href="#_changes_in_the_mongo_data_base"></a>17.3.2. Changes in the Mongo data base</h4>
+<div class="sect4">
+<h5 id="_before_the_migration"><a class="anchor" href="#_before_the_migration"></a>17.3.2.1. Before the migration</h5>
+<div class="paragraph">
+<p>Before the migration to 3.7.0, one should save its current data base, then add the attribute "externalDeviceIds" based on the
+value of the existing attribute "externalDeviceId". To add this attribute, simply launch the commands :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>var collection = db.getCollection("userConfigurations")
+collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, {$set: {externalDeviceIds: [user.externalDeviceId]}})})</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_once_the_migration_is_done"><a class="anchor" href="#_once_the_migration_is_done"></a>17.3.2.2. Once the migration is done</h5>
+<div class="paragraph">
+<p>Once the migration to 3.7.0 is done, the attribute "externalDeviceId" is not used anymore.
+You can remove it by launching :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>var collection = db.getCollection("userConfigurations")
+collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, {$unset: {"externalDeviceId": 1}})})</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deprecated_feature_2"><a class="anchor" href="#_deprecated_feature_2"></a>17.4. Deprecated feature</h3>
+<div class="sect3">
+<h4 id="_field_recurrence"><a class="anchor" href="#_field_recurrence"></a>17.4.1. Field recurrence</h4>
+<div class="paragraph">
+<p>Using "recurrence" field returned by getSpecificCardInformation() method definition is now deprecated.</p>
+</div>
+<div class="paragraph">
+<p>If you are using the "viewCardInAgenda" and "recurrence" field, use the "timeSpans" field instead when returning the card object in usercardTemplateGateway.getSpecificCardInformation() to configure the visibility of the card in timeline and agenda.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    usercardTemplateGateway.getSpecificCardInformation = function () {
+        const message = document.getElementById('message').value;
+        const card = {
+          summary : {key : "message.summary"},
+          title : {key : "message.title"},
+          entityRecipients: ["ENTITY_FR","IT_SUPERVISOR_ENTITY"],
+          data : {message: message}
+        };
+
+        const recurrence = {
+            daysOfWeek : [1,2,3],
+            hoursAndMinutes : {hours:10,minutes:44},
+            durationInMinutes: 15
+        }
+
+        const mystartDate = new Date();
+        const timeSpans = [{
+            startDate: mystartDate.getTime(),
+            endDate: mystartDate.getTime() + 7 * 24 * 3600000,
+            recurrence: recurrence
+        }]
+
+        return {
+            valid: true,
+            card: card,
+            timeSpans: timeSpans
         };</pre>
 </div>
 </div>

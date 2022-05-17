@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.6.0.RELEASE,</span>
-<span id="revdate">04 April 2022</span>
+<span id="revnumber">version 3.7.0.RELEASE,</span>
+<span id="revdate">17 May 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -454,8 +454,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_business_service_configuration">3.1. Business service configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_specify_an_external_configuration">3.1.1. Specify an external configuration</a></li>
-<li><a href="#_shared_business_service_configuration">3.1.2. Shared business service configuration</a></li>
-<li><a href="#_business_service_specific_configurations">3.1.3. Business service specific configurations</a>
+<li><a href="#_shared_service_configuration">3.1.2. Shared service configuration</a></li>
+<li><a href="#_service_specific_configurations">3.1.3. Service specific configurations</a>
 <ul class="sectlevel4">
 <li><a href="#_businessconfig_service">3.1.3.1. Businessconfig service</a></li>
 <li><a href="#_users_service">3.1.3.2. Users service</a></li>
@@ -649,9 +649,9 @@ while the <strong>docker</strong> sub-directory is a specific configuration mean
 </div>
 </div>
 <div class="sect3">
-<h4 id="_shared_business_service_configuration"><a class="anchor" href="#_shared_business_service_configuration"></a>3.1.2. Shared business service configuration</h4>
+<h4 id="_shared_service_configuration"><a class="anchor" href="#_shared_service_configuration"></a>3.1.2. Shared service configuration</h4>
 <div class="paragraph">
-<p>The configuration shared by all business services is in a yaml file, you can find an example with the file
+<p>The configuration shared by all services is in a yaml file, you can find an example with the file
 /config/docker/common-docker.yml.
 In this file you will find, among others, the parameters below :</p>
 </div>
@@ -681,9 +681,9 @@ In this file you will find, among others, the parameters below :</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_business_service_specific_configurations"><a class="anchor" href="#_business_service_specific_configurations"></a>3.1.3. Business service specific configurations</h4>
+<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>3.1.3. Service specific configurations</h4>
 <div class="paragraph">
-<p>Each business service has a specific yaml configuration file. It should a least contain the name of the service:</p>
+<p>Each service has a specific yaml configuration file. It should a least contain the name of the service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -693,7 +693,7 @@ In this file you will find, among others, the parameters below :</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Examples of configuration of each business service can be found either under config/docker or config/dev depending on
+<p>Examples of configuration of each service can be found either under config/docker or config/dev depending on
 the type of deployment you&#8217;re looking for.</p>
 </div>
 <div class="sect4">
@@ -872,7 +872,7 @@ KafkaAvroSerializer</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">checkIfUserIsAlreadyConnected</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will allow a user to have several sessions opened at the same time. However, it may cause synchronization problems between the sessions using the same login, so it is recommended to let it to true, its default value.</p></td>
 </tr>
 </tbody>
@@ -918,7 +918,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The line customized in the nginx configuration file must end with à semi-colon (';') otherwise the Nginx server will stop immediately</p>
+<p>The line customized in the nginx configuration file must end with à semicolon (';') otherwise the Nginx server will stop immediately</p>
 </div>
 </td>
 </tr>
@@ -1109,6 +1109,12 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.enableGroupedCards</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1245,7 +1251,7 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.remoteLoggingEnabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, some logs form the UI are send to the back and write in the log file of the cards-consultation service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, some logs form the UI are sent to the back and write in the log file of the cards-consultation service</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.about</p></td>
@@ -1283,7 +1289,7 @@ It should look like:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logo.height</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The height of the logo (in px) (only taken into account if logo.base64 is set). The value cannot be more than 48px (if it is set to more than 48px, it will be ignore and set to 48px).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The height of the logo (in px) (only taken into account if logo.base64 is set). The value cannot be more than 48px (if it is set to more than 48px, it will be ignored and set to 48px).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logo.width</p></td>
@@ -2193,14 +2199,18 @@ See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apa
 </div>
 <div class="paragraph">
 <p>Operator Fabric is also able to publish response cards to a Kafka topic. The default topic name  <code>opfab-response</code>. You can specify which response cards
-are to be returned via Kafka by setting the <code>externalRecipients-url</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
+are to be returned via Kafka by setting the <code>external-recipients</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">externalRecipients-url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">{\
-           processAction: \&quot;http://localhost:8090/test\&quot;, \
-           mykafka: \&quot;kafka:topicname\&quot;
-           }</span><span class="delimiter">&quot;</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
+  <span class="key">recipients</span>:
+    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">true</span></span>
+    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">

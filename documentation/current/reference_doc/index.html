@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.6.0.RELEASE,</span>
-<span id="revdate">04 April 2022</span>
+<span id="revnumber">version 3.7.0.RELEASE,</span>
+<span id="revdate">17 May 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -536,16 +536,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#objectContainsKey">3.2.1.22. objectContainsKey</a></li>
 </ul>
 </li>
-<li><a href="#opfab_template_style">3.2.2. OperatorFabric css styles</a></li>
-<li><a href="#_charts">3.2.3. Charts</a></li>
-<li><a href="#_operatorfabric_specific_functions">3.2.4. OperatorFabric specific functions</a>
+<li><a href="#_naming_convention">3.2.2. Naming convention</a></li>
+<li><a href="#opfab_template_style">3.2.3. OperatorFabric css styles</a>
 <ul class="sectlevel4">
-<li><a href="#_set_screen_size">3.2.4.1. Set screen size</a></li>
-<li><a href="#_get_display_context">3.2.4.2. Get display context</a></li>
-<li><a href="#_redirect_to_business_application_from_a_card">3.2.4.3. Redirect to business application from a card</a></li>
-<li><a href="#_get_list_of_all_entities">3.2.4.4. Get list of all entities</a></li>
-<li><a href="#_get_information_about_an_entity">3.2.4.5. Get information about an entity</a></li>
-<li><a href="#_method_ontemplaterenderingcomplete">3.2.4.6. Method onTemplateRenderingComplete()</a></li>
+<li><a href="#_opfab_input">3.2.3.1. opfab-input</a></li>
+<li><a href="#_opfab_textarea">3.2.3.2. opfab-textarea</a></li>
+<li><a href="#_opfab_select">3.2.3.3. opfab-select</a></li>
+<li><a href="#_opfab_radio_button">3.2.3.4. opfab-radio-button</a></li>
+<li><a href="#_opfab_checkbox">3.2.3.5. opfab-checkbox</a></li>
+<li><a href="#_opfab_table">3.2.3.6. opfab-table</a></li>
+<li><a href="#_opfab_border_box">3.2.3.7. opfab-border-box</a></li>
+<li><a href="#_opfab_color_danger_opfab_color_warning_and_opfab_color_success">3.2.3.8. opfab-color-danger, opfab-color-warning and opfab-color-success</a></li>
+</ul>
+</li>
+<li><a href="#_charts">3.2.4. Charts</a></li>
+<li><a href="#_operatorfabric_specific_functions">3.2.5. OperatorFabric specific functions</a>
+<ul class="sectlevel4">
+<li><a href="#_set_screen_size">3.2.5.1. Set screen size</a></li>
+<li><a href="#_get_display_context">3.2.5.2. Get display context</a></li>
+<li><a href="#_redirect_to_business_application_from_a_card">3.2.5.3. Redirect to business application from a card</a></li>
+<li><a href="#_get_list_of_all_entities">3.2.5.4. Get list of all entities</a></li>
+<li><a href="#_get_information_about_an_entity">3.2.5.5. Get information about an entity</a></li>
+<li><a href="#_method_ontemplaterenderingcomplete">3.2.5.6. Method onTemplateRenderingComplete()</a></li>
 </ul>
 </li>
 </ul>
@@ -557,7 +569,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_notification_configuration">4.1. Notification configuration</a></li>
 <li><a href="#_sound_notification">4.2. Sound notification</a></li>
 <li><a href="#_card_read">4.3. Card read</a></li>
-<li><a href="#_card_acknowledgment">4.4. Card acknowledgment</a></li>
+<li><a href="#_card_acknowledgment">4.4. Card acknowledgment</a>
+<ul class="sectlevel3">
+<li><a href="#_acknowledgment_done_by_the_user">4.4.1. Acknowledgment done by the user</a></li>
+<li><a href="#_acknowledgment_done_by_entityies">4.4.2. Acknowledgment done by entity(ies)</a></li>
+</ul>
+</li>
 <li><a href="#_pin_cards">4.5. Pin cards</a></li>
 <li><a href="#card_reminder">4.6. Card reminder</a>
 <ul class="sectlevel3">
@@ -903,6 +920,25 @@ A color is associated in the GUI to each severity. Here the details about severi
 <h6 id="_tags_tag"><a class="anchor" href="#_tags_tag"></a>Tags (<code>tag</code>)</h6>
 <div class="paragraph">
 <p>Tags are intended as an additional way to filter cards in the feed of the GUI.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Grouping cards is an experimental feature
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Tags can also be used to group cards together in the card feed. When <code>feed.enableGroupedCards</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file, cards that have the same tags are grouped together. In the feed window, only the top card will be visible and can be clicked to show  cards with the same tags.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="../images/grouped-cards.png" alt="Closed grouped cards"></span>
+<span class="image"><img src="../images/grouped-cards2.png" alt="Open grouped cards"></span></p>
 </div>
 </div>
 <div class="sect5">
@@ -1625,7 +1661,7 @@ The simpler is to ask for the i18n file, as described
 </div>
 </div>
 <div class="paragraph">
-<p>where <code>${token}</code> is a valid token for operatorfabric use.</p>
+<p>where <code>${token}</code> is a valid token for OperatorFabric use.</p>
 </div>
 <div class="paragraph">
 <p>The <code>businessconfig</code> service should answer with a 200 status associated with the following json:</p>
@@ -1947,22 +1983,35 @@ for more information)</p>
 <li>
 <p><strong>lastName</strong>: user last name</p>
 </li>
+<li>
+<p><strong>groups</strong> : user groups as an array of groups ID</p>
+</li>
+<li>
+<p><strong>entities</strong> : user entities as an array of entities ID</p>
+</li>
 </ul>
 </div>
 </li>
 </ul>
 </div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Please do not prefix <code>id</code> attributes of DOM elements of your templates with "opfab". Indeed, so that there is no confusion between the elements of OperatorFabric and those of your templates, we have prefixed all our <code>id</code> attributes with "opfab".
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>To use these data in the template , you need to reference them inside double braces. For example if you want to display the user login:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>Your login is : {{userContext.login}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To display specific business data from the card, write for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>My data : {{card.data.mydataField}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Have a look to  <a href="https://handlebarsjs.com/" class="bare">handlebarsjs.com/</a> for more information on the templating mechanism.</p>
 </div>
 <div class="paragraph">
 <p>In addition to Handlebars basic syntax and helpers, OperatorFabric defines the
@@ -2599,47 +2648,152 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="opfab_template_style"><a class="anchor" href="#opfab_template_style"></a>3.2.2. OperatorFabric css styles</h4>
-<div class="paragraph">
-<p>OperatorFabric defines several css classes that you should use so your templates don&#8217;t clash with the rest of the OperatorFabric look and feel:</p>
+<h4 id="_naming_convention"><a class="anchor" href="#_naming_convention"></a>3.2.2. Naming convention</h4>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Please do not prefix <code>id</code> attributes of DOM elements or css class names of your templates with "opfab". Indeed, so that there is no confusion between the elements of OperatorFabric and those of your templates, we have prefixed all our <code>id</code> attributes and css classes with "opfab".
+</td>
+</tr>
+</table>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>opfab-input : input field</p>
-</li>
-<li>
-<p>opfab-textarea : text area input field</p>
-</li>
-<li>
-<p>opfab-select : select input field</p>
-</li>
-<li>
-<p>opfab-radio-button : radio button input field</p>
-</li>
-<li>
-<p>opfab-checkbox : checkbox input field</p>
-</li>
-<li>
-<p>opfab-table : a HTML table</p>
-</li>
-<li>
-<p>opfab-border-box : a box with a label</p>
-</li>
-<li>
-<p>styles for text standard colors :  opfab-color-danger , opfab-color-warning and opfab-color-success</p>
-</li>
-</ul>
 </div>
+<div class="sect3">
+<h4 id="opfab_template_style"><a class="anchor" href="#opfab_template_style"></a>3.2.3. OperatorFabric css styles</h4>
 <div class="paragraph">
-<p>These styles are especially useful for templates used in user card or card with responses.</p>
+<p>OperatorFabric defines several css classes that you should use so your templates don&#8217;t clash with the rest of the OperatorFabric look and feel. These styles are especially useful for templates used in user card or card with responses.</p>
 </div>
 <div class="paragraph">
 <p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles">src/test/resources/bundles</a>).</p>
 </div>
+<div class="paragraph">
+<p>The following css styles are available.</p>
+</div>
+<div class="sect4">
+<h5 id="_opfab_input"><a class="anchor" href="#_opfab_input"></a>3.2.3.1. opfab-input</h5>
+<div class="paragraph">
+<p>An input field, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-input"&gt;
+      &lt;label&gt; My input name &lt;/label&gt;
+      &lt;input id="my_input" name="my_input"&gt;
+  &lt;/div&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_textarea"><a class="anchor" href="#_opfab_textarea"></a>3.2.3.2. opfab-textarea</h5>
+<div class="paragraph">
+<p>A text area input field, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-textarea"&gt;
+      &lt;label&gt; My input name &lt;/label&gt;
+      &lt;textarea id="my_textearea_input" name="my_textearea_input"&gt; &lt;/textarea&gt;
+  &lt;/div&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_select"><a class="anchor" href="#_opfab_select"></a>3.2.3.3. opfab-select</h5>
+<div class="paragraph">
+<p>A select input field, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-select" style="position:relative"&gt;
+      &lt;label&gt; My select label &lt;/label&gt;
+      &lt;select id="my_select" name="my_select"&gt;
+          &lt;option  value="option1"&gt; Option 1 &lt;/option&gt;
+          &lt;option  value="option2"&gt; Option 2&lt;/option&gt;
+      &lt;/select&gt;
+  &lt;/div&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The use of <code>position:relative</code> is important here to avoid strange positioning of the label.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_radio_button"><a class="anchor" href="#_opfab_radio_button"></a>3.2.3.4. opfab-radio-button</h5>
+<div class="paragraph">
+<p>A radio button input field, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;label class="opfab-radio-button"&gt;
+      &lt;span&gt; My radio choice &lt;/span&gt;
+      &lt;input type="radio" id="my_radio_button"&gt;
+      &lt;span class="opfab-radio-button-checkmark"&gt;&lt;/span&gt;
+  &lt;/label&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_checkbox"><a class="anchor" href="#_opfab_checkbox"></a>3.2.3.5. opfab-checkbox</h5>
+<div class="paragraph">
+<p>A checkbox input field, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;label class="opfab-checkbox"&gt;
+    My checkbox text
+    &lt;input type="checkbox" id="my_checkbox" name="my_checkbox" &gt;
+    &lt;span class="opfab-checkbox-checkmark"&gt; &lt;/span&gt;
+  &lt;/label&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_table"><a class="anchor" href="#_opfab_table"></a>3.2.3.6. opfab-table</h5>
+<div class="paragraph">
+<p>An HTML table, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-table"&gt;
+    &lt;table&gt;
+        .....
+    &lt;/table&gt;
+  &lt;/div&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_border_box"><a class="anchor" href="#_opfab_border_box"></a>3.2.3.7. opfab-border-box</h5>
+<div class="paragraph">
+<p>A box with a label, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-border-box"&gt;
+    &lt;label&gt;  My box name  &lt;/label&gt;
+    &lt;div&gt; My box text &lt;/div&gt;
+  &lt;/div&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opfab_color_danger_opfab_color_warning_and_opfab_color_success"><a class="anchor" href="#_opfab_color_danger_opfab_color_warning_and_opfab_color_success"></a>3.2.3.8. opfab-color-danger, opfab-color-warning and opfab-color-success</h5>
+<div class="paragraph">
+<p>Some styles for text standard colors, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;span class="opfab-color-danger"&gt; my text in color &lt;/span&gt;</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.3. Charts</h4>
+<h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.4. Charts</h4>
 <div class="paragraph">
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
@@ -2648,9 +2802,9 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>3.2.4. OperatorFabric specific functions</h4>
+<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>3.2.5. OperatorFabric specific functions</h4>
 <div class="sect4">
-<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>3.2.4.1. Set screen size</h5>
+<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>3.2.5.1. Set screen size</h5>
 <div class="paragraph">
 <p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a javascript function in your template called templateGateway.setScreenSize(size) which receives as input a string parameter with one of the following values :</p>
 </div>
@@ -2666,7 +2820,7 @@ computationPhaseOrdinal}}}</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_display_context"><a class="anchor" href="#_get_display_context"></a>3.2.4.2. Get display context</h5>
+<h5 id="_get_display_context"><a class="anchor" href="#_get_display_context"></a>3.2.5.2. Get display context</h5>
 <div class="paragraph">
 <p>To adapt the template content to the display context it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function <em>templateGateway.getDisplayContext()</em>.
 The function returns a string with one of the following values :</p>
@@ -2689,7 +2843,7 @@ The function returns a string with one of the following values :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>3.2.4.3. Redirect to business application from a card</h5>
+<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>3.2.5.3. Redirect to business application from a card</h5>
 <div class="paragraph">
 <p>It&#8217;s possible to redirect from a card to a business application declared in <code>ui-menu.json</code>.</p>
 </div>
@@ -2733,7 +2887,7 @@ The function returns a string with one of the following values :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_list_of_all_entities"><a class="anchor" href="#_get_list_of_all_entities"></a>3.2.4.4. Get list of all entities</h5>
+<h5 id="_get_list_of_all_entities"><a class="anchor" href="#_get_list_of_all_entities"></a>3.2.5.4. Get list of all entities</h5>
 <div class="paragraph">
 <p>To have the list of all entities in OperatorFabric, you can call the javascript function <em>templateGateway.getAllEntities()</em>.
 The function returns an array of entity object :</p>
@@ -2765,14 +2919,14 @@ The function returns an array of entity object :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_information_about_an_entity"><a class="anchor" href="#_get_information_about_an_entity"></a>3.2.4.5. Get information about an entity</h5>
+<h5 id="_get_information_about_an_entity"><a class="anchor" href="#_get_information_about_an_entity"></a>3.2.5.5. Get information about an entity</h5>
 <div class="paragraph">
 <p>To have information about an entity in particular, you can call the javascript function <em>templateGateway.getEntity(entityId)</em>.
 The function returns an entity object whose fields are mentioned above.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_method_ontemplaterenderingcomplete"><a class="anchor" href="#_method_ontemplaterenderingcomplete"></a>3.2.4.6. Method onTemplateRenderingComplete()</h5>
+<h5 id="_method_ontemplaterenderingcomplete"><a class="anchor" href="#_method_ontemplaterenderingcomplete"></a>3.2.5.6. Method onTemplateRenderingComplete()</h5>
 <div class="paragraph">
 <p>OpFab calls this method when it has finished all tasks regarding rendering template :
 it is called after applyChildCard(), lockAnswer(), setLttdExpired() and setScreenSize()</p>
@@ -2847,11 +3001,14 @@ To customize the sounds played by the browser, see <code>config/docker/custom-so
 </div>
 <div class="sect2">
 <h3 id="_card_acknowledgment"><a class="anchor" href="#_card_acknowledgment"></a>4.4. Card acknowledgment</h3>
+<div class="sect3">
+<h4 id="_acknowledgment_done_by_the_user"><a class="anchor" href="#_acknowledgment_done_by_the_user"></a>4.4.1. Acknowledgment done by the user</h4>
 <div class="paragraph">
 <p>The user can set a card as "acknowledged" so he will not see it anymore by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
 </div>
 <div class="paragraph">
-<p>To offer the possibility for the user to acknowledged card, it has to be configured in process definition. The configuration is done on a state by setting the acknowledgmentAllowed field. Allowed values are:</p>
+<p>To offer the possibility for the user to acknowledge card, it has to be configured in process definition.
+The configuration is done on a state by setting the <code>acknowledgmentAllowed</code> field. Allowed values are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2871,10 +3028,36 @@ the response is disabled for the user</p>
 <p>You can see examples in src/test/resources/bundles/defaultProcess_V1/config.json</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_acknowledgment_done_by_entityies"><a class="anchor" href="#_acknowledgment_done_by_entityies"></a>4.4.2. Acknowledgment done by entity(ies)</h4>
+<div class="paragraph">
+<p>A card can also be set as acknowledged if a member (or several) of the entity of the user has acknowledged it.
+A user can be member of several entities, so you can configure if acknowledgment done by only one entity
+(of the user) suffices for the card to appear as acknowledged or if all entities must acknowledge the card.</p>
+</div>
+<div class="paragraph">
+<p>To configure how a card is considered as acknowledged for the user, it has to be configured in process definition.
+The configuration is done on a state by setting the <code>consideredAcknowledgedForUserWhen</code> field. Allowed values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"UserHasAcknowledged": the card is set as acknowledged if the user acknowledges it</p>
+</li>
+<li>
+<p>"OneEntityOfUserHasAcknowledged": the card is set as acknowledged if one (or more) entity(ies) of the user acknowledges it</p>
+</li>
+<li>
+<p>"AllEntitiesOfUserHaveAcknowledged": the card is set as acknowledged if all the entities of the user acknowledge it</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_pin_cards"><a class="anchor" href="#_pin_cards"></a>4.5. Pin cards</h3>
 <div class="paragraph">
-<p>It is possible to configure the state of a process so that cards are automatically "pinned" when aknowledged. Pinned cards are displayed in Feed page as small boxes with the title of the card just under the timeline Pinned cards are still visible even if the card is no more visible in the feed. A pinned card remains visible until card end date. If no end date, card will always be visible unless it is updated or deleted.</p>
+<p>It is possible to configure the state of a process so that cards are automatically "pinned" when acknowledged. Pinned cards are displayed in Feed page as small boxes with the title of the card just under the timeline Pinned cards are still visible even if the card is no more visible in the feed. A pinned card remains visible until card end date. If no end date, card will always be visible unless it is updated or deleted.</p>
 </div>
 <div class="paragraph">
 <p>To configure a process state to automatically pin cards set the <code>automaticPinWhenAcknowledged</code> property to true in state definition.
@@ -3030,15 +3213,18 @@ will receive the card as an HTTP POST request. The card is in json format (the s
 The field data in the json contains the user response.</p>
 </div>
 <div class="paragraph">
-<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. Here is
-an example with two third parties configured.</p>
+<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. It is also possible to configure wether he user token shall be propagated to the third party or not by setting the "propagateUserToken" boolean property. Here is an example with two third parties configured.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>externalRecipients-url: "{\
-           third-party1: \"http://thirdparty1/test1\", \
-           third-party2: \"http://thirdparty2:8090/test2\", \
-           }"</pre>
+<pre>external-recipients:
+  recipients:
+    - id: "third-party1"
+      url: "http://thirdparty1/test1"
+      propagateUserToken: true
+    - id: "third-party2"
+      url: "http://thirdparty2:8090/test2"
+      propagateUserToken: false</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3105,8 +3291,8 @@ and state "questionState", the user will have the possibility to respond if he h
 <p>The field "state" in the response field is used to define the state to use for the response (the child card).</p>
 </li>
 <li>
-<p>The field "externalRecipients" define the recipients of the response card. These recipients are keys referenced in
-the config file of cards-publication service, in "externalRecipients-url" element. This field is optional.</p>
+<p>The field "externalRecipients" define the recipients of the response card. These recipients are the ids of the objects referenced in
+the config file of cards-publication service, in "external-recipients" element. This field is optional.</p>
 </li>
 <li>
 <p>The field "emittingEntityAllowedToRespond" in the response field is used to allow the emitting entity to respond to a card. To be able to respond, however, the emitting entity has to be one of the recipients of the card. Default value is false.</p>
@@ -3566,7 +3752,15 @@ for more information) .</p>
 <p>If you send a card to an ExternalRecipient, when the user delete it, the external recipient will receive the information via an HTTP DELETE request with the id of the deleted card at the end of the request (example : <a href="http://myexternal_app/myendpoint/ID_CARD" class="bare">myexternal_app/myendpoint/ID_CARD</a>).</p>
 </div>
 <div class="paragraph">
-<p>If you want the card to be visible in the agenda feature, you need to set 'viewCardInAgenda' to true in the object returned by the method.</p>
+<p>If you want the card to be visible in the agenda feature, you need to set 'timeSpans' field (as array of TimeSpans objects) in the object returned by the method.
+You can find an example in the file:
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/taskExample/template/usercard_task.handlebars">src/test/resources/bundles/taskExample/template/usercard_task.handlebars</a>.</p>
+</div>
+<div class="paragraph">
+<p>If not using 'timeSpans' it&#8217;s possible to set the 'viewCardInAgenda' field to true, the card will be visible using card&#8217;s startDate and endDate as default timeSpan.</p>
+</div>
+<div class="paragraph">
+<p>The 'recurrence' field is deprecated and could be removed in the future.</p>
 </div>
 <div class="paragraph">
 <p>If the form is not filled correctly by the user, you can provide an error message (see example above).
@@ -4674,7 +4868,7 @@ signal for a given period of time.</p>
 sound systems. The sound system on which the sound will be played can depend on the user receiving the notification.
 For example, all operators working in control room A will have their sounds played on the control room&#8217;s central sound
 system, while operators from control room B will use theirs.
-Only one external device can be configured for each user.</p>
+Each user can have several external devices configured.</p>
 </div>
 <div class="paragraph">
 <p>So far, only sound systems using the Modbus protocol are supported, but we would like to be able to support other
@@ -4735,11 +4929,11 @@ NGINX gateway, with the following payload:</p>
 <p>The NGINX server, acting as a gateway, forwards it to the <code>/notifications</code> endpoint on the External Devices service.</p>
 </li>
 <li>
-<p>The External Devices service queries the configuration repositories to find out which external device is configured
-for operator1_fr, how to connect to it and what signal "ALARM" translates to on this particular device.</p>
+<p>The External Devices service queries the configuration repositories to find out which external devices are configured
+for operator1_fr, how to connect to them and what signal "ALARM" translates to on these particular devices.</p>
 </li>
 <li>
-<p>It then creates the appropriate connection if it doesn&#8217;t exist yet, and sends the signal.</p>
+<p>It then creates the appropriate connections if they don&#8217;t exist yet, and sends the signal.</p>
 </li>
 </ol>
 </div>
@@ -4752,13 +4946,13 @@ for operator1_fr, how to connect to it and what signal "ALARM" translates to on 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>For each user, which device to use:</p>
+<p>For each user, which devices to use:</p>
 <div class="listingblock">
 <div class="title">userConfiguration</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">userLogin</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">operator1_fr</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">externalDeviceId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_1</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">externalDeviceIds</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">CDS_1</span><span class="delimiter">&quot;</span></span>]
 }</code></pre>
 </div>
 </div>
