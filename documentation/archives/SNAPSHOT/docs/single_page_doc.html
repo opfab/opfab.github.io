@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 May 2022</span>
+<span id="revdate">21 May 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -714,12 +714,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#restrict_possible_recipients">13.4. Restrict the list of possible recipients</a></li>
 <li><a href="#set_recipients_via_code">13.5. Set the list of recipients via the template and not via user choice</a></li>
 <li><a href="#_setting_card_dates">13.6. Setting card dates</a></li>
-<li><a href="#_card_editing">13.7. Card editing</a></li>
-<li><a href="#_get_edition_mode">13.8. Get edition mode</a></li>
-<li><a href="#_get_current_process_and_current_state_of_the_card">13.9. Get current process and current state of the card</a></li>
-<li><a href="#_receiving_emitter_entity_of_the_card">13.10. Receiving emitter entity of the card</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">13.11. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">13.12. Misc</a></li>
+<li><a href="#_setting_initial_card_severity">13.7. Setting initial card severity</a></li>
+<li><a href="#_card_editing">13.8. Card editing</a></li>
+<li><a href="#_get_edition_mode">13.9. Get edition mode</a></li>
+<li><a href="#_get_current_process_and_current_state_of_the_card">13.10. Get current process and current state of the card</a></li>
+<li><a href="#_receiving_emitter_entity_of_the_card">13.11. Receiving emitter entity of the card</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">13.12. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">13.13. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">14. Archived Cards</a>
@@ -5712,14 +5713,46 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>13.7. Card editing</h3>
+<h3 id="_setting_initial_card_severity"><a class="anchor" href="#_setting_initial_card_severity"></a>13.7. Setting initial card severity</h3>
+<div class="paragraph">
+<p>From the template it is possible to set the initial value for card severity choice by calling the following function:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>usercardTemplateGateway.setInitialSeverity(severity)</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Allowed severity values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>'ALARM'</p>
+</li>
+<li>
+<p>'ACTION'</p>
+</li>
+<li>
+<p>'INFORMATION'</p>
+</li>
+<li>
+<p>'COMPLIANT'</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>13.8. Card editing</h3>
 <div class="paragraph">
 <p>Once a user card has been sent it can be edited by a user member of the publisher entity.
 It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.8. Get edition mode</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.9. Get edition mode</h3>
 <div class="paragraph">
 <p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
 </div>
@@ -5739,13 +5772,13 @@ It is possible to allow other entities to edit the card by specifying the 'entit
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>13.9. Get current process and current state of the card</h3>
+<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>13.10. Get current process and current state of the card</h3>
 <div class="paragraph">
 <p>The template can know the process and the state of the card by calling the <em>usercardTemplateGateway.getCurrentProcess()</em> and <em>usercardTemplateGateway.getCurrentState()</em> functions. These functions will return a string corresponding to the process id (or state id).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>13.10. Receiving emitter entity of the card</h3>
+<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>13.11. Receiving emitter entity of the card</h3>
 <div class="paragraph">
 <p>The template can receive the emitter entity of the card by implementing the <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em>  function.
 This function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
@@ -5756,7 +5789,7 @@ This function will be called by OperatorFabric after loading the template and ev
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.11. Send response automatically (experimental feature)</h3>
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.12. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -5802,7 +5835,7 @@ The response card will be sent only if the user is enabled to respond to the car
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.12. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.13. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
