@@ -535,6 +535,10 @@ window.swaggerSpec={
                 "description" : "Define how a card is considered as acknowledged in the feed",
                 "$ref" : "#/definitions/ConsideredAcknowledgedForUserWhenEnum"
               },
+              "cancelAcknowledgmentAllowed" : {
+                "type" : "boolean",
+                "description" : "Cancel acknowledgment allowed"
+              },
               "name" : {
                 "type" : "string",
                 "description" : "Name of the state"
