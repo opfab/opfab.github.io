@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">15 June 2022</span>
+<span id="revdate">16 June 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -2850,6 +2850,49 @@ In that case, it means the card is stored only in archivedCards collection and n
 </ul>
 </div>
 </div>
+<div class="sect5">
+<h6 id="_geographical_information_wktgeometry_and_wktprojection"><a class="anchor" href="#_geographical_information_wktgeometry_and_wktprojection"></a>Geographical information (<code>wktGeometry</code> and <code>wktProjection</code>)</h6>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Geographical information  is an experimental feature
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
+</div>
+<div class="paragraph">
+<p>When <code>feed.enableGeoMapFeature</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn with a circle at the point as specified by the wkt settings. Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;wktGeometry&quot;: &quot;POINT (5.8946407 51.9848624)&quot;,
+&quot;wktProjection&quot;: &quot;EPSG:4326&quot;,</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The specifications of the Well-known Text Representation of coordinate reference systems
+can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specification</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only the POINT is supported at the moment. POLYGON and other figures are to be included later.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_business_period"><a class="anchor" href="#_business_period"></a>9.1.1.3. Business period</h5>
@@ -4627,14 +4670,19 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
   &lt;/div&gt;
 
  &lt;script&gt;
-  myMultiSelect = opfab.multiSelect.init("my-multiselect",[
+  myMultiSelect = opfab.multiSelect.init({
+                id: "my-multiselect",
+                options: [
                 { label: 'Choice A', value: 'A' },
                 { label: 'Choice B', value: 'B' },
                 { label: 'Choice C', value: 'C' }
                 { label: 'Choice D', value: 'D' },
                 { label: 'Choice E', value: 'E' },
                 { label: 'Choice F', value: 'F' }
-            ]);
+                ],
+                multiple: true,
+                search: true
+            });
 
 
   usercardTemplateGateway.getSpecificCardInformation = function () {
@@ -4655,6 +4703,40 @@ It strongly advice to NOT use directly virtual select (always use OperatorFabric
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>It is possible to use the component also as single value select. The advantage over a standard select is the possibility to benefit of the serching feature. To use the component as single select, initialize it with the <code>multiple</code> property set to false:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-multiselect"&gt;
+        &lt;label&gt;  MY SINGLE SELECT   &lt;/label&gt;
+        &lt;div id="my-singleselect"&gt;
+        &lt;/div&gt;
+  &lt;/div&gt;
+
+ &lt;script&gt;
+  mySingleSelect = opfab.multiSelect.init({
+                id: "my-singleselect",
+                options: [
+                { label: 'Choice A', value: 'A' },
+                { label: 'Choice B', value: 'B' },
+                { label: 'Choice C', value: 'C' }
+                { label: 'Choice D', value: 'D' },
+                { label: 'Choice E', value: 'E' },
+                { label: 'Choice F', value: 'F' }
+                ],
+                multiple: false,
+                search: true
+            });
+
+
+  usercardTemplateGateway.getSpecificCardInformation = function () {
+
+        const selectedValues = document.getElementById('my-singleselect').value;
+
+      ....</pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -7658,6 +7740,48 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.defaultDataProjection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:4326</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLongitude</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The initial longitude of the map when no cards with geographical coordinates are present.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLatitude</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The initial latitude of the map when no cards with geographical coordinates are present.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialZoom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max zoom level, to prevent zooming in too much when only one card is shown (or multiple cards in close proximity).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomDuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>

@@ -336,6 +336,14 @@ window.swaggerSpec={
         "representativeType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
         },
+        "wktGeometry" : {
+          "type" : "string",
+          "description" : "Contains WKT geometry string ex. 'POINT (6.476709 52.569132)'"
+        },
+        "wktProjection" : {
+          "type" : "string",
+          "description" : "Contains projection ex. 'EPSG:4326'"
+        },
         "secondsBeforeTimeSpanForReminder" : {
           "type" : "integer"
         },
@@ -565,6 +573,14 @@ window.swaggerSpec={
         },
         "representativeType" : {
           "$ref" : "#/definitions/PublisherTypeEnum"
+        },
+        "wktGeometry" : {
+          "type" : "string",
+          "description" : "Contains WKT geometry string ex. 'POINT (6.476709 52.569132)'"
+        },
+        "wktProjection" : {
+          "type" : "string",
+          "description" : "Contains projection ex. 'EPSG:4326'"
         },
         "secondsBeforeTimeSpanForReminder" : {
           "type" : "integer"
