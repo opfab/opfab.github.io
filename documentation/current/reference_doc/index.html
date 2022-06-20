@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.7.0.RELEASE,</span>
-<span id="revdate">17 May 2022</span>
+<span id="revnumber">version 3.8.0.RELEASE,</span>
+<span id="revdate">20 June 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -549,15 +549,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_opfab_color_danger_opfab_color_warning_and_opfab_color_success">3.2.3.8. opfab-color-danger, opfab-color-warning and opfab-color-success</a></li>
 </ul>
 </li>
-<li><a href="#_charts">3.2.4. Charts</a></li>
-<li><a href="#_operatorfabric_specific_functions">3.2.5. OperatorFabric specific functions</a>
+<li><a href="#_multi_select">3.2.4. Multi Select</a></li>
+<li><a href="#_charts">3.2.5. Charts</a></li>
+<li><a href="#_operatorfabric_specific_functions">3.2.6. OperatorFabric specific functions</a>
 <ul class="sectlevel4">
-<li><a href="#_set_screen_size">3.2.5.1. Set screen size</a></li>
-<li><a href="#_get_display_context">3.2.5.2. Get display context</a></li>
-<li><a href="#_redirect_to_business_application_from_a_card">3.2.5.3. Redirect to business application from a card</a></li>
-<li><a href="#_get_list_of_all_entities">3.2.5.4. Get list of all entities</a></li>
-<li><a href="#_get_information_about_an_entity">3.2.5.5. Get information about an entity</a></li>
-<li><a href="#_method_ontemplaterenderingcomplete">3.2.5.6. Method onTemplateRenderingComplete()</a></li>
+<li><a href="#_set_screen_size">3.2.6.1. Set screen size</a></li>
+<li><a href="#_get_display_context">3.2.6.2. Get display context</a></li>
+<li><a href="#_redirect_to_business_application_from_a_card">3.2.6.3. Redirect to business application from a card</a></li>
+<li><a href="#_get_list_of_all_entities">3.2.6.4. Get list of all entities</a></li>
+<li><a href="#_get_information_about_an_entity">3.2.6.5. Get information about an entity</a></li>
+<li><a href="#_method_ontemplaterenderingcomplete">3.2.6.6. Method onTemplateRenderingComplete()</a></li>
 </ul>
 </li>
 </ul>
@@ -621,14 +622,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_method_getspecificcardinformation">6.2. Method getSpecificCardInformation</a></li>
 <li><a href="#_define_permissions_2">6.3. Define permissions</a></li>
 <li><a href="#restrict_possible_recipients">6.4. Restrict the list of possible recipients</a></li>
-<li><a href="#set_recipients_via_code">6.5. Set the list of recipients via the template and not via user choice</a></li>
-<li><a href="#_setting_card_dates">6.6. Setting card dates</a></li>
-<li><a href="#_card_editing">6.7. Card editing</a></li>
-<li><a href="#_get_edition_mode">6.8. Get edition mode</a></li>
-<li><a href="#_get_current_process_and_current_state_of_the_card">6.9. Get current process and current state of the card</a></li>
-<li><a href="#_receiving_emitter_entity_of_the_card">6.10. Receiving emitter entity of the card</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">6.11. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">6.12. Misc</a></li>
+<li><a href="#preselect_initial_recipients">6.5. Configure the list of initially selected recipients</a></li>
+<li><a href="#set_recipients_via_code">6.6. Set the list of recipients via the template and not via user choice</a></li>
+<li><a href="#_setting_card_dates">6.7. Setting card dates</a></li>
+<li><a href="#_setting_initial_card_severity">6.8. Setting initial card severity</a></li>
+<li><a href="#_card_editing">6.9. Card editing</a></li>
+<li><a href="#_get_edition_mode">6.10. Get edition mode</a></li>
+<li><a href="#_get_current_process_and_current_state_of_the_card">6.11. Get current process and current state of the card</a></li>
+<li><a href="#_receiving_emitter_entity_of_the_card">6.12. Receiving emitter entity of the card</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">6.13. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">6.14. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">7. Archived Cards</a>
@@ -1026,6 +1029,49 @@ In that case, it means the card is stored only in archivedCards collection and n
 <p>ENTITY - The representative is an entity</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_geographical_information_wktgeometry_and_wktprojection"><a class="anchor" href="#_geographical_information_wktgeometry_and_wktprojection"></a>Geographical information (<code>wktGeometry</code> and <code>wktProjection</code>)</h6>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Geographical information  is an experimental feature
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
+</div>
+<div class="paragraph">
+<p>When <code>feed.enableGeoMapFeature</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn with a circle at the point as specified by the wkt settings. Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;wktGeometry&quot;: &quot;POINT (5.8946407 51.9848624)&quot;,
+&quot;wktProjection&quot;: &quot;EPSG:4326&quot;,</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The specifications of the Well-known Text Representation of coordinate reference systems
+can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specification</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only the POINT is supported at the moment. POLYGON and other figures are to be included later.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -2793,7 +2839,89 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 <div class="sect3">
-<h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.4. Charts</h4>
+<h4 id="_multi_select"><a class="anchor" href="#_multi_select"></a>3.2.4. Multi Select</h4>
+<div class="paragraph">
+<p>OperatorFabric provides a multiselect component based on <a href="https://sa-si-dev.github.io/virtual-select/#/">Virtual Select</a>. To use it, one must use the OperatorFabric style and provide javascript to initialize the component:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-multiselect"&gt;
+        &lt;label&gt;  MY MULTI SELECT   &lt;/label&gt;
+        &lt;div id="my-multiselect"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+ &lt;script&gt;
+  myMultiSelect = opfab.multiSelect.init({
+                id: "my-multiselect",
+                options: [
+                { label: 'Choice A', value: 'A' },
+                { label: 'Choice B', value: 'B' },
+                { label: 'Choice C', value: 'C' }
+                { label: 'Choice D', value: 'D' },
+                { label: 'Choice E', value: 'E' },
+                { label: 'Choice F', value: 'F' }
+                ],
+                multiple: true,
+                search: true
+            });
+
+
+  usercardTemplateGateway.getSpecificCardInformation = function () {
+
+        const selectedValues = myMultiSelect.getSelectedValues();
+
+      ....</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+It strongly advice to NOT use directly virtual select (always use OperatorFabric js object and css) otherwise you will not be guaranteed compatibility when upgrading.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It is possible to use the component also as single value select. The advantage over a standard select is the possibility to benefit of the serching feature. To use the component as single select, initialize it with the <code>multiple</code> property set to false:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;div class="opfab-multiselect"&gt;
+        &lt;label&gt;  MY SINGLE SELECT   &lt;/label&gt;
+        &lt;div id="my-singleselect"&gt;
+        &lt;/div&gt;
+  &lt;/div&gt;
+
+ &lt;script&gt;
+  mySingleSelect = opfab.multiSelect.init({
+                id: "my-singleselect",
+                options: [
+                { label: 'Choice A', value: 'A' },
+                { label: 'Choice B', value: 'B' },
+                { label: 'Choice C', value: 'C' }
+                { label: 'Choice D', value: 'D' },
+                { label: 'Choice E', value: 'E' },
+                { label: 'Choice F', value: 'F' }
+                ],
+                multiple: false,
+                search: true
+            });
+
+
+  usercardTemplateGateway.getSpecificCardInformation = function () {
+
+        const selectedValues = document.getElementById('my-singleselect').value;
+
+      ....</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.5. Charts</h4>
 <div class="paragraph">
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
@@ -2802,9 +2930,9 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 <div class="sect3">
-<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>3.2.5. OperatorFabric specific functions</h4>
+<h4 id="_operatorfabric_specific_functions"><a class="anchor" href="#_operatorfabric_specific_functions"></a>3.2.6. OperatorFabric specific functions</h4>
 <div class="sect4">
-<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>3.2.5.1. Set screen size</h5>
+<h5 id="_set_screen_size"><a class="anchor" href="#_set_screen_size"></a>3.2.6.1. Set screen size</h5>
 <div class="paragraph">
 <p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a javascript function in your template called templateGateway.setScreenSize(size) which receives as input a string parameter with one of the following values :</p>
 </div>
@@ -2820,7 +2948,7 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_display_context"><a class="anchor" href="#_get_display_context"></a>3.2.5.2. Get display context</h5>
+<h5 id="_get_display_context"><a class="anchor" href="#_get_display_context"></a>3.2.6.2. Get display context</h5>
 <div class="paragraph">
 <p>To adapt the template content to the display context it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function <em>templateGateway.getDisplayContext()</em>.
 The function returns a string with one of the following values :</p>
@@ -2843,7 +2971,7 @@ The function returns a string with one of the following values :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>3.2.5.3. Redirect to business application from a card</h5>
+<h5 id="_redirect_to_business_application_from_a_card"><a class="anchor" href="#_redirect_to_business_application_from_a_card"></a>3.2.6.3. Redirect to business application from a card</h5>
 <div class="paragraph">
 <p>It&#8217;s possible to redirect from a card to a business application declared in <code>ui-menu.json</code>.</p>
 </div>
@@ -2887,7 +3015,7 @@ The function returns a string with one of the following values :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_list_of_all_entities"><a class="anchor" href="#_get_list_of_all_entities"></a>3.2.5.4. Get list of all entities</h5>
+<h5 id="_get_list_of_all_entities"><a class="anchor" href="#_get_list_of_all_entities"></a>3.2.6.4. Get list of all entities</h5>
 <div class="paragraph">
 <p>To have the list of all entities in OperatorFabric, you can call the javascript function <em>templateGateway.getAllEntities()</em>.
 The function returns an array of entity object :</p>
@@ -2919,14 +3047,14 @@ The function returns an array of entity object :</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_get_information_about_an_entity"><a class="anchor" href="#_get_information_about_an_entity"></a>3.2.5.5. Get information about an entity</h5>
+<h5 id="_get_information_about_an_entity"><a class="anchor" href="#_get_information_about_an_entity"></a>3.2.6.5. Get information about an entity</h5>
 <div class="paragraph">
 <p>To have information about an entity in particular, you can call the javascript function <em>templateGateway.getEntity(entityId)</em>.
 The function returns an entity object whose fields are mentioned above.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_method_ontemplaterenderingcomplete"><a class="anchor" href="#_method_ontemplaterenderingcomplete"></a>3.2.5.6. Method onTemplateRenderingComplete()</h5>
+<h5 id="_method_ontemplaterenderingcomplete"><a class="anchor" href="#_method_ontemplaterenderingcomplete"></a>3.2.6.6. Method onTemplateRenderingComplete()</h5>
 <div class="paragraph">
 <p>OpFab calls this method when it has finished all tasks regarding rendering template :
 it is called after applyChildCard(), lockAnswer(), setLttdExpired() and setScreenSize()</p>
@@ -3023,6 +3151,9 @@ The configuration is done on a state by setting the <code>acknowledgmentAllowed<
 the response is disabled for the user</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>It is possible to cancel a card aknowledgment unless process state configuration has the <code>cancelAcknowledgmentAllowed</code> field set to false.</p>
 </div>
 <div class="paragraph">
 <p>You can see examples in src/test/resources/bundles/defaultProcess_V1/config.json</p>
@@ -3680,6 +3811,18 @@ feel (See
 <a href="/documentation/current/reference_doc/index.html#opfab_template_style">OperatorFabric Style</a>
 for more information)</p>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Be aware that as we have a preview of the card, the application loads the html related to the usercard (build with the usercard template) and the html related to the card in preview (build with the card template) into the browser at the same time. This implies that you MUST NOT name the elements with the same names in both templates. This rule applies to HTML elements identifiers(id), global JavaScript variables and JavaScript function names.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Once the card has been sent, users with the appropriate rights can edit it. If they choose to do so, they&#8217;re presented
 with the same input form as for the card creation, but the fields are pre-filled with the current data of the card.
@@ -3822,7 +3965,27 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>6.5. Set the list of recipients via the template and not via user choice</h3>
+<h3 id="preselect_initial_recipients"><a class="anchor" href="#preselect_initial_recipients"></a>6.5. Configure the list of initially selected recipients</h3>
+<div class="paragraph">
+<p>It is possible to configure the list of initially selected recipients via javascript in the user template by implementing the <code>usercardTemplateGateway.setInitialSelectedRecipients(selectedEntities)</code> method. The method takes as input the list of Entity ids to be preselected.</p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    usercardTemplateGateway.setInitialSelectedRecipients([
+            "ENTITY_FR",
+            "IT_SUPERVISOR_ENTITY"
+        ]);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example the dropdown list of available recipients will have "ENTITY_FR" and "IT_SUPERVISOR_ENTITY" preselected. The user can anyway change the selected recipients.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>6.6. Set the list of recipients via the template and not via user choice</h3>
 <div class="paragraph">
 <p>To do that , you have to :</p>
 </div>
@@ -3858,7 +4021,7 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>6.6. Setting card dates</h3>
+<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>6.7. Setting card dates</h3>
 <div class="paragraph">
 <p>From the template it is possible to set the initial values for <code>startDate</code>, <code>endDate</code> and <code>lttd</code> fields of the card by calling the following functions:</p>
 </div>
@@ -3893,14 +4056,46 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>6.7. Card editing</h3>
+<h3 id="_setting_initial_card_severity"><a class="anchor" href="#_setting_initial_card_severity"></a>6.8. Setting initial card severity</h3>
+<div class="paragraph">
+<p>From the template it is possible to set the initial value for card severity choice by calling the following function:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>usercardTemplateGateway.setInitialSeverity(severity)</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Allowed severity values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>'ALARM'</p>
+</li>
+<li>
+<p>'ACTION'</p>
+</li>
+<li>
+<p>'INFORMATION'</p>
+</li>
+<li>
+<p>'COMPLIANT'</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>6.9. Card editing</h3>
 <div class="paragraph">
 <p>Once a user card has been sent it can be edited by a user member of the publisher entity.
 It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>6.8. Get edition mode</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>6.10. Get edition mode</h3>
 <div class="paragraph">
 <p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
 </div>
@@ -3920,13 +4115,13 @@ It is possible to allow other entities to edit the card by specifying the 'entit
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>6.9. Get current process and current state of the card</h3>
+<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>6.11. Get current process and current state of the card</h3>
 <div class="paragraph">
 <p>The template can know the process and the state of the card by calling the <em>usercardTemplateGateway.getCurrentProcess()</em> and <em>usercardTemplateGateway.getCurrentState()</em> functions. These functions will return a string corresponding to the process id (or state id).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>6.10. Receiving emitter entity of the card</h3>
+<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>6.12. Receiving emitter entity of the card</h3>
 <div class="paragraph">
 <p>The template can receive the emitter entity of the card by implementing the <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em>  function.
 This function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
@@ -3937,7 +4132,7 @@ This function will be called by OperatorFabric after loading the template and ev
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>6.11. Send response automatically (experimental feature)</h3>
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>6.13. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -3983,7 +4178,7 @@ The response card will be sent only if the user is enabled to respond to the car
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.12. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>6.14. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
