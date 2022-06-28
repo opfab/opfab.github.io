@@ -9,15 +9,25 @@ layout: default
 
 -  Dynamic scope of responsibilities for operators in realtime 
 
--  Geographical view integration : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3100)
+-  Geographical view integration :
+   - Map with all cards [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3100)
+   - Map inside cards [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3224)
 
--  Availability on mobile devices :  [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3098)
+-  Use operating system notifications : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3219)
 
 -  Advance reminder feature (Conditional reminder , user define reminder ) : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3044)
 
--  Conference call automatic creation : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3096)
+-  Conference call automatic creation : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3096) 
+
+-  More integration of external applications : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3223) 
+
+-  External business reference data integration.
 
 ## Middle term
+
+-  Availability on mobile devices :  [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3098) 
+  
+-  Improved responsive UI :  [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3220)
 
 - Improvement on traceability of user actions (business and cyber-security needs ) : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3095)
 
@@ -25,7 +35,7 @@ layout: default
 
 -  Add settings profiles : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/1927)
 
--  Mail/SMS notifications ->  sending the card or a link to the card via mail/SMS : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3097)
+-   Mail/SMS/slack/teams or other notifications ->  sending the card or a link to the card via other medias : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3097)
 
 -  Making dynamic security analysis part of the development process : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3102)
 
