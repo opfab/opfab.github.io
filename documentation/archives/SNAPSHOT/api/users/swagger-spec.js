@@ -75,6 +75,11 @@ window.swaggerSpec={
         "entities" : [ "ENTITY1", "ENTITY2" ]
       }
     },
+    "GroupTypeEnum" : {
+      "type" : "string",
+      "description" : "Different group types possible >\n* ROLE: Used to define user role or profile\n* PERMISSION: Used to define user permissions on processes",
+      "enum" : [ "ROLE", "PERMISSION" ]
+    },
     "Group" : {
       "type" : "object",
       "properties" : {
@@ -83,6 +88,9 @@ window.swaggerSpec={
         },
         "name" : {
           "type" : "string"
+        },
+        "type" : {
+          "$ref" : "#/definitions/GroupTypeEnum"
         },
         "description" : {
           "type" : "string"
