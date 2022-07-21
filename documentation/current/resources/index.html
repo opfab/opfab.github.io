@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 3.8.1.RELEASE,</span>
-<span id="revdate">01 July 2022</span>
+<span id="revnumber">version 3.9.0.RELEASE,</span>
+<span id="revdate">21 July 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -610,6 +610,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_7_0_to_release_3_8_0">18. Migration Guide from release 3.7.0 to release 3.8.0</a>
 <ul class="sectlevel2">
 <li><a href="#_kafka_card_format_changes_2">18.1. Kafka card format changes</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_8_x_to_release_3_9_0">19. Migration Guide from release 3.8.x to release 3.9.0</a>
+<ul class="sectlevel2">
+<li><a href="#_web_ui_json_config_file">19.1. <code>web-ui.json</code> config file</a></li>
 </ul>
 </li>
 </ul>
@@ -2435,6 +2440,64 @@ collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, 
 </div>
 <div class="paragraph">
 <p>Make sure your Kafka consumers and producers are updated and use the latest card and responseCard definitions.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_8_x_to_release_3_9_0"><a class="anchor" href="#_migration_guide_from_release_3_8_x_to_release_3_9_0"></a>19. Migration Guide from release 3.8.x to release 3.9.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_web_ui_json_config_file"><a class="anchor" href="#_web_ui_json_config_file"></a>19.1. <code>web-ui.json</code> config file</h3>
+<div class="paragraph">
+<p>To declare settings parameters, you now need to group all fields under <code>settings: { }</code> and you must not use a statement like this one : <code>settings.replayInterval: 10</code></p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="paragraph">
+<p>Replace the following invalid settings config</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;settings.replayInterval&quot;: 10,
+  &quot;settings.replayEnabled&quot;: true,
+  &quot;settings&quot;: {
+    &quot;about&quot;: {
+      &quot;keycloack&quot;: {
+        &quot;name&quot;: &quot;Keycloak&quot;,
+        &quot;rank&quot;: 2,
+        &quot;version&quot;: &quot;6.0.1&quot;
+      },
+    }
+    &quot;locale&quot;: &quot;en&quot;,
+    &quot;dateTimeFormat&quot;: &quot;HH:mm DD/MM/YYYY&quot;,
+    &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
+    &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
+  },</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By this valid one :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;settings&quot;: {
+    &quot;replayInterval&quot;: 10,
+    &quot;replayEnabled&quot;: true,
+    &quot;about&quot;: {
+      &quot;keycloack&quot;: {
+        &quot;name&quot;: &quot;Keycloak&quot;,
+        &quot;rank&quot;: 2,
+        &quot;version&quot;: &quot;6.0.1&quot;
+      },
+    }
+    &quot;locale&quot;: &quot;en&quot;,
+    &quot;dateTimeFormat&quot;: &quot;HH:mm DD/MM/YYYY&quot;,
+    &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
+    &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
+  },</code></pre>
+</div>
 </div>
 </div>
 </div>

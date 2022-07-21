@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.8.1.RELEASE,</span>
-<span id="revdate">01 July 2022</span>
+<span id="revnumber">version 3.9.0.RELEASE,</span>
+<span id="revdate">21 July 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -559,6 +559,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_get_list_of_all_entities">3.2.6.4. Get list of all entities</a></li>
 <li><a href="#_get_information_about_an_entity">3.2.6.5. Get information about an entity</a></li>
 <li><a href="#_method_ontemplaterenderingcomplete">3.2.6.6. Method onTemplateRenderingComplete()</a></li>
+<li><a href="#_display_a_spinner_when_a_card_is_being_processed">3.2.6.7. Display a spinner when a card is being processed</a></li>
 </ul>
 </li>
 </ul>
@@ -662,6 +663,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_currently_connected_users">9.2. Currently connected users</a></li>
 <li><a href="#_real_time_users">9.3. Real time users</a></li>
+<li><a href="#_activity_area">9.4. Activity area</a></li>
 </ul>
 </li>
 <li><a href="#_ui_customization">10. UI Customization</a>
@@ -3063,6 +3065,13 @@ it is called after applyChildCard(), lockAnswer(), setLttdExpired() and setScree
 <p>It can be used by a template to launch some processing when loading is complete</p>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_display_a_spinner_when_a_card_is_being_processed"><a class="anchor" href="#_display_a_spinner_when_a_card_is_being_processed"></a>3.2.6.7. Display a spinner when a card is being processed</h5>
+<div class="paragraph">
+<p>Once the card is loaded, there may be some processing that is time consuming.
+In this case, it is possible to show a spinner using the methods <em>templateGateway.displayLoadingSpinner()</em> and <em>templateGateway.hideLoadingSpinner()</em> in the card template .</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -4331,10 +4340,10 @@ To do so, a json file describing the expected output can be sent to the business
 <p>represent set of users destined to receive collectively some cards.</p>
 </li>
 <li>
-<p>has a set of perimeters to define rights for card reception in OperatorFabric.</p>
+<p>has a set of perimeters to define rights for card reception in OperatorFabric (group type 'PERMISSION').</p>
 </li>
 <li>
-<p>can be used to model roles in organizations, for examples : supervisor, dispatcher &#8230;&#8203;</p>
+<p>can be used to model roles in organizations (group type 'ROLE'), for examples : supervisor, dispatcher &#8230;&#8203;</p>
 </li>
 </ul>
 </div>
@@ -4443,7 +4452,7 @@ The boolean property <code>entityAllowedToSendCard</code> (default value <code>t
 <div class="sect3">
 <h4 id="_groups"><a class="anchor" href="#_groups"></a>9.1.3. Groups</h4>
 <div class="paragraph">
-<p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code> (examples : supervisor, dispatcher &#8230;&#8203; ).
+<p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code> (examples : supervisor, dispatcher &#8230;&#8203; ) by setting group type to 'ROLE' or to define permissions on processes/states by setting the group type to 'PERMISSION'.
 Groups are used to send cards to several users without a name specifically. The information about membership to a
 group is stored in the user information. A group contains a list of perimeters which define the rights of reception/writing for a couple process/state. The rules used to send cards are described in the
 <a href="/documentation/current/reference_doc/index.html#reception_rules">recipients section</a>
@@ -4485,7 +4494,7 @@ for more details to use this feature.</p>
 <div class="sect2">
 <h3 id="_currently_connected_users"><a class="anchor" href="#_currently_connected_users"></a>9.2. Currently connected users</h3>
 <div class="paragraph">
-<p>The endPoint <code>/cards/connections</code> gives the list of connected user in real time. It is only accessible by users with administrator privileges.</p>
+<p>The endPoint <code>/cards/connections</code> gives the list of connected users in real time. It is accessible by all users.</p>
 </div>
 </div>
 <div class="sect2">
@@ -4677,6 +4686,21 @@ for more details to use this feature.</p>
 <div class="content">
 <img src="../images/realtimescreens_screenshot.png" alt="Real Time Screens screenshot">
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_activity_area"><a class="anchor" href="#_activity_area"></a>9.4. Activity area</h3>
+<div class="paragraph">
+<p>OperatorFabric allows you to connect/disconnect to/from one or several entity/ies. By default, the user is connected to
+all the entities to which he belongs.
+By choosing to disconnect from an entity, the user will still be a member of this entity, but he will no longer have
+access to the cards intended for this entity, until he reconnects to it.</p>
+</div>
+<div class="paragraph">
+<p>If set visible in ui-menu.json, this interface is accessible via the user menu (top right of the screen).</p>
+</div>
+<div class="paragraph">
+<p>The choice of activity area may be done during user logging phase if you set selectActivityAreaOnLogin to true in web-ui.json.</p>
 </div>
 </div>
 </div>
