@@ -50,6 +50,11 @@ window.swaggerSpec={
         "signalMappingId" : {
           "description" : "Id of the mapping to use to link OpFab signals to the corresponding",
           "type" : "string"
+        },
+        "isEnabled" : {
+          "description" : "Tells whether the device can be used by OperatorFabric",
+          "type" : "boolean",
+          "default" : true
         }
       },
       "required" : [ "id", "host", "port" ],
@@ -57,7 +62,8 @@ window.swaggerSpec={
         "id" : "CDS_1",
         "host" : "localhost",
         "port" : 4300,
-        "signalMappingId" : "default_CDS_mapping"
+        "signalMappingId" : "default_CDS_mapping",
+        "isEnabled" : true
       }
     },
     "Device" : {
@@ -171,6 +177,9 @@ window.swaggerSpec={
           },
           "401" : {
             "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Could not send notification to device because it has no known driver"
           }
         }
       }
@@ -566,8 +575,20 @@ window.swaggerSpec={
           "200" : {
             "description" : "OK"
           },
+          "400" : {
+            "description" : "Could not connect device because it is disabled"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
           "404" : {
             "description" : "Required device not found"
+          },
+          "500" : {
+            "description" : "Driver error during the connection to the device"
           }
         }
       }
@@ -589,6 +610,73 @@ window.swaggerSpec={
         "responses" : {
           "200" : {
             "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required device not found"
+          },
+          "500" : {
+            "description" : "Driver error during the disconnection to the device"
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}/enable" : {
+      "post" : {
+        "tags" : [ "device" ],
+        "summary" : "Enable device",
+        "operationId" : "enableDevice",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "deviceId",
+          "description" : "the id of the device configuration to enable",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK Device was enabled"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          },
+          "404" : {
+            "description" : "Required device not found"
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}/disable" : {
+      "post" : {
+        "tags" : [ "device" ],
+        "summary" : "Disable device",
+        "operationId" : "disableDevice",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "deviceId",
+          "description" : "the id of the device configuration to disable",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK Device was disabled"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
           },
           "404" : {
             "description" : "Required device not found"
