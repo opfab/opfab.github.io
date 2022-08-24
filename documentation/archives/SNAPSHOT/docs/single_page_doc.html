@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">23 August 2022</span>
+<span id="revdate">24 August 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -638,6 +638,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_opfab_table">10.2.3.6. opfab-table</a></li>
 <li><a href="#_opfab_border_box">10.2.3.7. opfab-border-box</a></li>
 <li><a href="#_opfab_color_danger_opfab_color_warning_and_opfab_color_success">10.2.3.8. opfab-color-danger, opfab-color-warning and opfab-color-success</a></li>
+<li><a href="#_opfab_btn_opfab_btn_cancel">10.2.3.9. opfab-btn, opfab-btn-cancel</a></li>
 </ul>
 </li>
 <li><a href="#_multi_select">10.2.4. Multi Select</a></li>
@@ -715,7 +716,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_define_permissions_2">13.3. Define permissions</a></li>
 <li><a href="#restrict_possible_recipients">13.4. Restrict the list of possible recipients</a></li>
 <li><a href="#preselect_initial_recipients">13.5. Configure the list of initially selected recipients</a></li>
-<li><a href="#set_recipients_via_code">13.6. Set the list of recipients via the template and not via user choice</a></li>
+<li><a href="#set_recipients_via_code">13.6. Set the list of recipients via the template</a></li>
 <li><a href="#_setting_card_dates">13.7. Setting card dates</a></li>
 <li><a href="#_setting_initial_card_severity">13.8. Setting initial card severity</a></li>
 <li><a href="#_card_editing">13.9. Card editing</a></li>
@@ -4666,6 +4667,18 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_opfab_btn_opfab_btn_cancel"><a class="anchor" href="#_opfab_btn_opfab_btn_cancel"></a>10.2.3.9. opfab-btn, opfab-btn-cancel</h5>
+<div class="paragraph">
+<p>Styles for buttons, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;button type="button" class="opfab-btn"&gt;OK&lt;/button&gt;
+  &lt;button type="button" class="opfab-btn-cancel"&gt;CANCEL&lt;/button&gt;</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_multi_select"><a class="anchor" href="#_multi_select"></a>10.2.4. Multi Select</h4>
@@ -5709,7 +5722,7 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <p>data</p>
 </li>
 <li>
-<p>entityRecipients (in case recipient list is not visible from the user)</p>
+<p>entityRecipients</p>
 </li>
 <li>
 <p>entitiesAllowedToEdit</p>
@@ -5821,19 +5834,9 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>13.6. Set the list of recipients via the template and not via user choice</h3>
+<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>13.6. Set the list of recipients via the template</h3>
 <div class="paragraph">
-<p>To do that , you have to :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>hide the recipient dropdown using the attribute <code>recipientVisible</code> in state definition in config.json</p>
-</li>
-<li>
-<p>provide the list of recipients when returning the card object in usercardTemplateGateway.getSpecificCardInformation() in the field entityRecipients</p>
-</li>
-</ul>
+<p>To do that, you have to provide the list of recipients when returning the card object in usercardTemplateGateway.getSpecificCardInformation() in the field <code>entityRecipients</code>.</p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -5854,6 +5857,9 @@ edit or delete it.
             card: card
         };</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>When recipient dropdown is not visible to the user (attribute <code>recipientVisible</code> set to <code>false</code> in state definition in config.json) the final recipients list will be the one defined in the template, otherwise it will be the union of user selection and template <code>entityRecipients</code> definition.</p>
 </div>
 </div>
 <div class="sect2">
