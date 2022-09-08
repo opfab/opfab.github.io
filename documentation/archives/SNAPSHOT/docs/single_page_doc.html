@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">06 September 2022</span>
+<span id="revdate">09 September 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -6910,7 +6910,7 @@ trigger sound alerts on these sound systems rather than on each operator&#8217;s
 <p>It can be heard even if the operator is not at their desk</p>
 </li>
 <li>
-<p>The sound system can warn that the connexion with an application has been lost if it hasn&#8217;t received a "watchdog"
+<p>The sound system can warn that the connection with an application has been lost if it hasn&#8217;t received a "watchdog"
 signal for a given period of time.</p>
 </li>
 </ul>
@@ -7121,7 +7121,7 @@ severities.
 </td>
 <td class="content">
 There is a <code>Device</code> object distinct from <code>DeviceConfiguration</code> because the latter represents static information
-about how to reach a device, while the former contains information about the actual connexion and its status.
+about how to reach a device, while the former contains information about the actual connection and its status.
 For example, this is why the device configuration contains a <code>host</code> (which can be a hostname) while the device
 has a <code>resolvedAddress</code>.
 As a result, they are managed through separate endpoints, which might also make things easier if we need to secure
@@ -7139,14 +7139,8 @@ them differently (some people might be allowed to connect/disconnect devices but
 <div class="sect2">
 <h3 id="_connexion_management"><a class="anchor" href="#_connexion_management"></a>18.4. Connexion Management</h3>
 <div class="paragraph">
-<p>OperatorFabric doesn&#8217;t automatically attempt to connect to configured external devices on start up as they might not
-be available when the OperatorFabric instance starts. Similarly, posting a new device configuration to the external
-devices service doesn&#8217;t cause it to attempt to connect immediately, as the configuration setup might be done in advance
-of the actual activation.</p>
-</div>
-<div class="paragraph">
-<p>However, if a notification is received by the external devices service that needs to be passed on to a device that is
-configured but not connected yet, the connection will be performed automatically.</p>
+<p>OperatorFabric does automatically attempt to connect to enabled configured external devices at startup. If an enabled device
+is disconnected, OperatorFabric will try to reconnect it every 10 seconds (default value).</p>
 </div>
 </div>
 <div class="sect2">
