@@ -36,7 +36,8 @@ window.swaggerSpec={
       "description" : "User",
       "properties" : {
         "login" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Login must be minimum 2 characters and must only contain lowercase letters, _, -, . or digits."
         },
         "firstName" : {
           "type" : "string"
@@ -84,7 +85,8 @@ window.swaggerSpec={
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id must be minimum 2 characters and must only contain letters, _, - or digits."
         },
         "name" : {
           "type" : "string"
@@ -117,7 +119,8 @@ window.swaggerSpec={
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id must be minimum 2 characters and must only contain letters, _, - or digits."
         },
         "name" : {
           "type" : "string"
@@ -162,6 +165,10 @@ window.swaggerSpec={
         },
         "right" : {
           "$ref" : "#/definitions/RightsEnum"
+        },
+        "filteringNotificationAllowed" : {
+          "type" : "boolean",
+          "description" : "When set to false, the user can not unselect the state in the notification configuration screen."
         }
       },
       "example" : {
@@ -173,7 +180,8 @@ window.swaggerSpec={
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id must be minimum 2 characters and must only contain letters, _, - or digits."
         },
         "process" : {
           "type" : "string"
@@ -312,6 +320,10 @@ window.swaggerSpec={
         },
         "rights" : {
           "$ref" : "#/definitions/RightsEnum"
+        },
+        "filteringNotificationAllowed" : {
+          "type" : "boolean",
+          "description" : "When the value is false, the user can not unselect the state in the notification configuration screen."
         }
       }
     },
@@ -374,7 +386,7 @@ window.swaggerSpec={
       "post" : {
         "tags" : [ "users" ],
         "summary" : "Create a new user",
-        "description" : "Create a new user. If the user already exists, then an update of the user will be made. Be careful, user login must be lowercase. Otherwise, it will be converted to lowercase before saving to the database.",
+        "description" : "Create a new user. If the user already exists, then an update of the user will be made. Be careful, login must be minimum 2 characters and must only contain lowercase letters, _, -, . or digits.",
         "operationId" : "createUser",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
