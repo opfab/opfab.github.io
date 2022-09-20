@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 September 2022</span>
+<span id="revdate">21 September 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -720,11 +720,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_setting_card_dates">13.7. Setting card dates</a></li>
 <li><a href="#_setting_initial_card_severity">13.8. Setting initial card severity</a></li>
 <li><a href="#_card_editing">13.9. Card editing</a></li>
-<li><a href="#_get_edition_mode">13.10. Get edition mode</a></li>
-<li><a href="#_get_current_process_and_current_state_of_the_card">13.11. Get current process and current state of the card</a></li>
-<li><a href="#_receiving_emitter_entity_of_the_card">13.12. Receiving emitter entity of the card</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">13.13. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">13.14. Misc</a></li>
+<li><a href="#_card_delete">13.10. Card delete</a></li>
+<li><a href="#_get_edition_mode">13.11. Get edition mode</a></li>
+<li><a href="#_get_current_process_and_current_state_of_the_card">13.12. Get current process and current state of the card</a></li>
+<li><a href="#_receiving_emitter_entity_of_the_card">13.13. Receiving emitter entity of the card</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">13.14. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">13.15. Misc</a></li>
 </ul>
 </li>
 <li><a href="#_archived_cards">14. Archived Cards</a>
@@ -1164,6 +1165,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_sonarcloud">46.1.2. SonarCloud</a></li>
 <li><a href="#_github_documentation">46.1.3. GitHub (documentation)</a></li>
 <li><a href="#_dockerhub">46.1.4. DockerHub</a></li>
+<li><a href="#_sonatype">46.1.5. Sonatype</a></li>
 </ul>
 </li>
 </ul>
@@ -5940,12 +5942,20 @@ edit or delete it.
 <div class="sect2">
 <h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>13.9. Card editing</h3>
 <div class="paragraph">
-<p>Once a user card has been sent it can be edited by a user member of the publisher entity.
-It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.</p>
+<p>Once a user card has been sent it can be edited by a user member of the publisher entity who has write access for the process/state of the card.
+It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.
+It is possible to hide card edit button on UI by setting 'editCardEnabledOnUserInterface' to false in card&#8217;s process/state definition.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.10. Get edition mode</h3>
+<h3 id="_card_delete"><a class="anchor" href="#_card_delete"></a>13.10. Card delete</h3>
+<div class="paragraph">
+<p>Once a user card has been sent it can be deleted by a user member of the publisher entity who has write access for the process/state of the card.
+It is possible to hide card delete button on UI by setting 'deleteCardEnabledOnUserInterface' to false in card&#8217;s process/state definition.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>13.11. Get edition mode</h3>
 <div class="paragraph">
 <p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
 </div>
@@ -5965,13 +5975,13 @@ It is possible to allow other entities to edit the card by specifying the 'entit
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>13.11. Get current process and current state of the card</h3>
+<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>13.12. Get current process and current state of the card</h3>
 <div class="paragraph">
 <p>The template can know the process and the state of the card by calling the <em>usercardTemplateGateway.getCurrentProcess()</em> and <em>usercardTemplateGateway.getCurrentState()</em> functions. These functions will return a string corresponding to the process id (or state id).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>13.12. Receiving emitter entity of the card</h3>
+<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>13.13. Receiving emitter entity of the card</h3>
 <div class="paragraph">
 <p>The template can receive the emitter entity of the card by implementing the <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em>  function.
 This function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
@@ -5982,7 +5992,7 @@ This function will be called by OperatorFabric after loading the template and ev
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.13. Send response automatically (experimental feature)</h3>
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>13.14. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -6028,7 +6038,7 @@ The response card will be sent only if the user is enabled to respond to the car
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.14. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>13.15. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>
@@ -14906,6 +14916,12 @@ depending on how busy the service is.
 <h4 id="_dockerhub"><a class="anchor" href="#_dockerhub"></a>46.1.4. DockerHub</h4>
 <div class="paragraph">
 <p>To be allowed to push images to DockerHub, Github needs to be authenticated. This is done again by generating a token in DockerHub using the technical account and provide it to github via actions secrets.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sonatype"><a class="anchor" href="#_sonatype"></a>46.1.5. Sonatype</h4>
+<div class="paragraph">
+<p>We use Sonatype accounts to be able to push libraries to maven central. The list of people authorized to publish is defined via issues : <a href="https://issues.sonatype.org/browse/OSSRH-67392" class="bare">issues.sonatype.org/browse/OSSRH-67392</a></p>
 </div>
 </div>
 </div>

@@ -543,6 +543,14 @@ window.swaggerSpec={
                 "type" : "boolean",
                 "description" : "close card detail when user acknowledges it"
               },
+              "editCardEnabledOnUserInterface" : {
+                "type" : "boolean",
+                "description" : "Show or hide card edit button"
+              },
+              "deleteCardEnabledOnUserInterface" : {
+                "type" : "boolean",
+                "description" : "Show or hide card delete button"
+              },
               "name" : {
                 "type" : "string",
                 "description" : "Name of the state"
