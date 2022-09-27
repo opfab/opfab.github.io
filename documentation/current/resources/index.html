@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 3.9.3.RELEASE,</span>
-<span id="revdate">06 September 2022</span>
+<span id="revnumber">version 3.10.0.RELEASE,</span>
+<span id="revdate">27 September 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -615,6 +615,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_8_x_to_release_3_9_0">19. Migration Guide from release 3.8.x to release 3.9.0</a>
 <ul class="sectlevel2">
 <li><a href="#_web_ui_json_config_file">19.1. <code>web-ui.json</code> config file</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_9_x_to_release_3_10_0">20. Migration Guide from release 3.9.x to release 3.10.0</a>
+<ul class="sectlevel2">
+<li><a href="#_card_publication_with_not_existent_process_or_state">20.1. Card publication with not existent process or state</a></li>
+<li><a href="#_web_ui_json_config_file_2">20.2. <code>web-ui.json</code> config file</a>
+<ul class="sectlevel3">
+<li><a href="#_settings_about_section">20.2.1. <code>settings.about</code> section</a></li>
+<li><a href="#_settings_infos_hide_section">20.2.2. <code>settings.infos.hide</code> section</a></li>
+<li><a href="#_feed_filtering_and_sorting">20.2.3. Feed filtering and sorting</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2497,6 +2509,128 @@ collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, 
     &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
     &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
   },</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_9_x_to_release_3_10_0"><a class="anchor" href="#_migration_guide_from_release_3_9_x_to_release_3_10_0"></a>20. Migration Guide from release 3.9.x to release 3.10.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_card_publication_with_not_existent_process_or_state"><a class="anchor" href="#_card_publication_with_not_existent_process_or_state"></a>20.1. Card publication with not existent process or state</h3>
+<div class="paragraph">
+<p>OperatorFabric will refuse the publication of cards referring a not existent process or state.
+To allow the publication of cards with not existent proces or state you should set the <code>authorizeToSendCardWithInvalidProcessState</code> property to <code>true</code> in <code>cards-publication.yml</code> configuration file</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_web_ui_json_config_file_2"><a class="anchor" href="#_web_ui_json_config_file_2"></a>20.2. <code>web-ui.json</code> config file</h3>
+<div class="sect3">
+<h4 id="_settings_about_section"><a class="anchor" href="#_settings_about_section"></a>20.2.1. <code>settings.about</code> section</h4>
+<div class="paragraph">
+<p>The section to configure <code>about</code> screen has been moved from <code>settings</code> section to the root level. You need to change the configuration file accordingly.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="paragraph">
+<p>Replace the following invalid config</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;settings&quot;: {
+    &quot;about&quot;: {
+      &quot;keycloack&quot;: {
+        &quot;name&quot;: &quot;Keycloak&quot;,
+        &quot;rank&quot;: 2,
+        &quot;version&quot;: &quot;6.0.1&quot;
+      },
+    },
+    &quot;replayInterval&quot;: 10,
+    &quot;replayEnabled&quot;: true,
+    &quot;locale&quot;: &quot;en&quot;,
+    &quot;dateTimeFormat&quot;: &quot;HH:mm DD/MM/YYYY&quot;,
+    &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
+    &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
+  },</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By this valid one :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;settings&quot;: {
+    &quot;replayInterval&quot;: 10,
+    &quot;replayEnabled&quot;: true,
+    &quot;locale&quot;: &quot;en&quot;,
+    &quot;dateTimeFormat&quot;: &quot;HH:mm DD/MM/YYYY&quot;,
+    &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
+    &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
+  },
+  &quot;about&quot;: {
+    &quot;keycloack&quot;: {
+      &quot;name&quot;: &quot;Keycloak&quot;,
+      &quot;rank&quot;: 2,
+      &quot;version&quot;: &quot;6.0.1&quot;
+    }
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_settings_infos_hide_section"><a class="anchor" href="#_settings_infos_hide_section"></a>20.2.2. <code>settings.infos.hide</code> section</h4>
+<div class="paragraph">
+<p>The section to configure hidden fields for the settings screen has been moved from <code>settings.infos.hide</code> section to
+<code>settingsScreen.hiddenSettings</code>. This new field is an array of string and possible values are : "description",
+"language", "remoteLoggingEnabled" and "sounds". So, you need to change the configuration file accordingly.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="paragraph">
+<p>Replace the following invalid config</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;settings&quot;: {
+    &quot;infos&quot;: {
+      &quot;hide&quot;: {
+        &quot;description&quot;: true
+      }
+    }
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By this valid one :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;settingsScreen&quot;: {
+    &quot;hiddenSettings&quot;:  [&quot;description&quot;]
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_feed_filtering_and_sorting"><a class="anchor" href="#_feed_filtering_and_sorting"></a>20.2.3. Feed filtering and sorting</h4>
+<div class="paragraph">
+<p>In feed configuration the following parameters to hide filtering and sorting options have been removed: <code>feed.card.hideAckFilter</code>, <code>feed.card.hideReadSort</code>, <code>feed.card.hideSeveritySort</code></p>
+</div>
+<div class="paragraph">
+<p>Instead it is possible to configure the default behaviour for sorting and acknowlegment filtering by setting the following parameters in <code>web-ui.json</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>feed.defaultSorting</code> : possible values are : "unread", "date", "severity", "startDate", "endDate"</p>
+</li>
+<li>
+<p><code>feed.defaultAcknowledgmentFilter</code> : possible values are : "notack", "ack", "all"</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
