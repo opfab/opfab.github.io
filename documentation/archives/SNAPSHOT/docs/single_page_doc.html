@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">06 October 2022</span>
+<span id="revdate">07 October 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -652,6 +652,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_get_information_about_an_entity">10.2.6.5. Get information about an entity</a></li>
 <li><a href="#_method_ontemplaterenderingcomplete">10.2.6.6. Method onTemplateRenderingComplete()</a></li>
 <li><a href="#_display_a_spinner_when_a_card_is_being_processed">10.2.6.7. Display a spinner when a card is being processed</a></li>
+<li><a href="#_escape_html">10.2.6.8. Escape HTML</a></li>
 </ul>
 </li>
 </ul>
@@ -4955,6 +4956,29 @@ it is called after applyChildCard(), lockAnswer(), setLttdExpired() and setScree
 <div class="paragraph">
 <p>Once the card is loaded, there may be some processing that is time consuming.
 In this case, it is possible to show a spinner using the methods <em>templateGateway.displayLoadingSpinner()</em> and <em>templateGateway.hideLoadingSpinner()</em> in the card template .</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_escape_html"><a class="anchor" href="#_escape_html"></a>10.2.6.8. Escape HTML</h5>
+<div class="paragraph">
+<p>To avoid script injection, OperatorFabric provides an utility function 'opfab.utils.escapeHtml()' to sanitize input content by escaping HTML specific characters. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;input id="input-message" type="text" name="message"&gt;
+&lt;button onClick="showMessage()"&gt;
+
+&lt;span id="safe-message"&gt;&lt;/span&gt;
+
+
+&lt;script&gt;
+  showMessage : function() {
+    let msg = document.getElementById("input-message");
+    document.getElementById("safe-message").innerHTML = opfab.utils.escapeHtml(msg.value);
+  }
+
+&lt;/script&gt;</pre>
+</div>
 </div>
 </div>
 </div>
