@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">06 November 2022</span>
+<span id="revdate">08 November 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -667,6 +667,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_acknowledgment_done_by_the_user">11.4.1. Acknowledgment done by the user</a></li>
 <li><a href="#_acknowledgment_done_by_entityies">11.4.2. Acknowledgment done by entity(ies)</a></li>
+<li><a href="#_displaying_the_entities_acknowledgments">11.4.3. Displaying the entities acknowledgments</a></li>
 </ul>
 </li>
 <li><a href="#_pin_cards">11.5. Pin cards</a></li>
@@ -5023,7 +5024,7 @@ To customize the sounds played by the browser, see <code>config/docker/custom-so
 <div class="sect3">
 <h4 id="_acknowledgment_done_by_the_user"><a class="anchor" href="#_acknowledgment_done_by_the_user"></a>11.4.1. Acknowledgment done by the user</h4>
 <div class="paragraph">
-<p>The user can set a card as "acknowledged" so he will not see it anymore by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
+<p>The user can set a card as "acknowledged," so he will not see it any more by default in the feed. It is as well possible to cancel it and set a card to "unacknowledged" (a filter permit to see acknowledged cards).</p>
 </div>
 <div class="paragraph">
 <p>To offer the possibility for the user to acknowledge card, it has to be configured in process definition.
@@ -5044,7 +5045,7 @@ the response is disabled for the user</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>It is possible to cancel a card aknowledgment unless process state configuration has the <code>cancelAcknowledgmentAllowed</code> field set to false.</p>
+<p>It is possible to cancel a card acknowledgment unless process state configuration has the <code>cancelAcknowledgmentAllowed</code> field set to false.</p>
 </div>
 <div class="paragraph">
 <p>When the user acknowledges a card, the card detail is closed unless process state configuration has the <code>closeCardWhenUserAcknowledges</code> field set to false.</p>
@@ -5062,18 +5063,40 @@ A user can be member of several entities, so you can configure if acknowledgment
 </div>
 <div class="paragraph">
 <p>To configure how a card is considered as acknowledged for the user, it has to be configured in process definition.
-The configuration is done on a state by setting the <code>consideredAcknowledgedForUserWhen</code> field. Allowed values are:</p>
+The configuration is done on a state by setting the <code>consideredAcknowledgedForUserWhen</code> field. Allowed values are :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>"UserHasAcknowledged": the card is set as acknowledged if the user acknowledges it</p>
+<p>"UserHasAcknowledged" : the card is set as acknowledged if the user acknowledges it</p>
 </li>
 <li>
-<p>"OneEntityOfUserHasAcknowledged": the card is set as acknowledged if one (or more) entity(ies) of the user acknowledges it</p>
+<p>"OneEntityOfUserHasAcknowledged" : the card is set as acknowledged if one (or more) entity(ies) of the user acknowledges it</p>
 </li>
 <li>
-<p>"AllEntitiesOfUserHaveAcknowledged": the card is set as acknowledged if all the entities of the user acknowledge it</p>
+<p>"AllEntitiesOfUserHaveAcknowledged" : the card is set as acknowledged if all the entities of the user acknowledge it</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_displaying_the_entities_acknowledgments"><a class="anchor" href="#_displaying_the_entities_acknowledgments"></a>11.4.3. Displaying the entities acknowledgments</h4>
+<div class="paragraph">
+<p>The entities acknowledgments can be displayed in the footer of the card. You can choose to display it (or not) via the option
+<code>showAcknowledgmentFooter</code> in a state definition. Allowed values are :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"OnlyForEmittingEntity" (default value) : the entities acknowledgments are displayed only for the members of the entity
+that has created the card</p>
+</li>
+<li>
+<p>"OnlyForEntitiesAllowedToEdit" : the entities acknowledgments are displayed for the members of the entities allowed to
+edit the card</p>
+</li>
+<li>
+<p>"ForAllUsers" : the entities acknowledgments are displayed for the members of all the entities</p>
 </li>
 </ul>
 </div>
@@ -5113,7 +5136,7 @@ For example:</p>
 <p>The time for "reactivation" is defined with the parameter "secondsBeforeTimeSpanForReminder" in the card.</p>
 </div>
 <div class="paragraph">
-<p>The remind is done related to the timespans values :</p>
+<p>The reminder is done related to the timespans values :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5142,7 +5165,7 @@ For example:</p>
 <p>HoursAndMinutes : hours and minutes of day when the event arise</p>
 </li>
 <li>
-<p>DaysOfWeek : a list of day of the week when the event arise. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
+<p>DaysOfWeek : a list of day of the week when the event arises. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
 </li>
 <li>
 <p>TimeZone : the time zone of reference for the recurrence definition (default value is Europe/Paris)</p>
@@ -5158,7 +5181,7 @@ For example:</p>
 <div class="sect4">
 <h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>11.6.2.1. Recurrent reminder example</h5>
 <div class="paragraph">
-<p>If timespan is defined as follow :</p>
+<p>If timespan is defined as follows :</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -5178,13 +5201,13 @@ recurrence : {
 <div class="sect3">
 <h4 id="_last_time_for_reminding"><a class="anchor" href="#_last_time_for_reminding"></a>11.6.3. Last time for reminding</h4>
 <div class="paragraph">
-<p>If the user is not connected at the time of the remind,  when he connects if current time is superior to 15 minutes from the event date, no  remind will arise.</p>
+<p>If the user is not connected at the time of the reminder,  when he connects if current time is superior to 15 minutes from the event date, no  remind will arise.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_debugging"><a class="anchor" href="#_debugging"></a>11.6.4. Debugging</h4>
 <div class="paragraph">
-<p>When the user receives a card with a reminder to set, the log (console) of the browser contains a line with the date when the remind will arise . For example :</p>
+<p>When the user receives a card with a reminder to set, the log (console) of the browser contains a line with the date when the reminder will arise . For example :</p>
 </div>
 <div class="paragraph">
 <p><code>2020-11-22T21:00:36.011Z Reminder Will remind card conferenceAndITIncidentExample.0cf5537b-f0df-4314-f17f-2797ccd8e4e9 at

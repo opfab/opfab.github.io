@@ -539,6 +539,10 @@ window.swaggerSpec={
                 "type" : "boolean",
                 "description" : "Cancel acknowledgment allowed"
               },
+              "showAcknowledgmentFooter" : {
+                "description" : "Define the condition for displaying or not the acknowledgment footer of the card",
+                "$ref" : "#/definitions/ShowAcknowledgmentFooterEnum"
+              },
               "closeCardWhenUserAcknowledges" : {
                 "type" : "boolean",
                 "description" : "close card detail when user acknowledges it"
@@ -701,6 +705,11 @@ window.swaggerSpec={
       "type" : "string",
       "description" : "This field is used to define how a card is considered as acknowledged in the feed. >\n* USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, it suffices that the user acknowledges it \n* ONE_ENTITY_OF_USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, one (or more) entity(ies) of the user must acknowledge it \n* ALL_ENTITIES_OF_USER_HAVE_ACKNOWLEDGED - For the card to appear acknowledged in the feed, all the entities of the user must acknowledge it",
       "enum" : [ "UserHasAcknowledged", "OneEntityOfUserHasAcknowledged", "AllEntitiesOfUserHaveAcknowledged" ]
+    },
+    "ShowAcknowledgmentFooterEnum" : {
+      "type" : "string",
+      "description" : "Define the condition for displaying or not the acknowledgment footer of the card. >\n* ONLY_FOR_EMITTING_ENTITY\n* ONLY_FOR_ENTITIES_ALLOWED_TO_EDIT\n* FOR_ALL_USERS",
+      "enum" : [ "OnlyForEmittingEntity", "OnlyForEntitiesAllowedToEdit", "ForAllUsers" ]
     },
     "ProcessGroup" : {
       "description" : "Object containing a list of processes.",
