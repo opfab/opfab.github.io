@@ -125,7 +125,14 @@ window.swaggerSpec={
           "description" : "hours and minutes"
         },
         "daysOfWeek" : {
-          "description" : "Days of the week for the recurrence",
+          "description" : "Days of the week for the recurrence (values from 1 to 7, 1 representing Monday)",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "months" : {
+          "description" : "Months of the year for the recurrence (values from 0 to 11, 0 representing January)",
           "type" : "array",
           "items" : {
             "type" : "integer"
