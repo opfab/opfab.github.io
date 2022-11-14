@@ -708,8 +708,8 @@ window.swaggerSpec={
     },
     "ShowAcknowledgmentFooterEnum" : {
       "type" : "string",
-      "description" : "Define the condition for displaying or not the acknowledgment footer of the card. >\n* ONLY_FOR_EMITTING_ENTITY\n* ONLY_FOR_ENTITIES_ALLOWED_TO_EDIT\n* FOR_ALL_USERS",
-      "enum" : [ "OnlyForEmittingEntity", "OnlyForEntitiesAllowedToEdit", "ForAllUsers" ]
+      "description" : "Define the condition for displaying or not the acknowledgment footer of the card. >\n* ONLY_FOR_EMITTING_ENTITY\n* ONLY_FOR_USERS_ALLOWED_TO_EDIT\n* FOR_ALL_USERS",
+      "enum" : [ "OnlyForEmittingEntity", "OnlyForUsersAllowedToEdit", "ForAllUsers" ]
     },
     "ProcessGroup" : {
       "description" : "Object containing a list of processes.",

@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">13 November 2022</span>
+<span id="revdate">15 November 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1380,6 +1380,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_feed_filtering_and_sorting">67.2.3. Feed filtering and sorting</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_10_x_to_release_3_11_0">68. Migration Guide from release 3.10.x to release 3.11.0</a>
+<ul class="sectlevel2">
+<li><a href="#_card_publication">68.1. Card publication</a></li>
+<li><a href="#_templategateway_onstylechange_method">68.2. templateGateway <code>onStyleChange()</code> method</a></li>
 </ul>
 </li>
 </ul>
@@ -5092,8 +5098,7 @@ The configuration is done on a state by setting the <code>consideredAcknowledged
 that has created the card</p>
 </li>
 <li>
-<p>"OnlyForEntitiesAllowedToEdit" : the entities acknowledgments are displayed for the members of the entities allowed to
-edit the card</p>
+<p>"OnlyForUsersAllowedToEdit" : the entities acknowledgments are displayed for the users allowed to edit the card</p>
 </li>
 <li>
 <p>"ForAllUsers" : the entities acknowledgments are displayed for the members of all the entities</p>
@@ -17179,7 +17184,7 @@ You will need to change the Kafka listener to get the response card.</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If you use bootstrap css classes in your templates, it&#8217;s strongly recommended to check your template rendering after migration.
+If you use bootstrap css classes in your templates, it&#8217;s strongly recommended checking your template rendering after migration.
 </td>
 </tr>
 </table>
@@ -17194,7 +17199,7 @@ If you use bootstrap css classes in your templates, it&#8217;s strongly recommen
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If you use charts in your templates, it&#8217;s strongly recommended to check your template rendering after migration.
+If you use charts in your templates, it&#8217;s strongly recommended checking your template rendering after migration.
 </td>
 </tr>
 </table>
@@ -17430,7 +17435,7 @@ If you use response card feature, you need to perform these steps before startin
 <div class="sect4">
 <h5 id="_before_the_migration"><a class="anchor" href="#_before_the_migration"></a>64.3.2.1. Before the migration</h5>
 <div class="paragraph">
-<p>Before the migration to 3.7.0, one should save its current data base, then add the attribute "externalDeviceIds" based on the
+<p>Before the migration to 3.7.0, one should save its current database, then add the attribute "externalDeviceIds" based on the
 value of the existing attribute "externalDeviceId". To add this attribute, simply launch the commands :</p>
 </div>
 <div class="literalblock">
@@ -17592,7 +17597,7 @@ collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, 
 <h3 id="_card_publication_with_not_existent_process_or_state"><a class="anchor" href="#_card_publication_with_not_existent_process_or_state"></a>67.1. Card publication with not existent process or state</h3>
 <div class="paragraph">
 <p>OperatorFabric will refuse the publication of cards referring a not existent process or state.
-To allow the publication of cards with not existent proces or state you should set the <code>authorizeToSendCardWithInvalidProcessState</code> property to <code>true</code> in <code>cards-publication.yml</code> configuration file</p>
+To allow the publication of cards with not existent process or state you should set the <code>authorizeToSendCardWithInvalidProcessState</code> property to <code>true</code> in <code>cards-publication.yml</code> configuration file.</p>
 </div>
 </div>
 <div class="sect2">
@@ -17691,7 +17696,7 @@ To allow the publication of cards with not existent proces or state you should s
 <p>In feed configuration the following parameters to hide filtering and sorting options have been removed: <code>feed.card.hideAckFilter</code>, <code>feed.card.hideReadSort</code>, <code>feed.card.hideSeveritySort</code></p>
 </div>
 <div class="paragraph">
-<p>Instead it is possible to configure the default behaviour for sorting and acknowlegment filtering by setting the following parameters in <code>web-ui.json</code>:</p>
+<p>Instead, it is possible to configure the default behaviour for sorting and acknowledgment filtering by setting the following parameters in <code>web-ui.json</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -17703,6 +17708,28 @@ To allow the publication of cards with not existent proces or state you should s
 </li>
 </ul>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_10_x_to_release_3_11_0"><a class="anchor" href="#_migration_guide_from_release_3_10_x_to_release_3_11_0"></a>68. Migration Guide from release 3.10.x to release 3.11.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_card_publication"><a class="anchor" href="#_card_publication"></a>68.1. Card publication</h3>
+<div class="paragraph">
+<p>OperatorFabric will now check user perimeter when publishing cards via endpoint <code>/cards</code> (it does not concern user cards
+which are always controlled). To disable perimeter validation it is possible to set the configuration parameter
+<code>checkPerimeterForCardSending</code> to <code>false</code> in cards-publication service configuration file.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_templategateway_onstylechange_method"><a class="anchor" href="#_templategateway_onstylechange_method"></a>68.2. templateGateway <code>onStyleChange()</code> method</h3>
+<div class="paragraph">
+<p>A new <code>onStyleChange()</code> method has been added to templateGateway.
+OpFab will call this method when switching day/night mode.
+It may have to be implemented by a template to refresh styles and reload embedded charts when user change day/night
+mode, please check your existing templates.</p>
 </div>
 </div>
 </div>
