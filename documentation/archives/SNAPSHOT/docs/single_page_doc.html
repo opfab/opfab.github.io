@@ -759,6 +759,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_currently_connected_users">16.2. Currently connected users</a></li>
 <li><a href="#_real_time_users">16.3. Real time users</a></li>
 <li><a href="#_activity_area">16.4. Activity area</a></li>
+<li><a href="#_user_actions_logs">16.5. User actions logs</a></li>
 </ul>
 </li>
 <li><a href="#_ui_customization">17. UI Customization</a>
@@ -1386,6 +1387,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_card_publication">68.1. Card publication</a></li>
 <li><a href="#_templategateway_onstylechange_method">68.2. templateGateway <code>onStyleChange()</code> method</a></li>
+<li><a href="#_nginx_configuration_3">68.3. Nginx configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -6632,6 +6634,68 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 </div>
 <div class="paragraph">
 <p>If the user is a member of one (or more) real-time group(s), then he will see on the screen the members of these groups, currently connected.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_actions_logs"><a class="anchor" href="#_user_actions_logs"></a>16.5. User actions logs</h3>
+<div class="paragraph">
+<p>OperatorFabric allows you to view most relevant user actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OPEN_SUBSCRIPTION</p>
+</li>
+<li>
+<p>CLOSE_SUBSCRIPTION</p>
+</li>
+<li>
+<p>ACK_CARD</p>
+</li>
+<li>
+<p>UNACK_CARD</p>
+</li>
+<li>
+<p>READ_CARD</p>
+</li>
+<li>
+<p>UNREAD_CARD</p>
+</li>
+<li>
+<p>SEND_CARD</p>
+</li>
+<li>
+<p>SEND_RESPONSE</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For each action the following information are available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>date</code>: date and time of the action</p>
+</li>
+<li>
+<p><code>action</code>: type of action</p>
+</li>
+<li>
+<p><code>login</code>: username of te user who performed the action</p>
+</li>
+<li>
+<p><code>entities</code>: list of user entities</p>
+</li>
+<li>
+<p><code>cardUid</code>: card Uid</p>
+</li>
+<li>
+<p><code>comment</code>: textual information</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If set visible in ui-menu.json and user is admin, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 </div>
 </div>
@@ -17730,6 +17794,37 @@ which are always controlled). To disable perimeter validation it is possible to 
 OpFab will call this method when switching day/night mode.
 It may have to be implemented by a template to refresh styles and reload embedded charts when user change day/night
 mode, please check your existing templates.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nginx_configuration_3"><a class="anchor" href="#_nginx_configuration_3"></a>68.3. Nginx configuration</h3>
+<div class="paragraph">
+<p>Nginx configuration file has to be modified to allow the forwarding of query parameters to the new 'userActionLogs' API.
+You have to modify <code>nginx.conf</code> file as follows:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  location ~ "^/users/(.*)" {
+    proxy_set_header Host $http_host;
+    proxy_pass http://users:8080/$1;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  location ~ "^/users/(.*)" {
+    proxy_set_header Host $http_host;
+    proxy_pass http://users:8080/$1$is_args$args;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</pre>
+</div>
 </div>
 </div>
 </div>
