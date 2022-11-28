@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 3.11.1.RELEASE,</span>
-<span id="revdate">23 November 2022</span>
+<span id="revnumber">version 3.11.2.RELEASE,</span>
+<span id="revdate">28 November 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -691,7 +691,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_configuration_3">11.3. Configuration</a></li>
-<li><a href="#_connexion_management">11.4. Connexion Management</a></li>
+<li><a href="#_connection_management">11.4. Connection Management</a></li>
 <li><a href="#_configuration_management">11.5. Configuration Management</a></li>
 <li><a href="#_drivers">11.6. Drivers</a>
 <ul class="sectlevel3">
@@ -5374,11 +5374,11 @@ severities.
 </td>
 <td class="content">
 There is a <code>Device</code> object distinct from <code>DeviceConfiguration</code> because the latter represents static information
-about how to reach a device, while the former contains information about the actual connection and its status.
+about how to reach a device, while the former contains information about the actual connection.
 For example, this is why the device configuration contains a <code>host</code> (which can be a hostname) while the device
 has a <code>resolvedAddress</code>.
 As a result, they are managed through separate endpoints, which might also make things easier if we need to secure
-them differently (some people might be allowed to connect/disconnect devices but not change their configuration).
+them differently.
 </td>
 </tr>
 </table>
@@ -5390,10 +5390,12 @@ them differently (some people might be allowed to connect/disconnect devices but
 
 </div>
 <div class="sect2">
-<h3 id="_connexion_management"><a class="anchor" href="#_connexion_management"></a>11.4. Connexion Management</h3>
+<h3 id="_connection_management"><a class="anchor" href="#_connection_management"></a>11.4. Connection Management</h3>
 <div class="paragraph">
-<p>OperatorFabric does automatically attempt to connect to enabled configured external devices at startup. If an enabled device
-is disconnected, OperatorFabric will try to reconnect it every 10 seconds (default value).</p>
+<p>OperatorFabric does automatically attempt to connect to enabled configured external devices at startup. If several external devices share the same host and port, only one connection will be open for the external devices and only one watchdog will be sent for the external devices.</p>
+</div>
+<div class="paragraph">
+<p>If an external driver is disconnected, OperatorFabric will try to reconnect it every 10 seconds (default value).</p>
 </div>
 </div>
 <div class="sect2">

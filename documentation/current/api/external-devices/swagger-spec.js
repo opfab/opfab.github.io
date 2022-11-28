@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "3.11.1.RELEASE",
+    "version" : "3.11.2.RELEASE",
     "title" : "External Devices Management",
     "termsOfService" : "",
     "contact" : {
@@ -553,75 +553,6 @@ window.swaggerSpec={
           },
           "404" : {
             "description" : "Required device not found"
-          }
-        }
-      }
-    },
-    "/devices/{deviceId}/connect" : {
-      "post" : {
-        "tags" : [ "device" ],
-        "summary" : "Connect device",
-        "description" : "Connect device with given deviceId",
-        "operationId" : "connectDevice",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "deviceId",
-          "description" : "device Id",
-          "type" : "string",
-          "required" : true
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Could not connect device because it is disabled"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - ADMIN role necessary"
-          },
-          "404" : {
-            "description" : "Required device not found"
-          },
-          "500" : {
-            "description" : "Driver error during the connection to the device"
-          }
-        }
-      }
-    },
-    "/devices/{deviceId}/disconnect" : {
-      "post" : {
-        "tags" : [ "device" ],
-        "summary" : "Disconnect device",
-        "description" : "Disconnect device with given deviceId",
-        "operationId" : "disconnectDevice",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "deviceId",
-          "description" : "device Id",
-          "type" : "string",
-          "required" : true
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - ADMIN role necessary"
-          },
-          "404" : {
-            "description" : "Required device not found"
-          },
-          "500" : {
-            "description" : "Driver error during the disconnection to the device"
           }
         }
       }
