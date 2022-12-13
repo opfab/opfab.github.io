@@ -59,6 +59,13 @@ window.swaggerSpec={
             "uniqueItems" : true
           }
         },
+        "opfabRoles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/OpfabRolesEnum",
+            "uniqueItems" : true
+          }
+        },
         "authorizedIPAddresses" : {
           "type" : "array",
           "items" : {
@@ -75,6 +82,11 @@ window.swaggerSpec={
         "groups" : [ "MONTY", "WANDA" ],
         "entities" : [ "ENTITY1", "ENTITY2" ]
       }
+    },
+    "OpfabRolesEnum" : {
+      "type" : "string",
+      "description" : "OpFab roles values >\n* ADMIN: Administrator role\n* VIEW_ALL_ARCHIVED_CARDS: Role to access all archived cards",
+      "enum" : [ "ADMIN", "VIEW_ALL_ARCHIVED_CARDS" ]
     },
     "GroupTypeEnum" : {
       "type" : "string",

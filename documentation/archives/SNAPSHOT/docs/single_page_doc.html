@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">12 December 2022</span>
+<span id="revdate">14 December 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -743,7 +743,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#users_management">16. User management</a>
 <ul class="sectlevel2">
-<li><a href="#_users_groups_entities_and_perimeters">16.1. Users, groups, entities and perimeters</a>
+<li><a href="#_users_groups_roles_entities_and_perimeters">16.1. Users, groups, roles, entities and perimeters</a>
 <ul class="sectlevel3">
 <li><a href="#_users">16.1.1. Users</a>
 <ul class="sectlevel4">
@@ -751,9 +751,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_entities">16.1.2. Entities</a></li>
-<li><a href="#_groups">16.1.3. Groups</a></li>
-<li><a href="#_perimeters">16.1.4. Perimeters</a></li>
-<li><a href="#_alternative_way_to_manage_groups_and_entities">16.1.5. Alternative way to manage groups and entities</a></li>
+<li><a href="#_roles">16.1.3. Roles</a></li>
+<li><a href="#_groups">16.1.4. Groups</a></li>
+<li><a href="#_perimeters">16.1.5. Perimeters</a></li>
+<li><a href="#_alternative_way_to_manage_groups_and_entities">16.1.6. Alternative way to manage groups and entities</a></li>
 </ul>
 </li>
 <li><a href="#_currently_connected_users">16.2. Currently connected users</a></li>
@@ -6310,7 +6311,7 @@ In the following commands the <code>$token</code> is an authentication token cur
 </table>
 </div>
 <div class="sect2">
-<h3 id="_users_groups_entities_and_perimeters"><a class="anchor" href="#_users_groups_entities_and_perimeters"></a>16.1. Users, groups, entities and perimeters</h3>
+<h3 id="_users_groups_roles_entities_and_perimeters"><a class="anchor" href="#_users_groups_roles_entities_and_perimeters"></a>16.1. Users, groups, roles, entities and perimeters</h3>
 <div class="paragraph">
 <p>User service manages users, groups, entities and perimeters.</p>
 </div>
@@ -6385,9 +6386,27 @@ The boolean property <code>entityAllowedToSendCard</code> (default value <code>t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_groups"><a class="anchor" href="#_groups"></a>16.1.3. Groups</h4>
+<h4 id="_roles"><a class="anchor" href="#_roles"></a>16.1.3. Roles</h4>
 <div class="paragraph">
-<p>The notion of group is loose and can be used to simulate role in <code>OperatorFabric</code> (examples : supervisor, dispatcher &#8230;&#8203; ) by setting group type to 'ROLE' or to define permissions on processes/states by setting the group type to 'PERMISSION'.
+<p>Roles in <code>OperatorFabric</code> are used to configure user&#8217;s permission on the UI and control the access to the APIs.
+The information about roles is stored in the user&#8217;s data (<code>opfabRoles</code> field of the <code>user</code> object).
+The available roles are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ADMIN</code>: Administrator role</p>
+</li>
+<li>
+<p><code>VIEW_ALL_ARCHIVED_CARDS</code>: Role to access all archived cards</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_groups"><a class="anchor" href="#_groups"></a>16.1.4. Groups</h4>
+<div class="paragraph">
+<p>The notion of group is loose and can be used to simulate business role in <code>OperatorFabric</code> (examples : supervisor, dispatcher &#8230;&#8203; ) by setting group type to 'ROLE' or to define permissions on processes/states by setting the group type to 'PERMISSION'.
 Groups are used to send cards to several users without a name specifically. The information about membership to a
 group is stored in the user information. A group contains a list of perimeters which define the rights of reception/writing for a couple process/state. The rules used to send cards are described in the
 <a href="#reception_rules">recipients section</a>
@@ -6396,7 +6415,7 @@ group is stored in the user information. A group contains a list of perimeters w
 </div>
 </div>
 <div class="sect3">
-<h4 id="_perimeters"><a class="anchor" href="#_perimeters"></a>16.1.4. Perimeters</h4>
+<h4 id="_perimeters"><a class="anchor" href="#_perimeters"></a>16.1.5. Perimeters</h4>
 <div class="paragraph">
 <p>Perimeters are used to define rights for reading/writing cards. A perimeter is composed of an identifier (unique), a process name and a list of state/rights couple.
 Possible rights for receiving/writing cards are :</p>
@@ -6416,7 +6435,7 @@ Possible rights for receiving/writing cards are :</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_alternative_way_to_manage_groups_and_entities"><a class="anchor" href="#_alternative_way_to_manage_groups_and_entities"></a>16.1.5. Alternative way to manage groups and entities</h4>
+<h4 id="_alternative_way_to_manage_groups_and_entities"><a class="anchor" href="#_alternative_way_to_manage_groups_and_entities"></a>16.1.6. Alternative way to manage groups and entities</h4>
 <div class="paragraph">
 <p>The standard way to handle groups and entities in <code>OperatorFabric</code> instance is dealt on the user information.
 There is an alternative way to manage groups and entities through the authentication token, the groups and entities are defined by the administrator of the authentication service.
@@ -9534,7 +9553,7 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <h2 id="_users_groups_and_entities_administration"><a class="anchor" href="#_users_groups_and_entities_administration"></a>26. Users, Groups and Entities Administration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A new operator call John Doe, who has OAuth granted right to connect ot current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance.
+<p>A new operator call John Doe, who has OAuth granted right to connect to current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance.
 As a user of OperatorFabric, he needs to be added to the system with a <code>login</code> (john-doe-operator), his <code>firstName</code> (John) and his <code>lastName</code> (Doe).
 As there is no <code>Administration GUI</code> for the moment, it must be performed through command line, as detailed in the Users API.</p>
 </div>
