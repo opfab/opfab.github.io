@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">15 December 2022</span>
+<span id="revdate">17 December 2022</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1394,6 +1394,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_11_x_to_release_3_12_0">69. Migration Guide from release 3.11.x to release 3.12.0</a>
 <ul class="sectlevel2">
 <li><a href="#_java_17">69.1. Java 17</a></li>
+<li><a href="#_expiration_date">69.2. Expiration date</a></li>
 </ul>
 </li>
 </ul>
@@ -2790,6 +2791,12 @@ A color is associated in the GUI to each severity. Here the details about severi
 <h6 id="end_date"><a class="anchor" href="#end_date"></a>End Date (<code>endDate</code>)</h6>
 <div class="paragraph">
 <p>End date of the active period of the card (process business time).</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_expiration_date_expirationdate"><a class="anchor" href="#_expiration_date_expirationdate"></a>Expiration Date (<code>expirationDate</code>)</h6>
+<div class="paragraph">
+<p>Expiration date of the active period of the card (process business time). When the expiration date has passed, the card will be automatically removed from the card feed.</p>
 </div>
 </div>
 <div class="sect5">
@@ -5688,6 +5695,7 @@ you need to define it in the bundle for this process.</p>
       "severityVisible" : true,
       "startDateVisible" : true,
       "endDateVisible" : true,
+      "expirationDateVisible" : false,
       "lttdVisible" : false,
       "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
     },
@@ -5790,6 +5798,9 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 </li>
 <li>
 <p>endDate (epoch date in ms)</p>
+</li>
+<li>
+<p>expirationDate (epoch date in ms)</p>
 </li>
 <li>
 <p>lttd (epoch date in ms)</p>
@@ -5950,7 +5961,7 @@ edit or delete it.
 <div class="sect2">
 <h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>13.7. Setting card dates</h3>
 <div class="paragraph">
-<p>From the template it is possible to set the initial values for <code>startDate</code>, <code>endDate</code> and <code>lttd</code> fields of the card by calling the following functions:</p>
+<p>From the template it is possible to set the initial values for <code>startDate</code>, <code>endDate</code>, <code>expirationDate</code> and <code>lttd</code> fields of the card by calling the following functions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5961,12 +5972,15 @@ edit or delete it.
 <p><em>usercardTemplateGateway.setInitialEndDate(epochMs)</em></p>
 </li>
 <li>
+<p><em>usercardTemplateGateway.setInitialExpirationDate(epochMs)</em></p>
+</li>
+<li>
 <p><em>usercardTemplateGateway.setInitialLttd(epochMs)</em></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>It is also possible to get the values of  <code>startDate</code>, <code>endDate</code> and <code>lttd</code> by calling the following functions:</p>
+<p>It is also possible to get the values of  <code>startDate</code>, <code>endDate</code>, <code>expirationDate</code> and <code>lttd</code> by calling the following functions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5975,6 +5989,9 @@ edit or delete it.
 </li>
 <li>
 <p><em>usercardTemplateGateway.getEndDate()</em></p>
+</li>
+<li>
+<p><em>usercardTemplateGateway.getExpirationDate()</em></p>
 </li>
 <li>
 <p><em>usercardTemplateGateway.getLttd()</em></p>
@@ -7742,6 +7759,12 @@ KafkaAvroSerializer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delayForDeleteExpiredCardsScheduling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The delay in millisecond after the last execution finished and the next execution starts.</p></td>
 </tr>
 </tbody>
 </table>
@@ -17871,6 +17894,56 @@ You have to modify <code>nginx.conf</code> file as follows:</p>
 <h3 id="_java_17"><a class="anchor" href="#_java_17"></a>69.1. Java 17</h3>
 <div class="paragraph">
 <p>OperatorFabric now runs on java 17, which means that the client library is now compiled with java 17. If you are using the client library, you may need to upgrade your application to java 17 or use client 3.11.2 which is compatible with version 3.12.0 and compiled with java 11.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expiration_date"><a class="anchor" href="#_expiration_date"></a>69.2. Expiration date</h3>
+<div class="paragraph">
+<p>A new 'expirationDate' field has been added to the card.
+Cards with an expiration date will be automatically deleted from the card feed after the expiration date is passed.</p>
+</div>
+<div class="paragraph">
+<p>The expiration date is by default visible in the usercard screen.
+You can hide the expiration date in the usercard screen by adding the new 'expirationDateVisible' value to your
+usercard configuration in the config.json of your bundle.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Hide expiration date &#8594; "expirationDateVisible" : false</p>
+<div class="literalblock">
+<div class="content">
+<pre>"processState": {
+  "name": "Process example ",
+  "description": "Process state",
+  "color": "#0070C0",
+  "userCard" : {
+    "template" : "usercard_process",
+    "lttdVisible" : false,
+    "expirationDateVisible" : false,
+    "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
+  },</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Show expiration date &#8594; "expirationDateVisible" : false</p>
+<div class="literalblock">
+<div class="content">
+<pre>"processState": {
+  "name": "Process example ",
+  "description": "Process state",
+  "color": "#0070C0",
+  "userCard" : {
+    "template" : "usercard_process",
+    "lttdVisible" : false,
+    "expirationDateVisible" : true,
+    "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
+  },</pre>
+</div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>

@@ -226,6 +226,10 @@ window.swaggerSpec={
           "$ref" : "#/definitions/EpochDate",
           "description" : "Card validity end time (must be after startDate)"
         },
+        "expirationDate" : {
+          "$ref" : "#/definitions/EpochDate",
+          "description" : "Card deletion time (must be after startDate)"
+        },
         "severity" : {
           "$ref" : "#/definitions/SeverityEnum",
           "description" : "Card severity"
@@ -372,6 +376,7 @@ window.swaggerSpec={
         "lttd" : 1546387230000,
         "startDate" : 1546387200000,
         "endDate" : 1546387250000,
+        "expirationDate" : 1546397250000,
         "severity" : "ACTION",
         "tags" : [ "MyService", "MyProcess" ],
         "title" : {
@@ -478,6 +483,10 @@ window.swaggerSpec={
         "endDate" : {
           "$ref" : "#/definitions/EpochDate",
           "description" : "Card validity end time"
+        },
+        "expirationDate" : {
+          "$ref" : "#/definitions/EpochDate",
+          "description" : "Card deletion time"
         },
         "publishDate" : {
           "$ref" : "#/definitions/EpochDate",
@@ -603,6 +612,7 @@ window.swaggerSpec={
         "lttd" : 1546387230000,
         "startDate" : 1546387200000,
         "endDate" : 1546387250000,
+        "expirationDate" : 1546397250000,
         "severity" : "ACTION",
         "tags" : [ "MyService", "MyProcess" ],
         "title" : {

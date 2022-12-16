@@ -812,6 +812,9 @@ window.swaggerSpec={
         "endDateVisible" : {
           "type" : "boolean"
         },
+        "expirationDateVisible" : {
+          "type" : "boolean"
+        },
         "lttdVisible" : {
           "type" : "boolean"
         },
