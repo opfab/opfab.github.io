@@ -85,8 +85,8 @@ window.swaggerSpec={
     },
     "OpfabRolesEnum" : {
       "type" : "string",
-      "description" : "OpFab roles values >\n* ADMIN: Administrator role\n* VIEW_ALL_ARCHIVED_CARDS: Role to access all archived cards",
-      "enum" : [ "ADMIN", "VIEW_ALL_ARCHIVED_CARDS" ]
+      "description" : "OpFab roles values >\n* ADMIN: Administrator role\n* VIEW_ALL_ARCHIVED_CARDS: Role to access all archived cards\n* READONLY: Role to view card, no rights to send cards or respond to a card.",
+      "enum" : [ "ADMIN", "VIEW_ALL_ARCHIVED_CARDS", "READONLY" ]
     },
     "GroupTypeEnum" : {
       "type" : "string",
