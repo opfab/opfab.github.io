@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 January 2023</span>
+<span id="revdate">10 January 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -475,6 +475,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_card_sent_to_a_group">3.5.1. Card sent to a group</a></li>
 <li><a href="#_card_sent_to_an_entity">3.5.2. Card sent to an entity</a></li>
 <li><a href="#_card_sent_to_a_group_and_an_entity">3.5.3. Card sent to a group and an entity</a></li>
+</ul>
+</li>
+<li><a href="#_example_6_sending_cards_from_the_ui">3.6. Example 6: Sending cards from the UI</a>
+<ul class="sectlevel3">
+<li><a href="#_updating_the_perimeter">3.6.1. Updating the perimeter</a></li>
+<li><a href="#_creating_the_template_to_send_a_card">3.6.2. Creating the template to send a card</a></li>
+<li><a href="#_customize_the_card_sending_template">3.6.3. Customize the card sending template</a></li>
 </ul>
 </li>
 </ul>
@@ -2241,6 +2248,191 @@ You can use this command line :</p>
 </div>
 <div class="paragraph">
 <p>Look at the result in the UI, you should be able to see the card.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_6_sending_cards_from_the_ui"><a class="anchor" href="#_example_6_sending_cards_from_the_ui"></a>3.6. Example 6: Sending cards from the UI</h3>
+<div class="sect3">
+<h4 id="_updating_the_perimeter"><a class="anchor" href="#_updating_the_perimeter"></a>3.6.1. Updating the perimeter</h4>
+<div class="paragraph">
+<p>In the top right corner, left to your username, there is the button to send a new card.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example6_button.png" alt="example 6 screen shot">
+</div>
+</div>
+<div class="paragraph">
+<p>If you click on it now, you shouldn&#8217;t be able to send a card because none of the groups you&#8217;re part of has the right to send a card. So first we need to set up a new perimeter with the correct rights and associate it to one of your group.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">example6-Perimeter</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">stateRights</span><span class="delimiter">&quot;</span></span> : [
+                {
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">right</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">ReceiveAndWrite</span><span class="delimiter">&quot;</span></span>
+                }
+        ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the provided script :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./setupPerimeter.sh perimeter.json</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_creating_the_template_to_send_a_card"><a class="anchor" href="#_creating_the_template_to_send_a_card"></a>3.6.2. Creating the template to send a card</h4>
+<div class="paragraph">
+<p>Now you need to update the bundle to include a template for the card sending screen. In the <strong>config.json</strong> file of the bundle, it is necessary to define the userCard object.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="JSON">{
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Message process</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">states</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">messageState</span><span class="delimiter">&quot;</span></span>: {
+                  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Message</span><span class="delimiter">&quot;</span></span>,
+                  <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Message</span><span class="delimiter">&quot;</span></span>,
+                  <span class="key"><span class="delimiter">&quot;</span><span class="content">userCard</span><span class="delimiter">&quot;</span></span> : {
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">template</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">usercard_message</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">startDateVisible</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>,
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">endDateVisible</span><span class="delimiter">&quot;</span></span> : <span class="value">false</span>,
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">lttdVisible</span><span class="delimiter">&quot;</span></span> : <span class="value">false</span>,
+                        <span class="key"><span class="delimiter">&quot;</span><span class="content">expirationDateVisible</span><span class="delimiter">&quot;</span></span> : <span class="value">false</span>
+                  },
+                  <span class="key"><span class="delimiter">&quot;</span><span class="content">templateName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>
+                }
+        }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The bundle folder now contains usercard_message.handlebars:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="handlebars">&lt;div class=&quot;opfab-textarea&quot;&gt;
+        &lt;label&gt; MESSAGE &lt;/label&gt;
+        &lt;textarea id=&quot;message&quot; name=&quot;message&quot; placeholder=&quot;Write something..&quot;
+                style=&quot;width:100%&quot;&gt;{{card.data.message}}&lt;/textarea&gt;
+&lt;/div&gt;
+
+
+&lt;script&gt;
+    usercardTemplateGateway.getSpecificCardInformation = function () {
+        const message = document.getElementById('message').value;
+        const card = {
+        summary : {key : &quot;message.summary&quot;},
+                title : {key : &quot;message.title&quot;},
+        data : {message: message},
+        };
+        if (message.length&lt;1) return { valid:false , errorMsg:'You must provide a message'}
+        return {
+            valid: true,
+            card: card
+        };
+
+    }
+
+&lt;/script&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can package it and send it to the server with the provided scripts :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./packageBundle.sh | ./sendBundle.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now if you reload the page, you should be able to send a card. Don&#8217;t forget to send it to an entity you&#8217;re a part of to receive it. For instance <strong>Control Center FR North</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example6_card_send.png" alt="example 6 screen shot #2">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_customize_the_card_sending_template"><a class="anchor" href="#_customize_the_card_sending_template"></a>3.6.3. Customize the card sending template</h4>
+<div class="paragraph">
+<p>To go further you can check out the folder named <strong>bundle_updated</strong> to see a template where it is possible to add an object to the message similar to e-mails.</p>
+</div>
+<div class="paragraph">
+<p>You can see the updated UI using this command line and refreshing the page to update the bundle.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./packageBundle_updated.sh | ./sendBundle.sh</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example6_card_send_updated.png" alt="example 6 screen shot #3">
+</div>
+</div>
+<div class="paragraph">
+<p>The object attribute is defined in the userCard template in the <strong>usercard_message.handlebars</strong> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="handlebars">        &lt;div class=&quot;opfab-textarea&quot;&gt;
+            &lt;label&gt; Object &lt;/label&gt;
+            &lt;textarea id=&quot;object&quot; name=&quot;object&quot; placeholder=&quot;Write something..&quot;
+                style=&quot;width:100%&quot;&gt;{{card.data.object}}&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;br/&gt;
+
+        &lt;div class=&quot;opfab-textarea&quot;&gt;
+            &lt;label&gt; MESSAGE &lt;/label&gt;
+            &lt;textarea id=&quot;message&quot; name=&quot;message&quot; placeholder=&quot;Write something..&quot;
+                style=&quot;width:100%&quot;&gt;{{card.data.message}}&lt;/textarea&gt;
+        &lt;/div&gt;
+
+&lt;script&gt;
+    usercardTemplateGateway.getSpecificCardInformation = function () {
+        const message = document.getElementById('message').value;
+        const object = document.getElementById('object').value;
+        const card = {
+        summary : {key : &quot;message.summary&quot;},
+                title : {key : &quot;message.title&quot;},
+        data : {message: message, object: object},
+        };
+        if (message.length&lt;1) return { valid:false , errorMsg:'You must provide a message'}
+        return {
+            valid: true,
+            card: card
+        };
+
+    }
+
+&lt;/script&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you look at the <strong>message.handlebars</strong> file in the bundle, you will see how the template was changed to take the object attribute into account:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="handlebars">&lt;h2&gt;&lt;b&gt;Object:&lt;/b&gt; {{card.data.object}}&lt;/h2&gt;
+
+{{card.data.message}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the <a href="https://opfab.github.io/documentation/current/reference_doc/#user_cards">card documentation</a> for further informations on cards.</p>
 </div>
 </div>
 </div>
