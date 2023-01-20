@@ -756,7 +756,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#users_management">17. User management</a>
 <ul class="sectlevel2">
-<li><a href="#_users_groups_roles_entities_and_perimeters">17.1. Users, groups, roles, entities and perimeters</a>
+<li><a href="#_users_groups_entities_and_perimeters">17.1. Users, groups, entities and perimeters</a>
 <ul class="sectlevel3">
 <li><a href="#_users">17.1.1. Users</a>
 <ul class="sectlevel4">
@@ -764,7 +764,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_entities">17.1.2. Entities</a></li>
-<li><a href="#_roles">17.1.3. Roles</a></li>
+<li><a href="#_permissions">17.1.3. Permissions</a></li>
 <li><a href="#_groups">17.1.4. Groups</a></li>
 <li><a href="#_perimeters">17.1.5. Perimeters</a></li>
 <li><a href="#_alternative_way_to_manage_groups_and_entities">17.1.6. Alternative way to manage groups and entities</a></li>
@@ -6578,7 +6578,7 @@ In the following commands the <code>$token</code> is an authentication token cur
 </table>
 </div>
 <div class="sect2">
-<h3 id="_users_groups_roles_entities_and_perimeters"><a class="anchor" href="#_users_groups_roles_entities_and_perimeters"></a>17.1. Users, groups, roles, entities and perimeters</h3>
+<h3 id="_users_groups_entities_and_perimeters"><a class="anchor" href="#_users_groups_entities_and_perimeters"></a>17.1. Users, groups, entities and perimeters</h3>
 <div class="paragraph">
 <p>User service manages users, groups, entities and perimeters.</p>
 </div>
@@ -6653,22 +6653,22 @@ The boolean property <code>entityAllowedToSendCard</code> (default value <code>t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_roles"><a class="anchor" href="#_roles"></a>17.1.3. Roles</h4>
+<h4 id="_permissions"><a class="anchor" href="#_permissions"></a>17.1.3. Permissions</h4>
 <div class="paragraph">
-<p>Roles in <code>OperatorFabric</code> are used to configure user&#8217;s permission on the UI and control the access to the APIs.
-The information about roles is stored in the user&#8217;s data (<code>opfabRoles</code> field of the <code>user</code> object).
-The available roles are:</p>
+<p>Permissions in <code>OperatorFabric</code> are used to configure user&#8217;s permission on the UI and control the access to the APIs.
+The information about permissions is stored in the data of the user&#8217;s groups (<code>Permissions</code> field of the <code>group</code> object).
+The available permissions are:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>ADMIN</code>: Administrator role</p>
+<p><code>ADMIN</code>: Administrator permission</p>
 </li>
 <li>
-<p><code>VIEW_ALL_ARCHIVED_CARDS</code>: Role to access all archived cards</p>
+<p><code>VIEW_ALL_ARCHIVED_CARDS</code>: Permission to access all archived cards</p>
 </li>
 <li>
-<p><code>READONLY</code>: Readonly role user cannot send user cards, cannot respond to a card, when acknowledges a card he does not acknowledge it for his entities.</p>
+<p><code>READONLY</code>: Readonly permission. User cannot send user cards, cannot respond to a card, when acknowledges a card he does not acknowledge it for his entities.</p>
 </li>
 </ul>
 </div>
@@ -7035,9 +7035,6 @@ for each core menu:</p>
 <li>
 <p><code>showOnlyForGroups</code> : List of groups for which this menu should be visible (array, optional)</p>
 </li>
-<li>
-<p><code>showOnlyForRoles</code> : List of roles for which this menu should be visible (array, optional)</p>
-</li>
 </ul>
 </div>
 <div class="ulist">
@@ -7054,10 +7051,10 @@ for each core menu:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>If <code>showOnlyForGroups</code> and <code>showOnlyForRoles</code> are not present, null or an empty array : the menu is visible for all users.</p>
+<p>If <code>showOnlyForGroups</code> is not present, null or an empty array : the menu is visible for all users.</p>
 </li>
 <li>
-<p>If <code>showOnlyForGroups</code> or <code>showOnlyForGroups</code> is present and with a non-empty array as a value: menu is visible only for users from the listed groups or roles.</p>
+<p>If <code>showOnlyForGroups</code> is present and with a non-empty array as a value: menu is visible only for users from the listed groups.</p>
 </li>
 </ul>
 </div>
@@ -7224,10 +7221,7 @@ Note that menus with sub-menus need a <code>label</code> declaring an i18n key.<
 </div>
 </li>
 <li>
-<p><code>showOnlyForGroups</code>: Defines the list of user groups entitled to see the menu entry, if not defined or empty it will be visible to every user (unless <code>showOnlyForRoles</code> is defined and not empty).</p>
-</li>
-<li>
-<p><code>showOnlyForRoles</code>: Defines the list of user roles entitled to see the menu entry, if not defined or empty it will be visible to every user (unless <code>showOnlyForGroups</code> is defined and not empty).</p>
+<p><code>showOnlyForGroups</code>: Defines the list of user groups entitled to see the menu entry, if not defined or empty it will be visible to every user.</p>
 </li>
 </ul>
 </div>

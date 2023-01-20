@@ -59,13 +59,6 @@ window.swaggerSpec={
             "uniqueItems" : true
           }
         },
-        "opfabRoles" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/OpfabRolesEnum",
-            "uniqueItems" : true
-          }
-        },
         "authorizedIPAddresses" : {
           "type" : "array",
           "items" : {
@@ -83,9 +76,9 @@ window.swaggerSpec={
         "entities" : [ "ENTITY1", "ENTITY2" ]
       }
     },
-    "OpfabRolesEnum" : {
+    "PermissionEnum" : {
       "type" : "string",
-      "description" : "OpFab roles values >\n* ADMIN: Administrator role\n* VIEW_ALL_ARCHIVED_CARDS: Role to access all archived cards\n* READONLY: Role to view card, no rights to send cards or respond to a card.",
+      "description" : "Permission values >\n* ADMIN: Administrator permission\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
       "enum" : [ "ADMIN", "VIEW_ALL_ARCHIVED_CARDS", "READONLY" ]
     },
     "GroupTypeEnum" : {
@@ -113,6 +106,13 @@ window.swaggerSpec={
           "type" : "array",
           "items" : {
             "type" : "string",
+            "uniqueItems" : true
+          }
+        },
+        "permissions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PermissionEnum",
             "uniqueItems" : true
           }
         },
@@ -317,6 +317,13 @@ window.swaggerSpec={
             "items" : {
               "type" : "string"
             }
+          }
+        },
+        "permissions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PermissionEnum",
+            "uniqueItems" : true
           }
         }
       }
