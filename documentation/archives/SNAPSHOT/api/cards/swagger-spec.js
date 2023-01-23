@@ -97,6 +97,68 @@ window.swaggerSpec={
         "cardId" : 12345
       }
     },
+    "FreqEnum" : {
+      "type" : "string",
+      "description" : "Frequency for the recurrence >\n* SECONDLY\n* MINUTELY\n* HOURLY\n* DAILY\n* WEEKLY\n* MONTHLY\n* YEARLY",
+      "enum" : [ "SECONDLY", "MINUTELY", "HOURLY", "DAILY", "WEEKLY", "MONTHLY", "YEARLY" ],
+      "example" : "WEEKLY"
+    },
+    "DayEnum" : {
+      "type" : "string",
+      "description" : "Defines the days of the week >\n* MO\n* TU\n* WE\n* TH\n* FR\n* SA\n* SU",
+      "enum" : [ "MO", "TU", "WE", "TH", "FR", "SA", "SU" ],
+      "example" : "SU"
+    },
+    "RRule" : {
+      "type" : "object",
+      "description" : "An object representing the recurrence of the card (as defined in the RFC 5545)",
+      "properties" : {
+        "freq" : {
+          "description" : "Frequency of the recurrence",
+          "$ref" : "#/definitions/FreqEnum"
+        },
+        "count" : {
+          "description" : "Defines the number of occurrences at which to range-bound the recurrence",
+          "type" : "integer"
+        },
+        "wkst" : {
+          "description" : "Defines the day on which the workweek starts. Valid values are MO, TU, WE, TH, FR, SA, and SU.",
+          "$ref" : "#/definitions/DayEnum"
+        },
+        "byweekday" : {
+          "description" : "Defines a list of days of the week for the recurrence",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/DayEnum"
+          }
+        },
+        "bymonth" : {
+          "description" : "Defines a list of months of the year for the recurrence (from 1 to 12, 1 representing January)",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "byhour" : {
+          "description" : "Defines a list of hours of the day for the recurrence (from 0 to 23)",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "byminute" : {
+          "description" : "Defines a list of minutes within an hour for the recurrence (from 0 to 59)",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "tzid" : {
+          "description" : "Time zone identifier (for example 'Europe/Paris', 'Europe/London', ...)",
+          "type" : "string"
+        }
+      }
+    },
     "TimeSpan" : {
       "type" : "object",
       "description" : "An object to define a business time span",
@@ -240,6 +302,10 @@ window.swaggerSpec={
             "type" : "string"
           },
           "description" : "Tags associated with the card"
+        },
+        "rRule" : {
+          "description" : "Json object representing the recurrence of the card (as defined in the RFC 5545)",
+          "$ref" : "#/definitions/RRule"
         },
         "timeSpans" : {
           "type" : "array",
@@ -542,6 +608,10 @@ window.swaggerSpec={
         "summaryTranslated" : {
           "description" : "Card summary translated",
           "type" : "string"
+        },
+        "rRule" : {
+          "description" : "Json object representing the recurrence of the card (as defined in the RFC 5545)",
+          "$ref" : "#/definitions/RRule"
         },
         "timeSpans" : {
           "type" : "array",

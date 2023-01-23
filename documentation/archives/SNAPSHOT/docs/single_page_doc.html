@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">22 January 2023</span>
+<span id="revdate">23 January 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -689,7 +689,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_simple_reminder">12.6.1. Simple reminder</a></li>
 <li><a href="#_recurrent_reminder">12.6.2. Recurrent reminder</a>
 <ul class="sectlevel4">
-<li><a href="#_recurrent_reminder_example">12.6.2.1. Recurrent reminder example</a></li>
+<li><a href="#_using_rrule_field">12.6.2.1. Using <code>rRule</code> field :</a></li>
+<li><a href="#_using_recurrence_field_in_the_timespan_object_deprecated">12.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</a></li>
 </ul>
 </li>
 <li><a href="#_last_time_for_reminding">12.6.3. Last time for reminding</a></li>
@@ -3112,7 +3113,7 @@ Grouping cards is an experimental feature
 <div class="sect5">
 <h6 id="_last_time_to_decide_lttd"><a class="anchor" href="#_last_time_to_decide_lttd"></a>Last Time to Decide (<code>lttd</code>)</h6>
 <div class="paragraph">
-<p>Fixes the moment until when a <code>response</code> is possible for the card. After this moment, the response button won&#8217;t be useable. When lttd time is approaching, a clock is visible on the card in the feed with the residual time.  The lttd time can be set for cards that don&#8217;t expect any response</p>
+<p>Fixes the moment until when a <code>response</code> is possible for the card. After this moment, the response button won&#8217;t be usable. When lttd time is approaching, a clock is visible on the card in the feed with the residual time.  The lttd time can be set for cards that don&#8217;t expect any response</p>
 </div>
 </div>
 <div class="sect5">
@@ -3231,7 +3232,7 @@ Only the POINT and POLYGON are supported.
 <div class="sect5">
 <h6 id="_id_id"><a class="anchor" href="#_id_id"></a>id (<code>id</code>)</h6>
 <div class="paragraph">
-<p>State id of the associated process, determined by <code>OperatorFabric</code> can be set arbitrarily by the <code>publisher</code>. The id is determined by 'OperatorFabric' as follow : process.processIntanceId</p>
+<p>State id of the associated process, determined by <code>OperatorFabric</code> can be set arbitrarily by the <code>publisher</code>. The id is determined by 'OperatorFabric' as follows : process.processInstanceId</p>
 </div>
 </div>
 <div class="sect5">
@@ -5427,7 +5428,54 @@ For example:</p>
 <div class="sect3">
 <h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>12.6.2. Recurrent reminder</h4>
 <div class="paragraph">
-<p>It is possible to set a recurrent reminder via the structure recurrence which define a regular event in the timespan structure. It is defined with the following fields :</p>
+<p>It is possible to set a recurrent reminder for a card. There are two ways to do it :</p>
+</div>
+<div class="sect4">
+<h5 id="_using_rrule_field"><a class="anchor" href="#_using_rrule_field"></a>12.6.2.1. Using <code>rRule</code> field :</h5>
+<div class="paragraph">
+<p><code>rRule</code> field defines a regular event (as defined in the RFC 5545). It is defined with the following fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>freq : frequency of the recurrence (possible values : 'SECONDLY', 'MINUTELY', 'HOURLY', 'DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY')</p>
+</li>
+<li>
+<p>byweekday : list of days of the week when the event arises (possible values : 'MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU')</p>
+</li>
+<li>
+<p>bymonth : list of months of the year when the event arises (possible values : number from 1 to 12, 1 being January and 12 being December)</p>
+</li>
+<li>
+<p>byhour : list of hours of the day for the recurrence (from 0 to 23)</p>
+</li>
+<li>
+<p>byminute : list of minutes within an hour for the recurrence (from 0 to 59)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
+</div>
+<div class="sect5">
+<h6 id="_recurrent_reminder_example_using_rrule_field"><a class="anchor" href="#_recurrent_reminder_example_using_rrule_field"></a>Recurrent reminder example using <code>rRule</code> field :</h6>
+<div class="literalblock">
+<div class="content">
+<pre>rRule : {
+    freq : 'DAILY',
+    byweekday : ['TU', 'WE'],
+    bymonth : [1, 3],
+    byhour : [11],
+    byminute : [30]
+}</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_recurrence_field_in_the_timespan_object_deprecated"><a class="anchor" href="#_using_recurrence_field_in_the_timespan_object_deprecated"></a>12.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</h5>
+<div class="paragraph">
+<p><code>recurrence</code> field defines a regular event in the timespan structure. It is defined with the following fields :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5451,8 +5499,8 @@ For example:</p>
 <div class="paragraph">
 <p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
 </div>
-<div class="sect4">
-<h5 id="_recurrent_reminder_example"><a class="anchor" href="#_recurrent_reminder_example"></a>12.6.2.1. Recurrent reminder example</h5>
+<div class="sect5">
+<h6 id="_recurrent_reminder_example_using_recurrence_field"><a class="anchor" href="#_recurrent_reminder_example_using_recurrence_field"></a>Recurrent reminder example using <code>recurrence</code> field :</h6>
 <div class="paragraph">
 <p>If timespan is defined as follows :</p>
 </div>
@@ -5469,6 +5517,7 @@ recurrence : {
 </div>
 <div class="paragraph">
 <p>If secondsBeforeTimeSpanForReminder is set to 600 seconds, the reminder will arise every Saturday and Sunday, in November and December at 10:20 starting from startDate.</p>
+</div>
 </div>
 </div>
 </div>
