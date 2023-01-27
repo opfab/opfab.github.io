@@ -797,12 +797,6 @@ window.swaggerSpec={
             "type" : "string"
           }
         },
-        "condition1" : {
-          "$ref" : "#/definitions/FilterModel"
-        },
-        "condition2" : {
-          "$ref" : "#/definitions/FilterModel"
-        },
         "operation" : {
           "$ref" : "#/definitions/FilterOperationTypeEnum"
         }
