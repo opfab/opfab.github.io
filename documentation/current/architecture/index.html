@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Architecture</h1>
 <div class="details">
-<span id="revnumber">version 3.11.2.RELEASE,</span>
-<span id="revdate">28 November 2022</span>
+<span id="revnumber">version 3.12.0.RELEASE,</span>
+<span id="revdate">27 January 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -465,6 +465,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_database">3.2.4. Database</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#_software_architecture">4. Software architecture</a>
+<ul class="sectlevel2">
+<li><a href="#_back_architecture">4.1. Back Architecture</a></li>
+<li><a href="#_front_architecture">4.2. Front Architecture</a></li>
 </ul>
 </li>
 </ul>
@@ -644,6 +650,54 @@ compliant accesses. It provides the rooting for accessing the services from outs
 <div class="paragraph">
 <p>The cards are stored in a <a href="https://www.mongodb.com/">MongoDb</a> database. The bundles are stored in a file system.</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_software_architecture"><a class="anchor" href="#_software_architecture"></a>4. Software architecture</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The current software does not yet fully follow the architecture described here, it is a work in progress.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_back_architecture"><a class="anchor" href="#_back_architecture"></a>4.1. Back Architecture</h3>
+<div class="paragraph">
+<p>The main idea is to make the business code as technology independent as possible. This means that the business code should be independent of the Spring Framework for example. Inspired by the hexagonal architecture, this leads to the following simplified view:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SoftwareArchitecture-Back.jpg" alt="back software architecture diagram">
+</div>
+</div>
+<div class="paragraph">
+<p>Unit testing consists in testing the business code and using mock objects to simulate the servers (mongoDB, rabbit &#8230;&#8203;)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_front_architecture"><a class="anchor" href="#_front_architecture"></a>4.2. Front Architecture</h3>
+<div class="paragraph">
+<p>The main idea is to make the business code as technology independent as possible. This means that the business code should be independent of the Angular Framework for example. Inspired by the hexagonal architecture, this leads to the following simplified view:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SoftwareArchitecture-UI.jpg" alt="back software architecture diagram">
+</div>
+</div>
+<div class="paragraph">
+<p>The UI component shall contain as little as possible business code.</p>
+</div>
+<div class="paragraph">
+<p>Unit testing consists in testing the business code and using mock objects to simulate the servers (in app/tests/mocks)</p>
 </div>
 </div>
 </div>

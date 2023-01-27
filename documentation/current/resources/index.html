@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 3.11.2.RELEASE,</span>
-<span id="revdate">28 November 2022</span>
+<span id="revnumber">version 3.12.0.RELEASE,</span>
+<span id="revdate">27 January 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -633,6 +633,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_card_publication">21.1. Card publication</a></li>
 <li><a href="#_templategateway_onstylechange_method">21.2. templateGateway <code>onStyleChange()</code> method</a></li>
+<li><a href="#_nginx_configuration">21.3. Nginx configuration</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_11_x_to_release_3_12_0">22. Migration Guide from release 3.11.x to release 3.12.0</a>
+<ul class="sectlevel2">
+<li><a href="#_java_17">22.1. Java 17</a></li>
+<li><a href="#_expiration_date">22.2. Expiration date</a>
+<ul class="sectlevel3">
+<li><a href="#_remove_deprecated_method_templategateway_getspecificcardinformation">22.2.1. Remove deprecated method templateGateway.getSpecificCardInformation()</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2660,6 +2671,104 @@ which are always controlled). To disable perimeter validation it is possible to 
 OpFab will call this method when switching day/night mode.
 It may have to be implemented by a template to refresh styles and reload embedded charts when user change day/night
 mode, please check your existing templates.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nginx_configuration"><a class="anchor" href="#_nginx_configuration"></a>21.3. Nginx configuration</h3>
+<div class="paragraph">
+<p>Nginx configuration file has to be modified to allow the forwarding of query parameters to the new 'userActionLogs' API.
+You have to modify <code>nginx.conf</code> file as follows:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  location ~ "^/users/(.*)" {
+    proxy_set_header Host $http_host;
+    proxy_pass http://users:8080/$1;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  location ~ "^/users/(.*)" {
+    proxy_set_header Host $http_host;
+    proxy_pass http://users:8080/$1$is_args$args;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_11_x_to_release_3_12_0"><a class="anchor" href="#_migration_guide_from_release_3_11_x_to_release_3_12_0"></a>22. Migration Guide from release 3.11.x to release 3.12.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_java_17"><a class="anchor" href="#_java_17"></a>22.1. Java 17</h3>
+<div class="paragraph">
+<p>OperatorFabric now runs on java 17, which means that the client library is now compiled with java 17. If you are using the client library, you may need to upgrade your application to java 17 or use client 3.11.2 which is compatible with version 3.12.0 and compiled with java 11.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expiration_date"><a class="anchor" href="#_expiration_date"></a>22.2. Expiration date</h3>
+<div class="paragraph">
+<p>A new 'expirationDate' field has been added to the card.
+Cards with an expiration date will be automatically deleted from the card feed after the expiration date is passed.</p>
+</div>
+<div class="paragraph">
+<p>The expiration date is by default visible in the usercard screen.
+You can hide the expiration date in the usercard screen by adding the new 'expirationDateVisible' value to your
+usercard configuration in the config.json of your bundle.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Hide expiration date &#8594; "expirationDateVisible" : false</p>
+<div class="literalblock">
+<div class="content">
+<pre>"processState": {
+  "name": "Process example ",
+  "description": "Process state",
+  "color": "#0070C0",
+  "userCard" : {
+    "template" : "usercard_process",
+    "lttdVisible" : false,
+    "expirationDateVisible" : false,
+    "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
+  },</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Show expiration date &#8594; "expirationDateVisible" : false</p>
+<div class="literalblock">
+<div class="content">
+<pre>"processState": {
+  "name": "Process example ",
+  "description": "Process state",
+  "color": "#0070C0",
+  "userCard" : {
+    "template" : "usercard_process",
+    "lttdVisible" : false,
+    "expirationDateVisible" : true,
+    "recipientList" : [{"id": "ENTITY_FR", "levels": [0,1]}, {"id": "IT_SUPERVISOR_ENTITY"}]
+  },</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_remove_deprecated_method_templategateway_getspecificcardinformation"><a class="anchor" href="#_remove_deprecated_method_templategateway_getspecificcardinformation"></a>22.2.1. Remove deprecated method templateGateway.getSpecificCardInformation()</h4>
+<div class="paragraph">
+<p>The deprecated method 'templateGateway.getSpecificCardInformation()' in usercard templates has been removed, use 'usercardTemplateGateway.getSpecificCardInformation()' method instead.</p>
+</div>
 </div>
 </div>
 </div>
