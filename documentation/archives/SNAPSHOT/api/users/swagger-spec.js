@@ -78,8 +78,8 @@ window.swaggerSpec={
     },
     "PermissionEnum" : {
       "type" : "string",
-      "description" : "Permission values >\n* ADMIN: Administrator permission\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
-      "enum" : [ "ADMIN", "VIEW_ALL_ARCHIVED_CARDS", "READONLY" ]
+      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
+      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "READONLY" ]
     },
     "GroupTypeEnum" : {
       "type" : "string",
