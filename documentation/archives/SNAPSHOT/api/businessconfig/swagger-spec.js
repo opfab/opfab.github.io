@@ -813,10 +813,12 @@ window.swaggerSpec={
           "type" : "boolean"
         },
         "expirationDateVisible" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Default value set to false."
         },
         "lttdVisible" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Default value set to false."
         },
         "recipientVisible" : {
           "type" : "boolean"
