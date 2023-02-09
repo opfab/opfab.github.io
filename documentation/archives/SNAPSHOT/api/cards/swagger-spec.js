@@ -117,6 +117,10 @@ window.swaggerSpec={
           "description" : "Frequency of the recurrence",
           "$ref" : "#/definitions/FreqEnum"
         },
+        "interval" : {
+          "description" : "Represents at which intervals the recurrence rule repeats. The default value is \"1\", meaning every second for a SECONDLY rule, every minute for a MINUTELY rule etc.",
+          "type" : "integer"
+        },
         "count" : {
           "description" : "Defines the number of occurrences at which to range-bound the recurrence",
           "type" : "integer"
@@ -148,6 +152,20 @@ window.swaggerSpec={
         },
         "byminute" : {
           "description" : "Defines a list of minutes within an hour for the recurrence (from 0 to 59)",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "bysetpos" : {
+          "description" : "Array of integers, positive or negative. Each given integer will specify an occurrence number, corresponding to the nth occurrence of the rule inside the frequency period",
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        },
+        "bymonthday" : {
+          "description" : "Defines the month days to apply the recurrence to",
           "type" : "array",
           "items" : {
             "type" : "integer"
