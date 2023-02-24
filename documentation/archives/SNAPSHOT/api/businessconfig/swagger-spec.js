@@ -823,6 +823,9 @@ window.swaggerSpec={
         "recipientVisible" : {
           "type" : "boolean"
         },
+        "recipientForInformationVisible" : {
+          "type" : "boolean"
+        },
         "recipientList" : {
           "type" : "array",
           "items" : {

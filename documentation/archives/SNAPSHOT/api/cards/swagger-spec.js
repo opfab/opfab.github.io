@@ -394,6 +394,14 @@ window.swaggerSpec={
           },
           "example" : [ "Dispatcher", "Planner" ]
         },
+        "entityRecipientsForInformation" : {
+          "description" : "List of entity recipients for information : Among entityRecipients which one are only for information.",
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "example" : [ "Manager" ]
+        },
         "entitiesAllowedToEdit" : {
           "description" : "List of entities that can edit the card",
           "type" : "array",
@@ -652,6 +660,13 @@ window.swaggerSpec={
         "entityRecipients" : {
           "type" : "array",
           "description" : "List of entity recipients",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entityRecipientsForInformation" : {
+          "description" : "List of entity recipients for information : Among entityRecipients which one are only for information.",
+          "type" : "array",
           "items" : {
             "type" : "string"
           }
