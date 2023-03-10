@@ -174,6 +174,10 @@ window.swaggerSpec={
         "tzid" : {
           "description" : "Time zone identifier (for example 'Europe/Paris', 'Europe/London', ...)",
           "type" : "string"
+        },
+        "durationInMinutes" : {
+          "description" : "Duration in minutes of the event",
+          "type" : "integer"
         }
       }
     },
