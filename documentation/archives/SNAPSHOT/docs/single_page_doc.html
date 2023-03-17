@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">16 March 2023</span>
+<span id="revdate">17 March 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -9811,6 +9811,23 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
         <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
       <span class="key">response-card</span>:
         <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration OAUTHBEARER / AADToken:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">properties</span>:
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[security.protocol]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">SASL_SSL</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.jaas.config]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required ;</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.mechanism]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">OAUTHBEARER</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.login.callback.handler.class]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.auth.AADWorkloadIdentityLoginCallbackHandler</span></span>
+    <span class="key">producer</span>:
+      <span class="error">...the same...</span></code></pre>
 </div>
 </div>
 </div>
