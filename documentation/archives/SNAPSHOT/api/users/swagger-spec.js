@@ -78,8 +78,8 @@ window.swaggerSpec={
     },
     "PermissionEnum" : {
       "type" : "string",
-      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
-      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "READONLY" ]
+      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* VIEW_USER_ACTION_LOGS: Permission to view user action logs\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
+      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "VIEW_USER_ACTION_LOGS", "READONLY" ]
     },
     "GroupTypeEnum" : {
       "type" : "string",
@@ -250,6 +250,22 @@ window.swaggerSpec={
         "playSoundForInformation" : {
           "type" : "boolean",
           "description" : "If this is set to true, a sound will be played for incoming cards with INFORMATION severity."
+        },
+        "systemNotificationAlarm" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, a notification will be send for incoming cards with ALARM severity."
+        },
+        "systemNotificationAction" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, a notification will be send for incoming cards with ACTION severity."
+        },
+        "systemNotificationCompliant" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, a notification will be send for incoming cards with COMPLIANT severity."
+        },
+        "systemNotificationInformation" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, a notification will be send for incoming cards with INFORMATION severity."
         },
         "playSoundOnExternalDevice" : {
           "type" : "boolean",
