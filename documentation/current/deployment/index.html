@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.13.2.RELEASE,</span>
-<span id="revdate">03 April 2023</span>
+<span id="revnumber">version 3.14.0.RELEASE,</span>
+<span id="revdate">17 April 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -773,6 +773,12 @@ the type of deployment you&#8217;re looking for.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of entity objects to create upon startup if they don&#8217;t exist</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">daysBeforeLogExpiration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">61</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Duration past which user action logs get automatically deleted</p></td>
 </tr>
 </tbody>
 </table>
@@ -1121,7 +1127,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.defaultAcknowledgmentFilter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">"notack"</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default card acknowlegment filtering option in feed page, possible values are : "notack", "ack", "all".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default card acknowlegment filtering option in feed page, possible values are : "notack", "ack", "all", "none".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -1250,6 +1256,18 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer crossOrigin setting.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add a GeoJSON layer to the map. Example: "https://localhost:8000/service-area.geojson"</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson.crossOrigin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure CrossOrigin settings for GeoJSON layer. Example: 'anonymous'.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1345,6 +1363,30 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a sound is played when Information cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationAlarm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Alarm cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationAction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Action cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationCompliant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Compliant cards are added or updated in the feed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Information cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundOnExternalDevice</p></td>
@@ -1478,6 +1520,18 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to false, an OperatorFabric url can be used by several tabs in the same browser. Note that there can only be one token per browser for a given OperatorFabric url, so the first session will be replaced by the second one</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageBusinessAutoClose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to to true, the (red) business alert message will automatically close after a few seconds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageOnBottomOfTheScreen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2494,6 +2548,23 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
         <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
       <span class="key">response-card</span>:
         <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration OAUTHBEARER / AADToken:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">properties</span>:
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[security.protocol]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">SASL_SSL</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.jaas.config]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required ;</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.mechanism]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">OAUTHBEARER</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.login.callback.handler.class]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.auth.AADWorkloadIdentityLoginCallbackHandler</span></span>
+    <span class="key">producer</span>:
+      <span class="error">...the same...</span></code></pre>
 </div>
 </div>
 </div>
