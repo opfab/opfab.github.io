@@ -939,12 +939,6 @@ window.swaggerSpec={
         },
         "recipientForInformationVisible" : {
           "type" : "boolean"
-        },
-        "recipientList" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Recipient"
-          }
         }
       }
     },
