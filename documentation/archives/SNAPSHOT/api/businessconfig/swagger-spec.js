@@ -903,12 +903,6 @@ window.swaggerSpec={
           "items" : {
             "type" : "string"
           }
-        },
-        "groups" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
         }
       }
     },
