@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">26 May 2023</span>
+<span id="revdate">27 May 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -731,20 +731,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configure_the_bundle">14.1. Configure the bundle</a></li>
 <li><a href="#_method_getspecificcardinformation">14.2. Method getSpecificCardInformation</a></li>
 <li><a href="#_define_permissions_2">14.3. Define permissions</a></li>
-<li><a href="#restrict_possible_recipients">14.4. Restrict the list of possible recipients</a></li>
-<li><a href="#preselect_initial_recipients">14.5. Configure the list of initially selected recipients</a></li>
-<li><a href="#set_recipients_via_code">14.6. Set the list of recipients via the template</a></li>
-<li><a href="#_setting_card_dates">14.7. Setting card dates</a></li>
-<li><a href="#_setting_initial_card_severity">14.8. Setting initial card severity</a></li>
-<li><a href="#_card_editing">14.9. Card editing</a></li>
-<li><a href="#_card_delete">14.10. Card delete</a></li>
-<li><a href="#_get_edition_mode">14.11. Get edition mode</a></li>
-<li><a href="#_get_current_process_and_current_state_of_the_card">14.12. Get current process and current state of the card</a></li>
-<li><a href="#_receiving_emitter_entity_of_the_card">14.13. Receiving emitter entity of the card</a></li>
-<li><a href="#_get_selected_recipient_entities_list">14.14. Get selected recipient entities list</a></li>
-<li><a href="#_get_selected_recipient_entities_in_copy_list">14.15. Get selected recipient entities in copy list</a></li>
-<li><a href="#_send_response_automatically_experimental_feature">14.16. Send response automatically (experimental feature)</a></li>
-<li><a href="#_misc">14.17. Misc</a></li>
+<li><a href="#restrict_possible_emitters">14.4. Restrict the list of possible emitter entities</a></li>
+<li><a href="#restrict_possible_recipients">14.5. Restrict the list of possible recipients</a></li>
+<li><a href="#preselect_initial_recipients">14.6. Configure the list of initially selected recipients</a></li>
+<li><a href="#set_recipients_via_code">14.7. Set the list of recipients via the template</a></li>
+<li><a href="#_setting_card_dates">14.8. Setting card dates</a></li>
+<li><a href="#_setting_initial_card_severity">14.9. Setting initial card severity</a></li>
+<li><a href="#_card_editing">14.10. Card editing</a></li>
+<li><a href="#_card_delete">14.11. Card delete</a></li>
+<li><a href="#_get_edition_mode">14.12. Get edition mode</a></li>
+<li><a href="#_get_current_process_and_current_state_of_the_card">14.13. Get current process and current state of the card</a></li>
+<li><a href="#_receiving_emitter_entity_of_the_card">14.14. Receiving emitter entity of the card</a></li>
+<li><a href="#_get_selected_recipient_entities_list">14.15. Get selected recipient entities list</a></li>
+<li><a href="#_get_selected_recipient_entities_in_copy_list">14.16. Get selected recipient entities in copy list</a></li>
+<li><a href="#_send_response_automatically_experimental_feature">14.17. Send response automatically (experimental feature)</a></li>
+<li><a href="#_misc">14.18. Misc</a></li>
 </ul>
 </li>
 <li><a href="#business_data">15. Business Data</a>
@@ -6237,7 +6238,29 @@ edit or delete it.
 </div>
 </div>
 <div class="sect2">
-<h3 id="restrict_possible_recipients"><a class="anchor" href="#restrict_possible_recipients"></a>14.4. Restrict the list of possible recipients</h3>
+<h3 id="restrict_possible_emitters"><a class="anchor" href="#restrict_possible_emitters"></a>14.4. Restrict the list of possible emitter entities</h3>
+<div class="paragraph">
+<p>When sending a user card, if the user is member of multiple entities, it is possible to choose the emitter entity from all the available user entities. To limit the list of available emitter entities, it is possible to configure the property <code>publisherList</code> in userCard state definition with the list of allowed publisher entities.
+For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"processState": {
+      "name": "Process example ",
+      "description": "Process state",
+      "userCard" : {
+        "template" : "usercard_process",
+        "expirationDateVisible" : true,
+        "publisherList": [{"id":"ENTITY_FR", "levels":[1]},{"id":"IT_SUPERVISOR_ENTITY"}]
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example the list of available publisher entities will contain all the first level children of "ENTITY_FR" (level 1) and "IT_SUPERVISOR_ENTITY".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="restrict_possible_recipients"><a class="anchor" href="#restrict_possible_recipients"></a>14.5. Restrict the list of possible recipients</h3>
 <div class="paragraph">
 <p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
@@ -6280,7 +6303,7 @@ The list of 'recipients in copy' can also be limited via javascript in the user 
 </div>
 </div>
 <div class="sect2">
-<h3 id="preselect_initial_recipients"><a class="anchor" href="#preselect_initial_recipients"></a>14.5. Configure the list of initially selected recipients</h3>
+<h3 id="preselect_initial_recipients"><a class="anchor" href="#preselect_initial_recipients"></a>14.6. Configure the list of initially selected recipients</h3>
 <div class="paragraph">
 <p>It is possible to configure the list of initially selected recipients via javascript in the user template by
 implementing the <code>usercardTemplateGateway.setInitialSelectedRecipients(selectedEntities)</code> method. The method takes as
@@ -6325,7 +6348,7 @@ template by implementing the <code>usercardTemplateGateway.setInitialSelectedRec
 </div>
 </div>
 <div class="sect2">
-<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>14.6. Set the list of recipients via the template</h3>
+<h3 id="set_recipients_via_code"><a class="anchor" href="#set_recipients_via_code"></a>14.7. Set the list of recipients via the template</h3>
 <div class="paragraph">
 <p>To do that, you have to provide the list of recipients when returning the card object in usercardTemplateGateway.getSpecificCardInformation() in the field <code>entityRecipients</code>.</p>
 </div>
@@ -6354,7 +6377,7 @@ template by implementing the <code>usercardTemplateGateway.setInitialSelectedRec
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>14.7. Setting card dates</h3>
+<h3 id="_setting_card_dates"><a class="anchor" href="#_setting_card_dates"></a>14.8. Setting card dates</h3>
 <div class="paragraph">
 <p>From the template it is possible to set the initial values for <code>startDate</code>, <code>endDate</code>, <code>expirationDate</code> and <code>lttd</code> fields of the card by calling the following functions:</p>
 </div>
@@ -6395,7 +6418,7 @@ template by implementing the <code>usercardTemplateGateway.setInitialSelectedRec
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setting_initial_card_severity"><a class="anchor" href="#_setting_initial_card_severity"></a>14.8. Setting initial card severity</h3>
+<h3 id="_setting_initial_card_severity"><a class="anchor" href="#_setting_initial_card_severity"></a>14.9. Setting initial card severity</h3>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for card severity choice by calling the following function:</p>
 </div>
@@ -6427,7 +6450,7 @@ template by implementing the <code>usercardTemplateGateway.setInitialSelectedRec
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>14.9. Card editing</h3>
+<h3 id="_card_editing"><a class="anchor" href="#_card_editing"></a>14.10. Card editing</h3>
 <div class="paragraph">
 <p>Once a user card has been sent it can be edited by a user member of the publisher entity who has write access for the process/state of the card.
 It is possible to allow other entities to edit the card by specifying the 'entitiesAllowedToEdit' card field.
@@ -6435,14 +6458,14 @@ It is possible to hide card edit button on UI by setting 'editCardEnabledOnUserI
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_delete"><a class="anchor" href="#_card_delete"></a>14.10. Card delete</h3>
+<h3 id="_card_delete"><a class="anchor" href="#_card_delete"></a>14.11. Card delete</h3>
 <div class="paragraph">
 <p>Once a user card has been sent it can be deleted by a user member of the publisher entity who has write access for the process/state of the card.
 It is possible to hide card delete button on UI by setting 'deleteCardEnabledOnUserInterface' to false in card&#8217;s process/state definition.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>14.11. Get edition mode</h3>
+<h3 id="_get_edition_mode"><a class="anchor" href="#_get_edition_mode"></a>14.12. Get edition mode</h3>
 <div class="paragraph">
 <p>The template can know if the user is creating a new card or editing an existing card by calling the <em>usercardTemplateGateway.getEditionMode()</em> function. The function will return one of the following values:</p>
 </div>
@@ -6462,13 +6485,13 @@ It is possible to hide card delete button on UI by setting 'deleteCardEnabledOnU
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>14.12. Get current process and current state of the card</h3>
+<h3 id="_get_current_process_and_current_state_of_the_card"><a class="anchor" href="#_get_current_process_and_current_state_of_the_card"></a>14.13. Get current process and current state of the card</h3>
 <div class="paragraph">
 <p>The template can know the process and the state of the card by calling the <em>usercardTemplateGateway.getCurrentProcess()</em> and <em>usercardTemplateGateway.getCurrentState()</em> functions. These functions will return a string corresponding to the process id (or state id).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>14.13. Receiving emitter entity of the card</h3>
+<h3 id="_receiving_emitter_entity_of_the_card"><a class="anchor" href="#_receiving_emitter_entity_of_the_card"></a>14.14. Receiving emitter entity of the card</h3>
 <div class="paragraph">
 <p>The template can receive the emitter entity of the card by implementing the <em>usercardTemplateGateway.setEntityUsedForSendingCard()</em>  function.
 This function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
@@ -6479,7 +6502,7 @@ This function will be called by OperatorFabric after loading the template and ev
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_selected_recipient_entities_list"><a class="anchor" href="#_get_selected_recipient_entities_list"></a>14.14. Get selected recipient entities list</h3>
+<h3 id="_get_selected_recipient_entities_list"><a class="anchor" href="#_get_selected_recipient_entities_list"></a>14.15. Get selected recipient entities list</h3>
 <div class="paragraph">
 <p>The template can know the list of entities selected by the users as recipients of the card by calling the <em>usercardTemplateGateway.getSelectedEntityRecipients()</em> function.</p>
 </div>
@@ -6489,14 +6512,14 @@ This function will be called by OperatorFabric after loading the template and ev
 </div>
 </div>
 <div class="sect2">
-<h3 id="_get_selected_recipient_entities_in_copy_list"><a class="anchor" href="#_get_selected_recipient_entities_in_copy_list"></a>14.15. Get selected recipient entities in copy list</h3>
+<h3 id="_get_selected_recipient_entities_in_copy_list"><a class="anchor" href="#_get_selected_recipient_entities_in_copy_list"></a>14.16. Get selected recipient entities in copy list</h3>
 <div class="paragraph">
 <p>The template can know the list of entities selected by the users as recipients in copy of the card by calling
 the <em>usercardTemplateGateway.getSelectedEntityRecipientsForInformation()</em> function.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>14.16. Send response automatically (experimental feature)</h3>
+<h3 id="_send_response_automatically_experimental_feature"><a class="anchor" href="#_send_response_automatically_experimental_feature"></a>14.17. Send response automatically (experimental feature)</h3>
 <div class="paragraph">
 <p>It is possible to configure a template to automatically send a response when sending a user card expecting an answers from one of the entities of the emitting user.
 The response card will be sent only if the user is enabled to respond to the card.</p>
@@ -6542,7 +6565,7 @@ The response card will be sent only if the user is enabled to respond to the car
 </div>
 </div>
 <div class="sect2">
-<h3 id="_misc"><a class="anchor" href="#_misc"></a>14.17. Misc</h3>
+<h3 id="_misc"><a class="anchor" href="#_misc"></a>14.18. Misc</h3>
 <div class="paragraph">
 <p>When a user send a card, it is always sent to himself whatever he chooses in the recipient list.</p>
 </div>

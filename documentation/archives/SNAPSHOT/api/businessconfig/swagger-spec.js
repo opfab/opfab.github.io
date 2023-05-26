@@ -933,11 +933,17 @@ window.swaggerSpec={
         },
         "recipientForInformationVisible" : {
           "type" : "boolean"
+        },
+        "publisherList" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EntitiesTree"
+          }
         }
       }
     },
-    "Recipient" : {
-      "description" : "Object containing the id of the recipient entity and an optional list of connection levels  with 0 meaning the entity itself, 1 for first level children, 2 for 2nd level connections, etc.",
+    "EntitiesTree" : {
+      "description" : "Object containing the id of the entity and an optional list of connection levels  with 0 meaning the entity itself, 1 for first level children, 2 for 2nd level connections, etc.",
       "properties" : {
         "id" : {
           "type" : "string"
