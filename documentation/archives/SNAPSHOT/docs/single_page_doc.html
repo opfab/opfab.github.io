@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">30 May 2023</span>
+<span id="revdate">31 May 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -637,6 +637,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#times">11.2.1.19. times</a></li>
 <li><a href="#toBreakage">11.2.1.20. toBreakage</a></li>
 <li><a href="#objectContainsKey">11.2.1.21. objectContainsKey</a></li>
+<li><a href="#findObjectByProperty">11.2.1.22. findObjectByProperty</a></li>
 </ul>
 </li>
 <li><a href="#_naming_convention">11.2.2. Naming convention</a></li>
@@ -1434,6 +1435,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_3_13_0_to_release_3_14_0">73. Migration Guide from release 3.13.0 to release 3.14.0</a>
 <ul class="sectlevel2">
 <li><a href="#_bundles_folder">73.1. Bundles folder</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_14_0_to_release_3_15_0">74. Migration Guide from release 3.14.0 to release 3.15.0</a>
+<ul class="sectlevel2">
+<li><a href="#_crossorigin_for_geojson">74.1. CrossOrigin for GeoJSON</a></li>
+<li><a href="#_remove_deprecated_field_from_state_definition">74.2. Remove deprecated field from state definition</a></li>
+<li><a href="#_remove_use_of_groups_column_in_realtime_screen">74.3. Remove use of groups column in realtime screen</a></li>
 </ul>
 </li>
 </ul>
@@ -4807,6 +4815,19 @@ users :
 <div class="literalblock">
 <div class="content">
 <pre>{{objectContainsKey card.data.myObject 'myKey' }}</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="findObjectByProperty"><a class="anchor" href="#findObjectByProperty"></a>11.2.1.22. findObjectByProperty</h5>
+<div class="paragraph">
+<p>Searching directly an object in a list using the value of a property. Returns the object if it contains it, null otherwise.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#with (findObjectByProperty card.data.myObjectsList propertyName propertyValue)}}
+  &lt;p&gt;Property value of found object: {{this.propertyName}}&lt;/p&gt;
+{{/with}}</pre>
 </div>
 </div>
 </div>
@@ -8439,7 +8460,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <div class="ulist">
 <ul>
 <li>
-<p>BUSINESS: displays card with entire business period. It the fallback if the set value is none of the values listed here;</p>
+<p>BUSINESS: displays card with entire business period. It is the fallback if the set value is none of the values listed here;</p>
 </li>
 <li>
 <p>BUSINESS_START: displays card with business start date;</p>
@@ -8466,7 +8487,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.defaultAcknowledgmentFilter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">"notack"</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default card acknowlegment filtering option in feed page, possible values are : "notack", "ack", "all", "none".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default card acknowledgment filtering option in feed page, possible values are : "notack", "ack", "all".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -8701,25 +8722,25 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationAlarm</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Alarm cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Alarm cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationAction</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Action cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Action cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationCompliant</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Compliant cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Compliant cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationInformation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Information cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Information cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundOnExternalDevice</p></td>
@@ -8858,7 +8879,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageBusinessAutoClose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to to true, the (red) business alert message will automatically close after a few seconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the (red) business alert message will automatically close after a few seconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageOnBottomOfTheScreen</p></td>
@@ -18352,6 +18373,31 @@ usercard configuration in the config.json of your bundle.</p>
 </div>
 <div class="paragraph">
 <p>To help you migrate your production environment you can use the following script : <a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/tooling/migration-opfab3.13/moveBundles.sh" class="bare">github.com/opfab/operatorfabric-core/tree/develop/src/tooling/migration-opfab3.13/moveBundles.sh</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_14_0_to_release_3_15_0"><a class="anchor" href="#_migration_guide_from_release_3_14_0_to_release_3_15_0"></a>74. Migration Guide from release 3.14.0 to release 3.15.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_crossorigin_for_geojson"><a class="anchor" href="#_crossorigin_for_geojson"></a>74.1. CrossOrigin for GeoJSON</h3>
+<div class="paragraph">
+<p>The option <code>feed.geomap.layer.geojson.crossOrigin</code>, used to set a cross-origin option when downloading GeoJSON, has been removed.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remove_deprecated_field_from_state_definition"><a class="anchor" href="#_remove_deprecated_field_from_state_definition"></a>74.2. Remove deprecated field from state definition</h3>
+<div class="paragraph">
+<p>The deprecated field <code>recipientList</code> has been removed from card state definition.
+To restrict the recipient list options use the method <code>usercardTemplateGateway.setDropdownEntityRecipientList</code> in template.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remove_use_of_groups_column_in_realtime_screen"><a class="anchor" href="#_remove_use_of_groups_column_in_realtime_screen"></a>74.3. Remove use of groups column in realtime screen</h3>
+<div class="paragraph">
+<p>The field <code>groups</code> has been removed from the object <code>entitiesGroups</code> of the configuration file <code>realtimescreens.json</code>.
+To conform to this new structure, you have to remove this field from your configuration file.</p>
 </div>
 </div>
 </div>
