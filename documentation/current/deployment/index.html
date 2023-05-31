@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.14.0.RELEASE,</span>
-<span id="revdate">17 April 2023</span>
+<span id="revnumber">version 3.15.0.RELEASE,</span>
+<span id="revdate">31 May 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -902,6 +902,18 @@ KafkaAvroSerializer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will allow a user to have several sessions opened at the same time. However, it may cause synchronization problems between the sessions using the same login, so it is recommended to let it to true, its default value.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.heartbeat.checkIntervalInSeconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frequency at which the heartbeat from the ui to the server is checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.heartbeat.delayInSecondsToConsiderUserDisconnected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">After how many seconds without heartbeat, the user is considered disconnected</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1100,7 +1112,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <div class="ulist">
 <ul>
 <li>
-<p>BUSINESS: displays card with entire business period. It the fallback if the set value is none of the values listed here;</p>
+<p>BUSINESS: displays card with entire business period. It is the fallback if the set value is none of the values listed here;</p>
 </li>
 <li>
 <p>BUSINESS_START: displays card with business start date;</p>
@@ -1127,7 +1139,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.defaultAcknowledgmentFilter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">"notack"</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default card acknowlegment filtering option in feed page, possible values are : "notack", "ack", "all", "none".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default card acknowledgment filtering option in feed page, possible values are : "notack", "ack", "all".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -1262,12 +1274,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <td class="tableblock halign-left valign-top"><p class="tableblock">Add a GeoJSON layer to the map. Example: "https://localhost:8000/service-area.geojson"</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson.crossOrigin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure CrossOrigin settings for GeoJSON layer. Example: 'anonymous'.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">i18n.supported.locales</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1368,25 +1374,25 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationAlarm</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Alarm cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Alarm cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationAction</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Action cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Action cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationCompliant</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Compliant cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Compliant cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.systemNotificationInformation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is send when Information cards are added or updated in the feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, a system notification is sent when Information cards are added or updated in the feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.playSoundOnExternalDevice</p></td>
@@ -1525,13 +1531,19 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageBusinessAutoClose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to to true, the (red) business alert message will automatically close after a few seconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the (red) business alert message will automatically close after a few seconds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageOnBottomOfTheScreen</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heardbeatSendingInterval</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frequency in seconds at which the ui sends heartbeat to the server.</p></td>
 </tr>
 </tbody>
 </table>

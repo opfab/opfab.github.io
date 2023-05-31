@@ -441,35 +441,36 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 3.14.0.RELEASE,</span>
-<span id="revdate">17 April 2023</span>
+<span id="revnumber">version 3.15.0.RELEASE,</span>
+<span id="revdate">31 May 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_requirements">1. Requirements</a>
-<ul class="sectlevel2">
-<li><a href="#_tools_and_libraries">1.1. Tools and libraries</a></li>
-<li><a href="#_software">1.2. Software</a></li>
-<li><a href="#_browser_support">1.3. Browser support</a></li>
-</ul>
-</li>
+<li><a href="#_requirements">1. Requirements</a></li>
 <li><a href="#setup_dev_env">2. Setting up your development environment</a>
 <ul class="sectlevel2">
 <li><a href="#_clone_repository">2.1. Clone repository</a></li>
-<li><a href="#_set_up_your_environment_environment_variables_appropriate_versions_of_tools">2.2. Set up your environment (environment variables &amp; appropriate versions of tools)</a></li>
-<li><a href="#_deploy_needed_docker_containers">2.3. Deploy needed docker containers</a>
+<li><a href="#_install_sdkman_and_nvm">2.2. Install sdkman and  nvm</a></li>
+<li><a href="#_setting_up_your_proxy_configuration">2.3. Setting up your proxy configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_a_minimal_configuration_for_gradle_build">2.3.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
-<li><a href="#_enabling_local_quality_report_generation">2.3.2. Enabling local quality report generation</a></li>
-<li><a href="#_docker_dev_env">2.3.3. Development environment</a></li>
+<li><a href="#_docker">2.3.1. Docker</a></li>
+<li><a href="#_gradle">2.3.2. Gradle</a></li>
+<li><a href="#_npm">2.3.3. Npm</a></li>
 </ul>
 </li>
-<li><a href="#_build_operatorfabric_with_gradle">2.4. Build OperatorFabric with Gradle</a></li>
-<li><a href="#_run_operatorfabric_services_using_the_run_all_sh_script">2.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</a></li>
-<li><a href="#_check_services_status">2.6. Check services status</a></li>
-<li><a href="#_log_into_the_ui">2.7. Log into the UI</a></li>
-<li><a href="#_push_cards_to_the_feed">2.8. Push cards to the feed</a></li>
+<li><a href="#_deploy_needed_docker_containers">2.4. Deploy needed docker containers</a>
+<ul class="sectlevel3">
+<li><a href="#_a_minimal_configuration_for_gradle_build">2.4.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
+<li><a href="#_enabling_local_quality_report_generation">2.4.2. Enabling local quality report generation</a></li>
+<li><a href="#_docker_dev_env">2.4.3. Development environment</a></li>
+</ul>
+</li>
+<li><a href="#_build_operatorfabric_with_gradle">2.5. Build OperatorFabric with Gradle</a></li>
+<li><a href="#_run_operatorfabric_services_using_the_run_all_sh_script">2.6. Run OperatorFabric Services using the <code>run_all.sh</code> script</a></li>
+<li><a href="#_check_services_status">2.7. Check services status</a></li>
+<li><a href="#_log_into_the_ui">2.8. Log into the UI</a></li>
+<li><a href="#_push_cards_to_the_feed">2.9. Push cards to the feed</a></li>
 </ul>
 </li>
 <li><a href="#_user_interface">3. User Interface</a>
@@ -494,7 +495,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_java">5.1.1. Java</a></li>
 <li><a href="#_modeling">5.1.2. Modeling</a></li>
-<li><a href="#_docker">5.1.3. Docker</a></li>
+<li><a href="#_docker_2">5.1.3. Docker</a></li>
 </ul>
 </li>
 </ul>
@@ -643,27 +644,15 @@ describe the structure of the project and point out useful tools (Gradle tasks, 
 <h2 id="_requirements"><a class="anchor" href="#_requirements"></a>1. Requirements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes the projects requirements regardless of installation options.
-Please see
-<a href="/documentation/current/dev_env/index.html#setup_dev_env">Setting up your environment</a>
-below for details on:</p>
+<p>To install a  dev environment for Operator Fabric , you need</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>setting up a development environment with these prerequisites</p>
+<p>A linux physical or virtual machine</p>
 </li>
 <li>
-<p>building and running OperatorFabric</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_tools_and_libraries"><a class="anchor" href="#_tools_and_libraries"></a>1.1. Tools and libraries</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Java 17.0<br></p>
+<p>A git client</p>
 </li>
 <li>
 <p>Docker</p>
@@ -675,145 +664,15 @@ below for details on:</p>
 <p>Chrome (needed for UI tests in build)</p>
 </li>
 <li>
-<p>Node 18.12.1 (Npm 8.19.2)</p>
-</li>
-<li>
 <p><a href="https://stedolan.github.io/jq/">jq</a></p>
 </li>
 </ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-the current Jdk used for the project is Java 17.0.4.1-zulu.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-It is highly recommended to use <a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tools versions. The following steps rely on these tools.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Once you have installed sdkman and nvm, you can <strong>source</strong> the following
-script to set up your development environment (appropriate versions of Node
-Java and project variables set):</p>
-</div>
-<div class="listingblock">
-<div class="title">Set up development environment (using sdkman and nvm)</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>source bin/load_environment_light.sh</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_software"><a class="anchor" href="#_software"></a>1.2. Software</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>RabbitMQ 3.7.6 +: AMQP messaging layer allows inter
-service communication</p>
-</li>
-<li>
-<p>MongoDB 4.4 +: Card persistent storage</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>RabbitMQ is required for :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Card push</p>
-</li>
-<li>
-<p>Service synchronization</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>MongoDB is required for data storage</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Installing MongoDB and RabbitMQ is not necessary as preconfigured
-MongoDB and RabbitMQ are available in the form of docker-compose configuration
-files at
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker">src/main/docker</a>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_browser_support"><a class="anchor" href="#_browser_support"></a>1.3. Browser support</h3>
-<div class="paragraph">
-<p>The project is tested on recent versions of Firefox, Chromium and Chrome.</p>
-</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="setup_dev_env"><a class="anchor" href="#setup_dev_env"></a>2. Setting up your development environment</h2>
 <div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-The steps below assume that you have installed and are using
-<a href="https://sdkman.io/">sdkman</a> and
-<a href="https://github.com/nvm-sh/nvm">nvm</a> to manage tool versions ( for java,
- node and npm).
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>There are several ways to get started with <code>OperatorFabric</code>. Please look into
-the section that best fits your needs.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-If you encounter any issue, see
-<a href="/documentation/current/dev_env/index.html#troubleshooting">Troubleshooting</a>
-below. In particular,
-a command that hangs then fails is often a proxy issue.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The following steps describe how to launch MongoDB, RabbitMQ and Keycloak
-using Docker,  build OperatorFabric using gradle and run it using the
-<code>run_all.sh</code> script.</p>
-</div>
 <div class="sect2">
 <h3 id="_clone_repository"><a class="anchor" href="#_clone_repository"></a>2.1. Clone repository</h3>
 <div class="listingblock">
@@ -822,12 +681,40 @@ using Docker,  build OperatorFabric using gradle and run it using the
 cd operatorfabric-core</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Do not forget to set proxy if needed , for example :</p>
 </div>
-<div class="sect2">
-<h3 id="_set_up_your_environment_environment_variables_appropriate_versions_of_tools"><a class="anchor" href="#_set_up_your_environment_environment_variables_appropriate_versions_of_tools"></a>2.2. Set up your environment (environment variables &amp; appropriate versions of tools)</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">source bin/load_environment_light.sh</code></pre>
+<pre class="CodeRay highlight"><code>git config --global http.proxy http://LOGIN:PWD@PROXY_URL:PORT</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_install_sdkman_and_nvm"><a class="anchor" href="#_install_sdkman_and_nvm"></a>2.2. Install sdkman and  nvm</h3>
+<div class="paragraph">
+<p>sdkman is used to manage java version , see <a href="https://sdkman.io/" class="bare">sdkman.io/</a> for installation</p>
+</div>
+<div class="paragraph">
+<p>nvm is used to manage node and npm version , see <a href="https://github.com/nvm-sh/nvm" class="bare">github.com/nvm-sh/nvm</a> for installation
+See :</p>
+</div>
+<div class="paragraph">
+<p>Do not forget to set proxy if needed , for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>export https_proxy= http://LOGIN:PWD@PROXY_URL:PORT</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you have installed sdkman and nvm, you can <strong>source</strong> the following
+script to set up your development environment (appropriate versions of Node
+Java and project variables set):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>source bin/load_environment_light.sh</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -845,9 +732,63 @@ the home repository of <code>OperatorFabric</code>.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>2.3. Deploy needed docker containers</h3>
+<h3 id="_setting_up_your_proxy_configuration"><a class="anchor" href="#_setting_up_your_proxy_configuration"></a>2.3. Setting up your proxy configuration</h3>
+<div class="paragraph">
+<p>If you use a proxy to access internet, you must configure it for all tools needed to build opfab</p>
+</div>
 <div class="sect3">
-<h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>2.3.1. A Minimal Configuration for <code>gradle</code> Build</h4>
+<h4 id="_docker"><a class="anchor" href="#_docker"></a>2.3.1. Docker</h4>
+<div class="paragraph">
+<p>To download images , you need to set the proxy for the docker daemon</p>
+</div>
+<div class="paragraph">
+<p>See  <a href="https://docs.docker.com/config/daemon/systemd/">docker documentation</a> to set the proxy</p>
+</div>
+<div class="paragraph">
+<p>To build docker images, you need to set a proxy via the variable https_proxy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>export https_proxy= http://LOGIN:PWD@PROXY_URL:PORT</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may have some DNS error when building docker images, in this case use the IP address of your proxy instead of the FQDN .</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gradle"><a class="anchor" href="#_gradle"></a>2.3.2. Gradle</h4>
+<div class="paragraph">
+<p>In gradle.properties (in ~/.gradle repository)</p>
+</div>
+<div class="paragraph">
+<p>Example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>systemProp.https.proxyHost=PROXY_URL
+systemProp.https.proxyPort=PROXY_PORT
+systemProp.https.proxyUser=LOGIN
+systemProp.https.proxyPassword=PASSWORD</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_npm"><a class="anchor" href="#_npm"></a>2.3.3. Npm</h4>
+<div class="paragraph">
+<p>Example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>npm config set https-proxy http://LOGIN:PWD@PROXY_URL:PORT</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>2.4. Deploy needed docker containers</h3>
+<div class="sect3">
+<h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>2.4.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
 <p>The gradle build of <code>OperatorFabric</code> requires (for the unit tests) one docker container running MongoDB.</p>
 </div>
@@ -856,7 +797,10 @@ the home repository of <code>OperatorFabric</code>.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>2.3.2. Enabling local quality report generation</h4>
+<h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>2.4.2. Enabling local quality report generation</h4>
+<div class="paragraph">
+<p>This step is optional (only needed if you want a Sonarqube report locally)</p>
+</div>
 <div class="paragraph">
 <p>Sonarqube reporting, in addition to the previous docker container, needs a <code>SonarQube</code> docker container.
 Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
@@ -875,7 +819,7 @@ Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose
 </div>
 </div>
 <div class="sect3">
-<h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>2.3.3. Development environment</h4>
+<h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>2.4.3. Development environment</h4>
 <div class="paragraph">
 <p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.
 The <code>web-ui</code> configuration needs a <code>nginx.conf</code>.</p>
@@ -906,7 +850,7 @@ To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_operatorfabric_with_gradle"><a class="anchor" href="#_build_operatorfabric_with_gradle"></a>2.4. Build OperatorFabric with Gradle</h3>
+<h3 id="_build_operatorfabric_with_gradle"><a class="anchor" href="#_build_operatorfabric_with_gradle"></a>2.5. Build OperatorFabric with Gradle</h3>
 <div class="paragraph">
 <p>Using the wrapper in order to ensure building the project the same way from one machine to another.</p>
 </div>
@@ -931,7 +875,7 @@ docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml
 </div>
 </div>
 <div class="sect2">
-<h3 id="_run_operatorfabric_services_using_the_run_all_sh_script"><a class="anchor" href="#_run_operatorfabric_services_using_the_run_all_sh_script"></a>2.5. Run OperatorFabric Services using the <code>run_all.sh</code> script</h3>
+<h3 id="_run_operatorfabric_services_using_the_run_all_sh_script"><a class="anchor" href="#_run_operatorfabric_services_using_the_run_all_sh_script"></a>2.6. Run OperatorFabric Services using the <code>run_all.sh</code> script</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
@@ -953,7 +897,7 @@ See <code>bin/run_all.sh -h</code> for details.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_check_services_status"><a class="anchor" href="#_check_services_status"></a>2.6. Check services status</h3>
+<h3 id="_check_services_status"><a class="anchor" href="#_check_services_status"></a>2.7. Check services status</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
@@ -962,7 +906,7 @@ bin/run_all.sh status</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.7. Log into the UI</h3>
+<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.8. Log into the UI</h3>
 <div class="paragraph">
 <p><strong><em>URL:</em></strong> localhost:2002/<br>
 <strong><em>login:</em></strong> operator1_fr<br>
@@ -997,7 +941,7 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 </div>
 </div>
 <div class="sect2">
-<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>2.8. Push cards to the feed</h3>
+<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>2.9. Push cards to the feed</h3>
 <div class="paragraph">
 <p>You can check that you see cards into the feed by running the following scripts.</p>
 </div>
@@ -1142,33 +1086,6 @@ project, but it&#8217;s not an issue as when you run <code>ng serve</code> the l
 </li>
 <li>
 <p>OF_CLIENT_REL_COMPONENTS : List of modules for the client libraries</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Additionally, you may want to configure the following variables</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Docker build proxy configuration (used to configure alpine apk proxy
-settings)</p>
-<div class="ulist">
-<ul>
-<li>
-<p>APK_PROXY_URI</p>
-</li>
-<li>
-<p>APK_PROXY_HTTPS_URI</p>
-</li>
-<li>
-<p>APK_PROXY_USER</p>
-</li>
-<li>
-<p>APK_PROXY_PASSWORD</p>
-</li>
-</ul>
-</div>
 </li>
 </ul>
 </div>
@@ -1366,7 +1283,7 @@ definition must declare two files:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_docker"><a class="anchor" href="#_docker"></a>5.1.3. Docker</h4>
+<h4 id="_docker_2"><a class="anchor" href="#_docker_2"></a>5.1.3. Docker</h4>
 <div class="paragraph">
 <p>Services project all have docker image generated in their build cycle. See
 <a href="/documentation/current/dev_env/index.html#gradle_tasks">Gradle Tasks</a>
