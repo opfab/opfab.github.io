@@ -298,8 +298,17 @@ window.swaggerSpec={
           "description" : "Entities not represented by the user for his current session",
           "type" : "array",
           "items" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Entities not represented by the user for his current session"
           }
+        },
+        "sendCardsByEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, Opfab will send unread cards notification by email"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Email address to use as recipient for email notifications"
         }
       },
       "required" : [ "login" ],

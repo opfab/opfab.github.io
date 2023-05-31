@@ -665,6 +665,10 @@ window.swaggerSpec={
                 "type" : "boolean",
                 "description" : "Show or hide card edit button"
               },
+              "copyCardEnabledOnUserInterface" : {
+                "type" : "boolean",
+                "description" : "Show or hide card copy button"
+              },
               "deleteCardEnabledOnUserInterface" : {
                 "type" : "boolean",
                 "description" : "Show or hide card delete button"
