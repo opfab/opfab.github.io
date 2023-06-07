@@ -227,10 +227,6 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "User login"
         },
-        "description" : {
-          "type" : "string",
-          "description" : "Free user description label (ex: organization role)"
-        },
         "locale" : {
           "type" : "string",
           "description" : "User using browser format"
