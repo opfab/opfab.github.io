@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 June 2023</span>
+<span id="revdate">21 June 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1488,6 +1488,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_management_of_core_menus_and_custom_menus">78.1. Management of core menus and custom menus</a></li>
 <li><a href="#_opfabapi">78.2. OpfabAPI</a></li>
+<li><a href="#_write_right_for_user_rightsenum_write">78.3. Write right for user (RightsEnum.Write)</a></li>
 </ul>
 </li>
 </ul>
@@ -3560,7 +3561,7 @@ Given this perimeter :</p>
         },
         {
             "state" : "myState2",
-            "right" : "Write"
+            "right" : "ReceiveAndWrite"
         }
     ]
 }</pre>
@@ -3600,7 +3601,9 @@ Given this perimeter :</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If the connected user is a member of <code>group1</code>, then he has a <code>Receive</code> right on process/state <code>process/myState</code>. So if the user is also a member of <code>ENTITY1_FR</code> then he will receive the card.</p>
+<p>If the connected user is a member of <code>group1</code>, then he has a <code>Receive</code> right on process/state
+<code>process/myState</code> (and also on`process/myState2`). So if the user is also a member of <code>ENTITY1_FR</code>
+then he will receive the card.</p>
 </div>
 </div>
 <div class="sect5">
@@ -19111,6 +19114,20 @@ With the new structure of the file, it is now possible to mix core menus and cus
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_write_right_for_user_rightsenum_write"><a class="anchor" href="#_write_right_for_user_rightsenum_write"></a>78.3. Write right for user (RightsEnum.Write)</h3>
+<div class="paragraph">
+<p>The <code>Write</code> right has been removed. Considering <code>Receive</code> and <code>ReceiveAndWrite</code> rights, <code>Write</code> was useless
+and confusing for the code.</p>
+</div>
+<div class="paragraph">
+<p>Before upgrading to 4.0, you must replace all "Write" rights by "ReceiveAndWrite" rights. If you want to
+automate it, you can do it directly in the database via the following request :</p>
+</div>
+<div class="paragraph">
+<p><code>db.perimeter.updateMany({"stateRights.right": "Write"}, {"$set": {"stateRights.$.right": "ReceiveAndWrite"}});</code></p>
+</div>
 </div>
 </div>
 </div>

@@ -166,8 +166,8 @@ window.swaggerSpec={
     },
     "RightsEnum" : {
       "type" : "string",
-      "description" : "Different rights possible >\n* Receive: Only receive rights (receiving card)\n* Write: Write rights (creating new card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
-      "enum" : [ "Receive", "Write", "ReceiveAndWrite" ]
+      "description" : "Different rights possible >\n* Receive: Only receive rights (receiving card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
+      "enum" : [ "Receive", "ReceiveAndWrite" ]
     },
     "StateRight" : {
       "type" : "object",
