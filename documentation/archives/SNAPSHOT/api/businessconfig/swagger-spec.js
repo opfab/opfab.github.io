@@ -821,8 +821,8 @@ window.swaggerSpec={
     },
     "ConsideredAcknowledgedForUserWhenEnum" : {
       "type" : "string",
-      "description" : "This field is used to define how a card is considered as acknowledged in the feed. >\n* USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, it suffices that the user acknowledges it \n* ONE_ENTITY_OF_USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, one (or more) entity(ies) of the user must acknowledge it \n* ALL_ENTITIES_OF_USER_HAVE_ACKNOWLEDGED - For the card to appear acknowledged in the feed, all the entities of the user must acknowledge it",
-      "enum" : [ "UserHasAcknowledged", "OneEntityOfUserHasAcknowledged", "AllEntitiesOfUserHaveAcknowledged" ]
+      "description" : "This field is used to define how a card is considered as acknowledged in the feed. >\n* USER_HAS_ACKNOWLEDGED - For the card to appear acknowledged in the feed, it suffices that the user acknowledges it \n* ALL_ENTITIES_OF_USER_HAVE_ACKNOWLEDGED - For the card to appear acknowledged in the feed, all the entities of the user must acknowledge it",
+      "enum" : [ "UserHasAcknowledged", "AllEntitiesOfUserHaveAcknowledged" ]
     },
     "ShowAcknowledgmentFooterEnum" : {
       "type" : "string",
