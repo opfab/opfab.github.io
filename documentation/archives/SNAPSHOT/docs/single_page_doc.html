@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">29 June 2023</span>
+<span id="revdate">30 June 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -969,18 +969,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_npm">34.3.3. Npm</a></li>
 </ul>
 </li>
-<li><a href="#_deploy_needed_docker_containers">34.4. Deploy needed docker containers</a>
+<li><a href="#_deploy_needed_docker_containers">34.4. Deploy needed docker containers</a></li>
+<li><a href="#_build_operatorfabric_with_gradle">34.5. Build OperatorFabric with Gradle</a>
 <ul class="sectlevel3">
-<li><a href="#_a_minimal_configuration_for_gradle_build">34.4.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
-<li><a href="#_enabling_local_quality_report_generation">34.4.2. Enabling local quality report generation</a></li>
-<li><a href="#_docker_dev_env">34.4.3. Development environment</a></li>
+<li><a href="#_only_compile_and_package_the_jars">34.5.1. Only compile and package the jars</a></li>
+<li><a href="#_only_launch_the_unit_test_compile_and_package_the_jars">34.5.2. Only launch the Unit Test, compile and package the jars</a></li>
 </ul>
 </li>
-<li><a href="#_build_operatorfabric_with_gradle">34.5. Build OperatorFabric with Gradle</a></li>
 <li><a href="#_run_operatorfabric_services_using_the_run_all_sh_script">34.6. Run OperatorFabric Services using the <code>run_all.sh</code> script</a></li>
-<li><a href="#_check_services_status">34.7. Check services status</a></li>
-<li><a href="#_log_into_the_ui">34.8. Log into the UI</a></li>
-<li><a href="#_push_cards_to_the_feed">34.9. Push cards to the feed</a></li>
+<li><a href="#_log_into_the_ui">34.7. Log into the UI</a></li>
+<li><a href="#_push_cards_to_the_feed">34.8. Push cards to the feed</a></li>
+<li><a href="#_enabling_local_quality_report_generation">34.9. Enabling local quality report generation</a></li>
 </ul>
 </li>
 <li><a href="#_user_interface">35. User Interface</a>
@@ -8277,7 +8276,7 @@ while the <strong>docker</strong> subdirectory is a specific configuration meant
 <div class="listingblock">
 <div class="content">
 <pre>cd ./config/docker
-./docker-compose.sh ~/config/local.env</pre>
+./startOpfab.sh ~/config/local.env</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -11623,65 +11622,16 @@ systemProp.https.proxyPassword=PASSWORD</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>34.4. Deploy needed docker containers</h3>
-<div class="sect3">
-<h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>34.4.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
-<p>The gradle build of <code>OperatorFabric</code> requires (for the unit tests) one docker container running MongoDB.</p>
+<p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.</p>
 </div>
 <div class="paragraph">
-<p>Launch it using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>34.4.2. Enabling local quality report generation</h4>
-<div class="paragraph">
-<p>This step is optional (only needed if you want a Sonarqube report locally)</p>
-</div>
-<div class="paragraph">
-<p>Sonarqube reporting, in addition to the previous docker container, needs a <code>SonarQube</code> docker container.
-Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
-</div>
-<div class="paragraph">
-<p>To generate the quality report, run the following commands:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-./gradlew jacocoTestReport</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>34.4.3. Development environment</h4>
-<div class="paragraph">
-<p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.
-The <code>web-ui</code> configuration needs a <code>nginx.conf</code>.</p>
-</div>
-<div class="paragraph">
-<p>The <code>${OF_HOME}/config/dev/docker-compose.sh</code> creates the <code>nginx.conf</code> file and then runs <code>docker-compose</code> in detached mode.
-For this, use:</p>
+<p>For this, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
 ./docker-compose.sh</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Once the <code>nginx.conf</code> created, run <code>docker-compose</code> independently is possible using:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
-docker-compose up -d</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be useful to spot the <code>OperatorFabric</code> dev tab in the browser.
-To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 </div>
 </div>
 </div>
@@ -11691,22 +11641,33 @@ To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 <p>Using the wrapper in order to ensure building the project the same way from one machine to another.</p>
 </div>
 <div class="paragraph">
-<p>To only compile and package the jars:</p>
+<p>To fully build opfab :</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew dockerTagSnapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Optionally, it is possible to</p>
+</div>
+<div class="sect3">
+<h4 id="_only_compile_and_package_the_jars"><a class="anchor" href="#_only_compile_and_package_the_jars"></a>34.5.1. Only compile and package the jars</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
 ./gradlew assemble</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>To launch the Unit Test, compile and package the jars:</p>
 </div>
+<div class="sect3">
+<h4 id="_only_launch_the_unit_test_compile_and_package_the_jars"><a class="anchor" href="#_only_launch_the_unit_test_compile_and_package_the_jars"></a>34.5.2. Only launch the Unit Test, compile and package the jars</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml up -d
 ./gradlew build</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -11715,8 +11676,7 @@ docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-docker-compose -f ${OF_HOME}/config/dev/docker-compose.yml up -d
-bin/run_all.sh start</code></pre>
+bin/run_all.sh -w start</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -11733,51 +11693,18 @@ See <code>bin/run_all.sh -h</code> for details.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_check_services_status"><a class="anchor" href="#_check_services_status"></a>34.7. Check services status</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-bin/run_all.sh status</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>34.8. Log into the UI</h3>
+<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>34.7. Log into the UI</h3>
 <div class="paragraph">
-<p><strong><em>URL:</em></strong> localhost:2002/<br>
+<p><strong><em>URL:</em></strong> localhost:2002<br>
 <strong><em>login:</em></strong> operator1_fr<br>
 <strong><em>password:</em></strong> test</p>
 </div>
 <div class="paragraph">
-<p>Other users available in development mode are <code>operator3_fr</code> and <code>admin</code>, both with <code>test</code> as password.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-It might take a little while for the UI to load even after all services are running.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get an error, a <code>404</code> page.
-</td>
-</tr>
-</table>
+<p>Other users available in development mode are <code>operator2_fr</code>, <code>operator3_fr</code>, <code>operator4_fr</code> and <code>admin</code>, with <code>test</code> as password.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>34.9. Push cards to the feed</h3>
+<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>34.8. Push cards to the feed</h3>
 <div class="paragraph">
 <p>You can check that you see cards into the feed by running the following scripts.</p>
 </div>
@@ -11786,6 +11713,28 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 <pre class="CodeRay highlight"><code data-lang="shell">./src/test/resources/loadTestConf.sh
 ./src/test/resources/send6TestCards.sh</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>34.9. Enabling local quality report generation</h3>
+<div class="paragraph">
+<p>This step is optional and is generally not needed (only needed if you want a Sonarqube report locally)</p>
+</div>
+<div class="paragraph">
+<p>Sonarqube reporting needs a <code>SonarQube</code> docker container.
+Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
+</div>
+<div class="paragraph">
+<p>To generate the quality report, run the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew jacocoTestReport</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
 </div>
 </div>
 </div>
@@ -12629,7 +12578,7 @@ instance in docker mode, just substitute <code>dev</code> for <code>docker</code
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd config/docker
 docker-compose down <i class="conum" data-value="1"></i><b>(1)</b>
-./docker-compose-cypress.sh <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+./startOpfabForCypress.sh <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -12697,7 +12646,7 @@ before each test or series of test.</p>
 <p>The docker container relies on the <code>XXX.json</code> files under <code>config/cypress/ui-config</code>.</p>
 </div>
 <div class="paragraph">
-<p>For convenience, the <code>generateUIConfigForCypress.sh</code> is launched as part of the <code>docker-compose-cypress.sh</code> scripts.</p>
+<p>For convenience, the <code>generateUIConfigForCypress.sh</code> is launched as part of the <code>startOpfabForCypress.sh</code> scripts.</p>
 </div>
 </div>
 </div>
