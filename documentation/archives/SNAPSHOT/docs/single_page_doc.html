@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">30 June 2023</span>
+<span id="revdate">01 July 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -878,35 +878,36 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_mail_notification_service_configuration">26.2. Mail notification service configuration</a></li>
-<li><a href="#_web_ui_configuration">26.3. Web UI Configuration</a>
+<li><a href="#_cards_reminder_service_configuration">26.3. Cards reminder service configuration</a></li>
+<li><a href="#_web_ui_configuration">26.4. Web UI Configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_nginx_configuration">26.3.1. NGINX configuration</a></li>
-<li><a href="#ui_properties">26.3.2. UI properties</a></li>
+<li><a href="#_nginx_configuration">26.4.1. NGINX configuration</a></li>
+<li><a href="#ui_properties">26.4.2. UI properties</a></li>
 </ul>
 </li>
-<li><a href="#opfab_spec_conf">26.4. Security Configuration</a>
+<li><a href="#opfab_spec_conf">26.5. Security Configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_authentication_configuration">26.4.1. Authentication configuration</a>
+<li><a href="#_authentication_configuration">26.5.1. Authentication configuration</a>
 <ul class="sectlevel4">
-<li><a href="#_nginx_configuration_2">26.4.1.1. Nginx Configuration</a></li>
-<li><a href="#_configuration_file_common_yml">26.4.1.2. Configuration file common.yml</a></li>
-<li><a href="#_configuration_file_web_ui_json">26.4.1.3. Configuration file web-ui.json</a></li>
-<li><a href="#_oauth2_password_or_code_flows">26.4.1.4. OAuth2 PASSWORD or CODE Flows</a></li>
-<li><a href="#_oauth2_implicit_flow">26.4.1.5. OAuth2 IMPLICIT Flow</a></li>
-<li><a href="#_none_flow">26.4.1.6. NONE Flow</a></li>
+<li><a href="#_nginx_configuration_2">26.5.1.1. Nginx Configuration</a></li>
+<li><a href="#_configuration_file_common_yml">26.5.1.2. Configuration file common.yml</a></li>
+<li><a href="#_configuration_file_web_ui_json">26.5.1.3. Configuration file web-ui.json</a></li>
+<li><a href="#_oauth2_password_or_code_flows">26.5.1.4. OAuth2 PASSWORD or CODE Flows</a></li>
+<li><a href="#_oauth2_implicit_flow">26.5.1.5. OAuth2 IMPLICIT Flow</a></li>
+<li><a href="#_none_flow">26.5.1.6. NONE Flow</a></li>
 </ul>
 </li>
-<li><a href="#_user_creation">26.4.2. User creation</a></li>
-<li><a href="#jwt_mode">26.4.3. Alternative way to manage groups (and/or entities)</a></li>
-<li><a href="#custom_certificates">26.4.4. Adding certification authorities or certificates to the Java keystore</a></li>
+<li><a href="#_user_creation">26.5.2. User creation</a></li>
+<li><a href="#jwt_mode">26.5.3. Alternative way to manage groups (and/or entities)</a></li>
+<li><a href="#custom_certificates">26.5.4. Adding certification authorities or certificates to the Java keystore</a></li>
 </ul>
 </li>
-<li><a href="#_operatorfabric_mongo_configuration">26.5. OperatorFabric Mongo configuration</a>
+<li><a href="#_operatorfabric_mongo_configuration">26.6. OperatorFabric Mongo configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_define_time_to_live_for_archived_cards">26.5.1. Define time to live for archived cards</a></li>
+<li><a href="#_define_time_to_live_for_archived_cards">26.6.1. Define time to live for archived cards</a></li>
 </ul>
 </li>
-<li><a href="#_operatorfabric_kafka_configuration">26.6. OperatorFabric Kafka configuration</a></li>
+<li><a href="#_operatorfabric_kafka_configuration">26.7. OperatorFabric Kafka configuration</a></li>
 </ul>
 </li>
 <li><a href="#_rabbitmq">27. RabbitMQ</a>
@@ -8614,7 +8615,7 @@ KafkaAvroSerializer</p></td>
 The are 2 configuration files: one for running the service into a docker container ('default-docker.json') and one to run the service from command line (default.json).</p>
 </div>
 <div class="paragraph">
-<p>The main notification service can be configured with the following properties:</p>
+<p>The mail notification service can be configured with the following properties:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -8799,13 +8800,127 @@ The are 2 configuration files: one for running the service into a docker contain
 </div>
 </div>
 <div class="sect2">
-<h3 id="_web_ui_configuration"><a class="anchor" href="#_web_ui_configuration"></a>26.3. Web UI Configuration</h3>
+<h3 id="_cards_reminder_service_configuration"><a class="anchor" href="#_cards_reminder_service_configuration"></a>26.3. Cards reminder service configuration</h3>
+<div class="paragraph">
+<p>The cards reminder service configuration file is located in node-services/cards-reminder/conf folder.
+The 'default-docker.json' file is an example that can be used to configure the environment by loading it into the docker container (erasing the existing one).
+The service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mandatory?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">adminPort</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the notification service on startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.login</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user account used to call Opfab services</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.password</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user password to call Opfab services</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.cardReminderUrl</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Opfab card resetReadAndAcks endpoint URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq.host</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq.port</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq.username</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq.password</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mongodb.database</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mongodb.uri</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logConfig.logFolder</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logConfig.logFile</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logConfig.logLevel</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">defaultConfig.checkPeriodInSeconds</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time interval between consecutive checks</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_web_ui_configuration"><a class="anchor" href="#_web_ui_configuration"></a>26.4. Web UI Configuration</h3>
 <div class="paragraph">
 <p>OperatorFabric Web UI service is built on top of a <a href="https://www.nginx.com/">NGINX</a> server.
 It  serves the Angular SPA to browsers and act as a reverse proxy for other services.</p>
 </div>
 <div class="sect3">
-<h4 id="_nginx_configuration"><a class="anchor" href="#_nginx_configuration"></a>26.3.1. NGINX configuration</h4>
+<h4 id="_nginx_configuration"><a class="anchor" href="#_nginx_configuration"></a>26.4.1. NGINX configuration</h4>
 <div class="paragraph">
 <p>An external <code>nginx.conf</code> file configures the OperatorFabric Nginx instance named <code>web-ui</code> service.
 Those files are mounted as docker volumes. There are two of them in OperatorFabric, one in <code>config/dev</code> and one in <code>config/docker</code>.</p>
@@ -8844,7 +8959,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </div>
 </div>
 <div class="sect3">
-<h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>26.3.2. UI properties</h4>
+<h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>26.4.2. UI properties</h4>
 <div class="paragraph">
 <p>The properties lie in the <code>web-ui.json</code>.The following table describes their meaning and  how to use them. An example file can be found in the config/docker directory.</p>
 </div>
@@ -9459,7 +9574,7 @@ For example:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="opfab_spec_conf"><a class="anchor" href="#opfab_spec_conf"></a>26.4. Security Configuration</h3>
+<h3 id="opfab_spec_conf"><a class="anchor" href="#opfab_spec_conf"></a>26.5. Security Configuration</h3>
 <div class="paragraph">
 <p>Configure the security concern throughout several files:</p>
 </div>
@@ -9480,7 +9595,7 @@ For example:</p>
 <p>For each user it is possible to configure a list of authorized source ip addresses by setting the <code>authorizedIPAddresses</code> field in User object.</p>
 </div>
 <div class="sect3">
-<h4 id="_authentication_configuration"><a class="anchor" href="#_authentication_configuration"></a>26.4.1. Authentication configuration</h4>
+<h4 id="_authentication_configuration"><a class="anchor" href="#_authentication_configuration"></a>26.5.1. Authentication configuration</h4>
 <div class="paragraph">
 <p>There are 3 OAuth2 Authentication flows available into OperatorFabric UI:</p>
 </div>
@@ -9512,7 +9627,7 @@ For example:</p>
 Calls to backend services will get a valid token added to the headers and the token will not be visible for the (web)client.</p>
 </div>
 <div class="sect4">
-<h5 id="_nginx_configuration_2"><a class="anchor" href="#_nginx_configuration_2"></a>26.4.1.1. Nginx Configuration</h5>
+<h5 id="_nginx_configuration_2"><a class="anchor" href="#_nginx_configuration_2"></a>26.5.1.1. Nginx Configuration</h5>
 <div class="paragraph">
 <p>The UI calls need some mapping to reach the Authentication Provider. In the default OperatorFabric configuration it&#8217;s a
 <code>docker keycloak instance</code>, called <code>keycloak</code> in the project <code>docker-compose.yml</code> files.</p>
@@ -9565,7 +9680,7 @@ to log to the Authentication Provider (keycloak). The cient-id and the client-se
 </div>
 </div>
 <div class="sect4">
-<h5 id="_configuration_file_common_yml"><a class="anchor" href="#_configuration_file_common_yml"></a>26.4.1.2. Configuration file common.yml</h5>
+<h5 id="_configuration_file_common_yml"><a class="anchor" href="#_configuration_file_common_yml"></a>26.5.1.2. Configuration file common.yml</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -9633,7 +9748,7 @@ to log to the Authentication Provider (keycloak). The cient-id and the client-se
 </div>
 </div>
 <div class="sect4">
-<h5 id="_configuration_file_web_ui_json"><a class="anchor" href="#_configuration_file_web_ui_json"></a>26.4.1.3. Configuration file web-ui.json</h5>
+<h5 id="_configuration_file_web_ui_json"><a class="anchor" href="#_configuration_file_web_ui_json"></a>26.5.1.3. Configuration file web-ui.json</h5>
 <div class="paragraph">
 <p>Nginx web server serves this file. OperatorFabric creates and uses a custom Docker image containing an Nginx server with a docker volume containing this file. The two docker-compose environments contain an example of it. The path in the image to it is <code>/usr/share/nginx/html/opfab/web-ui.json</code>.</p>
 </div>
@@ -9665,7 +9780,7 @@ There are several common properties:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_oauth2_password_or_code_flows"><a class="anchor" href="#_oauth2_password_or_code_flows"></a>26.4.1.4. OAuth2 PASSWORD or CODE Flows</h5>
+<h5 id="_oauth2_password_or_code_flows"><a class="anchor" href="#_oauth2_password_or_code_flows"></a>26.5.1.4. OAuth2 PASSWORD or CODE Flows</h5>
 <div class="paragraph">
 <p>These two modes share the same way of declaring the delegate URL.
 <code>CODE</code> is the default mode of authentication for <code>deploy</code> docker-compose environment.</p>
@@ -9708,7 +9823,7 @@ Here, the <code>client-id</code> value is <code>opfab-client</code> which is def
 </div>
 </div>
 <div class="sect4">
-<h5 id="_oauth2_implicit_flow"><a class="anchor" href="#_oauth2_implicit_flow"></a>26.4.1.5. OAuth2 IMPLICIT Flow</h5>
+<h5 id="_oauth2_implicit_flow"><a class="anchor" href="#_oauth2_implicit_flow"></a>26.5.1.5. OAuth2 IMPLICIT Flow</h5>
 <div class="paragraph">
 <p>It had its own way of configuration.
 To enable IMPLICIT Flow authentication the following properties need to be set:</p>
@@ -9753,7 +9868,7 @@ The url look up by the implicit ui mechanism is <code><a href="http://localhost:
 </div>
 </div>
 <div class="sect4">
-<h5 id="_none_flow"><a class="anchor" href="#_none_flow"></a>26.4.1.6. NONE Flow</h5>
+<h5 id="_none_flow"><a class="anchor" href="#_none_flow"></a>26.5.1.6. NONE Flow</h5>
 <div class="paragraph">
 <p>The configuration for the NONE flow is a bit different because the token isn&#8217;t handled/visible in the front-end.</p>
 </div>
@@ -9847,7 +9962,7 @@ location /auth/code/ {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_user_creation"><a class="anchor" href="#_user_creation"></a>26.4.2. User creation</h4>
+<h4 id="_user_creation"><a class="anchor" href="#_user_creation"></a>26.5.2. User creation</h4>
 <div class="paragraph">
 <p>Setting automated user creation==. Creation user requires a user id. Given name and family name are optional.</p>
 </div>
@@ -9889,7 +10004,7 @@ location /auth/code/ {
 </table>
 </div>
 <div class="sect3">
-<h4 id="jwt_mode"><a class="anchor" href="#jwt_mode"></a>26.4.3. Alternative way to manage groups (and/or entities)</h4>
+<h4 id="jwt_mode"><a class="anchor" href="#jwt_mode"></a>26.5.3. Alternative way to manage groups (and/or entities)</h4>
 <div class="paragraph">
 <p>By default, <code>OperatorFabric</code> manages groups (and/or entities) through the user's collection in the database.
 Another mode can be defined, the JWT mode. The groups (and/or entities) come from the authentication token.
@@ -10067,7 +10182,7 @@ In the <code>Operator-Fabric</code> configuration, the opfab administrator has t
 </div>
 </div>
 <div class="sect3">
-<h4 id="custom_certificates"><a class="anchor" href="#custom_certificates"></a>26.4.4. Adding certification authorities or certificates to the Java keystore</h4>
+<h4 id="custom_certificates"><a class="anchor" href="#custom_certificates"></a>26.5.4. Adding certification authorities or certificates to the Java keystore</h4>
 <div class="paragraph">
 <p>If you&#8217;re using certificates (for example for Keycloak) that are not from a certification authority trusted by the JVM,
 this will cause errors such as this one:</p>
@@ -10183,7 +10298,7 @@ but they can be adapted for single container deployments and development mode.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_operatorfabric_mongo_configuration"><a class="anchor" href="#_operatorfabric_mongo_configuration"></a>26.5. OperatorFabric Mongo configuration</h3>
+<h3 id="_operatorfabric_mongo_configuration"><a class="anchor" href="#_operatorfabric_mongo_configuration"></a>26.6. OperatorFabric Mongo configuration</h3>
 <div class="paragraph">
 <p>We only use URI configuration for mongo through the usage of the <code><code>spring.data.mongodb.uris</code></code>,
 it allows us to share the same configuration behavior for simple or cluster
@@ -10191,7 +10306,7 @@ configuration and with both spring classic and reactive mongo configuration.
 See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo connection string</a> for the complete URI syntax.</p>
 </div>
 <div class="sect3">
-<h4 id="_define_time_to_live_for_archived_cards"><a class="anchor" href="#_define_time_to_live_for_archived_cards"></a>26.5.1. Define time to live for archived cards</h4>
+<h4 id="_define_time_to_live_for_archived_cards"><a class="anchor" href="#_define_time_to_live_for_archived_cards"></a>26.6.1. Define time to live for archived cards</h4>
 <div class="paragraph">
 <p>By default, archived cards will remain stored in the database forever. It is possible to have them automatically
 removed after a specified duration by using the <a href="https://docs.mongodb.com/manual/core/index-ttl/">TTL index feature of mongoDB</a> on their publishDate field.</p>
@@ -10222,7 +10337,7 @@ change the value of the option of an existing index, you must drop the index fir
 </div>
 </div>
 <div class="sect2">
-<h3 id="_operatorfabric_kafka_configuration"><a class="anchor" href="#_operatorfabric_kafka_configuration"></a>26.6. OperatorFabric Kafka configuration</h3>
+<h3 id="_operatorfabric_kafka_configuration"><a class="anchor" href="#_operatorfabric_kafka_configuration"></a>26.7. OperatorFabric Kafka configuration</h3>
 <div class="paragraph">
 <p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic. In the default configuration Kafka is disabled.
 To enable Kafka you need to set the consumer group to the consumer group you assign to the OpFab Kafka consumer. This can be any group-id, as long as it isn&#8217;t used by other consumers
@@ -11358,6 +11473,12 @@ the used ports are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-external-diffusion</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3100</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail notification service http (REST)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cards-reminder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>

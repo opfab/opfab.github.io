@@ -1275,6 +1275,32 @@ window.swaggerSpec={
           }
         }
       }
+    },
+    "/cards/resetReadAndAcks/{uid}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "uid",
+        "type" : "string",
+        "required" : true,
+        "description" : "The card uid"
+      } ],
+      "post" : {
+        "operationId" : "resetReadAndAcks",
+        "tags" : [ "cards", "update", "acknowledgement" ],
+        "summary" : "update current card removing acknowledgements and reads",
+        "description" : "update current card removing acknowledgements and reads, send the card with updated publishDate",
+        "responses" : {
+          "200" : {
+            "description" : "card updated and sent with updated publishDate"
+          },
+          "404" : {
+            "description" : "Try to update unexisting card"
+          },
+          "403" : {
+            "description" : "Forbidden - User not allowed"
+          }
+        }
+      }
     }
   }
 }
