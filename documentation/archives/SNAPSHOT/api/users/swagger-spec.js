@@ -45,6 +45,9 @@ window.swaggerSpec={
         "lastName" : {
           "type" : "string"
         },
+        "comment" : {
+          "type" : "string"
+        },
         "groups" : {
           "type" : "array",
           "items" : {
