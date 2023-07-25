@@ -7,13 +7,9 @@ layout: default
 
 ## Short term 
 
--  Dynamic scope of responsibilities for operators in realtime 
 
--  Geographical view integration :
-   - Map with all cards [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3100)
-   - Map inside cards [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3224)
+-  Map inside cards [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3224)
 
--  Use operating system notifications : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3219)
 
 -  Advance reminder feature (Conditional reminder , user define reminder ) : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3044)
 
@@ -21,7 +17,7 @@ layout: default
 
 -  More integration of external applications : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3223) 
 
--  External business reference data integration.
+
 
 ## Middle term
 
@@ -29,7 +25,7 @@ layout: default
   
 -  Improved responsive UI :  [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3220)
 
-- Improvement on traceability of user actions (business and cyber-security needs ) : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3095)
+- Improvement on traceability of user actions for cyber-security needs  : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3095)
 
 - Provide custom style / look and feel for end user (permit the user to define his specific ui style) : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3027)
 
