@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">28 July 2023</span>
+<span id="revdate">25 August 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1155,7 +1155,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_kafka_implementation">46. Kafka Implementation</a>
 <ul class="sectlevel2">
-<li><a href="#_setup_kafka_enviroment">46.1. Setup Kafka enviroment</a></li>
+<li><a href="#_setup_kafka_environment">46.1. Setup Kafka environment</a></li>
 <li><a href="#_enabling_kafka">46.2. Enabling Kafka</a></li>
 <li><a href="#_operatorfabric_kafka_source_code">46.3. OperatorFabric Kafka source code</a></li>
 <li><a href="#_listener_deserializer">46.4. Listener / deserializer</a>
@@ -1530,6 +1530,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_cards_reminder">81.5. Cards reminder</a></li>
 <li><a href="#_port_mapping">81.6. Port mapping</a></li>
 <li><a href="#_configuration_6">81.7. Configuration</a></li>
+<li><a href="#_normalization_of_some_configuration_parameters">81.8. Normalization of some configuration parameters</a></li>
 </ul>
 </li>
 </ul>
@@ -1572,7 +1573,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Launch the <code>startserver.sh</code> in the server directory. You need to wait for all the services to start (it usually takes one minute to start), it is done when the console prompt is available again.</p>
 </div>
 <div class="paragraph">
-<p>Test the connection to the UI: to connect to OperatorFabric, open in a browser the following page: <a href="http://localhost:2002/ui/" class="bare">localhost:2002/ui/</a> and use <code>operator1_fr</code> as login and <code>test</code> as password.</p>
+<p>Test the connection to the UI: to connect to OperatorFabric, open in a browser the following page: <a href="http://localhost:2002/" class="bare">localhost:2002/</a> and use <code>operator1_fr</code> as login and <code>test</code> as password.</p>
 </div>
 <div class="paragraph">
 <p>After connection, you should see the following screen</p>
@@ -5582,7 +5583,9 @@ will receive the card as an HTTP POST request. The card is in json format (the s
 The field data in the json contains the user response.</p>
 </div>
 <div class="paragraph">
-<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. It is also possible to configure wether he user token shall be propagated to the third party or not by setting the "propagateUserToken" boolean property. Here is an example with two third parties configured.</p>
+<p>The url of the third party receiving the response card is to be set in the .yml of the publication service. It is also
+possible to configure whether the user token shall be propagated to the third party or not by setting the
+"propagateUserToken" boolean property. Here is an example with two third parties configured.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -7381,7 +7384,7 @@ Resource identifiers such as login, group id, entity id and perimeter id must on
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-By default, a user cannot have several sessions at the same time. If you want to enable it, set checkIfUserIsAlreadyConnected to false in the configuration file of the card consultation service ( cards-consultation-XXX.yml ). However, this is not recommended as it may cause synchronization problems between the sessions using the same login
+By default, a user cannot have several sessions at the same time. If you want to enable it, set <code>operatorfabric.checkIfUserIsAlreadyConnected</code> to false in the configuration file of the card consultation service ( cards-consultation-XXX.yml ). However, this is not recommended as it may cause synchronization problems between the sessions using the same login
 </td>
 </tr>
 </table>
@@ -8585,8 +8588,9 @@ deployment as a docker-compose file
 <p>Opfab comes with a default embedded configuration, but certain parameters need to be provided and configured.</p>
 </div>
 <div class="paragraph">
-<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. The dev subdirectory contains confi
-gurations specific to development environments, while the <strong>docker</strong> subdirectory contains a specific configuration meant for use in a full docker environment.</p>
+<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. The dev subdirectory contains
+configurations specific to development environments, while the <strong>docker</strong> subdirectory contains a specific configuration
+meant for use in a full docker environment.</p>
 </div>
 <div class="sect2">
 <h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>28.1. Business service configuration</h3>
@@ -8718,7 +8722,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of entity objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">daysBeforeLogExpiration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.daysBeforeLogExpiration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">61</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Duration beyond which user action logs get automatically deleted</p></td>
 </tr>
@@ -8745,17 +8749,17 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">checkAuthenticationForCardSending</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.checkAuthenticationForCardSending</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not require user authentication to send or delete a card via endpoint /cards (it does not concern user cards which always need authentication). Be careful when setting the value to false, nginx conf must be adapted for security reasons (see security warning in <a href="https://github.com/opfab/operatorfabric-core/blob/master/config/docker/nginx.conf">the reference nginx.conf</a>)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">authorizeToSendCardWithInvalidProcessState</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.authorizeToSendCardWithInvalidProcessState</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, OperatorFabric will allow to publish a card referring a not existent process or state</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">checkPerimeterForCardSending</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.checkPerimeterForCardSending</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, OperatorFabric will check user perimeter for card sending via endpoint /cards (it does not concern user cards which are always controlled).</p></td>
 </tr>
@@ -8782,22 +8786,22 @@ KafkaAvroSerializer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">comma separated list of URL(s) of the broker(s) / bootstrap server(s)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.kafka.topics.card.topicname</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to read the messages from</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.response-card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.kafka.topics.response-card.topicname</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to place the response cards to</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.schema.registry.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.kafka.schema.registry.url</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">delayForDeleteExpiredCardsScheduling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.delayForDeleteExpiredCardsScheduling</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The delay in millisecond after the last execution finished and the next execution starts.
 <a id="cardSendingLimitCardCount"></a></p></td>
@@ -8893,13 +8897,14 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
     <span class="key">producer</span>:
       <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
     <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9092</span></span>
-<span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-commands_dev</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-response_dev</span></span></code></pre>
+<span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-commands_dev</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-response_dev</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8950,13 +8955,14 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
         <span class="key">endpoint</span>:
           <span class="key">identification</span>:
             <span class="key">algorithm</span>: <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
-<span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+<span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9007,13 +9013,14 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
     <span class="key">producer</span>:
       <span class="key">client-id</span>: <span class="string"><span class="content">OPFAB</span></span>
       <span class="key">value-serializer</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
-<span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+<span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9055,7 +9062,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">checkIfUserIsAlreadyConnected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.checkIfUserIsAlreadyConnected</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will allow a user to have several sessions opened at the same time. However, it may cause synchronization problems between the sessions using the same login, so it is recommended to let it true, its default value.</p></td>
 </tr>
@@ -9395,16 +9402,16 @@ Node services can be configured with the following properties:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time period used to search for not acknowledged cards</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor.defaultConfig.secondsBetweenAcknowledmentChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor.defaultConfig.secondsBetweenAcknowledgmentChecks</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card acknoledgement check period</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Card acknowledgment check period</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor.defaultConfig.secondsAfterPublicationToConsiderCardAsNotAcknowleged</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor.defaultConfig.secondsAfterPublicationToConsiderCardAsNotAcknowledged</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Time period to wait after card publishing to consider a card as not acknowleged and send the alert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time period to wait after card publishing to consider a card as not acknowledged and send the alert</p></td>
 </tr>
 </tbody>
 </table>
@@ -9412,7 +9419,7 @@ Node services can be configured with the following properties:</p>
 <p>The parameters in "cardsExternalDiffusion.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of cards external diffusion service with a JSON payload containing the config parameters to be changed.</p>
 </div>
 <div class="paragraph">
-<p>The parameters in "supervisor.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of supervisor service with a JSON payloadcontaining the config parameters to be changed.</p>
+<p>The parameters in "supervisor.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of supervisor service with a JSON payload containing the config parameters to be changed.</p>
 </div>
 </div>
 </div>
@@ -9873,18 +9880,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, some logs form the UI are sent to the back and write in the log file of the cards-consultation service</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.sendCardsByEmail</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, Opfab will send cards notification by email</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.email</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Email address to use as recipient for email notifications (see <code>settings.sendCardsByEmail</code>)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settingsScreen.hiddenSettings</p></td>
@@ -14183,7 +14178,7 @@ Here is a way to do so.</p>
 In the default configuration Kafka is disabled.</p>
 </div>
 <div class="sect2">
-<h3 id="_setup_kafka_enviroment"><a class="anchor" href="#_setup_kafka_enviroment"></a>46.1. Setup Kafka enviroment</h3>
+<h3 id="_setup_kafka_environment"><a class="anchor" href="#_setup_kafka_environment"></a>46.1. Setup Kafka environment</h3>
 <div class="paragraph">
 <p>If you do not have a Kafka environment running you need to set one up so the Kafka consumers and producers can find each other.
 You can for example download <a href="{lense}">lenses.io</a> for an easy-to-use broker with a graphical interface. Another option is to add
@@ -14243,16 +14238,17 @@ the <code>card-publication.yml</code> file. When you use the provided <code>Kafk
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-response</span></span>
-    <span class="key">schema</span>:
-      <span class="key">registry</span>:
-        <span class="key">url</span>: <span class="string"><span class="content">http://localhost:8081</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-response</span></span>
+      <span class="key">schema</span>:
+        <span class="key">registry</span>:
+          <span class="key">url</span>: <span class="string"><span class="content">http://localhost:8081</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -19609,6 +19605,84 @@ You must adapt the configuration to your environment by using the configuration 
 </li>
 <li>
 <p>operatorfabric.businessconfig.storage.path is set by default to "/businessconfig-storage"</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The nginx configuration has been simplified as well, the best is to redefine your actual nginx based on the example /config/docker/nginx.conf. The main modification is the removal of the following endpoints declaration :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>/archives</p>
+</li>
+<li>
+<p>/ui</p>
+</li>
+<li>
+<p>/ui/assets/i18n</p>
+</li>
+<li>
+<p>/config/web-ui.json</p>
+</li>
+<li>
+<p>/config/menu-ui.json</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The nginx conf is not loaded anymore in /usr/share/nginx/html/opfab in the docker but in /usr/share/nginx/html/config. You need to modify your volume configuration . For example in docker compose :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    volumes:
+      - &quot;./ui-config:/usr/share/nginx/html/opfab&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>becomes :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    volumes:
+      - &quot;./ui-config:/usr/share/nginx/html/config&quot;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_normalization_of_some_configuration_parameters"><a class="anchor" href="#_normalization_of_some_configuration_parameters"></a>81.8. Normalization of some configuration parameters</h3>
+<div class="paragraph">
+<p>Some configuration parameters have been renamed, so you have to check your config files and adapt them. Here are the
+concerned parameters (old name &#8594; new name):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>daysBeforeLogExpiration &#8594; operatorfabric.users.daysBeforeLogExpiration</p>
+</li>
+<li>
+<p>checkAuthenticationForCardSending &#8594; operatorfabric.cards-publication.checkAuthenticationForCardSending</p>
+</li>
+<li>
+<p>authorizeToSendCardWithInvalidProcessState &#8594; operatorfabric.cards-publication.authorizeToSendCardWithInvalidProcessState</p>
+</li>
+<li>
+<p>checkPerimeterForCardSending &#8594; operatorfabric.cards-publication.checkPerimeterForCardSending</p>
+</li>
+<li>
+<p>opfab.kafka.topics.card.topicname &#8594; operatorfabric.cards-publication.kafka.topics.card.topicname</p>
+</li>
+<li>
+<p>opfab.kafka.topics.response-card.topicname &#8594; operatorfabric.cards-publication.kafka.topics.response-card.topicname</p>
+</li>
+<li>
+<p>opfab.kafka.schema.registry.url &#8594; operatorfabric.cards-publication.kafka.schema.registry.url</p>
+</li>
+<li>
+<p>delayForDeleteExpiredCardsScheduling &#8594; operatorfabric.cards-publication.delayForDeleteExpiredCardsScheduling</p>
+</li>
+<li>
+<p>checkIfUserIsAlreadyConnected &#8594; operatorfabric.checkIfUserIsAlreadyConnected</p>
 </li>
 </ul>
 </div>
