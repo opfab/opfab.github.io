@@ -252,19 +252,19 @@ window.swaggerSpec={
         },
         "systemNotificationAlarm" : {
           "type" : "boolean",
-          "description" : "If this is set to true, a notification will be send for incoming cards with ALARM severity."
+          "description" : "If this is set to true, a notification will be sent for incoming cards with ALARM severity."
         },
         "systemNotificationAction" : {
           "type" : "boolean",
-          "description" : "If this is set to true, a notification will be send for incoming cards with ACTION severity."
+          "description" : "If this is set to true, a notification will be sent for incoming cards with ACTION severity."
         },
         "systemNotificationCompliant" : {
           "type" : "boolean",
-          "description" : "If this is set to true, a notification will be send for incoming cards with COMPLIANT severity."
+          "description" : "If this is set to true, a notification will be sent for incoming cards with COMPLIANT severity."
         },
         "systemNotificationInformation" : {
           "type" : "boolean",
-          "description" : "If this is set to true, a notification will be send for incoming cards with INFORMATION severity."
+          "description" : "If this is set to true, a notification will be sent for incoming cards with INFORMATION severity."
         },
         "playSoundOnExternalDevice" : {
           "type" : "boolean",
@@ -288,6 +288,17 @@ window.swaggerSpec={
           "additionalProperties" : {
             "type" : "array",
             "description" : "List of process states for which the user will not be notified",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "processesStatesNotifiedByEmail" : {
+          "type" : "object",
+          "description" : "Indicates for which process states the user will be notified by email",
+          "additionalProperties" : {
+            "type" : "array",
+            "description" : "List of process states for which the user will be notified by email",
             "items" : {
               "type" : "string"
             }
@@ -342,6 +353,25 @@ window.swaggerSpec={
               "type" : "string"
             }
           }
+        },
+        "processesStatesNotifiedByEmail" : {
+          "type" : "object",
+          "description" : "Indicates for which process states the user will be notified by email",
+          "additionalProperties" : {
+            "type" : "array",
+            "description" : "List of process states for which the user will be notified by email",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "sendCardsByEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, Opfab will send unread cards notification by email"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Email address to use as recipient for email notifications"
         },
         "permissions" : {
           "type" : "array",

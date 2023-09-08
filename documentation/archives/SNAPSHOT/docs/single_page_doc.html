@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">07 September 2023</span>
+<span id="revdate">09 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -654,8 +654,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_opfab_btn_opfab_btn_cancel">11.2.3.9. opfab-btn, opfab-btn-cancel</a></li>
 </ul>
 </li>
-<li><a href="#_multi_select">11.2.4. Multi Select</a></li>
-<li><a href="#_charts">11.2.5. Charts</a></li>
+<li><a href="#_tooltip">11.2.4. Tooltip</a></li>
+<li><a href="#_multi_select">11.2.5. Multi Select</a></li>
+<li><a href="#_charts">11.2.6. Charts</a></li>
 </ul>
 </li>
 </ul>
@@ -811,8 +812,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_function_setinitiallttd">18.4.17. Function setInitialLttd</a></li>
 <li><a href="#_function_setinitialselectedrecipients">18.4.18. Function setInitialSelectedRecipients</a></li>
 <li><a href="#_function_setinitialselectedrecipientsforinformation">18.4.19. Function setInitialSelectedRecipientsForInformation</a></li>
-<li><a href="#_function_setinitialseverity">18.4.20. Function setInitialSeverity</a></li>
-<li><a href="#_function_setinitialstartdate">18.4.21. Function setInitialStartDate</a></li>
+<li><a href="#_function_setselectedrecipients">18.4.20. Function setSelectedRecipients</a></li>
+<li><a href="#_function_setselectedrecipientsforinformation">18.4.21. Function setSelectedRecipientsForInformation</a></li>
+<li><a href="#_function_setinitialseverity">18.4.22. Function setInitialSeverity</a></li>
+<li><a href="#_function_setinitialstartdate">18.4.23. Function setInitialStartDate</a></li>
 </ul>
 </li>
 <li><a href="#_utils_api">18.5. Utils API</a>
@@ -2785,7 +2788,7 @@ of the cards, the operator can send back information to the third party via a "r
 <p>Entity : an entity (containing a list of users) , it can be used to model organizations (examples : control center, company , department&#8230;&#8203; ) . An entity can be part of another entity or even of several entities.</p>
 </li>
 <li>
-<p>Group : a group (containing a list of users) , it can be used to model roles in organizations setting the group type to 'ROLE' (examples : supervisor, dispatcher &#8230;&#8203; ) and it can be used to define the rigths on business processes by setting the group type to 'PERMISSION' (example:  GROUP_ALLOWED_TO_SEND_CARD_PROCESS_X)</p>
+<p>Group : a group (containing a list of users) , it can be used to model roles in organizations setting the group type to 'ROLE' (examples : supervisor, dispatcher &#8230;&#8203; ) and it can be used to define the rights on business processes by setting the group type to 'PERMISSION' (example:  GROUP_ALLOWED_TO_SEND_CARD_PROCESS_X)</p>
 </li>
 <li>
 <p>Process : the process the card is about</p>
@@ -5093,7 +5096,28 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 <div class="sect3">
-<h4 id="_multi_select"><a class="anchor" href="#_multi_select"></a>11.2.4. Multi Select</h4>
+<h4 id="_tooltip"><a class="anchor" href="#_tooltip"></a>11.2.4. Tooltip</h4>
+<div class="paragraph">
+<p>OperatorFabric provides a css tooltip component. To use it, you must use the <code>opfab-tooltip</code> class style. You can define
+where the tooltip will be displayed using <code>left</code>, <code>top</code> or <code>bottom</code> (by default, it is displayed on the right). For
+example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;span opfab-tooltip-text="Here is an example of tooltip" class="opfab-tooltip"&gt;Some tooltip text&lt;/span&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or for a tooltip displyed on the left :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;span opfab-tooltip-text="Here is an example of tooltip" class="opfab-tooltip left"&gt;Some tooltip text&lt;/span&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_multi_select"><a class="anchor" href="#_multi_select"></a>11.2.5. Multi Select</h4>
 <div class="paragraph">
 <p>OperatorFabric provides a multiselect component based on <a href="https://sa-si-dev.github.io/virtual-select/#/">Virtual Select</a>. To use it, one must use the OperatorFabric style and provide javascript to initialize the component:</p>
 </div>
@@ -5206,7 +5230,7 @@ It strongly advice to NOT use directly virtual select (always use OperatorFabric
 </div>
 </div>
 <div class="sect3">
-<h4 id="_charts"><a class="anchor" href="#_charts"></a>11.2.5. Charts</h4>
+<h4 id="_charts"><a class="anchor" href="#_charts"></a>11.2.6. Charts</h4>
 <div class="paragraph">
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
@@ -5529,12 +5553,17 @@ recurrence : {
 <h2 id="_mail_notification"><a class="anchor" href="#_mail_notification"></a>13. Mail notification</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Opfab can send card notification via email. Opfab will send a mail notification whenever a new card for a user is published, the card remains unread for a configured period and the user is not connected to Opfab. Email subject will contain card title, summary, start and end dates; email body will contain a link to card detail in Opfab.</p>
+<p>Opfab can send card notification via email. Opfab will send a mail notification whenever a new card for a
+user is published, the card remains unread for a configured period and the user is not connected to
+Opfab. Email subject will contain card title, summary, start and end dates; email body will contain a link
+to card detail in Opfab.</p>
 </div>
 <div class="sect2">
 <h3 id="_mail_notification_configuration"><a class="anchor" href="#_mail_notification_configuration"></a>13.1. Mail notification configuration</h3>
 <div class="paragraph">
-<p>To receive mail notification, users need to enable the option in user settings and provide an email address where card notifications will be sent.</p>
+<p>To receive mail notification, users need to enable the option in user settings, provide an email address
+where card notifications will be sent and select the processes/states for which they want to be notified by
+email.</p>
 </div>
 </div>
 </div>
@@ -5927,8 +5956,8 @@ Then all the users having the same entity will be in this status for this card.<
 <div class="sect2">
 <h3 id="_configure_the_bundle"><a class="anchor" href="#_configure_the_bundle"></a>15.1. Configure the bundle</h3>
 <div class="paragraph">
-<p>A card is related to a process and a state, if you want users to be able to emit a card for a specific process and state,
-you need to define it in the bundle for this process.</p>
+<p>A card is related to a process and a state, if you want users to be able to emit a card for a specific process and
+state, you need to define it in the bundle for this process.</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -6010,7 +6039,10 @@ for more information)</p>
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Be aware that as we have a preview of the card, the application loads the html related to the usercard (build with the usercard template) and the html related to the card in preview (build with the card template) into the browser at the same time. This implies that you MUST NOT name the elements with the same names in both templates. This rule applies to HTML elements identifiers(id), global JavaScript variables and JavaScript function names.
+Be aware that as we have a preview of the card, the application loads the html related to the usercard (build with the
+usercard template) and the html related to the card in preview (build with the card template) into the browser at the
+same time. This implies that you MUST NOT name the elements with the same names in both templates. This rule applies
+to HTML elements identifiers(id), global JavaScript variables and JavaScript function names.
 </td>
 </tr>
 </table>
@@ -6033,7 +6065,8 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <div class="sect2">
 <h3 id="_method_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_method_registerfunctiontogetspecificcardinformation"></a>15.2. Method registerFunctionToGetSpecificCardInformation</h3>
 <div class="paragraph">
-<p>The following card fields can be set via the object <code>card</code> in the object returned by method the method register via registerFunctionToGetSpecificCardInformation:</p>
+<p>The following card fields can be set via the object <code>card</code> in the object returned by method the method register via
+registerFunctionToGetSpecificCardInformation:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -6080,9 +6113,20 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <p>entitiesRequiredToRespond</p>
 </li>
 <li>
-<p>externalRecipients (use to send cards to third party , see
+<p>externalRecipients (used to send cards to third party , see
 <a href="#define_a_third_party_tool">Define a third party tool </a>
-for more information) .</p>
+for more information).</p>
+</li>
+<li>
+<p>rRule (used to define a card with recurrence, see
+<a href="#_using_rrule_field">Using rRule field </a>
+for more information).</p>
+</li>
+<li>
+<p>wktGeometry (string)</p>
+</li>
+<li>
+<p>wktProjection (string)</p>
 </li>
 </ul>
 </div>
@@ -6252,7 +6296,13 @@ The response card will be sent only if the user is enabled to respond to the car
 <p>The card preview will display the card detail with the automated response as it will be displayed in Feed page.</p>
 </div>
 <div class="paragraph">
-<p>When editing a user card, the template can get the response sent by current user by calling the <em>opfab.currentUserCard.getUserEntityChildCard</em> function.</p>
+<p>When editing a user card, the template can get the response sent by current user by calling the
+<em>opfab.currentUserCard.getUserEntityChildCard</em> function.</p>
+</div>
+<div class="paragraph">
+<p>By default, the publisher of the childCard is the publisher of the parent card. In the template, it is possible to
+set another value for the publisher of the childCard, provided that the user is a member of the entity publisher you
+want to set.</p>
 </div>
 </div>
 <div class="sect2">
@@ -7055,7 +7105,7 @@ The method returns only one child card and is therefore not compatible with the 
 <div class="sect3">
 <h4 id="_function_setinitialselectedrecipients"><a class="anchor" href="#_function_setinitialselectedrecipients"></a>18.4.18. Function setInitialSelectedRecipients</h4>
 <div class="paragraph">
-<p>It is possible to configure the list of initially selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected.</p>
+<p>It is possible to configure the list of initially selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected. The method will work only at template loading time, cannot be used to modify the selected recipients after the template is loaded or in card edition mode.</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -7075,7 +7125,7 @@ The method returns only one child card and is therefore not compatible with the 
 <div class="sect3">
 <h4 id="_function_setinitialselectedrecipientsforinformation"><a class="anchor" href="#_function_setinitialselectedrecipientsforinformation"></a>18.4.19. Function setInitialSelectedRecipientsForInformation</h4>
 <div class="paragraph">
-<p>It is possible to configure the list of initially selected recipients for information via javascript in the user template by calling the setInitialSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be preselected.</p>
+<p>It is possible to configure the list of initially selected recipients for information via javascript in the user template by calling the setInitialSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be preselected. The method will work only at template loading time, cannot be used to modify the selected recipients after the template is loaded or in card edition mode.</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -7093,7 +7143,47 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialseverity"><a class="anchor" href="#_function_setinitialseverity"></a>18.4.20. Function setInitialSeverity</h4>
+<h4 id="_function_setselectedrecipients"><a class="anchor" href="#_function_setselectedrecipients"></a>18.4.20. Function setSelectedRecipients</h4>
+<div class="paragraph">
+<p>It is possible to configure the list of selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected. This method can be called at any time and also in edition mode.</p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    opfab.currentUserCard.setSelectedRecipients([
+            "ENTITY_FR",
+            "IT_SUPERVISOR_ENTITY"
+        ]);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example the dropdown list of available recipients will have "ENTITY_FR" and "IT_SUPERVISOR_ENTITY" preselected. The user can anyway change the selected recipients.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_setselectedrecipientsforinformation"><a class="anchor" href="#_function_setselectedrecipientsforinformation"></a>18.4.21. Function setSelectedRecipientsForInformation</h4>
+<div class="paragraph">
+<p>It is possible to configure the list of selected recipients for information via javascript in the user template by calling the setSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be selected.  This method can be called at any time and also in edition mode.</p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    opfab.currentUserCard.setSelectedRecipientsForInformation([
+            "ENTITY_FR",
+            "IT_SUPERVISOR_ENTITY"
+        ]);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example the dropdown list of available recipients will have "ENTITY_FR" and "IT_SUPERVISOR_ENTITY" preselected. The user can anyway change the selected recipients for information.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_setinitialseverity"><a class="anchor" href="#_function_setinitialseverity"></a>18.4.22. Function setInitialSeverity</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for card severity choice by calling the function <em>setInitialSeverity(severity)</em></p>
 </div>
@@ -7123,7 +7213,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialstartdate"><a class="anchor" href="#_function_setinitialstartdate"></a>18.4.21. Function setInitialStartDate</h4>
+<h4 id="_function_setinitialstartdate"><a class="anchor" href="#_function_setinitialstartdate"></a>18.4.23. Function setInitialStartDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial values for <code>startDate</code> by calling  <em>opfab.currentUserCard.setInitialStartDate(startDate)</em> . The startDate is a number representing an epoch date value.</p>
 </div>
