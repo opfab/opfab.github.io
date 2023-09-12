@@ -886,6 +886,12 @@ window.swaggerSpec={
         "screenName" : {
           "type" : "string"
         },
+        "onlyDisplayUsersInGroups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "screenColumns" : {
           "type" : "array",
           "items" : {
