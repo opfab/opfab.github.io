@@ -9,14 +9,14 @@ the project’s Technical Charter.
 
 The current voting members for the Technical Steering Committee are:
 
+* [Clement Bouvier](https://github.com/ClementBouvierN)
 * [Frédéric Didier](https://github.com/freddidierRTE)
-* [Boris Dolley](https://github.com/0x62646f727465)
-* [Alexandra Guironnet](https://github.com/AlexGuironnetRTE)
+* Frédéric Kruzyna
 * [Valérie Longa](https://github.com/vlo-rte)
 * Floris van der Meulen
 * [Guillaume Trimbach](https://github.com/gtrimbach-RTE)
 
-Boris Dolley will chair the TSC, with Alexandra Guironnet as his deputy.
+Frédéric Didier holds the position of TSC Chairman.
 
 ## Joining the TSC
 
