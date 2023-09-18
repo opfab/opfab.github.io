@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">18 September 2023</span>
+<span id="revdate">19 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1524,6 +1524,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configuration_6">80.8. Configuration</a></li>
 <li><a href="#_normalization_of_some_configuration_parameters">80.9. Normalization of some configuration parameters</a></li>
 <li><a href="#_mongodb_uri">80.10. Mongodb uri</a></li>
+<li><a href="#_secondstoclosesession">80.11. secondsToCloseSession</a></li>
 </ul>
 </li>
 </ul>
@@ -5608,14 +5609,16 @@ possible to configure whether the user token shall be propagated to the third pa
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>external-recipients:
-  recipients:
-    - id: "third-party1"
-      url: "http://thirdparty1/test1"
-      propagateUserToken: true
-    - id: "third-party2"
-      url: "http://thirdparty2:8090/test2"
-      propagateUserToken: false</pre>
+<pre>operatorfabric:
+  cards-publication:
+    external-recipients:
+      recipients:
+        - id: "third-party1"
+          url: "http://thirdparty1/test1"
+          propagateUserToken: true
+        - id: "third-party2"
+          url: "http://thirdparty2:8090/test2"
+          propagateUserToken: false</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8938,14 +8941,16 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
-  <span class="key">recipients</span>:
-    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">true</span></span>
-    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">external-recipients</span>:
+      <span class="key">recipients</span>:
+        - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">true</span></span>
+        - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9221,46 +9226,28 @@ Node services can be configured with the following properties:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.getTokenUrl</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Opfab URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.connectedUsersUrl</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service URL to get the list of users currently connected to Opfab</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.cardsUrl</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.usersUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.users</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Users service URL</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.cardReminderUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsPublication</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Opfab card resetReadAndAcks endpoint URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service URL</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.entitiesUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsConsultation</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Entities endpoint URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.getTokenUrl</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service URL</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.host</p></td>
@@ -10038,7 +10025,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">600</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration</p></td>
 </tr>
@@ -14305,14 +14292,16 @@ section from the cards-publication.yml file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
-  <span class="key">recipents</span>:
-    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span>
-    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">external-recipients</span>:
+      <span class="key">recipents</span>:
+        - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span>
+        - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -19635,6 +19624,9 @@ concerned parameters (old name &#8594; new name):</p>
 <p>checkPerimeterForCardSending &#8594; operatorfabric.cards-publication.checkPerimeterForCardSending</p>
 </li>
 <li>
+<p>external-recipients.* &#8594; operatorfabric.cards-publication.external-recipients.*</p>
+</li>
+<li>
 <p>opfab.kafka.topics.card.topicname &#8594; operatorfabric.cards-publication.kafka.topics.card.topicname</p>
 </li>
 <li>
@@ -19681,6 +19673,12 @@ For example you should change :</p>
 <pre class="CodeRay highlight"><code> mongodb:
     uri: mongodb://root:password@mongodb:27017/operator-fabric?authSource=admin</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_secondstoclosesession"><a class="anchor" href="#_secondstoclosesession"></a>80.11. secondsToCloseSession</h3>
+<div class="paragraph">
+<p>The default value for "secondsToCloseSession" has been updated to 600 seconds, as opposed to the previous 60 seconds. This "secondsToCloseSession" define in web-ui.json reflects the duration before the end of token validity when the end-of-session popup will be displayed.</p>
 </div>
 </div>
 </div>

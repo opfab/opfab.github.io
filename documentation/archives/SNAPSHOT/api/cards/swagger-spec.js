@@ -689,6 +689,13 @@ window.swaggerSpec={
             "type" : "string"
           }
         },
+        "usersReads" : {
+          "type" : "array",
+          "description" : "List of users who read the read",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "hasBeenRead" : {
           "type" : "boolean",
           "description" : "Is true if the card was read by current user"
