@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 September 2023</span>
+<span id="revdate">21 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -741,7 +741,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_user_card_template_2">16.2.2. User card template</a></li>
 </ul>
 </li>
-<li><a href="#build-in_templates_common_usercard_attributes">16.3. Common attributes for user cards build-in templates</a></li>
+<li><a href="#_message_or_question_list">16.3. Message Or Question List</a>
+<ul class="sectlevel3">
+<li><a href="#_card_template_3">16.3.1. Card template</a></li>
+<li><a href="#_user_card_template_3">16.3.2. User card template</a></li>
+</ul>
+</li>
+<li><a href="#build-in_templates_common_usercard_attributes">16.4. Common attributes for user cards build-in templates</a></li>
 </ul>
 </li>
 <li><a href="#business_data">17. Business Data</a>
@@ -6392,7 +6398,72 @@ the sender himself), whatever the user chooses in the recipient list.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="build-in_templates_common_usercard_attributes"><a class="anchor" href="#build-in_templates_common_usercard_attributes"></a>16.3. Common attributes for user cards build-in templates</h3>
+<h3 id="_message_or_question_list"><a class="anchor" href="#_message_or_question_list"></a>16.3. Message Or Question List</h3>
+<div class="sect3">
+<h4 id="_card_template_3"><a class="anchor" href="#_card_template_3"></a>16.3.1. Card template</h4>
+<div class="paragraph">
+<p>If you want to show a message or a question and the answers, you can use the message or question list build-in template, to do that just put in your handlebar file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-message-or-question-list-card&gt; &lt;/opfab-message-or-question-list-card&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build-in template supposes the message or question is stored in the card in the field <code>data.message</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_card_template_3"><a class="anchor" href="#_user_card_template_3"></a>16.3.2. User card template</h4>
+<div class="paragraph">
+<p>If you want to create a user card where you can select a list of messages or questions linked to a json file, just add in your handlebar file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-message-or-question-list-usercard businessData=&quot;businessDataFileName&quot;&gt; &lt;/opfab-message-or-question-list-usercard&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The message will be stored in the field <code>data.message</code> of the card
+You need to set the json file name with the <code>businessData</code> attribute
+If you want to use the template as is, the json file must follow this structure :</p>
+</div>
+<div class="paragraph">
+<p>`{   "possibleRecipients": [
+    {"id": "ENTITY1_FR"},
+    {"id": "ENTITY2_FR"}
+    ],</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"messagesList": [{
+    "id": "Warning",
+    "title": "Warning about the state of the grid",
+    "message": "A problem has been detected, please put maintenance work on hold and be on stand by",
+    "question": false,
+    "recipients" : [
+        "ENTITY1_FR",
+        "ENTITY2_FR"
+    ]
+},
+{
+    "id": "Confirmation",
+    "title": "Confirmation the issues have been fixed",
+    "message": "Please confirm the issues in your area have been fixed",
+    "question": true,
+    "recipients" : [
+        "ENTITY1_FR"
+    ]
+}]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>}`</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="build-in_templates_common_usercard_attributes"><a class="anchor" href="#build-in_templates_common_usercard_attributes"></a>16.4. Common attributes for user cards build-in templates</h3>
 <div class="paragraph">
 <p>For each user card templates, you can set :</p>
 </div>
@@ -6861,6 +6932,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </li>
 <li>
 <p>'EDITION'</p>
+</li>
+<li>
+<p>'COPY'</p>
 </li>
 </ul>
 </div>
@@ -9226,7 +9300,7 @@ Node services can be configured with the following properties:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.getTokenUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.authToken</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
