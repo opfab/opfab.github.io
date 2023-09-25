@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">25 September 2023</span>
+<span id="revdate">26 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -915,17 +915,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_shared_service_configuration">28.1.1. Shared service configuration</a>
 <ul class="sectlevel4">
 <li><a href="#_mongo_configuration">28.1.1.1. Mongo configuration</a></li>
-<li><a href="#_optional_configuration_values">28.1.1.2. Optional configuration values</a></li>
 </ul>
 </li>
-<li><a href="#_service_specific_configurations">28.1.2. Service specific configurations</a>
+<li><a href="#_rabbitmq">28.1.2. RabbitMQ</a>
 <ul class="sectlevel4">
-<li><a href="#_businessconfig_service">28.1.2.1. Businessconfig service</a></li>
-<li><a href="#_users_service">28.1.2.2. Users service</a></li>
-<li><a href="#cards-pub-conf">28.1.2.3. Cards-publication service</a></li>
-<li><a href="#_cards_consultation_service">28.1.2.4. Cards-consultation service</a></li>
-<li><a href="#external-devices-conf">28.1.2.5. External devices service</a></li>
-<li><a href="#_node_services_configuration">28.1.2.6. Node services configuration</a></li>
+<li><a href="#_internal_account">28.1.2.1. Internal account</a></li>
+<li><a href="#_optional_configuration_values">28.1.2.2. Optional configuration values</a></li>
+</ul>
+</li>
+<li><a href="#_service_specific_configurations">28.1.3. Service specific configurations</a>
+<ul class="sectlevel4">
+<li><a href="#_businessconfig_service">28.1.3.1. Businessconfig service</a></li>
+<li><a href="#_users_service">28.1.3.2. Users service</a></li>
+<li><a href="#cards-pub-conf">28.1.3.3. Cards-publication service</a></li>
+<li><a href="#_cards_consultation_service">28.1.3.4. Cards-consultation service</a></li>
+<li><a href="#external-devices-conf">28.1.3.5. External devices service</a></li>
+<li><a href="#cards-external-diffusion-conf">28.1.3.6. Cards external diffusion service</a></li>
+<li><a href="#cards-reminder-conf">28.1.3.7. Cards reminder service</a></li>
+<li><a href="#supervisor-conf">28.1.3.8. Supervisor service</a></li>
 </ul>
 </li>
 </ul>
@@ -1525,12 +1532,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_opfabapi">80.3. OpfabAPI</a></li>
 <li><a href="#_write_right_for_user_rightsenum_write">80.4. Write right for user (RightsEnum.Write)</a></li>
 <li><a href="#_cards_reminder">80.5. Cards reminder</a></li>
-<li><a href="#_port_mapping">80.6. Port mapping</a></li>
-<li><a href="#_rabbitmq">80.7. RabbitMQ</a></li>
-<li><a href="#_configuration_6">80.8. Configuration</a></li>
-<li><a href="#_normalization_of_some_configuration_parameters">80.9. Normalization of some configuration parameters</a></li>
-<li><a href="#_mongodb_uri">80.10. Mongodb uri</a></li>
-<li><a href="#_secondstoclosesession">80.11. secondsToCloseSession</a></li>
+<li><a href="#_internal_technical_account">80.6. Internal technical account</a></li>
+<li><a href="#_port_mapping">80.7. Port mapping</a></li>
+<li><a href="#_rabbitmq_2">80.8. RabbitMQ</a></li>
+<li><a href="#_configuration_6">80.9. Configuration</a></li>
+<li><a href="#_normalization_of_some_configuration_parameters">80.10. Normalization of some configuration parameters</a></li>
+<li><a href="#_mongodb_uri">80.11. Mongodb uri</a></li>
+<li><a href="#_secondstoclosesession">80.12. secondsToCloseSession</a></li>
 </ul>
 </li>
 </ul>
@@ -8772,8 +8780,93 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>This configuration is mandatory (no default configuration is provided).</p>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>28.1.2. RabbitMQ</h4>
+<div class="paragraph">
+<p>A rabbitMQ component (docker image) is provided in opfab, it has a default configuration.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SECURITY WARNING : The default user/password should be changed if a rabbit port is exposed outside of docker network. To do that, set the environment variables "RABBITMQ_DEFAULT_USER" and "RABBITMQ_DEFAULT_PASS" when starting the image and adjust the following parameters in the common yml config file.</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ host address</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5672</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">guest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ username</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">guest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ password</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect4">
-<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>28.1.1.2. Optional configuration values</h5>
+<h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>28.1.2.1. Internal account</h5>
+<div class="paragraph">
+<p>The back service cards-reminder ,cards-diffusion and supervision need an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.internalAccount.login</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user account used to call Opfab services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.internalAccount.password</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user password to call Opfab services</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>28.1.2.2. Optional configuration values</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -8782,33 +8875,48 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.users</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users:2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://users:2103" class="bare">users:2103</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Indicates where the Users service can be reached from the other services.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.businessconfig</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig:2100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://businessconfig:2100" class="bare">businessconfig:2100</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Indicates where the Business service can be reached from the other services.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.userActionLogActivated</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsPublication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cards-publication:2102" class="bare">cards-publication:2102</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the user action log feature is enabled or not.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsConsultation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cards-consultation:2104" class="bare">cards-consultation:2104</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.authToken</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://web-ui/auth/token" class="bare">web-ui/auth/token</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.userActionLogActivated</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>28.1.2. Service specific configurations</h4>
+<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>28.1.3. Service specific configurations</h4>
 <div class="paragraph">
 <p>Each service can have a specific yaml configuration file that can override the default configuration</p>
 </div>
@@ -8816,7 +8924,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>Examples of configuration of each service can be found under config/docker or config/dev .</p>
 </div>
 <div class="sect4">
-<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>28.1.2.1. Businessconfig service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>28.1.3.1. Businessconfig service</h5>
 <div class="paragraph">
 <p>The businessconfig service has this specific property :</p>
 </div>
@@ -8828,8 +8936,8 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -8843,7 +8951,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </table>
 </div>
 <div class="sect4">
-<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>28.1.2.2. Users service</h5>
+<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>28.1.3.2. Users service</h5>
 <div class="paragraph">
 <p>The user service has these specific properties :</p>
 </div>
@@ -8855,8 +8963,8 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -8890,7 +8998,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </table>
 </div>
 <div class="sect4">
-<h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>28.1.2.3. Cards-publication service</h5>
+<h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>28.1.3.3. Cards-publication service</h5>
 <div class="paragraph">
 <p>The cards publication service has these specific properties :</p>
 </div>
@@ -8902,8 +9010,8 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -9205,7 +9313,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>28.1.2.4. Cards-consultation service</h5>
+<h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>28.1.3.4. Cards-consultation service</h5>
 <div class="paragraph">
 <p>The cards-consultation service has these specific properties :</p>
 </div>
@@ -9217,8 +9325,8 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -9242,7 +9350,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>28.1.2.5. External devices service</h5>
+<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>28.1.3.5. External devices service</h5>
 <div class="paragraph">
 <p>The external devices service can be configured with the following properties:</p>
 </div>
@@ -9254,8 +9362,8 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -9279,11 +9387,9 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="_node_services_configuration"><a class="anchor" href="#_node_services_configuration"></a>28.1.2.6. Node services configuration</h5>
+<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>28.1.3.6. Cards external diffusion service</h5>
 <div class="paragraph">
-<p>The configuration of node services (cards-external-diffusion and cards-reminder) is located in config/docker folder.
-The 'node-services.yml' configuration file contains parameters common to all the node services and a dedicated section for each service.
-Node services can be configured with the following properties:</p>
+<p>The card external diffusion service can be configured with the following properties:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -9294,87 +9400,27 @@ Node services can be configured with the following properties:</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">mandatory?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.internalAccount.login</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">user account used to call Opfab services</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.internalAccount.password</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">user password to call Opfab services</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.authToken</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.users</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Users service URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsPublication</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsConsultation</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.host</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ host address</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.port</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ listen port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.username</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ username</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.password</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ password</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFolder</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder (inside docker container)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFile</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"opfab.%DATE%.log"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Log file name</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logLevel</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
 </tr>
 <tr>
@@ -9402,27 +9448,15 @@ Node services can be configured with the following properties:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail server authentication password</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mongodb.database</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB database name</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mongodb.uri</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB connection URI</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.adminPort</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Listen port</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.activeOnStartup</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the notification service on startup</p></td>
 </tr>
 <tr>
@@ -9433,129 +9467,269 @@ Node services can be configured with the following properties:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Opfab card received'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail subject prefix</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.bodyPrefix</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'You received a card in opfab : '</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail body prefix</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.opfabUrlInMailContent</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Url to write in mail to access the opfab server (example : <a href="https://opfab_url/" class="bare">opfab_url/</a>)</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.windowInSecondsForCardSearch</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">360</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Max time interval used to query new cards (in seconds)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.secondsAfterPublicationToConsiderCardAsNotRead</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time period after card publication before sending mail notification</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.checkPeriodInSeconds</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time interval between consecutive checks</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.adminPort</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service Listen port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.activeOnStartup</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the cards reminder service on startup</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.checkPeriodInSeconds</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards remonder time interval between consecutive checks</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.adminPort</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service Listen port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.activeOnStartup</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the cards reminder service on startup</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.entitiesToSupervise</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of entity id and related supervisor list ({ "id": "ENTITY1", "supervisors": ["ENTITY2"] })</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card template used to send connections alerts</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsBetweenConnectionChecks</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Connection check period</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.nbOfConsecutiveNotConnectedToSendFirstCard</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of consecutive failed checks before sending first alert card</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.nbOfConsecutiveNotConnectedToSendSecondCard</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of consecutive failed checks before sending second alert card</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.processesToSupervise</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of processes and related states to monitor for missing acknowledgment ({ "process": "defaultProcess", "states": ["processState"] })</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card template used to send acknowledgment alerts</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.windowInSecondsForCardSearch</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Time period used to search for not acknowledged cards</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsBetweenAcknowledgmentChecks</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card acknowledgment check period</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsAfterPublicationToConsiderCardAsNotAcknowledged</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Time period to wait after card publishing to consider a card as not acknowledged and send the alert</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
 <p>The parameters in "operatorfabric.cardsExternalDiffusion.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of cards external diffusion service with a JSON payload containing the config parameters to be changed.</p>
 </div>
+</div>
+<div class="sect4">
+<h5 id="cards-reminder-conf"><a class="anchor" href="#cards-reminder-conf"></a>28.1.3.7. Cards reminder service</h5>
+<div class="paragraph">
+<p>The card reminder service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFolder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder (inside docker container)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFile</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"opfab.%DATE%.log"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.adminPort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2107</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service Listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the cards reminder service on startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.checkPeriodInSeconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder time interval between consecutive checks</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="supervisor-conf"><a class="anchor" href="#supervisor-conf"></a>28.1.3.8. Supervisor service</h5>
+<div class="paragraph">
+<p>The supervisor service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFolder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder (inside docker container)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFile</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"opfab.%DATE%.log"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.adminPort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service Listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the cards reminder service on startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.considerConnectedIfUserInGroups</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set the user must be in one of the mention groups to consider his entities as connected, example :  ["Dispatcher","Planner"]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.entitiesToSupervise</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of entity id and related supervisor list ({ "id": "ENTITY1", "supervisors": ["ENTITY2"] })</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.publisher</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publisher for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.processVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process version for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.state</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">disconnectedEntity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.severity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Severity for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsBetweenConnectionChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection check period</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.nbOfConsecutiveNotConnectedToSendFirstCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of consecutive failed checks before sending first alert card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.nbOfConsecutiveNotConnectedToSendSecondCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of consecutive failed checks before sending second alert card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.processesToSupervise</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of processes and related states to monitor for missing acknowledgment ({ "process": "defaultProcess", "states": ["processState"] })</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.publisher</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publisher for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.processVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process version for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.state</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">unacknowledgedCards</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.severity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Severity for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.windowInSecondsForCardSearch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time period used to search for not acknowledged cards</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsBetweenAcknowledgmentChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Card acknowledgment check period</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsAfterPublicationToConsiderCardAsNotAcknowledged</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time period to wait after card publishing to consider a card as not acknowledged and send the alert</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The parameters in "operatorfabric.supervisor.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of supervisor service with a JSON payload containing the config parameters to be changed.</p>
 </div>
@@ -19525,7 +19699,21 @@ You must adapt the configuration to your environment by using the configuration 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_port_mapping"><a class="anchor" href="#_port_mapping"></a>80.6. Port mapping</h3>
+<h3 id="_internal_technical_account"><a class="anchor" href="#_internal_technical_account"></a>80.6. Internal technical account</h3>
+<div class="paragraph">
+<p>The new back service for reminder and the new service regarding mail diffusion and supervision introduce the need of an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it within your shared YAML configuration file, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric:
+  internalAccount:
+    login: opfab
+    password: the_password</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_port_mapping"><a class="anchor" href="#_port_mapping"></a>80.7. Port mapping</h3>
 <div class="paragraph">
 <p>In release 4.0, the listening port is not any more 8080 for services in docker, it is now identical to the default port mapping outside the docker.</p>
 </div>
@@ -19568,7 +19756,7 @@ You must adapt the configuration to your environment by using the configuration 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>80.7. RabbitMQ</h3>
+<h3 id="_rabbitmq_2"><a class="anchor" href="#_rabbitmq_2"></a>80.8. RabbitMQ</h3>
 <div class="paragraph">
 <p>In previous versions, it was necessary to start a RabbitMQ container referencing "rabbitmq:3-management." We now highly recommend that you update your configuration to utilize "lfeoperatorfabric/of-rabbitmq:4.0.0" instead. This adjustment ensures that you have a qualified version that is fully compatible with OpFab.</p>
 </div>
@@ -19600,7 +19788,7 @@ Error during startup: {error,failed_to_initialize_feature_flags_registry}
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>80.8. Configuration</h3>
+<h3 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>80.9. Configuration</h3>
 <div class="paragraph">
 <p>The configuration has been simplified, you have now default parameters you do not need to set anymore in the back configuration:</p>
 </div>
@@ -19687,7 +19875,7 @@ Error during startup: {error,failed_to_initialize_feature_flags_registry}
 </div>
 </div>
 <div class="sect2">
-<h3 id="_normalization_of_some_configuration_parameters"><a class="anchor" href="#_normalization_of_some_configuration_parameters"></a>80.9. Normalization of some configuration parameters</h3>
+<h3 id="_normalization_of_some_configuration_parameters"><a class="anchor" href="#_normalization_of_some_configuration_parameters"></a>80.10. Normalization of some configuration parameters</h3>
 <div class="paragraph">
 <p>Some configuration parameters have been renamed, so you have to check your config files and adapt them. Here are the
 concerned parameters (old name &#8594; new name):</p>
@@ -19737,7 +19925,7 @@ concerned parameters (old name &#8594; new name):</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mongodb_uri"><a class="anchor" href="#_mongodb_uri"></a>80.10. Mongodb uri</h3>
+<h3 id="_mongodb_uri"><a class="anchor" href="#_mongodb_uri"></a>80.11. Mongodb uri</h3>
 <div class="paragraph">
 <p>The option "authMode=scram-sha1" has to be removed from mongodb uri as SCRAM authentication is enabled by default and "authMode" option is not supported by node.js mongodb driver.
 For example you should change :</p>
@@ -19759,7 +19947,7 @@ For example you should change :</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_secondstoclosesession"><a class="anchor" href="#_secondstoclosesession"></a>80.11. secondsToCloseSession</h3>
+<h3 id="_secondstoclosesession"><a class="anchor" href="#_secondstoclosesession"></a>80.12. secondsToCloseSession</h3>
 <div class="paragraph">
 <p>The default value for "secondsToCloseSession" has been updated to 600 seconds, as opposed to the previous 60 seconds. This "secondsToCloseSession" define in web-ui.json reflects the duration before the end of token validity when the end-of-session popup will be displayed.</p>
 </div>
