@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">27 September 2023</span>
+<span id="revdate">28 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1538,7 +1538,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configuration_6">80.9. Configuration</a></li>
 <li><a href="#_normalization_of_some_configuration_parameters">80.10. Normalization of some configuration parameters</a></li>
 <li><a href="#_mongodb_uri">80.11. Mongodb uri</a></li>
-<li><a href="#_secondstoclosesession">80.12. secondsToCloseSession</a></li>
+<li><a href="#_rate_limiter_for_card_sendings_2">80.12. Rate limiter for card sendings</a></li>
 </ul>
 </li>
 </ul>
@@ -10276,9 +10276,9 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration. If you use IMPLICIT authentication mode, exercise caution when modifying the value to prevent logouts before token silent refresh.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">selectActivityAreaOnLogin</p></td>
@@ -19952,9 +19952,18 @@ For example you should change :</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_secondstoclosesession"><a class="anchor" href="#_secondstoclosesession"></a>80.12. secondsToCloseSession</h3>
+<h3 id="_rate_limiter_for_card_sendings_2"><a class="anchor" href="#_rate_limiter_for_card_sendings_2"></a>80.12. Rate limiter for card sendings</h3>
 <div class="paragraph">
-<p>The default value for "secondsToCloseSession" has been updated to 600 seconds, as opposed to the previous 60 seconds. This "secondsToCloseSession" define in web-ui.json reflects the duration before the end of token validity when the end-of-session popup will be displayed.</p>
+<p>External publishers are now monitored by a new module which limits how many cards they can send
+<a href="#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
+ in a period of time
+<a href="#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
+.
+This is to avoid potential overloading due to external apps stuck in a card sending loop.</p>
+</div>
+<div class="paragraph">
+<p>Default value is set to 1000 cards per hour. It can be disabled / enabled with
+<a href="#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
 </div>
 </div>
 </div>
