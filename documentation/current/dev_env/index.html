@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 3.15.2.RELEASE,</span>
-<span id="revdate">14 September 2023</span>
+<span id="revnumber">version 4.0.0.RELEASE,</span>
+<span id="revdate">28 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -459,18 +459,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_npm">2.3.3. Npm</a></li>
 </ul>
 </li>
-<li><a href="#_deploy_needed_docker_containers">2.4. Deploy needed docker containers</a>
+<li><a href="#_deploy_needed_docker_containers">2.4. Deploy needed docker containers</a></li>
+<li><a href="#_build_operatorfabric_with_gradle">2.5. Build OperatorFabric with Gradle</a>
 <ul class="sectlevel3">
-<li><a href="#_a_minimal_configuration_for_gradle_build">2.4.1. A Minimal Configuration for <code>gradle</code> Build</a></li>
-<li><a href="#_enabling_local_quality_report_generation">2.4.2. Enabling local quality report generation</a></li>
-<li><a href="#_docker_dev_env">2.4.3. Development environment</a></li>
+<li><a href="#_only_compile_and_package_the_jars">2.5.1. Only compile and package the jars</a></li>
+<li><a href="#_only_launch_the_unit_test_compile_and_package_the_jars">2.5.2. Only launch the Unit Test, compile and package the jars</a></li>
 </ul>
 </li>
-<li><a href="#_build_operatorfabric_with_gradle">2.5. Build OperatorFabric with Gradle</a></li>
 <li><a href="#_run_operatorfabric_services_using_the_run_all_sh_script">2.6. Run OperatorFabric Services using the <code>run_all.sh</code> script</a></li>
-<li><a href="#_check_services_status">2.7. Check services status</a></li>
-<li><a href="#_log_into_the_ui">2.8. Log into the UI</a></li>
-<li><a href="#_push_cards_to_the_feed">2.9. Push cards to the feed</a></li>
+<li><a href="#_log_into_the_ui">2.7. Log into the UI</a></li>
+<li><a href="#_push_cards_to_the_feed">2.8. Push cards to the feed</a></li>
+<li><a href="#_enabling_local_quality_report_generation">2.9. Enabling local quality report generation</a></li>
 </ul>
 </li>
 <li><a href="#_user_interface">3. User Interface</a>
@@ -608,7 +607,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_kafka_implementation">11. Kafka Implementation</a>
 <ul class="sectlevel2">
-<li><a href="#_setup_kafka_enviroment">11.1. Setup Kafka enviroment</a></li>
+<li><a href="#_setup_kafka_environment">11.1. Setup Kafka environment</a></li>
 <li><a href="#_enabling_kafka">11.2. Enabling Kafka</a></li>
 <li><a href="#_operatorfabric_kafka_source_code">11.3. OperatorFabric Kafka source code</a></li>
 <li><a href="#_listener_deserializer">11.4. Listener / deserializer</a>
@@ -624,6 +623,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_kafka_card_producer">11.6. Kafka card producer</a></li>
 <li><a href="#_response_cards">11.7. Response Cards</a></li>
+</ul>
+</li>
+<li><a href="#_mailhog_smtp_server">12. MailHog SMTP server</a>
+<ul class="sectlevel2">
+<li><a href="#_mailhog_docker_container">12.1. MailHog docker container</a></li>
 </ul>
 </li>
 </ul>
@@ -787,65 +791,16 @@ systemProp.https.proxyPassword=PASSWORD</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_deploy_needed_docker_containers"><a class="anchor" href="#_deploy_needed_docker_containers"></a>2.4. Deploy needed docker containers</h3>
-<div class="sect3">
-<h4 id="_a_minimal_configuration_for_gradle_build"><a class="anchor" href="#_a_minimal_configuration_for_gradle_build"></a>2.4.1. A Minimal Configuration for <code>gradle</code> Build</h4>
 <div class="paragraph">
-<p>The gradle build of <code>OperatorFabric</code> requires (for the unit tests) one docker container running MongoDB.</p>
+<p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.</p>
 </div>
 <div class="paragraph">
-<p>Launch it using the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>2.4.2. Enabling local quality report generation</h4>
-<div class="paragraph">
-<p>This step is optional (only needed if you want a Sonarqube report locally)</p>
-</div>
-<div class="paragraph">
-<p>Sonarqube reporting, in addition to the previous docker container, needs a <code>SonarQube</code> docker container.
-Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
-</div>
-<div class="paragraph">
-<p>To generate the quality report, run the following commands:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-./gradlew jacocoTestReport</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_docker_dev_env"><a class="anchor" href="#_docker_dev_env"></a>2.4.3. Development environment</h4>
-<div class="paragraph">
-<p><code>OperatorFabric</code> development needs docker images of <code>MongoDB</code>, <code>RabbitMQ</code>, <code>web-ui</code> and <code>Keycloak</code> running.
-The <code>web-ui</code> configuration needs a <code>nginx.conf</code>.</p>
-</div>
-<div class="paragraph">
-<p>The <code>${OF_HOME}/config/dev/docker-compose.sh</code> creates the <code>nginx.conf</code> file and then runs <code>docker-compose</code> in detached mode.
-For this, use:</p>
+<p>For this, use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
 ./docker-compose.sh</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Once the <code>nginx.conf</code> created, run <code>docker-compose</code> independently is possible using:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}/config/dev
-docker-compose up -d</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The configuration of the <code>web-ui</code> embeds a grayscale favicon which can be useful to spot the <code>OperatorFabric</code> dev tab in the browser.
-To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 </div>
 </div>
 </div>
@@ -855,22 +810,33 @@ To refresh the favicon, hit <code>CTRL+F5</code> on the page.</p>
 <p>Using the wrapper in order to ensure building the project the same way from one machine to another.</p>
 </div>
 <div class="paragraph">
-<p>To only compile and package the jars:</p>
+<p>To fully build opfab :</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew dockerTagSnapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Optionally, it is possible to</p>
+</div>
+<div class="sect3">
+<h4 id="_only_compile_and_package_the_jars"><a class="anchor" href="#_only_compile_and_package_the_jars"></a>2.5.1. Only compile and package the jars</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
 ./gradlew assemble</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>To launch the Unit Test, compile and package the jars:</p>
 </div>
+<div class="sect3">
+<h4 id="_only_launch_the_unit_test_compile_and_package_the_jars"><a class="anchor" href="#_only_launch_the_unit_test_compile_and_package_the_jars"></a>2.5.2. Only launch the Unit Test, compile and package the jars</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml up -d
 ./gradlew build</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -879,8 +845,7 @@ docker-compose -f ${OF_HOME}/src/main/docker/test-environment/docker-compose.yml
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-docker-compose -f ${OF_HOME}/config/dev/docker-compose.yml up -d
-bin/run_all.sh start</code></pre>
+bin/run_all.sh -w start</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -897,51 +862,18 @@ See <code>bin/run_all.sh -h</code> for details.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_check_services_status"><a class="anchor" href="#_check_services_status"></a>2.7. Check services status</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-bin/run_all.sh status</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.8. Log into the UI</h3>
+<h3 id="_log_into_the_ui"><a class="anchor" href="#_log_into_the_ui"></a>2.7. Log into the UI</h3>
 <div class="paragraph">
-<p><strong><em>URL:</em></strong> localhost:2002/<br>
+<p><strong><em>URL:</em></strong> localhost:2002<br>
 <strong><em>login:</em></strong> operator1_fr<br>
 <strong><em>password:</em></strong> test</p>
 </div>
 <div class="paragraph">
-<p>Other users available in development mode are <code>operator3_fr</code> and <code>admin</code>, both with <code>test</code> as password.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-It might take a little while for the UI to load even after all services are running.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get an error, a <code>404</code> page.
-</td>
-</tr>
-</table>
+<p>Other users available in development mode are <code>operator2_fr</code>, <code>operator3_fr</code>, <code>operator4_fr</code> and <code>admin</code>, with <code>test</code> as password.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>2.9. Push cards to the feed</h3>
+<h3 id="_push_cards_to_the_feed"><a class="anchor" href="#_push_cards_to_the_feed"></a>2.8. Push cards to the feed</h3>
 <div class="paragraph">
 <p>You can check that you see cards into the feed by running the following scripts.</p>
 </div>
@@ -950,6 +882,28 @@ Don&#8217;t forget the <strong>final slash</strong> in the URL or you will get a
 <pre class="CodeRay highlight"><code data-lang="shell">./src/test/resources/loadTestConf.sh
 ./src/test/resources/send6TestCards.sh</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>2.9. Enabling local quality report generation</h3>
+<div class="paragraph">
+<p>This step is optional and is generally not needed (only needed if you want a Sonarqube report locally)</p>
+</div>
+<div class="paragraph">
+<p>Sonarqube reporting needs a <code>SonarQube</code> docker container.
+Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
+</div>
+<div class="paragraph">
+<p>To generate the quality report, run the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
+./gradlew jacocoTestReport</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
 </div>
 </div>
 </div>
@@ -1793,7 +1747,7 @@ instance in docker mode, just substitute <code>dev</code> for <code>docker</code
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd config/docker
 docker-compose down <i class="conum" data-value="1"></i><b>(1)</b>
-./docker-compose-cypress.sh <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+./startOpfabForCypress.sh <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1861,7 +1815,7 @@ before each test or series of test.</p>
 <p>The docker container relies on the <code>XXX.json</code> files under <code>config/cypress/ui-config</code>.</p>
 </div>
 <div class="paragraph">
-<p>For convenience, the <code>generateUIConfigForCypress.sh</code> is launched as part of the <code>docker-compose-cypress.sh</code> scripts.</p>
+<p>For convenience, the <code>generateUIConfigForCypress.sh</code> is launched as part of the <code>startOpfabForCypress.sh</code> scripts.</p>
 </div>
 </div>
 </div>
@@ -1947,7 +1901,7 @@ associated collections through the MongoDB shell with the following commands:</p
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">docker exec -it docker_mongodb_1 bash
-mongo &quot;mongodb://root:password@localhost:27017/?authSource=admin&amp;authMode=scram-sha1&quot;
+mongo &quot;mongodb://root:password@localhost:27017/?authSource=admin&quot;
 use operator-fabric
 db.cards.remove({})
 db.archivedCards.remove({})</code></pre>
@@ -2105,7 +2059,7 @@ Boot configuration</a> for more info.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>server.port (defaults to 8080) : embedded server port</p>
+<p>server.port : embedded server port</p>
 </li>
 </ul>
 </div>
@@ -3054,7 +3008,7 @@ Here is a way to do so.</p>
 In the default configuration Kafka is disabled.</p>
 </div>
 <div class="sect2">
-<h3 id="_setup_kafka_enviroment"><a class="anchor" href="#_setup_kafka_enviroment"></a>11.1. Setup Kafka enviroment</h3>
+<h3 id="_setup_kafka_environment"><a class="anchor" href="#_setup_kafka_environment"></a>11.1. Setup Kafka environment</h3>
 <div class="paragraph">
 <p>If you do not have a Kafka environment running you need to set one up so the Kafka consumers and producers can find each other.
 You can for example download <a href="{lense}">lenses.io</a> for an easy-to-use broker with a graphical interface. Another option is to add
@@ -3114,16 +3068,17 @@ the <code>card-publication.yml</code> file. When you use the provided <code>Kafk
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-response</span></span>
-    <span class="key">schema</span>:
-      <span class="key">registry</span>:
-        <span class="key">url</span>: <span class="string"><span class="content">http://localhost:8081</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-response</span></span>
+      <span class="key">schema</span>:
+        <span class="key">registry</span>:
+          <span class="key">url</span>: <span class="string"><span class="content">http://localhost:8081</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3254,18 +3209,53 @@ section from the cards-publication.yml file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
-  <span class="key">recipents</span>:
-    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span>
-    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">external-recipients</span>:
+      <span class="key">recipents</span>:
+        - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span>
+        - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka response topic, as specified in the <code>opfab.kafka.topics.response-card</code> field.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mailhog_smtp_server"><a class="anchor" href="#_mailhog_smtp_server"></a>12. MailHog SMTP server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>MailHog is an SMTP mail server suitable for testing.
+Opfab uses MailHog to test mail notification service.
+MailHog allows to view sent messages in the web UI, or retrieve them with the JSON API.</p>
+</div>
+<div class="sect2">
+<h3 id="_mailhog_docker_container"><a class="anchor" href="#_mailhog_docker_container"></a>12.1. MailHog docker container</h3>
+<div class="paragraph">
+<p>A MailHog docker container is configured in Opfab docker-compose.yaml:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">mailhog</span>:
+    <span class="key">image</span>: <span class="string"><span class="content">mailhog/mailhog:v1.0.1</span></span>
+    <span class="key">ports</span>:
+      - <span class="string"><span class="content">1025:1025</span></span>
+      - <span class="string"><span class="content">8025:8025</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The container exposes port 1025 for SMTP protocol and port 8025 for web UI and HTTP REST API.
+Mailhog web interface is accesible at <code><a href="http://localhost:8025" class="bare">localhost:8025</a></code>.
+Mailhog REST API allows to list, retrieve and delete messages.</p>
+</div>
+<div class="paragraph">
+<p>For example, to retrieve the list of received messages, send an http GET request to: <code><a href="http://localhost:8025/api/v2/messages" class="bare">localhost:8025/api/v2/messages</a></code></p>
 </div>
 </div>
 </div>

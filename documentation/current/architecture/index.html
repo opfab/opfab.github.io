@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Architecture</h1>
 <div class="details">
-<span id="revnumber">version 3.15.2.RELEASE,</span>
-<span id="revdate">14 September 2023</span>
+<span id="revnumber">version 4.0.0.RELEASE,</span>
+<span id="revdate">28 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -499,7 +499,7 @@ of the cards, the operator can send back information to the third party via a "r
 <h3 id="_business_components"><a class="anchor" href="#_business_components"></a>2.1. Business components</h3>
 <div class="imageblock">
 <div class="content">
-<img src="../images/FunctionalDiagram.jpg" alt="functional diagram">
+<img src="../images/FunctionalDiagram.png" alt="functional diagram">
 </div>
 </div>
 <div class="paragraph">
@@ -521,6 +521,15 @@ of the cards, the operator can send back information to the third party via a "r
 </li>
 <li>
 <p>External devices : this optional component permit to send alarm to an external device instead of playing a sound on the user computer. For now, only one driver exists using modbus protocol.</p>
+</li>
+<li>
+<p>Cards Reminder : this component is used to handle cards reminders.</p>
+</li>
+<li>
+<p>Cards External Diffusion : this optional component allows to send cards notifications via email</p>
+</li>
+<li>
+<p>Supervisor : this optional component allows to monitor users connections and card acknowledgements.</p>
 </li>
 </ul>
 </div>
@@ -550,7 +559,7 @@ of the cards, the operator can send back information to the third party via a "r
 <p>Entity : an entity (containing a list of users) , it can be used to model organizations (examples : control center, company , department&#8230;&#8203; ) . An entity can be part of another entity or even of several entities.</p>
 </li>
 <li>
-<p>Group : a group (containing a list of users) , it can be used to model roles in organizations setting the group type to 'ROLE' (examples : supervisor, dispatcher &#8230;&#8203; ) and it can be used to define the rigths on business processes by setting the group type to 'PERMISSION' (example:  GROUP_ALLOWED_TO_SEND_CARD_PROCESS_X)</p>
+<p>Group : a group (containing a list of users) , it can be used to model roles in organizations setting the group type to 'ROLE' (examples : supervisor, dispatcher &#8230;&#8203; ) and it can be used to define the rights on business processes by setting the group type to 'PERMISSION' (example:  GROUP_ALLOWED_TO_SEND_CARD_PROCESS_X)</p>
 </li>
 <li>
 <p>Process : the process the card is about</p>
@@ -583,7 +592,7 @@ of the cards, the operator can send back information to the third party via a "r
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/LogicalDiagram.jpg" alt="functional diagram">
+<img src="../images/LogicalDiagram.png" alt="functional diagram">
 </div>
 </div>
 <div class="sect2">
@@ -618,7 +627,7 @@ of the cards, the operator can send back information to the third party via a "r
 </ul>
 </div>
 <div class="paragraph">
-<p>Except form the UI, which is based on angular, all business components are based on <a href="https://spring.io/projects/spring-boot">SpringBoot</a> and packaged via <a href="https://www.docker.com/">Docker</a>.</p>
+<p>Business components are based on <a href="https://spring.io/projects/spring-boot">SpringBoot</a> or <a href="https://nodejs.or">Node.js</a> and are packaged via <a href="https://www.docker.com/">Docker</a>.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html">Spring WebFlux</a> is used to provide the card in a fluid way.</p>
@@ -672,11 +681,11 @@ The current software does not yet fully follow the architecture described here, 
 <div class="sect2">
 <h3 id="_back_architecture"><a class="anchor" href="#_back_architecture"></a>4.1. Back Architecture</h3>
 <div class="paragraph">
-<p>The main idea is to make the business code as technology independent as possible. This means that the business code should be independent of the Spring Framework for example. Inspired by the hexagonal architecture, this leads to the following simplified view:</p>
+<p>The main idea is to make the business code as technology independent as possible. This means that the business code should be independent of the Spring Framework or Node.js for example. Inspired by the hexagonal architecture, this leads to the following simplified view:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/SoftwareArchitecture-Back.jpg" alt="back software architecture diagram">
+<img src="../images/SoftwareArchitecture-Back.png" alt="back software architecture diagram">
 </div>
 </div>
 <div class="paragraph">

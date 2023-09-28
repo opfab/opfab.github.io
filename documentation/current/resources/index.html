@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 3.15.2.RELEASE,</span>
-<span id="revdate">14 September 2023</span>
+<span id="revnumber">version 4.0.0.RELEASE,</span>
+<span id="revdate">28 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -661,6 +661,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_crossorigin_for_geojson">25.1. CrossOrigin for GeoJSON</a></li>
 <li><a href="#_remove_deprecated_field_from_state_definition">25.2. Remove deprecated field from state definition</a></li>
 <li><a href="#_remove_use_of_groups_column_in_realtime_screen">25.3. Remove use of groups column in realtime screen</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_3_15_0_to_release_4_0_0">26. Migration Guide from release 3.15.0 to release 4.0.0</a>
+<ul class="sectlevel2">
+<li><a href="#_management_of_core_menus_and_custom_menus">26.1. Management of core menus and custom menus</a></li>
+<li><a href="#_ui_configuration">26.2. UI Configuration</a></li>
+<li><a href="#_opfabapi">26.3. OpfabAPI</a></li>
+<li><a href="#_write_right_for_user_rightsenum_write">26.4. Write right for user (RightsEnum.Write)</a></li>
+<li><a href="#_cards_reminder">26.5. Cards reminder</a></li>
+<li><a href="#_internal_technical_account">26.6. Internal technical account</a></li>
+<li><a href="#_port_mapping">26.7. Port mapping</a></li>
+<li><a href="#_rabbitmq">26.8. RabbitMQ</a></li>
+<li><a href="#_configuration">26.9. Configuration</a></li>
+<li><a href="#_normalization_of_some_configuration_parameters">26.10. Normalization of some configuration parameters</a></li>
+<li><a href="#_mongodb_uri">26.11. Mongodb uri</a></li>
+<li><a href="#_rate_limiter_for_card_sendings">26.12. Rate limiter for card sendings</a></li>
 </ul>
 </li>
 </ul>
@@ -2855,7 +2871,8 @@ usercard configuration in the config.json of your bundle.</p>
 <div class="sect2">
 <h3 id="_crossorigin_for_geojson"><a class="anchor" href="#_crossorigin_for_geojson"></a>25.1. CrossOrigin for GeoJSON</h3>
 <div class="paragraph">
-<p>The option <code>feed.geomap.layer.geojson.crossOrigin</code>, used to set a cross-origin option when downloading GeoJSON, has been removed.</p>
+<p>The option <code>feed.geomap.layer.geojson.crossOrigin</code>, used to set a cross-origin option when downloading GeoJSON, has
+been removed.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2870,6 +2887,550 @@ To restrict the recipient list options use the method <code>usercardTemplateGate
 <div class="paragraph">
 <p>The field <code>groups</code> has been removed from the object <code>entitiesGroups</code> of the configuration file <code>realtimescreens.json</code>.
 To conform to this new structure, you have to remove this field from your configuration file.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_3_15_0_to_release_4_0_0"><a class="anchor" href="#_migration_guide_from_release_3_15_0_to_release_4_0_0"></a>26. Migration Guide from release 3.15.0 to release 4.0.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_management_of_core_menus_and_custom_menus"><a class="anchor" href="#_management_of_core_menus_and_custom_menus"></a>26.1. Management of core menus and custom menus</h3>
+<div class="paragraph">
+<p>The structure of the <code>ui-menu.json</code> file has changed. Fields <code>coreMenusConfiguration</code> and <code>menus</code> do not exist anymore.</p>
+</div>
+<div class="paragraph">
+<p>Now <code>ui-menu.json</code> file contains 4 fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>navigationBar</code> : contains the navigation bar mixing core menus and custom menus</p>
+</li>
+<li>
+<p><code>topRightIconMenus</code> : contains only the two menu icons <code>agenda</code> and <code>usercard</code> on the top right of the screen</p>
+</li>
+<li>
+<p><code>topRightMenus</code> : contains the core menus you want to see when you click the user, on the top right of the screen</p>
+</li>
+<li>
+<p><code>locales</code> : contains the translations for the custom menus</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+With the new structure of the file, it is now possible to mix core menus and custom menus in the navigation bar.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can find more information and a full example in the documentation :
+<a href="https://opfab.github.io/documentation/current/reference_doc/#menu_entries" class="bare">opfab.github.io/documentation/current/reference_doc/#menu_entries</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_configuration"><a class="anchor" href="#_ui_configuration"></a>26.2. UI Configuration</h3>
+<div class="paragraph">
+<p>Some fields of the <code>web-ui.json</code> file have changed and renamed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>alertMessageBusinessAutoClose</code> has been moved to the  <code>alerts</code> section and is now called <code>messageBusinessAutoClose</code></p>
+</li>
+<li>
+<p><code>alertMessageOnBottomOfTheScreen</code> has been moved to the  <code>alerts</code> section and is now called <code>messageOnBottomOfTheScreen</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_opfabapi"><a class="anchor" href="#_opfabapi"></a>26.3. OpfabAPI</h3>
+<div class="paragraph">
+<p>Use of methods or attributes starting with templateGateway are now deprecated , the following table give you the new methods to use</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Deprecated method or attribute</th>
+<th class="tableblock halign-left valign-top">New method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getEntityName(entityId)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.users.entities.getEntityName(entityId)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getEntity(entityId)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.users.entities.getEntity(entityId)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getAllEntities()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.users.entities.getAllEntities()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.redirectToBusinessMenu(menuId, menuItemId, urlExtension)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.navigate.redirectToBusinessMenu(menuId, menuItemId, urlExtension)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.isUserAllowedToRespond()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.isUserAllowedToRespond()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.isUserMemberOfAnEntityRequiredToRespond()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.isUserMemberOfAnEntityRequiredToRespond()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getEntitiesAllowedToRespond()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getEntitiesAllowedToRespond()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getEntityUsedForUserResponse()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getEntityUsedForUserResponse()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getDisplayContext()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getDisplayContext()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.displayLoadingSpinner()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.displayLoadingSpinner()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.hideLoadingSpinner()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.hideLoadingSpinner()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.childCards</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getChildCards()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.isLocked</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.isResponseLocked()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.lockAnswer = function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToResponseLock( () &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.unlockAnswer = function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToResponseUnlock( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.setLttdExpired = function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToLttdExpired( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.onStyleChange = function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToStyleChange( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.setScreenSize =  function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToScreenSize( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.onTemplateRenderingComplete =  function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToTemplateRenderingComplete( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.getUserResponse =  function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.registerFunctionToGetUserResponse( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">templateGateway.applyChildCards =  function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.listenToChildCards( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getCurrentProcess()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getProcessId()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getEditionMode()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getEditionMode()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getEndDate()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getEndDate()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getExpirationDate()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getExpirationDate()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getLttd()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getLttd()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getSelectedEntityRecipients()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getSelectedEntityRecipients()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getSelectedEntityForInformationRecipients()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getSelectedEntityForInformationRecipients()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getStartDate()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getStartDate()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getCurrentState()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getState()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getUserEntityChildCardFromCurrentCard()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.getUserEntityChildCard()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.getSpecificCardInformation =  function () {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.registerFunctionToGetSpecificCardInformation( ()  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setDropdownEntityRecipientList(recipients)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setDropdownEntityRecipientList(recipients)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setDropdownEntityRecipientForInformationList(recipients)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setDropdownEntityRecipientForInformationList(recipients)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">userCardTemplateGateway.setEntityUsedForSendingCard = function (entityID) {//do some stuff}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.listenToEntityUsedForSendingCard( (entityID)  &#8658; {//do some stuff} )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialEndDate(endDate)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialEndDate(endDate)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialExpirationDate(expirationDate)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialExpirationDate(expirationDate)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialLttd(lttd)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialLttd(lttd)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialSelectedRecipients(recipients)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialSelectedRecipients(recipients)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialSelectedRecipientsForInformation(recipients)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialSelectedRecipientsForInformation(recipients)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialSeverity(initialSeverity)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialSeverity(initialSeverity)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercardTemplateGateway.setInitialStartDate(startDate)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentUserCard.setInitialStartDate(startDate)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_write_right_for_user_rightsenum_write"><a class="anchor" href="#_write_right_for_user_rightsenum_write"></a>26.4. Write right for user (RightsEnum.Write)</h3>
+<div class="paragraph">
+<p>The <code>Write</code> right has been removed. Considering <code>Receive</code> and <code>ReceiveAndWrite</code> rights, <code>Write</code> was useless
+and confusing for the code.</p>
+</div>
+<div class="paragraph">
+<p>Before upgrading to 4.0, you must replace all "Write" rights by "ReceiveAndWrite" rights. If you want to
+automate it, you can do it directly in the database via the following request :</p>
+</div>
+<div class="paragraph">
+<p><code>db.perimeter.updateMany({"stateRights.right": "Write"}, {"$set": {"stateRights.$.right": "ReceiveAndWrite"}});</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cards_reminder"><a class="anchor" href="#_cards_reminder"></a>26.5. Cards reminder</h3>
+<div class="paragraph">
+<p>Cards reminder logic has been moved from front-end to back-end. The reminder logic is handled by the new "cards-reminder" service.</p>
+</div>
+<div class="paragraph">
+<p>After upgrading to 4.0, you must call the <code>/reset</code> endpoint to populate the reminders database by processing all current cards with reminder set. For example using cURL:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>curl http://localhost:2107/reset -H "Authorization:Bearer $token"</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_internal_technical_account"><a class="anchor" href="#_internal_technical_account"></a>26.6. Internal technical account</h3>
+<div class="paragraph">
+<p>The new back service for reminder and the new service regarding mail diffusion and supervision introduce the need of an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it within your shared YAML configuration file, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric:
+  internalAccount:
+    login: opfab
+    password: the_password</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The services require knowledge of the URL to retrieve the account&#8217;s token, and this URL should be configured within operatorfabric.servicesUrls.authToken. A default value, based on OperatorFabric default installation, is set to: "http://web-ui/auth/token".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_port_mapping"><a class="anchor" href="#_port_mapping"></a>26.7. Port mapping</h3>
+<div class="paragraph">
+<p>In release 4.0, the listening port is not any more 8080 for services in docker, it is now identical to the default port mapping outside the docker.</p>
+</div>
+<div class="paragraph">
+<p>So you need to modify your port mapping to migrate replacing the 8080 legacy port by the new port :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2104</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Depending on your production configuration, you may need as well to change the ports in your nginx conf file.</p>
+</div>
+<div class="paragraph">
+<p>If you want to keep the old port 8080, you can change it via the server.port parameter in the yml config files of the services.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>26.8. RabbitMQ</h3>
+<div class="paragraph">
+<p>In previous versions, it was necessary to start a RabbitMQ container referencing "rabbitmq:3-management." We now highly recommend that you update your configuration to utilize "lfeoperatorfabric/of-rabbitmq:4.0.0" instead. This adjustment ensures that you have a qualified version that is fully compatible with OpFab.</p>
+</div>
+<div class="paragraph">
+<p>When migrating your production environment you may be unable to start rabbitMQ with the following error in log :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>2023-09-14 13:57:00.803114+00:00 [error] &lt;0.230.0&gt; Feature flags: `maintenance_mode_status`: required feature flag not enabled! It must be enabled before upgrading RabbitMQ.
+2023-09-14 13:57:00.955976+00:00 [error] &lt;0.230.0&gt; Failed to initialize feature flags registry:{disabled_required_feature_flag,
+2023-09-14 13:57:00.955976+00:00 [error] &lt;0.230.0&gt;                                               maintenance_mode_status}
+
+BOOT
+FAILED
+===========
+Error during startup: {error,failed_to_initialize_feature_flags_registry}
+
+2023-09-14 13:57:01.022987+00:00 [error] &lt;0.230.0&gt;
+2023-09-14 13:57:01.022987+00:00 [error] &lt;0.230.0&gt; BOOT FAILED
+2023-09-14 13:57:01.022987+00:00 [error] &lt;0.230.0&gt; ===========
+2023-09-14 13:57:01.022987+00:00 [error] &lt;0.230.0&gt; Error during startup: {error,failed_to_initialize_feature_flags_registry}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This issue arises because the persisted data (RabbitMQ queues) generated by the previous version of RabbitMQ is incompatible with the current RabbitMQ version. To address this problem, it is necessary to remove the persisted data before launching OpFab, which can be found at the path mapping /var/lib/rabbitmq/mnesia/ within the Docker container.</p>
+</div>
+<div class="paragraph">
+<p><strong>If you have configured RabbitMQ persistence, we recommend implementing this as a preventive measure to avoid service unavailability in production.</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration"><a class="anchor" href="#_configuration"></a>26.9. Configuration</h3>
+<div class="paragraph">
+<p>The configuration has been simplified, you have now default parameters you do not need to set anymore in the back configuration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>in all yml file you do not need to set anymore spring.application.name</p>
+</li>
+<li>
+<p>a default kafka configuration is provided, you only have to add "kafka.consumer.group-id : opfab-command" to enable kafka</p>
+</li>
+<li>
+<p>a default rabbit configuration is provided</p>
+</li>
+<li>
+<p>default value are provided for "operatorfabric.servicesUrls.users" and "operatorfabric.servicesUrls.businessconfig"</p>
+</li>
+<li>
+<p>"spring.data.mongodb.database" is not to be set anymore</p>
+</li>
+<li>
+<p>you still need to set "management.endpoints.web.exposure.include: '*'" if you want to monitor opfab via prometheus</p>
+</li>
+<li>
+<p>operatorfabric.businessconfig.storage.path is set by default to "/businessconfig-storage"</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The nginx configuration has been simplified as well, the best is to redefine your actual nginx based on the example /config/docker/nginx.conf. The main modification is the removal of the following endpoints declaration :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>/archives</p>
+</li>
+<li>
+<p>/ui</p>
+</li>
+<li>
+<p>/ui/assets/i18n</p>
+</li>
+<li>
+<p>/config/web-ui.json</p>
+</li>
+<li>
+<p>/config/menu-ui.json</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We have also implemented data compression for the information supplied by the "businessconfig" service within the "nginx.conf" reference file. This is done by adding  in the location /businessconfig :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    gzip on;
+    gzip_types application/json;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The nginx conf is not loaded anymore in /usr/share/nginx/html/opfab in the docker but in /usr/share/nginx/html/config. You need to modify your volume configuration . For example in docker compose :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    volumes:
+      - &quot;./ui-config:/usr/share/nginx/html/opfab&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>becomes :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    volumes:
+      - &quot;./ui-config:/usr/share/nginx/html/config&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the web-ui.json file, you do not need anymore to set :
+- security.jwt.expire-claim
+- security.oauth2.flow.provider
+- security.oauth2.provider-realm
+- security.oauth2.provider-url</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_normalization_of_some_configuration_parameters"><a class="anchor" href="#_normalization_of_some_configuration_parameters"></a>26.10. Normalization of some configuration parameters</h3>
+<div class="paragraph">
+<p>Some configuration parameters have been renamed, so you have to check your config files and adapt them. Here are the
+concerned parameters (old name &#8594; new name):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>daysBeforeLogExpiration &#8594; operatorfabric.users.daysBeforeLogExpiration</p>
+</li>
+<li>
+<p>checkAuthenticationForCardSending &#8594; operatorfabric.cards-publication.checkAuthenticationForCardSending</p>
+</li>
+<li>
+<p>authorizeToSendCardWithInvalidProcessState &#8594; operatorfabric.cards-publication.authorizeToSendCardWithInvalidProcessState</p>
+</li>
+<li>
+<p>checkPerimeterForCardSending &#8594; operatorfabric.cards-publication.checkPerimeterForCardSending</p>
+</li>
+<li>
+<p>external-recipients.* &#8594; operatorfabric.cards-publication.external-recipients.*</p>
+</li>
+<li>
+<p>opfab.kafka.topics.card.topicname &#8594; operatorfabric.cards-publication.kafka.topics.card.topicname</p>
+</li>
+<li>
+<p>opfab.kafka.topics.response-card.topicname &#8594; operatorfabric.cards-publication.kafka.topics.response-card.topicname</p>
+</li>
+<li>
+<p>opfab.kafka.schema.registry.url &#8594; operatorfabric.cards-publication.kafka.schema.registry.url</p>
+</li>
+<li>
+<p>delayForDeleteExpiredCardsScheduling &#8594; operatorfabric.cards-publication.delayForDeleteExpiredCardsScheduling</p>
+</li>
+<li>
+<p>checkIfUserIsAlreadyConnected &#8594; operatorfabric.checkIfUserIsAlreadyConnected</p>
+</li>
+<li>
+<p>spring.data.mongodb.uri -&#8594;  operatorfabric.mongodb.uri</p>
+</li>
+<li>
+<p>spring.rabbit.* -&#8594; operatorfabric.rabbit.*</p>
+</li>
+<li>
+<p>spring.security.oauth2.resourceserver.jwt.jwk-set-uri -&#8594;  operatorfabric.security.oauth2.resourceserver.jwt.jwk-set-uri</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mongodb_uri"><a class="anchor" href="#_mongodb_uri"></a>26.11. Mongodb uri</h3>
+<div class="paragraph">
+<p>The option "authMode=scram-sha1" has to be removed from mongodb uri as SCRAM authentication is enabled by default and "authMode" option is not supported by node.js mongodb driver.
+For example you should change :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code> mongodb:
+    uri: mongodb://root:password@mongodb:27017/operator-fabric?authSource=admin&amp;authMode=scram-sha1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code> mongodb:
+    uri: mongodb://root:password@mongodb:27017/operator-fabric?authSource=admin</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rate_limiter_for_card_sendings"><a class="anchor" href="#_rate_limiter_for_card_sendings"></a>26.12. Rate limiter for card sendings</h3>
+<div class="paragraph">
+<p>External publishers are now monitored by a new module which limits how many cards they can send
+<a href="/documentation/current/deployment/configuration/configuration.html#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
+ in a period of time
+<a href="/documentation/current/deployment/configuration/configuration.html#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
+.
+This is to avoid potential overloading due to external apps stuck in a card sending loop.</p>
+</div>
+<div class="paragraph">
+<p>Default value is set to 1000 cards per hour. It can be disabled / enabled with
+<a href="/documentation/current/deployment/configuration/configuration.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
 </div>
 </div>
 </div>

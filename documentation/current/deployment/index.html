@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 3.15.2.RELEASE,</span>
-<span id="revdate">14 September 2023</span>
+<span id="revnumber">version 4.0.0.RELEASE,</span>
+<span id="revdate">28 September 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -453,8 +453,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_business_service_configuration">3.1. Business service configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_specify_an_external_configuration">3.1.1. Specify an external configuration</a></li>
-<li><a href="#_shared_service_configuration">3.1.2. Shared service configuration</a></li>
+<li><a href="#_shared_service_configuration">3.1.1. Shared service configuration</a>
+<ul class="sectlevel4">
+<li><a href="#_mongo_configuration">3.1.1.1. Mongo configuration</a></li>
+</ul>
+</li>
+<li><a href="#_rabbitmq">3.1.2. RabbitMQ</a>
+<ul class="sectlevel4">
+<li><a href="#_internal_account">3.1.2.1. Internal account</a></li>
+<li><a href="#_optional_configuration_values">3.1.2.2. Optional configuration values</a></li>
+</ul>
+</li>
 <li><a href="#_service_specific_configurations">3.1.3. Service specific configurations</a>
 <ul class="sectlevel4">
 <li><a href="#_businessconfig_service">3.1.3.1. Businessconfig service</a></li>
@@ -462,6 +471,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#cards-pub-conf">3.1.3.3. Cards-publication service</a></li>
 <li><a href="#_cards_consultation_service">3.1.3.4. Cards-consultation service</a></li>
 <li><a href="#external-devices-conf">3.1.3.5. External devices service</a></li>
+<li><a href="#cards-external-diffusion-conf">3.1.3.6. Cards external diffusion service</a></li>
+<li><a href="#cards-reminder-conf">3.1.3.7. Cards reminder service</a></li>
+<li><a href="#supervisor-conf">3.1.3.8. Supervisor service</a></li>
 </ul>
 </li>
 </ul>
@@ -489,57 +501,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#custom_certificates">3.3.4. Adding certification authorities or certificates to the Java keystore</a></li>
 </ul>
 </li>
-<li><a href="#_operatorfabric_mongo_configuration">3.4. OperatorFabric Mongo configuration</a>
-<ul class="sectlevel3">
-<li><a href="#_define_time_to_live_for_archived_cards">3.4.1. Define time to live for archived cards</a></li>
 </ul>
 </li>
-<li><a href="#_operatorfabric_kafka_configuration">3.5. OperatorFabric Kafka configuration</a></li>
-</ul>
-</li>
-<li><a href="#_rabbitmq">4. RabbitMQ</a>
+<li><a href="#_monitoring">4. Monitoring</a></li>
+<li><a href="#_logging_administration">5. Logging Administration</a></li>
+<li><a href="#_users_groups_and_entities_administration">6. Users, Groups and Entities Administration</a>
 <ul class="sectlevel2">
-<li><a href="#_docker_container">4.1. Docker container</a></li>
-<li><a href="#_server_installation">4.2. Server installation</a>
+<li><a href="#_users">6.1. Users</a>
 <ul class="sectlevel3">
-<li><a href="#_download_installation">4.2.1. Download &amp; Installation</a></li>
-<li><a href="#_used_ports">4.2.2. Used ports</a></li>
-<li><a href="#_production_configuration">4.2.3. Production configuration</a></li>
+<li><a href="#_list_all_users">6.1.1. List all users</a></li>
+<li><a href="#_create_a_new_user">6.1.2. Create a new User</a></li>
+<li><a href="#_fetch_user_details">6.1.3. Fetch user details</a></li>
+<li><a href="#_update_user_details">6.1.4. Update user details</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#_monitoring">5. Monitoring</a></li>
-<li><a href="#_logging_administration">6. Logging Administration</a></li>
-<li><a href="#_users_groups_and_entities_administration">7. Users, Groups and Entities Administration</a>
-<ul class="sectlevel2">
-<li><a href="#_users">7.1. Users</a>
+<li><a href="#_groupsentities">6.2. Groups/Entities</a>
 <ul class="sectlevel3">
-<li><a href="#_list_all_users">7.1.1. List all users</a></li>
-<li><a href="#_create_a_new_user">7.1.2. Create a new User</a></li>
-<li><a href="#_fetch_user_details">7.1.3. Fetch user details</a></li>
-<li><a href="#_update_user_details">7.1.4. Update user details</a></li>
-</ul>
-</li>
-<li><a href="#_groupsentities">7.2. Groups/Entities</a>
-<ul class="sectlevel3">
-<li><a href="#_list_groups_or_entities">7.2.1. List groups (or entities)</a></li>
-<li><a href="#_create_a_new_group_or_entity">7.2.2. Create a new group (or entity)</a></li>
-<li><a href="#_fetch_details_of_a_given_group_or_entity">7.2.3. Fetch details of a given group (or entity)</a></li>
-<li><a href="#_update_details_of_a_group_or_entity">7.2.4. Update details of a group (or entity)</a></li>
-<li><a href="#_add_a_user_to_a_group_or_entity">7.2.5. Add a user to a group (or entity)</a></li>
-<li><a href="#_remove_a_user_from_a_group_or_entity">7.2.6. Remove a user from a group (or entity)</a></li>
-<li><a href="#_entity_parents">7.2.7. Entity parents</a>
+<li><a href="#_list_groups_or_entities">6.2.1. List groups (or entities)</a></li>
+<li><a href="#_create_a_new_group_or_entity">6.2.2. Create a new group (or entity)</a></li>
+<li><a href="#_fetch_details_of_a_given_group_or_entity">6.2.3. Fetch details of a given group (or entity)</a></li>
+<li><a href="#_update_details_of_a_group_or_entity">6.2.4. Update details of a group (or entity)</a></li>
+<li><a href="#_add_a_user_to_a_group_or_entity">6.2.5. Add a user to a group (or entity)</a></li>
+<li><a href="#_remove_a_user_from_a_group_or_entity">6.2.6. Remove a user from a group (or entity)</a></li>
+<li><a href="#_entity_parents">6.2.7. Entity parents</a>
 <ul class="sectlevel4">
-<li><a href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration">7.2.7.1. Add a new Entity without a cycle in the parent declaration</a></li>
-<li><a href="#_add_a_new_entity_with_a_cycle">7.2.7.2. Add a new Entity with a cycle</a></li>
+<li><a href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration">6.2.7.1. Add a new Entity without a cycle in the parent declaration</a></li>
+<li><a href="#_add_a_new_entity_with_a_cycle">6.2.7.2. Add a new Entity with a cycle</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_service_port_table">8. Service port table</a></li>
+<li><a href="#_service_port_table">7. Service port table</a></li>
+<li><a href="#_rate_limiter_for_card_sendings">8. Rate limiter for card sendings</a></li>
 <li><a href="#_restricted_operations_administration">9. Restricted operations (administration)</a></li>
 </ul>
 </div>
@@ -592,65 +587,46 @@ deployment as a docker-compose file
 <h2 id="_configuration"><a class="anchor" href="#_configuration"></a>3. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OperatorFabric has multiple services to configure.</p>
+<p>The configuration is divided into two parts, the configuration of the business services and the configuration of the UI.</p>
 </div>
 <div class="paragraph">
-<p>See the
-<a href="/documentation/current/architecture/index.html#architecture">architecture documentation</a>
-for more information on the different services.</p>
+<p>Opfab comes with a default embedded configuration, but certain parameters need to be provided and configured.</p>
 </div>
 <div class="paragraph">
-<p>All services are SpringBoot applications and use jetty as an embedded servlet container. As such, they share some common
-configuration which is described in the following documentation:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle//reference/htmlsingle/">Springboot documentation</a></p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle//reference/htmlsingle/#boot-features-external-config">Springboot external configuration</a></p>
-</li>
-<li>
-<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle//reference/htmlsingle/#common-application-properties">Common application properties from Springboot documentation</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Configuration is centralized in the <strong>config</strong> directory, the <strong>dev</strong> subdirectory is specific to development environments
-while the <strong>docker</strong> subdirectory is a specific configuration meant for use in a full docker environment.</p>
+<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. The dev subdirectory contains
+configurations specific to development environments, while the <strong>docker</strong> subdirectory contains a specific configuration
+meant for use in a full docker environment.</p>
 </div>
 <div class="sect2">
 <h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>3.1. Business service configuration</h3>
 <div class="sect3">
-<h4 id="_specify_an_external_configuration"><a class="anchor" href="#_specify_an_external_configuration"></a>3.1.1. Specify an external configuration</h4>
+<h4 id="_shared_service_configuration"><a class="anchor" href="#_shared_service_configuration"></a>3.1.1. Shared service configuration</h4>
 <div class="paragraph">
-<p>When starting docker in the full docker environment an external environment file could be provided like:</p>
+<p>The configuration shared by all services is in a yaml file, you can find an example with the file
+/config/docker/common.yml.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>cd ./config/docker
-./docker-compose.sh ~/config/local.env</pre>
-</div>
-</div>
+<div class="sect4">
+<h5 id="_mongo_configuration"><a class="anchor" href="#_mongo_configuration"></a>3.1.1.1. Mongo configuration</h5>
 <div class="paragraph">
-<p>In the provided environment file the Spring active profiles can be set.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>SPRING_PROFILES_ACTIVE=docker,local</pre>
-</div>
+<p>We only use URI configuration for mongo through the usage of the <code><code>operatorfabric.mongodb.uri</code></code>,
+it allows us to share the same configuration behavior for simple or cluster
+configuration and with both spring classic and reactive mongo configuration.
+See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo connection string</a> for the complete URI syntax.</p>
 </div>
 <div class="paragraph">
-<p>This way the configuration file 'cards-publication-local.yml' can be provided in the same configuration directory and can be read by SpringBoot</p>
+<p>This configuration is mandatory (no default configuration is provided).</p>
+</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_shared_service_configuration"><a class="anchor" href="#_shared_service_configuration"></a>3.1.2. Shared service configuration</h4>
+<h4 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>3.1.2. RabbitMQ</h4>
 <div class="paragraph">
-<p>The configuration shared by all services is in a yaml file, you can find an example with the file
-/config/docker/common-docker.yml.
-In this file you will find, among others, the parameters below :</p>
+<p>A rabbitMQ component (docker image) is provided in opfab, it has a default configuration.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SECURITY WARNING : The default user/password should be changed if a rabbit port is exposed outside of docker network. To do that, set the environment variables "RABBITMQ_DEFAULT_USER" and "RABBITMQ_DEFAULT_PASS" when starting the image and adjust the following parameters in the common yml config file.</pre>
+</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -659,45 +635,133 @@ In this file you will find, among others, the parameters below :</p>
 <col style="width: 25%;">
 <col style="width: 25%;">
 </colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ host address</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5672</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">guest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ username</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.rabbitmq.password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">guest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RabbitMQ password</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect4">
+<h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>3.1.2.1. Internal account</h5>
+<div class="paragraph">
+<p>The back service cards-reminder ,cards-diffusion and supervision need an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.internalAccount.login</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user account used to call Opfab services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.internalAccount.password</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user password to call Opfab services</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The services require knowledge of the URL to retrieve the account&#8217;s token, and this URL should be configured within operatorfabric.servicesUrls.authToken. A default value, based on OperatorFabric default installation, is set to: "http://web-ui/auth/token".</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>3.1.2.2. Optional configuration values</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.users</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates where the Users service can we reached (to get information about the current user).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://users:2103" class="bare">users:2103</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates where the Users service can be reached from the other services.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.userActionLogActivated</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.businessconfig</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://businessconfig:2100" class="bare">businessconfig:2100</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates where the Business service can be reached from the other services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsPublication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cards-publication:2102" class="bare">cards-publication:2102</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates if the user action log feature is enabled or not.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsConsultation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cards-consultation:2104" class="bare">cards-consultation:2104</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.authToken</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://web-ui/auth/token" class="bare">web-ui/auth/token</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.userActionLogActivated</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+</div>
 <div class="sect3">
 <h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>3.1.3. Service specific configurations</h4>
 <div class="paragraph">
-<p>Each service has a specific yaml configuration file. It should a least contain the name of the service:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
-  <span class="key">application</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">businessconfig</span></span></code></pre>
-</div>
+<p>Each service can have a specific yaml configuration file that can override the default configuration</p>
 </div>
 <div class="paragraph">
-<p>Examples of configuration of each service can be found either under config/docker or config/dev depending on
-the type of deployment you&#8217;re looking for.</p>
+<p>Examples of configuration of each service can be found under config/docker or config/dev .</p>
 </div>
 <div class="sect4">
 <h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>3.1.3.1. Businessconfig service</h5>
@@ -706,24 +770,21 @@ the type of deployment you&#8217;re looking for.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.businessconfig.storage.path</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/businessconfig-storage</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">File path to data storage folder</p></td>
 </tr>
 </tbody>
@@ -736,16 +797,14 @@ the type of deployment you&#8217;re looking for.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -753,32 +812,27 @@ the type of deployment you&#8217;re looking for.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.default.users</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of user objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.default.user-settings</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of user settings objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.default.groups</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of group objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.default.entities</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of entity objects to create upon startup if they don&#8217;t exist</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">daysBeforeLogExpiration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.daysBeforeLogExpiration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">61</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Duration past which user action logs get automatically deleted</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Duration beyond which user action logs get automatically deleted</p></td>
 </tr>
 </tbody>
 </table>
@@ -786,94 +840,317 @@ the type of deployment you&#8217;re looking for.</p>
 <div class="sect4">
 <h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>3.1.3.3. Cards-publication service</h5>
 <div class="paragraph">
-<p>The cards-publication service has these specific properties :</p>
+<p>The cards publication service has these specific properties :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">checkAuthenticationForCardSending</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.checkAuthenticationForCardSending</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will not require user authentication to send or delete a card via endpoint /cards (it does not concern user cards which always need authentication). Be careful when setting the value to false, nginx conf must be adapted for security reasons (see security warning in <a href="https://github.com/opfab/operatorfabric-core/blob/master/config/docker/nginx.conf">the reference nginx.conf</a>)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">authorizeToSendCardWithInvalidProcessState</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.authorizeToSendCardWithInvalidProcessState</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, OperatorFabric will allow to publish a card referring a not existent process or state</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">checkPerimeterForCardSending</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.checkPerimeterForCardSending</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, OperatorFabric will check user perimeter for card sending via endpoint /cards (it does not concern user cards which are always controlled).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.consumer.group-id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set, support for receiving cards via Kafka is enabled</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.deserializer.value.delegate.class</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.
 KafkaAvroDeserializer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Deserializer used to convert the received bytes into objects</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.serializer.value.delegate.class</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">io.confluent.kafka.serializers.
 KafkaAvroSerializer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Serializer used to convert cards to bytes</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">spring.kafka.producer.bootstrap-servers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:9092" class="bare">localhost:9092</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">comma separated list of URL(s) of the broker(s) / bootstrap server(s)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.kafka.topics.card.topicname</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to read the messages from</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.topics.response-card.topicname</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.kafka.topics.response-card.topicname</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of the topic to place the response cards to</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.kafka.schema.registry.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.kafka.schema.registry.url</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:8081" class="bare">localhost:8081</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">URL of the schema registry. Can be set to the empty string "" is no registry is used</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">delayForDeleteExpiredCardsScheduling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.delayForDeleteExpiredCardsScheduling</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">60000</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The delay in millisecond after the last execution finished and the next execution starts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The delay in millisecond after the last execution finished and the next execution starts.
+<a id="cardSendingLimitCardCount"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.cardSendingLimitCardCount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For the Rate limiter, this defines how many cards can be sent during <code>cardSendingLimitPeriod</code>.
+<a id="cardSendingLimitPeriod"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.cardSendingLimitPeriod</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For the Rate limiter, this defines the time period (in seconds) during which <code>cardSendingLimitCardCount</code> is applied.
+<a id="activateCardSendingLimiter"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cards-publication.activateCardSendingLimiter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If false, the Rate limiter will be ignored when sending cards.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="sect5">
+<h6 id="_operatorfabric_kafka_configuration"><a class="anchor" href="#_operatorfabric_kafka_configuration"></a>OperatorFabric Kafka configuration</h6>
+<div class="paragraph">
+<p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic. In the default configuration Kafka is disabled.
+To enable Kafka you need to set the consumer group to the consumer group you assign to the OpFab Kafka consumer. This can be any group-id, as long as it isn&#8217;t used by other consumers
+(unless you explicitly want multiple consumers for the same group).</p>
+</div>
+<div class="paragraph">
+<p>You can set the group_id by uncommenting the <code>kafka.consumer.group_id</code> in the <code>cards-publication.yml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the consumer will consume messages from the <code>opfab</code> topic.
+See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a> for more information on the Spring Kafka implementation.</p>
+</div>
+<div class="paragraph">
+<p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
+</div>
+<div class="paragraph">
+<p>Operator Fabric is also able to publish response cards to a Kafka topic. The default topic name  <code>opfab-response</code>. You can specify which response cards
+are to be returned via Kafka by setting the <code>external-recipients</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">external-recipients</span>:
+      <span class="key">recipients</span>:
+        - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">true</span></span>
+        - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
+          <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
+          <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka response topic, as specified in the <code>opfab.kafka.topics.response-card</code> field.</p>
+</div>
+<div class="paragraph">
+<p>Also note enabling Kafka does not disable the REST interface.</p>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration plain:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">properties</span>:
+        <span class="key">specific</span>:
+          <span class="key">avro</span>:
+            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9092</span></span>
+<span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-commands_dev</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-response_dev</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration SASL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">security</span>:
+        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+      <span class="key">properties</span>:
+        <span class="key">specific</span>:
+          <span class="key">avro</span>:
+            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
+        <span class="key">sasl</span>:
+          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
+          <span class="key">jaas</span>:
+            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
+      <span class="key">security</span>:
+        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+      <span class="key">properties</span>:
+        <span class="key">sasl</span>:
+          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
+          <span class="key">jaas</span>:
+            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
+    <span class="key">ssl</span>:
+      <span class="key">trust-store-type</span>: <span class="string"><span class="content">PKCS12</span></span>
+      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
+      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs</span></span>
+    <span class="key">properties</span>:
+      <span class="key">ssl</span>:
+        <span class="key">endpoint</span>:
+          <span class="key">identification</span>:
+            <span class="key">algorithm</span>: <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
+<span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration Kerberos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
+  <span class="key">deserializer</span>:
+    <span class="key">key</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+  <span class="key">kafka</span>:
+    <span class="key">security</span>:
+      <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
+    <span class="key">properties</span>:
+      <span class="key">sasl.mechanism</span>: <span class="string"><span class="content">GSSAPI</span></span>
+      <span class="key">sasl</span>:
+        <span class="key">jaas</span>:
+          <span class="key">config</span>: <span class="string"><span class="content">com.sun.security.auth.module.Krb5LoginModule required useKeyTab=true keyTab=&quot;/etc/kafkaUsername.keytab&quot; storeKey=true useTicketCache=false serviceName=&quot;kafka&quot; principal=&quot;kafkaUsername@DOMAIN&quot;;</span></span>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
+    <span class="key">ssl</span>:
+      <span class="key">trust-store-type</span>: <span class="string"><span class="content">pkcs12</span></span>
+      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
+      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs12</span></span>
+    <span class="key">consumer</span>:
+      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">key-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
+      <span class="key">value-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
+      <span class="key">properties</span>:
+        <span class="key">spring</span>:
+          <span class="key">deserializer</span>:
+            <span class="key">key</span>:
+              <span class="key">delegate</span>:
+                <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
+            <span class="key">value</span>:
+              <span class="key">delegate</span>:
+                <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
+    <span class="key">producer</span>:
+      <span class="key">client-id</span>: <span class="string"><span class="content">OPFAB</span></span>
+      <span class="key">value-serializer</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
+<span class="key">operatorfabric</span>:
+  <span class="key">cards-publication</span>:
+    <span class="key">kafka</span>:
+      <span class="key">topics</span>:
+        <span class="key">card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
+        <span class="key">response-card</span>:
+          <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example Kafka configuration OAUTHBEARER / AADToken:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">kafka</span>:
+    <span class="key">consumer</span>:
+      <span class="key">properties</span>:
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[security.protocol]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">SASL_SSL</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.jaas.config]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required ;</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.mechanism]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">OAUTHBEARER</span></span>
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.login.callback.handler.class]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.auth.AADWorkloadIdentityLoginCallbackHandler</span></span>
+    <span class="key">producer</span>:
+      <span class="error">...the same...</span></code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>3.1.3.4. Cards-consultation service</h5>
@@ -882,36 +1159,31 @@ KafkaAvroSerializer</p></td>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">checkIfUserIsAlreadyConnected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.checkIfUserIsAlreadyConnected</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will allow a user to have several sessions opened at the same time. However, it may cause synchronization problems between the sessions using the same login, so it is recommended to let it to true, its default value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If false, OperatorFabric will allow a user to have several sessions opened at the same time. However, it may cause synchronization problems between the sessions using the same login, so it is recommended to let it true, its default value.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.heartbeat.checkIntervalInSeconds</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Frequency at which the heartbeat from the ui to the server is checked.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.heartbeat.delayInSecondsToConsiderUserDisconnected</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">After how many seconds without heartbeat, the user is considered disconnected</p></td>
 </tr>
 </tbody>
@@ -924,16 +1196,14 @@ KafkaAvroSerializer</p></td>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -941,23 +1211,368 @@ KafkaAvroSerializer</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.externaldevices.watchdog.enabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, watchdog signals will be sent to external devices to show that the OperatorFabric is running and connected.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.externaldevices.watchdog.cron</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>*/5 * * * * *</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CRON expression determining when watchdog signals should be sent to external devices.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.externaldevices.watchdog.signalId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Id the signal the external devices are expecting as watchdog</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Id of the signal the external devices are expecting as watchdog</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect4">
+<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>3.1.3.6. Cards external diffusion service</h5>
+<div class="paragraph">
+<p>The card external diffusion service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFolder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder (inside docker container)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFile</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"opfab.%DATE%.log"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.host</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server host</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.port</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.auth.user</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server authentication user</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.auth.pass</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server authentication password</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.adminPort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the notification service on startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.mailFrom</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail from address</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Opfab card received'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail subject prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.bodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'You received a card in opfab : '</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail body prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.opfabUrlInMailContent</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Url to write in mail to access the opfab server (example : <a href="https://opfab_url/" class="bare">opfab_url/</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.windowInSecondsForCardSearch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">360</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max time interval used to query new cards (in seconds)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.secondsAfterPublicationToConsiderCardAsNotRead</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time period after card publication before sending mail notification</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.checkPeriodInSeconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time interval between consecutive checks</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The parameters in "operatorfabric.cardsExternalDiffusion.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of cards external diffusion service with a JSON payload containing the config parameters to be changed.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="cards-reminder-conf"><a class="anchor" href="#cards-reminder-conf"></a>3.1.3.7. Cards reminder service</h5>
+<div class="paragraph">
+<p>The card reminder service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFolder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder (inside docker container)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFile</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"opfab.%DATE%.log"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.adminPort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2107</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service Listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the cards reminder service on startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsReminder.checkPeriodInSeconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder time interval between consecutive checks</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="supervisor-conf"><a class="anchor" href="#supervisor-conf"></a>3.1.3.8. Supervisor service</h5>
+<div class="paragraph">
+<p>The supervisor service can be configured with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFolder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">logs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file folder (inside docker container)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logFile</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"opfab.%DATE%.log"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log file name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.logConfig.logLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">info</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.adminPort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service Listen port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the cards reminder service on startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.considerConnectedIfUserInGroups</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set the user must be in one of the mention groups to consider his entities as connected, example :  ["Dispatcher","Planner"]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.entitiesToSupervise</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of entity id and related supervisor list ({ "id": "ENTITY1", "supervisors": ["ENTITY2"] })</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.publisher</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publisher for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.processVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process version for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.state</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">disconnectedEntity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.disconnectedCardTemplate.severity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Severity for card template used to send connections alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsBetweenConnectionChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection check period</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.nbOfConsecutiveNotConnectedToSendFirstCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of consecutive failed checks before sending first alert card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.nbOfConsecutiveNotConnectedToSendSecondCard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of consecutive failed checks before sending second alert card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.processesToSupervise</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of processes and related states to monitor for missing acknowledgment ({ "process": "defaultProcess", "states": ["processState"] })</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.publisher</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publisher for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.process</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.processVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Process version for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.state</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">unacknowledgedCards</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.unackCardTemplate.severity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ALARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Severity for card template used to send acknowledgment alerts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.windowInSecondsForCardSearch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time period used to search for not acknowledged cards</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsBetweenAcknowledgmentChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Card acknowledgment check period</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.supervisor.defaultConfig.secondsAfterPublicationToConsiderCardAsNotAcknowledged</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">600</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time period to wait after card publishing to consider a card as not acknowledged and send the alert</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The parameters in "operatorfabric.supervisor.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of supervisor service with a JSON payload containing the config parameters to be changed.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1028,18 +1643,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">security.provider-realm</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The realm name in keycloak server settings page. This is used for the log out process to know which realm should be affected.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">security.provider-url</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak server instance</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">security.logout-url</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
@@ -1076,12 +1679,6 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 </li>
 </ul>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">security.oauth2.flow.provider</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">provider name to display on log in button</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">security.oauth2.flow.delegate-url</p></td>
@@ -1423,7 +2020,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of string indicating which field(s) we want to hide in the settings screen. Possible values :<br>
-"description" : if present, description field will not be displayed<br>
 "language" : if present, language field will not be displayed<br>
 "remoteLoggingEnabled" : if present, the checkbox to activate remote logging will not be displayed<br>
 "sounds" : if present, the checkboxes for sound notifications will not be displayed</p></td>
@@ -1498,6 +2094,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to true the users entities will be displayed under the login on top right of the screen</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">usercard.displayConnectionCirclesInPreview</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays a green circle next to the recipient entities if any account associated to the entity is connected. If not, displays a red circle. The green circle doesn&#8217;t take filters or perimeters into account. It doesn&#8217;t warrant that the message will be received.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">usercard.useDescriptionFieldForEntityList</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1513,7 +2115,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of seconds between logout and token expiration. If you use IMPLICIT authentication mode, exercise caution when modifying the value to prevent logouts before token silent refresh.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">selectActivityAreaOnLogin</p></td>
@@ -1528,22 +2130,28 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to false, an OperatorFabric url can be used by several tabs in the same browser. Note that there can only be one token per browser for a given OperatorFabric url, so the first session will be replaced by the second one</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageBusinessAutoClose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.messageBusinessAutoClose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the (red) business alert message will automatically close after a few seconds.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the (red) business alert message will automatically close after a few seconds</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">alertMessageOnBottomOfTheScreen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.messageOnBottomOfTheScreen</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">heardbeatSendingInterval</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.hideBusinessMessages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the business alert messages are hidden</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heartbeatSendingInterval</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Frequency in seconds at which the ui sends heartbeat to the server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frequency in seconds at which the ui sends heartbeat to the server</p></td>
 </tr>
 </tbody>
 </table>
@@ -1693,7 +2301,7 @@ to log to the Authentication Provider (keycloak). The cient-id and the client-se
 <div class="listingblock">
 <div class="content">
 <pre># Url of the Authentication provider
-    set $KeycloakBaseUrl "http://keycloak:8080";
+    set $KeycloakBaseUrl "http://keycloak:89";
 # Realm associated to OperatorFabric within the Authentication provider
     set $OperatorFabricRealm "dev";
 
@@ -1719,32 +2327,18 @@ to log to the Authentication Provider (keycloak). The cient-id and the client-se
 <col style="width: 25%;">
 <col style="width: 25%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">name</th>
-<th class="tableblock halign-left valign-top">default</th>
-<th class="tableblock halign-left valign-top">mandatory?</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.provider-url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The keycloak instance url.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mandatory?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.provider-realm</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The realm name within the keycloak instance.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.security.oauth2.resourceserver.jwt.jwk-set-uri</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.oauth2.resourceserver.jwt.jwk-set-uri</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The url providing the certificat used to verify the jwt signature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The url providing the certificate used to verify the jwt signature</p></td>
 </tr>
 </tbody>
 </table>
@@ -1762,16 +2356,11 @@ to log to the Authentication Provider (keycloak). The cient-id and the client-se
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yml"><span class="key">spring</span>:
   <span class="key">security</span>:
-    <span class="key">provider-url</span>: <span class="string"><span class="content">http://localhost:89</span></span>
-    <span class="key">provider-realm</span>: <span class="string"><span class="content">dev</span></span>
     <span class="key">oauth2</span>:
       <span class="key">resourceserver</span>:
         <span class="key">jwt</span>:
-          <span class="key">jwk-set-uri</span>: <span class="string"><span class="content">${spring.security.provider-url}/auth/realms/${spring.security.provider-realm}/protocol/openid-connect/certs</span></span></code></pre>
+          <span class="key">jwk-set-uri</span>:  <span class="string"><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/certs</span></span></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>where <code>jwt-set-uri</code> reuses <code>provider-url</code> and <code>provider-realm</code> properties.</p>
 </div>
 </td>
 </tr>
@@ -1790,16 +2379,7 @@ There are several common properties:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>security.provider-realm</code>: OAuth2 provider realm under which the OpertaroFabric client is declared;</p>
-</li>
-<li>
-<p><code>security.provider-url</code>: url of the keycloak server instance.</p>
-</li>
-<li>
 <p><code>security.logout-url</code>: url used when a user is logged out of the UI;</p>
-</li>
-<li>
-<p><code>security.oauth2.flow.provider</code>: name of the OAuth2 provider;</p>
 </li>
 <li>
 <p><code>security.oauth2.flow.delegate-url</code>: url used to connect to the Authentication provider;</p>
@@ -1835,13 +2415,10 @@ There are several common properties:</p>
       <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
         <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
           <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CODE</span><span class="delimiter">&quot;</span></span>,
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
           <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>
+        }
       },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
-    }
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>
   }
 }</code></pre>
 </div>
@@ -1874,19 +2451,14 @@ To enable IMPLICIT Flow authentication the following properties need to be set:<
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">operatorfabric</span><span class="delimiter">&quot;</span></span>: {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">IMPLICIT</span><span class="delimiter">&quot;</span></span>,
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Opfab Keycloak</span><span class="delimiter">&quot;</span></span>,
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev</span><span class="delimiter">&quot;</span></span>
-      },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-realm</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">IMPLICIT</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev</span><span class="delimiter">&quot;</span></span>
       }
     }
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
   }
 }</code></pre>
 </div>
@@ -1958,9 +2530,6 @@ location /auth/code/ {
 <li>
 <p>delegate-url</p>
 </li>
-<li>
-<p>provider-realm</p>
-</li>
 </ul>
 </div>
 </div>
@@ -1969,24 +2538,19 @@ location /auth/code/ {
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">operatorfabric</span><span class="delimiter">&quot;</span></span>: {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
       <span class="key"><span class="delimiter">&quot;</span><span class="content">jwt</span><span class="delimiter">&quot;</span></span>: {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">expire-claim</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">exp</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">login-claim</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">preferred_username</span><span class="delimiter">&quot;</span></span>
       },
       <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
         <span class="key"><span class="delimiter">&quot;</span><span class="content">client-id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">OAUTHCLIENTID</span><span class="delimiter">&quot;</span></span>,
         <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>,
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">provider</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My Secured Proxy</span><span class="delimiter">&quot;</span></span>
-      },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://my-secured-proxy/OAUTHTENANTID/oauth2/logout?client_id=OAUTHCLIENTID&amp;post_logout_redirect_uri=https%3A%2F%2Flocalhost:2002%2Fui%2Fui/</span><span class="delimiter">&quot;</span></span>,
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">provider-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://my-secured-proxy/</span><span class="delimiter">&quot;</span></span>
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>
+        }
       }
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://my-secured-proxy/OAUTHTENANTID/oauth2/logout?client_id=OAUTHCLIENTID&amp;post_logout_redirect_uri=https%3A%2F%2Flocalhost:2002%2Fui%2Fui/</span><span class="delimiter">&quot;</span></span>
     }
-  }
-}</code></pre>
+ }</code></pre>
 </div>
 </div>
 </div>
@@ -2328,351 +2892,10 @@ but they can be adapted for single container deployments and development mode.
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_operatorfabric_mongo_configuration"><a class="anchor" href="#_operatorfabric_mongo_configuration"></a>3.4. OperatorFabric Mongo configuration</h3>
-<div class="paragraph">
-<p>We only use URI configuration for mongo through the usage of the <code><code>spring.data.mongodb.uris</code></code>,
-it allows us to share the same configuration behavior for simple or cluster
-configuration and with both spring classic and reactive mongo configuration.
-See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo connection string</a> for the complete URI syntax.</p>
-</div>
-<div class="sect3">
-<h4 id="_define_time_to_live_for_archived_cards"><a class="anchor" href="#_define_time_to_live_for_archived_cards"></a>3.4.1. Define time to live for archived cards</h4>
-<div class="paragraph">
-<p>By default, archived cards will remain stored in the database forever. It is possible to have them automatically
-removed after a specified duration by using the <a href="https://docs.mongodb.com/manual/core/index-ttl/">TTL index feature of mongoDB</a> on their publishDate field.</p>
-</div>
-<div class="paragraph">
-<p>For example, to have cards expire after 10 days (864000s), enter the following commands in the mongo shell:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">use operator-fabric
-db.archivedCards.createIndex( { &quot;publishDate&quot;: 1 }, { expireAfterSeconds: 864000 } )</code></pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-You cannot use createIndex() to change the value of expireAfterSeconds of an existing index.
-Instead use the <a href="https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod">collMod</a> database command in conjunction with the index collection flag. Otherwise, to
-change the value of the option of an existing index, you must drop the index first and recreate.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_operatorfabric_kafka_configuration"><a class="anchor" href="#_operatorfabric_kafka_configuration"></a>3.5. OperatorFabric Kafka configuration</h3>
-<div class="paragraph">
-<p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic. In the default configuration Kafka is disabled.
-To enable Kafka you need to set the consumer group to the consumer group you assign to the OpFab Kafka consumer. This can be any group-id, as long as it isn&#8217;t used by other consumers
-(unless you explicitly want multiple consumers for the same group).</p>
-</div>
-<div class="paragraph">
-<p>You can set the group_id by uncommenting the <code>kafka.consumer.group_id</code> in the <code>cards-publication.yml</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">kafka</span>:
-    <span class="key">consumer</span>:
-      <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By default, the consumer will consume messages from the <code>opfab</code> topic.
-See <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a> for more information on the Spring Kafka implementation.</p>
-</div>
-<div class="paragraph">
-<p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
-</div>
-<div class="paragraph">
-<p>Operator Fabric is also able to publish response cards to a Kafka topic. The default topic name  <code>opfab-response</code>. You can specify which response cards
-are to be returned via Kafka by setting the <code>external-recipients</code> in the <code>cards-publication</code> yaml file. Instead of setting <code>http://</code> URL you should set it to <code>kafka:</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">external-recipients</span>:
-  <span class="key">recipients</span>:
-    - <span class="string"><span class="content">id: &quot;processAction&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8090/test</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">true</span></span>
-    - <span class="string"><span class="content">id: &quot;mykafka&quot;</span></span>
-      <span class="key">url</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">kafka:topicname</span><span class="delimiter">&quot;</span></span>
-      <span class="key">propagateUserToken</span>: <span class="string"><span class="content">false</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Note that <code>topicname</code> is a placeholder for now. All response cards are returned via the same Kafka response topic, as specified in the <code>opfab.kafka.topics.response-card</code> field.</p>
-</div>
-<div class="paragraph">
-<p>Also note enabling Kafka does not disable the REST interface.</p>
-</div>
-<div class="paragraph">
-<p>Example Kafka configuration plain:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
-  <span class="key">application</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
-  <span class="key">deserializer</span>:
-    <span class="key">value</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
-  <span class="key">serializer</span>:
-    <span class="key">value</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
-  <span class="key">kafka</span>:
-    <span class="key">consumer</span>:
-      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
-      <span class="key">properties</span>:
-        <span class="key">specific</span>:
-          <span class="key">avro</span>:
-            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
-    <span class="key">producer</span>:
-      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
-    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9092</span></span>
-<span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-commands_dev</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">m_opfab-card-response_dev</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Example Kafka configuration SASL:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
-  <span class="key">application</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
-  <span class="key">deserializer</span>:
-    <span class="key">value</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
-  <span class="key">serializer</span>:
-    <span class="key">value</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
-  <span class="key">kafka</span>:
-    <span class="key">consumer</span>:
-      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
-      <span class="key">security</span>:
-        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
-      <span class="key">properties</span>:
-        <span class="key">specific</span>:
-          <span class="key">avro</span>:
-            <span class="key">reader</span>: <span class="string"><span class="content">true</span></span>
-        <span class="key">sasl</span>:
-          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
-          <span class="key">jaas</span>:
-            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
-    <span class="key">producer</span>:
-      <span class="key">client-id</span>: <span class="string"><span class="content">operatorfabric-producer</span></span>
-      <span class="key">security</span>:
-        <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
-      <span class="key">properties</span>:
-        <span class="key">sasl</span>:
-          <span class="key">mechanism</span>: <span class="string"><span class="content">SCRAM-SHA-256</span></span>
-          <span class="key">jaas</span>:
-            <span class="key">config</span>: <span class="string"><span class="content">org.apache.kafka.common.security.scram.ScramLoginModule required username=&quot;kafkaUsername&quot; password=&quot;kafkaPassword&quot;;</span></span>
-    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
-    <span class="key">ssl</span>:
-      <span class="key">trust-store-type</span>: <span class="string"><span class="content">PKCS12</span></span>
-      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
-      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs</span></span>
-    <span class="key">properties</span>:
-      <span class="key">ssl</span>:
-        <span class="key">endpoint</span>:
-          <span class="key">identification</span>:
-            <span class="key">algorithm</span>: <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
-<span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Example Kafka configuration Kerberos:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
-  <span class="key">application</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">cards-publication</span></span>
-  <span class="key">deserializer</span>:
-    <span class="key">key</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
-    <span class="key">value</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
-  <span class="key">serializer</span>:
-    <span class="key">value</span>:
-      <span class="key">delegate</span>:
-        <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
-  <span class="key">kafka</span>:
-    <span class="key">security</span>:
-      <span class="key">protocol</span>: <span class="string"><span class="content">SASL_SSL</span></span>
-    <span class="key">properties</span>:
-      <span class="key">sasl.mechanism</span>: <span class="string"><span class="content">GSSAPI</span></span>
-      <span class="key">sasl</span>:
-        <span class="key">jaas</span>:
-          <span class="key">config</span>: <span class="string"><span class="content">com.sun.security.auth.module.Krb5LoginModule required useKeyTab=true keyTab=&quot;/etc/kafkaUsername.keytab&quot; storeKey=true useTicketCache=false serviceName=&quot;kafka&quot; principal=&quot;kafkaUsername@DOMAIN&quot;;</span></span>
-    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">kafka-server:9094</span></span>
-    <span class="key">ssl</span>:
-      <span class="key">trust-store-type</span>: <span class="string"><span class="content">pkcs12</span></span>
-      <span class="key">trust-store-password</span>: <span class="string"><span class="content">truststorePassword</span></span>
-      <span class="key">trust-store-location</span>: <span class="string"><span class="content">file:///etc/truststore.pkcs12</span></span>
-    <span class="key">consumer</span>:
-      <span class="key">group-id</span>: <span class="string"><span class="content">OPFAB</span></span>
-      <span class="key">key-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
-      <span class="key">value-deserializer</span>: <span class="string"><span class="content">org.springframework.kafka.support.serializer.ErrorHandlingDeserializer</span></span>
-      <span class="key">properties</span>:
-        <span class="key">spring</span>:
-          <span class="key">deserializer</span>:
-            <span class="key">key</span>:
-              <span class="key">delegate</span>:
-                <span class="key">class</span>: <span class="string"><span class="content">org.apache.kafka.common.serialization.StringDeserializer</span></span>
-            <span class="key">value</span>:
-              <span class="key">delegate</span>:
-                <span class="key">class</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</span></span>
-    <span class="key">producer</span>:
-      <span class="key">client-id</span>: <span class="string"><span class="content">OPFAB</span></span>
-      <span class="key">value-serializer</span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.producer.KafkaAvroWithoutRegistrySerializer</span></span>
-<span class="key">opfab</span>:
-  <span class="key">kafka</span>:
-    <span class="key">topics</span>:
-      <span class="key">card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-commands</span></span>
-      <span class="key">response-card</span>:
-        <span class="key">topicname</span>: <span class="string"><span class="content">opfab-card-response</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Example Kafka configuration OAUTHBEARER / AADToken:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
-  <span class="key">kafka</span>:
-    <span class="key">consumer</span>:
-      <span class="key">properties</span>:
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">[security.protocol]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">SASL_SSL</span></span>
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.jaas.config]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required ;</span></span>
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.mechanism]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">OAUTHBEARER</span></span>
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">[sasl.login.callback.handler.class]</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="content">org.opfab.cards.publication.kafka.auth.AADWorkloadIdentityLoginCallbackHandler</span></span>
-    <span class="key">producer</span>:
-      <span class="error">...the same...</span></code></pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>4. RabbitMQ</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_docker_container"><a class="anchor" href="#_docker_container"></a>4.1. Docker container</h3>
-<div class="paragraph">
-<p>In development mode, the simplest way to deploy a RabbitMQ server is to
-create a RabbitMQ docker container. A <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker/rabbitmq">docker-compose file</a> is provided to allow quick setup of a convenient RabbitMQ
- server.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_server_installation"><a class="anchor" href="#_server_installation"></a>4.2. Server installation</h3>
-<div class="paragraph">
-<p>This section is dedicated to production deployment of RabbitMQ. It is
- not complete and needs to be tailored to any specific production
- environment.</p>
-</div>
-<div class="sect3">
-<h4 id="_download_installation"><a class="anchor" href="#_download_installation"></a>4.2.1. Download &amp; Installation</h4>
-<div class="paragraph">
-<p>Download and install RabbitMQ following the
-<a href="https://www.rabbitmq.com/download.html">official procedure</a> for the
-target environment</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_used_ports"><a class="anchor" href="#_used_ports"></a>4.2.2. Used ports</h4>
-<div class="paragraph">
-<p>If RabbitMQ may not bind to the following ports, it won&#8217;t start :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>4369</strong>: epmd, a peer discovery service used by RabbitMQ nodes and
-CLI tools</p>
-</li>
-<li>
-<p><strong>5672, 5671</strong>: used by AMQP 0-9-1 and 1.0 clients without and with
-TLS</p>
-</li>
-<li>
-<p><strong>25672</strong>: used for inter-node and CLI tools communication
-(Erlang distribution server port) and is allocated from a dynamic range
-(limited to a single port by default, computed as AMQP port + 20000).
-Unless external connections on these ports are really necessary
-(e.g. the cluster uses federation or CLI tools are used on machines
-outside the subnet), these ports should not be publicly exposed. See
-networking guide for details.</p>
-</li>
-<li>
-<p><strong>35672-35682</strong>: used by CLI tools (Erlang distribution client ports)
-for communication with nodes and is allocated from a dynamic range
-(computed as server distribution port + 10000 through server
-distribution port + 10010). See networking guide for details.</p>
-</li>
-<li>
-<p><strong>15672</strong>: HTTP API clients, management UI and rabbitmqadmin (<strong>only if
-the management plugin is enabled</strong>)</p>
-</li>
-<li>
-<p><strong>61613, 61614</strong>: STOMP clients without and with TLS
-(<strong>only if the STOMP plugin is enabled</strong>)</p>
-</li>
-<li>
-<p><strong>1883, 8883</strong>: (MQTT clients without and with TLS,
-<em>if the MQTT plugin is enabled</em>)</p>
-</li>
-<li>
-<p><strong>15674</strong>: STOMP-over-WebSockets clients
-(<strong>only if the Web STOMP plugin is enabled</strong>)</p>
-</li>
-<li>
-<p><strong>15675</strong>: MQTT-over-WebSockets clients
-(<strong>only if the Web MQTT plugin is enabled</strong>)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_production_configuration"><a class="anchor" href="#_production_configuration"></a>4.2.3. Production configuration</h4>
-<div class="paragraph">
-<p>See the <a href="https://www.rabbitmq.com/production-checklist.html">guide</a> for
-production configuration guidelines</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>5. Monitoring</h2>
+<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>4. Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Operator Fabric provides end points for monitoring via <a href="https://prometheus.io/">prometheus</a>. The monitoring is available for the four following services: user, businessconfig, cards-consultation, cards-publication. You can start a test prometheus instance via <code>config/monitoring/startPrometheus.sh</code> , the monitoring will be accessible on <a href="http://localhost:9090/" class="bare">localhost:9090/</a></p>
@@ -2680,7 +2903,7 @@ production configuration guidelines</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_logging_administration"><a class="anchor" href="#_logging_administration"></a>6. Logging Administration</h2>
+<h2 id="_logging_administration"><a class="anchor" href="#_logging_administration"></a>5. Logging Administration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs. It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework. These levels can be one of:</p>
@@ -2743,6 +2966,10 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 </div>
 </div>
 <div class="paragraph">
+<p>To get the log level for ROOT logger of a service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogs.sh">src/test/resources/logs/getLogs.sh</a> as follows: <code>getLogs.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-publication" service  execute: <code>getLogs.sh localhost:2102 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+<div class="paragraph">
 <p>To configure a given logger, POST a json entity to the '/actuator/logger' URI, as follows:</p>
 </div>
 <div class="listingblock">
@@ -2753,10 +2980,14 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <div class="paragraph">
 <p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
 </div>
+<div class="paragraph">
+<p>To set the log level for ROOT logger of a service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_users_groups_and_entities_administration"><a class="anchor" href="#_users_groups_and_entities_administration"></a>7. Users, Groups and Entities Administration</h2>
+<h2 id="_users_groups_and_entities_administration"><a class="anchor" href="#_users_groups_and_entities_administration"></a>6. Users, Groups and Entities Administration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A new operator call John Doe, who has OAuth granted right to connect to current <code>OperatorFabric</code> instance, need to receive cards within current <code>OperatorFabric</code> instance.
@@ -2764,9 +2995,9 @@ As a user of OperatorFabric, he needs to be added to the system with a <code>log
 As there is no <code>Administration GUI</code> for the moment, it must be performed through command line, as detailed in the Users API.</p>
 </div>
 <div class="sect2">
-<h3 id="_users"><a class="anchor" href="#_users"></a>7.1. Users</h3>
+<h3 id="_users"><a class="anchor" href="#_users"></a>6.1. Users</h3>
 <div class="sect3">
-<h4 id="_list_all_users"><a class="anchor" href="#_list_all_users"></a>7.1.1. List all users</h4>
+<h4 id="_list_all_users"><a class="anchor" href="#_list_all_users"></a>6.1.1. List all users</h4>
 <div class="paragraph">
 <p>First of all, list the users (who are the recipients in OperatorFabric) of the system with the following commands:</p>
 </div>
@@ -2864,7 +3095,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>7.1.2. Create a new User</h4>
+<h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>6.1.2. Create a new User</h4>
 <div class="paragraph">
 <p>We are sure that no John-doe-operator exists in our OperatorFabric instance.
 We can add him in our OperatorFabric instance using the following command use httpie:</p>
@@ -2898,7 +3129,7 @@ We can add him in our OperatorFabric instance using the following command use ht
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>7.1.3. Fetch user details</h4>
+<h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>6.1.3. Fetch user details</h4>
 <div class="paragraph">
 <p>It&#8217;s always a good thing to verify if all the information has been correctly recorded in the system:</p>
 </div>
@@ -2936,7 +3167,7 @@ We can add him in our OperatorFabric instance using the following command use ht
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_user_details"><a class="anchor" href="#_update_user_details"></a>7.1.4. Update user details</h4>
+<h4 id="_update_user_details"><a class="anchor" href="#_update_user_details"></a>6.1.4. Update user details</h4>
 <div class="paragraph">
 <p>As shown by this result, the firstName of the new operator has been misspelled.
 We need
@@ -2977,7 +3208,7 @@ To correct this mistake, the following commands can be used:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_groupsentities"><a class="anchor" href="#_groupsentities"></a>7.2. Groups/Entities</h3>
+<h3 id="_groupsentities"><a class="anchor" href="#_groupsentities"></a>6.2. Groups/Entities</h3>
 <div class="paragraph">
 <p>All the commands below :</p>
 </div>
@@ -3007,7 +3238,7 @@ To correct this mistake, the following commands can be used:</p>
 <p>are available for both groups and entities. In order not to overload the documentation, we will only detail group endpoints.</p>
 </div>
 <div class="sect3">
-<h4 id="_list_groups_or_entities"><a class="anchor" href="#_list_groups_or_entities"></a>7.2.1. List groups (or entities)</h4>
+<h4 id="_list_groups_or_entities"><a class="anchor" href="#_list_groups_or_entities"></a>6.2.1. List groups (or entities)</h4>
 <div class="paragraph">
 <p>This operator is the first member of a new group operator called the <code>OPERATORS</code>, which doesn&#8217;t exist for the moment in
 the system. As shown when we
@@ -3078,7 +3309,7 @@ existing in the server.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_new_group_or_entity"><a class="anchor" href="#_create_a_new_group_or_entity"></a>7.2.2. Create a new group (or entity)</h4>
+<h4 id="_create_a_new_group_or_entity"><a class="anchor" href="#_create_a_new_group_or_entity"></a>6.2.2. Create a new group (or entity)</h4>
 <div class="paragraph">
 <p>Firstly, the group called <code>OPERATORS</code> has to be
 <a href="/documentation/current/api/users/index.html#/groups/createGroup">added to the system</a>
@@ -3117,7 +3348,7 @@ using the following command:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_details_of_a_given_group_or_entity"><a class="anchor" href="#_fetch_details_of_a_given_group_or_entity"></a>7.2.3. Fetch details of a given group (or entity)</h4>
+<h4 id="_fetch_details_of_a_given_group_or_entity"><a class="anchor" href="#_fetch_details_of_a_given_group_or_entity"></a>6.2.3. Fetch details of a given group (or entity)</h4>
 <div class="paragraph">
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="/documentation/current/api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
@@ -3156,7 +3387,7 @@ called <code>OPERATORS</code>, use the following command:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_details_of_a_group_or_entity"><a class="anchor" href="#_update_details_of_a_group_or_entity"></a>7.2.4. Update details of a group (or entity)</h4>
+<h4 id="_update_details_of_a_group_or_entity"><a class="anchor" href="#_update_details_of_a_group_or_entity"></a>6.2.4. Update details of a group (or entity)</h4>
 <div class="paragraph">
 <p>The description is really null. After verification, in our first command used to create the group,
 the attribute for the description is misspelled. Using the following command
@@ -3194,7 +3425,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_a_user_to_a_group_or_entity"><a class="anchor" href="#_add_a_user_to_a_group_or_entity"></a>7.2.5. Add a user to a group (or entity)</h4>
+<h4 id="_add_a_user_to_a_group_or_entity"><a class="anchor" href="#_add_a_user_to_a_group_or_entity"></a>6.2.5. Add a user to a group (or entity)</h4>
 <div class="paragraph">
 <p>As both new group and new user are correct it&#8217;s time
 <a href="/documentation/current/api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
@@ -3261,7 +3492,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_remove_a_user_from_a_group_or_entity"><a class="anchor" href="#_remove_a_user_from_a_group_or_entity"></a>7.2.6. Remove a user from a group (or entity)</h4>
+<h4 id="_remove_a_user_from_a_group_or_entity"><a class="anchor" href="#_remove_a_user_from_a_group_or_entity"></a>6.2.6. Remove a user from a group (or entity)</h4>
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
@@ -3335,7 +3566,7 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 </div>
 <div class="sect3">
-<h4 id="_entity_parents"><a class="anchor" href="#_entity_parents"></a>7.2.7. Entity parents</h4>
+<h4 id="_entity_parents"><a class="anchor" href="#_entity_parents"></a>6.2.7. Entity parents</h4>
 <div class="paragraph">
 <p>Entities have a 'parents' attribute instead of a 'perimeters' one.
 This attribute is a string array.
@@ -3344,7 +3575,7 @@ When adding or patching an Entity into the system, operatorFabric performs a cyc
 On a positive cycle detection cancels the addition or the patch.</p>
 </div>
 <div class="sect4">
-<h5 id="_add_a_new_entity_without_a_cycle_in_the_parent_declaration"><a class="anchor" href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration"></a>7.2.7.1. Add a new Entity without a cycle in the parent declaration</h5>
+<h5 id="_add_a_new_entity_without_a_cycle_in_the_parent_declaration"><a class="anchor" href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration"></a>6.2.7.1. Add a new Entity without a cycle in the parent declaration</h5>
 <div class="paragraph">
 <p>using httpie:</p>
 </div>
@@ -3381,7 +3612,7 @@ On a positive cycle detection cancels the addition or the patch.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_add_a_new_entity_with_a_cycle"><a class="anchor" href="#_add_a_new_entity_with_a_cycle"></a>7.2.7.2. Add a new Entity with a cycle</h5>
+<h5 id="_add_a_new_entity_with_a_cycle"><a class="anchor" href="#_add_a_new_entity_with_a_cycle"></a>6.2.7.2. Add a new Entity with a cycle</h5>
 <div class="paragraph">
 <p>For simplicity, in this example the new entity will declare itself as a parent.
 This auto-referencing triggers a cycle detection.</p>
@@ -3422,29 +3653,18 @@ This auto-referencing triggers a cycle detection.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_service_port_table"><a class="anchor" href="#_service_port_table"></a>8. Service port table</h2>
+<h2 id="_service_port_table"><a class="anchor" href="#_service_port_table"></a>7. Service port table</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>By default all service built artifacts are configured with server.port set
-to 8080</p>
-</div>
-<div class="paragraph">
-<p>If you run the services using <code>bootRun</code> Gradle task, the <code>run_all.sh</code> script or the full docker docker-compose
-(found under config/docker),
-the used ports are:</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Port</th>
 <th class="tableblock halign-left valign-top">Service</th>
-<th class="tableblock halign-left valign-top">Forwards to</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -3452,95 +3672,95 @@ the used ports are:</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">89</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">KeyCloak</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">89</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">KeyCloak api port</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2002</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">web-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Web ui and gateway  (Nginx server)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2100</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Businessconfig management service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2102</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2103</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Users management service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2104</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2105</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">External devices management service http (REST)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4100</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">businessconfig</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cards-external-diffusion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail notification service http (REST)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4102</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-publication</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2107</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cards-reminder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards reminder service http (REST)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4103</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">users</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4104</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-consultation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4105</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">external-devices</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5005</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java debug port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2108</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">supervisor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Supervisor service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mongo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">27017</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">mongo api port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mongo api port</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5672</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5672</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">amqp api port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amqp api port</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">15672</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15672</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">rabbitmq api port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rabbitmq api port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog SMTP port (for testing only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog web UI and API http (REST) (for testing only)</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rate_limiter_for_card_sendings"><a class="anchor" href="#_rate_limiter_for_card_sendings"></a>8. Rate limiter for card sendings</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>External publishers are monitored by this module which limits how many cards they can send
+<a href="/documentation/current/deployment/configuration/configuration.html#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
+ in a period of time
+<a href="/documentation/current/deployment/configuration/configuration.html#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
+.
+This is to avoid potential overloading due to external apps stuck in a card sending loop.
+It can be disabled / enabled with
+<a href="/documentation/current/deployment/configuration/configuration.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
