@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 October 2023</span>
+<span id="revdate">03 October 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1539,6 +1539,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_normalization_of_some_configuration_parameters">80.10. Normalization of some configuration parameters</a></li>
 <li><a href="#_mongodb_uri">80.11. Mongodb uri</a></li>
 <li><a href="#_rate_limiter_for_card_sendings_2">80.12. Rate limiter for card sendings</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_0_0_to_release_4_1_0">81. Migration Guide from release 4.0.0 to release 4.1.0</a>
+<ul class="sectlevel2">
+<li><a href="#_optimizing_nginx_configuration_for_latency_reduction">81.1. Optimizing Nginx Configuration for Latency Reduction</a></li>
 </ul>
 </li>
 </ul>
@@ -19964,6 +19969,30 @@ This is to avoid potential overloading due to external apps stuck in a card send
 <div class="paragraph">
 <p>Default value is set to 1000 cards per hour. It can be disabled / enabled with
 <a href="#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_0_0_to_release_4_1_0"><a class="anchor" href="#_migration_guide_from_release_4_0_0_to_release_4_1_0"></a>81. Migration Guide from release 4.0.0 to release 4.1.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_optimizing_nginx_configuration_for_latency_reduction"><a class="anchor" href="#_optimizing_nginx_configuration_for_latency_reduction"></a>81.1. Optimizing Nginx Configuration for Latency Reduction</h3>
+<div class="paragraph">
+<p>An optimization has been introduced in the Nginx configuration to reduce latency. To implement this optimization in your <code>nginx.conf</code> you need to add in <code>location /cards/</code>  the directive <code>proxy_buffering off</code></p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location /cards/ {
+    proxy_buffering off;
+    proxy_set_header Host $http_host;
+    proxy_pass http://cards-consultation:2104/;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</code></pre>
+</div>
 </div>
 </div>
 </div>
