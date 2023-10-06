@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">06 October 2023</span>
+<span id="revdate">07 October 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -11066,7 +11066,8 @@ but they can be adapted for single container deployments and development mode.
 <h2 id="_monitoring_2"><a class="anchor" href="#_monitoring_2"></a>29. Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Operator Fabric provides end points for monitoring via <a href="https://prometheus.io/">prometheus</a>. The monitoring is available for the four following services: user, businessconfig, cards-consultation, cards-publication. You can start a test prometheus instance via <code>config/monitoring/startPrometheus.sh</code> , the monitoring will be accessible on <a href="http://localhost:9090/" class="bare">localhost:9090/</a></p>
+<p>Operator Fabric provides end points for monitoring via <a href="https://prometheus.io/">prometheus</a>. The monitoring is available for the four following services: user, businessconfig, cards-consultation, cards-publication. You can start a test prometheus instance via <code>config/monitoring/startPrometheus.sh</code> , the monitoring will be accessible on <a href="http://localhost:9090/" class="bare">localhost:9090/</a>
+It is also possible to monitor the health status of cards-external-diffusion, cards-reminder and supervisor services by making an HTTP GET request to the "/healthcheck" endpoint exposed by each service. The healthcheck enpoint will return a HTTP 200 status code if the service is up and running.</p>
 </div>
 </div>
 </div>
@@ -19768,7 +19769,7 @@ automate it, you can do it directly in the database via the following request :<
 <div class="sect2">
 <h3 id="_rabbitmq_2"><a class="anchor" href="#_rabbitmq_2"></a>80.8. RabbitMQ</h3>
 <div class="paragraph">
-<p>In previous versions, it was necessary to start a RabbitMQ container referencing "rabbitmq:3-management." We now highly recommend that you update your configuration to utilize "lfeoperatorfabric/of-rabbitmq:4.0.0" instead. This adjustment ensures that you have a qualified version that is fully compatible with OpFab.</p>
+<p>In previous versions, it was necessary to start a RabbitMQ container referencing "rabbitmq:3-management." We now highly recommend that you update your configuration to utilize "lfeoperatorfabric/of-rabbitmq:4.0.0.RELEASE" instead. This adjustment ensures that you have a qualified version that is fully compatible with OpFab.</p>
 </div>
 <div class="paragraph">
 <p>When migrating your production environment you may be unable to start rabbitMQ with the following error in log :</p>
@@ -19926,7 +19927,7 @@ concerned parameters (old name &#8594; new name):</p>
 <p>spring.data.mongodb.uri -&#8594;  operatorfabric.mongodb.uri</p>
 </li>
 <li>
-<p>spring.rabbit.* -&#8594; operatorfabric.rabbit.*</p>
+<p>spring.rabbitmq.* -&#8594; operatorfabric.rabbitmq.*</p>
 </li>
 <li>
 <p>spring.security.oauth2.resourceserver.jwt.jwk-set-uri -&#8594;  operatorfabric.security.oauth2.resourceserver.jwt.jwk-set-uri</p>
