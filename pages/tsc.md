@@ -11,7 +11,7 @@ The current voting members for the Technical Steering Committee are:
 
 * [Clement Bouvier](https://github.com/ClementBouvierN)
 * [Frédéric Didier](https://github.com/freddidierRTE)
-* Frédéric Kruzyna
+* Frédéric Kruszyna
 * [Valérie Longa](https://github.com/vlo-rte)
 * Floris van der Meulen
 * [Guillaume Trimbach](https://github.com/gtrimbach-RTE)
