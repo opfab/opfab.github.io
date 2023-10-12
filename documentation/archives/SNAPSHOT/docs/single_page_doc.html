@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">12 October 2023</span>
+<span id="revdate">13 October 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -963,7 +963,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_monitoring_2">29. Monitoring</a></li>
-<li><a href="#_logging_administration">30. Logging Administration</a></li>
+<li><a href="#_logging_administration">30. Logging Administration</a>
+<ul class="sectlevel2">
+<li><a href="#_logging_configuration">30.1. Logging configuration</a></li>
+<li><a href="#_runtime_configuration">30.2. Runtime configuration</a></li>
+</ul>
+</li>
 <li><a href="#_users_groups_and_entities_administration">31. Users, Groups and Entities Administration</a>
 <ul class="sectlevel2">
 <li><a href="#_users_2">31.1. Users</a>
@@ -1544,6 +1549,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_migration_guide_from_release_4_0_0_to_release_4_1_0">81. Migration Guide from release 4.0.0 to release 4.1.0</a>
 <ul class="sectlevel2">
 <li><a href="#_optimizing_nginx_configuration_for_latency_reduction">81.1. Optimizing Nginx Configuration for Latency Reduction</a></li>
+<li><a href="#_updating_the_file_size_limit">81.2. Updating the file size limit</a></li>
+<li><a href="#_log_directories_in_docker">81.3. Log directories in docker</a></li>
 </ul>
 </li>
 </ul>
@@ -6525,7 +6532,7 @@ If you want to use the template as is, the json file must follow this structure 
 <div class="sect2">
 <h3 id="_pushing_data"><a class="anchor" href="#_pushing_data"></a>17.1. Pushing data</h3>
 <div class="paragraph">
-<p>It is expected for the data being pushed to be compliant with the <code>json</code> format. The different methods are detailed in the (<a href="https://opfab.github.io/documentation/current/api/businessconfig/#/default/getBusinessData">API documentation</a>).</p>
+<p>It is expected for the data being pushed to be compliant with the <code>json</code> format. The different methods are detailed in the (<a href="https://opfab.github.io/documentation/current/api/businessconfig/#/default/getBusinessData">API documentation</a>). The default limit of file size accepted is 100 MB, it can be updated in the nginx configuation.</p>
 </div>
 </div>
 <div class="sect2">
@@ -11067,15 +11074,35 @@ but they can be adapted for single container deployments and development mode.
 <div class="sectionbody">
 <div class="paragraph">
 <p>Operator Fabric provides end points for monitoring via <a href="https://prometheus.io/">prometheus</a>. The monitoring is available for the four following services: user, businessconfig, cards-consultation, cards-publication. You can start a test prometheus instance via <code>config/monitoring/startPrometheus.sh</code> , the monitoring will be accessible on <a href="http://localhost:9090/" class="bare">localhost:9090/</a>
-It is also possible to monitor the health status of cards-external-diffusion, cards-reminder and supervisor services by making an HTTP GET request to the "/healthcheck" endpoint exposed by each service. The healthcheck enpoint will return a HTTP 200 status code if the service is up and running.</p>
+It is also possible to monitor the health status of cards-external-diffusion, cards-reminder and supervisor services by making an HTTP GET request to the "/healthcheck" endpoint exposed by each service. The healthcheck endpoint will return a HTTP 200 status code if the service is up and running.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_logging_administration"><a class="anchor" href="#_logging_administration"></a>30. Logging Administration</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_logging_configuration"><a class="anchor" href="#_logging_configuration"></a>30.1. Logging configuration</h3>
 <div class="paragraph">
-<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs. It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework. These levels can be one of:</p>
+<p>Log levels can be defined either globally in the YAML configuration file or individually for each service. You will find a commented configuration for each service within the directory config/docker.</p>
+</div>
+<div class="paragraph">
+<p>Services are designed to write logs to two primary destinations: standard output and log files within the Docker containers.</p>
+</div>
+<div class="paragraph">
+<p>If you want to save logs you can redirect the standard output to a file.</p>
+</div>
+<div class="paragraph">
+<p>Or you can also map the Docker directory /var/log/opfab to a location on the host machine for each business services, keeping logs outside of the container.</p>
+</div>
+<div class="paragraph">
+<p>For the web-ui service&#8217;s logs are in the /var/log/nginx directory. You can map this directory to the host to preserve those logs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>30.2. Runtime configuration</h3>
+<div class="paragraph">
+<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services (the service supervisor , cards-external-diffusion and cards-reminder does not provide this feature). It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework. These levels can be one of:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -11097,16 +11124,7 @@ It is also possible to monitor the health status of cards-external-diffusion, ca
 <li>
 <p>FATAL</p>
 </li>
-<li>
-<p>OFF</p>
-</li>
-<li>
-<p>null</p>
-</li>
 </ul>
-</div>
-<div class="paragraph">
-<p>null indicates that there is no explicit configuration.</p>
 </div>
 <div class="paragraph">
 <p>Querying and setting logging levels is restricted to administrators.</p>
@@ -11152,6 +11170,7 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <div class="paragraph">
 <p>To set the log level for ROOT logger of a service it is possible to call the provided script
 <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
 </div>
 </div>
 </div>
@@ -19994,6 +20013,31 @@ This is to avoid potential overloading due to external apps stuck in a card send
     proxy_set_header X-Forwarded-For $remote_addr;
   }</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_the_file_size_limit"><a class="anchor" href="#_updating_the_file_size_limit"></a>81.2. Updating the file size limit</h3>
+<div class="paragraph">
+<p>The limit of maximum file size has been updated to 100 MB. To implement this limit in your <code>nginx.conf</code> you need to add in <code>location /businessconfig/</code>  the directive <code>client_max_body_size 100M;</code></p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location /businessconfig {
+    proxy_set_header Host $http_host;
+    proxy_pass http://${MY_DOCKER_HOST}:2100;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    client_max_body_size 100M;
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_log_directories_in_docker"><a class="anchor" href="#_log_directories_in_docker"></a>81.3. Log directories in docker</h3>
+<div class="paragraph">
+<p>For the services cards-reminder, supervisor, cards-external-diffusion the log directory in the docker is not anymore /usr/app/logs but /var/log/opfab. So if you map the log directory in your configuration , you need to change it.</p>
 </div>
 </div>
 </div>
