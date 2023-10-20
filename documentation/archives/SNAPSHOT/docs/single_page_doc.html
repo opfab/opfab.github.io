@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 October 2023</span>
+<span id="revdate">21 October 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1129,7 +1129,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_setup_at_least_one_client_or_best_one_per_service">43.2. Setup at least one client (or best one per service)</a>
 <ul class="sectlevel3">
 <li><a href="#_create_client">43.2.1. Create client</a></li>
-<li><a href="#_add_a_role_to_client">43.2.2. Add a Role to Client</a></li>
 </ul>
 </li>
 <li><a href="#_create_users">43.3. Create Users</a>
@@ -6550,12 +6549,26 @@ If you want to use the template as is, the json file must follow this structure 
 <h2 id="_frontend_api"><a class="anchor" href="#_frontend_api"></a>18. Frontend API</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follow :
-- Users API : API to get information about users and entities
-- Navigate API : API to ask opfab to navigate to a specific view
-- CurrentCard API : API to get information regarding the current card
-- CurrentUserCard API : API to get information regarding the current user card (card in creation or edition)
-- Utils API : utilities functions</p>
+<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follow :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Users API : API to get information about users and entities</p>
+</li>
+<li>
+<p>Navigate API : API to ask opfab to navigate to a specific view</p>
+</li>
+<li>
+<p>CurrentCard API : API to get information regarding the current card</p>
+</li>
+<li>
+<p>CurrentUserCard API : API to get information regarding the current user card (card in creation or edition)</p>
+</li>
+<li>
+<p>Utils API : utilities functions</p>
+</li>
+</ul>
 </div>
 <div class="sect2">
 <h3 id="_users_api"><a class="anchor" href="#_users_api"></a>18.1. Users API</h3>
@@ -7612,6 +7625,9 @@ The available permissions are:</p>
 </li>
 <li>
 <p><code>VIEW_ALL_ARCHIVED_CARDS</code>: Permission to access all archived cards</p>
+</li>
+<li>
+<p><code>VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS</code>: Permission to access all archived cards which are in the perimeter of the user</p>
 </li>
 <li>
 <p><code>READONLY</code>: Readonly permission. User cannot send user cards, cannot respond to a card, when acknowledges a card he does not acknowledge it for his entities.</p>
@@ -11947,7 +11963,9 @@ This auto-referencing triggers a cycle detection.</p>
 .
 This is to avoid potential overloading due to external apps stuck in a card sending loop.
 It can be disabled / enabled with
-<a href="#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
+<a href="#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a>
+ifndef::single-page-doc[<a href="/documentation/current/deployment/configuration/configuration.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a>].
+It also possible to reset the data of the limiter by calling the API through the "/cards/rateLimiter" endpoint (e.g. POST "$url:2102/cards/rateLimiter" -H "Authorization:Bearer $token").</p>
 </div>
 </div>
 </div>
@@ -13953,52 +13971,112 @@ Default credentials are admin/admin.</p>
 <p>Select Openid-Connect Protocol</p>
 </li>
 <li>
-<p>Enable Authorization</p>
+<p>Click Next</p>
 </li>
 <li>
-<p>Access Type to Confidential</p>
+<p>Enable client authentication</p>
 </li>
 <li>
-<p>save</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_add_a_role_to_client"><a class="anchor" href="#_add_a_role_to_client"></a>43.2.2. Add a Role to Client</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>In client view, click Roles tab</p>
+<p>Enable authorization</p>
 </li>
 <li>
-<p>Click Add button</p>
+<p>Select Authentication flows: Standard flow, Direct access grants, Implicit flow</p>
 </li>
 <li>
-<p>create a USER role (or whatever)</p>
+<p>Click Next</p>
 </li>
 <li>
-<p>save
-== create a Mapper</p>
+<p>Enter Valid redirect URIs : <a href="http://localhost:2002/*" class="bare">localhost:2002/*</a></p>
 </li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Used to map the user name to a field that suits services</p>
-</div>
-<div class="ulist">
-<ul>
+<li>
+<p>Add Valid redirect URIs : <a href="http://localhost:4200/*" class="bare">localhost:4200/*</a></p>
+</li>
+<li>
+<p>Click Save</p>
+</li>
+<li>
+<p>Remove Web origins settings</p>
+</li>
+<li>
+<p>Click Save</p>
+</li>
+<li>
+<p>Select Client scopes tab</p>
+</li>
+<li>
+<p>Click on opfab-client-dedicated</p>
+</li>
+<li>
+<p>From Mappers tab click Add Mapper</p>
+</li>
+<li>
+<p>Select by configuration</p>
+</li>
+<li>
+<p>Select User Property</p>
+</li>
 <li>
 <p>name it sub</p>
-</li>
-<li>
-<p>set mapper type to User Property</p>
 </li>
 <li>
 <p>set Property to username</p>
 </li>
 <li>
 <p>set Token claim name to sub</p>
+</li>
+<li>
+<p>enable add to access token</p>
+</li>
+<li>
+<p>save</p>
+</li>
+<li>
+<p>From Mappers tab click Add Mapper</p>
+</li>
+<li>
+<p>Select by configuration</p>
+</li>
+<li>
+<p>Select User Attribute</p>
+</li>
+<li>
+<p>name it groups</p>
+</li>
+<li>
+<p>set Property to groups</p>
+</li>
+<li>
+<p>set User attribute to groups</p>
+</li>
+<li>
+<p>set Token claim name to groups</p>
+</li>
+<li>
+<p>enable add to access token</p>
+</li>
+<li>
+<p>save</p>
+</li>
+<li>
+<p>From Mappers tab click Add Mapper</p>
+</li>
+<li>
+<p>Select by configuration</p>
+</li>
+<li>
+<p>Select User Attribute</p>
+</li>
+<li>
+<p>name it groups</p>
+</li>
+<li>
+<p>set Property to entitiesId</p>
+</li>
+<li>
+<p>set User attribute to entitiesId</p>
+</li>
+<li>
+<p>set Token claim name to entitiesId</p>
 </li>
 <li>
 <p>enable add to access token</p>
@@ -14024,29 +14102,28 @@ Default credentials are admin/admin.</p>
 <p>Set username to admin</p>
 </li>
 <li>
-<p>Save</p>
-</li>
-<li>
-<p>Select Role Mappings tab</p>
-</li>
-<li>
-<p>Select "opfab-client" in client roles combo (or whatever id you formerly chose)</p>
-</li>
-<li>
-<p>Select USER  as assigned role (or whatever role you formerly created)</p>
+<p>Create</p>
 </li>
 <li>
 <p>Select Credentials tab</p>
 </li>
 <li>
-<p>set password and confirmation to "test"
-*</p>
+<p>set password and confirmation to "test"</p>
+</li>
+<li>
+<p>disable Temporary flag</p>
+</li>
+<li>
+<p>Select Attributes tab</p>
+</li>
+<li>
+<p>add groups or entitiesId attributes if needed</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>repeat process for other users:
-operator3_fr, operator1_fr, operator2_fr</p>
+operator3_fr, operator1_fr, operator2_fr, etc ..</p>
 </div>
 <div class="sect3">
 <h4 id="_development_specific_configuration"><a class="anchor" href="#_development_specific_configuration"></a>43.3.1. Development-specific configuration</h4>

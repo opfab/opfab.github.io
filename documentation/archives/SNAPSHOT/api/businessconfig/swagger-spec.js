@@ -741,6 +741,10 @@ window.swaggerSpec={
               "type" : "boolean",
               "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring screen"
             },
+            "processMonitoring" : {
+              "type" : "boolean",
+              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring processus screen"
+            },
             "logging" : {
               "type" : "boolean",
               "description" : "If this flag is set to true, the cards of this process will be visible on the logging screen"
