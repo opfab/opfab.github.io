@@ -1110,6 +1110,34 @@ window.swaggerSpec={
         }
       }
     },
+    "/connectedRecipientsPreview" : {
+      "post" : {
+        "summary" : "get the connected Entity among the recipients in card preview",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "card",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/Card"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          }
+        }
+      }
+    },
     "/cards/{id}" : {
       "parameters" : [ {
         "in" : "path",
