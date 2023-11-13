@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 4.0.2.RELEASE,</span>
-<span id="revdate">06 November 2023</span>
+<span id="revnumber">version 4.0.3.RELEASE,</span>
+<span id="revdate">13 November 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -630,6 +630,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_mailhog_docker_container">12.1. MailHog docker container</a></li>
 </ul>
 </li>
+<li><a href="#_dependency_analysis">13. Dependency analysis</a></li>
 </ul>
 </div>
 </div>
@@ -3256,6 +3257,34 @@ Mailhog REST API allows to list, retrieve and delete messages.</p>
 </div>
 <div class="paragraph">
 <p>For example, to retrieve the list of received messages, send an http GET request to: <code><a href="http://localhost:8025/api/v2/messages" class="bare">localhost:8025/api/v2/messages</a></code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependency_analysis"><a class="anchor" href="#_dependency_analysis"></a>13. Dependency analysis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Inside the bin/dependencies directory, you can find scripts to help analyze the dependencies used by the project. These scripts should be executed from within the same directory.</p>
+</div>
+<div class="paragraph">
+<p>The first script, named generateDependencyReport.sh, aggregates all dependency trees (including Java and npm dependencies) into a single file. The generated file includes the name of the current branch, making it easier to compare dependencies between branches.</p>
+</div>
+<div class="paragraph">
+<p>The second script, searchForDependency.sh, allows you to search for dependencies based on the generated file. For example, if you are searching for the "rabbit" dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd bin/dependencies
+./searchForDependency.sh rabbit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The analysis is conducted on the current branch by default. If you wish to utilize a report from another branch, you can specify it as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>./searchForDependency rabbit myBranch</code></pre>
 </div>
 </div>
 </div>
