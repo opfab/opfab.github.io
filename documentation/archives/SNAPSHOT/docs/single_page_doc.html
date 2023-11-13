@@ -658,7 +658,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_tooltip">11.2.4. Tooltip</a></li>
 <li><a href="#_multi_select">11.2.5. Multi Select</a></li>
-<li><a href="#_charts">11.2.6. Charts</a></li>
+<li><a href="#_rich_text_editor">11.2.6. Rich Text Editor</a></li>
+<li><a href="#_charts">11.2.7. Charts</a></li>
 </ul>
 </li>
 </ul>
@@ -5440,7 +5441,89 @@ It strongly advice to NOT use directly virtual select (always use OperatorFabric
 </div>
 </div>
 <div class="sect3">
-<h4 id="_charts"><a class="anchor" href="#_charts"></a>11.2.6. Charts</h4>
+<h4 id="_rich_text_editor"><a class="anchor" href="#_rich_text_editor"></a>11.2.6. Rich Text Editor</h4>
+<div class="paragraph">
+<p>OperatorFabric provides a rich text editor component based on <a href="https://github.com/quilljs/quill" class="bare">github.com/quilljs/quill</a>.
+The component provides the following text formatting tools :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Headings</p>
+</li>
+<li>
+<p>Color</p>
+</li>
+<li>
+<p>Bold</p>
+</li>
+<li>
+<p>Underline</p>
+</li>
+<li>
+<p>Italics</p>
+</li>
+<li>
+<p>Link</p>
+</li>
+<li>
+<p>Align</p>
+</li>
+<li>
+<p>Ordered list</p>
+</li>
+<li>
+<p>Bullet list</p>
+</li>
+<li>
+<p>Indent</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To use the rich text editor component just add a &lt;opfab-richtext-editor&gt; tag in the template using the OperatorFabric style. From javascript it is then possible to get formatted text content.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>        &lt;div class="opfab-textarea"&gt;
+            &lt;label&gt; MESSAGE &lt;/label&gt;
+            &lt;opfab-richtext-editor id="quill"&gt;{{card.data.richMessage}}&lt;/opfab-richtext-editor&gt;
+        &lt;/div&gt;
+
+ &lt;script&gt;
+
+  const quillEditor = document.getElementById('quill');
+
+  opfab.currentUserCard.registerFunctionToGetSpecificCardInformation(() =&gt; {
+
+        const editorContent = quillEditor.getContents();
+        const editorHtml = quillEditor.getHtml();
+  ...</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The editor use a custom JSON format called Delta to store the formatted content. To get the JSON content as a string you can call the <code>getContents()</code> method. To get the HTML formatted text you can call the <code>getHtml()</code> method.</p>
+</div>
+<div class="paragraph">
+<p>To set the initial content of the editor you can either call the <code>setContents(delta)</code> method from javascript  providing the content as Delta JSON string or directly in the template by putting the Delta JSON string as content of the &lt;opfab-richtext-editor&gt; tag.</p>
+</div>
+<div class="paragraph">
+<p>To get a HTML representation from a Delta JSON string you can call the <code>opfab.richTextEditor.getHtml(delta)</code> method. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;span id="richMessage"&gt;&lt;/span&gt;
+
+&lt;script&gt;
+
+  document.getElementById("richMessage").innerHTML = opfab.richTextEditor.getHtml("{{card.data.richMessage}}");
+  ...
+&lt;/script&gt;</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_charts"><a class="anchor" href="#_charts"></a>11.2.7. Charts</h4>
 <div class="paragraph">
 <p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
