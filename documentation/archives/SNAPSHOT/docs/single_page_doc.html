@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 November 2023</span>
+<span id="revdate">20 November 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -787,17 +787,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_function_getdisplaycontext">18.3.5. Function getDisplayContext</a></li>
 <li><a href="#_function_getentitiesallowedtorespond">18.3.6. Function getEntitiesAllowedToRespond</a></li>
 <li><a href="#_function_getentityusedforuserresponse">18.3.7. Function  getEntityUsedForUserResponse</a></li>
-<li><a href="#_function_isresponselocked">18.3.8. Function isResponseLocked</a></li>
-<li><a href="#_function_isuserallowedtorespond">18.3.9. Function isUserAllowedToRespond</a></li>
-<li><a href="#_function_isusermemberofanentityrequiredtorespond">18.3.10. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
-<li><a href="#_function_listentoresponselock">18.3.11. Function listenToResponseLock</a></li>
-<li><a href="#_function_listentoresponseunlock">18.3.12. Function listenToResponseUnlock</a></li>
-<li><a href="#_function_listentochildcards">18.3.13. Function listenToChildCards</a></li>
-<li><a href="#_function_listentolttdexpired">18.3.14. Function listenToLttdExpired</a></li>
-<li><a href="#_function_listentostylechange">18.3.15. Function listenToStyleChange</a></li>
-<li><a href="#_function_listentoscreensize">18.3.16. Function listenToScreenSize</a></li>
-<li><a href="#_function_listentotemplaterenderingcomplete">18.3.17. Function listenToTemplateRenderingComplete</a></li>
-<li><a href="#_function_registerfunctiontogetuserresponse">18.3.18. Function registerFunctionToGetUserResponse</a></li>
+<li><a href="#_function_getentitiesusableforuserresponse">18.3.8. Function  getEntitiesUsableForUserResponse</a></li>
+<li><a href="#_function_isresponselocked">18.3.9. Function isResponseLocked</a></li>
+<li><a href="#_function_isuserallowedtorespond">18.3.10. Function isUserAllowedToRespond</a></li>
+<li><a href="#_function_isusermemberofanentityrequiredtorespond">18.3.11. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
+<li><a href="#_function_listentoresponselock">18.3.12. Function listenToResponseLock</a></li>
+<li><a href="#_function_listentoresponseunlock">18.3.13. Function listenToResponseUnlock</a></li>
+<li><a href="#_function_listentochildcards">18.3.14. Function listenToChildCards</a></li>
+<li><a href="#_function_listentolttdexpired">18.3.15. Function listenToLttdExpired</a></li>
+<li><a href="#_function_listentostylechange">18.3.16. Function listenToStyleChange</a></li>
+<li><a href="#_function_listentoscreensize">18.3.17. Function listenToScreenSize</a></li>
+<li><a href="#_function_listentotemplaterenderingcomplete">18.3.18. Function listenToTemplateRenderingComplete</a></li>
+<li><a href="#_function_registerfunctiontogetuserresponse">18.3.19. Function registerFunctionToGetUserResponse</a></li>
 </ul>
 </li>
 <li><a href="#_currentusercard_api">18.4. CurrentUserCard API</a>
@@ -1562,6 +1563,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_optimizing_nginx_configuration_for_latency_reduction">83.1. Optimizing Nginx Configuration for Latency Reduction</a></li>
 <li><a href="#_updating_the_file_size_limit">83.2. Updating the file size limit</a></li>
 <li><a href="#_log_directories_in_docker">83.3. Log directories in docker</a></li>
+<li><a href="#_opfabapi_2">83.4. OpfabAPI</a></li>
 </ul>
 </li>
 </ul>
@@ -7034,7 +7036,7 @@ If you want to use the template as is, the json file must follow this structure 
 <div class="sect3">
 <h4 id="_function_getentitiesallowedtorespond"><a class="anchor" href="#_function_getentitiesallowedtorespond"></a>18.3.6. Function getEntitiesAllowedToRespond</h4>
 <div class="paragraph">
-<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method getEntitiesAllowedToRespond. This method returns an array containing the ids. An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars</a>.</p>
+<p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method getEntitiesAllowedToRespond. This method returns an array containing the ids.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7045,8 +7047,7 @@ If you want to use the template as is, the json file must follow this structure 
 <div class="sect3">
 <h4 id="_function_getentityusedforuserresponse"><a class="anchor" href="#_function_getentityusedforuserresponse"></a>18.3.7. Function  getEntityUsedForUserResponse</h4>
 <div class="paragraph">
-<p>If inside your template, you want to get the id of the entity used by the user to send a response, you can call the method getEntityUsedForUserResponse.
-An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars">src/test/resources/bundles/messageOrQuestionExample/template/question.handlebars</a>.</p>
+<p>If inside your template, you want to get the id of the entity used by the user to send a response, you can call the method getEntityUsedForUserResponse. This method is deprecated and you should favor the use of the method getEntitiesUsableForUserResponse.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7055,7 +7056,18 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>18.3.8. Function isResponseLocked</h4>
+<h4 id="_function_getentitiesusableforuserresponse"><a class="anchor" href="#_function_getentitiesusableforuserresponse"></a>18.3.8. Function  getEntitiesUsableForUserResponse</h4>
+<div class="paragraph">
+<p>If inside your template, you want to get the ids of the entities the user can answer on behalf of, you can call the method getEntitiesUsableForUserResponse. This method will return an array containing the entities' ids</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    const entities = opfab.currentCard.getEntitiesUsableForUserResponse()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>18.3.9. Function isResponseLocked</h4>
 <div class="paragraph">
 <p>To know if template is locked (i.e user can not respond unless he unlocks the card)</p>
 </div>
@@ -7066,7 +7078,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isuserallowedtorespond"><a class="anchor" href="#_function_isuserallowedtorespond"></a>18.3.9. Function isUserAllowedToRespond</h4>
+<h4 id="_function_isuserallowedtorespond"><a class="anchor" href="#_function_isuserallowedtorespond"></a>18.3.10. Function isUserAllowedToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user has the permission to send a response to the current card by calling the isUserAllowedToRespond() function.
 An example of usage can be found in the file
@@ -7079,7 +7091,7 @@ An example of usage can be found in the file
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>18.3.10. Function isUserMemberOfAnEntityRequiredToRespond</h4>
+<h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>18.3.11. Function isUserMemberOfAnEntityRequiredToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user is member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
 An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
@@ -7091,7 +7103,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>18.3.11. Function listenToResponseLock</h4>
+<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>18.3.12. Function listenToResponseLock</h4>
 <div class="paragraph">
 <p>Register a function to be informed when template is locked (i.e user has responded to the current card)</p>
 </div>
@@ -7102,7 +7114,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>18.3.12. Function listenToResponseUnlock</h4>
+<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>18.3.13. Function listenToResponseUnlock</h4>
 <div class="paragraph">
 <p>Register a function to be informed when template is unlocked (i.e user has clicked the modify button to prepare a new response)</p>
 </div>
@@ -7113,7 +7125,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>18.3.13. Function listenToChildCards</h4>
+<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>18.3.14. Function listenToChildCards</h4>
 <div class="paragraph">
 <p>Register a function to receive the child cards on card loading and when the childCards list changes</p>
 </div>
@@ -7124,7 +7136,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>18.3.14. Function listenToLttdExpired</h4>
+<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>18.3.15. Function listenToLttdExpired</h4>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information can be received by the template by registering a listener.</p>
 </div>
@@ -7135,7 +7147,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>18.3.15. Function listenToStyleChange</h4>
+<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>18.3.16. Function listenToStyleChange</h4>
 <div class="paragraph">
 <p>Card template can be informed when switching day/night mode by registering a listener as follow :</p>
 </div>
@@ -7149,7 +7161,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>18.3.16. Function listenToScreenSize</h4>
+<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>18.3.17. Function listenToScreenSize</h4>
 <div class="paragraph">
 <p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
 </div>
@@ -7173,7 +7185,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>18.3.17. Function listenToTemplateRenderingComplete</h4>
+<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>18.3.18. Function listenToTemplateRenderingComplete</h4>
 <div class="paragraph">
 <p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer ,lttdExpired and screenSize)</p>
 </div>
@@ -7187,7 +7199,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>18.3.18. Function registerFunctionToGetUserResponse</h4>
+<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>18.3.19. Function registerFunctionToGetUserResponse</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user response. This function will be called by opfab when user clicks on the "send reponse" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
 </div>
@@ -20619,6 +20631,31 @@ This is to avoid potential overloading due to external apps stuck in a card send
 <div class="paragraph">
 <p>For the services cards-reminder, supervisor, cards-external-diffusion the log directory in the docker is not anymore /usr/app/logs but /var/log/opfab. So if you map the log directory in your configuration , you need to change it.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_opfabapi_2"><a class="anchor" href="#_opfabapi_2"></a>83.4. OpfabAPI</h3>
+<div class="paragraph">
+<p>The following method is deprecated and it is recommended you use the new method:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Deprecated method or attribute</th>
+<th class="tableblock halign-left valign-top">New method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getEntityUsedForUserResponse()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getEntitiesUsableForUserResponse()</p>
+<p class="tableblock">:leveloffset!:</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
