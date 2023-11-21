@@ -995,6 +995,20 @@ window.swaggerSpec={
         }
       }
     },
+    "/logs" : {
+      "post" : {
+        "summary" : "sends remote logs",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "remote logs sent"
+          },
+          "400" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    },
     "/cards" : {
       "post" : {
         "tags" : [ "cards", "read" ],

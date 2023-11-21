@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 November 2023</span>
+<span id="revdate">21 November 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1562,8 +1562,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_optimizing_nginx_configuration_for_latency_reduction">83.1. Optimizing Nginx Configuration for Latency Reduction</a></li>
 <li><a href="#_updating_the_file_size_limit">83.2. Updating the file size limit</a></li>
-<li><a href="#_log_directories_in_docker">83.3. Log directories in docker</a></li>
-<li><a href="#_opfabapi_2">83.4. OpfabAPI</a></li>
+<li><a href="#_nginx_configuration_for_entity_supervision_administration">83.3. Nginx Configuration for entity supervision administration</a></li>
+<li><a href="#_supervisor_configuration_change">83.4. Supervisor configuration change</a></li>
+<li><a href="#_log_directories_in_docker">83.5. Log directories in docker</a></li>
+<li><a href="#_opfabapi_2">83.6. OpfabAPI</a></li>
 </ul>
 </li>
 </ul>
@@ -8737,6 +8739,9 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
 <div class="paragraph">
 <p>It is possible to configure supervisor module for monitoring users connections to Opfab to ensure that there is at least one user connected to Opfab for each configured entity. When no user of an entity connects to Opfab for a specified period, supervisor module will send an alert card to the configured recipient entity.</p>
 </div>
+<div class="paragraph">
+<p>The database stores a comprehensive list of supervised entities and their corresponding supervisors. The 'Supervised Entities' admin page offers functionalities to view, modify, add, or delete these entities. Within the supervisor service configuration section, there exists an option to define a default configuration for initial supervised entities. This default configuration applies only when the database&#8217;s supervised entities collection is empty. In such a scenario, the defined configuration will be saved into the database for subsequent use.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_card_acknowledgement"><a class="anchor" href="#_card_acknowledgement"></a>24.2. Card acknowledgement</h3>
@@ -10603,7 +10608,9 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of string indicating which field(s) we want to hide in the settings screen. Possible values :<br>
 "language" : if present, language field will not be displayed<br>
 "remoteLoggingEnabled" : if present, the checkbox to activate remote logging will not be displayed<br>
-"sounds" : if present, the checkboxes for sound notifications will not be displayed</p></td>
+"sounds" : if present, the checkboxes for sound notifications won&#8217;t be displayed<br>
+"systemNotifications" : if present, the checkboxes for systemNotifications won&#8217;t be displayed<br>
+"sendCardsByEmail"  : if present, the email options won&#8217;t be displayed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">about</p></td>
@@ -20627,13 +20634,67 @@ This is to avoid potential overloading due to external apps stuck in a card send
 </div>
 </div>
 <div class="sect2">
-<h3 id="_log_directories_in_docker"><a class="anchor" href="#_log_directories_in_docker"></a>83.3. Log directories in docker</h3>
+<h3 id="_nginx_configuration_for_entity_supervision_administration"><a class="anchor" href="#_nginx_configuration_for_entity_supervision_administration"></a>83.3. Nginx Configuration for entity supervision administration</h3>
+<div class="paragraph">
+<p>The new 'Supervised Entities' admin page requires interaction with the supervisor API via Nginx. To enable access to the supervisor API, please incorporate the following configuration into your <code>nginx.conf</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location ~ &quot;^/supervisor/(.*)&quot; {
+    set $supervisor http://supervisor:2108;
+    proxy_set_header Host $http_host;
+    proxy_pass $supervisor/$1;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supervisor_configuration_change"><a class="anchor" href="#_supervisor_configuration_change"></a>83.4. Supervisor configuration change</h3>
+<div class="paragraph">
+<p>The configuration of 'supervisor.defaultConfig.entitiesToSupervise' parameter has changed. The supervised entity field <code>id</code> has been renamed to <code>entityId</code>. You should modify your configuration accordingly.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  supervisor:
+    defaultConfig:
+      entitiesToSupervise:
+      - id: ENTITY1_FR
+        supervisors:
+        - ENTITY2_FR
+      - id: ENTITY2_FR
+        supervisors:
+        - ENTITY1_FR</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>should be changed to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  supervisor:
+    defaultConfig:
+      entitiesToSupervise:
+      - entityId: ENTITY1_FR
+        supervisors:
+        - ENTITY2_FR
+      - entityId: ENTITY2_FR
+        supervisors:
+        - ENTITY1_FR</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_log_directories_in_docker"><a class="anchor" href="#_log_directories_in_docker"></a>83.5. Log directories in docker</h3>
 <div class="paragraph">
 <p>For the services cards-reminder, supervisor, cards-external-diffusion the log directory in the docker is not anymore /usr/app/logs but /var/log/opfab. So if you map the log directory in your configuration , you need to change it.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_opfabapi_2"><a class="anchor" href="#_opfabapi_2"></a>83.4. OpfabAPI</h3>
+<h3 id="_opfabapi_2"><a class="anchor" href="#_opfabapi_2"></a>83.6. OpfabAPI</h3>
 <div class="paragraph">
 <p>The following method is deprecated and it is recommended you use the new method:</p>
 </div>
