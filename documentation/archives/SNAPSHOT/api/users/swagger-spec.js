@@ -84,11 +84,6 @@ window.swaggerSpec={
       "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS : Permission to access all archived cards which are in the perimeter of the user\n* VIEW_USER_ACTION_LOGS: Permission to view user action logs\n* VIEW_ALL_CARDS: Permission to query all published cards\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
       "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS", "VIEW_ALL_CARDS", "VIEW_USER_ACTION_LOGS", "READONLY" ]
     },
-    "GroupTypeEnum" : {
-      "type" : "string",
-      "description" : "Different group types possible >\n* ROLE: Used to define user role or profile\n* PERMISSION: Used to define user permissions on processes",
-      "enum" : [ "ROLE", "PERMISSION" ]
-    },
     "Group" : {
       "type" : "object",
       "properties" : {
@@ -98,9 +93,6 @@ window.swaggerSpec={
         },
         "name" : {
           "type" : "string"
-        },
-        "type" : {
-          "$ref" : "#/definitions/GroupTypeEnum"
         },
         "description" : {
           "type" : "string"
