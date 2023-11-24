@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">23 November 2023</span>
+<span id="revdate">24 November 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1300,26 +1300,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#release_process">56. Release process</a>
 <ul class="sectlevel2">
 <li><a href="#_version_numbers">56.1. Version numbers</a></li>
-<li><a href="#_releasing_a_major_or_minor_version">56.2. Releasing a Major or Minor Version</a>
+<li><a href="#_releasing_a_release_candidate">56.2. Releasing a Release Candidate</a>
 <ul class="sectlevel3">
-<li><a href="#_checking_the_release_notes">56.2.1. Checking the release notes</a></li>
-<li><a href="#_creating_a_release_branch_and_preparing_the_release">56.2.2. Creating a release branch and preparing the release</a></li>
-<li><a href="#_merging_the_release_branch_into_master">56.2.3. Merging the release branch into <code>master</code></a></li>
-<li><a href="#update_version_list_on_website">56.2.4. Updating the version list on the website</a></li>
-<li><a href="#checking_docker_compose">56.2.5. Checking the docker-compose files</a></li>
-<li><a href="#publishing_release_on_github">56.2.6. Publishing the release on GitHub</a></li>
-<li><a href="#publishing_client_lib_release">56.2.7. Publishing the jars for the client library to Maven Central</a></li>
-<li><a href="#supported_versions">56.2.8. Update supported versions</a></li>
-<li><a href="#advertising_new_release">56.2.9. Advertising the new release</a></li>
-<li><a href="#_preparing_the_next_version">56.2.10. Preparing the next version</a>
+<li><a href="#_creating_a_release_branch_and_preparing_the_release_candidate">56.2.1. Creating a release branch and preparing the release candidate</a></li>
+<li><a href="#_publish_the_release_candidate_on_docker_hub_and_documentation">56.2.2. Publish the release candidate on docker hub and documentation</a></li>
+<li><a href="#publishing_client_lib_release">56.2.3. Publishing the jars for the client library to Maven Central</a></li>
+<li><a href="#_publishing_the_release_on_github">56.2.4. Publishing the release on GitHub</a></li>
+<li><a href="#_updating_the_version_list_on_the_website">56.2.5. Updating the version list on the website</a></li>
+<li><a href="#_advertising_the_new_release">56.2.6. Advertising the new release</a></li>
+</ul>
+</li>
+<li><a href="#_releasing_a_major_or_minor_version">56.3. Releasing a Major or Minor Version</a>
+<ul class="sectlevel3">
+<li><a href="#_move_release_candidate_to_release">56.3.1. Move Release Candidate to Release</a></li>
+<li><a href="#_merging_the_release_branch_into_master">56.3.2. Merging the release branch into <code>master</code></a></li>
+<li><a href="#update_version_list_on_website">56.3.3. Updating the version list on the website</a></li>
+<li><a href="#checking_docker_compose">56.3.4. Checking the docker-compose files</a></li>
+<li><a href="#_publishing_the_jars_for_the_client_library_to_maven_central">56.3.5. Publishing the jars for the client library to Maven Central</a></li>
+<li><a href="#publishing_release_on_github">56.3.6. Publishing the release on GitHub</a></li>
+<li><a href="#supported_versions">56.3.7. Update supported versions</a></li>
+<li><a href="#advertising_new_release">56.3.8. Advertising the new release</a></li>
+<li><a href="#_preparing_the_next_version">56.3.9. Preparing the next version</a>
 <ul class="sectlevel4">
-<li><a href="#_on_the_release_notes_repository">56.2.10.1. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">56.2.10.2. On the operatorfabric-core repository</a></li>
+<li><a href="#_on_the_release_notes_repository">56.3.9.1. On the release-notes repository</a></li>
+<li><a href="#_on_the_operatorfabric_core_repository">56.3.9.2. On the operatorfabric-core repository</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_releasing_a_patch_hotfixes_version">56.3. Releasing a Patch (Hotfixes) Version</a></li>
+<li><a href="#_releasing_a_patch_hotfixes_version">56.4. Releasing a Patch (Hotfixes) Version</a></li>
 </ul>
 </li>
 </ul>
@@ -15475,25 +15484,15 @@ they&#8217;re addressing, optionally followed by additional information if sever
 <div class="paragraph">
 <p>This allows the branch, PR and commits to be directly accessible from the GitHub issue.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The deprecated OC-XXX notation (from when we tracked issues in JIRA) is no longer accepted by the CI/CD pipeline.
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>51.1.1.5. Release branches</h5>
+<div class="sect5">
+<h6 id="_release_candidate"><a class="anchor" href="#_release_candidate"></a>Release candidate</h6>
 <div class="paragraph">
-<p>Once developments are in a release-ready state and have been tested on the <code>develop</code> branch, a release branch should
-be created off <code>develop</code> to prepare the merge into master.</p>
+<p>Once developments are in a release-ready state and have been tested on the <code>develop</code> branch, a release candidate branch should
+be created off <code>develop</code> .</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -15525,8 +15524,16 @@ be merged back into <code>develop</code>.
 </div>
 <div class="paragraph">
 <p>Once the <code>X.X.X.release</code> branch has been created, a new commit should be made on this branch to change the repository
-version from <code>SNAPSHOT</code> to <code>X.X.X.RELEASE</code>.
-Then, pushing the branch will trigger a build and a "dry-run" generation of docker images. The aim
+version from <code>SNAPSHOT</code> to <code>X.X.X-RC.RELEASE</code>.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_release"><a class="anchor" href="#_release"></a>Release</h6>
+<div class="paragraph">
+<p>When release candidate is ready to be released, a new commit should be made on the <code>X.X.X.release</code> branch to change the repository version from <code>X.X.X-RC.RELEASE</code> to <code>X.X.X.RELEASE</code>.</p>
+</div>
+<div class="paragraph">
+<p>Then, pushing the branch will trigger a build and a "dry-run" generation of docker images. The aim
 is to detect any issue with this generation before moving to master.</p>
 </div>
 <div class="paragraph">
@@ -15534,8 +15541,7 @@ is to detect any issue with this generation before moving to master.</p>
 The resulting merge commit on <code>master</code> should then be tagged with <code>X.X.X.RELEASE</code>.</p>
 </div>
 <div class="paragraph">
-<p>All commits on <code>master</code> should be merged commits from <code>release</code> branches, direct pushes on master will be disabled in
-the future.</p>
+<p>All commits on <code>master</code> should be merged commits from <code>release</code> branches, direct pushes on master are disabled .</p>
 </div>
 <div class="paragraph">
 <p><strong>Naming convention:</strong> The name of a release branch should match the repository version it is meant to merge into
@@ -15543,6 +15549,7 @@ the future.</p>
 </div>
 <div class="paragraph">
 <p>Example: The valid branch name for the branch bringing 1.3.0.RELEASE into <code>master</code> is 1.3.0.release</p>
+</div>
 </div>
 </div>
 </div>
@@ -17158,6 +17165,9 @@ depending on how busy the service is.
 <p>X.Y.Z.RELEASE versions are stable versions</p>
 </li>
 <li>
+<p>X.Y.Z-RC.RELEASE versions are release candidates for the next stable version</p>
+</li>
+<li>
 <p>SNAPSHOT version represents the current state of merged developments</p>
 </li>
 </ul>
@@ -17181,7 +17191,7 @@ the same major version.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_a_major_or_minor_version"><a class="anchor" href="#_releasing_a_major_or_minor_version"></a>56.2. Releasing a Major or Minor Version</h3>
+<h3 id="_releasing_a_release_candidate"><a class="anchor" href="#_releasing_a_release_candidate"></a>56.2. Releasing a Release Candidate</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -17201,31 +17211,7 @@ know which version is being produced. It is thus crucial to double-check the con
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
 <div class="sect3">
-<h4 id="_checking_the_release_notes"><a class="anchor" href="#_checking_the_release_notes"></a>56.2.1. Checking the release notes</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>On the <a href="https://github.com/opfab/operatorfabric-core/projects"><code>Projects</code> tab</a> of the core repository, click on the
-project corresponding to the release that is about to be released.</p>
-</li>
-<li>
-<p>Make sure that the
-<a href="https://github.com/opfab/release-notes/blob/master/release_notes.md">release_notes.md</a>
-file lists all the issues, bugs, tags or feature requests that are relevant for OperatorFabric users along with
-explanations if need be.</p>
-</li>
-<li>
-<p>Based on the content of this version and the rules listed above, make sure that the version number is appropriate.</p>
-</li>
-<li>
-<p>Check if there is a migration guide for this version, if so, check if the corresponding file has been included in
-src/docs/asciidoc/resources/index.adoc and include a link to it at the top of the release notes.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_creating_a_release_branch_and_preparing_the_release"><a class="anchor" href="#_creating_a_release_branch_and_preparing_the_release"></a>56.2.2. Creating a release branch and preparing the release</h4>
+<h4 id="_creating_a_release_branch_and_preparing_the_release_candidate"><a class="anchor" href="#_creating_a_release_branch_and_preparing_the_release_candidate"></a>56.2.1. Creating a release branch and preparing the release candidate</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -17241,7 +17227,7 @@ src/docs/asciidoc/resources/index.adoc and include a link to it at the top of th
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</pre>
+<pre>./CICD/prepare_release_version.sh -v X.X.X-RC.RELEASE</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -17250,10 +17236,10 @@ src/docs/asciidoc/resources/index.adoc and include a link to it at the top of th
 <div class="listingblock">
 <div class="content">
 <pre>Current version is SNAPSHOT (based on VERSION file)
-Preparing X.X.X.RELEASE
+Preparing X.X.X-RC.RELEASE
 Updating version for pipeline in VERSION file
-Replacing SNAPSHOT with X.X.X.RELEASE in swagger.yaml files
-Using X.X.X.RELEASE for lfeoperatorfabric images in dev and docker environment docker-compose files
+Replacing SNAPSHOT with X.X.X-RC.RELEASE in swagger.yaml files
+Using X.X.X-RC.RELEASE for lfeoperatorfabric images in dev and docker environment docker-compose files
 The following files have been updated:
  M VERSION
  M config/dev/docker-compose.yml
@@ -17269,10 +17255,10 @@ The following files have been updated:
 <div class="ulist">
 <ul>
 <li>
-<p>Replace SNAPSHOT with X.X.X.RELEASE in swagger.yaml files and the VERSION file at the root operator-fabric folder</p>
+<p>Replace SNAPSHOT with X.X.X-RC.RELEASE in swagger.yaml files and the VERSION file at the root operator-fabric folder</p>
 </li>
 <li>
-<p>Change the version from SNAPSHOT to X.X.X.RELEASE in the docker-compose files for dev and docker deployments</p>
+<p>Change the version from SNAPSHOT to X.X.X-RC.RELEASE in the docker-compose files for dev and docker deployments</p>
 </li>
 </ul>
 </div>
@@ -17282,7 +17268,7 @@ The following files have been updated:
 <div class="listingblock">
 <div class="content">
 <pre>git add .
-git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
+git commit -s -m "[RELEASE] X.X.X-RC.RELEASE"</pre>
 </div>
 </div>
 </li>
@@ -17301,231 +17287,22 @@ git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
 <a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
 </div>
 </li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Wait for the build to complete (around 30 minutes) and check that all jobs have been successful.
+<li>
+<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.
 This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
 generation.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>56.2.3. Merging the release branch into <code>master</code></h4>
-<div class="paragraph">
-<p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
-developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
-documentation).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git checkout master <i class="conum" data-value="1"></i><b>(1)</b>
-git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Check out the <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Make sure your local copy is up to date</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Merge the <code>X.X.X.release</code> branch into <code>master</code>, accepting changes from X.X.X.release in case of conflicts.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git tag X.X.X.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
-git push <i class="conum" data-value="2"></i><b>(2)</b>
-git push origin X.X.X.RELEASE <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Tag the commit with the <code>X.X.X.RELEASE</code> tag</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Push the commits to update the remote <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Push the tag
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Check that the build is correctly triggered</p>
-<div class="paragraph">
-<p>You can check the status of the GitHub Action workflow triggered by the commit on
-<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.
-The Github Actions workflow should have the following six jobs executed :
-- Build
-- Karate tests
-- Cypress tests
-- Publish Documentation (latest)
-- Push images to dockerhub
-- Push images latest to dockerhub</p>
-</div>
-</li>
-</ol>
-</div></td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Wait for the build to complete (around 40 minutes) and check that all jobs have been successful.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Check that the <code>X.X.X.RELEASE</code> images have been generated and pushed to DockerHub.</p>
-</li>
-<li>
-<p>Check that the <code>latest</code> images have been updated on DockerHub (if this has been triggered).</p>
-</li>
-<li>
-<p>Check that the documentation has been generated and pushed to the GitHub pages website : check the version and revision date at the top of the documents in the current documentation
-(for example <a href="https://opfab.github.io/documentation/current/architecture/">the architecture documentation</a>)</p>
-</li>
-<li>
-<p>Check that the tag was correctly pushed to GitHub and is visible under the
-<a href="https://github.com/opfab/operatorfabric-core/tags">tags page</a> for the repository.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect3">
-<h4 id="update_version_list_on_website"><a class="anchor" href="#update_version_list_on_website"></a>56.2.4. Updating the version list on the website</h4>
+<h4 id="_publish_the_release_candidate_on_docker_hub_and_documentation"><a class="anchor" href="#_publish_the_release_candidate_on_docker_hub_and_documentation"></a>56.2.2. Publish the release candidate on docker hub and documentation</h4>
 <div class="paragraph">
-<p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
-edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/versions.yml">/_data/versions.yml</a> file to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the version being released to the list with the <code>current</code> badge</p>
-</li>
-<li>
-<p>Remove the <code>current</code> badge from the previous version</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>For example:</p>
-</div>
-<div class="listingblock">
-<div class="title">Before</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
-  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
-  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
-  <span class="comment">#... end of file omitted</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">After</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
-  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: X.X.X.RELEASE</span></span>
-  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
-  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
-- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
-  <span class="comment">#... end of file omitted</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This file determines which versions (and in which order) are displayed on the
-<a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
-</div>
-<div class="paragraph">
-<p>Check that you see the X.X.X.RELEASE under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>
-and that the links work (It may need a few minutes for the website to be updated).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The <code>external_devices_api</code> property should be set to true for all new versions, so the API documentation for
-the External Devices API is displayed on the website.
-</td>
-</tr>
-</table>
+<p>If the build and tests are successful, launch manually GitHubActions with jobs : <code>Build</code> , <code>Docker Push</code> and <code>Build and publish documentation</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="checking_docker_compose"><a class="anchor" href="#checking_docker_compose"></a>56.2.5. Checking the docker-compose files</h4>
-<div class="paragraph">
-<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
-branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
-previous steps has completed successfully, and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Remove your locally built X.X.X.RELEASE images if any</p>
-</li>
-<li>
-<p>Run the config/docker docker-compose file to make sure it pulls the images from DockerHub and behaves as intended.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>People who want to experiment with OperatorFabric are pointed to this docker-compose so it&#8217;s important to make sure
-that it&#8217;s working correctly.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="publishing_release_on_github"><a class="anchor" href="#publishing_release_on_github"></a>56.2.6. Publishing the release on GitHub</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>On the <a href="https://github.com/opfab/operatorfabric-core/releases"><code>releases</code> screen</a> for the core repository, draft a new
-release.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Select the existing X.X.X.RELEASE tag</p>
-</li>
-<li>
-<p>The title should be X.X.X.RELEASE</p>
-</li>
-<li>
-<p>In the description field, paste the content from the release_notes.md file from the
-<a href="https://github.com/opfab/release-notes/">release-notes repository</a>.</p>
-</li>
-<li>
-<p>Replace any "TODO" comments with the appropriate links to the documentation.</p>
-</li>
-<li>
-<p>Click "Publish release"</p>
-</li>
-</ol>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>56.2.7. Publishing the jars for the client library to Maven Central</h4>
+<h4 id="publishing_client_lib_release"><a class="anchor" href="#publishing_client_lib_release"></a>56.2.3. Publishing the jars for the client library to Maven Central</h4>
 <div class="paragraph">
 <p>Once everything else looks ok, you can publish the jars for the client library to MavenCentral. This is done as a last
 step once we are pretty sure we won&#8217;t need to go back and change things on the release because jars are not meant to be
@@ -17618,13 +17395,480 @@ When prompted, write a comment then confirm (keeping the "Automatically Drop" op
 </div>
 </div>
 <div class="sect3">
-<h4 id="supported_versions"><a class="anchor" href="#supported_versions"></a>56.2.8. Update supported versions</h4>
+<h4 id="_publishing_the_release_on_github"><a class="anchor" href="#_publishing_the_release_on_github"></a>56.2.4. Publishing the release on GitHub</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the <a href="https://github.com/opfab/operatorfabric-core/releases"><code>releases</code> screen</a> for the core repository, draft a new
+release.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Select the existing X.X.X-RC.RELEASE tag</p>
+</li>
+<li>
+<p>The title should be X.X.X-RC.RELEASE</p>
+</li>
+<li>
+<p>In the description field, paste the content from the release_notes_X.X.X.md file from the
+<a href="https://github.com/opfab/release-notes/">release-notes repository</a>.</p>
+</li>
+<li>
+<p>Reformat and correct the content as needed.</p>
+</li>
+<li>
+<p>Check if there is a migration guide for this version, if so, check if the corresponding file has been included in
+src/docs/asciidoc/resources/index.adoc and include a link to it at the top of the release notes.</p>
+</li>
+<li>
+<p>Click "Publish release"</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Create a new release_notes.Y.Y.Y.md file with next version number and copy inside the content of current release_notes.X.X.X.md file.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_updating_the_version_list_on_the_website"><a class="anchor" href="#_updating_the_version_list_on_the_website"></a>56.2.5. Updating the version list on the website</h4>
+<div class="paragraph">
+<p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
+edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/versions.yml">/_data/versions.yml</a> file to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the version being released to the list with the <code>current</code> badge</p>
+</li>
+<li>
+<p>Remove the <code>current</code> badge from the previous version</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: X.X.X-RC.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This file determines which versions (and in which order) are displayed on the
+<a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
+</div>
+<div class="paragraph">
+<p>Check that you see the X.X.X-RC.RELEASE under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>
+and that the links work (It may need a few minutes for the website to be updated).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>external_devices_api</code> property should be set to true for all new versions, so the API documentation for
+the External Devices API is displayed on the website.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_advertising_the_new_release"><a class="anchor" href="#_advertising_the_new_release"></a>56.2.6. Advertising the new release</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Advertising on the LFE mailing list via an email to the <a href="mailto:opfab-announce@lists.lfenergy.org">opfab-announce@lists.lfenergy.org</a> mailing list with a link to the release notes on GitHub.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Here is the link to the <a href="https://lists.lfenergy.org/g/main">administration website for the LFE mailing lists</a>
+in case there is an issue.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Send a message on operator-fabric slack channel.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_releasing_a_major_or_minor_version"><a class="anchor" href="#_releasing_a_major_or_minor_version"></a>56.3. Releasing a Major or Minor Version</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+To release a version we use some GitHub Actions dedicated jobs. These jobs are triggered when pushing a commit in branches
+containing the keyword release at the end (**release) and rely on the VERSION file at the root of this repository to
+know which version is being produced. It is thus crucial to double-check the content of this file before any push
+(triggering the GitHub Actions jobs) is made.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Before releasing a version, you need to prepare the release.</p>
+</div>
+<div class="sect3">
+<h4 id="_move_release_candidate_to_release"><a class="anchor" href="#_move_release_candidate_to_release"></a>56.3.1. Move Release Candidate to Release</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Checkout release branch</p>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout X.X.X.release</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
+<div class="listingblock">
+<div class="content">
+<pre>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should get the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Current version is SNAPSHOT (based on VERSION file)
+Preparing X.X.X.RELEASE
+Updating version for pipeline in VERSION file
+Replacing SNAPSHOT with X.X.X.RELEASE in swagger.yaml files
+Using X.X.X.RELEASE for lfeoperatorfabric images in dev and docker environment docker-compose files
+The following files have been updated:
+ M VERSION
+ M config/dev/docker-compose.yml
+ M config/docker/docker-compose.yml
+ M services/cards-publication/src/main/modeling/swagger.yaml
+ M services/businessconfig/src/main/modeling/swagger.yaml
+ M services/users/src/main/modeling/swagger.yaml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This script performs the following changes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Replace SNAPSHOT with X.X.X.RELEASE in swagger.yaml files and the VERSION file at the root operator-fabric folder</p>
+</li>
+<li>
+<p>Change the version from SNAPSHOT to X.X.X.RELEASE in the docker-compose files for dev and docker deployments</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Commit the changes with the template message:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git add .
+git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push the commit</p>
+<div class="listingblock">
+<div class="content">
+<pre>git push</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Check that the build is correctly triggered</p>
+<div class="paragraph">
+<p>You can check the status of the GitHub Actions triggered by the commit on
+<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
+</div>
+<div class="paragraph">
+<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.
+This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
+generation.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>56.3.2. Merging the release branch into <code>master</code></h4>
+<div class="paragraph">
+<p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
+developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
+documentation).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout master <i class="conum" data-value="1"></i><b>(1)</b>
+git pull <i class="conum" data-value="2"></i><b>(2)</b>
+git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Check out the <code>master</code> branch</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Make sure your local copy is up to date</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Merge the <code>X.X.X.release</code> branch into <code>master</code>, accepting changes from X.X.X.release in case of conflicts.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git tag X.X.X.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
+git push <i class="conum" data-value="2"></i><b>(2)</b>
+git push origin X.X.X.RELEASE <i class="conum" data-value="3"></i><b>(3)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Tag the commit with the <code>X.X.X.RELEASE</code> tag</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Push the commits to update the remote <code>master</code> branch</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Push the tag
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check that the build is correctly triggered</p>
+<div class="paragraph">
+<p>You can check the status of the GitHub Action workflow triggered by the commit on
+<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.
+The Github Actions workflow should have the following six jobs executed :
+- Build
+- Karate tests
+- Cypress tests
+- Publish Documentation (latest)
+- Push images to dockerhub
+- Push images latest to dockerhub</p>
+</div>
+</li>
+</ol>
+</div></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check that the <code>X.X.X.RELEASE</code> images have been generated and pushed to DockerHub.</p>
+</li>
+<li>
+<p>Check that the <code>latest</code> images have been updated on DockerHub (if this has been triggered).</p>
+</li>
+<li>
+<p>Check that the documentation has been generated and pushed to the GitHub pages website : check the version and revision date at the top of the documents in the current documentation
+(for example <a href="https://opfab.github.io/documentation/current/architecture/">the architecture documentation</a>)</p>
+</li>
+<li>
+<p>Check that the tag was correctly pushed to GitHub and is visible under the
+<a href="https://github.com/opfab/operatorfabric-core/tags">tags page</a> for the repository.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="update_version_list_on_website"><a class="anchor" href="#update_version_list_on_website"></a>56.3.3. Updating the version list on the website</h4>
+<div class="paragraph">
+<p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
+edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/versions.yml">/_data/versions.yml</a> file to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the version being released to the list with the <code>current</code> badge</p>
+</li>
+<li>
+<p>Remove the <code>current</code> badge from the previous version</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">- <span class="string"><span class="content">id: SNAPSHOT</span></span>
+  <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: X.X.X.RELEASE</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
+  <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+- <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
+  <span class="comment">#... end of file omitted</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This file determines which versions (and in which order) are displayed on the
+<a href="https://opfab.github.io/pages/releases.html">release page</a> of the website.</p>
+</div>
+<div class="paragraph">
+<p>Check that you see the X.X.X.RELEASE under the <a href="https://opfab.github.io/pages/releases.html">releases page</a>
+and that the links work (It may need a few minutes for the website to be updated).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>external_devices_api</code> property should be set to true for all new versions, so the API documentation for
+the External Devices API is displayed on the website.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="checking_docker_compose"><a class="anchor" href="#checking_docker_compose"></a>56.3.4. Checking the docker-compose files</h4>
+<div class="paragraph">
+<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
+branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
+previous steps has completed successfully, and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Remove your locally built X.X.X.RELEASE images if any</p>
+</li>
+<li>
+<p>Run the config/docker docker-compose file to make sure it pulls the images from DockerHub and behaves as intended.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>People who want to experiment with OperatorFabric are pointed to this docker-compose so it&#8217;s important to make sure
+that it&#8217;s working correctly.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_publishing_the_jars_for_the_client_library_to_maven_central"><a class="anchor" href="#_publishing_the_jars_for_the_client_library_to_maven_central"></a>56.3.5. Publishing the jars for the client library to Maven Central</h4>
+<div class="paragraph">
+<p>Like for release candidate , you need to <a href="#publishing_client_lib_release">release the client library jars</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="publishing_release_on_github"><a class="anchor" href="#publishing_release_on_github"></a>56.3.6. Publishing the release on GitHub</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the <a href="https://github.com/opfab/operatorfabric-core/releases"><code>releases</code> screen</a> for the core repository, draft a new
+release.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Select the existing X.X.X.RELEASE tag</p>
+</li>
+<li>
+<p>The title should be X.X.X.RELEASE</p>
+</li>
+<li>
+<p>In the description field, paste the content from the release_notes_X.X.X.md file from the
+<a href="https://github.com/opfab/release-notes/">release-notes repository</a>.</p>
+</li>
+<li>
+<p>Reformat and correct the content as needed.</p>
+</li>
+<li>
+<p>Check if there is a migration guide for this version, if so, check if the corresponding file has been included in
+src/docs/asciidoc/resources/index.adoc and include a link to it at the top of the release notes.</p>
+</li>
+<li>
+<p>Click "Publish release"</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="supported_versions"><a class="anchor" href="#supported_versions"></a>56.3.7. Update supported versions</h4>
 <div class="paragraph">
 <p>Update supported version in security policy (SECURITY.md file) via a Pull Request on develop branch</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="advertising_new_release"><a class="anchor" href="#advertising_new_release"></a>56.2.9. Advertising the new release</h4>
+<h4 id="advertising_new_release"><a class="anchor" href="#advertising_new_release"></a>56.3.8. Advertising the new release</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -17654,15 +17898,15 @@ in case there is an issue.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>56.2.10. Preparing the next version</h4>
+<h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>56.3.9. Preparing the next version</h4>
 <div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>56.2.10.1. On the release-notes repository</h5>
+<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>56.3.9.1. On the release-notes repository</h5>
 <div class="paragraph">
-<p>Remove the items listed in the release_notes.md file so it&#8217;s ready for the next version.</p>
+<p>Remove the release_notes.X.X.X.md file corresponding to the release&#8217;s version.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>56.2.10.2. On the operatorfabric-core repository</h5>
+<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>56.3.9.2. On the operatorfabric-core repository</h5>
 <div class="paragraph">
 <p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
 avoid confusion with the actual release commit tagged on <code>master</code>.</p>
@@ -17700,7 +17944,7 @@ You should also delete the branch on GitHub.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_a_patch_hotfixes_version"><a class="anchor" href="#_releasing_a_patch_hotfixes_version"></a>56.3. Releasing a Patch (Hotfixes) Version</h3>
+<h3 id="_releasing_a_patch_hotfixes_version"><a class="anchor" href="#_releasing_a_patch_hotfixes_version"></a>56.4. Releasing a Patch (Hotfixes) Version</h3>
 <div class="paragraph">
 <p>Let&#8217;s say fixes are needed on version X.X.0.RELEASE, and will be released as X.X.X.RELEASE. If it&#8217;s the first patch
 version to be released for this minor version (i.e. version X.X.1.RELEASE), you will need to create the <code>X.X.hotfixes</code>
@@ -17746,10 +17990,6 @@ can release the patch version. To do so:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
-<li>
-<p>Write a release notes detailing the bug fixes in the release_notes.md file found under
-<strong>src/docs/asciidoc/docs</strong> in the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>.</p>
-</li>
 <li>
 <p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
