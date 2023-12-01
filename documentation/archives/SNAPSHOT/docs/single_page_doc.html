@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">29 November 2023</span>
+<span id="revdate">01 December 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -12411,7 +12411,7 @@ It also possible to reset the data of the limiter by calling the API through the
 <h2 id="_restricted_operations_administration"><a class="anchor" href="#_restricted_operations_administration"></a>35. Restricted operations (administration)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Some operations are restricted to users with the <strong>ADMIN</strong> role, either because they are administration
+<p>Some operations are restricted to users with administrative roles, either because they are administration
 operations with the potential to impact the OperatorFabric instance as a whole, or because they
 give access to information that should be private to a user.</p>
 </div>
@@ -12424,29 +12424,27 @@ give access to information that should be private to a user.</p>
 last name, as well as their settings) can be performed either by the user in question or by a user with the ADMIN role.</p>
 </div>
 <div class="paragraph">
-<p>Any action on a list of users or on the groups (or entities) (if authorization is managed in OperatorFabric) can only be performed by
-a user with the ADMIN role.</p>
+<p>Any action on users, groups, entities or perimeters lists (if authorization is managed in OperatorFabric) is restricted to users with the ADMIN role.</p>
+</div>
+<div class="paragraph">
+<p>Access to users action logs information is restricted to users with ADMIN role or VIEW_USER_ACTION_LOGS role.</p>
 </div>
 <div class="paragraph">
 <div class="title">Businessconfig Service</div>
-<p>Any write (create, update or delete) action on bundles can only be performed by a user with the ADMIN role. As such,
+<p>Any write (create, update or delete) action on bundles can only be performed by a user with the ADMIN role or ADMIN_BUSINESS_PROCESS role. As such,
 administrators are responsible for the quality and security of the provided bundles.
 In particular, as it is possible to use scripts in templates, they should perform a security check to make sure that
 there is no XSS risk.</p>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-The ADMIN role doesn&#8217;t grant any special privileges when it comes to card consultation (be they current or
-archived), so a user with the ADMIN role will only see cards that have been addressed to them (or to one of their
-groups (or entities)), just like any other user.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<div class="title">Cards consultation Service</div>
+<p>Users holding the ADMIN role are authorized to read all archived cards, regardless of the card&#8217;s sender, recipients, or the user&#8217;s assigned perimeters
+IMPORTANT: The ADMIN role doesn&#8217;t grant any special privileges when it comes to current cards consultation so a user with the ADMIN role will only receive cards that have been addressed to them (or to one of their
+groups or entities), just like any other user.</p>
+</div>
+<div class="paragraph">
+<div class="title">External devices service</div>
+<p>Any action (read, create/update or delete) on external devices configuration is restricted to users with th ADMIN role.</p>
 </div>
 </div>
 </div>
@@ -17282,6 +17280,15 @@ git commit -s -m "[RELEASE] X.X.X-RC.RELEASE"</pre>
 </div>
 </li>
 <li>
+<p>Create the tag for the release candidate:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git tag X.X.X-RC.RELEASE
+git push origin X.X.X-RC.RELEASE</pre>
+</div>
+</div>
+</li>
+<li>
 <p>Check that the build is correctly triggered</p>
 <div class="paragraph">
 <p>You can check the status of the GitHub Actions triggered by the commit on
@@ -17428,7 +17435,7 @@ src/docs/asciidoc/resources/index.adoc and include a link to it at the top of th
 </div>
 </li>
 <li>
-<p>Create a new release_notes.Y.Y.Y.md file with next version number and copy inside the content of current release_notes.X.X.X.md file.</p>
+<p>Create a new release_notes.Y.Y.Y.md file with next version number.</p>
 </li>
 </ol>
 </div>
@@ -17437,17 +17444,7 @@ src/docs/asciidoc/resources/index.adoc and include a link to it at the top of th
 <h4 id="_updating_the_version_list_on_the_website"><a class="anchor" href="#_updating_the_version_list_on_the_website"></a>56.2.5. Updating the version list on the website</h4>
 <div class="paragraph">
 <p>On the <a href="https://github.com/opfab/opfab.github.io">website repository</a>,
-edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/versions.yml">/_data/versions.yml</a> file to:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the version being released to the list with the <code>current</code> badge</p>
-</li>
-<li>
-<p>Remove the <code>current</code> badge from the previous version</p>
-</li>
-</ol>
+edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/versions.yml">/_data/versions.yml</a> file to add the version being released</p>
 </div>
 <div class="paragraph">
 <p>For example:</p>
@@ -17472,8 +17469,8 @@ edit the <a href="https://github.com/opfab/opfab.github.io/blob/master/_data/ver
   <span class="key">type</span>: <span class="string"><span class="content">SNAPSHOT</span></span>
   <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: X.X.X-RC.RELEASE</span></span>
-  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
   <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
+  <span class="key">badge</span>: <span class="string"><span class="content">current</span></span>
 - <span class="string"><span class="content">id: D.E.F.RELEASE</span></span>
   <span class="key">external_devices_api</span>: <span class="string"><span class="content">true</span></span>
 - <span class="string"><span class="content">id: A.B.C.RELEASE</span></span>
