@@ -177,7 +177,8 @@ window.swaggerSpec={
         },
         "durationInMinutes" : {
           "description" : "Duration in minutes of the event",
-          "type" : "integer"
+          "type" : "integer",
+          "minimum" : 0
         }
       }
     },
@@ -228,7 +229,8 @@ window.swaggerSpec={
         },
         "durationInMinutes" : {
           "description" : "Duration in minutes of the event",
-          "type" : "integer"
+          "type" : "integer",
+          "minimum" : 0
         }
       },
       "required" : [ "hoursAndMinutes" ]
@@ -452,7 +454,8 @@ window.swaggerSpec={
           "description" : "Contains projection ex. 'EPSG:4326'"
         },
         "secondsBeforeTimeSpanForReminder" : {
-          "type" : "integer"
+          "type" : "integer",
+          "minimum" : 0
         },
         "toNotify" : {
           "type" : "boolean",
