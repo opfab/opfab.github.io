@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.0.4.RELEASE,</span>
-<span id="revdate">15 November 2023</span>
+<span id="revnumber">version 4.1.0.RELEASE,</span>
+<span id="revdate">22 December 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -677,6 +677,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_normalization_of_some_configuration_parameters">26.10. Normalization of some configuration parameters</a></li>
 <li><a href="#_mongodb_uri">26.11. Mongodb uri</a></li>
 <li><a href="#_rate_limiter_for_card_sendings">26.12. Rate limiter for card sendings</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_0_0_to_release_4_1_0">27. Migration Guide from release 4.0.0 to release 4.1.0</a>
+<ul class="sectlevel2">
+<li><a href="#_optimizing_nginx_configuration_for_latency_reduction">27.1. Optimizing Nginx Configuration for Latency Reduction</a></li>
+<li><a href="#_updating_the_file_size_limit">27.2. Updating the file size limit</a></li>
+<li><a href="#_nginx_configuration_for_entity_supervision_administration">27.3. Nginx Configuration for entity supervision administration</a></li>
+<li><a href="#_supervisor_configuration_change">27.4. Supervisor configuration change</a></li>
+<li><a href="#_log_directories_in_docker">27.5. Log directories in docker</a></li>
+<li><a href="#_opfabapi_2">27.6. OpfabAPI</a></li>
 </ul>
 </li>
 </ul>
@@ -2526,7 +2536,7 @@ collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, 
   &quot;settings.replayEnabled&quot;: true,
   &quot;settings&quot;: {
     &quot;about&quot;: {
-      &quot;keycloack&quot;: {
+      &quot;keycloak&quot;: {
         &quot;name&quot;: &quot;Keycloak&quot;,
         &quot;rank&quot;: 2,
         &quot;version&quot;: &quot;6.0.1&quot;
@@ -2548,7 +2558,7 @@ collection.find().forEach(function(user) {collection.updateOne({_id: user._id}, 
     &quot;replayInterval&quot;: 10,
     &quot;replayEnabled&quot;: true,
     &quot;about&quot;: {
-      &quot;keycloack&quot;: {
+      &quot;keycloak&quot;: {
         &quot;name&quot;: &quot;Keycloak&quot;,
         &quot;rank&quot;: 2,
         &quot;version&quot;: &quot;6.0.1&quot;
@@ -2591,7 +2601,7 @@ To allow the publication of cards with not existent process or state you should 
 <div class="content">
 <pre class="CodeRay highlight"><code>  &quot;settings&quot;: {
     &quot;about&quot;: {
-      &quot;keycloack&quot;: {
+      &quot;keycloak&quot;: {
         &quot;name&quot;: &quot;Keycloak&quot;,
         &quot;rank&quot;: 2,
         &quot;version&quot;: &quot;6.0.1&quot;
@@ -2620,7 +2630,7 @@ To allow the publication of cards with not existent process or state you should 
     &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
   },
   &quot;about&quot;: {
-    &quot;keycloack&quot;: {
+    &quot;keycloak&quot;: {
       &quot;name&quot;: &quot;Keycloak&quot;,
       &quot;rank&quot;: 2,
       &quot;version&quot;: &quot;6.0.1&quot;
@@ -3230,7 +3240,7 @@ automate it, you can do it directly in the database via the following request :<
 <div class="sect2">
 <h3 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>26.8. RabbitMQ</h3>
 <div class="paragraph">
-<p>In previous versions, it was necessary to start a RabbitMQ container referencing "rabbitmq:3-management." We now highly recommend that you update your configuration to utilize "lfeoperatorfabric/of-rabbitmq:4.0.0" instead. This adjustment ensures that you have a qualified version that is fully compatible with OpFab.</p>
+<p>In previous versions, it was necessary to start a RabbitMQ container referencing "rabbitmq:3-management." We now highly recommend that you update your configuration to utilize "lfeoperatorfabric/of-rabbitmq:4.0.0.RELEASE" instead. This adjustment ensures that you have a qualified version that is fully compatible with OpFab.</p>
 </div>
 <div class="paragraph">
 <p>When migrating your production environment you may be unable to start rabbitMQ with the following error in log :</p>
@@ -3388,7 +3398,7 @@ concerned parameters (old name &#8594; new name):</p>
 <p>spring.data.mongodb.uri -&#8594;  operatorfabric.mongodb.uri</p>
 </li>
 <li>
-<p>spring.rabbit.* -&#8594; operatorfabric.rabbit.*</p>
+<p>spring.rabbitmq.* -&#8594; operatorfabric.rabbitmq.*</p>
 </li>
 <li>
 <p>spring.security.oauth2.resourceserver.jwt.jwk-set-uri -&#8594;  operatorfabric.security.oauth2.resourceserver.jwt.jwk-set-uri</p>
@@ -3432,6 +3442,134 @@ This is to avoid potential overloading due to external apps stuck in a card send
 <p>Default value is set to 1000 cards per hour. It can be disabled / enabled with
 <a href="/documentation/current/deployment/configuration/configuration.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_0_0_to_release_4_1_0"><a class="anchor" href="#_migration_guide_from_release_4_0_0_to_release_4_1_0"></a>27. Migration Guide from release 4.0.0 to release 4.1.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_optimizing_nginx_configuration_for_latency_reduction"><a class="anchor" href="#_optimizing_nginx_configuration_for_latency_reduction"></a>27.1. Optimizing Nginx Configuration for Latency Reduction</h3>
+<div class="paragraph">
+<p>An optimization has been introduced in the Nginx configuration to reduce latency. To implement this optimization in your <code>nginx.conf</code> you need to add in <code>location /cards/</code>  the directive <code>proxy_buffering off</code></p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location /cards/ {
+    proxy_buffering off;
+    proxy_set_header Host $http_host;
+    proxy_pass http://cards-consultation:2104/;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_the_file_size_limit"><a class="anchor" href="#_updating_the_file_size_limit"></a>27.2. Updating the file size limit</h3>
+<div class="paragraph">
+<p>The limit of maximum file size has been updated to 100 MB. To implement this limit in your <code>nginx.conf</code> you need to add in <code>location /businessconfig/</code>  the directive <code>client_max_body_size 100M;</code></p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location /businessconfig {
+    proxy_set_header Host $http_host;
+    proxy_pass http://${MY_DOCKER_HOST}:2100;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    client_max_body_size 100M;
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nginx_configuration_for_entity_supervision_administration"><a class="anchor" href="#_nginx_configuration_for_entity_supervision_administration"></a>27.3. Nginx Configuration for entity supervision administration</h3>
+<div class="paragraph">
+<p>The new 'Supervised Entities' admin page requires interaction with the supervisor API via Nginx. To enable access to the supervisor API, please incorporate the following configuration into your <code>nginx.conf</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  location ~ &quot;^/supervisor/(.*)&quot; {
+    set $supervisor http://supervisor:2108;
+    proxy_set_header Host $http_host;
+    proxy_pass $supervisor/$1;
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supervisor_configuration_change"><a class="anchor" href="#_supervisor_configuration_change"></a>27.4. Supervisor configuration change</h3>
+<div class="paragraph">
+<p>The configuration of 'supervisor.defaultConfig.entitiesToSupervise' parameter has changed. The supervised entity field <code>id</code> has been renamed to <code>entityId</code>. You should modify your configuration accordingly.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  supervisor:
+    defaultConfig:
+      entitiesToSupervise:
+      - id: ENTITY1_FR
+        supervisors:
+        - ENTITY2_FR
+      - id: ENTITY2_FR
+        supervisors:
+        - ENTITY1_FR</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>should be changed to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  supervisor:
+    defaultConfig:
+      entitiesToSupervise:
+      - entityId: ENTITY1_FR
+        supervisors:
+        - ENTITY2_FR
+      - entityId: ENTITY2_FR
+        supervisors:
+        - ENTITY1_FR</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_log_directories_in_docker"><a class="anchor" href="#_log_directories_in_docker"></a>27.5. Log directories in docker</h3>
+<div class="paragraph">
+<p>For the services cards-reminder, supervisor, cards-external-diffusion the log directory in the docker is not anymore /usr/app/logs but /var/log/opfab. So if you map the log directory in your configuration , you need to change it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_opfabapi_2"><a class="anchor" href="#_opfabapi_2"></a>27.6. OpfabAPI</h3>
+<div class="paragraph">
+<p>The following method is deprecated and it is recommended you use the new method:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Deprecated method or attribute</th>
+<th class="tableblock halign-left valign-top">New method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getEntityUsedForUserResponse()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opfab.currentCard.getEntitiesUsableForUserResponse()</p>
+<p class="tableblock">:leveloffset!:</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.0.4.RELEASE",
+    "version" : "4.1.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -837,6 +837,12 @@ window.swaggerSpec={
           "items" : {
             "$ref" : "#/definitions/FilterModel"
           }
+        },
+        "selectedFields" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },
@@ -976,30 +982,62 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards" : {
+    "/rateLimiter" : {
       "post" : {
-        "tags" : [ "card", "creation" ],
-        "summary" : "publish card",
-        "description" : "Publish one card to OperatorFabric",
-        "operationId" : "publishCard",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "card",
-          "in" : "body",
-          "schema" : {
-            "$ref" : "#/definitions/Card"
-          }
-        } ],
+        "summary" : "reset the rate limiter",
         "responses" : {
-          "201" : {
-            "description" : "created",
-            "schema" : {
-              "$ref" : "#/definitions/CardCreationReport"
-            }
+          "200" : {
+            "description" : "rate limiter reset"
           },
           "400" : {
             "description" : "bad request"
+          }
+        }
+      }
+    },
+    "/logs" : {
+      "post" : {
+        "summary" : "sends remote logs",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "remote logs sent"
+          },
+          "400" : {
+            "description" : "bad request"
+          }
+        }
+      }
+    },
+    "/cards" : {
+      "post" : {
+        "tags" : [ "cards", "read" ],
+        "summary" : "retrieve published cards matching given criteria",
+        "description" : "get published cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients). For performance reasons, the response  does not contain all lightCard fields, the returned fields are : id, uid,publisher, processVersion,process, processInstanceId,state,title,summary,publishDate,startDate,endDate,severity, publisherType, representative,representativeType. The other fields are set to null.",
+        "operationId" : "fetchPublishedCardsWithFilteringCriteria",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "filter",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/CardsFilter"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/LightCardPage"
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - User doesn't have any group"
           }
         }
       },
@@ -1021,6 +1059,34 @@ window.swaggerSpec={
         "responses" : {
           "200" : {
             "description" : "OK"
+          }
+        }
+      }
+    },
+    "/archives/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "type" : "string",
+        "required" : true
+      } ],
+      "get" : {
+        "operationId" : "fetchArchivedCard",
+        "tags" : [ "archives", "read" ],
+        "summary" : "fetch archived card",
+        "description" : "fetch archived card with the given id",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/Card"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - User doesn't have any group"
           }
         }
       }
@@ -1058,30 +1124,30 @@ window.swaggerSpec={
         }
       }
     },
-    "/archives/{id}" : {
-      "parameters" : [ {
-        "in" : "path",
-        "name" : "id",
-        "type" : "string",
-        "required" : true
-      } ],
-      "get" : {
-        "operationId" : "fetchArchivedCard",
-        "tags" : [ "archives", "read" ],
-        "summary" : "fetch archived card",
-        "description" : "fetch archived card with the given id",
+    "/connectedRecipientsPreview" : {
+      "post" : {
+        "summary" : "get the connected Entity among the recipients in card preview",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "card",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/Card"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/Card"
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
             }
           },
-          "401" : {
-            "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - User doesn't have any group"
+          "400" : {
+            "description" : "Bad request"
           }
         }
       }
@@ -1246,39 +1312,6 @@ window.swaggerSpec={
           },
           "401" : {
             "description" : "Authentication required"
-          }
-        }
-      }
-    },
-    "/query" : {
-      "post" : {
-        "tags" : [ "cards", "read" ],
-        "summary" : "retrieve published cards matching given criteria",
-        "description" : "get published cards matching the criteria given as parameters. Results are limited to the cards that the calling user is allowed to see (based on the card recipients). For performance reasons, the response  does not contain all lightCard fields, the returned fields are : id, uid,publisher, processVersion,process, processInstanceId,state,title,summary,publishDate,startDate,endDate,severity, publisherType, representative,representativeType. The other fields are set to null.",
-        "operationId" : "fetchPublishedCardsWithFilteringCriteria",
-        "consumes" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "filter",
-          "in" : "body",
-          "schema" : {
-            "$ref" : "#/definitions/CardsFilter"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/LightCardPage"
-            }
-          },
-          "400" : {
-            "description" : "Bad request"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - User doesn't have any group"
           }
         }
       }

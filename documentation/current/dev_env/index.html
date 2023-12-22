@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 4.0.4.RELEASE,</span>
-<span id="revdate">15 November 2023</span>
+<span id="revnumber">version 4.1.0.RELEASE,</span>
+<span id="revdate">22 December 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -554,6 +554,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configuration">6.4.10. Configuration</a></li>
 </ul>
 </li>
+<li><a href="#_node_services">6.5. Node services</a>
+<ul class="sectlevel3">
+<li><a href="#_other_useful_commands">6.5.1. Other useful commands</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_useful_recipes">7. Useful recipes</a>
@@ -572,7 +577,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_setup_at_least_one_client_or_best_one_per_service">9.2. Setup at least one client (or best one per service)</a>
 <ul class="sectlevel3">
 <li><a href="#_create_client">9.2.1. Create client</a></li>
-<li><a href="#_add_a_role_to_client">9.2.2. Add a Role to Client</a></li>
 </ul>
 </li>
 <li><a href="#_create_users">9.3. Create Users</a>
@@ -1066,7 +1070,11 @@ used by external projects</p>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/config">config</a>: contains external configurations for all services , keycloak and docker-compose files to help with tests and demonstrations</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services">services</a>: contains the microservices that make up
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/node-services">node-services</a>: contains the node microservices that make up
+OperatorFabric</p>
+</li>
+<li>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/services">services</a>: contains the java microservices that make up
 OperatorFabric</p>
 <div class="ulist">
 <ul>
@@ -2029,6 +2037,59 @@ time to be changed globally for all steps to the value defined by this property.
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_node_services"><a class="anchor" href="#_node_services"></a>6.5. Node services</h3>
+<div class="paragraph">
+<p>When developing Node services, you have the option to run the service outside of the Docker environment. To do this, follow these steps:</p>
+</div>
+<div class="paragraph">
+<p>Stop the Docker container running the Node service. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    docker stop cards-reminder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After stopping the Docker container, you can start the service in development mode with hot reload :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    cd node-services/cards-reminder
+    npm run start:dev</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_useful_commands"><a class="anchor" href="#_other_useful_commands"></a>6.5.1. Other useful commands</h4>
+<div class="paragraph">
+<p>Here are some other useful commands for working with Node services:</p>
+</div>
+<div class="paragraph">
+<p>To launch unit tests :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    npm run test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To build the service :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    npm run build</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To start the service without hot reload :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    node build/cardReminder.ts</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2595,52 +2656,112 @@ Default credentials are admin/admin.</p>
 <p>Select Openid-Connect Protocol</p>
 </li>
 <li>
-<p>Enable Authorization</p>
+<p>Click Next</p>
 </li>
 <li>
-<p>Access Type to Confidential</p>
+<p>Enable client authentication</p>
 </li>
 <li>
-<p>save</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_add_a_role_to_client"><a class="anchor" href="#_add_a_role_to_client"></a>9.2.2. Add a Role to Client</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>In client view, click Roles tab</p>
+<p>Enable authorization</p>
 </li>
 <li>
-<p>Click Add button</p>
+<p>Select Authentication flows: Standard flow, Direct access grants, Implicit flow</p>
 </li>
 <li>
-<p>create a USER role (or whatever)</p>
+<p>Click Next</p>
 </li>
 <li>
-<p>save
-== create a Mapper</p>
+<p>Enter Valid redirect URIs : <a href="http://localhost:2002/*" class="bare">localhost:2002/*</a></p>
 </li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Used to map the user name to a field that suits services</p>
-</div>
-<div class="ulist">
-<ul>
+<li>
+<p>Add Valid redirect URIs : <a href="http://localhost:4200/*" class="bare">localhost:4200/*</a></p>
+</li>
+<li>
+<p>Click Save</p>
+</li>
+<li>
+<p>Remove Web origins settings</p>
+</li>
+<li>
+<p>Click Save</p>
+</li>
+<li>
+<p>Select Client scopes tab</p>
+</li>
+<li>
+<p>Click on opfab-client-dedicated</p>
+</li>
+<li>
+<p>From Mappers tab click Add Mapper</p>
+</li>
+<li>
+<p>Select by configuration</p>
+</li>
+<li>
+<p>Select User Property</p>
+</li>
 <li>
 <p>name it sub</p>
-</li>
-<li>
-<p>set mapper type to User Property</p>
 </li>
 <li>
 <p>set Property to username</p>
 </li>
 <li>
 <p>set Token claim name to sub</p>
+</li>
+<li>
+<p>enable add to access token</p>
+</li>
+<li>
+<p>save</p>
+</li>
+<li>
+<p>From Mappers tab click Add Mapper</p>
+</li>
+<li>
+<p>Select by configuration</p>
+</li>
+<li>
+<p>Select User Attribute</p>
+</li>
+<li>
+<p>name it groups</p>
+</li>
+<li>
+<p>set Property to groups</p>
+</li>
+<li>
+<p>set User attribute to groups</p>
+</li>
+<li>
+<p>set Token claim name to groups</p>
+</li>
+<li>
+<p>enable add to access token</p>
+</li>
+<li>
+<p>save</p>
+</li>
+<li>
+<p>From Mappers tab click Add Mapper</p>
+</li>
+<li>
+<p>Select by configuration</p>
+</li>
+<li>
+<p>Select User Attribute</p>
+</li>
+<li>
+<p>name it groups</p>
+</li>
+<li>
+<p>set Property to entitiesId</p>
+</li>
+<li>
+<p>set User attribute to entitiesId</p>
+</li>
+<li>
+<p>set Token claim name to entitiesId</p>
 </li>
 <li>
 <p>enable add to access token</p>
@@ -2666,29 +2787,28 @@ Default credentials are admin/admin.</p>
 <p>Set username to admin</p>
 </li>
 <li>
-<p>Save</p>
-</li>
-<li>
-<p>Select Role Mappings tab</p>
-</li>
-<li>
-<p>Select "opfab-client" in client roles combo (or whatever id you formerly chose)</p>
-</li>
-<li>
-<p>Select USER  as assigned role (or whatever role you formerly created)</p>
+<p>Create</p>
 </li>
 <li>
 <p>Select Credentials tab</p>
 </li>
 <li>
-<p>set password and confirmation to "test"
-*</p>
+<p>set password and confirmation to "test"</p>
+</li>
+<li>
+<p>disable Temporary flag</p>
+</li>
+<li>
+<p>Select Attributes tab</p>
+</li>
+<li>
+<p>add groups or entitiesId attributes if needed</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>repeat process for other users:
-operator3_fr, operator1_fr, operator2_fr</p>
+operator3_fr, operator1_fr, operator2_fr, etc ..</p>
 </div>
 <div class="sect3">
 <h4 id="_development_specific_configuration"><a class="anchor" href="#_development_specific_configuration"></a>9.3.1. Development-specific configuration</h4>

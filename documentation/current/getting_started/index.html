@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Getting Started</h1>
 <div class="details">
-<span id="revnumber">version 4.0.4.RELEASE,</span>
-<span id="revdate">15 November 2023</span>
+<span id="revnumber">version 4.1.0.RELEASE,</span>
+<span id="revdate">22 December 2023</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -482,6 +482,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_customize_the_card_sending_template">3.6.3. Customize the card sending template</a></li>
 </ul>
 </li>
+<li><a href="#_example_7_message_card_using_build_in_templates">3.7. Example 7: Message card using "build-in" templates</a></li>
+<li><a href="#_example_8_question_card_using_build_in_templates">3.8. Example 8: Question card using "build-in" templates</a></li>
 </ul>
 </li>
 <li><a href="#troubleshooting_bundle">4. Troubleshooting</a>
@@ -1540,7 +1542,191 @@ You can use this command line :</p>
 </div>
 </div>
 <div class="paragraph">
-<p>See the <a href="https://opfab.github.io/documentation/current/reference_doc/#user_cards">card documentation</a> for further informations on cards.</p>
+<p>See the <a href="https://opfab.github.io/documentation/current/reference_doc/#user_cards">card documentation</a> for further
+information on cards.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_7_message_card_using_build_in_templates"><a class="anchor" href="#_example_7_message_card_using_build_in_templates"></a>3.7. Example 7: Message card using "build-in" templates</h3>
+<div class="paragraph">
+<p>Instead of coding your own templates for message cards or user cards, you can use opfab build-in templates if it suits your needs.
+In the following example, we are going to modify the templates of the previous bundle (the message card).</p>
+</div>
+<div class="paragraph">
+<p>If you want to show only a simple message, you can use the message build-in template, to achieve this, first you have to
+put in your handlebar file <code>message.handlebars</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-message-card&gt; &lt;/opfab-message-card&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The build-in template supposes the message is stored in the card in field <code>data.message</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then you have to put in your handlebar file <code>message_usercard.handlebars</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-message-usercard&gt; &lt;/opfab-message-usercard&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The message will be stored in the field <code>data.message</code> of the card.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can package the bundle and send it to the server with the provided scripts :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./packageBundle.sh | ./sendBundle.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now if you reload the page, you should be able to create a card using build-in template.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example7_card_send.png" alt="example 7 screen shot #1">
+</div>
+</div>
+<div class="paragraph">
+<p>You can change the text header by providing the message-header attribute:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-message-card  message-header=&quot;a new header&quot;&gt; &lt;/opfab-message-card&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By using attributes you can set some parameters regarding recipients, see
+<a href="/documentation/current/reference_doc/index.html#build-in_templates_common_usercard_attributes">common attributes for user cards</a></p>
+</div>
+<div class="paragraph">
+<p>You can see the updated UI using this command line and refreshing the page to update the bundle.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./packageBundle_updated.sh | ./sendBundle.sh</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example7_card_send_updated.png" alt="example 7 screen shot #2">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_8_question_card_using_build_in_templates"><a class="anchor" href="#_example_8_question_card_using_build_in_templates"></a>3.8. Example 8: Question card using "build-in" templates</h3>
+<div class="paragraph">
+<p>Another example of templating is a question/response use case. Opfab allows you to send a response which will be attached
+to the card. This mechanism can be illustrated via the build-in template for question card.</p>
+</div>
+<div class="paragraph">
+<p>To show a question and see user responses, first you have to put in your handlebar file <code>question.handlebars</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-question-card&gt; &lt;/opfab-question-card&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The build-in template supposes the question is stored in the card in the field <code>data.question</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then you have to put in your handlebar file <code>question_usercard.handlebars</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-question-usercard&gt; &lt;/opfab-question-usercard&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The question will be stored in the field <code>data.question</code> of the card.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Like the message build-in template, you can set default attributes :
+<a href="/documentation/current/reference_doc/index.html#build-in_templates_common_usercard_attributes">common attributes for user cards</a></p>
+</div>
+<div class="paragraph">
+<p>Use the provided script to add rights to send question card :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./setupPerimeter.sh perimeter.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can package the bundle and send it to the server with the provided scripts :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./packageBundle.sh | ./sendBundle.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example for using a question card with the previous build-in template :</p>
+</div>
+<div class="paragraph">
+<p>First, operator1_fr log in and create the question card :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example8_create_card.png" alt="example 8 screen shot #1">
+</div>
+</div>
+<div class="paragraph">
+<p>Then, operator3_fr log in, read the question card and answer to it :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example8_answer_to_card.png" alt="example 8 screen shot #2">
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, operator1_fr sees the answer of operator3_fr :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/example8_answer_received.png" alt="example 8 screen shot #3">
 </div>
 </div>
 </div>
