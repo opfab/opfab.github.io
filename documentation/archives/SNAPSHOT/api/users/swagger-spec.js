@@ -150,6 +150,12 @@ window.swaggerSpec={
             "type" : "string",
             "uniqueItems" : true
           }
+        },
+        "roles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/RolesEnum"
+          }
         }
       },
       "required" : [ "id" ],
@@ -159,9 +165,14 @@ window.swaggerSpec={
         "description" : "Control Room 1"
       }
     },
+    "RolesEnum" : {
+      "type" : "string",
+      "description" : "Different possible roles >\n* ACTIVITY_AREA_GROUP : Used to group entities in the activity area screen\n* CARD_SENDER : Allows an entity to send cards\n* CARD_RECEIVER : Allows an entity to receive cards",
+      "enum" : [ "ACTIVITY_AREA_GROUP", "CARD_SENDER", "CARD_RECEIVER" ]
+    },
     "RightsEnum" : {
       "type" : "string",
-      "description" : "Different rights possible >\n* Receive: Only receive rights (receiving card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
+      "description" : "Different possible rights >\n* Receive: Only receive rights (receiving card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
       "enum" : [ "Receive", "ReceiveAndWrite" ]
     },
     "StateRight" : {

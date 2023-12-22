@@ -909,19 +909,6 @@ window.swaggerSpec={
         "entitiesGroups" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/EntitiesGroups"
-          }
-        }
-      }
-    },
-    "EntitiesGroups" : {
-      "properties" : {
-        "name" : {
-          "type" : "string"
-        },
-        "entities" : {
-          "type" : "array",
-          "items" : {
             "type" : "string"
           }
         }
