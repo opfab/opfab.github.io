@@ -141,9 +141,6 @@ window.swaggerSpec={
             "type" : "string"
           }
         },
-        "entityAllowedToSendCard" : {
-          "type" : "boolean"
-        },
         "parents" : {
           "type" : "array",
           "items" : {
