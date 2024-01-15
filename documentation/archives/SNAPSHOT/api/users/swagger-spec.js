@@ -164,8 +164,8 @@ window.swaggerSpec={
     },
     "RolesEnum" : {
       "type" : "string",
-      "description" : "Different possible roles >\n* ACTIVITY_AREA_GROUP : Used to group entities in the activity area screen\n* CARD_SENDER : Allows an entity to send cards\n* CARD_RECEIVER : Allows an entity to receive cards",
-      "enum" : [ "ACTIVITY_AREA_GROUP", "CARD_SENDER", "CARD_RECEIVER" ]
+      "description" : "Different possible roles >\n* ACTIVITY_AREA : Used to display an entity in the activity area screen\n* ACTIVITY_AREA_GROUP : Used to group entities in the activity area screen\n* CARD_SENDER : Allows an entity to send cards\n* CARD_RECEIVER : Allows an entity to receive cards",
+      "enum" : [ "ACTIVITY_AREA", "ACTIVITY_AREA_GROUP", "CARD_SENDER", "CARD_RECEIVER" ]
     },
     "RightsEnum" : {
       "type" : "string",

@@ -247,6 +247,12 @@ window.swaggerSpec={
         }
       }
     },
+    "CardActionEnum" : {
+      "type" : "string",
+      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD",
+      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD" ],
+      "example" : "PROPAGATE_READ_ACK_TO_PARENT_CARD"
+    },
     "Card" : {
       "type" : "object",
       "description" : "A Card sums up information about the status of a given process instance of the publishing service",
@@ -460,6 +466,12 @@ window.swaggerSpec={
         "toNotify" : {
           "type" : "boolean",
           "description" : "Is false if the card must not be displayed in the feed and in monitoring screen"
+        },
+        "actions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/CardActionEnum"
+          }
         }
       },
       "required" : [ "publisher", "process", "processVersion", "processInstanceId", "severity", "startDate", "title", "summary", "state" ],
