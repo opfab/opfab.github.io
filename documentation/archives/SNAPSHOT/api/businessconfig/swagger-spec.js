@@ -704,6 +704,10 @@ window.swaggerSpec={
                 "description" : "Name of the template to use",
                 "type" : "string"
               },
+              "emailBodyTemplate" : {
+                "description" : "Name of the template to use for the body of the associated email",
+                "type" : "string"
+              },
               "styles" : {
                 "description" : "Name of the css files to apply",
                 "type" : "array",

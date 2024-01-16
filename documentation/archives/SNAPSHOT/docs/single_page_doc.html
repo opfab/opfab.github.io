@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">15 January 2024</span>
+<span id="revdate">16 January 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -21062,6 +21062,11 @@ So you have to remove this parameter from the configuration file <code>web-ui.js
 }
 ----</p>
 <p class="tableblock">With this parent entity 1 and parent entity 2 need to be declared and the name of the parent entities will be the name of the groups.</p>
+<p class="tableblock">== Updating the entity roles in the database</p>
+<p class="tableblock">In this release the "roles" attribute has been added to the entity object. It defines the utility of an entity. It absorbs and broaden the logic of the attribute "entityAllowedToSendCard" which becomes deprecated.
+To update the entities in your mongo database, you can execute the following script located in <code>OF_HOME/src/tooling/migration-entity-roles</code> :</p>
+<p class="tableblock"><code>./launchMigration.sh &lt;IP or DNSNameMongoDB&gt; &lt;portMongoDB&gt; &lt;loginMongoDB&gt; &lt;passwordMongoDB&gt;</code></p>
+<p class="tableblock">This script will assign the roles "ACTIVITY_AREA", "CARD_RECEIVER" and "CARD_SENDER" to all the entities that have "entityAllowedToSendCard = true" and the role "CARD_RECEIVER" to the others. Please refer to the documentation to see the other possible roles and their effect.</p>
 <p class="tableblock">:leveloffset: 1</p></td>
 </tr>
 </tbody>
