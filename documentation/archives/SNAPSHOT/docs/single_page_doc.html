@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">17 January 2024</span>
+<span id="revdate">18 January 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1206,9 +1206,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_configuration_5">41.4.10. Configuration</a></li>
 </ul>
 </li>
-<li><a href="#_node_services">41.5. Node services</a>
+<li><a href="#_load_testing_with_gatling">41.5. Load testing with Gatling</a>
 <ul class="sectlevel3">
-<li><a href="#_other_useful_commands">41.5.1. Other useful commands</a></li>
+<li><a href="#_run_a_test">41.5.1. Run a test</a></li>
+</ul>
+</li>
+<li><a href="#_node_services">41.6. Node services</a>
+<ul class="sectlevel3">
+<li><a href="#_other_useful_commands">41.6.1. Other useful commands</a></li>
 </ul>
 </li>
 </ul>
@@ -13890,7 +13895,40 @@ time to be changed globally for all steps to the value defined by this property.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_node_services"><a class="anchor" href="#_node_services"></a>41.5. Node services</h3>
+<h3 id="_load_testing_with_gatling"><a class="anchor" href="#_load_testing_with_gatling"></a>41.5. Load testing with Gatling</h3>
+<div class="paragraph">
+<p>Load tests using Gatling are written in java.
+All test java sources are in src/test/gatling/src/java</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If your OperatorFabric instance is not running on localhost, you need to edit the tests classes  and replace localhost with the address of your running instance.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_run_a_test"><a class="anchor" href="#_run_a_test"></a>41.5.1. Run a test</h4>
+<div class="paragraph">
+<p>To launch a specific test, launch:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$OF_HOME/gradlew clean  gatlingRun-&lt;TestClassName&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result will be available in the <code>src/test/gatling/build/reports/gatling/</code> folder.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_node_services"><a class="anchor" href="#_node_services"></a>41.6. Node services</h3>
 <div class="paragraph">
 <p>When developing Node services, you have the option to run the service outside of the Docker environment. To do this, follow these steps:</p>
 </div>
@@ -13912,7 +13950,7 @@ time to be changed globally for all steps to the value defined by this property.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_other_useful_commands"><a class="anchor" href="#_other_useful_commands"></a>41.5.1. Other useful commands</h4>
+<h4 id="_other_useful_commands"><a class="anchor" href="#_other_useful_commands"></a>41.6.1. Other useful commands</h4>
 <div class="paragraph">
 <p>Here are some other useful commands for working with Node services:</p>
 </div>
@@ -21067,6 +21105,9 @@ So you have to remove this parameter from the configuration file <code>web-ui.js
 To update the entities in your mongo database, you can execute the following script located in <code>OF_HOME/src/tooling/migration-entity-roles</code> :</p>
 <p class="tableblock"><code>./launchMigration.sh &lt;IP or DNSNameMongoDB&gt; &lt;portMongoDB&gt; &lt;loginMongoDB&gt; &lt;passwordMongoDB&gt;</code></p>
 <p class="tableblock">This script will assign the roles "ACTIVITY_AREA", "CARD_RECEIVER" and "CARD_SENDER" to all the entities that have "entityAllowedToSendCard = true" and the role "CARD_RECEIVER" to the others. Please refer to the documentation to see the other possible roles and their effect.</p>
+<p class="tableblock">== Deletion of deprecated functions in templateGateway/usercardTemplateGateway</p>
+<p class="tableblock">Functions in templateGateway/usercardTemplateGateway do not exist anymore, you can refer to the
+migration documentation to opfab 4.0 to know which functions you have to use.</p>
 <p class="tableblock">:leveloffset: 1</p></td>
 </tr>
 </tbody>
