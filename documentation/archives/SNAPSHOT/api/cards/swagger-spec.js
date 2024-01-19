@@ -249,8 +249,8 @@ window.swaggerSpec={
     },
     "CardActionEnum" : {
       "type" : "string",
-      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD",
-      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD" ],
+      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS",
+      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS" ],
       "example" : "PROPAGATE_READ_ACK_TO_PARENT_CARD"
     },
     "Card" : {
@@ -279,7 +279,7 @@ window.swaggerSpec={
         },
         "keepChildCards" : {
           "type" : "boolean",
-          "description" : "Is true if OperatorFabric must not delete child cards when their parent card is updated"
+          "description" : "Is true if OperatorFabric must not delete child cards when their parent card is updated (deprecated).  Use 'actions' field including 'KEEP_CHILD_CARDS' action instead"
         },
         "publisher" : {
           "type" : "string",
