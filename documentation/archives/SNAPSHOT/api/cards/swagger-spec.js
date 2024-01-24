@@ -1218,9 +1218,11 @@ window.swaggerSpec={
         "in" : "body",
         "name" : "entitiesAcks",
         "description" : "List of user entities for which the card will be acknowledged",
-        "type" : "array",
-        "items" : {
-          "type" : "string"
+        "schema" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       } ],
       "post" : {
