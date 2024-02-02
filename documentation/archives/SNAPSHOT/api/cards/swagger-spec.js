@@ -41,8 +41,8 @@ window.swaggerSpec={
     },
     "CardOperationTypeEnum" : {
       "type" : "string",
-      "description" : "Type of operation >\n* ADD - Operation lists cards object to be added\n* UPDATE - Operation lists cards object to be updated\n* DELETE - Operation lists card ids to be deleted",
-      "enum" : [ "ADD", "UPDATE", "DELETE" ],
+      "description" : "Type of operation >\n* ADD - Operation lists cards object to be added\n* UPDATE - Operation lists cards object to be updated\n* DELETE - Operation lists card ids to be deleted\n* ACK - Operation lists card ids to be acknowledged\n* UNACK - Operation lists card ids to be unacknowledged",
+      "enum" : [ "ADD", "UPDATE", "DELETE", "ACK", "UNACK" ],
       "example" : "ADD"
     },
     "SeverityEnum" : {
@@ -1241,8 +1241,27 @@ window.swaggerSpec={
             "description" : "Try to remove item from unexisting card"
           }
         }
-      },
-      "delete" : {
+      }
+    },
+    "/cards/cancelUserAcknowledgement/{uid}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "uid",
+        "type" : "string",
+        "required" : true,
+        "description" : "The card uid"
+      }, {
+        "in" : "body",
+        "name" : "entitiesAcks",
+        "description" : "List of user entities for which the card will be acknowledged",
+        "schema" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      } ],
+      "post" : {
         "operationId" : "deleteUserAcknowledgement",
         "tags" : [ "cards", "delete", "acknowledgement" ],
         "summary" : "update current card removing a user acknowledgement",
