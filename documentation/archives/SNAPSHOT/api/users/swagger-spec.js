@@ -316,6 +316,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, Opfab will send unread cards notification by email"
         },
+        "emailToPlainText" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, the emails' bodies will be plain text"
+        },
         "email" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
@@ -368,6 +372,10 @@ window.swaggerSpec={
         "sendCardsByEmail" : {
           "type" : "boolean",
           "description" : "If this is set to true, Opfab will send unread cards notification by email"
+        },
+        "emailToPlainText" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, the emails' bodies will be plain text"
         },
         "email" : {
           "type" : "string",
