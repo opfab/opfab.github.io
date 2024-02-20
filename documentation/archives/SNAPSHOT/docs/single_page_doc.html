@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 February 2024</span>
+<span id="revdate">20 February 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1062,7 +1062,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_logging_administration">31. Logging Administration</a>
 <ul class="sectlevel2">
 <li><a href="#_logging_configuration">31.1. Logging configuration</a></li>
-<li><a href="#_runtime_configuration">31.2. Runtime configuration</a></li>
+<li><a href="#_runtime_configuration">31.2. Runtime configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_java_services">31.2.1. Java services</a></li>
+<li><a href="#_node_services">31.2.2. Node Services</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_users_groups_and_entities_administration">32. Users, Groups and Entities Administration</a>
@@ -1212,7 +1217,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_run_a_test">41.5.1. Run a test</a></li>
 </ul>
 </li>
-<li><a href="#_node_services">41.6. Node services</a>
+<li><a href="#_node_services_2">41.6. Node services</a>
 <ul class="sectlevel3">
 <li><a href="#_other_useful_commands">41.6.1. Other useful commands</a></li>
 </ul>
@@ -11662,7 +11667,15 @@ but they can be adapted for single container deployments and development mode.
 <div class="sect2">
 <h3 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>31.2. Runtime configuration</h3>
 <div class="paragraph">
-<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services (the service supervisor , cards-external-diffusion and cards-reminder does not provide this feature). It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework. These levels can be one of:</p>
+<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services. It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework.</p>
+</div>
+<div class="paragraph">
+<p>Querying and setting logging levels is restricted to administrators.</p>
+</div>
+<div class="sect3">
+<h4 id="_java_services"><a class="anchor" href="#_java_services"></a>31.2.1. Java services</h4>
+<div class="paragraph">
+<p>For java services (user, businessconfig, cards-consultation, cards-publication and external-devices) the available logging levels are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -11685,9 +11698,6 @@ but they can be adapted for single container deployments and development mode.
 <p>FATAL</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Querying and setting logging levels is restricted to administrators.</p>
 </div>
 <div class="paragraph">
 <p>To view the configured logging level for a given logger it is possible to send a GET request to the '/actuator/logger' URI as follows:</p>
@@ -11730,6 +11740,71 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <div class="paragraph">
 <p>To set the log level for ROOT logger of a service it is possible to call the provided script
 <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_node_services"><a class="anchor" href="#_node_services"></a>31.2.2. Node Services</h4>
+<div class="paragraph">
+<p>For node services (supervisor, cards-external-diffusion and cards-reminder) the available logging levels are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>silly</p>
+</li>
+<li>
+<p>debug</p>
+</li>
+<li>
+<p>verbose</p>
+</li>
+<li>
+<p>http</p>
+</li>
+<li>
+<p>info</p>
+</li>
+<li>
+<p>warn</p>
+</li>
+<li>
+<p>error</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To view the configured logging level for a given logger it is possible to send a GET request to the '/logLevel' URI as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl http://&lt;server&gt;:&lt;port&gt;/logLevel -H "Authorization: Bearer ${token}"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid OAuth2 JWT for a user with administration privileges</p>
+</div>
+<div class="paragraph">
+<p>The response will be the configured logging level as string</p>
+</div>
+<div class="paragraph">
+<p>To get the log level of a node service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogsNodeService.sh">src/test/resources/logs/getLogsNodeService.sh</a> as follows: <code>getLogsNodeService.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-external-diffusion" service  execute: <code>getLogsNodeService.sh localhost:2106 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+<div class="paragraph">
+<p>To configure a given logger, POST a json entity to the '/logLevel' URI, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -i -X POST http://&lt;server&gt;:&lt;port&gt;/logLevel -H "Authorization: Bearer ${token}" -H 'Content-Type: application/json' -d '{"configuredLevel": "debug"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
+</div>
+<div class="paragraph">
+<p>To set the log level for a node service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogsNodeService.sh">src/test/resources/logs/setLogsNodeService.sh</a> as follows: <code>setLogsNodeService.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-external-diffusion" service  execute: <code>setLogsNodeService.sh localhost:2106 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
 </div>
 </div>
 </div>
@@ -13983,7 +14058,7 @@ If your OperatorFabric instance is not running on localhost, you need to edit th
 </div>
 </div>
 <div class="sect2">
-<h3 id="_node_services"><a class="anchor" href="#_node_services"></a>41.6. Node services</h3>
+<h3 id="_node_services_2"><a class="anchor" href="#_node_services_2"></a>41.6. Node services</h3>
 <div class="paragraph">
 <p>When developing Node services, you have the option to run the service outside of the Docker environment. To do this, follow these steps:</p>
 </div>
