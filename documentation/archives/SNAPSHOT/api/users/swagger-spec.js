@@ -97,6 +97,13 @@ window.swaggerSpec={
         "description" : {
           "type" : "string"
         },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : true
+          }
+        },
         "perimeters" : {
           "type" : "array",
           "items" : {
