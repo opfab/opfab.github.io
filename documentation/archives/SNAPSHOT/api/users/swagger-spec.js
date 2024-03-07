@@ -117,9 +117,6 @@ window.swaggerSpec={
             "$ref" : "#/definitions/PermissionEnum",
             "uniqueItems" : true
           }
-        },
-        "realtime" : {
-          "type" : "boolean"
         }
       },
       "required" : [ "id" ],
