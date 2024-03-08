@@ -324,6 +324,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
         },
+        "sendDailyEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
+        },
         "email" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
@@ -380,6 +384,10 @@ window.swaggerSpec={
         "emailToPlainText" : {
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
+        },
+        "sendDailyEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
         },
         "email" : {
           "type" : "string",
