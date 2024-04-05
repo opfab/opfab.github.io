@@ -249,8 +249,8 @@ window.swaggerSpec={
     },
     "CardActionEnum" : {
       "type" : "string",
-      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS\n* KEEP_EXISTING_ACKS_AND_READS",
-      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS", "KEEP_EXISTING_ACKS_AND_READS" ],
+      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS\n* KEEP_EXISTING_ACKS_AND_READS,\n* KEEP_EXISTING_PUBLISH_DATE",
+      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS", "KEEP_EXISTING_ACKS_AND_READS", "KEEP_EXISTING_PUBLISH_DATE" ],
       "example" : "PROPAGATE_READ_ACK_TO_PARENT_CARD"
     },
     "Card" : {
