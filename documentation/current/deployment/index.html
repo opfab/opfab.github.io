@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.2.1.RELEASE,</span>
-<span id="revdate">28 March 2024</span>
+<span id="revnumber">version 4.3.0.RELEASE,</span>
+<span id="revdate">17 May 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -597,7 +597,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_logging_administration">5. Logging Administration</a>
 <ul class="sectlevel2">
 <li><a href="#_logging_configuration">5.1. Logging configuration</a></li>
-<li><a href="#_runtime_configuration">5.2. Runtime configuration</a></li>
+<li><a href="#_runtime_configuration">5.2. Runtime configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_java_services">5.2.1. Java services</a></li>
+<li><a href="#_node_services">5.2.2. Node Services</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_users_groups_and_entities_administration">6. Users, Groups and Entities Administration</a>
@@ -1401,6 +1406,24 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail from address</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the day'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the daily recap email</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the daily recap email</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Opfab card received'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1831,6 +1854,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to false, an OperatorFabric url can be used by several tabs in the same browser. Note that there can only be one token per browser for a given OperatorFabric url, so the first session will be replaced by the second one</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">defaultEntryPage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This configuration determines the default page that will be displayed after a user logs in. The possible values include all core menus, with the exception of 'usercard' and 'about'. Additionally, you can set a custom application as the entry page by using 'businessconfigparty/menuId' as the value.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">environmentColor</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">blue</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -2002,10 +2031,10 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add a GeoJSON layer to the map. Example: "https://localhost:8000/service-area.geojson"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of GeoJSON layers to add to the map with optional style attribute. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>). Example: [{"url":"assets/layers/service-area.geojson"},{"url":"https://localhost:8000/network-lines.geojson", "style": {"stroke-color": "blue"}}]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
@@ -2267,7 +2296,8 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "sounds" : if present, the checkboxes for sound notifications won&#8217;t be displayed<br>
 "systemNotifications" : if present, the checkboxes for systemNotifications won&#8217;t be displayed<br>
 "sendCardsByEmail"  : if present, the email options won&#8217;t be displayed<br>
-"emailToPlainText"  : if present, the email option to have the emails sent as plain text won&#8217;t be displayed</p></td>
+"emailToPlainText"  : if present, the email option to have the emails sent as plain text won&#8217;t be displayed
+"sendDailyEmail"  : if present, the email option to have the daily email recap won&#8217;t be displayed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">showUserEntitiesOnTopRightOfTheScreen</p></td>
@@ -3092,7 +3122,15 @@ but they can be adapted for single container deployments and development mode.
 <div class="sect2">
 <h3 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>5.2. Runtime configuration</h3>
 <div class="paragraph">
-<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services (the service supervisor , cards-external-diffusion and cards-reminder does not provide this feature). It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework. These levels can be one of:</p>
+<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services. It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework.</p>
+</div>
+<div class="paragraph">
+<p>Querying and setting logging levels is restricted to administrators.</p>
+</div>
+<div class="sect3">
+<h4 id="_java_services"><a class="anchor" href="#_java_services"></a>5.2.1. Java services</h4>
+<div class="paragraph">
+<p>For java services (user, businessconfig, cards-consultation, cards-publication and external-devices) the available logging levels are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3115,9 +3153,6 @@ but they can be adapted for single container deployments and development mode.
 <p>FATAL</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Querying and setting logging levels is restricted to administrators.</p>
 </div>
 <div class="paragraph">
 <p>To view the configured logging level for a given logger it is possible to send a GET request to the '/actuator/logger' URI as follows:</p>
@@ -3160,6 +3195,71 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <div class="paragraph">
 <p>To set the log level for ROOT logger of a service it is possible to call the provided script
 <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_node_services"><a class="anchor" href="#_node_services"></a>5.2.2. Node Services</h4>
+<div class="paragraph">
+<p>For node services (supervisor, cards-external-diffusion and cards-reminder) the available logging levels are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>silly</p>
+</li>
+<li>
+<p>debug</p>
+</li>
+<li>
+<p>verbose</p>
+</li>
+<li>
+<p>http</p>
+</li>
+<li>
+<p>info</p>
+</li>
+<li>
+<p>warn</p>
+</li>
+<li>
+<p>error</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To view the configured logging level for a given logger it is possible to send a GET request to the '/logLevel' URI as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl http://&lt;server&gt;:&lt;port&gt;/logLevel -H "Authorization: Bearer ${token}"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid OAuth2 JWT for a user with administration privileges</p>
+</div>
+<div class="paragraph">
+<p>The response will be the configured logging level as string</p>
+</div>
+<div class="paragraph">
+<p>To get the log level of a node service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogsNodeService.sh">src/test/resources/logs/getLogsNodeService.sh</a> as follows: <code>getLogsNodeService.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-external-diffusion" service  execute: <code>getLogsNodeService.sh localhost:2106 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+<div class="paragraph">
+<p>To configure a given logger, POST a json entity to the '/logLevel' URI, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -i -X POST http://&lt;server&gt;:&lt;port&gt;/logLevel -H "Authorization: Bearer ${token}" -H 'Content-Type: application/json' -d '{"configuredLevel": "debug"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
+</div>
+<div class="paragraph">
+<p>To set the log level for a node service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogsNodeService.sh">src/test/resources/logs/setLogsNodeService.sh</a> as follows: <code>setLogsNodeService.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-external-diffusion" service  execute: <code>setLogsNodeService.sh localhost:2106 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
 </div>
 </div>
 </div>

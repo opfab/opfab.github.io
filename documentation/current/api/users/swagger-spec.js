@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.2.1.RELEASE",
+    "version" : "4.3.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -81,8 +81,8 @@ window.swaggerSpec={
     },
     "PermissionEnum" : {
       "type" : "string",
-      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS : Permission to access all archived cards which are in the perimeter of the user\n* VIEW_USER_ACTION_LOGS: Permission to view user action logs\n* VIEW_ALL_CARDS: Permission to query all published cards\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
-      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS", "VIEW_ALL_CARDS", "VIEW_USER_ACTION_LOGS", "READONLY" ]
+      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS : Permission to access all archived cards which are in the perimeter of the user\n* VIEW_USER_ACTION_LOGS: Permission to view user action logs\n* VIEW_ALL_CARDS: Permission to query all published cards\n* VIEW_ALL_CARDS_FOR_USER_PERIMETERS: Permission to access all cards which are in the perimeter of the user\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
+      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS", "VIEW_ALL_CARDS", "VIEW_ALL_CARDS_FOR_USER_PERIMETERS", "VIEW_USER_ACTION_LOGS", "READONLY" ]
     },
     "Group" : {
       "type" : "object",
@@ -97,6 +97,13 @@ window.swaggerSpec={
         "description" : {
           "type" : "string"
         },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : true
+          }
+        },
         "perimeters" : {
           "type" : "array",
           "items" : {
@@ -110,9 +117,6 @@ window.swaggerSpec={
             "$ref" : "#/definitions/PermissionEnum",
             "uniqueItems" : true
           }
-        },
-        "realtime" : {
-          "type" : "boolean"
         }
       },
       "required" : [ "id" ],
@@ -320,6 +324,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
         },
+        "sendDailyEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
+        },
         "email" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
@@ -376,6 +384,10 @@ window.swaggerSpec={
         "emailToPlainText" : {
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
+        },
+        "sendDailyEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
         },
         "email" : {
           "type" : "string",

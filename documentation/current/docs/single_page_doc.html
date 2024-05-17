@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.2.1.RELEASE,</span>
-<span id="revdate">28 March 2024</span>
+<span id="revnumber">version 4.3.0.RELEASE,</span>
+<span id="revdate">17 May 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -949,12 +949,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_archives_screen_in_the_ui">24.2. Archives screen in the UI</a></li>
 </ul>
 </li>
-<li><a href="#_monitoring">25. Monitoring</a>
+<li><a href="#geomap">25. Geographical map</a></li>
+<li><a href="#_monitoring">26. Monitoring</a>
 <ul class="sectlevel2">
-<li><a href="#_export_configuration">25.1. Export configuration</a></li>
+<li><a href="#_export_configuration">26.1. Export configuration</a></li>
+<li><a href="#_process_monitoring">26.2. Process monitoring</a></li>
 </ul>
 </li>
-<li><a href="#_process_monitoring">26. Process monitoring</a></li>
 <li><a href="#users_management">27. User management</a>
 <ul class="sectlevel2">
 <li><a href="#_users_groups_entities_and_perimeters">27.1. Users, groups, entities and perimeters</a>
@@ -1080,7 +1081,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_logging_administration">36. Logging Administration</a>
 <ul class="sectlevel2">
 <li><a href="#_logging_configuration">36.1. Logging configuration</a></li>
-<li><a href="#_runtime_configuration">36.2. Runtime configuration</a></li>
+<li><a href="#_runtime_configuration">36.2. Runtime configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_java_services">36.2.1. Java services</a></li>
+<li><a href="#_node_services">36.2.2. Node Services</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_users_groups_and_entities_administration">37. Users, Groups and Entities Administration</a>
@@ -1230,7 +1236,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_run_a_test">46.5.1. Run a test</a></li>
 </ul>
 </li>
-<li><a href="#_node_services">46.6. Node services</a>
+<li><a href="#_node_services_2">46.6. Node services</a>
 <ul class="sectlevel3">
 <li><a href="#_other_useful_commands">46.6.1. Other useful commands</a></li>
 </ul>
@@ -1323,22 +1329,20 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#_principles">56.1.1. Principles</a>
 <ul class="sectlevel4">
-<li><a href="#_develop_branch">56.1.1.1. <code>develop</code> branch</a></li>
-<li><a href="#_master_branch">56.1.1.2. <code>master</code> branch</a></li>
-<li><a href="#_hotfix_branches">56.1.1.3. Hotfix branches</a></li>
+<li><a href="#_release_names">56.1.1.1. Release names</a></li>
+<li><a href="#_develop_branch">56.1.1.2. <code>develop</code> branch</a></li>
+<li><a href="#_x_x_release_branch">56.1.1.3. <code>X.X.release</code> branch</a></li>
 <li><a href="#_feature_branches">56.1.1.4. Feature branches</a></li>
-<li><a href="#_release_branches">56.1.1.5. Release branches</a></li>
 </ul>
 </li>
 <li><a href="#_examples_and_commands">56.1.2. Examples and commands</a>
 <ul class="sectlevel4">
-<li><a href="#_initial_state">56.1.2.1. Initial state</a></li>
-<li><a href="#_starting_work_on_a_new_feature_for_the_next_version">56.1.2.2. Starting work on a new feature for the next version</a></li>
-<li><a href="#_submitting_a_pull_request_to_develop">56.1.2.3. Submitting a pull request to develop</a></li>
-<li><a href="#working_on_hotfix">56.1.2.4. Working on a fix for a previous version</a></li>
-<li><a href="#_reviewing_a_pull_request">56.1.2.5. Reviewing a Pull Request</a></li>
-<li><a href="#_merging_a_pull_request">56.1.2.6. Merging a Pull Request</a></li>
-<li><a href="#_creating_a_release_or_hotfix">56.1.2.7. Creating a release or hotfix</a></li>
+<li><a href="#_starting_work_on_a_new_feature_for_the_next_version">56.1.2.1. Starting work on a new feature for the next version</a></li>
+<li><a href="#_submitting_a_pull_request_to_develop">56.1.2.2. Submitting a pull request to develop</a></li>
+<li><a href="#working_on_fix">56.1.2.3. Working on a fix for a previous version</a></li>
+<li><a href="#_reviewing_a_pull_request">56.1.2.4. Reviewing a Pull Request</a></li>
+<li><a href="#_merging_a_pull_request">56.1.2.5. Merging a Pull Request</a></li>
+<li><a href="#_creating_a_release">56.1.2.6. Creating a release</a></li>
 </ul>
 </li>
 </ul>
@@ -1427,22 +1431,17 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_releasing_a_major_or_minor_version">61.3. Releasing a Major or Minor Version</a>
 <ul class="sectlevel3">
 <li><a href="#_move_release_candidate_to_release">61.3.1. Move Release Candidate to Release</a></li>
-<li><a href="#_merging_the_release_branch_into_master">61.3.2. Merging the release branch into <code>master</code></a></li>
+<li><a href="#publish_release_on_docker_hub_and_documentation">61.3.2. Publish the release on docker hub and documentation</a></li>
 <li><a href="#update_version_list_on_website">61.3.3. Updating the version list on the website</a></li>
 <li><a href="#checking_docker_compose">61.3.4. Checking the docker-compose files</a></li>
 <li><a href="#_publishing_the_jars_for_the_client_library_to_maven_central">61.3.5. Publishing the jars for the client library to Maven Central</a></li>
 <li><a href="#publishing_release_on_github">61.3.6. Publishing the release on GitHub</a></li>
 <li><a href="#supported_versions">61.3.7. Update supported versions</a></li>
 <li><a href="#advertising_new_release">61.3.8. Advertising the new release</a></li>
-<li><a href="#_preparing_the_next_version">61.3.9. Preparing the next version</a>
-<ul class="sectlevel4">
-<li><a href="#_on_the_release_notes_repository">61.3.9.1. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">61.3.9.2. On the operatorfabric-core repository</a></li>
+<li><a href="#_preparing_the_next_version">61.3.9. Preparing the next version</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#_releasing_a_patch_hotfixes_version">61.4. Releasing a Patch (Hotfixes) Version</a></li>
+<li><a href="#_releasing_a_patch_version">61.4. Releasing a Patch Version</a></li>
 </ul>
 </li>
 </ul>
@@ -1700,6 +1699,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_card_keepchildcards">89.5. Card keepChildCards</a></li>
 <li><a href="#_feed_process_and_state_filter">89.6. Feed process and state filter</a></li>
 <li><a href="#_user_settings">89.7. User settings</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_2_0_to_release_4_3_0">90. Migration Guide from release 4.2.0 to release 4.3.0</a>
+<ul class="sectlevel2">
+<li><a href="#_admin_group">90.1. ADMIN group</a></li>
+<li><a href="#_map_multiple_geojson_layers">90.2. Map multiple GeoJSON layers</a></li>
 </ul>
 </li>
 </ul>
@@ -3340,26 +3345,58 @@ Cyber security is a major concern for the OperatorFabric. The security is ensure
 <h2 id="_supply_chain_security"><a class="anchor" href="#_supply_chain_security"></a>12. Supply Chain Security</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The code is maintained in a public repository on github.</p>
+<p>The OperatorFabric code is maintained in a public repository on GitHub, ensuring transparency and collaboration.</p>
+</div>
+<div class="paragraph">
+<p>To maintain the security of the supply chain, the following measures are implemented:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The list of users is regularly reviewed.</p>
+<p>Regular review of the list of users with access to the repository.</p>
 </li>
 <li>
-<p>A restricted number of users have the right to:</p>
+<p>Only a restricted number of users have the necessary permissions to:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Merge code into the main branch.</p>
 </li>
 <li>
-<p>merge code in the main branch</p>
+<p>Push Docker images to the DockerHub registry.</p>
 </li>
 <li>
-<p>push docker images to the dockerhub registry.</p>
-</li>
-<li>
-<p>push libraries to mavencentral</p>
+<p>Push libraries to Maven Central.</p>
 </li>
 </ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To ensure code quality and security, the following practices are enforced:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>All modifications to the main branch are done through pull requests.</p>
+</li>
+<li>
+<p>Each pull request is reviewed by at least one other developer.</p>
+</li>
+<li>
+<p>Each commit pushed to a feature branch must be signed by the developer.</p>
+</li>
+<li>
+<p>Release tags on GitHub are signed for authenticity.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Additionally, the OpenSSF Scorecard tool (<a href="https://github.com/ossf/scorecard" class="bare">github.com/ossf/scorecard</a>) is used to monitor the security of the supply chain configuration in GitHub.</p>
+</div>
+<div class="paragraph">
+<p>These measures help maintain the integrity and security of the OperatorFabric supply chain.</p>
 </div>
 </div>
 </div>
@@ -3390,9 +3427,17 @@ Cyber security is a major concern for the OperatorFabric. The security is ensure
 <div class="sect2">
 <h3 id="_inter_services_communication"><a class="anchor" href="#_inter_services_communication"></a>13.4. Inter-Services Communication</h3>
 <div class="paragraph">
-<p>The services within OperatorFabric communicate with each other using HTTP. This communication is not encrypted. The components should not be exposed to the internet and should be deployed in a secure network, either by:
--  Using a single instance with docker-compose that does not expose the services to the outside world
--  Using a Kubernetes cluster with a private network</p>
+<p>The services within OperatorFabric communicate with each other using HTTP. This communication is not encrypted. The components should not be exposed to the internet and should be deployed in a secure network, either by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Using a single instance with docker-compose that does not expose the services to the outside world</p>
+</li>
+<li>
+<p>Using a Kubernetes cluster with a private network</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -3763,18 +3808,6 @@ In that case, it means the card is stored only in archivedCards collection and n
 </div>
 <div class="sect5">
 <h6 id="_geographical_information_wktgeometry_and_wktprojection"><a class="anchor" href="#_geographical_information_wktgeometry_and_wktprojection"></a>Geographical information (<code>wktGeometry</code> and <code>wktProjection</code>)</h6>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Geographical information  is an experimental feature
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
 </div>
@@ -3818,7 +3851,8 @@ Only the POINT and POLYGON are supported.
 <div class="paragraph">
 <p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:
 - KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.
-- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.</p>
+- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.
+- KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
 </div>
 </div>
 </div>
@@ -6127,6 +6161,17 @@ recurrence : {
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
 </div>
+<div class="paragraph">
+<p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containig the 'richMessage' field with the following syntax:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{{ deltaToHtml data.richMessage }}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ensure to encapsulate the expression within three curly braces to prevent HTML escaping.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8012,7 +8057,64 @@ can see all archives for which he has the right to receive it, whether he is par
 </div>
 </div>
 <div class="sect1">
-<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>25. Monitoring</h2>
+<h2 id="geomap"><a class="anchor" href="#geomap"></a>25. Geographical map</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The geographical map is a feature that allows you to display the geographical location of cards on a map on the feed screen.</p>
+</div>
+<div class="paragraph">
+<p>To activate the geographical map feature, set the <code>feed.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
+</div>
+<div class="paragraph">
+<p>The geographical location of the cards is determined by the <code>wktGeometry</code> and <code>wktProjection</code> fields in the card&#8217;s metadata. If a card has a defined <code>wktGeometry</code>, its location will be highlighted on the card. The system supports two geometrical shapes: <code>POINT</code> and <code>POLYGON</code>. A <code>POINT</code> will display as a circle on the map, while a <code>POLYGON</code> will outline the specified area.</p>
+</div>
+<div class="paragraph">
+<p>For instance, to display a circle at a specific location, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;wktGeometry&quot;: &quot;POINT (5.8946407 51.9848624)&quot;,
+&quot;wktProjection&quot;: &quot;EPSG:4326&quot;,</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To outline a polygonal area, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;wktGeometry&quot;: &quot;POLYGON ((5.5339097 52.0233042,  5.7162495 51.7603784, 5.0036701 51.573684, 4.8339214 52.3547498, 5.5339097 52.0233042))&quot;,
+&quot;wktProjection&quot;: &quot;EPSG:4326&quot;,</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The specifications of the Well-known Text Representation of coordinate reference systems
+can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specification</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file. For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The map uses OpenStreetMap tiles by default, but you can specify different tiles using the <code>feed.geomap.bglayer.xyz</code> parameters.</p>
+</li>
+<li>
+<p>You can add GeoJSON layers to the map using the <code>feed.geomap.layer.geojson</code> parameter in web-ui.json. For each layer it is possible to specify the url and an optional style. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Refer to the
+<a href="#ui_properties">web-ui configuration</a>
+section for more information and additional customization options.</p>
+</div>
+<div class="paragraph">
+<p>The example configuration references a GeoJSON layer from  Opendata Réseau Énergies (<a href="https://odre.opendatasoft.com/" class="bare">odre.opendatasoft.com/</a>) published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>26. Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The monitoring screen is a realtime view of processes based on current cards received by the user (i.e. the last version of cards visible by the user). It can be seen as another view of the feed.</p>
@@ -8021,7 +8123,7 @@ can see all archives for which he has the right to receive it, whether he is par
 <p>Not all the cards are visible, it depends on the business process they are part of. For a card to be visible in this screen, the parameter <code>uiVisibility.monitoring</code> must be set to <code>true</code> in the config.json file of its process.</p>
 </div>
 <div class="sect2">
-<h3 id="_export_configuration"><a class="anchor" href="#_export_configuration"></a>25.1. Export configuration</h3>
+<h3 id="_export_configuration"><a class="anchor" href="#_export_configuration"></a>26.1. Export configuration</h3>
 <div class="paragraph">
 <p>An Excel export function is available in the monitoring screen, the content of the export can be configured.
 To do so, a json file describing the expected output can be sent to the businessconfig service through the /businessconfig/monitoring endpoint.</p>
@@ -8044,11 +8146,8 @@ To do so, a json file describing the expected output can be sent to the business
 <a href="../api/businessconfig/">the businessconfig api documentation</a></p>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>26. Process monitoring</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>26.2. Process monitoring</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -8072,7 +8171,7 @@ This feature is experimental
 </li>
 <li>
 <p>not all the cards are visible, it depends on the business process they are part of. For a card to be visible on
-this screen, the parameter <code>uiVisibility.processMonitoring</code> must be set to <code>true</code> in the <code>config.json</code> file of its
+this screen, the parameter <code>uiVisibility.processmonitoring</code> must be set to <code>true</code> in the <code>config.json</code> file of its
 process.</p>
 </li>
 </ul>
@@ -8089,6 +8188,9 @@ in the <code>web-ui.json</code> configuration file. This object is a list of the
 <li>
 <p>depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the
 recipient of.</p>
+</li>
+<li>
+<p>if geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </li>
 </ul>
 </div>
@@ -8110,9 +8212,15 @@ recipient of.</p>
       &quot;size&quot;: &quot;250&quot;
     },
     {
+      &quot;field&quot;: &quot;entityRecipients&quot;,
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;colName&quot;: &quot;Entity Recipients&quot;,
+      &quot;size&quot;: &quot;400&quot;
+    },
+    {
       &quot;field&quot;: &quot;data.message&quot;,
       &quot;colName&quot;: &quot;My field&quot;,
-      &quot;size&quot;: &quot;700&quot;
+      &quot;size&quot;: &quot;300&quot;
     },
     {
       &quot;field&quot;: &quot;summaryTranslated&quot;,
@@ -8136,7 +8244,7 @@ recipient of.</p>
 <p>"field" : the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type" : if you want to display a date/time field, you must set this field to "date" for field formatting</p>
+<p>"type" : field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
 </li>
 <li>
 <p>"colName" : name of the column on the UI</p>
@@ -8145,6 +8253,7 @@ recipient of.</p>
 <p>"size" : size of the column on the UI, proportionally to each other</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -8316,6 +8425,12 @@ The available permissions are:</p>
 </li>
 <li>
 <p><code>VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS</code>: Permission to access all archived cards which are in the perimeter of the user</p>
+</li>
+<li>
+<p><code>VIEW_ALL_CARDS</code>: Permission to access all cards</p>
+</li>
+<li>
+<p><code>VIEW_ALL_CARDS_FOR_USER_PERIMETERS</code>: Permission to access all cards which are in the perimeter of the user</p>
 </li>
 <li>
 <p><code>READONLY</code>: Readonly permission. User cannot send user cards, cannot respond to a card, when acknowledges a card he does not acknowledge it for his entities.</p>
@@ -10108,6 +10223,24 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail from address</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the day'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the daily recap email</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the daily recap email</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Opfab card received'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -10538,6 +10671,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to false, an OperatorFabric url can be used by several tabs in the same browser. Note that there can only be one token per browser for a given OperatorFabric url, so the first session will be replaced by the second one</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">defaultEntryPage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This configuration determines the default page that will be displayed after a user logs in. The possible values include all core menus, with the exception of 'usercard' and 'about'. Additionally, you can set a custom application as the entry page by using 'businessconfigparty/menuId' as the value.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">environmentColor</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">blue</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -10709,10 +10848,10 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson.url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Add a GeoJSON layer to the map. Example: "https://localhost:8000/service-area.geojson"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of GeoJSON layers to add to the map with optional style attribute. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>). Example: [{"url":"assets/layers/service-area.geojson"},{"url":"https://localhost:8000/network-lines.geojson", "style": {"stroke-color": "blue"}}]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
@@ -10974,7 +11113,8 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "sounds" : if present, the checkboxes for sound notifications won&#8217;t be displayed<br>
 "systemNotifications" : if present, the checkboxes for systemNotifications won&#8217;t be displayed<br>
 "sendCardsByEmail"  : if present, the email options won&#8217;t be displayed<br>
-"emailToPlainText"  : if present, the email option to have the emails sent as plain text won&#8217;t be displayed</p></td>
+"emailToPlainText"  : if present, the email option to have the emails sent as plain text won&#8217;t be displayed
+"sendDailyEmail"  : if present, the email option to have the daily email recap won&#8217;t be displayed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">showUserEntitiesOnTopRightOfTheScreen</p></td>
@@ -11799,7 +11939,15 @@ but they can be adapted for single container deployments and development mode.
 <div class="sect2">
 <h3 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>36.2. Runtime configuration</h3>
 <div class="paragraph">
-<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services (the service supervisor , cards-external-diffusion and cards-reminder does not provide this feature). It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework. These levels can be one of:</p>
+<p>Operator Fabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services. It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework.</p>
+</div>
+<div class="paragraph">
+<p>Querying and setting logging levels is restricted to administrators.</p>
+</div>
+<div class="sect3">
+<h4 id="_java_services"><a class="anchor" href="#_java_services"></a>36.2.1. Java services</h4>
+<div class="paragraph">
+<p>For java services (user, businessconfig, cards-consultation, cards-publication and external-devices) the available logging levels are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -11822,9 +11970,6 @@ but they can be adapted for single container deployments and development mode.
 <p>FATAL</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Querying and setting logging levels is restricted to administrators.</p>
 </div>
 <div class="paragraph">
 <p>To view the configured logging level for a given logger it is possible to send a GET request to the '/actuator/logger' URI as follows:</p>
@@ -11867,6 +12012,71 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <div class="paragraph">
 <p>To set the log level for ROOT logger of a service it is possible to call the provided script
 <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_node_services"><a class="anchor" href="#_node_services"></a>36.2.2. Node Services</h4>
+<div class="paragraph">
+<p>For node services (supervisor, cards-external-diffusion and cards-reminder) the available logging levels are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>silly</p>
+</li>
+<li>
+<p>debug</p>
+</li>
+<li>
+<p>verbose</p>
+</li>
+<li>
+<p>http</p>
+</li>
+<li>
+<p>info</p>
+</li>
+<li>
+<p>warn</p>
+</li>
+<li>
+<p>error</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To view the configured logging level for a given logger it is possible to send a GET request to the '/logLevel' URI as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl http://&lt;server&gt;:&lt;port&gt;/logLevel -H "Authorization: Bearer ${token}"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>${token}</code> is a valid OAuth2 JWT for a user with administration privileges</p>
+</div>
+<div class="paragraph">
+<p>The response will be the configured logging level as string</p>
+</div>
+<div class="paragraph">
+<p>To get the log level of a node service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogsNodeService.sh">src/test/resources/logs/getLogsNodeService.sh</a> as follows: <code>getLogsNodeService.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-external-diffusion" service  execute: <code>getLogsNodeService.sh localhost:2106 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
+<div class="paragraph">
+<p>To configure a given logger, POST a json entity to the '/logLevel' URI, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -i -X POST http://&lt;server&gt;:&lt;port&gt;/logLevel -H "Authorization: Bearer ${token}" -H 'Content-Type: application/json' -d '{"configuredLevel": "debug"}'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
+</div>
+<div class="paragraph">
+<p>To set the log level for a node service it is possible to call the provided script
+<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogsNodeService.sh">src/test/resources/logs/setLogsNodeService.sh</a> as follows: <code>setLogsNodeService.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-external-diffusion" service  execute: <code>setLogsNodeService.sh localhost:2106 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+</div>
 </div>
 </div>
 </div>
@@ -12872,7 +13082,7 @@ systemProp.https.proxyPassword=PASSWORD</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-./gradlew dockerTagSnapshot</code></pre>
+./gradlew buildDocker</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -13310,15 +13520,7 @@ for details.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>docker file : <strong>[sub-project]/src/main/docker/Dockerfile</strong></p>
-</li>
-<li>
-<p>docker-compose file : <strong>[sub-project]/src/main/docker/docker-compose.yml</strong></p>
-</li>
-<li>
-<p>runtime data : <strong>[sub-project]/src/main/docker/volume</strong> is copied to
-<strong>[sub-project]/build/docker-volume/</strong> by task <strong>copyWorkingDir</strong>. The latest
-can then be mounted as volume in docker containers.</p>
+<p>docker file : <strong>[sub-project]/Dockerfile</strong></p>
 </li>
 </ul>
 </div>
@@ -13474,10 +13676,6 @@ to gradle and plugins official documentation.</p>
 <p>Other:</p>
 <div class="ulist">
 <ul>
-<li>
-<p>copyWorkingDir: copies [sub-project]/src/main/docker/volume to
-[sub-project]/build/</p>
-</li>
 <li>
 <p>copyDependencies: copy dependencies to build/support_libs (for Sonar)</p>
 </li>
@@ -13689,9 +13887,6 @@ uses several Gradle plugins, among which:</p>
 <ul>
 <li>
 <p><a href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/">Spring Boot Gradle Plugin</a></p>
-</li>
-<li>
-<p><a href="https://github.com/palantir/gradle-docker">Palantir Docker Gradle Plugin</a></p>
 </li>
 <li>
 <p><a href="https://github.com/avast/gradle-docker-compose-plugin/">Docker Compose Plugin</a></p>
@@ -14120,7 +14315,7 @@ If your OperatorFabric instance is not running on localhost, you need to edit th
 </div>
 </div>
 <div class="sect2">
-<h3 id="_node_services"><a class="anchor" href="#_node_services"></a>46.6. Node services</h3>
+<h3 id="_node_services_2"><a class="anchor" href="#_node_services_2"></a>46.6. Node services</h3>
 <div class="paragraph">
 <p>When developing Node services, you have the option to run the service outside of the Docker environment. To do this, follow these steps:</p>
 </div>
@@ -14225,7 +14420,7 @@ save/load OperatorFabric Businessconfig  data</p>
 <div class="sect2">
 <h3 id="_generating_docker_images"><a class="anchor" href="#_generating_docker_images"></a>47.3. Generating docker images</h3>
 <div class="paragraph">
-<p>To Generate all docker images run `./gradlew dockerTagSnaphot'</p>
+<p>To Generate all docker images run `./gradlew buildDocker'</p>
 </div>
 </div>
 <div class="sect2">
@@ -15575,95 +15770,47 @@ Vulnerabilities can be reported publicly in the same way.</p>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_contribution_workflow"><a class="anchor" href="#_contribution_workflow"></a>56.1. Contribution Workflow</h3>
-<div class="paragraph">
-<p>The project started out using a
-<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Feature Branch workflow</a>, but
-as the project team grew and we needed to manage support to previous releases we decided to switch to a workflow
-based on the
-<a href="https://nvie.com/posts/a-successful-git-branching-model/">Git Flow workflow</a>, starting after version 1.3.0.RELEASE.</p>
-</div>
-<div class="paragraph">
-<p>The principles for this workflow were first described in the blog post linked above, and this document attempts to
-summarize how we adapted it to our project. Statements in quotes are from the original blog post.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In this document, <strong>"repository version"</strong> refers to the version defined in the VERSION file at the root of the
-project, which is a parameter for certain build tasks and for our CICD pipeline.
-</td>
-</tr>
-</table>
-</div>
 <div class="sect3">
 <h4 id="_principles"><a class="anchor" href="#_principles"></a>56.1.1. Principles</h4>
 <div class="sect4">
-<h5 id="_develop_branch"><a class="anchor" href="#_develop_branch"></a>56.1.1.1. <code>develop</code> branch</h5>
+<h5 id="_release_names"><a class="anchor" href="#_release_names"></a>56.1.1.1. Release names</h5>
 <div class="paragraph">
-<p>The role of the <code>develop</code> branch is quite similar to that of the <code>master</code> branch in our previous "Feature Branch"
-workflow.</p>
+<p>We use the following naming convention for our releases:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>X.0.0.RELEASE</code> for major release (e.g. 1.0.0.RELEASE)</p>
+</li>
+<li>
+<p><code>X.X.0.RELEASE</code> for minor release (e.g. 1.2.0.RELEASE)</p>
+</li>
+<li>
+<p><code>X.X.X.RELEASE</code> for patch releases (e.g. 3.2.1.RELEASE)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_develop_branch"><a class="anchor" href="#_develop_branch"></a>56.1.1.2. <code>develop</code> branch</h5>
 <div class="paragraph">
 <p>The <code>develop</code> branch is where feature branches are branched off from, and where they&#8217;re merged back to. This way,
-the HEAD of the <code>develop</code> branch <em>"always reflects a state with the latest delivered development changes for the next
-release"</em>.</p>
+the HEAD of the <code>develop</code> branch always reflects a state with the latest delivered development changes for the next
+release.</p>
 </div>
 <div class="paragraph">
 <p>The repository version on the <code>develop</code> branch should always be <code>SNAPSHOT</code>.</p>
 </div>
 <div class="paragraph">
-<p>The daily CRON GitHub Action generating the documentation and docker images for the <code>SNAPSHOT</code> version are run from
-this branch (see our
-<a href="#CICD">CICD documentation</a>
-for details).</p>
+<p>A daily CRON GitHub Action generating the documentation and docker images for the <code>SNAPSHOT</code> version is run from
+this branch.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_master_branch"><a class="anchor" href="#_master_branch"></a>56.1.1.2. <code>master</code> branch</h5>
+<h5 id="_x_x_release_branch"><a class="anchor" href="#_x_x_release_branch"></a>56.1.1.3. <code>X.X.release</code> branch</h5>
 <div class="paragraph">
-<p><em>"When the source code in the develop branch reaches a stable point and is ready to be released, all the changes
-should be merged back into master somehow and then tagged with a release number."</em></p>
-</div>
-<div class="paragraph">
-<p>This means that any commit on master is a production-ready release, be it a minor or a major version.</p>
-</div>
-<div class="paragraph">
-<p>Any commit on <code>master</code> triggers a GitHub Action build generating and pushing documentation and docker images for the
-corresponding release version. As a version released from master is also by design the latest version, it will also
-update the <code>latest</code> docker images and the <code>current</code> documentation folder on the website.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_hotfix_branches"><a class="anchor" href="#_hotfix_branches"></a>56.1.1.3. Hotfix branches</h5>
-<div class="paragraph">
-<p>While minor and major versions are tagged in increasing and linear order on the <code>master</code> branch, it might be necessary
-to create patches on previous releases.</p>
-</div>
-<div class="paragraph">
-<p>To do so, we create hotfix branches branching off version commits on the <code>master</code> branch.</p>
-</div>
-<div class="paragraph">
-<p>For example, the <code>1.8.hotfixes</code> branch branches off the commit tagged <code>1.8.0.RELEASE</code> on the <code>master</code> branch, and will
-contain tags for <code>1.8.1.RELEASE</code>, <code>1.8.2.RELEASE</code> and so on.</p>
-</div>
-<div class="paragraph">
-<p><strong>Naming convention:</strong> Hotfix branches names should always start with the two digits representing the minor version
-they&#8217;re patching, followed by ".hotfixes".</p>
-</div>
-<div class="ulist">
-<div class="title">Examples of valid hotfix branch names:</div>
-<ul>
-<li>
-<p>1.8.hotfixes</p>
-</li>
-<li>
-<p>2.0.hotfixes</p>
-</li>
-</ul>
+<p>When the source code in the develop branch reaches a stable point and is ready to be released, all the changes
+should be integrated in a release branch named X.X.release.</p>
 </div>
 </div>
 <div class="sect4">
@@ -15673,7 +15820,7 @@ they&#8217;re patching, followed by ".hotfixes".</p>
 They have two distinct use cases with similar workflows.</p>
 </div>
 <div class="sect5">
-<h6 id="_feature_branches_for_the_next_release"><a class="anchor" href="#_feature_branches_for_the_next_release"></a>Feature branches for the next release</h6>
+<h6 id="_feature_branches_for_majorminor_version"><a class="anchor" href="#_feature_branches_for_majorminor_version"></a>Feature branches for major/minor version</h6>
 <div class="paragraph">
 <p>These feature branches are used to develop new features or fix bugs <strong>for the next release</strong>.</p>
 </div>
@@ -15704,17 +15851,17 @@ features (comments, proposed changes, etc.) to make changes to the PR until it m
 </div>
 </div>
 <div class="sect5">
-<h6 id="_feature_branches_for_hotfixes"><a class="anchor" href="#_feature_branches_for_hotfixes"></a>Feature branches for hotfixes</h6>
+<h6 id="_feature_branches_for_patch_versions"><a class="anchor" href="#_feature_branches_for_patch_versions"></a>Feature branches for patch versions</h6>
 <div class="paragraph">
 <p>These feature branches fix bugs in existing releases and give rise to new patches.</p>
 </div>
 <div class="paragraph">
 <p>Their lifecycle is similar to regular feature branches, except they should be branched off (and merged back to) the
-<code>X.X.hotfixes</code> branch corresponding to the release they are fixing.</p>
+<code>X.X.release</code> branch corresponding to the release they are fixing.</p>
 </div>
 <div class="paragraph">
 <p>Example: A feature branch working on bug 1234 affecting version 1.8.0.RELEASE should be branched off
-branch <code>1.8.hotfixes</code>.</p>
+branch <code>1.8.release</code>.</p>
 </div>
 </div>
 <div class="sect5">
@@ -15759,72 +15906,6 @@ they&#8217;re addressing, followed by additional information to give context.</p
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_release_branches"><a class="anchor" href="#_release_branches"></a>56.1.1.5. Release branches</h5>
-<div class="sect5">
-<h6 id="_release_candidate"><a class="anchor" href="#_release_candidate"></a>Release candidate</h6>
-<div class="paragraph">
-<p>Once developments are in a release-ready state and have been tested on the <code>develop</code> branch, a release candidate branch should
-be created off <code>develop</code> .</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<em>"All features that are targeted for the release-to-be-built must be merged in to develop at this point in time.
-All features targeted at future releases may not—they must wait until after the release branch is branched off."</em>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-By contrast to what is described in the <a href="https://nvie.com/posts/a-successful-git-branching-model/">original blog post</a>, for now we have chosen to
-only create the release branch once the developments are completely ready and tested on the develop branch, so that no
-fixes should be made on the release branch. This simplifies things because it means that release branches don&#8217;t have to
-be merged back into <code>develop</code>.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Once the <code>X.X.X.release</code> branch has been created, a new commit should be made on this branch to change the repository
-version from <code>SNAPSHOT</code> to <code>X.X.X-RC.RELEASE</code>.</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_release"><a class="anchor" href="#_release"></a>Release</h6>
-<div class="paragraph">
-<p>When release candidate is ready to be released, a new commit should be made on the <code>X.X.X.release</code> branch to change the repository version from <code>X.X.X-RC.RELEASE</code> to <code>X.X.X.RELEASE</code>.</p>
-</div>
-<div class="paragraph">
-<p>Then, pushing the branch will trigger a build and a "dry-run" generation of docker images. The aim
-is to detect any issue with this generation before moving to master.</p>
-</div>
-<div class="paragraph">
-<p>Finally, the <code>X.X.X.release</code> can be merged into <code>master</code>, triggering
-The resulting merge commit on <code>master</code> should then be tagged with <code>X.X.X.RELEASE</code>.</p>
-</div>
-<div class="paragraph">
-<p>All commits on <code>master</code> should be merged commits from <code>release</code> branches, direct pushes on master are disabled .</p>
-</div>
-<div class="paragraph">
-<p><strong>Naming convention:</strong> The name of a release branch should match the repository version it is meant to merge into
-<code>master</code> but in lower case to avoid confusion with release tags on master.</p>
-</div>
-<div class="paragraph">
-<p>Example: The valid branch name for the branch bringing 1.3.0.RELEASE into <code>master</code> is 1.3.0.release</p>
-</div>
-</div>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_examples_and_commands"><a class="anchor" href="#_examples_and_commands"></a>56.1.2. Examples and commands</h4>
@@ -15833,18 +15914,7 @@ The resulting merge commit on <code>master</code> should then be tagged with <co
 <code>git</code> commands.</p>
 </div>
 <div class="sect4">
-<h5 id="_initial_state"><a class="anchor" href="#_initial_state"></a>56.1.2.1. Initial state</h5>
-<div class="paragraph">
-<p>In the initial state of our example, only <code>develop</code> and <code>master</code> exist.</p>
-</div>
-<div class="paragraph">
-<p>The repository version in <code>master</code> is <code>1.3.0.RELEASE</code>, and the <code>develop</code> branch has just been branched off it. Commits
-have been added to <code>develop</code> to change the repository version to <code>SNAPSHOT</code> and implement the changes necessary for
-Git flow.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_starting_work_on_a_new_feature_for_the_next_version"><a class="anchor" href="#_starting_work_on_a_new_feature_for_the_next_version"></a>56.1.2.2. Starting work on a new feature for the next version</h5>
+<h5 id="_starting_work_on_a_new_feature_for_the_next_version"><a class="anchor" href="#_starting_work_on_a_new_feature_for_the_next_version"></a>56.1.2.1. Starting work on a new feature for the next version</h5>
 <div class="paragraph">
 <p>Let&#8217;s say we want to start working on a feature described in GitHub issue #123.</p>
 </div>
@@ -15930,37 +16000,9 @@ your local branch with the following command:</p>
 <p>You can re-work, squash your commits and push as many times as you want on a feature branch.
 Force pushes are allowed on feature branches.</p>
 </div>
-<div class="paragraph">
-<p>To see your branch:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Go to the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository on GitHub</a></p>
-</li>
-<li>
-<p>Click the <code>branches</code> tab</p>
-</li>
-</ol>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Feel free to add or update a copyright header (on top of the existing ones) to files you create or amend.
-See src/main/headers for examples.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect4">
-<h5 id="_submitting_a_pull_request_to_develop"><a class="anchor" href="#_submitting_a_pull_request_to_develop"></a>56.1.2.3. Submitting a pull request to develop</h5>
+<h5 id="_submitting_a_pull_request_to_develop"><a class="anchor" href="#_submitting_a_pull_request_to_develop"></a>56.1.2.2. Submitting a pull request to develop</h5>
 <div class="paragraph">
 <p>Once you are satisfied with the state of your developments, you can submit it as a pull request.</p>
 </div>
@@ -15986,8 +16028,7 @@ and review.</p>
 below to make sure your branch meets its criteria.</p>
 </div>
 <div class="paragraph">
-<p>Once you feel your branch is ready, submit a pull request. Open pull requests are then reviewed by the core maintainers
-to assign a reviewer to each of them.</p>
+<p>Open pull requests are then reviewed by the core maintainers to assign a reviewer to each of them.</p>
 </div>
 <div class="paragraph">
 <p>To do so, go to the <code>branches</code> tab of the repository as described above.
@@ -16021,121 +16062,16 @@ it in the base branch dropdown list.</p>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>At this point, GitHub will tell you whether your branch could be automatically merged into <code>develop</code> or whether
-there are conflicts to be fixed.</p>
-</div>
-<div class="sect5">
-<h6 id="_case_1_github_is_able_to_automatically_merge_your_branch"><a class="anchor" href="#_case_1_github_is_able_to_automatically_merge_your_branch"></a>Case 1: GitHub is able to automatically merge your branch</h6>
-<div class="paragraph">
-<p>This means that either your branch was up to date with develop or there were no conflicts.
-In this case, just go ahead and fill in the PR title and message, then click "Create pull request".</p>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_case_2_github_cant_merge_your_branch_automatically"><a class="anchor" href="#_case_2_github_cant_merge_your_branch_automatically"></a>Case 2: GitHub can&#8217;t merge your branch automatically</h6>
-<div class="paragraph">
-<p>This means that there are conflicts with the current state of the <code>develop</code> branch on GitHub.
-To fix these conflicts, you need to update your local copy of the develop branch and merge it into your feature branch.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git checkout develop <i class="conum" data-value="1"></i><b>(1)</b>
-git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git checkout FE-123 <i class="conum" data-value="3"></i><b>(3)</b>
-git merge develop <i class="conum" data-value="4"></i><b>(4)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Check out the <code>develop</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Make sure it is up to date with the remote (=GitHub repository)</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Check out the <code>FR-123</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Merge the new commits from <code>develop</code> into the feature branch</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Then, handle any conflicts from the merge. For example, let&#8217;s say there is a conflict on file <code>dummy1.txt</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>Auto-merging dummy1.txt
-CONFLICT (add/add): Merge conflict in dummy1.txt
-Automatic merge failed; fix conflicts and then commit the result.</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Open file <code>dummy1.txt</code>:</p>
-</div>
-<div class="listingblock">
-<div class="title">dummy1.txt</div>
-<div class="content">
-<pre> &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
- Some content from FE-123.
- =======
- Some content that has been changed on develop since FE-123 branched off.
- &gt;&gt;&gt;&gt;&gt;&gt;&gt; develop</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Update the content to reflect the changes that you want to keep:</p>
-</div>
-<div class="listingblock">
-<div class="title">dummy1.txt</div>
-<div class="content">
-<pre>Some content from FE-123 and some content that has been changed on develop since FE-123 branched off.</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git add dummy1.txt <i class="conum" data-value="1"></i><b>(1)</b>
-git commit <i class="conum" data-value="2"></i><b>(2)</b>
-git push <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Add the manually merged file to the changes to be committed</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Commit the changes to finish the merge</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Push the changes to GitHub</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Now, if you go back to GitHub and try to create a pull request again, GitHub should indicate that it is able to merge
-automatically.</p>
-</div>
-</div>
 </div>
 <div class="sect4">
-<h5 id="working_on_hotfix"><a class="anchor" href="#working_on_hotfix"></a>56.1.2.4. Working on a fix for a previous version</h5>
+<h5 id="working_on_fix"><a class="anchor" href="#working_on_fix"></a>56.1.2.3. Working on a fix for a previous version</h5>
 <div class="paragraph">
-<p>To work on a fix for an existing version, the steps are similar to those described above, substituting <code>X.X.hotfix</code> for
+<p>To work on a fix for an existing version, the steps are similar to those described above, substituting <code>X.X.release</code> for
 <code>develop</code>.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>56.1.2.5. Reviewing a Pull Request</h5>
+<h5 id="_reviewing_a_pull_request"><a class="anchor" href="#_reviewing_a_pull_request"></a>56.1.2.4. Reviewing a Pull Request</h5>
 <div class="paragraph">
 <p>Only developers from the <code>reviewers</code> group can merge pull requests into <code>develop</code>, but this shouldn&#8217;t
 stop anyone interested in the topic of a PR to comment and review it.</p>
@@ -16171,7 +16107,7 @@ no secret information, no malicious changes) and to see if you have remarks on t
 <p>If there is more than one commit, is it meaningful or do we need to squash ?</p>
 </li>
 <li>
-<p>Meaningful and sufficient unit tests for the backend (we aim for 80% coverage)</p>
+<p>Meaningful and sufficient unit tests for the backend</p>
 </li>
 <li>
 <p>Meaningful unit tests for the frontend (Angular tests can be complex to implement, we should focus on testing complex logic and not the framework itself)</p>
@@ -16181,6 +16117,9 @@ no secret information, no malicious changes) and to see if you have remarks on t
 </li>
 <li>
 <p>Documentation has been updated (especially if configuration is needed)</p>
+</li>
+<li>
+<p>Migration guide has been updated if necessary</p>
 </li>
 <li>
 <p>Configuration examples have been updated</p>
@@ -16399,7 +16338,7 @@ of making sure that the configuration documentation is correct and easily unders
 <p>Run a <code>docker-compose</code> with the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code> file;</p>
 </li>
 <li>
-<p>Create <code>SNAPSHOT</code> docker images, from the <code>${OF_HOME}</code> directory with the following command: <code>./gradlew clean dockerTagSNAPSHOT</code>;</p>
+<p>Create <code>SNAPSHOT</code> docker images, from the <code>${OF_HOME}</code> directory with the following command: <code>./gradlew clean buildDocker</code>;</p>
 </li>
 <li>
 <p>Stop the <code>test-environment</code> docker-compose;</p>
@@ -16427,7 +16366,7 @@ of making sure that the configuration documentation is correct and easily unders
 </div>
 </div>
 <div class="sect4">
-<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>56.1.2.6. Merging a Pull Request</h5>
+<h5 id="_merging_a_pull_request"><a class="anchor" href="#_merging_a_pull_request"></a>56.1.2.5. Merging a Pull Request</h5>
 <div class="paragraph">
 <p>Once the pull request meets all the criteria from the above check list, you can merge it into the <code>develop</code> branch.</p>
 </div>
@@ -16437,7 +16376,7 @@ of making sure that the configuration documentation is correct and easily unders
 <p>Go to the pull request page on GitHub</p>
 </li>
 <li>
-<p>Check that the base branch for the pull request is <code>develop</code> (or <code>X.X.hotfixes</code>). This information is visible at the
+<p>Check that the base branch for the pull request is <code>develop</code> (or <code>X.X.release</code>). This information is visible at the
 top of the page.</p>
 <div class="imageblock">
 <div class="content">
@@ -16463,7 +16402,7 @@ the information provided in the PR comments.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_creating_a_release_or_hotfix"><a class="anchor" href="#_creating_a_release_or_hotfix"></a>56.1.2.7. Creating a release or hotfix</h5>
+<h5 id="_creating_a_release"><a class="anchor" href="#_creating_a_release"></a>56.1.2.6. Creating a release</h5>
 <div class="paragraph">
 <p>See the
 <a href="#release_process">release process</a>
@@ -16774,7 +16713,7 @@ set in the configuration of the asciidoctor gradle task:</p>
 </div>
 <div class="paragraph">
 <p>In particular, the version and revision date are set automatically from the version defined in the
-<a href="https://github.com/opfab/operatorfabric-core/blob/master/VERSION">VERSION</a> file at the root of the project and
+VERSION file at the root of the project and
 the current date.</p>
 </div>
 </li>
@@ -17440,7 +17379,7 @@ depending on how busy the service is.
 <div class="sect2">
 <h3 id="_version_numbers"><a class="anchor" href="#_version_numbers"></a>61.1. Version numbers</h3>
 <div class="paragraph">
-<p>We work with two types of versions:</p>
+<p>We work with three types of versions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -17475,21 +17414,6 @@ the same major version.</p>
 </div>
 <div class="sect2">
 <h3 id="_releasing_a_release_candidate"><a class="anchor" href="#_releasing_a_release_candidate"></a>61.2. Releasing a Release Candidate</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-To release a version we use some GitHub Actions dedicated jobs. These jobs are triggered when pushing a commit in branches
-containing the keyword release at the end (**release) and rely on the VERSION file at the root of this repository to
-know which version is being produced. It is thus crucial to double-check the content of this file before any push
-(triggering the GitHub Actions jobs) is made.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
@@ -17499,10 +17423,19 @@ know which version is being produced. It is thus crucial to double-check the con
 <ol class="arabic">
 <li>
 <p>On the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>, create a branch off the <code>develop</code> branch named
-<code>X.X.X.release</code> (note the lowercase <code>release</code> to distinguish it from <code>X.X.X.RELEASE</code> tags).</p>
+<code>X.X.release</code> if it does not exist  (note the lowercase <code>release</code> to distinguish it from <code>X.X.X.RELEASE</code> tags).</p>
 <div class="listingblock">
 <div class="content">
-<pre>git checkout -b X.X.X.release</pre>
+<pre>git checkout -b X.X.release
+git push --set-upstream origin X.X.release</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create a working branch for the release candidate. This branch will be used to prepare the release candidate :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout -b FE-X.X.X-RC.release.draft</pre>
 </div>
 </div>
 </li>
@@ -17559,30 +17492,23 @@ git commit -s -m "[RELEASE] X.X.X-RC.RELEASE"</pre>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre>git push --set-upstream origin X.X.X.release</pre>
+<pre>git push --set-upstream origin X.X.X-RC.release.draft</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Create the tag for the release candidate:</p>
+<p>Create a pull request from the <code>X.X.X-RC.release.draft</code> branch to the <code>X.X.release</code> branch and ask for a review.</p>
+</li>
+<li>
+<p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
 <div class="listingblock">
 <div class="content">
-<pre>git tag X.X.X-RC.RELEASE
+<pre>git checkout X.X.release
+git pull
+git tag X.X.X-RC.RELEASE
 git push origin X.X.X-RC.RELEASE</pre>
 </div>
 </div>
-</li>
-<li>
-<p>Check that the build is correctly triggered</p>
-<div class="paragraph">
-<p>You can check the status of the GitHub Actions triggered by the commit on
-<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
-</div>
-</li>
-<li>
-<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.
-This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
-generation.</p>
 </li>
 </ol>
 </div>
@@ -17611,7 +17537,7 @@ project.</p>
 <a href="#client_lib_pub_conf">documentation for the publishing task</a></p>
 </li>
 <li>
-<p>Run the following command from the project root:</p>
+<p>Run the following command from the project root on the release branch:</p>
 <div class="listingblock">
 <div class="content">
 <pre>./gradlew publish</pre>
@@ -17816,21 +17742,6 @@ in case there is an issue.
 </div>
 <div class="sect2">
 <h3 id="_releasing_a_major_or_minor_version"><a class="anchor" href="#_releasing_a_major_or_minor_version"></a>61.3. Releasing a Major or Minor Version</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-To release a version we use some GitHub Actions dedicated jobs. These jobs are triggered when pushing a commit in branches
-containing the keyword release at the end (**release) and rely on the VERSION file at the root of this repository to
-know which version is being produced. It is thus crucial to double-check the content of this file before any push
-(triggering the GitHub Actions jobs) is made.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
@@ -17839,10 +17750,11 @@ know which version is being produced. It is thus crucial to double-check the con
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Checkout release branch</p>
+<p>Create a branch to prepare the release from the release candidate branch:</p>
 <div class="listingblock">
 <div class="content">
-<pre>git checkout X.X.X.release</pre>
+<pre>git checkout X.X.release
+git checkout -b X.X.X.release.draft</pre>
 </div>
 </div>
 </li>
@@ -17899,98 +17811,47 @@ git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre>git push</pre>
+<pre>git push --set-upstream origin X.X.X.release.draft</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Check that the build is correctly triggered</p>
-<div class="paragraph">
-<p>You can check the status of the GitHub Actions triggered by the commit on
-<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
+<p>Create a pull request from the 'X.X.X.release.draft` branch to the <code>X.X.release</code> branch and ask for a review.</p>
+</li>
+<li>
+<p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout X.X.release
+git pull
+git tag X.X.X.RELEASE
+git push origin X.X.X.RELEASE</pre>
 </div>
-<div class="paragraph">
-<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.
-This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
-generation.</p>
 </div>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>61.3.2. Merging the release branch into <code>master</code></h4>
+<h4 id="publish_release_on_docker_hub_and_documentation"><a class="anchor" href="#publish_release_on_docker_hub_and_documentation"></a>61.3.2. Publish the release on docker hub and documentation</h4>
 <div class="paragraph">
-<p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
-developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
+<p>Once the release branch build is passing, you should trigger the CICD tasks associated with a release (Docker images for DockerHub and
 documentation).</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>git checkout master <i class="conum" data-value="1"></i><b>(1)</b>
-git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Check out the <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Make sure your local copy is up to date</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Merge the <code>X.X.X.release</code> branch into <code>master</code>, accepting changes from X.X.X.release in case of conflicts.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git tag X.X.X.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
-git push <i class="conum" data-value="2"></i><b>(2)</b>
-git push origin X.X.X.RELEASE <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Tag the commit with the <code>X.X.X.RELEASE</code> tag</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Push the commits to update the remote <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Push the tag
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Check that the build is correctly triggered</p>
 <div class="paragraph">
-<p>You can check the status of the GitHub Action workflow triggered by the commit on
+<p>To do so , go to
 <a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.
-The Github Actions workflow should have the following six jobs executed :
-- Build
-- Karate tests
-- Cypress tests
-- Publish Documentation (latest)
-- Push images to dockerhub
-- Push images latest to dockerhub</p>
-</div>
-</li>
-</ol>
-</div></td>
-</tr>
-</table>
+and launch the workflow on X.X.release branch with the following options :
+- Build : true
+- Karate tests : false
+- Cypress tests : false
+- Build and publish documentation : true
+- Build and publish documentation - Latest : true if it is the last major/minor version
+- Docker Push : true
+- Docker Push - Latest : true if it is the last major/minor version</p>
 </div>
 <div class="paragraph">
-<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.</p>
+<p>Wait for the build to complete and check that all jobs have been successful.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -18083,7 +17944,7 @@ the External Devices API is displayed on the website.
 <div class="sect3">
 <h4 id="checking_docker_compose"><a class="anchor" href="#checking_docker_compose"></a>61.3.4. Checking the docker-compose files</h4>
 <div class="paragraph">
-<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
+<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>X.X.release</code>
 branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
 previous steps has completed successfully, and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
 </div>
@@ -18181,94 +18042,34 @@ in case there is an issue.
 </div>
 <div class="sect3">
 <h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>61.3.9. Preparing the next version</h4>
-<div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>61.3.9.1. On the release-notes repository</h5>
 <div class="paragraph">
 <p>Remove the release_notes.X.X.X.md file corresponding to the release&#8217;s version.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>61.3.9.2. On the operatorfabric-core repository</h5>
-<div class="paragraph">
-<p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
-avoid confusion with the actual release commit tagged on <code>master</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git branch -d X.X.X.release <i class="conum" data-value="1"></i><b>(1)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Delete the branch locally</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-You should also delete the branch on GitHub.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>You should also close the project for this version, and create one for the next version if it doesn&#8217;t already exist
-(use the "Automated Kanban" template).</p>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_a_patch_hotfixes_version"><a class="anchor" href="#_releasing_a_patch_hotfixes_version"></a>61.4. Releasing a Patch (Hotfixes) Version</h3>
+<h3 id="_releasing_a_patch_version"><a class="anchor" href="#_releasing_a_patch_version"></a>61.4. Releasing a Patch Version</h3>
 <div class="paragraph">
-<p>Let&#8217;s say fixes are needed on version X.X.0.RELEASE, and will be released as X.X.X.RELEASE. If it&#8217;s the first patch
-version to be released for this minor version (i.e. version X.X.1.RELEASE), you will need to create the <code>X.X.hotfixes</code>
-branch.
-To do so:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">git checkout X.X.0.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
-git checkout -b X.X.hotfixes <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Checkout X.X.0.RELEASE tag</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Create (and checkout) branch <code>X.X.hotfixes</code> from this commit</td>
-</tr>
-</table>
+<p>Let&#8217;s say fixes that will be released as X.X.X.RELEASE.</p>
 </div>
 <div class="paragraph">
-<p>If branch <code>X.X.hotfixes</code> already exists, you can just check it out.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">git checkout X.X.hotfixes</code></pre>
-</div>
+<p>Follow the process described
+<a href="#working_on_fix">here</a>
+to create feature branches, work on fixes and merge them back into <code>X.X.release</code>.</p>
 </div>
 <div class="paragraph">
-<p>Then, follow the process described</p>
-</div>
-<div class="paragraph">
-<p><a href="#working_on_hotfix">here</a>
-to create feature branches, work on fixes and merge them back into <code>X.X.hotfixes</code>.</p>
-</div>
-<div class="paragraph">
-<p>Once all the big fixes that need to go into the version X.X.X.RELEASE have been merged into branch <code>X.X.hotfix</code>, you
+<p>Once all the big fixes that need to go into the version X.X.X.RELEASE have been merged into branch <code>X.X.release</code>, you
 can release the patch version. To do so:</p>
+</div>
+<div class="paragraph">
+<p>Create a branch to prepare the release from the release branch:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">git pull X.X.release
+git checkout X.X.release
+git checkout -b X.X.X.release.draft</code></pre>
+</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -18281,63 +18082,39 @@ can release the patch version. To do so:</p>
 </div>
 </li>
 <li>
-<p>Commit the changes, tag them and push both to GitHub:</p>
+<p>Commit the changes and push to GitHub:</p>
 <div class="listingblock">
 <div class="content">
 <pre>git add .
-git commit -m "[RELEASE] X.X.X.RELEASE " <i class="conum" data-value="1"></i><b>(1)</b>
-git tag X.X.X.RELEASE <i class="conum" data-value="2"></i><b>(2)</b>
-git push --set-upstream origin X.X.hotfixes <i class="conum" data-value="3"></i><b>(3)</b>
-git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pre>
+git commit -m "[RELEASE] X.X.X.RELEASE "
+git push --set-upstream origin X.X.X.release.draft</pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Commit the changes</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Tag the release</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Push the commit</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Push the tag</td>
-</tr>
-</table>
+</li>
+<li>
+<p>Create a pull request from the 'X.X.X.release.draft` branch to the <code>X.X.release</code> branch and ask for a review.</p>
+</li>
+<li>
+<p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout X.X.release
+git pull
+git tag X.X.X.RELEASE
+git push origin X.X.X.RELEASE</pre>
+</div>
 </div>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>This will trigger the build and tests in GitHub Actions.</p>
-</div>
-<div class="paragraph">
-<p>If the build and tests are successful, launch manually GitHubActions with jobs : <code>Build</code> , <code>Docker Push</code> and <code>Build and publish documentation</code></p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-In the case of a patch on the last major/minor version tagged on master, this version will become the
-<code>latest</code> version. In this case, add the jobs <code>Docker Push - Latest</code> and  <code>Build and publish documentation - Latest</code> instead of <code>Build and publish documentation</code> to also update the <code>latest</code> docker images on DockerHub and the <code>current</code> documentation on the website.
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>You then have to follow the following steps as for a classic release:</p>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p><a href="#publish_release_on_docker_hub_and_documentation">Publish the release on docker hub and documentation</a></p>
+</li>
 <li>
 <p><a href="#update_version_list_on_website">Updating the version list on the website</a>.</p>
 </li>
@@ -21357,6 +21134,82 @@ It is possible to hide just the the state filter by setting <code>feed.card.hide
 <div class="paragraph">
 <p>A new setting to send emails in plain text instead of HTML has been added in the settings screen of the user.
 This setting can be hidden in the configuration file of the web-ui by the field "settings.settingsScreen.hiddenSettings" by adding the value "emailToPlainText".</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_2_0_to_release_4_3_0"><a class="anchor" href="#_migration_guide_from_release_4_2_0_to_release_4_3_0"></a>90. Migration Guide from release 4.2.0 to release 4.3.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_admin_group"><a class="anchor" href="#_admin_group"></a>90.1. ADMIN group</h3>
+<div class="paragraph">
+<p>Users belonging to 'ADMIN' group will not be automatically given admin rights anymore.
+The admin rights will be set only if user is member of a group with ADMIN permission.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Before initiating the migration process, ensure that all users with administrative privileges are members of a group that has been explicitly granted the 'ADMIN' permission. Failing to do so may result in loss of the ability to administrate operator fabric
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_map_multiple_geojson_layers"><a class="anchor" href="#_map_multiple_geojson_layers"></a>90.2. Map multiple GeoJSON layers</h3>
+<div class="paragraph">
+<p>It is now possible to add more than one GeoJSON layer to the map. To allow the configuration of multiple layers the <code>feed.geomap.layer.geojson</code> configuration parameter in web-ui.json is now an array. for each layer it is possible to specify the url and an optional style. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)
+You should change your configuration for geoJSON layer to configure it as an array, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "layer": {
+        "geojson": {
+          "url": "assets/layers/geojson-layer.json"
+        }
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>should be changed to:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "layer": {
+        "geojson": [
+          {
+            "url": "assets/layers/geojson-layer.json"
+          }
+        ]
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or adding the style:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "layer": {
+        "geojson": [
+          {
+            "url": "assets/layers/geojson-layer.json",
+            "style": {
+              "stroke-color": "blue",
+              "stroke-width": 1.5,
+              "fill-color": "rgba(39, 245, 164, 0.4)"
+            }
+          }
+        ]
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no style is defined the layer will be rendered with default Opfab style.</p>
 </div>
 </div>
 </div>

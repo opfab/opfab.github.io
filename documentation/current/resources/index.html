@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.2.1.RELEASE,</span>
-<span id="revdate">28 March 2024</span>
+<span id="revnumber">version 4.3.0.RELEASE,</span>
+<span id="revdate">17 May 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -787,6 +787,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_card_keepchildcards">28.5. Card keepChildCards</a></li>
 <li><a href="#_feed_process_and_state_filter">28.6. Feed process and state filter</a></li>
 <li><a href="#_user_settings">28.7. User settings</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_2_0_to_release_4_3_0">29. Migration Guide from release 4.2.0 to release 4.3.0</a>
+<ul class="sectlevel2">
+<li><a href="#_admin_group">29.1. ADMIN group</a></li>
+<li><a href="#_map_multiple_geojson_layers">29.2. Map multiple GeoJSON layers</a></li>
 </ul>
 </li>
 </ul>
@@ -3788,6 +3794,82 @@ It is possible to hide just the the state filter by setting <code>feed.card.hide
 <div class="paragraph">
 <p>A new setting to send emails in plain text instead of HTML has been added in the settings screen of the user.
 This setting can be hidden in the configuration file of the web-ui by the field "settings.settingsScreen.hiddenSettings" by adding the value "emailToPlainText".</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_2_0_to_release_4_3_0"><a class="anchor" href="#_migration_guide_from_release_4_2_0_to_release_4_3_0"></a>29. Migration Guide from release 4.2.0 to release 4.3.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_admin_group"><a class="anchor" href="#_admin_group"></a>29.1. ADMIN group</h3>
+<div class="paragraph">
+<p>Users belonging to 'ADMIN' group will not be automatically given admin rights anymore.
+The admin rights will be set only if user is member of a group with ADMIN permission.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Before initiating the migration process, ensure that all users with administrative privileges are members of a group that has been explicitly granted the 'ADMIN' permission. Failing to do so may result in loss of the ability to administrate operator fabric
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_map_multiple_geojson_layers"><a class="anchor" href="#_map_multiple_geojson_layers"></a>29.2. Map multiple GeoJSON layers</h3>
+<div class="paragraph">
+<p>It is now possible to add more than one GeoJSON layer to the map. To allow the configuration of multiple layers the <code>feed.geomap.layer.geojson</code> configuration parameter in web-ui.json is now an array. for each layer it is possible to specify the url and an optional style. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)
+You should change your configuration for geoJSON layer to configure it as an array, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "layer": {
+        "geojson": {
+          "url": "assets/layers/geojson-layer.json"
+        }
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>should be changed to:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "layer": {
+        "geojson": [
+          {
+            "url": "assets/layers/geojson-layer.json"
+          }
+        ]
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or adding the style:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      "layer": {
+        "geojson": [
+          {
+            "url": "assets/layers/geojson-layer.json",
+            "style": {
+              "stroke-color": "blue",
+              "stroke-width": 1.5,
+              "fill-color": "rgba(39, 245, 164, 0.4)"
+            }
+          }
+        ]
+      }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no style is defined the layer will be rendered with default Opfab style.</p>
 </div>
 </div>
 </div>

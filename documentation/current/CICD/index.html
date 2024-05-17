@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric CICD</h1>
 <div class="details">
-<span id="revnumber">version 4.2.1.RELEASE,</span>
-<span id="revdate">28 March 2024</span>
+<span id="revnumber">version 4.3.0.RELEASE,</span>
+<span id="revdate">17 May 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -565,22 +565,17 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_releasing_a_major_or_minor_version">2.3. Releasing a Major or Minor Version</a>
 <ul class="sectlevel3">
 <li><a href="#_move_release_candidate_to_release">2.3.1. Move Release Candidate to Release</a></li>
-<li><a href="#_merging_the_release_branch_into_master">2.3.2. Merging the release branch into <code>master</code></a></li>
+<li><a href="#publish_release_on_docker_hub_and_documentation">2.3.2. Publish the release on docker hub and documentation</a></li>
 <li><a href="#update_version_list_on_website">2.3.3. Updating the version list on the website</a></li>
 <li><a href="#checking_docker_compose">2.3.4. Checking the docker-compose files</a></li>
 <li><a href="#_publishing_the_jars_for_the_client_library_to_maven_central">2.3.5. Publishing the jars for the client library to Maven Central</a></li>
 <li><a href="#publishing_release_on_github">2.3.6. Publishing the release on GitHub</a></li>
 <li><a href="#supported_versions">2.3.7. Update supported versions</a></li>
 <li><a href="#advertising_new_release">2.3.8. Advertising the new release</a></li>
-<li><a href="#_preparing_the_next_version">2.3.9. Preparing the next version</a>
-<ul class="sectlevel4">
-<li><a href="#_on_the_release_notes_repository">2.3.9.1. On the release-notes repository</a></li>
-<li><a href="#_on_the_operatorfabric_core_repository">2.3.9.2. On the operatorfabric-core repository</a></li>
+<li><a href="#_preparing_the_next_version">2.3.9. Preparing the next version</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#_releasing_a_patch_hotfixes_version">2.4. Releasing a Patch (Hotfixes) Version</a></li>
+<li><a href="#_releasing_a_patch_version">2.4. Releasing a Patch Version</a></li>
 </ul>
 </li>
 </ul>
@@ -664,7 +659,7 @@ depending on how busy the service is.
 <div class="sect2">
 <h3 id="_version_numbers"><a class="anchor" href="#_version_numbers"></a>2.1. Version numbers</h3>
 <div class="paragraph">
-<p>We work with two types of versions:</p>
+<p>We work with three types of versions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -699,21 +694,6 @@ the same major version.</p>
 </div>
 <div class="sect2">
 <h3 id="_releasing_a_release_candidate"><a class="anchor" href="#_releasing_a_release_candidate"></a>2.2. Releasing a Release Candidate</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-To release a version we use some GitHub Actions dedicated jobs. These jobs are triggered when pushing a commit in branches
-containing the keyword release at the end (**release) and rely on the VERSION file at the root of this repository to
-know which version is being produced. It is thus crucial to double-check the content of this file before any push
-(triggering the GitHub Actions jobs) is made.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
@@ -723,10 +703,19 @@ know which version is being produced. It is thus crucial to double-check the con
 <ol class="arabic">
 <li>
 <p>On the <a href="https://github.com/opfab/operatorfabric-core">operatorfabric-core repository</a>, create a branch off the <code>develop</code> branch named
-<code>X.X.X.release</code> (note the lowercase <code>release</code> to distinguish it from <code>X.X.X.RELEASE</code> tags).</p>
+<code>X.X.release</code> if it does not exist  (note the lowercase <code>release</code> to distinguish it from <code>X.X.X.RELEASE</code> tags).</p>
 <div class="listingblock">
 <div class="content">
-<pre>git checkout -b X.X.X.release</pre>
+<pre>git checkout -b X.X.release
+git push --set-upstream origin X.X.release</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create a working branch for the release candidate. This branch will be used to prepare the release candidate :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout -b FE-X.X.X-RC.release.draft</pre>
 </div>
 </div>
 </li>
@@ -783,30 +772,23 @@ git commit -s -m "[RELEASE] X.X.X-RC.RELEASE"</pre>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre>git push --set-upstream origin X.X.X.release</pre>
+<pre>git push --set-upstream origin X.X.X-RC.release.draft</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Create the tag for the release candidate:</p>
+<p>Create a pull request from the <code>X.X.X-RC.release.draft</code> branch to the <code>X.X.release</code> branch and ask for a review.</p>
+</li>
+<li>
+<p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
 <div class="listingblock">
 <div class="content">
-<pre>git tag X.X.X-RC.RELEASE
+<pre>git checkout X.X.release
+git pull
+git tag X.X.X-RC.RELEASE
 git push origin X.X.X-RC.RELEASE</pre>
 </div>
 </div>
-</li>
-<li>
-<p>Check that the build is correctly triggered</p>
-<div class="paragraph">
-<p>You can check the status of the GitHub Actions triggered by the commit on
-<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
-</div>
-</li>
-<li>
-<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.
-This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
-generation.</p>
 </li>
 </ol>
 </div>
@@ -835,7 +817,7 @@ project.</p>
 <a href="/documentation/current/dev_env/index.html#client_lib_pub_conf">documentation for the publishing task</a></p>
 </li>
 <li>
-<p>Run the following command from the project root:</p>
+<p>Run the following command from the project root on the release branch:</p>
 <div class="listingblock">
 <div class="content">
 <pre>./gradlew publish</pre>
@@ -1040,21 +1022,6 @@ in case there is an issue.
 </div>
 <div class="sect2">
 <h3 id="_releasing_a_major_or_minor_version"><a class="anchor" href="#_releasing_a_major_or_minor_version"></a>2.3. Releasing a Major or Minor Version</h3>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-To release a version we use some GitHub Actions dedicated jobs. These jobs are triggered when pushing a commit in branches
-containing the keyword release at the end (**release) and rely on the VERSION file at the root of this repository to
-know which version is being produced. It is thus crucial to double-check the content of this file before any push
-(triggering the GitHub Actions jobs) is made.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
@@ -1063,10 +1030,11 @@ know which version is being produced. It is thus crucial to double-check the con
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Checkout release branch</p>
+<p>Create a branch to prepare the release from the release candidate branch:</p>
 <div class="listingblock">
 <div class="content">
-<pre>git checkout X.X.X.release</pre>
+<pre>git checkout X.X.release
+git checkout -b X.X.X.release.draft</pre>
 </div>
 </div>
 </li>
@@ -1123,98 +1091,47 @@ git commit -s -m "[RELEASE] X.X.X.RELEASE"</pre>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre>git push</pre>
+<pre>git push --set-upstream origin X.X.X.release.draft</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Check that the build is correctly triggered</p>
-<div class="paragraph">
-<p>You can check the status of the GitHub Actions triggered by the commit on
-<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.</p>
+<p>Create a pull request from the 'X.X.X.release.draft` branch to the <code>X.X.release</code> branch and ask for a review.</p>
+</li>
+<li>
+<p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout X.X.release
+git pull
+git tag X.X.X.RELEASE
+git push origin X.X.X.RELEASE</pre>
 </div>
-<div class="paragraph">
-<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.
-This ensures that the code builds, tests are OK and there is no error preventing documentation or Docker images
-generation.</p>
 </div>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_merging_the_release_branch_into_master"><a class="anchor" href="#_merging_the_release_branch_into_master"></a>2.3.2. Merging the release branch into <code>master</code></h4>
+<h4 id="publish_release_on_docker_hub_and_documentation"><a class="anchor" href="#publish_release_on_docker_hub_and_documentation"></a>2.3.2. Publish the release on docker hub and documentation</h4>
 <div class="paragraph">
-<p>Once the release branch build is passing, you should merge the release branch into <code>master</code> to bring the new
-developments into <code>master</code> and trigger the CICD tasks associated with a release (Docker images for DockerHub and
+<p>Once the release branch build is passing, you should trigger the CICD tasks associated with a release (Docker images for DockerHub and
 documentation).</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>git checkout master <i class="conum" data-value="1"></i><b>(1)</b>
-git pull <i class="conum" data-value="2"></i><b>(2)</b>
-git merge X.X.X.release <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Check out the <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Make sure your local copy is up to date</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Merge the <code>X.X.X.release</code> branch into <code>master</code>, accepting changes from X.X.X.release in case of conflicts.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git tag X.X.X.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
-git push <i class="conum" data-value="2"></i><b>(2)</b>
-git push origin X.X.X.RELEASE <i class="conum" data-value="3"></i><b>(3)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Tag the commit with the <code>X.X.X.RELEASE</code> tag</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Push the commits to update the remote <code>master</code> branch</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Push the tag
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Check that the build is correctly triggered</p>
 <div class="paragraph">
-<p>You can check the status of the GitHub Action workflow triggered by the commit on
+<p>To do so , go to
 <a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.
-The Github Actions workflow should have the following six jobs executed :
-- Build
-- Karate tests
-- Cypress tests
-- Publish Documentation (latest)
-- Push images to dockerhub
-- Push images latest to dockerhub</p>
-</div>
-</li>
-</ol>
-</div></td>
-</tr>
-</table>
+and launch the workflow on X.X.release branch with the following options :
+- Build : true
+- Karate tests : false
+- Cypress tests : false
+- Build and publish documentation : true
+- Build and publish documentation - Latest : true if it is the last major/minor version
+- Docker Push : true
+- Docker Push - Latest : true if it is the last major/minor version</p>
 </div>
 <div class="paragraph">
-<p>Wait for the build to complete (around 50 minutes) and check that all jobs have been successful.</p>
+<p>Wait for the build to complete and check that all jobs have been successful.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1307,7 +1224,7 @@ the External Devices API is displayed on the website.
 <div class="sect3">
 <h4 id="checking_docker_compose"><a class="anchor" href="#checking_docker_compose"></a>2.3.4. Checking the docker-compose files</h4>
 <div class="paragraph">
-<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>master</code>
+<p>While the docker-compose files should always point to the SNAPSHOT images while on the <code>develop</code> branch, on the <code>X.X.release</code>
 branch they should rely on the latest RELEASE version available on DockerHub. Once the CI pipeline triggered by the
 previous steps has completed successfully, and you can see X.X.X.RELEASE images for all services on DockerHub, you should:</p>
 </div>
@@ -1405,94 +1322,34 @@ in case there is an issue.
 </div>
 <div class="sect3">
 <h4 id="_preparing_the_next_version"><a class="anchor" href="#_preparing_the_next_version"></a>2.3.9. Preparing the next version</h4>
-<div class="sect4">
-<h5 id="_on_the_release_notes_repository"><a class="anchor" href="#_on_the_release_notes_repository"></a>2.3.9.1. On the release-notes repository</h5>
 <div class="paragraph">
 <p>Remove the release_notes.X.X.X.md file corresponding to the release&#8217;s version.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_on_the_operatorfabric_core_repository"><a class="anchor" href="#_on_the_operatorfabric_core_repository"></a>2.3.9.2. On the operatorfabric-core repository</h5>
-<div class="paragraph">
-<p>Now that the release branch has served its purpose, it should be deleted so as not to clutter the repository and to
-avoid confusion with the actual release commit tagged on <code>master</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git branch -d X.X.X.release <i class="conum" data-value="1"></i><b>(1)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Delete the branch locally</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-You should also delete the branch on GitHub.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>You should also close the project for this version, and create one for the next version if it doesn&#8217;t already exist
-(use the "Automated Kanban" template).</p>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
-<h3 id="_releasing_a_patch_hotfixes_version"><a class="anchor" href="#_releasing_a_patch_hotfixes_version"></a>2.4. Releasing a Patch (Hotfixes) Version</h3>
+<h3 id="_releasing_a_patch_version"><a class="anchor" href="#_releasing_a_patch_version"></a>2.4. Releasing a Patch Version</h3>
 <div class="paragraph">
-<p>Let&#8217;s say fixes are needed on version X.X.0.RELEASE, and will be released as X.X.X.RELEASE. If it&#8217;s the first patch
-version to be released for this minor version (i.e. version X.X.1.RELEASE), you will need to create the <code>X.X.hotfixes</code>
-branch.
-To do so:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">git checkout X.X.0.RELEASE <i class="conum" data-value="1"></i><b>(1)</b>
-git checkout -b X.X.hotfixes <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Checkout X.X.0.RELEASE tag</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Create (and checkout) branch <code>X.X.hotfixes</code> from this commit</td>
-</tr>
-</table>
+<p>Let&#8217;s say fixes that will be released as X.X.X.RELEASE.</p>
 </div>
 <div class="paragraph">
-<p>If branch <code>X.X.hotfixes</code> already exists, you can just check it out.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">git checkout X.X.hotfixes</code></pre>
-</div>
+<p>Follow the process described
+<a href="/documentation/current/community/index.html#working_on_fix">here</a>
+to create feature branches, work on fixes and merge them back into <code>X.X.release</code>.</p>
 </div>
 <div class="paragraph">
-<p>Then, follow the process described</p>
-</div>
-<div class="paragraph">
-<p><a href="/documentation/current/community/index.html#working_on_hotfix">here</a>
-to create feature branches, work on fixes and merge them back into <code>X.X.hotfixes</code>.</p>
-</div>
-<div class="paragraph">
-<p>Once all the big fixes that need to go into the version X.X.X.RELEASE have been merged into branch <code>X.X.hotfix</code>, you
+<p>Once all the big fixes that need to go into the version X.X.X.RELEASE have been merged into branch <code>X.X.release</code>, you
 can release the patch version. To do so:</p>
+</div>
+<div class="paragraph">
+<p>Create a branch to prepare the release from the release branch:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">git pull X.X.release
+git checkout X.X.release
+git checkout -b X.X.X.release.draft</code></pre>
+</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1505,63 +1362,39 @@ can release the patch version. To do so:</p>
 </div>
 </li>
 <li>
-<p>Commit the changes, tag them and push both to GitHub:</p>
+<p>Commit the changes and push to GitHub:</p>
 <div class="listingblock">
 <div class="content">
 <pre>git add .
-git commit -m "[RELEASE] X.X.X.RELEASE " <i class="conum" data-value="1"></i><b>(1)</b>
-git tag X.X.X.RELEASE <i class="conum" data-value="2"></i><b>(2)</b>
-git push --set-upstream origin X.X.hotfixes <i class="conum" data-value="3"></i><b>(3)</b>
-git push origin X.X.X.RELEASE <i class="conum" data-value="4"></i><b>(4)</b></pre>
+git commit -m "[RELEASE] X.X.X.RELEASE "
+git push --set-upstream origin X.X.X.release.draft</pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Commit the changes</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Tag the release</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Push the commit</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Push the tag</td>
-</tr>
-</table>
+</li>
+<li>
+<p>Create a pull request from the 'X.X.X.release.draft` branch to the <code>X.X.release</code> branch and ask for a review.</p>
+</li>
+<li>
+<p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout X.X.release
+git pull
+git tag X.X.X.RELEASE
+git push origin X.X.X.RELEASE</pre>
+</div>
 </div>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>This will trigger the build and tests in GitHub Actions.</p>
-</div>
-<div class="paragraph">
-<p>If the build and tests are successful, launch manually GitHubActions with jobs : <code>Build</code> , <code>Docker Push</code> and <code>Build and publish documentation</code></p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-In the case of a patch on the last major/minor version tagged on master, this version will become the
-<code>latest</code> version. In this case, add the jobs <code>Docker Push - Latest</code> and  <code>Build and publish documentation - Latest</code> instead of <code>Build and publish documentation</code> to also update the <code>latest</code> docker images on DockerHub and the <code>current</code> documentation on the website.
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>You then have to follow the following steps as for a classic release:</p>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p><a href="#publish_release_on_docker_hub_and_documentation">Publish the release on docker hub and documentation</a></p>
+</li>
 <li>
 <p><a href="#update_version_list_on_website">Updating the version list on the website</a>.</p>
 </li>

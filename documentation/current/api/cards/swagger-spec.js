@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.2.1.RELEASE",
+    "version" : "4.3.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -249,8 +249,8 @@ window.swaggerSpec={
     },
     "CardActionEnum" : {
       "type" : "string",
-      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS",
-      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS" ],
+      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS\n* KEEP_EXISTING_ACKS_AND_READS,\n* KEEP_EXISTING_PUBLISH_DATE",
+      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS", "KEEP_EXISTING_ACKS_AND_READS", "KEEP_EXISTING_PUBLISH_DATE" ],
       "example" : "PROPAGATE_READ_ACK_TO_PARENT_CARD"
     },
     "Card" : {

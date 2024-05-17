@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.2.1.RELEASE,</span>
-<span id="revdate">28 March 2024</span>
+<span id="revnumber">version 4.3.0.RELEASE,</span>
+<span id="revdate">17 May 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -825,12 +825,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_archives_screen_in_the_ui">11.2. Archives screen in the UI</a></li>
 </ul>
 </li>
-<li><a href="#_monitoring">12. Monitoring</a>
+<li><a href="#geomap">12. Geographical map</a></li>
+<li><a href="#_monitoring">13. Monitoring</a>
 <ul class="sectlevel2">
-<li><a href="#_export_configuration">12.1. Export configuration</a></li>
+<li><a href="#_export_configuration">13.1. Export configuration</a></li>
+<li><a href="#_process_monitoring">13.2. Process monitoring</a></li>
 </ul>
 </li>
-<li><a href="#_process_monitoring">13. Process monitoring</a></li>
 <li><a href="#users_management">14. User management</a>
 <ul class="sectlevel2">
 <li><a href="#_users_groups_entities_and_perimeters">14.1. Users, groups, entities and perimeters</a>
@@ -1248,18 +1249,6 @@ In that case, it means the card is stored only in archivedCards collection and n
 </div>
 <div class="sect5">
 <h6 id="_geographical_information_wktgeometry_and_wktprojection"><a class="anchor" href="#_geographical_information_wktgeometry_and_wktprojection"></a>Geographical information (<code>wktGeometry</code> and <code>wktProjection</code>)</h6>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Geographical information  is an experimental feature
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
 </div>
@@ -1303,7 +1292,8 @@ Only the POINT and POLYGON are supported.
 <div class="paragraph">
 <p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:
 - KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.
-- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.</p>
+- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.
+- KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
 </div>
 </div>
 </div>
@@ -3612,6 +3602,17 @@ recurrence : {
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
 </div>
+<div class="paragraph">
+<p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containig the 'richMessage' field with the following syntax:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{{ deltaToHtml data.richMessage }}}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ensure to encapsulate the expression within three curly braces to prevent HTML escaping.</p>
+</div>
 </div>
 </div>
 </div>
@@ -5497,7 +5498,64 @@ can see all archives for which he has the right to receive it, whether he is par
 </div>
 </div>
 <div class="sect1">
-<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>12. Monitoring</h2>
+<h2 id="geomap"><a class="anchor" href="#geomap"></a>12. Geographical map</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The geographical map is a feature that allows you to display the geographical location of cards on a map on the feed screen.</p>
+</div>
+<div class="paragraph">
+<p>To activate the geographical map feature, set the <code>feed.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
+</div>
+<div class="paragraph">
+<p>The geographical location of the cards is determined by the <code>wktGeometry</code> and <code>wktProjection</code> fields in the card&#8217;s metadata. If a card has a defined <code>wktGeometry</code>, its location will be highlighted on the card. The system supports two geometrical shapes: <code>POINT</code> and <code>POLYGON</code>. A <code>POINT</code> will display as a circle on the map, while a <code>POLYGON</code> will outline the specified area.</p>
+</div>
+<div class="paragraph">
+<p>For instance, to display a circle at a specific location, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;wktGeometry&quot;: &quot;POINT (5.8946407 51.9848624)&quot;,
+&quot;wktProjection&quot;: &quot;EPSG:4326&quot;,</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To outline a polygonal area, use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;wktGeometry&quot;: &quot;POLYGON ((5.5339097 52.0233042,  5.7162495 51.7603784, 5.0036701 51.573684, 4.8339214 52.3547498, 5.5339097 52.0233042))&quot;,
+&quot;wktProjection&quot;: &quot;EPSG:4326&quot;,</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The specifications of the Well-known Text Representation of coordinate reference systems
+can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specification</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file. For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The map uses OpenStreetMap tiles by default, but you can specify different tiles using the <code>feed.geomap.bglayer.xyz</code> parameters.</p>
+</li>
+<li>
+<p>You can add GeoJSON layers to the map using the <code>feed.geomap.layer.geojson</code> parameter in web-ui.json. For each layer it is possible to specify the url and an optional style. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Refer to the
+<a href="/documentation/current/reference_doc/index.html#ui_properties">web-ui configuration</a>
+section for more information and additional customization options.</p>
+</div>
+<div class="paragraph">
+<p>The example configuration references a GeoJSON layer from  Opendata Réseau Énergies (<a href="https://odre.opendatasoft.com/" class="bare">odre.opendatasoft.com/</a>) published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>13. Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The monitoring screen is a realtime view of processes based on current cards received by the user (i.e. the last version of cards visible by the user). It can be seen as another view of the feed.</p>
@@ -5506,7 +5564,7 @@ can see all archives for which he has the right to receive it, whether he is par
 <p>Not all the cards are visible, it depends on the business process they are part of. For a card to be visible in this screen, the parameter <code>uiVisibility.monitoring</code> must be set to <code>true</code> in the config.json file of its process.</p>
 </div>
 <div class="sect2">
-<h3 id="_export_configuration"><a class="anchor" href="#_export_configuration"></a>12.1. Export configuration</h3>
+<h3 id="_export_configuration"><a class="anchor" href="#_export_configuration"></a>13.1. Export configuration</h3>
 <div class="paragraph">
 <p>An Excel export function is available in the monitoring screen, the content of the export can be configured.
 To do so, a json file describing the expected output can be sent to the businessconfig service through the /businessconfig/monitoring endpoint.</p>
@@ -5529,11 +5587,8 @@ To do so, a json file describing the expected output can be sent to the business
 <a href="/documentation/current/api/businessconfig/">the businessconfig api documentation</a></p>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>13. Process monitoring</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>13.2. Process monitoring</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -5557,7 +5612,7 @@ This feature is experimental
 </li>
 <li>
 <p>not all the cards are visible, it depends on the business process they are part of. For a card to be visible on
-this screen, the parameter <code>uiVisibility.processMonitoring</code> must be set to <code>true</code> in the <code>config.json</code> file of its
+this screen, the parameter <code>uiVisibility.processmonitoring</code> must be set to <code>true</code> in the <code>config.json</code> file of its
 process.</p>
 </li>
 </ul>
@@ -5574,6 +5629,9 @@ in the <code>web-ui.json</code> configuration file. This object is a list of the
 <li>
 <p>depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the
 recipient of.</p>
+</li>
+<li>
+<p>if geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </li>
 </ul>
 </div>
@@ -5595,9 +5653,15 @@ recipient of.</p>
       &quot;size&quot;: &quot;250&quot;
     },
     {
+      &quot;field&quot;: &quot;entityRecipients&quot;,
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;colName&quot;: &quot;Entity Recipients&quot;,
+      &quot;size&quot;: &quot;400&quot;
+    },
+    {
       &quot;field&quot;: &quot;data.message&quot;,
       &quot;colName&quot;: &quot;My field&quot;,
-      &quot;size&quot;: &quot;700&quot;
+      &quot;size&quot;: &quot;300&quot;
     },
     {
       &quot;field&quot;: &quot;summaryTranslated&quot;,
@@ -5621,7 +5685,7 @@ recipient of.</p>
 <p>"field" : the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type" : if you want to display a date/time field, you must set this field to "date" for field formatting</p>
+<p>"type" : field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
 </li>
 <li>
 <p>"colName" : name of the column on the UI</p>
@@ -5630,6 +5694,7 @@ recipient of.</p>
 <p>"size" : size of the column on the UI, proportionally to each other</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -5801,6 +5866,12 @@ The available permissions are:</p>
 </li>
 <li>
 <p><code>VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS</code>: Permission to access all archived cards which are in the perimeter of the user</p>
+</li>
+<li>
+<p><code>VIEW_ALL_CARDS</code>: Permission to access all cards</p>
+</li>
+<li>
+<p><code>VIEW_ALL_CARDS_FOR_USER_PERIMETERS</code>: Permission to access all cards which are in the perimeter of the user</p>
 </li>
 <li>
 <p><code>READONLY</code>: Readonly permission. User cannot send user cards, cannot respond to a card, when acknowledges a card he does not acknowledge it for his entities.</p>
