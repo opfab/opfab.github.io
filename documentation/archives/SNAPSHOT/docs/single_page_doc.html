@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">07 June 2024</span>
+<span id="revdate">08 June 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1240,7 +1240,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_load_testing_with_gatling">47.5. Load testing with Gatling</a>
 <ul class="sectlevel3">
-<li><a href="#_run_a_test">47.5.1. Run a test</a></li>
+<li><a href="#_run_tests">47.5.1. Run tests</a></li>
 </ul>
 </li>
 <li><a href="#_node_services_2">47.6. Node services</a>
@@ -1721,7 +1721,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_migration_guide_from_release_4_3_x_to_release_4_4_0">93. Migration Guide from release 4.3.X to release 4.4.0</a>
 <ul class="sectlevel2">
-<li><a href="#_application_endpoints">93.1. Application Endpoints</a></li>
+<li><a href="#_endpoints_configuration">93.1. Endpoints configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -14415,13 +14415,21 @@ If your OperatorFabric instance is not running on localhost, you need to edit th
 </table>
 </div>
 <div class="sect3">
-<h4 id="_run_a_test"><a class="anchor" href="#_run_a_test"></a>47.5.1. Run a test</h4>
+<h4 id="_run_tests"><a class="anchor" href="#_run_tests"></a>47.5.1. Run tests</h4>
 <div class="paragraph">
-<p>To launch a specific test, launch:</p>
+<p>To run all the tests, launch:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>$OF_HOME/gradlew clean  gatlingRun-&lt;TestClassName&gt;</pre>
+<pre>$OF_HOME/gradlew clean  gatlingRun</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To run only a specific test, launch:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$OF_HOME/gradlew clean  gatlingRun --simulation=&lt;TestClassName&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -17154,7 +17162,7 @@ This file is part of the OperatorFabric project.</code></pre>
 <p>Geographical features</p>
 </li>
 <li>
-<p>Verification that a card is properly reminded (reminder feature)</p>
+<p>Verification that a card is properly reminded (reminder feature) and sounded</p>
 </li>
 <li>
 <p>Authentication using both IMPLICIT and CODE flows</p>
@@ -21373,22 +21381,31 @@ You should change your configuration for geoJSON layer to configure it as an arr
 <h2 id="_migration_guide_from_release_4_3_x_to_release_4_4_0"><a class="anchor" href="#_migration_guide_from_release_4_3_x_to_release_4_4_0"></a>93. Migration Guide from release 4.3.X to release 4.4.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_application_endpoints"><a class="anchor" href="#_application_endpoints"></a>93.1. Application Endpoints</h3>
+<h3 id="_endpoints_configuration"><a class="anchor" href="#_endpoints_configuration"></a>93.1. Endpoints configuration</h3>
 <div class="paragraph">
-<p>To enhance consistency and avoid confusion, we have changed the endpoints used via Nginx:</p>
+<p>To enhance consistency and avoid confusion, we made the following modifications to the endpoints:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The endpoint <code>/cards</code> has been replaced by <code>/cards-consultation</code>.</p>
+<p>When accessed via <code>web-ui</code>(nginx), the endpoint <code>/cards</code> has been replaced by <code>/cards-consultation</code>.</p>
 </li>
 <li>
-<p>The endpoint <code>/cardspub</code> has been replaced by <code>/cards-publication</code>.</p>
+<p>When accessed via <code>web-ui</code>(nginx), the endpoint <code>/cardspub</code> has been replaced by <code>/cards-publication</code>.</p>
+</li>
+<li>
+<p>The base path for accessing the <code>businessconfig</code> service directly (without passing through <code>web-ui</code>) has been changed from <code>/businessconfig</code> to <code>/</code>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This means you need to update your Nginx configuration to reflect these changes.</p>
+<p>Please note that the old endpoint <code>/businessconfig</code> is still available but will be removed in a future release.</p>
+</div>
+<div class="paragraph">
+<p>We have simplified our nginx reference configuration. Instead of adjusting your configuration for the new release, you can rebuild your configuration using the new reference configuration (located at <code>config/docker/nginx.conf</code>) and adapt it to your specific needs.</p>
+</div>
+<div class="paragraph">
+<p>If you prefer to adapt your existing file, the following changes should be made:</p>
 </div>
 <div class="paragraph">
 <p>For example, consider this configuration:</p>
@@ -21406,6 +21423,15 @@ You should change your configuration for geoJSON layer to configure it as an arr
     proxy_set_header Host $http_host;
     proxy_pass http://cards-publication:2102/cards;
     proxy_set_header X-Forwarded-For $remote_addr;
+  }
+
+   location /businessconfig {
+    gzip on;
+    gzip_types application/json;
+    proxy_set_header Host $http_host;
+    proxy_pass http://businessconfig:2100;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    client_max_body_size 100M;
   }</pre>
 </div>
 </div>
@@ -21425,11 +21451,23 @@ You should change your configuration for geoJSON layer to configure it as an arr
     proxy_set_header Host $http_host;
     proxy_pass http://cards-publication:2102/;
     proxy_set_header X-Forwarded-For $remote_addr;
+  }
+
+  location /businessconfig/ {
+    gzip on;
+    gzip_types application/json;
+    proxy_set_header Host $http_host;
+    proxy_pass http://businessconfig:2100/;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    client_max_body_size 100M;
   }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For a smooth, real-time migration, you can temporarily keep both endpoints in your Nginx configuration and remove the old one after a while.</p>
+<p>For a smooth, real-time migration, you can temporarily keep endpoints '/cards' and '/cardspub' in your Nginx configuration and remove the old one after a while.</p>
+</div>
+<div class="paragraph">
+<p>If you are using the <code>businessconfig</code> service directly via some scripts, you need to update these scripts.</p>
 </div>
 </div>
 </div>
