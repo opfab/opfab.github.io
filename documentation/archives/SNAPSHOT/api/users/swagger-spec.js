@@ -772,7 +772,7 @@ window.swaggerSpec={
       "patch" : {
         "tags" : [ "users" ],
         "summary" : "Patch existing user settings",
-        "description" : "Patch existing user settions",
+        "description" : "Patch existing user settings",
         "operationId" : "patchUserSettings",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
