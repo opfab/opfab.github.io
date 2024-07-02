@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 July 2024</span>
+<span id="revdate">03 July 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -7177,6 +7177,9 @@ If you want to use the template as is, the json file must follow this structure 
 <p>}`</p>
 </div>
 <div class="paragraph">
+<p>The <code>possibleRecipients</code> field is optional. If specified and not empty, the list of possible recipients will be restricted to the specified list. If not specified or empty, the possible recipients list will not be restricted.</p>
+</div>
+<div class="paragraph">
 <p>The <code>severity</code> field is optional. If not specified, the card will take a default severity value depending on 'question'
 field value : "ACTION" if question is true, "INFORMATION" if question is false.</p>
 </div>
@@ -12028,6 +12031,27 @@ but they can be adapted for single container deployments and development mode.
 </div>
 <div class="paragraph">
 <p>For those preferring not to install npm and nodejs locally, the CLI is accessible via a Docker container. Utilize the <code>cli/opfabDockerCli.sh</code> script to launch a shell environment pre-configured with the opfab CLI. The script mounts your current directory to <code>/host</code> within the Docker container.</p>
+</div>
+<div class="paragraph">
+<p>Using the Docker version, you can pre-set environment configurations through a config file. This file should list each environment configuration on a separate line. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>dev DEV LOCALHOST_URL 2002 admin test
+prod PROD PROD_URL 80</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each line consists of:
+- The first value is the configuration name.
+- The second value is the name to be added to the shell prompt.
+- The third value is the URL of the OperatorFabric instance.
+- The fourth value is the port number to use.
+- The fifth value is the username.
+- The sixth value is the password (if not provided, it will be requested via a prompt).</p>
+</div>
+<div class="paragraph">
+<p>To launch the Docker CLI using the config file, execute <code>opfabDockerCli.sh</code> with the config file as an argument.</p>
 </div>
 </div>
 </div>
