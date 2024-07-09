@@ -7,13 +7,13 @@ layout: default
 
 ## Middle term
 
--  Substation diagram and network view integration (in coordination with the [GridSuite](https://github.com/gridsuite) project 
+-  Substation diagram and network view integration (in coordination with the [GridSuite](https://github.com/gridsuite) project)
   
 -  Multi-instance : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3099)
 
 -  Improved responsive UI :  [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3220)
 
--   Mail/SMS/slack/teams or other notifications ->  sending the card or a link to the card via other medias : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3097)
+-  Mail/SMS/slack/teams or other notifications ->  sending the card or a link to the card via other medias : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3097)
 
 -  Making dynamic security analysis part of the development process : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3102)
   
@@ -21,7 +21,7 @@ layout: default
 
 ## Long term
 
--  Advanced agenda feature 
+- Advanced agenda feature 
   
 - Provide custom style / look and feel for end user (permit the user to define his specific ui style) : [Related discussion on Github](https://github.com/opfab/operatorfabric-core/discussions/3027)
   
