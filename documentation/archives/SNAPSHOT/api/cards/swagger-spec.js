@@ -1234,7 +1234,18 @@ window.swaggerSpec={
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/Card"
+              "type" : "object",
+              "properties" : {
+                "card" : {
+                  "$ref" : "#/definitions/Card"
+                },
+                "childCards" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/Card"
+                  }
+                }
+              }
             }
           },
           "401" : {
