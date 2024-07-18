@@ -926,6 +926,10 @@ window.swaggerSpec={
         "severityVisible" : {
           "type" : "boolean"
         },
+        "keepChildCardsVisible" : {
+          "type" : "boolean",
+          "description" : "Sets the visibility of the keepChildCards checkbox on the usercard. Default value set to false."
+        },
         "startDateVisible" : {
           "type" : "boolean"
         },
