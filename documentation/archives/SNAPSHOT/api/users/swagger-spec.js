@@ -190,6 +190,7 @@ window.swaggerSpec={
           "description" : "When set to false, the user can not unselect the state in the notification configuration screen."
         }
       },
+      "required" : [ "state", "right" ],
       "example" : {
         "state" : "State1",
         "right" : "Receive"
