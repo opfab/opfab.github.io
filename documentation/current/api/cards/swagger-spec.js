@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.3.3.RELEASE",
+    "version" : "4.4.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -1056,6 +1056,45 @@ window.swaggerSpec={
           }
         }
       },
+      "patch" : {
+        "tags" : [ "card" ],
+        "summary" : "Patch existing card",
+        "description" : "Patch existing card",
+        "operationId" : "patchCard",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "card id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "card",
+          "description" : "card containing fields to be updated",
+          "schema" : {
+            "$ref" : "#/definitions/Card"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CardCreationReport"
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "404" : {
+            "description" : "Card not found"
+          }
+        }
+      },
       "delete" : {
         "tags" : [ "cards", "deletion" ],
         "summary" : "delete cards",
@@ -1195,7 +1234,18 @@ window.swaggerSpec={
           "200" : {
             "description" : "OK",
             "schema" : {
-              "$ref" : "#/definitions/Card"
+              "type" : "object",
+              "properties" : {
+                "card" : {
+                  "$ref" : "#/definitions/Card"
+                },
+                "childCards" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/Card"
+                  }
+                }
+              }
             }
           },
           "401" : {

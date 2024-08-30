@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.3.3.RELEASE",
+    "version" : "4.4.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -772,7 +772,7 @@ window.swaggerSpec={
       "patch" : {
         "tags" : [ "users" ],
         "summary" : "Patch existing user settings",
-        "description" : "Patch existing user settions",
+        "description" : "Patch existing user settings",
         "operationId" : "patchUserSettings",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -2209,6 +2209,134 @@ window.swaggerSpec={
               "type" : "object",
               "$ref" : "#/definitions/UserActionLogPage"
             }
+          }
+        }
+      }
+    },
+    "/notificationconfiguration/processstatenotified/{process}/{state}" : {
+      "post" : {
+        "tags" : [ "notification configuration" ],
+        "summary" : "Set notification for a process/state for all users",
+        "description" : "Configure process/state notification for all users",
+        "operationId" : "notificationConfiguration",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "process",
+          "description" : "process id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "path",
+          "name" : "state",
+          "description" : "state id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "notification configuration" ],
+        "summary" : "Unset process/state notification for all users",
+        "description" : "Remove process/state notification for all users",
+        "operationId" : "notificationConfiguration",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "process",
+          "description" : "process id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "path",
+          "name" : "state",
+          "description" : "state id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      }
+    },
+    "/notificationconfiguration/processstatenotifiedbymail/{process}/{state}" : {
+      "post" : {
+        "tags" : [ "email notification configuration" ],
+        "summary" : "Set email notification for a process/state for all users",
+        "description" : "Configure process/state email notification for all users",
+        "operationId" : "emailNotificationConfiguration",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "process",
+          "description" : "process id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "path",
+          "name" : "state",
+          "description" : "state id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "email notification configuration" ],
+        "summary" : "Unset email notification for a process/state for all users",
+        "description" : "Remove process/state email notification for all users",
+        "operationId" : "emailNotificationConfiguration",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "process",
+          "description" : "process id",
+          "type" : "string",
+          "required" : true
+        }, {
+          "in" : "path",
+          "name" : "state",
+          "description" : "state id",
+          "type" : "string",
+          "required" : true
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
           }
         }
       }

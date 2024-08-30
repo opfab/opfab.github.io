@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 4.3.3.RELEASE,</span>
-<span id="revdate">12 July 2024</span>
+<span id="revnumber">version 4.4.0.RELEASE,</span>
+<span id="revdate">30 August 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -645,7 +645,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_load_testing_with_gatling">6.5. Load testing with Gatling</a>
 <ul class="sectlevel3">
-<li><a href="#_run_a_test">6.5.1. Run a test</a></li>
+<li><a href="#_run_tests">6.5.1. Run tests</a></li>
 </ul>
 </li>
 <li><a href="#_node_services">6.6. Node services</a>
@@ -706,21 +706,22 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_kafka_implementation">11. Kafka Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#_setup_kafka_environment">11.1. Setup Kafka environment</a></li>
-<li><a href="#_enabling_kafka">11.2. Enabling Kafka</a></li>
-<li><a href="#_operatorfabric_kafka_source_code">11.3. OperatorFabric Kafka source code</a></li>
-<li><a href="#_listener_deserializer">11.4. Listener / deserializer</a>
+<li><a href="#_disabling_kafka">11.2. Disabling Kafka</a></li>
+<li><a href="#_configuration_2">11.3. Configuration</a></li>
+<li><a href="#_operatorfabric_kafka_source_code">11.4. OperatorFabric Kafka source code</a></li>
+<li><a href="#_listener_deserializer">11.5. Listener / deserializer</a>
 <ul class="sectlevel3">
-<li><a href="#_kafka_operatorfabric_avro_schema">11.4.1. Kafka OperatorFabric AVRO schema</a></li>
+<li><a href="#_kafka_operatorfabric_avro_schema">11.5.1. Kafka OperatorFabric AVRO schema</a></li>
 </ul>
 </li>
-<li><a href="#_configure_kafka">11.5. Configure Kafka</a>
+<li><a href="#_configure_kafka">11.6. Configure Kafka</a>
 <ul class="sectlevel3">
-<li><a href="#_setting_a_new_deserializer">11.5.1. Setting a new deserializer</a></li>
-<li><a href="#_configuring_a_broker">11.5.2. Configuring a broker</a></li>
+<li><a href="#_setting_a_new_deserializer">11.6.1. Setting a new deserializer</a></li>
+<li><a href="#_configuring_a_broker">11.6.2. Configuring a broker</a></li>
 </ul>
 </li>
-<li><a href="#_kafka_card_producer">11.6. Kafka card producer</a></li>
-<li><a href="#_response_cards">11.7. Response Cards</a></li>
+<li><a href="#_kafka_card_producer">11.7. Kafka card producer</a></li>
+<li><a href="#_response_cards">11.8. Response Cards</a></li>
 </ul>
 </li>
 <li><a href="#_mailhog_smtp_server">12. MailHog SMTP server</a>
@@ -1161,7 +1162,7 @@ build process</p>
 used by external projects</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/config">config</a>: contains external configurations for all services , keycloak and docker-compose files to help with tests and demonstrations</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/config">config</a>: contains external configurations for all services , keycloak and docker compose files to help with tests and demonstrations</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/tree/master/node-services">node-services</a>: contains the node microservices that make up
@@ -1222,7 +1223,7 @@ Getting Started Guide, etc.)</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker">docker</a>: contains docker-compose files to help with
+<p><a href="https://github.com/opfab/operatorfabric-core/tree/master/src/main/docker">docker</a>: contains docker compose files to help with
 tests and demonstrations</p>
 </li>
 </ul>
@@ -1834,7 +1835,7 @@ instance in docker mode, just substitute <code>dev</code> for <code>docker</code
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd config/docker
-docker-compose down <i class="conum" data-value="1"></i><b>(1)</b>
+docker compose down <i class="conum" data-value="1"></i><b>(1)</b>
 ./startOpfabForCypress.sh <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
@@ -1857,14 +1858,14 @@ side-effects from previous tests) with the following commands:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">cd config/docker
-docker-compose down</code></pre>
+docker compose down</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_explanation"><a class="anchor" href="#_explanation"></a>6.4.3.2. Explanation</h5>
 <div class="paragraph">
-<p>The Cypress tests rely on a running OpFab instance that is an adaptation from the config/docker docker-compose file
+<p>The Cypress tests rely on a running OpFab instance that is an adaptation from the config/docker docker compose file
 (environment name, shorter time before lttd clock display, etc.).</p>
 </div>
 <div class="paragraph">
@@ -1985,7 +1986,7 @@ associated collections through the MongoDB shell with the following commands:</p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">docker exec -it docker_mongodb_1 bash
+<pre class="CodeRay highlight"><code data-lang="bash">docker exec -it docker-mongodb-1 bash
 mongo &quot;mongodb://root:password@localhost:27017/?authSource=admin&quot;
 use operator-fabric
 db.cards.remove({})
@@ -2132,13 +2133,21 @@ If your OperatorFabric instance is not running on localhost, you need to edit th
 </table>
 </div>
 <div class="sect3">
-<h4 id="_run_a_test"><a class="anchor" href="#_run_a_test"></a>6.5.1. Run a test</h4>
+<h4 id="_run_tests"><a class="anchor" href="#_run_tests"></a>6.5.1. Run tests</h4>
 <div class="paragraph">
-<p>To launch a specific test, launch:</p>
+<p>To run all the tests, launch:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>$OF_HOME/gradlew clean  gatlingRun-&lt;TestClassName&gt;</pre>
+<pre>$OF_HOME/gradlew clean  gatlingRun</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To run only a specific test, launch:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$OF_HOME/gradlew clean  gatlingRun --simulation=&lt;TestClassName&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2308,7 +2317,7 @@ ERROR: Get https://registry-1.docker.io/v2/: Proxy Authentication Required</code
 </div>
 <div class="paragraph">
 <div class="title">Possible causes &amp; resolution</div>
-<p>When running docker-compose files using businessconfig-party images(such as rabbitmq,
+<p>When running docker compose files using businessconfig-party images(such as rabbitmq,
 mongodb etc.) the first time, docker will need to pull these images from
 their repositories.
 If the docker proxy isn&#8217;t set properly, you will see the above message.</p>
@@ -2564,7 +2573,7 @@ Check the API documentation for correct path.</p>
 </div>
 <div class="paragraph">
 <p> <details><summary> 
-<strong><code>ERROR: for web-ui</code> when running docker-compose in <code>${OF_HOME}/config/dev</code></strong>
+<strong><code>ERROR: for web-ui</code> when running docker compose in <code>${OF_HOME}/config/dev</code></strong>
  </summary><div> </p>
 </div>
 <div class="paragraph">
@@ -2573,7 +2582,7 @@ Check the API documentation for correct path.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
-docker-compose up -d</code></pre>
+docker compose up -d</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2593,8 +2602,8 @@ docker-compose up -d</code></pre>
 <p>There is no <code>nginx.conf</code> file in the <code>${OF_HOME}/conf/dev</code> directory.</p>
 </div>
 <div class="paragraph">
-<p>A first run of OperatorFabric <code>docker-compose</code> in dev config needs a <code>nginx.conf</code> file.
-To create it, and run a docker-compose environment use:</p>
+<p>A first run of OperatorFabric <code>docker compose</code> in dev config needs a <code>nginx.conf</code> file.
+To create it, and run a docker compose environment use:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2603,10 +2612,10 @@ To create it, and run a docker-compose environment use:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If docker-compose has created a <code>nginx.conf</code> directory, delete it before running the previous commands.</p>
+<p>If docker compose has created a <code>nginx.conf</code> directory, delete it before running the previous commands.</p>
 </div>
 <div class="paragraph">
-<p>Once this <code>nginx.conf</code> file created a simple <code>docker-compose up -d</code> is enough to run a dev docker-compose environment.
+<p>Once this <code>nginx.conf</code> file created a simple <code>docker compose up -d</code> is enough to run a dev docker compose environment.
 Sometimes a <code>nginx.conf</code> has been created as an attempt to launch the <code>web-ui</code> docker.
 See the following section to resolve this.</p>
 </div>
@@ -2638,7 +2647,7 @@ See the following section to resolve this.</p>
 </div>
 <div class="paragraph">
 <div class="title">Possible causes</div>
-<p>A <code>docker-compose up</code> has been run previously without <code>nginx.conf</code>.
+<p>A <code>docker compose up</code> has been run previously without <code>nginx.conf</code>.
 A folder named <code>nginx.conf</code> has been created by <code>docker-compose</code>.</p>
 </div>
 <div class="paragraph">
@@ -2954,9 +2963,6 @@ sslRequired : none</p>
 <div class="ulist">
 <ul>
 <li>
-<p>client_id: <code>string</code> constant=<code>clientIdPassword</code>;</p>
-</li>
-<li>
 <p>grant_type: <code>string</code> constant=<code>password</code>;</p>
 <div class="ulist">
 <ul>
@@ -2982,7 +2988,7 @@ sslRequired : none</p>
 <div class="listingblock">
 <div class="content">
 <pre>curl -s -X POST -d
-"username=admin&amp;password=test&amp;grant_type=password&amp;client_id=clientIdPassword"
+"username=admin&amp;password=test&amp;grant_type=password"
 http://localhost:2002/auth/token</pre>
 </div>
 </div>
@@ -3018,7 +3024,7 @@ user_info","jti":"02d82e85-13f0-4678-974d-18eb06215a65"}</pre>
 <div class="listingblock">
 <div class="content">
 <pre>http --form POST http://localhost:2002/auth/token username=admin password=test
-grant_type=password client_id=clientIdPassword</pre>
+grant_type=password</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3205,7 +3211,7 @@ Here is a way to do so.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=${user}&amp;password=${password}&amp;grant_type=password&amp;client_id=opfab-client&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell"> curl -d &quot;username=${user}&amp;password=${password}&amp;grant_type=password&quot; &quot;http://localhost:2002/auth/token&quot; | jq -r .access_token</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3235,70 +3241,67 @@ Here is a way to do so.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Next to publishing cards to OperatorFabric using the REST API, OperatorFabric also supports publishing cards via a Kafka Topic.
-In the default configuration Kafka is disabled.</p>
+In the default configuration Kafka is enabled.</p>
 </div>
 <div class="sect2">
 <h3 id="_setup_kafka_environment"><a class="anchor" href="#_setup_kafka_environment"></a>11.1. Setup Kafka environment</h3>
 <div class="paragraph">
-<p>If you do not have a Kafka environment running you need to set one up so the Kafka consumers and producers can find each other.
-You can for example download <a href="{lense}">lenses.io</a> for an easy-to-use broker with a graphical interface. Another option is to add
-a free broker like a bitnami Kafka image to docker compose. To do so, add the following lines to <code>config/dev/docker-compose.yml</code> or
-<code>config/docker/docker-compose.yml</code> for the zookeeper and bitnami images:</p>
+<p>Opfab by default starts a bitnami Kafka docker container and a zookeeper container as defined in <code>docker-compose.yml</code>.
+If you have a Kafka environment running you need to configure Opfab to connect to your Kafka server by setting <code>spring.kafka.bootstrap-servers</code> property in <code>card-publication.yml</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">services</span>:
-  <span class="key">zookeeper</span>:
-    <span class="key">image</span>: <span class="string"><span class="content">bitnami/zookeeper:3</span></span>
-    <span class="key">ports</span>:
-      - <span class="string"><span class="delimiter">&quot;</span><span class="content">2181:2181</span><span class="delimiter">&quot;</span></span>
-    <span class="key">environment</span>:
-      <span class="key">ALLOW_ANONYMOUS_LOGIN</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">yes</span><span class="delimiter">&quot;</span></span>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
   <span class="key">kafka</span>:
-    <span class="key">image</span>: <span class="string"><span class="content">bitnami/kafka:2</span></span>
-    <span class="key">ports</span>:
-      - <span class="string"><span class="delimiter">&quot;</span><span class="content">9092:9092</span><span class="delimiter">&quot;</span></span>
-    <span class="key">environment</span>:
-      <span class="key">KAFKA_BROKER_ID</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>
-      <span class="key">KAFKA_LISTENERS</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">PLAINTEXT://:9092</span><span class="delimiter">&quot;</span></span>
-      <span class="key">KAFKA_ADVERTISED_LISTENERS</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">PLAINTEXT://172.17.0.1:9092</span><span class="delimiter">&quot;</span></span>
-      <span class="key">KAFKA_ZOOKEEPER_CONNECT</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">zookeeper:2181</span><span class="delimiter">&quot;</span></span>
-      <span class="key">ALLOW_PLAINTEXT_LISTENER</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">yes</span><span class="delimiter">&quot;</span></span>
-  <span class="key">rabbitmq</span>:</code></pre>
+    <span class="key">bootstrap-servers</span>: <span class="string"><span class="content">&lt;kafka-server-host&gt;:&lt;port&gt;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to setup an easy-to-use broker with a graphical interface, you can for example download <a href="{lense}">lenses.io</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_disabling_kafka"><a class="anchor" href="#_disabling_kafka"></a>11.2. Disabling Kafka</h3>
+<div class="paragraph">
+<p>To disable Kafka support you need to comment the <code>kafka.*</code> properties in the <code>cards-publication.yml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="comment">#    kafka:</span>
+<span class="comment">#      consumer:</span>
+<span class="comment">#        group-id: opfab-command</span>
+<span class="comment">#      bootstrap-servers: kafka:9092</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_kafka"><a class="anchor" href="#_enabling_kafka"></a>11.2. Enabling Kafka</h3>
-<div class="paragraph">
-<p>To enable Kafka support you need to set the <code>kafka.consumer.group_id property</code> in the <code>cards-publication.yml</code> file:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">spring</span>:
-    <span class="key">kafka</span>:
-      <span class="key">consumer</span>:
-        <span class="key">group-id</span>: <span class="string"><span class="content">opfab-command</span></span></code></pre>
-</div>
-</div>
+<h3 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>11.3. Configuration</h3>
 <div class="paragraph">
 <p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>. Messages are encoded in the <code>CardCommand.card</code> field.
 The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below. Messages produced by Operator Fabric are encoded in the <code>CardCommand.responseCard</code> field</p>
 </div>
 <div class="paragraph">
-<p>The default Kafka Avro serializers and deserializers need a registry service. Make sure the registry service setting is provided in
-the <code>card-publication.yml</code> file. When you use the provided <code>KafkaAvroWithoutRegistrySerializer</code> and
-<code>KafkaAvroWithoutRegistryDeserializer</code> no schema registry setting is needed.</p>
-</div>
-<div class="paragraph">
-<p>With the default settings, the Kafka consumer expects a broker running on http//127.0.0.1:9092 and a schema registry on <a href="http://127.0.0.1:8081" class="bare">127.0.0.1:8081</a>.</p>
+<p>By default Opfab use the provided <code>KafkaAvroWithoutRegistrySerializer</code> and
+<code>KafkaAvroWithoutRegistryDeserializer</code>, so no schema registry setting is needed.
+If you want to use a schema registry you need to configure opfab to use standard Kafka Avro serializers and deserializers and make sure the registry service setting is provided in
+the <code>card-publication.yml</code> file.</p>
 </div>
 <div class="paragraph">
 <p>Example settings for the cards-publication.yml file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">operatorfabric</span>:
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">deserializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">io.confluent.kafka.serializers.KafkaAvroDeserializer</span></span>
+  <span class="key">serializer</span>:
+    <span class="key">value</span>:
+      <span class="key">delegate</span>:
+        <span class="key">class</span>: <span class="string"><span class="content">io.confluent.kafka.serializers.KafkaAvroSerializer</span></span>
+
+<span class="key">operatorfabric</span>:
   <span class="key">cards-publication</span>:
     <span class="key">kafka</span>:
       <span class="key">topics</span>:
@@ -3320,11 +3323,11 @@ for more settings.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_operatorfabric_kafka_source_code"><a class="anchor" href="#_operatorfabric_kafka_source_code"></a>11.3. OperatorFabric Kafka source code</h3>
+<h3 id="_operatorfabric_kafka_source_code"><a class="anchor" href="#_operatorfabric_kafka_source_code"></a>11.4. OperatorFabric Kafka source code</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_listener_deserializer"><a class="anchor" href="#_listener_deserializer"></a>11.4. Listener / deserializer</h3>
+<h3 id="_listener_deserializer"><a class="anchor" href="#_listener_deserializer"></a>11.5. Listener / deserializer</h3>
 <div class="paragraph">
 <p>Most of the OperatorFabric Kafka implementation can be found at</p>
 </div>
@@ -3342,7 +3345,7 @@ the implementation of the deserializers and mapping of Kafka topics to OperatorF
 </dl>
 </div>
 <div class="sect3">
-<h4 id="_kafka_operatorfabric_avro_schema"><a class="anchor" href="#_kafka_operatorfabric_avro_schema"></a>11.4.1. Kafka OperatorFabric AVRO schema</h4>
+<h4 id="_kafka_operatorfabric_avro_schema"><a class="anchor" href="#_kafka_operatorfabric_avro_schema"></a>11.5.1. Kafka OperatorFabric AVRO schema</h4>
 <div class="paragraph">
 <p>The AVRO schema, the byte format in which messages are transferred using Kafka topics, can be found at <code>client/src/main/avro</code>.
 Message are wrapped in a CardCommand object before being sent to a Kafka topic. The CardCommand consists of some additional information and the
@@ -3352,17 +3355,15 @@ present in a REST operation but not in Kafka. For example the http method (POST,
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_kafka"><a class="anchor" href="#_configure_kafka"></a>11.5. Configure Kafka</h3>
+<h3 id="_configure_kafka"><a class="anchor" href="#_configure_kafka"></a>11.6. Configure Kafka</h3>
 <div class="sect3">
-<h4 id="_setting_a_new_deserializer"><a class="anchor" href="#_setting_a_new_deserializer"></a>11.5.1. Setting a new deserializer</h4>
+<h4 id="_setting_a_new_deserializer"><a class="anchor" href="#_setting_a_new_deserializer"></a>11.6.1. Setting a new deserializer</h4>
 <div class="paragraph">
-<p>By default, OperatorFabric uses the  <code>io.confluent.kafka.serializers.KafkaAvroDeserializer</code> from <a href="https://www.confluent.io/">Confluent</a>. However, you can write your own
-deserializer. To use your own deserializer, make sure
-<code>spring.deserializer.value.delegate.class</code> points to your deserializer.</p>
+<p>By default, OperatorFabric uses the provided <code>org.opfab.cards.publication.kafka.consumer.KafkaAvroWithoutRegistryDeserializer</code> from <a href="https://www.confluent.io/">Confluent</a>. However, you can use a standard deserializer <code>io.confluent.kafka.serializers.KafkaAvroSerializer</code> from <a href="https://www.confluent.io/">Confluent</a> or write your own deserializer. To use your own deserializer, make sure <code>spring.deserializer.value.delegate.class</code> points to your deserializer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuring_a_broker"><a class="anchor" href="#_configuring_a_broker"></a>11.5.2. Configuring a broker</h4>
+<h4 id="_configuring_a_broker"><a class="anchor" href="#_configuring_a_broker"></a>11.6.2. Configuring a broker</h4>
 <div class="paragraph">
 <p>When you have a broker running on localhost port 9092, you do not need to set the bootstrap severs. If this is not the case, you need tell
 Operator Fabric where the broker can be found. You can do so by setting the bootstrap-servers property in the <code>cards-publication.yml</code> file:</p>
@@ -3377,7 +3378,7 @@ Operator Fabric where the broker can be found. You can do so by setting the boot
 </div>
 </div>
 <div class="sect2">
-<h3 id="_kafka_card_producer"><a class="anchor" href="#_kafka_card_producer"></a>11.6. Kafka card producer</h3>
+<h3 id="_kafka_card_producer"><a class="anchor" href="#_kafka_card_producer"></a>11.7. Kafka card producer</h3>
 <div class="paragraph">
 <p>To send a CardCommand to OperatorFabric, start by implementing a simple Kafka producer by following for example <a href="https://docs.spring.io/spring-kafka/reference/html/">Spring for Apache Kafka</a>.
 Note that some properties of CardCommand or its embedded Card are required. If not set, the card will be rejected by OperatorFabric.</p>
@@ -3429,7 +3430,7 @@ Note that some properties of CardCommand or its embedded Card are required. If n
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_cards"><a class="anchor" href="#_response_cards"></a>11.7. Response Cards</h3>
+<h3 id="_response_cards"><a class="anchor" href="#_response_cards"></a>11.8. Response Cards</h3>
 <div class="paragraph">
 <p>OperatorFabric
 <a href="/documentation/current/reference_doc/index.html#response_cards">response cards</a>
