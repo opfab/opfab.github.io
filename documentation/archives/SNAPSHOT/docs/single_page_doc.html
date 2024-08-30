@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">30 August 2024</span>
+<span id="revdate">31 August 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -12244,8 +12244,12 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 </div>
 </div>
 <div class="paragraph">
-<p>To get the log level for ROOT logger of a service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogs.sh">src/test/resources/logs/getLogs.sh</a> as follows: <code>getLogs.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-publication" service  execute: <code>getLogs.sh localhost:2102 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To get the log level for ROOT logger of a java service it is possible to use opfab CLI "service" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab service get-log-level &lt;serviceName&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>To configure a given logger, POST a json entity to the '/actuator/logger' URI, as follows:</p>
@@ -12259,8 +12263,12 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
 </div>
 <div class="paragraph">
-<p>To set the log level for ROOT logger of a service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To set the log level for ROOT logger of a java service it is possible to use opfab CLI "service" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab service set-log-level &lt;serviceName&gt; &lt;level&gt;</pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -12305,11 +12313,23 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <p>where <code>${token}</code> is a valid OAuth2 JWT for a user with administration privileges</p>
 </div>
 <div class="paragraph">
-<p>The response will be the configured logging level as string</p>
+<p>The response will be a json object like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "configuredLevel" : "INFO",
+  "effectiveLevel" : "INFO"
+}</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>To get the log level of a node service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogsNodeService.sh">src/test/resources/logs/getLogsNodeService.sh</a> as follows: <code>getLogsNodeService.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-external-diffusion" service  execute: <code>getLogsNodeService.sh localhost:2106 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To get the log level for a node service it is possible to use opfab CLI "service" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab service get-log-level &lt;serviceName&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>To configure a given logger, POST a json entity to the '/logLevel' URI, as follows:</p>
@@ -12323,8 +12343,40 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
 </div>
 <div class="paragraph">
-<p>To set the log level for a node service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogsNodeService.sh">src/test/resources/logs/setLogsNodeService.sh</a> as follows: <code>setLogsNodeService.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-external-diffusion" service  execute: <code>setLogsNodeService.sh localhost:2106 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To set the log level for a node service it is possible to use opfab CLI "service" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab service set-log-level &lt;serviceName&gt; &lt;level&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using the opfab CLI command to get or set log levels for node service, the custom node log levels will be converted to standard levels as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>silly &#8594; trace</p>
+</li>
+<li>
+<p>debug &#8594; debug</p>
+</li>
+<li>
+<p>verbose &#8594; debug</p>
+</li>
+<li>
+<p>http &#8594; debug</p>
+</li>
+<li>
+<p>info &#8594; info</p>
+</li>
+<li>
+<p>warn &#8594; warn</p>
+</li>
+<li>
+<p>error &#8594; error</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
