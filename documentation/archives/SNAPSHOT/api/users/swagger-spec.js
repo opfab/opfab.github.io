@@ -229,7 +229,7 @@ window.swaggerSpec={
     },
     "UserSettings" : {
       "type" : "object",
-      "description" : "User associated settings. Note that the current supported locales are en and fr. Date and time formats use Moment.js formats.",
+      "description" : "User associated settings.",
       "properties" : {
         "login" : {
           "type" : "string",
@@ -337,8 +337,7 @@ window.swaggerSpec={
       "required" : [ "login" ],
       "example" : {
         "login" : "jcleese",
-        "description" : "once played Sir Lancelot",
-        "locale" : "en-GB"
+        "locale" : "en"
       }
     },
     "CurrentUserWithPerimeters" : {
