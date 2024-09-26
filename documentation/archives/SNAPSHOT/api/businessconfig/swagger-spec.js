@@ -620,6 +620,50 @@ window.swaggerSpec={
           }
         }
       }
+    },
+    "/businessconfig/processmonitoring" : {
+      "get" : {
+        "summary" : "Get the process monitoring configuration",
+        "description" : "Get the process monitoring configuration",
+        "operationId" : "getProcessMonitoring",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ProcessMonitoring"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Post the json defining the process monitoring config",
+        "description" : "Post the json defining the process monitoring config This json is saved to disk, under the name 'processmonitoring.json'. The uploaded file should be a valid JSON file containing the ProcessMonitoring object structure as defined in the schema",
+        "operationId" : "uploadProcessMonitoring",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "file to upload",
+          "required" : true,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Successful creation"
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Forbidden - ADMIN role necessary"
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -959,7 +1003,7 @@ window.swaggerSpec={
       }
     },
     "EntitiesTree" : {
-      "description" : "Object containing the id of the entity and an optional list of connection levels  with 0 meaning the entity itself, 1 for first level children, 2 for 2nd level connections, etc.",
+      "description" : "Object containing the id of the entity and an optional list of connection levels with 0 meaning the entity itself, 1 for first level children, 2 for 2nd level connections, etc.",
       "properties" : {
         "id" : {
           "type" : "string"
@@ -1020,6 +1064,90 @@ window.swaggerSpec={
       "type" : "string",
       "description" : "Type of field to export",
       "enum" : [ "STRING", "EPOCHDATE" ]
+    },
+    "ProcessMonitoring" : {
+      "description" : "Configuration for the process monitoring screen",
+      "properties" : {
+        "fields" : {
+          "description" : "monitoring fields configuration",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProcessMonitoringField"
+          }
+        },
+        "fieldsForProcesses" : {
+          "description" : "monitoring fields configuration for processes",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProcessMonitoringFields"
+          }
+        },
+        "filters" : {
+          "description" : "process monitoring filters",
+          "properties" : {
+            "tags" : {
+              "description" : "Array of filter tags for process monitoring",
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProcessMonitoringFilterTag"
+              }
+            },
+            "pageSize" : {
+              "description" : "Number of items to display per page in the process monitoring view",
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    },
+    "ProcessMonitoringFields" : {
+      "properties" : {
+        "process" : {
+          "description" : "process name",
+          "type" : "string"
+        },
+        "fields" : {
+          "description" : "monitoring fields configuration for process",
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProcessMonitoringField"
+          }
+        }
+      }
+    },
+    "ProcessMonitoringField" : {
+      "description" : "process monitoring field",
+      "properties" : {
+        "field" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "ProcessMonitoringFieldTypeEnum"
+        },
+        "colName" : {
+          "type" : "string"
+        },
+        "size" : {
+          "description" : "The size of the field",
+          "type" : "integer"
+        }
+      }
+    },
+    "ProcessMonitoringFilterTag" : {
+      "description" : "process monitoring filter tag",
+      "properties" : {
+        "label" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProcessMonitoringFieldTypeEnum" : {
+      "type" : "string",
+      "description" : "Type of field",
+      "enum" : [ "string", "date", "array" ]
     }
   }
 }
