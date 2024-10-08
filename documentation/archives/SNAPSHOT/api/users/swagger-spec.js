@@ -61,13 +61,6 @@ window.swaggerSpec={
             "type" : "string",
             "uniqueItems" : true
           }
-        },
-        "authorizedIPAddresses" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string",
-            "uniqueItems" : true
-          }
         }
       },
       "required" : [ "login" ],
@@ -81,8 +74,8 @@ window.swaggerSpec={
     },
     "PermissionEnum" : {
       "type" : "string",
-      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_ALL_ARCHIVED_CARDS: Permission to access all archived cards\n* VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS : Permission to access all archived cards which are in the perimeter of the user\n* VIEW_USER_ACTION_LOGS: Permission to view user action logs\n* VIEW_ALL_CARDS: Permission to query all published cards\n* VIEW_ALL_CARDS_FOR_USER_PERIMETERS: Permission to access all cards which are in the perimeter of the user\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
-      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_ARCHIVED_CARDS", "VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS", "VIEW_ALL_CARDS", "VIEW_ALL_CARDS_FOR_USER_PERIMETERS", "VIEW_USER_ACTION_LOGS", "READONLY" ]
+      "description" : "Permission values >\n* ADMIN: Administrator permission\n* ADMIN_BUSINESS_PROCESS: Permission to administer bundles and processes\n* VIEW_USER_ACTION_LOGS: Permission to view user action logs\n* VIEW_ALL_CARDS: Permission to query all published cards and archived cards\n* VIEW_ALL_CARDS_FOR_USER_PERIMETERS: Permission to access all cards and archived cards which are in the perimeter of the user\n* READONLY: Permission to view card, no rights to send cards or respond to a card.",
+      "enum" : [ "ADMIN", "ADMIN_BUSINESS_PROCESS", "VIEW_ALL_CARDS", "VIEW_ALL_CARDS_FOR_USER_PERIMETERS", "VIEW_USER_ACTION_LOGS", "READONLY" ]
     },
     "Group" : {
       "type" : "object",
