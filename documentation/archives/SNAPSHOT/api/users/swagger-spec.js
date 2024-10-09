@@ -276,6 +276,10 @@ window.swaggerSpec={
           "type" : "integer",
           "description" : "Interval (in seconds) between sound replays."
         },
+        "hallwayMode" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, hallway mode for feed screen will be enabled "
+        },
         "remoteLoggingEnabled" : {
           "type" : "boolean",
           "description" : "If this is set to true, some of the ui logs are stored in the log file of cards-consultation service "
@@ -325,6 +329,10 @@ window.swaggerSpec={
         "email" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
+        },
+        "timezoneForEmails" : {
+          "type" : "string",
+          "description" : "Timezone used for emails sent by opfab"
         }
       },
       "required" : [ "login" ],
@@ -385,6 +393,10 @@ window.swaggerSpec={
         "email" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
+        },
+        "timezoneForEmails" : {
+          "type" : "string",
+          "description" : "Timezone used for emails sent by opfab"
         },
         "permissions" : {
           "type" : "array",
