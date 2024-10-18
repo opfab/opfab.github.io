@@ -282,7 +282,11 @@ window.swaggerSpec={
         },
         "remoteLoggingEnabled" : {
           "type" : "boolean",
-          "description" : "If this is set to true, some of the ui logs are stored in the log file of cards-consultation service "
+          "description" : "If this is set to true, some of the ui logs are stored in the log file of cards-consultation service"
+        },
+        "showAcknowledgmentFooter" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, always show entities acknowledgments footer in card details"
         },
         "processesStatesNotNotified" : {
           "type" : "object",
