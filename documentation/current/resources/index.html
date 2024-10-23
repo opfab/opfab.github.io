@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.4.3.RELEASE,</span>
-<span id="revdate">19 September 2024</span>
+<span id="revnumber">version 4.5.0.RELEASE,</span>
+<span id="revdate">23 October 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -800,6 +800,20 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_use_of_client_id_to_obtain_token">30.1. Use of client_id to obtain token</a></li>
 <li><a href="#_endpoints_configuration">30.2. Endpoints configuration</a></li>
 <li><a href="#_tooltips">30.3. Tooltips</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_4_x_to_release_4_5_0">31. Migration Guide from release 4.4.X to release 4.5.0</a>
+<ul class="sectlevel2">
+<li><a href="#_use_of_docker_compose_v2">31.1. Use of <code>docker compose v2</code></a></li>
+<li><a href="#_use_of_date_fns_instead_of_moment_js_library">31.2. Use of <code>date-fns</code> instead of <code>Moment.js</code> library</a></li>
+<li><a href="#_deletion_of_the_parameter_secondsafterpublicationtoconsidercardasnotread">31.3. Deletion of the parameter <code>secondsAfterPublicationToConsiderCardAsNotRead</code></a></li>
+<li><a href="#_ui_configuration_2">31.4. UI Configuration</a></li>
+<li><a href="#_hallway_mode_setting">31.5. Hallway mode setting</a></li>
+<li><a href="#_process_monitoring_configuration">31.6. Process monitoring configuration</a></li>
+<li><a href="#_deletion_of_view_all_archived_cards_and_view_all_archived_cards_for_user_perimeters_permissions">31.7. Deletion of <code>VIEW_ALL_ARCHIVED_CARDS</code> and <code>VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS</code> permissions</a></li>
+<li><a href="#_deletion_of_the_deprecated_api_method_opfab_currentcard_getentityusedforuserresponse">31.8. Deletion of the deprecated API method <code>opfab.currentCard.getEntityUsedForUserResponse()</code></a></li>
+<li><a href="#_removed_deprecated_keepchildcards_field">31.9. Removed deprecated <code>keepChildCards</code> field</a></li>
+<li><a href="#_opfab_cli_renaming_log_commands">31.10. Opfab CLI : renaming log commands</a></li>
 </ul>
 </li>
 </ul>
@@ -4032,6 +4046,183 @@ You should change your configuration for geoJSON layer to configure it as an arr
     <span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">opfab-tooltip-content left</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>Here is an example of tooltip<span class="tag">&lt;/div&gt;</span>
 <span class="tag">&lt;/div&gt;</span></code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_4_x_to_release_4_5_0"><a class="anchor" href="#_migration_guide_from_release_4_4_x_to_release_4_5_0"></a>31. Migration Guide from release 4.4.X to release 4.5.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_use_of_docker_compose_v2"><a class="anchor" href="#_use_of_docker_compose_v2"></a>31.1. Use of <code>docker compose v2</code></h3>
+<div class="paragraph">
+<p>OperatorFabric is now using <code>docker compose v2</code>, so you have to upgrade this tool to continue using opfab.
+You can find more information in the docker documentation : <a href="https://docs.docker.com/compose/migrate/" class="bare">docs.docker.com/compose/migrate/</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_of_date_fns_instead_of_moment_js_library"><a class="anchor" href="#_use_of_date_fns_instead_of_moment_js_library"></a>31.2. Use of <code>date-fns</code> instead of <code>Moment.js</code> library</h3>
+<div class="paragraph">
+<p>OperatorFabric is now using <code>date-fns</code> library instead of <code>Moment.js</code>. The format used for defining a formatted date string
+is now different. So, if needed, in the file <code>web-ui.json</code>, you have to modify your fields : <code>settings.dateTimeformat</code>
+and <code>settings.dateFormat</code>. You can find the available formats here : <a href="https://date-fns.org/v3.6.0/docs/format" class="bare">date-fns.org/v3.6.0/docs/format</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deletion_of_the_parameter_secondsafterpublicationtoconsidercardasnotread"><a class="anchor" href="#_deletion_of_the_parameter_secondsafterpublicationtoconsidercardasnotread"></a>31.3. Deletion of the parameter <code>secondsAfterPublicationToConsiderCardAsNotRead</code></h3>
+<div class="paragraph">
+<p>OperatorFabric is now sending emails whether a card is read or not. So, the parameter
+<code>secondsAfterPublicationToConsiderCardAsNotRead</code> having become useless, it was deleted, and
+you can safely remove it from your configuration file.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_configuration_2"><a class="anchor" href="#_ui_configuration_2"></a>31.4. UI Configuration</h3>
+<div class="paragraph">
+<p>Some fields of the <code>web-ui.json</code> file have changed and renamed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>alerts.messageBusinessAutoClose</code> has been renamed as <code>alerts.alarmLevelAutoClose</code></p>
+</li>
+<li>
+<p><code>alerts.hideBusinessMessages</code> has been renamed as <code>alerts.doNotAlertForHiddenCardReceived</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hallway_mode_setting"><a class="anchor" href="#_hallway_mode_setting"></a>31.5. Hallway mode setting</h3>
+<div class="paragraph">
+<p>The <code>settings.usersInHallwayMode</code> configuration field has been removed from <code>web-ui.json</code>.
+The option to automatically open the most recent card (hallway mode) is now available as a user setting in UI settings view.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_process_monitoring_configuration"><a class="anchor" href="#_process_monitoring_configuration"></a>31.6. Process monitoring configuration</h3>
+<div class="paragraph">
+<p>The configuration for process monitoring screen has been removed from <code>web-ui.json</code> and externalized in a dedicated JSON file. The process monitoring configuration file has to be loaded by sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using the CLI command <code>opfab process-monitoring load &lt;file&gt;</code>.
+The structure of the process monitoring configuration fields has to be modified as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"fieldsForProcesses" is now an array of objects with "process" and "fields" fields.</p>
+</li>
+<li>
+<p>The "size" attribute in now a number, not a string as before</p>
+</li>
+<li>
+<p>"filters" is now an object with "pageSize" and "tags" fields</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So for example the configuration should be changed from:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">fieldsForProcesses</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">conferenceAndITIncidentExample</span><span class="delimiter">&quot;</span></span> : [
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Start Date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">titleTranslated</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Title</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">250</span><span class="delimiter">&quot;</span></span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">array</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Entity Recipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">400</span><span class="delimiter">&quot;</span></span>}
+      ],
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">messageOrQuestionExample</span><span class="delimiter">&quot;</span></span> : [
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Start Date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">endDate</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">End Date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">titleTranslated</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Title</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">250</span><span class="delimiter">&quot;</span></span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">array</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Entity Recipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">400</span><span class="delimiter">&quot;</span></span>}
+      ]
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">filters</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">list</span><span class="delimiter">&quot;</span></span>: [
+          {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Label for tag 1</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">tag1</span><span class="delimiter">&quot;</span></span>
+          },
+          {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Label for tag 2</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">tag2</span><span class="delimiter">&quot;</span></span>
+          }
+        ]
+      },
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">page</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">10</span>
+      }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">   <span class="key"><span class="delimiter">&quot;</span><span class="content">fieldsForProcesses</span><span class="delimiter">&quot;</span></span>: [
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">conferenceAndITIncidentExample</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">fields</span><span class="delimiter">&quot;</span></span> : [
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Start Date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">200</span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">titleTranslated</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Title</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">250</span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">array</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Entity Recipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">400</span>}
+      ]}, {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">process</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">messageOrQuestionExample</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">fields</span><span class="delimiter">&quot;</span></span> : [
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">startDate</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Start Date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">200</span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">endDate</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">End Date</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">200</span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">titleTranslated</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Title</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">250</span>},
+        { <span class="key"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entityRecipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">array</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">colName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Entity Recipients</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">400</span>}
+      ]}
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">filters</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: [
+          {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Label for tag 1</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">tag1</span><span class="delimiter">&quot;</span></span>
+          },
+          {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Label for tag 2</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">tag2</span><span class="delimiter">&quot;</span></span>
+          }
+        ],
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">pageSize</span><span class="delimiter">&quot;</span></span>: <span class="integer">10</span>
+      }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deletion_of_view_all_archived_cards_and_view_all_archived_cards_for_user_perimeters_permissions"><a class="anchor" href="#_deletion_of_view_all_archived_cards_and_view_all_archived_cards_for_user_perimeters_permissions"></a>31.7. Deletion of <code>VIEW_ALL_ARCHIVED_CARDS</code> and <code>VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS</code> permissions</h3>
+<div class="paragraph">
+<p>In order to simplify the code and the administration of opfab, we have deleted the permissions
+<code>VIEW_ALL_ARCHIVED_CARDS</code> and <code>VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS</code>. So, administrators of opfab have to
+update manually the permissions of the users via the UI, replacing VIEW_ALL_ARCHIVED_CARDS by
+VIEW_ALL_CARDS and VIEW_ALL_ARCHIVED_CARDS_FOR_USER_PERIMETERS by VIEW_ALL_CARDS_FOR_USER_PERIMETERS.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deletion_of_the_deprecated_api_method_opfab_currentcard_getentityusedforuserresponse"><a class="anchor" href="#_deletion_of_the_deprecated_api_method_opfab_currentcard_getentityusedforuserresponse"></a>31.8. Deletion of the deprecated API method <code>opfab.currentCard.getEntityUsedForUserResponse()</code></h3>
+<div class="paragraph">
+<p>As mentioned in the migration guide to opfab 4.1, the API method <code>opfab.currentCard.getEntityUsedForUserResponse()</code>
+has been replaced by <code>opfab.currentCard.getEntitiesUsableForUserResponse()</code>. Now, this deprecated API method has been
+deleted, so you need to upgrade your code and use the method <code>opfab.currentCard.getEntitiesUsableForUserResponse()</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_removed_deprecated_keepchildcards_field"><a class="anchor" href="#_removed_deprecated_keepchildcards_field"></a>31.9. Removed deprecated <code>keepChildCards</code> field</h3>
+<div class="paragraph">
+<p>The deprecated card field <code>keepChildCards</code> has been removed. Use the <code>actions</code> field (string array) including "KEEP_CHILD_CARDS" action instead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_opfab_cli_renaming_log_commands"><a class="anchor" href="#_opfab_cli_renaming_log_commands"></a>31.10. Opfab CLI : renaming log commands</h3>
+<div class="paragraph">
+<p>The log commands for opfab CLI have been renamed.</p>
+</div>
+<div class="paragraph">
+<p>Now, instead of doing <code>opfab service get-log-level &lt;serviceName&gt;</code>, you have to do <code>opfab log get-level  &lt;serviceName&gt;</code>.
+And instead of doing <code>opfab service set-log-level &lt;serviceName&gt; &lt;level&gt;</code>, you have to do <code>opfab log set-level  &lt;serviceName&gt; &lt;level&gt;</code>.</p>
 </div>
 </div>
 </div>

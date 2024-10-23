@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.4.3.RELEASE,</span>
-<span id="revdate">19 September 2024</span>
+<span id="revnumber">version 4.5.0.RELEASE,</span>
+<span id="revdate">23 October 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -588,7 +588,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_user_creation">3.3.2. User creation</a></li>
 <li><a href="#jwt_mode">3.3.3. Alternative way to manage groups (and/or entities)</a></li>
 <li><a href="#custom_certificates">3.3.4. Adding certification authorities or certificates to the Java keystore</a></li>
-<li><a href="#_ip_address_control">3.3.5. IP address control</a></li>
 </ul>
 </li>
 </ul>
@@ -657,12 +656,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 the project or by using images releases from <a href="https://hub.docker.com/">Dockerhub</a></p>
 </div>
 <div class="paragraph">
-<p>Service images are all based on <a href="https://hub.docker.com/_/openjdk">openjdk:8-jre-alpine</a>.</p>
-</div>
-<div class="paragraph">
-<p>For simple one instance per service deployment, you can find a sample
-deployment as a docker compose file
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/config/docker">here</a></p>
+<p>For simple one instance per service deployment, you can find in our "Getting Started" a
+<a href="https://github.com/opfab/operatorfabric-getting-started/blob/master/server/docker-compose.yml">sample deployment as a docker compose file</a></p>
 </div>
 <div class="paragraph">
 <p>To run OperatorFabric in development mode, see
@@ -717,6 +712,9 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </div>
 <div class="paragraph">
 <p>This configuration is mandatory (no default configuration is provided).</p>
+</div>
+<div class="paragraph">
+<p>Operator Fabric is supporting mongo version 5.0.0 and above.</p>
 </div>
 </div>
 </div>
@@ -836,22 +834,22 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsPublication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cards-publication:2102" class="bare">cards-publication:2102</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service URL</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cards publication service URL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.cardsConsultation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cards-consultation:2104" class="bare">cards-consultation:2104</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cards consultation service URL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.authToken</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.servicesUrls.authToken</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://web-ui/auth/token" class="bare">web-ui/auth/token</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication service URL</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.userActionLogActivated</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates whether the user action log feature is enabled or not.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1409,20 +1407,20 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailTitle</p></td>
-<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the day'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject prefix</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendDailyEmail</p></td>
-<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the daily recap email</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendDailyEmail</p></td>
-<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the daily recap email</p></td>
 </tr>
 <tr>
@@ -1462,12 +1460,6 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Max time interval used to query new cards (in seconds)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.secondsAfterPublicationToConsiderCardAsNotRead</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Time period after card publication before sending mail notification</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.checkPeriodInSeconds</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -1490,6 +1482,12 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">3600</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time period for rate limiting control</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.defaultTimeZone</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Europe/Paris</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default timezone used to display dates and times for email notifications if user has not set the timezone for mail in his settings</p></td>
 </tr>
 </tbody>
 </table>
@@ -1820,16 +1818,16 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.hideBusinessMessages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.doNotAlertForHiddenCardReceived</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the business alert messages are hidden</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, alert messages are not shown when receiving cards not visible in the feed</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.messageBusinessAutoClose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alerts.alarmLevelAutoClose</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the (red) business alert message will automatically close after a few seconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the ALARM (red) alert message will automatically close after a few seconds</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">alerts.messageOnBottomOfTheScreen</p></td>
@@ -2208,13 +2206,13 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateFormat</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Format for date rendering (example : DD/MM/YYYY )</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format for date rendering (example : dd/MM/yyyy )</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateTimeFormat</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm DD/MM/YYYY )</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm dd/MM/yyyy )</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.locale</p></td>
@@ -2257,6 +2255,12 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, some logs from the UI are sent to the back and write in the log file of the cards-consultation service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.hallwayMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, hallway mode for feed screen will be enabled</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.replayEnabled</p></td>
@@ -2313,11 +2317,13 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array of string indicating which field(s) we want to hide in the settings screen. Possible values :<br>
 "language" : if present, language field will not be displayed<br>
 "remoteLoggingEnabled" : if present, the checkbox to activate remote logging will not be displayed<br>
-"sounds" : if present, the checkboxes for sound notifications won&#8217;t be displayed<br>
-"systemNotifications" : if present, the checkboxes for systemNotifications won&#8217;t be displayed<br>
-"sendCardsByEmail"  : if present, the email options won&#8217;t be displayed<br>
-"emailToPlainText"  : if present, the email option to have the emails sent as plain text won&#8217;t be displayed
-"sendDailyEmail"  : if present, the email option to have the daily email recap won&#8217;t be displayed</p></td>
+"sounds" : if present, the checkboxes for sound notifications will not be displayed<br>
+"systemNotifications" : if present, the checkboxes for systemNotifications will not be displayed<br>
+"sendCardsByEmail" : if present, the email options will not be displayed<br>
+"emailToPlainText" : if present, the email option to have the emails sent as plain text will not be displayed<br>
+"sendDailyEmail" : if present, the email option to have the daily email recap will not be displayed<br>
+"timezoneForEmails" : if present, the field to choose the timezone for emails will not be displayed<br>
+"hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">showUserEntitiesOnTopRightOfTheScreen</p></td>
@@ -2370,8 +2376,8 @@ For example:</p>
       },
     }
     &quot;locale&quot;: &quot;en&quot;,
-    &quot;dateTimeFormat&quot;: &quot;HH:mm DD/MM/YYYY&quot;,
-    &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
+    &quot;dateTimeFormat&quot;: &quot;HH:mm dd/MM/yyyy&quot;,
+    &quot;dateFormat&quot;: &quot;dd/MM/yyyy&quot;,
     &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
   },</code></pre>
 </div>
@@ -2392,8 +2398,8 @@ For example:</p>
       },
     }
     &quot;locale&quot;: &quot;en&quot;,
-    &quot;dateTimeFormat&quot;: &quot;HH:mm DD/MM/YYYY&quot;,
-    &quot;dateFormat&quot;: &quot;DD/MM/YYYY&quot;,
+    &quot;dateTimeFormat&quot;: &quot;HH:mm dd/MM/yyyy&quot;,
+    &quot;dateFormat&quot;: &quot;dd/MM/yyyy&quot;,
     &quot;styleWhenNightDayModeDesactivated&quot;: &quot;NIGHT&quot;
   },</code></pre>
 </div>
@@ -2449,7 +2455,7 @@ For example:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The <code>NONE</code> flow assumes that the application is behind a secured proxy wich handles login and token generation.
+<p>The <code>NONE</code> flow assumes that the application is behind a secured proxy which handles login and token generation.
 Calls to backend services will get a valid token added to the headers and the token will not be visible for the (web)client.</p>
 </div>
 <div class="sect4">
@@ -2471,7 +2477,7 @@ Calls to backend services will get a valid token added to the headers and the to
 </li>
 <li>
 <p><code>$ClientPairOFAuthentication</code>: base64 encoded string of the pair of client authentication used by OperatorFabric
-to log to the Authentication Provider (keycloak). The cient-id and the client-secret are separated by a colon(':').</p>
+to log to the Authentication Provider (keycloak). The client-id and the client-secret are separated by a colon(':').</p>
 </li>
 </ul>
 </div>
@@ -2578,7 +2584,7 @@ There are several common properties:</p>
 <p><code>security.oauth2.flow.delegate-url</code>: url used to connect to the Authentication provider;</p>
 </li>
 <li>
-<p><code>security.oauth2.flow.mode</code>: technical way to be authenticated by the Autentication provider.</p>
+<p><code>security.oauth2.flow.mode</code>: technical way to be authenticated by the Authentication provider.</p>
 </li>
 <li>
 <p><code>security.oauth2.client-id</code> : the OAuth2 client ID</p>
@@ -2627,8 +2633,8 @@ There are several common properties:</p>
 </div>
 <div class="paragraph">
 <p>Within the <code>delegate-url</code> property <code>dev</code> is the keycloak client realm of OperatorFabric.
-For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred.
-Here, the <code>client-id</code> value is <code>opfab-client</code> which is define as client under the <code>realm</code> named <code>dev</code> on the dev keycloak instance.</p>
+For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registered.
+Here, the <code>client-id</code> value is <code>opfab-client</code> which is defined as client under the <code>realm</code> named <code>dev</code> on the dev keycloak instance.</p>
 </div>
 </div>
 </div>
@@ -2676,7 +2682,7 @@ Be careful that the configured value should be one of the valid post logout redi
 </div>
 <div class="paragraph">
 <p>Within the <code>delegate-url</code> property <code>dev</code> is the keycloak client realm of OperatorFabric.
-For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registred.
+For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registered.
 The url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
 </div>
 </div>
@@ -3059,7 +3065,7 @@ docker-compose.yml file with the selected location:</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-The steps described here assume you&#8217;re running OperatorFabric in docker mode using the deploy docker-compose,
+The steps described here assume you&#8217;re running OperatorFabric in docker mode using the deploy docker compose,
 but they can be adapted for single container deployments and development mode.
 </td>
 </tr>
@@ -3074,7 +3080,7 @@ but they can be adapted for single container deployments and development mode.
 <p>Open a bash shell in the container you want to check</p>
 <div class="literalblock">
 <div class="content">
-<pre>docker exec -it deploy_businessconfig_1 bash</pre>
+<pre>docker exec -it deploy-businessconfig-1 bash</pre>
 </div>
 </div>
 </li>
@@ -3095,12 +3101,6 @@ but they can be adapted for single container deployments and development mode.
 <div class="content">
 <pre>$JAVA_HOME/bin/keytool -list -v -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit</pre>
 </div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ip_address_control"><a class="anchor" href="#_ip_address_control"></a>3.3.5. IP address control</h4>
-<div class="paragraph">
-<p>For each user it is possible to configure a list of authorized source ip addresses by setting the <code>authorizedIPAddresses</code> field in User object.</p>
 </div>
 </div>
 </div>
@@ -3134,13 +3134,29 @@ prod PROD PROD_URL 80</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Each line consists of:
-- The first value is the configuration name.
-- The second value is the name to be added to the shell prompt.
-- The third value is the URL of the OperatorFabric instance.
-- The fourth value is the port number to use.
-- The fifth value is the username.
-- The sixth value is the password (if not provided, it will be requested via a prompt).</p>
+<p>Each line consists of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The first value is the configuration name.</p>
+</li>
+<li>
+<p>The second value is the name to be added to the shell prompt.</p>
+</li>
+<li>
+<p>The third value is the URL of the OperatorFabric instance.</p>
+</li>
+<li>
+<p>The fourth value is the port number to use.</p>
+</li>
+<li>
+<p>The fifth value is the username.</p>
+</li>
+<li>
+<p>The sixth value is the password (if not provided, it will be requested via a prompt).</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>To launch the Docker CLI using the config file, execute <code>opfabDockerCli.sh</code> with the config file as an argument.</p>
@@ -3250,8 +3266,12 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 </div>
 </div>
 <div class="paragraph">
-<p>To get the log level for ROOT logger of a service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogs.sh">src/test/resources/logs/getLogs.sh</a> as follows: <code>getLogs.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-publication" service  execute: <code>getLogs.sh localhost:2102 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To get the log level for ROOT logger of a java service it is possible to use opfab CLI "log" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab log get-level &lt;serviceName&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>To configure a given logger, POST a json entity to the '/actuator/logger' URI, as follows:</p>
@@ -3265,8 +3285,12 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
 </div>
 <div class="paragraph">
-<p>To set the log level for ROOT logger of a service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogs.sh">src/test/resources/logs/setLogs.sh</a> as follows: <code>setLogs.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-publication" service  execute: <code>setLogs.sh localhost:2102 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To set the log level for ROOT logger of a java service it is possible to use opfab CLI "log" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab log set-level &lt;serviceName&gt; &lt;level&gt;</pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -3311,11 +3335,23 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <p>where <code>${token}</code> is a valid OAuth2 JWT for a user with administration privileges</p>
 </div>
 <div class="paragraph">
-<p>The response will be the configured logging level as string</p>
+<p>The response will be a json object like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "configuredLevel" : "INFO",
+  "effectiveLevel" : "INFO"
+}</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>To get the log level of a node service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/getLogsNodeService.sh">src/test/resources/logs/getLogsNodeService.sh</a> as follows: <code>getLogsNodeService.sh &lt;server:port&gt; &lt;user&gt; &lt;opfab_url&gt;</code>. For example to get the current log level for "card-external-diffusion" service  execute: <code>getLogsNodeService.sh localhost:2106 admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To get the log level for a node service it is possible to use opfab CLI "log" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab log get-level &lt;serviceName&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>To configure a given logger, POST a json entity to the '/logLevel' URI, as follows:</p>
@@ -3329,8 +3365,40 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <p>To “reset” the specific level of the logger (and use the default configuration instead) it is possible to pass a value of null as the configuredLevel.</p>
 </div>
 <div class="paragraph">
-<p>To set the log level for a node service it is possible to call the provided script
-<a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/logs/setLogsNodeService.sh">src/test/resources/logs/setLogsNodeService.sh</a> as follows: <code>setLogsNodeService.sh &lt;server:port&gt; &lt;log_level&gt;  &lt;user&gt; &lt;opfab_url&gt;</code>. For example to set the log level to DEBUG for "card-external-diffusion" service  execute: <code>setLogsNodeService.sh localhost:2106 DEBUG admin <a href="http://localhost" class="bare">localhost</a></code></p>
+<p>To set the log level for a node service it is possible to use opfab CLI "log" command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab log set-level &lt;serviceName&gt; &lt;level&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using the opfab CLI command to get or set log levels for node service, the custom node log levels will be converted to standard levels as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>silly &#8594; trace</p>
+</li>
+<li>
+<p>debug &#8594; debug</p>
+</li>
+<li>
+<p>verbose &#8594; debug</p>
+</li>
+<li>
+<p>http &#8594; debug</p>
+</li>
+<li>
+<p>info &#8594; info</p>
+</li>
+<li>
+<p>warn &#8594; warn</p>
+</li>
+<li>
+<p>error &#8594; error</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -3393,7 +3461,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "RTE",
             "ADMIN",
             "CORESO",
-            "ReadOnly",
+            "Maintainer",
             "TEST"
         ],
         "lastName": null,
@@ -3419,7 +3487,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
         "firstName": null,
         "groups": [
             "Dispatcher",
-            "ReadOnly",
+            "Maintainer",
             "TEST"
         ],
         "entities": [
@@ -3432,7 +3500,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
         "firstName": null,
         "groups": [
             "Planner",
-            "ReadOnly"
+            "Maintainer"
         ],
         "entities": [
             "ENTITY2_FR"
@@ -3562,7 +3630,7 @@ To correct this mistake, the following commands can be used:</p>
 <p>Using the
 <a href="/documentation/current/dev_env/opfab-cli.html#CLI">Opfab CLI</a>
 it is possible to configure process/state notification for all users at once.
-Execute <code>opfab users help</code> command for usage details.</p>
+Execute <code>opfab user help</code> command for usage details.</p>
 </div>
 </div>
 </div>
@@ -3659,9 +3727,9 @@ existing in the server.</p>
         "id": "Planner"
     },
     {
-        "description": "ReadOnly Group",
-        "name": "ReadOnly",
-        "id": "ReadOnly"
+        "description": "Maintainer Group",
+        "name": "Maintainer",
+        "id": "Maintainer"
     }
 ]</pre>
 </div>
