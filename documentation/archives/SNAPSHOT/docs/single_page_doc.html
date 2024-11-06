@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">04 November 2024</span>
+<span id="revdate">06 November 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1752,6 +1752,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_deletion_of_the_deprecated_api_method_opfab_currentcard_getentityusedforuserresponse">95.8. Deletion of the deprecated API method <code>opfab.currentCard.getEntityUsedForUserResponse()</code></a></li>
 <li><a href="#_removed_deprecated_keepchildcards_field">95.9. Removed deprecated <code>keepChildCards</code> field</a></li>
 <li><a href="#_opfab_cli_renaming_log_commands">95.10. Opfab CLI : renaming log commands</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_5_x_to_release_4_6_0">96. Migration Guide from release 4.5.X to release 4.6.0</a>
+<ul class="sectlevel2">
+<li><a href="#_deprecated_tonotify_field">96.1. Deprecated <code>toNotify</code> field</a></li>
+<li><a href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form">96.2. New line added between opfab fields and template in usercard form</a></li>
 </ul>
 </li>
 </ul>
@@ -3857,6 +3863,9 @@ Grouping cards is an experimental feature
 <p>Boolean attribute. If the card must not be displayed in the feed and in monitoring screen, this field must be set to false.
 In that case, it means the card is stored only in archivedCards collection and not in cards collection.</p>
 </div>
+<div class="paragraph">
+<p>The <code>toNotify</code> field is deprecated, use the <code>STORE_ONLY_IN_ARCHIVES</code> card action instead.</p>
+</div>
 </div>
 <div class="sect5">
 <h6 id="_publisher_type_publishertype"><a class="anchor" href="#_publisher_type_publishertype"></a>Publisher type (<code>publisherType</code>)</h6>
@@ -3933,10 +3942,23 @@ Only the POINT and POLYGON are supported.
 <div class="sect5">
 <h6 id="_actions_actions"><a class="anchor" href="#_actions_actions"></a>Actions (<code>actions</code>)</h6>
 <div class="paragraph">
-<p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:
-- KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.
-- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.
-- KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
+<p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.</p>
+</li>
+<li>
+<p>PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.</p>
+</li>
+<li>
+<p>KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
+</li>
+<li>
+<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed and in monitoring screen.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -22037,6 +22059,25 @@ deleted, so you need to upgrade your code and use the method <code>opfab.current
 <div class="paragraph">
 <p>Now, instead of doing <code>opfab service get-log-level &lt;serviceName&gt;</code>, you have to do <code>opfab log get-level  &lt;serviceName&gt;</code>.
 And instead of doing <code>opfab service set-log-level &lt;serviceName&gt; &lt;level&gt;</code>, you have to do <code>opfab log set-level  &lt;serviceName&gt; &lt;level&gt;</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_5_x_to_release_4_6_0"><a class="anchor" href="#_migration_guide_from_release_4_5_x_to_release_4_6_0"></a>96. Migration Guide from release 4.5.X to release 4.6.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_deprecated_tonotify_field"><a class="anchor" href="#_deprecated_tonotify_field"></a>96.1. Deprecated <code>toNotify</code> field</h3>
+<div class="paragraph">
+<p>The card field <code>toNotify</code> is deprecated. You should use the <code>actions</code> field including "STORE_ONLY_IN_ARCHIVES" action instead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_line_added_between_opfab_fields_and_template_in_usercard_form"><a class="anchor" href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form"></a>96.2. New line added between opfab fields and template in usercard form</h3>
+<div class="paragraph">
+<p>A new line (&lt;br/&gt;) has been added in the usercard form, between the opfab fields (service/process/state or severity or
+dates fields (depending on which fields are visible or not)) and the display of the template. So you have to check that
+the display of your usercard form still suits you.</p>
 </div>
 </div>
 </div>
