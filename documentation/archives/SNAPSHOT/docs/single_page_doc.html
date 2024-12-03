@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">30 November 2024</span>
+<span id="revdate">03 December 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -967,6 +967,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_show">24.8.1. Function show</a></li>
 </ul>
 </li>
+<li><a href="#_ui_api">24.9. UI API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcurrentvisibleperiod">24.9.1. Function getCurrentVisiblePeriod</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_archived_cards">25. Archived Cards</a>
@@ -1205,6 +1210,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_scripts_bin_and_cicd">48.1. Scripts (bin and CICD)</a>
 <ul class="sectlevel3">
 <li><a href="#_run_all_sh">48.1.1. run_all.sh</a></li>
+<li><a href="#_hooks">48.1.2. Hooks</a></li>
 </ul>
 </li>
 <li><a href="#gradle_tasks">48.2. Gradle Tasks</a>
@@ -7405,7 +7411,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <h2 id="_frontend_api"><a class="anchor" href="#_frontend_api"></a>24. Frontend API</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follow :</p>
+<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follows :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -7684,7 +7690,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>24.5.8. Function isResponseLocked</h4>
 <div class="paragraph">
-<p>To know if template is locked (i.e user can not respond unless he unlocks the card)</p>
+<p>To know if template is locked (i.e. user can not respond unless he unlocks the card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7720,7 +7726,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>24.5.11. Function listenToResponseLock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is locked (i.e user has responded to the current card)</p>
+<p>Register a function to be informed when template is locked (i.e. user has responded to the current card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7731,7 +7737,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>24.5.12. Function listenToResponseUnlock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is unlocked (i.e user has clicked the modify button to prepare a new response)</p>
+<p>Register a function to be informed when template is unlocked (i.e. user has clicked the modify button to prepare a new response)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7764,7 +7770,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>24.5.15. Function listenToStyleChange</h4>
 <div class="paragraph">
-<p>Card template can be informed when switching day/night mode by registering a listener as follow :</p>
+<p>Card template can be informed when switching day/night mode by registering a listener as follows :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8270,7 +8276,7 @@ The method returns only one child card and is therefore not compatible with the 
 <div class="sect3">
 <h4 id="_function_show"><a class="anchor" href="#_function_show"></a>24.8.1. Function show</h4>
 <div class="paragraph">
-<p>It’s possible to show an alert message as a popover by calling  by calling the following function from the template :</p>
+<p>It’s possible to show an alert message as a popover by calling the following function from the template :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8278,7 +8284,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="paragraph">
-<p>The popover will have a different backgroung color based on the message level specified.
+<p>The popover will have a different background color based on the message level specified.
 The available message levels are:</p>
 </div>
 <div class="ulist">
@@ -8294,6 +8300,36 @@ The available message levels are:</p>
 </li>
 <li>
 <p>ALARM (red)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_api"><a class="anchor" href="#_ui_api"></a>24.9. UI API</h3>
+<div class="sect3">
+<h4 id="_function_getcurrentvisibleperiod"><a class="anchor" href="#_function_getcurrentvisibleperiod"></a>24.9.1. Function getCurrentVisiblePeriod</h4>
+<div class="paragraph">
+<p>You can use this function to get the current visible period on the timeline.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const currentVisiblePeriod = opfab.ui.getCurrentVisiblePeriod();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This function returns 3 fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>domain : RT / D / 7D / W / M / Y</p>
+</li>
+<li>
+<p>startPeriod : epochDate</p>
+</li>
+<li>
+<p>endPeriod : epochDate</p>
 </li>
 </ul>
 </div>
@@ -14147,6 +14183,15 @@ instance).</p>
 </table>
 <div class="paragraph">
 <p> </div></details> </p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hooks"><a class="anchor" href="#_hooks"></a>48.1.2. Hooks</h4>
+<div class="paragraph">
+<p>For copyright and licensing compliance, the CI checks in a PR if the modified files include the correct year in the copyright.
+To automate this task, a git hook is available in <strong>bin/hook/pre-commit</strong>. This file is to be placed in <strong>operatorfabric-core/.git/hooks/</strong>
+Don&#8217;t forget to change the permission of the file with <strong>chmod +x .git/hooks/pre-commit</strong>
+Set the monitored file extensions and company name approprietly.</p>
 </div>
 </div>
 </div>
