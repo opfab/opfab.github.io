@@ -698,31 +698,38 @@ window.swaggerSpec={
               },
               "consideredAcknowledgedForUserWhen" : {
                 "description" : "Define how a card is considered as acknowledged in the feed",
-                "$ref" : "#/definitions/ConsideredAcknowledgedForUserWhenEnum"
+                "$ref" : "#/definitions/ConsideredAcknowledgedForUserWhenEnum",
+                "default" : "USER_HAS_ACKNOWLEDGED"
               },
               "cancelAcknowledgmentAllowed" : {
                 "type" : "boolean",
-                "description" : "Cancel acknowledgment allowed"
+                "description" : "Cancel acknowledgment allowed",
+                "default" : false
               },
               "showAcknowledgmentFooter" : {
                 "description" : "Define the condition for displaying or not the acknowledgment footer of the card",
-                "$ref" : "#/definitions/ShowAcknowledgmentFooterEnum"
+                "$ref" : "#/definitions/ShowAcknowledgmentFooterEnum",
+                "default" : "ONLY_FOR_EMITTING_ENTITY"
               },
               "closeCardWhenUserAcknowledges" : {
                 "type" : "boolean",
-                "description" : "close card detail when user acknowledges it"
+                "description" : "close card detail when user acknowledges it",
+                "default" : false
               },
               "editCardEnabledOnUserInterface" : {
                 "type" : "boolean",
-                "description" : "Show or hide card edit button"
+                "description" : "Show or hide card edit button",
+                "default" : false
               },
               "copyCardEnabledOnUserInterface" : {
                 "type" : "boolean",
-                "description" : "Show or hide card copy button"
+                "description" : "Show or hide card copy button",
+                "default" : false
               },
               "deleteCardEnabledOnUserInterface" : {
                 "type" : "boolean",
-                "description" : "Show or hide card delete button"
+                "description" : "Show or hide card delete button",
+                "default" : false
               },
               "name" : {
                 "type" : "string",
@@ -734,7 +741,8 @@ window.swaggerSpec={
               },
               "showDetailCardHeader" : {
                 "type" : "boolean",
-                "description" : "Hide or show header card for question card"
+                "description" : "Hide or show header card for question card",
+                "default" : true
               },
               "color" : {
                 "type" : "string",
@@ -765,7 +773,8 @@ window.swaggerSpec={
               },
               "isOnlyAChildState" : {
                 "description" : "If true, this state is only used for child cards and shall not be seen on feed notification screen and in archives filters",
-                "type" : "boolean"
+                "type" : "boolean",
+                "default" : false
               },
               "validateAnswerButtonLabel" : {
                 "description" : "If this field is present, it is used for the label of the button, otherwise, the default label is used",
@@ -777,7 +786,8 @@ window.swaggerSpec={
               },
               "automaticPinWhenAcknowledged" : {
                 "description" : "If true, card is automatically pinned on feed screen when it is acknowledged",
-                "type" : "boolean"
+                "type" : "boolean",
+                "default" : false
               }
             }
           }
@@ -787,19 +797,23 @@ window.swaggerSpec={
           "properties" : {
             "monitoring" : {
               "type" : "boolean",
-              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring screen"
+              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring screen",
+              "default" : false
             },
             "processMonitoring" : {
               "type" : "boolean",
-              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring processus screen"
+              "description" : "If this flag is set to true, the cards of this process will be visible on the monitoring processus screen",
+              "default" : false
             },
             "logging" : {
               "type" : "boolean",
-              "description" : "If this flag is set to true, the cards of this process will be visible on the logging screen"
+              "description" : "If this flag is set to true, the cards of this process will be visible on the logging screen",
+              "default" : false
             },
             "calendar" : {
               "type" : "boolean",
-              "description" : "If this flag is set to true, the cards of this process will be visible on the calendar screen"
+              "description" : "If this flag is set to true, the cards of this process will be visible on the calendar screen",
+              "default" : false
             }
           }
         }
