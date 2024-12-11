@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">10 December 2024</span>
+<span id="revdate">11 December 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1775,6 +1775,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_deprecated_tonotify_field">96.1. Deprecated <code>toNotify</code> field</a></li>
 <li><a href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form">96.2. New line added between opfab fields and template in usercard form</a></li>
 <li><a href="#_timeline_domain_tr_renamed_rt">96.3. Timeline domain TR renamed RT</a></li>
+<li><a href="#_ui_archives_and_logging_number_of_lines_per_page">96.4. UI archives and logging number of lines per page</a></li>
+<li><a href="#_configuration_for_recap_email">96.5. Configuration for recap email</a></li>
 </ul>
 </li>
 </ul>
@@ -10684,16 +10686,28 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendDailyEmail</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the week'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the daily recap email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Weekly mail subject prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dayOfWeekToSendWeeklyRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day of the week to send the weekly recap emails (0 is Sunday, 6 is Saturday)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the recap emails</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the daily recap email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the recap emails</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
@@ -11106,12 +11120,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.page.size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The page size of archive filters</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.publishDate.days</p></td>
@@ -11612,6 +11620,7 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "sendCardsByEmail" : if present, the email options will not be displayed<br>
 "emailToPlainText" : if present, the email option to have the emails sent as plain text will not be displayed<br>
 "sendDailyEmail" : if present, the email option to have the daily email recap will not be displayed<br>
+"sendWeeklyEmail" : if present, the email option to have the weekly email recap will not be displayed<br>
 "timezoneForEmails" : if present, the field to choose the timezone for emails will not be displayed<br>
 "hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed<br>
 "openNextCardOnAcknowledgment": if present, the checkbox to automaticaly open next card after acknowledgment won&#8217;t be displayed<br>
@@ -22356,6 +22365,39 @@ So if necessary, you have to update your config file <code>web-ui.json</code>, r
      "Y"
    ]
  }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_archives_and_logging_number_of_lines_per_page"><a class="anchor" href="#_ui_archives_and_logging_number_of_lines_per_page"></a>96.4. UI archives and logging number of lines per page</h3>
+<div class="paragraph">
+<p>Since it is now possible to select the number of lines per page displayed in the archive and logging screens, the configuration parameters <code>archive.filters.page.size</code> and <code>logging.filters.page.size</code> are no longer needed and can be removed from the web-ui.json file.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_for_recap_email"><a class="anchor" href="#_configuration_for_recap_email"></a>96.5. Configuration for recap email</h3>
+<div class="paragraph">
+<p>The feature to send weekly recapitulation email has been added and thus the configuration of operatorfabric.cardsExternalDiffusion has changed.
+Before, this was the default configuration for the daily email :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  dailyEmailTitle: 'Cards received during the day'
+  hourToSendDailyEmail: 7
+  minuteToSendDailyEmail: 30</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And now a weekly email title field and a day of the week field have been added.
+Furthermore the fields for the hour and minute have changed names as such :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  dailyEmailTitle: 'Cards received during the day'
+  weeklyEmailTitle: 'Cards received during the week'
+  dayOfWeekToSendWeeklyRecapEmail: 1
+  hourToSendRecapEmail: 7
+  minuteToSendRecapEmail: 30</code></pre>
 </div>
 </div>
 </div>
