@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 December 2024</span>
+<span id="revdate">20 December 2024</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -807,6 +807,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_configuring_email_notifications">19.1. Configuring Email Notifications</a></li>
 <li><a href="#_email_content">19.2. Email Content</a></li>
+<li><a href="#_email_templates">19.3. Email templates</a></li>
 </ul>
 </li>
 <li><a href="#response_cards">20. Response cards</a>
@@ -1780,6 +1781,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_ui_archives_and_logging_number_of_lines_per_page">96.4. UI archives and logging number of lines per page</a></li>
 <li><a href="#_configuration_for_recap_email">96.5. Configuration for recap email</a></li>
 <li><a href="#_timezone">96.6. Timezone</a></li>
+<li><a href="#_email_templates_custom_parameters">96.7. Email templates custom parameters</a></li>
 </ul>
 </li>
 </ul>
@@ -6348,16 +6350,53 @@ the "timezone for mails" field in the user settings screen.</p>
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates"><a class="anchor" href="#_email_templates"></a>19.3. Email templates</h3>
+<div class="paragraph">
+<p>In email handlebars templates it is possible to refer card fields by prefixing with "card" prefix. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;div id="apogee-contingencies"&gt;
+  {{#card.data.networkContingencies}}</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{{ deltaToHtml data.richMessage }}}</pre>
+<pre>{{{ deltaToHtml card.data.richMessage }}}</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Ensure to encapsulate the expression within three curly braces to prevent HTML escaping.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to configure custom parameters to be used in handlebars email templates.
+The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      customConfig:
+             myParam1: 'myValue1'
+             myParam2: 'myValue2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The custom parameters can then be referred in handlebars template prefixed with "config", for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#config.myParam1}}</pre>
+</div>
 </div>
 </div>
 </div>
@@ -22488,6 +22527,52 @@ Before, this was the default configuration for the daily email :</p>
 <h3 id="_timezone"><a class="anchor" href="#_timezone"></a>96.6. Timezone</h3>
 <div class="paragraph">
 <p>For the cards-external-diffusion service, the timezone configuration has been moved from the Dockerfile to the docker-compose.yml file. If nothing is set in the docker compose file, the default value will be the local timezone of your machine.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates_custom_parameters"><a class="anchor" href="#_email_templates_custom_parameters"></a>96.7. Email templates custom parameters</h3>
+<div class="paragraph">
+<p>It is now possible to configure custom parameters to be used in handlebars email templates.
+The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      customConfig:
+             myParam1: 'myValue1'
+             myParam2: 'myValue2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The custom parameters can then be referred in handlebars template prefixed with "config", for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{{#config.myParam1}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This change has an impact on existing mail templates, as the existing handlebars variables will have to be prefixed with "card", for example on the existing example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+    {{#data.networkContingencies}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is to be changed to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+  {{#card.data.networkContingencies}}</code></pre>
+</div>
 </div>
 </div>
 </div>
