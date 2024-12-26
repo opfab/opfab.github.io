@@ -148,7 +148,7 @@ window.swaggerSpec={
         "roles" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/RolesEnum"
+            "$ref" : "#/definitions/RoleEnum"
           }
         }
       },
@@ -159,12 +159,12 @@ window.swaggerSpec={
         "description" : "Control Room 1"
       }
     },
-    "RolesEnum" : {
+    "RoleEnum" : {
       "type" : "string",
       "description" : "Different possible roles >\n* ACTIVITY_AREA : Used to display an entity in the activity area screen\n* ACTIVITY_AREA_GROUP : Used to group entities in the activity area screen\n* CARD_SENDER : Allows an entity to send cards\n* CARD_RECEIVER : Allows an entity to receive cards",
       "enum" : [ "ACTIVITY_AREA", "ACTIVITY_AREA_GROUP", "CARD_SENDER", "CARD_RECEIVER" ]
     },
-    "RightsEnum" : {
+    "RightEnum" : {
       "type" : "string",
       "description" : "Different possible rights >\n* Receive: Only receive rights (receiving card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
       "enum" : [ "Receive", "ReceiveAndWrite" ]
@@ -176,7 +176,7 @@ window.swaggerSpec={
           "type" : "string"
         },
         "right" : {
-          "$ref" : "#/definitions/RightsEnum"
+          "$ref" : "#/definitions/RightEnum"
         },
         "filteringNotificationAllowed" : {
           "type" : "boolean",
@@ -433,7 +433,7 @@ window.swaggerSpec={
           "type" : "string"
         },
         "rights" : {
-          "$ref" : "#/definitions/RightsEnum"
+          "$ref" : "#/definitions/RightEnum"
         },
         "filteringNotificationAllowed" : {
           "type" : "boolean",
