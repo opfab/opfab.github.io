@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">03 January 2025</span>
+<span id="revdate">06 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -794,7 +794,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_recurrent_reminder">18.6.2. Recurrent reminder</a>
 <ul class="sectlevel4">
 <li><a href="#_using_rrule_field">18.6.2.1. Using <code>rRule</code> field :</a></li>
-<li><a href="#_using_recurrence_field_in_the_timespan_object_deprecated">18.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</a></li>
 </ul>
 </li>
 <li><a href="#_debugging">18.6.3. Debugging</a></li>
@@ -1782,6 +1781,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_configuration_for_recap_email">96.5. Configuration for recap email</a></li>
 <li><a href="#_timezone">96.6. Timezone</a></li>
 <li><a href="#_email_templates_custom_parameters">96.7. Email templates custom parameters</a></li>
+<li><a href="#_removed_field_timespans_recurrence">96.8. Removed field <code>timespans.recurrence</code></a></li>
 </ul>
 </li>
 </ul>
@@ -6186,28 +6186,18 @@ For example:</p>
 <p>The time for "reactivation" is defined with the parameter "secondsBeforeTimeSpanForReminder" in the card.</p>
 </div>
 <div class="paragraph">
-<p>The reminder is done related to the timespans values :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>the startDate</p>
-</li>
-<li>
-<p>or recurrently if a recurrence objet is defined.</p>
-</li>
-</ul>
+<p>The reminder is done related to the timespans value <code>startDate</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>18.6.1. Simple reminder</h4>
 <div class="paragraph">
-<p>If a timespan is present without a recurrence object, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
+<p>If a timespan is present, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>18.6.2. Recurrent reminder</h4>
 <div class="paragraph">
-<p>It is possible to set a recurrent reminder for a card. There are two ways to do it :</p>
+<p>It is possible to set a recurrent reminder for a card.</p>
 </div>
 <div class="sect4">
 <h5 id="_using_rrule_field"><a class="anchor" href="#_using_rrule_field"></a>18.6.2.1. Using <code>rRule</code> field :</h5>
@@ -6248,54 +6238,6 @@ For example:</p>
     byminute : [30]
 }</pre>
 </div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_using_recurrence_field_in_the_timespan_object_deprecated"><a class="anchor" href="#_using_recurrence_field_in_the_timespan_object_deprecated"></a>18.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</h5>
-<div class="paragraph">
-<p><code>recurrence</code> field defines a regular event in the timespan structure. It is defined with the following fields :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>HoursAndMinutes : hours and minutes of day when the event arise</p>
-</li>
-<li>
-<p>DaysOfWeek : a list of days of the week when the event arises. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
-</li>
-<li>
-<p>Months : a list of months of the year when the event arises. The month of year is a number with 0 being January and 11 being December</p>
-</li>
-<li>
-<p>TimeZone : the time zone of reference for the recurrence definition (default value is Europe/Paris)</p>
-</li>
-<li>
-<p>DurationInMinutes : the duration in minutes of the event</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
-</div>
-<div class="sect5">
-<h6 id="_recurrent_reminder_example_using_recurrence_field"><a class="anchor" href="#_recurrent_reminder_example_using_recurrence_field"></a>Recurrent reminder example using <code>recurrence</code> field :</h6>
-<div class="paragraph">
-<p>If timespan is defined as follows :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>startDate : 1231135161
-recurrence : {
-    hoursAndMinutes : { hours:10 ,minutes:30},
-    daysOfWeek : [6,7],
-    durationInMinutes : 15,
-    months : [10,11]
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If secondsBeforeTimeSpanForReminder is set to 600 seconds, the reminder will arise every Saturday and Sunday, in November and December at 10:20 starting from startDate.</p>
 </div>
 </div>
 </div>
@@ -6978,9 +6920,6 @@ You can find an example in the file:
 </div>
 <div class="paragraph">
 <p>If not using 'timeSpans' it&#8217;s possible to set the 'viewCardInCalendar' field to true, the card will be visible using card&#8217;s startDate and endDate as default timeSpan.</p>
-</div>
-<div class="paragraph">
-<p>The 'recurrence' field is deprecated and could be removed in the future.</p>
 </div>
 <div class="paragraph">
 <p>If the form is not filled correctly by the user, you can provide an error message (see example above).
@@ -22563,6 +22502,24 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 <pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
   {{#card.data.networkContingencies}}</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_removed_field_timespans_recurrence"><a class="anchor" href="#_removed_field_timespans_recurrence"></a>96.8. Removed field <code>timespans.recurrence</code></h3>
+<div class="paragraph">
+<p>The field <code>timespans.recurrence</code> has been removed. So now, to create a recurrent card, you must use the field rRule.
+There is a script to migrate existing tasks using recurrence object. After the call to this script, you have to call the
+endpoint "reset". Example :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>node migration-rrule-recurrence.js &lt;databaseURL&gt; &lt;databasePort&gt; &lt;databaseLogin&gt; &lt;databasePassword&gt; &lt;oldProcessId&gt; &lt;newProcessId&gt; &lt;oldStateId&gt; &lt;newStateId&gt; &lt;newProcessVersion&gt;</p>
+</li>
+<li>
+<p>curl <a href="http://localhost:2107/reset" class="bare">localhost:2107/reset</a> -H "Authorization:Bearer $token"</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
