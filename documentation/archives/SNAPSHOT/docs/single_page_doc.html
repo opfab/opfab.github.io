@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 January 2025</span>
+<span id="revdate">09 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1780,8 +1780,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_ui_archives_and_logging_number_of_lines_per_page">96.4. UI archives and logging number of lines per page</a></li>
 <li><a href="#_configuration_for_recap_email">96.5. Configuration for recap email</a></li>
 <li><a href="#_timezone">96.6. Timezone</a></li>
-<li><a href="#_email_templates_custom_parameters">96.7. Email templates custom parameters</a></li>
-<li><a href="#_removed_field_timespans_recurrence">96.8. Removed field <code>timespans.recurrence</code></a></li>
+<li><a href="#_email_templates_2">96.7. Email templates</a></li>
+<li><a href="#_email_templates_custom_parameters">96.8. Email templates custom parameters</a></li>
+<li><a href="#_removed_field_timespans_recurrence">96.9. Removed field <code>timespans.recurrence</code></a></li>
 </ul>
 </li>
 </ul>
@@ -22462,7 +22463,28 @@ Before, this was the default configuration for the daily email :</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_email_templates_custom_parameters"><a class="anchor" href="#_email_templates_custom_parameters"></a>96.7. Email templates custom parameters</h3>
+<h3 id="_email_templates_2"><a class="anchor" href="#_email_templates_2"></a>96.7. Email templates</h3>
+<div class="paragraph">
+<p>To be homogeneous with UI templates, it is now necessary to prefix the handlebars variables with "card" in the email templates. For example, the following code</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+    {{#data.networkContingencies}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is to be changed to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+  {{#card.data.networkContingencies}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates_custom_parameters"><a class="anchor" href="#_email_templates_custom_parameters"></a>96.8. Email templates custom parameters</h3>
 <div class="paragraph">
 <p>It is now possible to configure custom parameters to be used in handlebars email templates.
 The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
@@ -22508,7 +22530,7 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 </div>
 </div>
 <div class="sect2">
-<h3 id="_removed_field_timespans_recurrence"><a class="anchor" href="#_removed_field_timespans_recurrence"></a>96.8. Removed field <code>timespans.recurrence</code></h3>
+<h3 id="_removed_field_timespans_recurrence"><a class="anchor" href="#_removed_field_timespans_recurrence"></a>96.9. Removed field <code>timespans.recurrence</code></h3>
 <div class="paragraph">
 <p>The field <code>timespans.recurrence</code> has been removed. So now, to create a recurrent card, you must use the field rRule.
 There is a script to migrate existing tasks using recurrence object. After the call to this script, you have to call the
