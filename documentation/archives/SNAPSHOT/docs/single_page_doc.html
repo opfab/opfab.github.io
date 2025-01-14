@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">13 January 2025</span>
+<span id="revdate">14 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -977,6 +977,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_cards_api">24.10. Cards API</a>
 <ul class="sectlevel3">
 <li><a href="#_function_getcards">24.10.1. Function getCards</a></li>
+<li><a href="#_function_sendresponsecard">24.10.2. Function sendResponseCard</a></li>
 </ul>
 </li>
 </ul>
@@ -1385,27 +1386,28 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 </ul>
 </li>
-<li><a href="#_code_guidelines">58.2. Code Guidelines</a>
+<li><a href="#_renovate_pr">58.2. Renovate PR</a></li>
+<li><a href="#_code_guidelines">58.3. Code Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_angulartypescript_development_caution_and_guidelines">58.2.1. Angular/TypeScript development caution and guidelines</a></li>
-<li><a href="#_back_development">58.2.2. Back development</a></li>
-<li><a href="#_unit_test">58.2.3. Unit test</a></li>
+<li><a href="#_angulartypescript_development_caution_and_guidelines">58.3.1. Angular/TypeScript development caution and guidelines</a></li>
+<li><a href="#_back_development">58.3.2. Back development</a></li>
+<li><a href="#_unit_test">58.3.3. Unit test</a></li>
 </ul>
 </li>
-<li><a href="#_documentation_guidelines">58.3. Documentation Guidelines</a>
+<li><a href="#_documentation_guidelines">58.4. Documentation Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_structure">58.3.1. Structure</a></li>
-<li><a href="#_conventions">58.3.2. Conventions</a></li>
+<li><a href="#_structure">58.4.1. Structure</a></li>
+<li><a href="#_conventions">58.4.2. Conventions</a></li>
 </ul>
 </li>
-<li><a href="#_copyright_headers">58.4. Copyright Headers</a>
+<li><a href="#_copyright_headers">58.5. Copyright Headers</a>
 <ul class="sectlevel3">
-<li><a href="#_header_templates">58.4.1. Header templates</a></li>
-<li><a href="#_examples_3">58.4.2. Examples</a>
+<li><a href="#_header_templates">58.5.1. Header templates</a></li>
+<li><a href="#_examples_3">58.5.2. Examples</a>
 <ul class="sectlevel4">
-<li><a href="#_creating_a_new_file">58.4.2.1. Creating a new file</a></li>
-<li><a href="#_updating_a_file">58.4.2.2. Updating a file</a></li>
-<li><a href="#_multiple_contributors">58.4.2.3. Multiple contributors</a></li>
+<li><a href="#_creating_a_new_file">58.5.2.1. Creating a new file</a></li>
+<li><a href="#_updating_a_file">58.5.2.2. Updating a file</a></li>
+<li><a href="#_multiple_contributors">58.5.2.3. Multiple contributors</a></li>
 </ul>
 </li>
 </ul>
@@ -6540,26 +6542,26 @@ state.</p>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="js">  opfab.currentCard.registerFunctionToGetUserResponse(() =&gt; {
+<pre class="CodeRay highlight"><code data-lang="js">        opfab.currentCard.registerFunctionToGetUserResponse(() =&gt; {
 
-    const responseCardData = {};
-    const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
-    <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
-        (key <span class="keyword">in</span> responseCardData) ? responseCardData[key].push(value) : responseCardData[key] = [value];
-    }
+            const responseCardData = {};
+            const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
+            <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
+                (key <span class="keyword">in</span> responseCardData) ? responseCardData[key].push(value) : responseCardData[key] = [value];
+            }
 
-    const result = {
-        <span class="key">valid</span>: <span class="predefined-constant">true</span>,
-        <span class="key">responseCardData</span>: responseCardData
-    };
+            const result = {
+                <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+                <span class="key">responseCardData</span>: responseCardData
+            };
 
-      <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
-    const choiceRequiresFollowUp = Object.entries(responseCardData).length&gt;<span class="integer">1</span>;
-    <span class="keyword">if</span>(choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
+            <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+            const choiceRequiresFollowUp = Object.entries(responseCardData).length &gt; <span class="integer">1</span>;
+            <span class="keyword">if</span> (choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
 
-    <span class="keyword">return</span> result;
+            <span class="keyword">return</span> result;
 
-    });</code></pre>
+        });</code></pre>
 </div>
 </div>
 </div>
@@ -7411,6 +7413,9 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </li>
 <li>
 <p>CurrentUserCard API : API to get information regarding the current user card (card in creation or edition)</p>
+</li>
+<li>
+<p>Cards API : API to get or send cards</p>
 </li>
 <li>
 <p>Utils API : utilities functions</p>
@@ -8423,6 +8428,42 @@ The available message levels are:</p>
 </li>
 <li>
 <p>filter: list of string values to be matched, for match types that need a single argument pass an array with one value</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_sendresponsecard"><a class="anchor" href="#_function_sendresponsecard"></a>24.10.2. Function sendResponseCard</h4>
+<div class="paragraph">
+<p>It is possible to respond to a card from the template by calling the following function (instead of using the "send response" button) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.cards.sendResponseCard(parentCard,responseData).then(...);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns a <code>Promise&lt;void&gt;</code>. The promise will be resolved when the response is sent and rejected with an error message if an error occurs.</p>
+</div>
+<div class="paragraph">
+<p>The <code>parentCard</code> parameter is the parent card object (can be obtained from the current card object).</p>
+</div>
+<div class="paragraph">
+<p>The <code>responseData</code> object has the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>responseCardData</code>: The data field to include in the response card.</p>
+</li>
+<li>
+<p><code>actions</code>: The actions field value for the response card. This field is optional.</p>
+</li>
+<li>
+<p><code>responseState</code>: The state field value for the response card. This field is optional (default value is defined in the state process definition).</p>
+</li>
+<li>
+<p><code>publisher</code>: The publisher field value for the response card. This field is optional (default value is the first current user entity that is allowed to respond).</p>
 </li>
 </ul>
 </div>
@@ -17061,7 +17102,92 @@ described in our CICD documentation for details.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>58.2. Code Guidelines</h3>
+<h3 id="_renovate_pr"><a class="anchor" href="#_renovate_pr"></a>58.2. Renovate PR</h3>
+<div class="paragraph">
+<p>Renovate automates dependency upgrades, proposing PRs for updates. Before merging:</p>
+</div>
+<div class="paragraph">
+<p>Devtools:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No specific checks are generally needed.</p>
+</li>
+<li>
+<p>Exceptions:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For major/minor linter upgrades (e.g., X.X.X to X.Y.X or X.X.X to Y.X.X), perform a local test to ensure the linter is still working correctly.</p>
+</li>
+<li>
+<p>For Anchore udpates, perform a test of the "Anchore container scan" github workflow to ensure it is still working correctly.</p>
+</li>
+<li>
+<p>For Scorecard udpates, perform a test of the "Scorecard supply-chain security" github workflow to ensure it is still working correctly.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Backend Dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No specific tests are needed due to strong test coverage.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>UI Dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No tests required: If the library has minimal visual impact (e.g., rxjs, date-fns).</p>
+</li>
+<li>
+<p>Local testing required: If the library has potential visual impact (e.g., ag-grid, Bootstrap).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Opfab cli dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>As no automatic tests are available, local testing is required.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>General Guidance:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On the days before an Opfab release, avoid merging PRs that introduce library versions released within the last few days, except for dev dependencies or critical security fixes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Post-Merge:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update release notes if the dependency is not a dev dependency.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>58.3. Code Guidelines</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -17080,7 +17206,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>58.2.1. Angular/TypeScript development caution and guidelines</h4>
+<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>58.3.1. Angular/TypeScript development caution and guidelines</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -17127,7 +17253,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect3">
-<h4 id="_back_development"><a class="anchor" href="#_back_development"></a>58.2.2. Back development</h4>
+<h4 id="_back_development"><a class="anchor" href="#_back_development"></a>58.3.2. Back development</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -17140,7 +17266,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect3">
-<h4 id="_unit_test"><a class="anchor" href="#_unit_test"></a>58.2.3. Unit test</h4>
+<h4 id="_unit_test"><a class="anchor" href="#_unit_test"></a>58.3.3. Unit test</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -17154,13 +17280,13 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect2">
-<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>58.3. Documentation Guidelines</h3>
+<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>58.4. Documentation Guidelines</h3>
 <div class="paragraph">
 <p>The aim of this section is to explain how the documentation is currently organized and to give a few guidelines on how
 it should be written.</p>
 </div>
 <div class="sect3">
-<h4 id="_structure"><a class="anchor" href="#_structure"></a>58.3.1. Structure</h4>
+<h4 id="_structure"><a class="anchor" href="#_structure"></a>58.4.1. Structure</h4>
 <div class="paragraph">
 <p>All the sources for the AsciiDoc documentation published on our <a href="https://opfab.github.io/">website</a> are found under
 the <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">src/docs/asciidoc</a> folder in the
@@ -17325,7 +17451,7 @@ example for the
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>58.3.2. Conventions</h4>
+<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>58.4.2. Conventions</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -17523,12 +17649,12 @@ the latest (release) version of the documentation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>58.4. Copyright Headers</h3>
+<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>58.5. Copyright Headers</h3>
 <div class="paragraph">
 <p>All source files and documentation files for the project should bear copyright headers.</p>
 </div>
 <div class="sect3">
-<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>58.4.1. Header templates</h4>
+<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>58.5.1. Header templates</h4>
 <div class="paragraph">
 <p>In the case of source files (*.java, *.css or *.scss, *.html, *.ts, etc.), we are working with the
 <a href="http://mozilla.org/MPL/2.0/">Mozilla Public License, v. 2.0</a>, so the header should be something like this:</p>
@@ -17572,9 +17698,9 @@ added to the AUTHORS file.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_3"><a class="anchor" href="#_examples_3"></a>58.4.2. Examples</h4>
+<h4 id="_examples_3"><a class="anchor" href="#_examples_3"></a>58.5.2. Examples</h4>
 <div class="sect4">
-<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>58.4.2.1. Creating a new file</h5>
+<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>58.5.2.1. Creating a new file</h5>
 <div class="paragraph">
 <p>Let&#8217;s say a developer from entity Entity X creates a new java file in 2020. The header should read:</p>
 </div>
@@ -17591,7 +17717,7 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>58.4.2.2. Updating a file</h5>
+<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>58.5.2.2. Updating a file</h5>
 <div class="paragraph">
 <p>Given an existing java file with the following header:</p>
 </div>
@@ -17637,7 +17763,7 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>58.4.2.3. Multiple contributors</h5>
+<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>58.5.2.3. Multiple contributors</h5>
 <div class="paragraph">
 <p>Given an existing java file with the following header:</p>
 </div>
