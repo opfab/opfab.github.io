@@ -825,7 +825,7 @@ window.swaggerSpec={
     },
     "PublisherTypeEnum" : {
       "type" : "string",
-      "description" : "Publisher type >\n* EXTERNAL - The sender is an external service\n* ENTITY - The sender of the card is the user on behalf of the entity",
+      "description" : "Publisher type >\n* EXTERNAL - The sender is an external service.\n* ENTITY - The sender of the card is the user on behalf of the entity.\n* USER - The sender of the card is the user himself.",
       "enum" : [ "EXTERNAL", "ENTITY" ],
       "example" : "EXTERNAL"
     },
