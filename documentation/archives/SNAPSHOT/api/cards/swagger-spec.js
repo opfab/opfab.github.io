@@ -476,6 +476,14 @@ window.swaggerSpec={
           "type" : "string",
           "description" : "Login of user"
         },
+        "firstName" : {
+          "type" : "string",
+          "description" : "First name of user"
+        },
+        "lastName" : {
+          "type" : "string",
+          "description" : "Last name of user"
+        },
         "entitiesConnected" : {
           "type" : "array",
           "items" : {

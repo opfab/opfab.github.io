@@ -1008,6 +1008,9 @@ window.swaggerSpec={
         "recipientForInformationVisible" : {
           "type" : "boolean"
         },
+        "publisherVisible" : {
+          "type" : "boolean"
+        },
         "publisherList" : {
           "type" : "array",
           "items" : {
