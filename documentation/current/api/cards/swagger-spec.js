@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.5.0.RELEASE",
+    "version" : "4.6.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -193,64 +193,14 @@ window.swaggerSpec={
         "end" : {
           "$ref" : "#/definitions/EpochDate",
           "description" : "Span end (must be after start)"
-        },
-        "recurrence" : {
-          "$ref" : "#/definitions/Recurrence",
-          "description" : "recurrence of the timeSpan"
         }
       },
       "required" : [ "start" ]
     },
-    "Recurrence" : {
-      "type" : "object",
-      "description" : "An object to define recurrence of timeSpans",
-      "properties" : {
-        "hoursAndMinutes" : {
-          "$ref" : "#/definitions/HoursAndMinutes",
-          "description" : "hours and minutes"
-        },
-        "daysOfWeek" : {
-          "description" : "Days of the week for the recurrence (values from 1 to 7, 1 representing Monday)",
-          "type" : "array",
-          "items" : {
-            "type" : "integer"
-          }
-        },
-        "months" : {
-          "description" : "Months of the year for the recurrence (values from 0 to 11, 0 representing January)",
-          "type" : "array",
-          "items" : {
-            "type" : "integer"
-          }
-        },
-        "timeZone" : {
-          "description" : "Time zone reference for the recurrence definition",
-          "type" : "string"
-        },
-        "durationInMinutes" : {
-          "description" : "Duration in minutes of the event",
-          "type" : "integer",
-          "minimum" : 0
-        }
-      },
-      "required" : [ "hoursAndMinutes" ]
-    },
-    "HoursAndMinutes" : {
-      "type" : "object",
-      "description" : "An object to represent a time with only hours and minutes",
-      "properties" : {
-        "hours" : {
-          "type" : "integer"
-        },
-        "minutes" : {
-          "type" : "integer"
-        }
-      }
-    },
     "CardActionEnum" : {
       "type" : "string",
-      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS\n* KEEP_EXISTING_ACKS_AND_READS,\n* KEEP_EXISTING_PUBLISH_DATE",
-      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS", "KEEP_EXISTING_ACKS_AND_READS", "KEEP_EXISTING_PUBLISH_DATE" ],
+      "description" : "Defines the action to be executed on card reception >\n* PROPAGATE_READ_ACK_TO_PARENT_CARD\n* KEEP_CHILD_CARDS\n* KEEP_EXISTING_ACKS_AND_READS,\n* KEEP_EXISTING_PUBLISH_DATE\n* STORE_ONLY_IN_ARCHIVES",
+      "enum" : [ "PROPAGATE_READ_ACK_TO_PARENT_CARD", "KEEP_CHILD_CARDS", "KEEP_EXISTING_ACKS_AND_READS", "KEEP_EXISTING_PUBLISH_DATE", "STORE_ONLY_IN_ARCHIVES" ],
       "example" : "PROPAGATE_READ_ACK_TO_PARENT_CARD"
     },
     "Card" : {
@@ -458,10 +408,6 @@ window.swaggerSpec={
         "secondsBeforeTimeSpanForReminder" : {
           "type" : "integer",
           "minimum" : 0
-        },
-        "toNotify" : {
-          "type" : "boolean",
-          "description" : "Is false if the card must not be displayed in the feed and in monitoring screen"
         },
         "actions" : {
           "type" : "array",

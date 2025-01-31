@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.5.0.RELEASE,</span>
-<span id="revdate">23 October 2024</span>
+<span id="revnumber">version 4.6.0.RELEASE,</span>
+<span id="revdate">31 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -763,6 +763,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_opfab_border_box">17.2.3.7. opfab-border-box</a></li>
 <li><a href="#_opfab_color_danger_opfab_color_warning_and_opfab_color_success">17.2.3.8. opfab-color-danger, opfab-color-warning and opfab-color-success</a></li>
 <li><a href="#_opfab_btn_opfab_btn_cancel">17.2.3.9. opfab-btn, opfab-btn-cancel</a></li>
+<li><a href="#_opfab_dialog">17.2.3.10. opfab-dialog</a></li>
 </ul>
 </li>
 <li><a href="#_tooltip">17.2.4. Tooltip</a></li>
@@ -793,7 +794,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_recurrent_reminder">18.6.2. Recurrent reminder</a>
 <ul class="sectlevel4">
 <li><a href="#_using_rrule_field">18.6.2.1. Using <code>rRule</code> field :</a></li>
-<li><a href="#_using_recurrence_field_in_the_timespan_object_deprecated">18.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</a></li>
 </ul>
 </li>
 <li><a href="#_debugging">18.6.3. Debugging</a></li>
@@ -806,6 +806,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_configuring_email_notifications">19.1. Configuring Email Notifications</a></li>
 <li><a href="#_email_content">19.2. Email Content</a></li>
+<li><a href="#_email_templates">19.3. Email templates</a></li>
 </ul>
 </li>
 <li><a href="#response_cards">20. Response cards</a>
@@ -862,7 +863,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_user_card_template_3">22.3.2. User card template</a></li>
 </ul>
 </li>
-<li><a href="#built-in_templates_common_usercard_attributes">22.4. Common attributes for user cards built-in templates</a></li>
+<li><a href="#_task">22.4. Task</a>
+<ul class="sectlevel3">
+<li><a href="#_card_template_4">22.4.1. Card template</a></li>
+<li><a href="#_user_card_template_4">22.4.2. User card template</a></li>
+</ul>
+</li>
+<li><a href="#built-in_templates_common_usercard_attributes">22.5. Common attributes for user cards built-in templates</a></li>
 </ul>
 </li>
 <li><a href="#business_data">23. Business Data</a>
@@ -906,20 +913,22 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_hideloadingspinner">24.5.2. Function hideLoadingSpinner</a></li>
 <li><a href="#_function_getchildcards">24.5.3. Function getChildCards</a></li>
 <li><a href="#_function_getcard">24.5.4. Function getCard()</a></li>
-<li><a href="#_function_getdisplaycontext">24.5.5. Function getDisplayContext</a></li>
-<li><a href="#_function_getentitiesallowedtorespond">24.5.6. Function getEntitiesAllowedToRespond</a></li>
-<li><a href="#_function_getentitiesusableforuserresponse">24.5.7. Function  getEntitiesUsableForUserResponse</a></li>
-<li><a href="#_function_isresponselocked">24.5.8. Function isResponseLocked</a></li>
-<li><a href="#_function_isuserallowedtorespond">24.5.9. Function isUserAllowedToRespond</a></li>
-<li><a href="#_function_isusermemberofanentityrequiredtorespond">24.5.10. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
-<li><a href="#_function_listentoresponselock">24.5.11. Function listenToResponseLock</a></li>
-<li><a href="#_function_listentoresponseunlock">24.5.12. Function listenToResponseUnlock</a></li>
-<li><a href="#_function_listentochildcards">24.5.13. Function listenToChildCards</a></li>
-<li><a href="#_function_listentolttdexpired">24.5.14. Function listenToLttdExpired</a></li>
-<li><a href="#_function_listentostylechange">24.5.15. Function listenToStyleChange</a></li>
-<li><a href="#_function_listentoscreensize">24.5.16. Function listenToScreenSize</a></li>
-<li><a href="#_function_listentotemplaterenderingcomplete">24.5.17. Function listenToTemplateRenderingComplete</a></li>
-<li><a href="#_function_registerfunctiontogetuserresponse">24.5.18. Function registerFunctionToGetUserResponse</a></li>
+<li><a href="#_function_isuserallowedtoedit">24.5.5. Function isUserAllowedToEdit</a></li>
+<li><a href="#_function_editcard">24.5.6. Function editCard</a></li>
+<li><a href="#_function_getdisplaycontext">24.5.7. Function getDisplayContext</a></li>
+<li><a href="#_function_getentitiesallowedtorespond">24.5.8. Function getEntitiesAllowedToRespond</a></li>
+<li><a href="#_function_getentitiesusableforuserresponse">24.5.9. Function  getEntitiesUsableForUserResponse</a></li>
+<li><a href="#_function_isresponselocked">24.5.10. Function isResponseLocked</a></li>
+<li><a href="#_function_isuserallowedtorespond">24.5.11. Function isUserAllowedToRespond</a></li>
+<li><a href="#_function_isusermemberofanentityrequiredtorespond">24.5.12. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
+<li><a href="#_function_listentoresponselock">24.5.13. Function listenToResponseLock</a></li>
+<li><a href="#_function_listentoresponseunlock">24.5.14. Function listenToResponseUnlock</a></li>
+<li><a href="#_function_listentochildcards">24.5.15. Function listenToChildCards</a></li>
+<li><a href="#_function_listentolttdexpired">24.5.16. Function listenToLttdExpired</a></li>
+<li><a href="#_function_listentostylechange">24.5.17. Function listenToStyleChange</a></li>
+<li><a href="#_function_listentoscreensize">24.5.18. Function listenToScreenSize</a></li>
+<li><a href="#_function_listentotemplaterenderingcomplete">24.5.19. Function listenToTemplateRenderingComplete</a></li>
+<li><a href="#_function_registerfunctiontogetuserresponse">24.5.20. Function registerFunctionToGetUserResponse</a></li>
 </ul>
 </li>
 <li><a href="#_currentusercard_api">24.6. CurrentUserCard API</a>
@@ -958,6 +967,16 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_alertmessage_api">24.8. AlertMessage API</a>
 <ul class="sectlevel3">
 <li><a href="#_function_show">24.8.1. Function show</a></li>
+</ul>
+</li>
+<li><a href="#_ui_api">24.9. UI API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcurrentvisibleperiod">24.9.1. Function getCurrentVisiblePeriod</a></li>
+</ul>
+</li>
+<li><a href="#_cards_api">24.10. Cards API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcards">24.10.1. Function getCards</a></li>
 </ul>
 </li>
 </ul>
@@ -1048,24 +1067,21 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_shared_service_configuration">35.1.1. Shared service configuration</a>
 <ul class="sectlevel4">
 <li><a href="#_mongo_configuration">35.1.1.1. Mongo configuration</a></li>
+<li><a href="#_rabbitmq">35.1.1.2. RabbitMQ</a></li>
+<li><a href="#_internal_account">35.1.1.3. Internal account</a></li>
+<li><a href="#_optional_configuration_values">35.1.1.4. Optional configuration values</a></li>
 </ul>
 </li>
-<li><a href="#_rabbitmq">35.1.2. RabbitMQ</a>
+<li><a href="#_service_specific_configurations">35.1.2. Service specific configurations</a>
 <ul class="sectlevel4">
-<li><a href="#_internal_account">35.1.2.1. Internal account</a></li>
-<li><a href="#_optional_configuration_values">35.1.2.2. Optional configuration values</a></li>
-</ul>
-</li>
-<li><a href="#_service_specific_configurations">35.1.3. Service specific configurations</a>
-<ul class="sectlevel4">
-<li><a href="#_businessconfig_service">35.1.3.1. Businessconfig service</a></li>
-<li><a href="#_users_service">35.1.3.2. Users service</a></li>
-<li><a href="#cards-pub-conf">35.1.3.3. Cards-publication service</a></li>
-<li><a href="#_cards_consultation_service">35.1.3.4. Cards-consultation service</a></li>
-<li><a href="#external-devices-conf">35.1.3.5. External devices service</a></li>
-<li><a href="#cards-external-diffusion-conf">35.1.3.6. Cards external diffusion service</a></li>
-<li><a href="#cards-reminder-conf">35.1.3.7. Cards reminder service</a></li>
-<li><a href="#supervisor-conf">35.1.3.8. Supervisor service</a></li>
+<li><a href="#_businessconfig_service">35.1.2.1. Businessconfig service</a></li>
+<li><a href="#_users_service">35.1.2.2. Users service</a></li>
+<li><a href="#cards-pub-conf">35.1.2.3. Cards-publication service</a></li>
+<li><a href="#_cards_consultation_service">35.1.2.4. Cards-consultation service</a></li>
+<li><a href="#external-devices-conf">35.1.2.5. External devices service</a></li>
+<li><a href="#cards-external-diffusion-conf">35.1.2.6. Cards external diffusion service</a></li>
+<li><a href="#cards-reminder-conf">35.1.2.7. Cards reminder service</a></li>
+<li><a href="#supervisor-conf">35.1.2.8. Supervisor service</a></li>
 </ul>
 </li>
 </ul>
@@ -1201,6 +1217,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_scripts_bin_and_cicd">48.1. Scripts (bin and CICD)</a>
 <ul class="sectlevel3">
 <li><a href="#_run_all_sh">48.1.1. run_all.sh</a></li>
+<li><a href="#_hooks">48.1.2. Hooks</a></li>
 </ul>
 </li>
 <li><a href="#gradle_tasks">48.2. Gradle Tasks</a>
@@ -1456,7 +1473,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_releasing_a_major_or_minor_version">64.3. Releasing a Major or Minor Version</a>
 <ul class="sectlevel3">
-<li><a href="#_move_release_candidate_to_release">64.3.1. Move Release Candidate to Release</a></li>
+<li><a href="#_prepare_the_release_branch">64.3.1. Prepare the release branch</a></li>
 <li><a href="#publish_release_on_docker_hub_and_documentation">64.3.2. Publish the release on docker hub and documentation</a></li>
 <li><a href="#update_version_list_on_website">64.3.3. Updating the version list on the website</a></li>
 <li><a href="#checking_docker_compose">64.3.4. Checking the docker compose files</a></li>
@@ -1752,6 +1769,20 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_deletion_of_the_deprecated_api_method_opfab_currentcard_getentityusedforuserresponse">95.8. Deletion of the deprecated API method <code>opfab.currentCard.getEntityUsedForUserResponse()</code></a></li>
 <li><a href="#_removed_deprecated_keepchildcards_field">95.9. Removed deprecated <code>keepChildCards</code> field</a></li>
 <li><a href="#_opfab_cli_renaming_log_commands">95.10. Opfab CLI : renaming log commands</a></li>
+<li><a href="#_rabbitmq_3">95.11. RabbitMQ</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_5_x_to_release_4_6_0">96. Migration Guide from release 4.5.X to release 4.6.0</a>
+<ul class="sectlevel2">
+<li><a href="#_removed_field_tonotify">96.1. Removed field <code>toNotify</code></a></li>
+<li><a href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form">96.2. New line added between opfab fields and template in usercard form</a></li>
+<li><a href="#_timeline_domain_tr_renamed_rt">96.3. Timeline domain TR renamed RT</a></li>
+<li><a href="#_ui_archives_and_logging_number_of_lines_per_page">96.4. UI archives and logging number of lines per page</a></li>
+<li><a href="#_configuration_for_recap_email">96.5. Configuration for recap email</a></li>
+<li><a href="#_timezone">96.6. Timezone</a></li>
+<li><a href="#_email_templates_2">96.7. Email templates</a></li>
+<li><a href="#_email_templates_custom_parameters">96.8. Email templates custom parameters</a></li>
+<li><a href="#_removed_field_timespans_recurrence">96.9. Removed field <code>timespans.recurrence</code></a></li>
 </ul>
 </li>
 </ul>
@@ -3367,11 +3398,14 @@ The current software does not yet fully follow the architecture described here, 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/SoftwareArchitecture-UI.jpg" alt="back software architecture diagram">
+<img src="../images/SoftwareArchitecture-UI.png" alt="back software architecture diagram">
 </div>
 </div>
 <div class="paragraph">
-<p>The UI component shall contain as little as possible business code.</p>
+<p>The UI components shall contain as little as possible business code.</p>
+</div>
+<div class="paragraph">
+<p>The API component is a gateway to access business method, it shall not contain any logic.</p>
 </div>
 <div class="paragraph">
 <p>Unit testing consists in testing the business code and using mock objects to simulate the servers (in app/tests/mocks)</p>
@@ -3852,13 +3886,6 @@ Grouping cards is an experimental feature
 </div>
 </div>
 <div class="sect5">
-<h6 id="_tonotify_tonotify"><a class="anchor" href="#_tonotify_tonotify"></a>ToNotify (<code>toNotify</code>)</h6>
-<div class="paragraph">
-<p>Boolean attribute. If the card must not be displayed in the feed and in monitoring screen, this field must be set to false.
-In that case, it means the card is stored only in archivedCards collection and not in cards collection.</p>
-</div>
-</div>
-<div class="sect5">
 <h6 id="_publisher_type_publishertype"><a class="anchor" href="#_publisher_type_publishertype"></a>Publisher type (<code>publisherType</code>)</h6>
 <div class="ulist">
 <ul>
@@ -3933,10 +3960,23 @@ Only the POINT and POLYGON are supported.
 <div class="sect5">
 <h6 id="_actions_actions"><a class="anchor" href="#_actions_actions"></a>Actions (<code>actions</code>)</h6>
 <div class="paragraph">
-<p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:
-- KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.
-- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.
-- KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
+<p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.</p>
+</li>
+<li>
+<p>PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.</p>
+</li>
+<li>
+<p>KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
+</li>
+<li>
+<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed and in monitoring screen.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -5699,6 +5739,22 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_opfab_dialog"><a class="anchor" href="#_opfab_dialog"></a>17.2.3.10. opfab-dialog</h5>
+<div class="paragraph">
+<p>Styles for dialog box, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;dialog class="opfab-dialog"&gt;
+    &lt;p&gt;This is a dialog box, you can set the text you want.&lt;/p&gt;
+    &lt;form method="dialog" style="text-align: center"&gt;
+        &lt;button class="opfab-btn"&gt;OK&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/dialog&gt;</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_tooltip"><a class="anchor" href="#_tooltip"></a>17.2.4. Tooltip</h4>
@@ -6131,28 +6187,18 @@ For example:</p>
 <p>The time for "reactivation" is defined with the parameter "secondsBeforeTimeSpanForReminder" in the card.</p>
 </div>
 <div class="paragraph">
-<p>The reminder is done related to the timespans values :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>the startDate</p>
-</li>
-<li>
-<p>or recurrently if a recurrence objet is defined.</p>
-</li>
-</ul>
+<p>The reminder is done related to the timespans value <code>startDate</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>18.6.1. Simple reminder</h4>
 <div class="paragraph">
-<p>If a timespan is present without a recurrence object, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
+<p>If a timespan is present, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>18.6.2. Recurrent reminder</h4>
 <div class="paragraph">
-<p>It is possible to set a recurrent reminder for a card. There are two ways to do it :</p>
+<p>It is possible to set a recurrent reminder for a card.</p>
 </div>
 <div class="sect4">
 <h5 id="_using_rrule_field"><a class="anchor" href="#_using_rrule_field"></a>18.6.2.1. Using <code>rRule</code> field :</h5>
@@ -6193,54 +6239,6 @@ For example:</p>
     byminute : [30]
 }</pre>
 </div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_using_recurrence_field_in_the_timespan_object_deprecated"><a class="anchor" href="#_using_recurrence_field_in_the_timespan_object_deprecated"></a>18.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</h5>
-<div class="paragraph">
-<p><code>recurrence</code> field defines a regular event in the timespan structure. It is defined with the following fields :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>HoursAndMinutes : hours and minutes of day when the event arise</p>
-</li>
-<li>
-<p>DaysOfWeek : a list of days of the week when the event arises. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
-</li>
-<li>
-<p>Months : a list of months of the year when the event arises. The month of year is a number with 0 being January and 11 being December</p>
-</li>
-<li>
-<p>TimeZone : the time zone of reference for the recurrence definition (default value is Europe/Paris)</p>
-</li>
-<li>
-<p>DurationInMinutes : the duration in minutes of the event</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
-</div>
-<div class="sect5">
-<h6 id="_recurrent_reminder_example_using_recurrence_field"><a class="anchor" href="#_recurrent_reminder_example_using_recurrence_field"></a>Recurrent reminder example using <code>recurrence</code> field :</h6>
-<div class="paragraph">
-<p>If timespan is defined as follows :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>startDate : 1231135161
-recurrence : {
-    hoursAndMinutes : { hours:10 ,minutes:30},
-    daysOfWeek : [6,7],
-    durationInMinutes : 15,
-    months : [10,11]
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If secondsBeforeTimeSpanForReminder is set to 600 seconds, the reminder will arise every Saturday and Sunday, in November and December at 10:20 starting from startDate.</p>
 </div>
 </div>
 </div>
@@ -6285,16 +6283,53 @@ the "timezone for mails" field in the user settings screen.</p>
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates"><a class="anchor" href="#_email_templates"></a>19.3. Email templates</h3>
+<div class="paragraph">
+<p>In email handlebars templates it is possible to refer card fields by prefixing with "card" prefix. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;div id="apogee-contingencies"&gt;
+  {{#card.data.networkContingencies}}</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{{ deltaToHtml data.richMessage }}}</pre>
+<pre>{{{ deltaToHtml card.data.richMessage }}}</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Ensure to encapsulate the expression within three curly braces to prevent HTML escaping.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to configure custom parameters to be used in handlebars email templates.
+The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      customConfig:
+             myParam1: 'myValue1'
+             myParam2: 'myValue2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The custom parameters can then be referred in handlebars template prefixed with "config", for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#config.myParam1}}</pre>
+</div>
 </div>
 </div>
 </div>
@@ -6808,7 +6843,7 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <div class="sect2">
 <h3 id="_method_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_method_registerfunctiontogetspecificcardinformation"></a>21.2. Method registerFunctionToGetSpecificCardInformation</h3>
 <div class="paragraph">
-<p>The following card fields can be set via the object <code>card</code> in the object returned by method the method register via
+<p>The following card fields can be set via the object <code>card</code> in the object returned by the method register via
 registerFunctionToGetSpecificCardInformation:</p>
 </div>
 <div class="ulist">
@@ -6853,6 +6888,9 @@ registerFunctionToGetSpecificCardInformation:</p>
 <p>entitiesRequiredToRespond</p>
 </li>
 <li>
+<p>groupRecipients</p>
+</li>
+<li>
 <p>externalRecipients (used to send cards to third party , see
 <a href="#define_a_third_party_tool">Define a third party tool </a>
 for more information).</p>
@@ -6886,9 +6924,6 @@ You can find an example in the file:
 </div>
 <div class="paragraph">
 <p>If not using 'timeSpans' it&#8217;s possible to set the 'viewCardInCalendar' field to true, the card will be visible using card&#8217;s startDate and endDate as default timeSpan.</p>
-</div>
-<div class="paragraph">
-<p>The 'recurrence' field is deprecated and could be removed in the future.</p>
 </div>
 <div class="paragraph">
 <p>If the form is not filled correctly by the user, you can provide an error message (see example above).
@@ -7236,7 +7271,58 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect2">
-<h3 id="built-in_templates_common_usercard_attributes"><a class="anchor" href="#built-in_templates_common_usercard_attributes"></a>22.4. Common attributes for user cards built-in templates</h3>
+<h3 id="_task"><a class="anchor" href="#_task"></a>22.4. Task</h3>
+<div class="sect3">
+<h4 id="_card_template_4"><a class="anchor" href="#_card_template_4"></a>22.4.1. Card template</h4>
+<div class="paragraph">
+<p>If you want to set a reminder for a single or recurring future event, you can use the task built-in template, to do that just put in your handlebar file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-task-card&gt;&lt;/opfab-task-card&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_card_template_4"><a class="anchor" href="#_user_card_template_4"></a>22.4.2. User card template</h4>
+<div class="paragraph">
+<p>If you want to create a user card for a task, just add in your handlebar file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-task-usercard&gt;&lt;/opfab-task-usercard&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The description of the task will be stored in the fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>data.taskTitle</code></p>
+</li>
+<li>
+<p><code>data.richTaskDescription</code></p>
+</li>
+<li>
+<p><code>data.minutesForReminder</code></p>
+</li>
+<li>
+<p><code>data.durationInMinutes</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>of the card.</p>
+</div>
+<div class="paragraph">
+<p>By using attributes you can set some parameters regarding recipients, see
+&lt;&lt;'built-in_templates_common_usercard_attributes,common attributes for user cards'&gt;&gt;</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="built-in_templates_common_usercard_attributes"><a class="anchor" href="#built-in_templates_common_usercard_attributes"></a>22.5. Common attributes for user cards built-in templates</h3>
 <div class="paragraph">
 <p>For each user card templates, you can set :</p>
 </div>
@@ -7307,7 +7393,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <h2 id="_frontend_api"><a class="anchor" href="#_frontend_api"></a>24. Frontend API</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follow :</p>
+<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follows :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -7538,7 +7624,29 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_getdisplaycontext"><a class="anchor" href="#_function_getdisplaycontext"></a>24.5.5. Function getDisplayContext</h4>
+<h4 id="_function_isuserallowedtoedit"><a class="anchor" href="#_function_isuserallowedtoedit"></a>24.5.5. Function isUserAllowedToEdit</h4>
+<div class="paragraph">
+<p>To check if current user has the permission to edit the current card, you can call the isUserAllowedToEdit() method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>   const editAllowed = opfab.currentCard.isUserAllowedToEdit()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_editcard"><a class="anchor" href="#_function_editcard"></a>24.5.6. Function editCard</h4>
+<div class="paragraph">
+<p>It is possible to open current card edition modal, if current user has the permission, by calling the editCard() method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    opfab.currentCard.editCard()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_getdisplaycontext"><a class="anchor" href="#_function_getdisplaycontext"></a>24.5.7. Function getDisplayContext</h4>
 <div class="paragraph">
 <p>To adapt the template content to the display context it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function getDisplayContext(). The function returns a string with one of the following values :</p>
 </div>
@@ -7562,7 +7670,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_getentitiesallowedtorespond"><a class="anchor" href="#_function_getentitiesallowedtorespond"></a>24.5.6. Function getEntitiesAllowedToRespond</h4>
+<h4 id="_function_getentitiesallowedtorespond"><a class="anchor" href="#_function_getentitiesallowedtorespond"></a>24.5.8. Function getEntitiesAllowedToRespond</h4>
 <div class="paragraph">
 <p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method getEntitiesAllowedToRespond. This method returns an array containing the ids.</p>
 </div>
@@ -7573,7 +7681,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_getentitiesusableforuserresponse"><a class="anchor" href="#_function_getentitiesusableforuserresponse"></a>24.5.7. Function  getEntitiesUsableForUserResponse</h4>
+<h4 id="_function_getentitiesusableforuserresponse"><a class="anchor" href="#_function_getentitiesusableforuserresponse"></a>24.5.9. Function  getEntitiesUsableForUserResponse</h4>
 <div class="paragraph">
 <p>If inside your template, you want to get the ids of the entities the user can answer on behalf of, you can call the method getEntitiesUsableForUserResponse. This method will return an array containing the entities' ids.</p>
 </div>
@@ -7584,9 +7692,9 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>24.5.8. Function isResponseLocked</h4>
+<h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>24.5.10. Function isResponseLocked</h4>
 <div class="paragraph">
-<p>To know if template is locked (i.e user can not respond unless he unlocks the card)</p>
+<p>To know if template is locked (i.e. user can not respond unless he unlocks the card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7595,7 +7703,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isuserallowedtorespond"><a class="anchor" href="#_function_isuserallowedtorespond"></a>24.5.9. Function isUserAllowedToRespond</h4>
+<h4 id="_function_isuserallowedtorespond"><a class="anchor" href="#_function_isuserallowedtorespond"></a>24.5.11. Function isUserAllowedToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user has the permission to send a response to the current card by calling the isUserAllowedToRespond() function.
 An example of usage can be found in the file
@@ -7608,7 +7716,7 @@ An example of usage can be found in the file
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>24.5.10. Function isUserMemberOfAnEntityRequiredToRespond</h4>
+<h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>24.5.12. Function isUserMemberOfAnEntityRequiredToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user is member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
 An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
@@ -7620,9 +7728,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>24.5.11. Function listenToResponseLock</h4>
+<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>24.5.13. Function listenToResponseLock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is locked (i.e user has responded to the current card)</p>
+<p>Register a function to be informed when template is locked (i.e. user has responded to the current card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7631,9 +7739,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>24.5.12. Function listenToResponseUnlock</h4>
+<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>24.5.14. Function listenToResponseUnlock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is unlocked (i.e user has clicked the modify button to prepare a new response)</p>
+<p>Register a function to be informed when template is unlocked (i.e. user has clicked the modify button to prepare a new response)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7642,7 +7750,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>24.5.13. Function listenToChildCards</h4>
+<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>24.5.15. Function listenToChildCards</h4>
 <div class="paragraph">
 <p>Register a function to receive the child cards on card loading and when the childCards list changes</p>
 </div>
@@ -7653,7 +7761,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>24.5.14. Function listenToLttdExpired</h4>
+<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>24.5.16. Function listenToLttdExpired</h4>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information can be received by the template by registering a listener.</p>
 </div>
@@ -7664,9 +7772,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>24.5.15. Function listenToStyleChange</h4>
+<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>24.5.17. Function listenToStyleChange</h4>
 <div class="paragraph">
-<p>Card template can be informed when switching day/night mode by registering a listener as follow :</p>
+<p>Card template can be informed when switching day/night mode by registering a listener as follows :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7678,7 +7786,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>24.5.16. Function listenToScreenSize</h4>
+<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>24.5.18. Function listenToScreenSize</h4>
 <div class="paragraph">
 <p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
 </div>
@@ -7702,7 +7810,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>24.5.17. Function listenToTemplateRenderingComplete</h4>
+<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>24.5.19. Function listenToTemplateRenderingComplete</h4>
 <div class="paragraph">
 <p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer ,lttdExpired and screenSize)</p>
 </div>
@@ -7716,7 +7824,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>24.5.18. Function registerFunctionToGetUserResponse</h4>
+<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>24.5.20. Function registerFunctionToGetUserResponse</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user response. This function will be called by opfab when user clicks on the "send response" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
 </div>
@@ -8172,7 +8280,7 @@ The method returns only one child card and is therefore not compatible with the 
 <div class="sect3">
 <h4 id="_function_show"><a class="anchor" href="#_function_show"></a>24.8.1. Function show</h4>
 <div class="paragraph">
-<p>It’s possible to show an alert message as a popover by calling  by calling the following function from the template :</p>
+<p>It’s possible to show an alert message as a popover by calling the following function from the template :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8180,7 +8288,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="paragraph">
-<p>The popover will have a different backgroung color based on the message level specified.
+<p>The popover will have a different background color based on the message level specified.
 The available message levels are:</p>
 </div>
 <div class="ulist">
@@ -8196,6 +8304,125 @@ The available message levels are:</p>
 </li>
 <li>
 <p>ALARM (red)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_api"><a class="anchor" href="#_ui_api"></a>24.9. UI API</h3>
+<div class="sect3">
+<h4 id="_function_getcurrentvisibleperiod"><a class="anchor" href="#_function_getcurrentvisibleperiod"></a>24.9.1. Function getCurrentVisiblePeriod</h4>
+<div class="paragraph">
+<p>You can use this function to get the current visible period on the timeline.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const currentVisiblePeriod = opfab.ui.getCurrentVisiblePeriod();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This function returns 3 fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>domain : RT / D / 7D / W / M / Y</p>
+</li>
+<li>
+<p>startPeriod : epochDate</p>
+</li>
+<li>
+<p>endPeriod : epochDate</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cards_api"><a class="anchor" href="#_cards_api"></a>24.10. Cards API</h3>
+<div class="sect3">
+<h4 id="_function_getcards"><a class="anchor" href="#_function_getcards"></a>24.10.1. Function getCards</h4>
+<div class="paragraph">
+<p>You can use this function to get a list of cards filtered on the specified filter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.cards.getCards(cardsFilter).then(...);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns a Promise&lt;Page&gt; object with the result of the query.</p>
+</div>
+<div class="paragraph">
+<p>Page object contains the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>totalPages: total number of pages</p>
+</li>
+<li>
+<p>totalElements: total number of results</p>
+</li>
+<li>
+<p>size: size of the page</p>
+</li>
+<li>
+<p>number: page number</p>
+</li>
+<li>
+<p>first: true if it is the first page</p>
+</li>
+<li>
+<p>last: true if it is the last page</p>
+</li>
+<li>
+<p>numberOfElements: number of cards in this page</p>
+</li>
+<li>
+<p>content: array of returned cards</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Card filter object has the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>page: page number</p>
+</li>
+<li>
+<p>size: page size,</p>
+</li>
+<li>
+<p>adminMode: set to true to retrieve cards in admin mode (only if user has the permission)</p>
+</li>
+<li>
+<p>includeChildCards: set to true to retrieve also child cards</p>
+</li>
+<li>
+<p>filters: array of FilterModel</p>
+</li>
+<li>
+<p>selectedFields: array of cards fields as string to be returned</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FilterModel object has the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>columnName: card field to be tested</p>
+</li>
+<li>
+<p>matchType: one of BLANK,CONTAINS,ENDSWITH,EQUALS,GREATERTHAN,IN,LESSTHAN,NOTBLANK,NOTCONTAINS,NOTEQUAL,STARTSWITH</p>
+</li>
+<li>
+<p>filter: list of string values to be matched, for match types that need a single argument pass an array with one value</p>
 </li>
 </ul>
 </div>
@@ -8834,6 +9061,9 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 </li>
 <li>
 <p>SEND_RESPONSE</p>
+</li>
+<li>
+<p>NOTIFICATION_CONFIG</p>
 </li>
 </ul>
 </div>
@@ -9758,9 +9988,8 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>Operator Fabric is supporting mongo version 5.0.0 and above.</p>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>35.1.2. RabbitMQ</h4>
+<div class="sect4">
+<h5 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>35.1.1.2. RabbitMQ</h5>
 <div class="paragraph">
 <p>A rabbitMQ component (docker image) is provided in opfab, it has a default configuration.</p>
 </div>
@@ -9809,8 +10038,9 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </tr>
 </tbody>
 </table>
+</div>
 <div class="sect4">
-<h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>35.1.2.1. Internal account</h5>
+<h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>35.1.1.3. Internal account</h5>
 <div class="paragraph">
 <p>The back service cards-reminder ,cards-diffusion and supervision need an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it</p>
 </div>
@@ -9847,7 +10077,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </div>
 </div>
 <div class="sect4">
-<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>35.1.2.2. Optional configuration values</h5>
+<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>35.1.1.4. Optional configuration values</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -9897,7 +10127,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </div>
 </div>
 <div class="sect3">
-<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>35.1.3. Service specific configurations</h4>
+<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>35.1.2. Service specific configurations</h4>
 <div class="paragraph">
 <p>Each service can have a specific yaml configuration file that can override the default configuration</p>
 </div>
@@ -9905,7 +10135,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>Examples of configuration of each service can be found under config/docker or config/dev .</p>
 </div>
 <div class="sect4">
-<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>35.1.3.1. Businessconfig service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>35.1.2.1. Businessconfig service</h5>
 <div class="paragraph">
 <p>The businessconfig service has this specific property :</p>
 </div>
@@ -9932,7 +10162,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </table>
 </div>
 <div class="sect4">
-<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>35.1.3.2. Users service</h5>
+<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>35.1.2.2. Users service</h5>
 <div class="paragraph">
 <p>The user service has these specific properties :</p>
 </div>
@@ -9979,7 +10209,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </table>
 </div>
 <div class="sect4">
-<h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>35.1.3.3. Cards-publication service</h5>
+<h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>35.1.2.3. Cards-publication service</h5>
 <div class="paragraph">
 <p>The cards publication service has these specific properties :</p>
 </div>
@@ -10294,7 +10524,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>35.1.3.4. Cards-consultation service</h5>
+<h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>35.1.2.4. Cards-consultation service</h5>
 <div class="paragraph">
 <p>The cards-consultation service has these specific properties :</p>
 </div>
@@ -10331,7 +10561,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>35.1.3.5. External devices service</h5>
+<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>35.1.2.5. External devices service</h5>
 <div class="paragraph">
 <p>The external devices service can be configured with the following properties:</p>
 </div>
@@ -10368,7 +10598,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>35.1.3.6. Cards external diffusion service</h5>
+<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>35.1.2.6. Cards external diffusion service</h5>
 <div class="paragraph">
 <p>The card external diffusion service can be configured with the following properties:</p>
 </div>
@@ -10450,19 +10680,43 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailTitle</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the day'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject prefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject title</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the week'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Weekly mail subject title</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailBodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'You received the following cards during the past 24 hours : '</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daily email body prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailBodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'You received the following cards during the past 7 days : '</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Weekly email body prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dayOfWeekToSendWeeklyRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day of the week to send the weekly recap emails (0 is Sunday, 6 is Saturday)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the daily recap email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the recap emails</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the daily recap email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the recap emails</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
@@ -10537,7 +10791,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </div>
 </div>
 <div class="sect4">
-<h5 id="cards-reminder-conf"><a class="anchor" href="#cards-reminder-conf"></a>35.1.3.7. Cards reminder service</h5>
+<h5 id="cards-reminder-conf"><a class="anchor" href="#cards-reminder-conf"></a>35.1.2.7. Cards reminder service</h5>
 <div class="paragraph">
 <p>The card reminder service can be configured with the following properties:</p>
 </div>
@@ -10595,7 +10849,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="supervisor-conf"><a class="anchor" href="#supervisor-conf"></a>35.1.3.8. Supervisor service</h5>
+<h5 id="supervisor-conf"><a class="anchor" href="#supervisor-conf"></a>35.1.2.8. Supervisor service</h5>
 <div class="paragraph">
 <p>The supervisor service can be configured with the following properties:</p>
 </div>
@@ -10877,12 +11131,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.page.size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The page size of archive filters</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.publishDate.days</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -11121,9 +11369,9 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.timeline.domains</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">["TR", "J", "7D", "W", "M", "Y"]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">["RT", "J", "7D", "W", "M", "Y"]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "RT", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">heartbeatSendingInterval</p></td>
@@ -11352,6 +11600,24 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Format for time rendering (example : HH:mm )</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.hallwayMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, hallway mode for feed screen will be enabled</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.openNextCardOnAcknowledgment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, automatically opens the next card in the feed after acknowledging the current card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.showAcknowledgmentFooter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, always shows the acknowledgments footer in cards</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settingsScreen.hiddenSettings</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -11363,8 +11629,11 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "sendCardsByEmail" : if present, the email options will not be displayed<br>
 "emailToPlainText" : if present, the email option to have the emails sent as plain text will not be displayed<br>
 "sendDailyEmail" : if present, the email option to have the daily email recap will not be displayed<br>
+"sendWeeklyEmail" : if present, the email option to have the weekly email recap will not be displayed<br>
 "timezoneForEmails" : if present, the field to choose the timezone for emails will not be displayed<br>
-"hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed</p></td>
+"hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed<br>
+"openNextCardOnAcknowledgment": if present, the checkbox to automaticaly open next card after acknowledgment won&#8217;t be displayed<br>
+"showAcknowledgmentFooter" : if present, the checkbox to always show acknowledgments footer won&#8217;t be displayed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">showUserEntitiesOnTopRightOfTheScreen</p></td>
@@ -14028,6 +14297,15 @@ instance).</p>
 <p> </div></details> </p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_hooks"><a class="anchor" href="#_hooks"></a>48.1.2. Hooks</h4>
+<div class="paragraph">
+<p>For copyright and licensing compliance, the CI checks in a PR if the modified files include the correct year in the copyright.
+To automate this task, a git hook is available in <strong>bin/hook/pre-commit</strong>. This file is to be placed in <strong>operatorfabric-core/.git/hooks/</strong>
+Don&#8217;t forget to change the permission of the file with <strong>chmod +x .git/hooks/pre-commit</strong>
+Set the monitored file extensions and company name approprietly.</p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="gradle_tasks"><a class="anchor" href="#gradle_tasks"></a>48.2. Gradle Tasks</h3>
@@ -14824,7 +15102,7 @@ use the <code>asciidoctor</code> gradle task from the project root:</p>
 <h3 id="_generating_api_documentation"><a class="anchor" href="#_generating_api_documentation"></a>49.5. Generating API documentation</h3>
 <div class="paragraph">
 <p>The documentation for the API is generated from the <code>swagger.yaml</code> definitions using SwaggerUI. To generate the
-API documentation, use the <code>generateSwaggerUI</code> gradle task, either from the project root or from one of the services:</p>
+API documentation, use the <code>generateSwaggerUI</code> gradle task, either from the project root or from one of the client directory:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -14833,8 +15111,8 @@ API documentation, use the <code>generateSwaggerUI</code> gradle task, either fr
 </div>
 </div>
 <div class="paragraph">
-<p>The task output can be found for each service under <code>[service-path]/build/docs/api</code>
-(for example <code>services/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
+<p>The task output can be found for each client library under <code>client/[service-path]/build/docs/api</code>
+(for example <code>client/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
 the generated SwaggerUI.</p>
 </div>
 </div>
@@ -17043,7 +17321,7 @@ and then goes into more technical details when needed.</p></td>
 pages. It is generated by the <code>generateSwaggerUI</code> Gradle task, using the swagger.yaml files from each service (for
 example for the
 <a href="https://github.com/opfab/operatorfabric-core/blob/master/services/businessconfig/src/main/modeling/swagger.yaml">BusinessConfig API</a>
-). It can be found under the <strong>build/docs/api</strong> folder for each client or service project.</p>
+). It can be found under the <strong>build/docs/api</strong> folder for each client project.</p>
 </div>
 </div>
 <div class="sect3">
@@ -17911,12 +18189,12 @@ git commit -s -m "[RELEASE] X.X.X-RC.RELEASE"</pre>
 <p>Push the commit</p>
 <div class="listingblock">
 <div class="content">
-<pre>git push --set-upstream origin FE-X.X.X-RC.release.draft</pre>
+<pre>git push --set-upstream origin X.X.X-RC.release.draft</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Create a pull request from the <code>FE-X.X.X-RC.release.draft</code> branch to the <code>X.X.release</code> branch and ask for a review.</p>
+<p>Create a pull request from the <code>X.X.X-RC.release.draft</code> branch to the <code>X.X.release</code> branch and ask for a review.</p>
 </li>
 <li>
 <p>Once the pull request is approved and merge, create the tag for the release candidate:</p>
@@ -17935,7 +18213,52 @@ git push origin X.X.X-RC.RELEASE</pre>
 <div class="sect3">
 <h4 id="_publish_the_release_candidate_on_docker_hub_and_documentation"><a class="anchor" href="#_publish_the_release_candidate_on_docker_hub_and_documentation"></a>64.2.2. Publish the release candidate on docker hub and documentation</h4>
 <div class="paragraph">
-<p>If the build and tests are successful, launch manually GitHubActions with jobs : <code>Build</code> , <code>Docker Push</code> and <code>Build and publish documentation</code></p>
+<p>Once the release branch build is passing, you should trigger the CICD tasks associated with a release candidate (Docker images for DockerHub and
+documentation).</p>
+</div>
+<div class="paragraph">
+<p>To do so, go to
+<a href="https://github.com/opfab/operatorfabric-core/actions">Github Actions</a>.
+and launch the workflow on X.X.release branch with the following options :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Build : true</p>
+</li>
+<li>
+<p>Karate tests : false</p>
+</li>
+<li>
+<p>Cypress tests : false</p>
+</li>
+<li>
+<p>Build and publish documentation : true</p>
+</li>
+<li>
+<p>Build and publish documentation - Latest : false</p>
+</li>
+<li>
+<p>Docker Push : true</p>
+</li>
+<li>
+<p>Docker Push - Latest : false</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Wait for the build to complete and check that all jobs have been successful.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check that the <code>X.X.X-RC.RELEASE</code> images have been generated and pushed to DockerHub.</p>
+</li>
+<li>
+<p>Check that the documentation has been generated and pushed to the GitHub pages website : check the version and revision date at the top of the documents in the current documentation
+(for example <a href="https://opfab.github.io/documentation/current/architecture/">the architecture documentation</a>)</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect3">
@@ -18165,7 +18488,7 @@ in case there is an issue.
 <p>Before releasing a version, you need to prepare the release.</p>
 </div>
 <div class="sect3">
-<h4 id="_move_release_candidate_to_release"><a class="anchor" href="#_move_release_candidate_to_release"></a>64.3.1. Move Release Candidate to Release</h4>
+<h4 id="_prepare_the_release_branch"><a class="anchor" href="#_prepare_the_release_branch"></a>64.3.1. Prepare the release branch</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -18173,6 +18496,16 @@ in case there is an issue.
 <div class="listingblock">
 <div class="content">
 <pre>git checkout X.X.release
+git checkout -b X.X.X.release.draft</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If there was no release candidate, you need to create the branch first:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git checkout -b X.X.release
+git push --set-upstream origin X.X.release
 git checkout -b X.X.X.release.draft</pre>
 </div>
 </div>
@@ -21820,8 +22153,24 @@ You can find more information in the docker documentation : <a href="https://doc
 <h3 id="_use_of_date_fns_instead_of_moment_js_library"><a class="anchor" href="#_use_of_date_fns_instead_of_moment_js_library"></a>95.2. Use of <code>date-fns</code> instead of <code>Moment.js</code> library</h3>
 <div class="paragraph">
 <p>OperatorFabric is now using <code>date-fns</code> library instead of <code>Moment.js</code>. The format used for defining a formatted date string
-is now different. So, if needed, in the file <code>web-ui.json</code>, you have to modify your fields : <code>settings.dateTimeformat</code>
-and <code>settings.dateFormat</code>. You can find the available formats here : <a href="https://date-fns.org/v3.6.0/docs/format" class="bare">date-fns.org/v3.6.0/docs/format</a></p>
+is now different. So, if needed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>in the file <code>web-ui.json</code>, you have to modify your fields : <code>settings.dateTimeformat</code>
+and <code>settings.dateFormat</code>.</p>
+</li>
+<li>
+<p>in your templates when using handlebars helper <code>dateFormat</code>, you have to modify the formatting string</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can find the available formats here : <a href="https://date-fns.org/v3.6.0/docs/format" class="bare">date-fns.org/v3.6.0/docs/format</a></p>
+</div>
+<div class="paragraph">
+<p>Especially you have to replace <code>YYYY</code> by <code>yyyy</code> and <code>DD</code> by <code>dd</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -21979,6 +22328,223 @@ deleted, so you need to upgrade your code and use the method <code>opfab.current
 <div class="paragraph">
 <p>Now, instead of doing <code>opfab service get-log-level &lt;serviceName&gt;</code>, you have to do <code>opfab log get-level  &lt;serviceName&gt;</code>.
 And instead of doing <code>opfab service set-log-level &lt;serviceName&gt; &lt;level&gt;</code>, you have to do <code>opfab log set-level  &lt;serviceName&gt; &lt;level&gt;</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rabbitmq_3"><a class="anchor" href="#_rabbitmq_3"></a>95.11. RabbitMQ</h3>
+<div class="paragraph">
+<p>The version of RabbitMQ is now 4.0.2. Before deploying it in production, if you are using a persistent queue, you need to clean the persistent file directory; otherwise, you will not be able to start the RabbitMQ docker container. (Inside the docker, the persistent folder is <code>/var/lib/rabbitmq/mnesia/</code>)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_5_x_to_release_4_6_0"><a class="anchor" href="#_migration_guide_from_release_4_5_x_to_release_4_6_0"></a>96. Migration Guide from release 4.5.X to release 4.6.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_removed_field_tonotify"><a class="anchor" href="#_removed_field_tonotify"></a>96.1. Removed field <code>toNotify</code></h3>
+<div class="paragraph">
+<p>The card field <code>toNotify</code> has been removed. You must use the <code>actions</code> field including "STORE_ONLY_IN_ARCHIVES" action instead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_line_added_between_opfab_fields_and_template_in_usercard_form"><a class="anchor" href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form"></a>96.2. New line added between opfab fields and template in usercard form</h3>
+<div class="paragraph">
+<p>A new line (&lt;br/&gt;) has been added in the usercard form, between the opfab fields (service/process/state or severity or
+dates fields (depending on which fields are visible or not)) and the display of the template. So you have to check that
+the display of your usercard form still suits you.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timeline_domain_tr_renamed_rt"><a class="anchor" href="#_timeline_domain_tr_renamed_rt"></a>96.3. Timeline domain TR renamed RT</h3>
+<div class="paragraph">
+<p>To be consistent, the timeline domain TR has been renamed RT (Real Time).
+So if necessary, you have to update your config file <code>web-ui.json</code>, replacing value <code>TR</code> with <code>RT</code> in the field
+<code>feed.timeline.domains</code>, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre> "timeline": {
+   "domains": [
+     "RT",
+     "J",
+     "7D",
+     "W",
+     "M",
+     "Y"
+   ]
+ }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_archives_and_logging_number_of_lines_per_page"><a class="anchor" href="#_ui_archives_and_logging_number_of_lines_per_page"></a>96.4. UI archives and logging number of lines per page</h3>
+<div class="paragraph">
+<p>Since it is now possible to select the number of lines per page displayed in the archive and logging screens, the configuration parameters <code>archive.filters.page.size</code> and <code>logging.filters.page.size</code> are no longer needed and can be removed from the web-ui.json file.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_for_recap_email"><a class="anchor" href="#_configuration_for_recap_email"></a>96.5. Configuration for recap email</h3>
+<div class="paragraph">
+<p>The feature to send weekly recapitulation email has been added and thus the configuration of operatorfabric.cardsExternalDiffusion has changed.
+Before, this was the default configuration for the daily email :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  dailyEmailTitle: 'Cards received during the day'
+  hourToSendDailyEmail: 7
+  minuteToSendDailyEmail: 30</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now the following fields have been added :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>dailyEmailBodyPrefix</p>
+</li>
+<li>
+<p>weeklyEmailBodyPrefix</p>
+</li>
+<li>
+<p>weeklyEmailTitle</p>
+</li>
+<li>
+<p>dayOfWeekToSendWeeklyRecapEmail</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>And the time fields have changed from :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hourToSendDailyEmail</p>
+</li>
+<li>
+<p>minuteToSendDailyEmail</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hourToSendRecapEmail</p>
+</li>
+<li>
+<p>minuteToSendRecapEmail</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The new default configuration is as such :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  dailyEmailTitle: 'Cards received during the day'
+  weeklyEmailTitle: 'Cards received during the week'
+  dailyEmailBodyPrefix: 'You received the following cards during the past 24 hours : '
+  weeklyEmailBodyPrefix: 'You received the following cards during the past 7 days : '
+  dayOfWeekToSendWeeklyRecapEmail: 1
+  hourToSendRecapEmail: 7
+  minuteToSendRecapEmail: 30</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timezone"><a class="anchor" href="#_timezone"></a>96.6. Timezone</h3>
+<div class="paragraph">
+<p>For the cards-external-diffusion service, the timezone configuration has been moved from the Dockerfile to the docker-compose.yml file. If nothing is set in the docker compose file, the default value will be the local timezone of your machine.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates_2"><a class="anchor" href="#_email_templates_2"></a>96.7. Email templates</h3>
+<div class="paragraph">
+<p>To be homogeneous with UI templates, it is now necessary to prefix the handlebars variables with "card" in the email templates. For example, the following code</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+    {{#data.networkContingencies}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is to be changed to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+  {{#card.data.networkContingencies}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates_custom_parameters"><a class="anchor" href="#_email_templates_custom_parameters"></a>96.8. Email templates custom parameters</h3>
+<div class="paragraph">
+<p>It is now possible to configure custom parameters to be used in handlebars email templates.
+The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      customConfig:
+             myParam1: 'myValue1'
+             myParam2: 'myValue2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The custom parameters can then be referred in handlebars template prefixed with "config", for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{{#config.myParam1}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This change has an impact on existing mail templates, as the existing handlebars variables will have to be prefixed with "card", for example on the existing example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+    {{#data.networkContingencies}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is to be changed to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+  {{#card.data.networkContingencies}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_removed_field_timespans_recurrence"><a class="anchor" href="#_removed_field_timespans_recurrence"></a>96.9. Removed field <code>timespans.recurrence</code></h3>
+<div class="paragraph">
+<p>The field <code>timespans.recurrence</code> has been removed. So now, to create a recurrent card, you must use the field rRule.
+There is a script to migrate existing tasks using recurrence object. After the call to this script, you have to call the
+endpoint "reset". Example :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>node migration-rrule-recurrence.js &lt;databaseURL&gt; &lt;databasePort&gt; &lt;databaseLogin&gt; &lt;databasePassword&gt; &lt;oldProcessId&gt; &lt;newProcessId&gt; &lt;oldStateId&gt; &lt;newStateId&gt; &lt;newProcessVersion&gt;</p>
+</li>
+<li>
+<p>curl <a href="http://localhost:2107/reset" class="bare">localhost:2107/reset</a> -H "Authorization:Bearer $token"</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

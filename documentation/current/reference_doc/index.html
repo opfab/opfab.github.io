@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.5.0.RELEASE,</span>
-<span id="revdate">23 October 2024</span>
+<span id="revnumber">version 4.6.0.RELEASE,</span>
+<span id="revdate">31 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -638,6 +638,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_opfab_border_box">3.2.3.7. opfab-border-box</a></li>
 <li><a href="#_opfab_color_danger_opfab_color_warning_and_opfab_color_success">3.2.3.8. opfab-color-danger, opfab-color-warning and opfab-color-success</a></li>
 <li><a href="#_opfab_btn_opfab_btn_cancel">3.2.3.9. opfab-btn, opfab-btn-cancel</a></li>
+<li><a href="#_opfab_dialog">3.2.3.10. opfab-dialog</a></li>
 </ul>
 </li>
 <li><a href="#_tooltip">3.2.4. Tooltip</a></li>
@@ -668,7 +669,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_recurrent_reminder">4.6.2. Recurrent reminder</a>
 <ul class="sectlevel4">
 <li><a href="#_using_rrule_field">4.6.2.1. Using <code>rRule</code> field :</a></li>
-<li><a href="#_using_recurrence_field_in_the_timespan_object_deprecated">4.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</a></li>
 </ul>
 </li>
 <li><a href="#_debugging">4.6.3. Debugging</a></li>
@@ -681,6 +681,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_configuring_email_notifications">5.1. Configuring Email Notifications</a></li>
 <li><a href="#_email_content">5.2. Email Content</a></li>
+<li><a href="#_email_templates">5.3. Email templates</a></li>
 </ul>
 </li>
 <li><a href="#response_cards">6. Response cards</a>
@@ -737,7 +738,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_user_card_template_3">8.3.2. User card template</a></li>
 </ul>
 </li>
-<li><a href="#built-in_templates_common_usercard_attributes">8.4. Common attributes for user cards built-in templates</a></li>
+<li><a href="#_task">8.4. Task</a>
+<ul class="sectlevel3">
+<li><a href="#_card_template_4">8.4.1. Card template</a></li>
+<li><a href="#_user_card_template_4">8.4.2. User card template</a></li>
+</ul>
+</li>
+<li><a href="#built-in_templates_common_usercard_attributes">8.5. Common attributes for user cards built-in templates</a></li>
 </ul>
 </li>
 <li><a href="#business_data">9. Business Data</a>
@@ -781,20 +788,22 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_hideloadingspinner">10.5.2. Function hideLoadingSpinner</a></li>
 <li><a href="#_function_getchildcards">10.5.3. Function getChildCards</a></li>
 <li><a href="#_function_getcard">10.5.4. Function getCard()</a></li>
-<li><a href="#_function_getdisplaycontext">10.5.5. Function getDisplayContext</a></li>
-<li><a href="#_function_getentitiesallowedtorespond">10.5.6. Function getEntitiesAllowedToRespond</a></li>
-<li><a href="#_function_getentitiesusableforuserresponse">10.5.7. Function  getEntitiesUsableForUserResponse</a></li>
-<li><a href="#_function_isresponselocked">10.5.8. Function isResponseLocked</a></li>
-<li><a href="#_function_isuserallowedtorespond">10.5.9. Function isUserAllowedToRespond</a></li>
-<li><a href="#_function_isusermemberofanentityrequiredtorespond">10.5.10. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
-<li><a href="#_function_listentoresponselock">10.5.11. Function listenToResponseLock</a></li>
-<li><a href="#_function_listentoresponseunlock">10.5.12. Function listenToResponseUnlock</a></li>
-<li><a href="#_function_listentochildcards">10.5.13. Function listenToChildCards</a></li>
-<li><a href="#_function_listentolttdexpired">10.5.14. Function listenToLttdExpired</a></li>
-<li><a href="#_function_listentostylechange">10.5.15. Function listenToStyleChange</a></li>
-<li><a href="#_function_listentoscreensize">10.5.16. Function listenToScreenSize</a></li>
-<li><a href="#_function_listentotemplaterenderingcomplete">10.5.17. Function listenToTemplateRenderingComplete</a></li>
-<li><a href="#_function_registerfunctiontogetuserresponse">10.5.18. Function registerFunctionToGetUserResponse</a></li>
+<li><a href="#_function_isuserallowedtoedit">10.5.5. Function isUserAllowedToEdit</a></li>
+<li><a href="#_function_editcard">10.5.6. Function editCard</a></li>
+<li><a href="#_function_getdisplaycontext">10.5.7. Function getDisplayContext</a></li>
+<li><a href="#_function_getentitiesallowedtorespond">10.5.8. Function getEntitiesAllowedToRespond</a></li>
+<li><a href="#_function_getentitiesusableforuserresponse">10.5.9. Function  getEntitiesUsableForUserResponse</a></li>
+<li><a href="#_function_isresponselocked">10.5.10. Function isResponseLocked</a></li>
+<li><a href="#_function_isuserallowedtorespond">10.5.11. Function isUserAllowedToRespond</a></li>
+<li><a href="#_function_isusermemberofanentityrequiredtorespond">10.5.12. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
+<li><a href="#_function_listentoresponselock">10.5.13. Function listenToResponseLock</a></li>
+<li><a href="#_function_listentoresponseunlock">10.5.14. Function listenToResponseUnlock</a></li>
+<li><a href="#_function_listentochildcards">10.5.15. Function listenToChildCards</a></li>
+<li><a href="#_function_listentolttdexpired">10.5.16. Function listenToLttdExpired</a></li>
+<li><a href="#_function_listentostylechange">10.5.17. Function listenToStyleChange</a></li>
+<li><a href="#_function_listentoscreensize">10.5.18. Function listenToScreenSize</a></li>
+<li><a href="#_function_listentotemplaterenderingcomplete">10.5.19. Function listenToTemplateRenderingComplete</a></li>
+<li><a href="#_function_registerfunctiontogetuserresponse">10.5.20. Function registerFunctionToGetUserResponse</a></li>
 </ul>
 </li>
 <li><a href="#_currentusercard_api">10.6. CurrentUserCard API</a>
@@ -833,6 +842,16 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_alertmessage_api">10.8. AlertMessage API</a>
 <ul class="sectlevel3">
 <li><a href="#_function_show">10.8.1. Function show</a></li>
+</ul>
+</li>
+<li><a href="#_ui_api">10.9. UI API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcurrentvisibleperiod">10.9.1. Function getCurrentVisiblePeriod</a></li>
+</ul>
+</li>
+<li><a href="#_cards_api">10.10. Cards API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcards">10.10.1. Function getCards</a></li>
 </ul>
 </li>
 </ul>
@@ -1227,13 +1246,6 @@ Grouping cards is an experimental feature
 </div>
 </div>
 <div class="sect5">
-<h6 id="_tonotify_tonotify"><a class="anchor" href="#_tonotify_tonotify"></a>ToNotify (<code>toNotify</code>)</h6>
-<div class="paragraph">
-<p>Boolean attribute. If the card must not be displayed in the feed and in monitoring screen, this field must be set to false.
-In that case, it means the card is stored only in archivedCards collection and not in cards collection.</p>
-</div>
-</div>
-<div class="sect5">
 <h6 id="_publisher_type_publishertype"><a class="anchor" href="#_publisher_type_publishertype"></a>Publisher type (<code>publisherType</code>)</h6>
 <div class="ulist">
 <ul>
@@ -1308,10 +1320,23 @@ Only the POINT and POLYGON are supported.
 <div class="sect5">
 <h6 id="_actions_actions"><a class="anchor" href="#_actions_actions"></a>Actions (<code>actions</code>)</h6>
 <div class="paragraph">
-<p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:
-- KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.
-- PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.
-- KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
+<p>A list of predetermined actions that will be executed upon receiving the card. The available actions include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>KEEP_CHILD_CARDS : used to keep child cards when the parent card is modified.</p>
+</li>
+<li>
+<p>PROPAGATE_READ_ACK_TO_PARENT_CARD : used only for response cards. When receiving the child card, the status of the parent card should be considered as 'unread' and 'not acknowledged' until the user reads or acknowledge it again.</p>
+</li>
+<li>
+<p>KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
+</li>
+<li>
+<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed and in monitoring screen.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -3074,6 +3099,22 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_opfab_dialog"><a class="anchor" href="#_opfab_dialog"></a>3.2.3.10. opfab-dialog</h5>
+<div class="paragraph">
+<p>Styles for dialog box, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  &lt;dialog class="opfab-dialog"&gt;
+    &lt;p&gt;This is a dialog box, you can set the text you want.&lt;/p&gt;
+    &lt;form method="dialog" style="text-align: center"&gt;
+        &lt;button class="opfab-btn"&gt;OK&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/dialog&gt;</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_tooltip"><a class="anchor" href="#_tooltip"></a>3.2.4. Tooltip</h4>
@@ -3506,28 +3547,18 @@ For example:</p>
 <p>The time for "reactivation" is defined with the parameter "secondsBeforeTimeSpanForReminder" in the card.</p>
 </div>
 <div class="paragraph">
-<p>The reminder is done related to the timespans values :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>the startDate</p>
-</li>
-<li>
-<p>or recurrently if a recurrence objet is defined.</p>
-</li>
-</ul>
+<p>The reminder is done related to the timespans value <code>startDate</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_simple_reminder"><a class="anchor" href="#_simple_reminder"></a>4.6.1. Simple reminder</h4>
 <div class="paragraph">
-<p>If a timespan is present without a recurrence object, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
+<p>If a timespan is present, a reminder will arise at <code>startDate - secondsBeforeTimeSpanForReminder</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_recurrent_reminder"><a class="anchor" href="#_recurrent_reminder"></a>4.6.2. Recurrent reminder</h4>
 <div class="paragraph">
-<p>It is possible to set a recurrent reminder for a card. There are two ways to do it :</p>
+<p>It is possible to set a recurrent reminder for a card.</p>
 </div>
 <div class="sect4">
 <h5 id="_using_rrule_field"><a class="anchor" href="#_using_rrule_field"></a>4.6.2.1. Using <code>rRule</code> field :</h5>
@@ -3568,54 +3599,6 @@ For example:</p>
     byminute : [30]
 }</pre>
 </div>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_using_recurrence_field_in_the_timespan_object_deprecated"><a class="anchor" href="#_using_recurrence_field_in_the_timespan_object_deprecated"></a>4.6.2.2. Using <code>recurrence</code> field in the timespan object (deprecated)</h5>
-<div class="paragraph">
-<p><code>recurrence</code> field defines a regular event in the timespan structure. It is defined with the following fields :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>HoursAndMinutes : hours and minutes of day when the event arise</p>
-</li>
-<li>
-<p>DaysOfWeek : a list of days of the week when the event arises. The day of week is a number with 1 being Monday and 7 being Sunday as defined in <a href="https://en.wikipedia.org/wiki/ISO_8601#Week_dates">the ISO Standard 8601 (weekday number) </a></p>
-</li>
-<li>
-<p>Months : a list of months of the year when the event arises. The month of year is a number with 0 being January and 11 being December</p>
-</li>
-<li>
-<p>TimeZone : the time zone of reference for the recurrence definition (default value is Europe/Paris)</p>
-</li>
-<li>
-<p>DurationInMinutes : the duration in minutes of the event</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The reminder will arise for each <code>recurrent date of event - secondsBeforeTimeSpanForReminder</code> starting from startDate.</p>
-</div>
-<div class="sect5">
-<h6 id="_recurrent_reminder_example_using_recurrence_field"><a class="anchor" href="#_recurrent_reminder_example_using_recurrence_field"></a>Recurrent reminder example using <code>recurrence</code> field :</h6>
-<div class="paragraph">
-<p>If timespan is defined as follows :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>startDate : 1231135161
-recurrence : {
-    hoursAndMinutes : { hours:10 ,minutes:30},
-    daysOfWeek : [6,7],
-    durationInMinutes : 15,
-    months : [10,11]
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If secondsBeforeTimeSpanForReminder is set to 600 seconds, the reminder will arise every Saturday and Sunday, in November and December at 10:20 starting from startDate.</p>
 </div>
 </div>
 </div>
@@ -3660,16 +3643,53 @@ the "timezone for mails" field in the user settings screen.</p>
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates"><a class="anchor" href="#_email_templates"></a>5.3. Email templates</h3>
+<div class="paragraph">
+<p>In email handlebars templates it is possible to refer card fields by prefixing with "card" prefix. For example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;div id="apogee-contingencies"&gt;
+  {{#card.data.networkContingencies}}</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>{{{ deltaToHtml data.richMessage }}}</pre>
+<pre>{{{ deltaToHtml card.data.richMessage }}}</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Ensure to encapsulate the expression within three curly braces to prevent HTML escaping.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to configure custom parameters to be used in handlebars email templates.
+The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      customConfig:
+             myParam1: 'myValue1'
+             myParam2: 'myValue2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The custom parameters can then be referred in handlebars template prefixed with "config", for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{{#config.myParam1}}</pre>
+</div>
 </div>
 </div>
 </div>
@@ -4183,7 +4203,7 @@ core repository under (<a href="https://github.com/opfab/operatorfabric-core/tre
 <div class="sect2">
 <h3 id="_method_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_method_registerfunctiontogetspecificcardinformation"></a>7.2. Method registerFunctionToGetSpecificCardInformation</h3>
 <div class="paragraph">
-<p>The following card fields can be set via the object <code>card</code> in the object returned by method the method register via
+<p>The following card fields can be set via the object <code>card</code> in the object returned by the method register via
 registerFunctionToGetSpecificCardInformation:</p>
 </div>
 <div class="ulist">
@@ -4228,6 +4248,9 @@ registerFunctionToGetSpecificCardInformation:</p>
 <p>entitiesRequiredToRespond</p>
 </li>
 <li>
+<p>groupRecipients</p>
+</li>
+<li>
 <p>externalRecipients (used to send cards to third party , see
 <a href="/documentation/current/reference_doc/index.html#define_a_third_party_tool">Define a third party tool</a>
 for more information).</p>
@@ -4261,9 +4284,6 @@ You can find an example in the file:
 </div>
 <div class="paragraph">
 <p>If not using 'timeSpans' it&#8217;s possible to set the 'viewCardInCalendar' field to true, the card will be visible using card&#8217;s startDate and endDate as default timeSpan.</p>
-</div>
-<div class="paragraph">
-<p>The 'recurrence' field is deprecated and could be removed in the future.</p>
 </div>
 <div class="paragraph">
 <p>If the form is not filled correctly by the user, you can provide an error message (see example above).
@@ -4611,7 +4631,58 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect2">
-<h3 id="built-in_templates_common_usercard_attributes"><a class="anchor" href="#built-in_templates_common_usercard_attributes"></a>8.4. Common attributes for user cards built-in templates</h3>
+<h3 id="_task"><a class="anchor" href="#_task"></a>8.4. Task</h3>
+<div class="sect3">
+<h4 id="_card_template_4"><a class="anchor" href="#_card_template_4"></a>8.4.1. Card template</h4>
+<div class="paragraph">
+<p>If you want to set a reminder for a single or recurring future event, you can use the task built-in template, to do that just put in your handlebar file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-task-card&gt;&lt;/opfab-task-card&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_card_template_4"><a class="anchor" href="#_user_card_template_4"></a>8.4.2. User card template</h4>
+<div class="paragraph">
+<p>If you want to create a user card for a task, just add in your handlebar file :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;opfab-task-usercard&gt;&lt;/opfab-task-usercard&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The description of the task will be stored in the fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>data.taskTitle</code></p>
+</li>
+<li>
+<p><code>data.richTaskDescription</code></p>
+</li>
+<li>
+<p><code>data.minutesForReminder</code></p>
+</li>
+<li>
+<p><code>data.durationInMinutes</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>of the card.</p>
+</div>
+<div class="paragraph">
+<p>By using attributes you can set some parameters regarding recipients, see
+<a href="/documentation/current/reference_doc/index.html#built-in_templates_common_usercard_attributes">common attributes for user cards</a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="built-in_templates_common_usercard_attributes"><a class="anchor" href="#built-in_templates_common_usercard_attributes"></a>8.5. Common attributes for user cards built-in templates</h3>
 <div class="paragraph">
 <p>For each user card templates, you can set :</p>
 </div>
@@ -4682,7 +4753,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <h2 id="_frontend_api"><a class="anchor" href="#_frontend_api"></a>10. Frontend API</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follow :</p>
+<p>The frontend API is intended to provide a way for template to communicate with the core opfab code. It&#8217;s divided as follows :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4913,7 +4984,29 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_getdisplaycontext"><a class="anchor" href="#_function_getdisplaycontext"></a>10.5.5. Function getDisplayContext</h4>
+<h4 id="_function_isuserallowedtoedit"><a class="anchor" href="#_function_isuserallowedtoedit"></a>10.5.5. Function isUserAllowedToEdit</h4>
+<div class="paragraph">
+<p>To check if current user has the permission to edit the current card, you can call the isUserAllowedToEdit() method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>   const editAllowed = opfab.currentCard.isUserAllowedToEdit()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_editcard"><a class="anchor" href="#_function_editcard"></a>10.5.6. Function editCard</h4>
+<div class="paragraph">
+<p>It is possible to open current card edition modal, if current user has the permission, by calling the editCard() method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    opfab.currentCard.editCard()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_getdisplaycontext"><a class="anchor" href="#_function_getdisplaycontext"></a>10.5.7. Function getDisplayContext</h4>
 <div class="paragraph">
 <p>To adapt the template content to the display context it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function getDisplayContext(). The function returns a string with one of the following values :</p>
 </div>
@@ -4937,7 +5030,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_getentitiesallowedtorespond"><a class="anchor" href="#_function_getentitiesallowedtorespond"></a>10.5.6. Function getEntitiesAllowedToRespond</h4>
+<h4 id="_function_getentitiesallowedtorespond"><a class="anchor" href="#_function_getentitiesallowedtorespond"></a>10.5.8. Function getEntitiesAllowedToRespond</h4>
 <div class="paragraph">
 <p>If inside your template, you want to get the ids of the entities allowed to send a response, you can call the method getEntitiesAllowedToRespond. This method returns an array containing the ids.</p>
 </div>
@@ -4948,7 +5041,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_getentitiesusableforuserresponse"><a class="anchor" href="#_function_getentitiesusableforuserresponse"></a>10.5.7. Function  getEntitiesUsableForUserResponse</h4>
+<h4 id="_function_getentitiesusableforuserresponse"><a class="anchor" href="#_function_getentitiesusableforuserresponse"></a>10.5.9. Function  getEntitiesUsableForUserResponse</h4>
 <div class="paragraph">
 <p>If inside your template, you want to get the ids of the entities the user can answer on behalf of, you can call the method getEntitiesUsableForUserResponse. This method will return an array containing the entities' ids.</p>
 </div>
@@ -4959,9 +5052,9 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>10.5.8. Function isResponseLocked</h4>
+<h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>10.5.10. Function isResponseLocked</h4>
 <div class="paragraph">
-<p>To know if template is locked (i.e user can not respond unless he unlocks the card)</p>
+<p>To know if template is locked (i.e. user can not respond unless he unlocks the card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4970,7 +5063,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isuserallowedtorespond"><a class="anchor" href="#_function_isuserallowedtorespond"></a>10.5.9. Function isUserAllowedToRespond</h4>
+<h4 id="_function_isuserallowedtorespond"><a class="anchor" href="#_function_isuserallowedtorespond"></a>10.5.11. Function isUserAllowedToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user has the permission to send a response to the current card by calling the isUserAllowedToRespond() function.
 An example of usage can be found in the file
@@ -4983,7 +5076,7 @@ An example of usage can be found in the file
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>10.5.10. Function isUserMemberOfAnEntityRequiredToRespond</h4>
+<h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>10.5.12. Function isUserMemberOfAnEntityRequiredToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user is member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
 An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
@@ -4995,9 +5088,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.11. Function listenToResponseLock</h4>
+<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.13. Function listenToResponseLock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is locked (i.e user has responded to the current card)</p>
+<p>Register a function to be informed when template is locked (i.e. user has responded to the current card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5006,9 +5099,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>10.5.12. Function listenToResponseUnlock</h4>
+<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>10.5.14. Function listenToResponseUnlock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is unlocked (i.e user has clicked the modify button to prepare a new response)</p>
+<p>Register a function to be informed when template is unlocked (i.e. user has clicked the modify button to prepare a new response)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5017,7 +5110,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>10.5.13. Function listenToChildCards</h4>
+<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>10.5.15. Function listenToChildCards</h4>
 <div class="paragraph">
 <p>Register a function to receive the child cards on card loading and when the childCards list changes</p>
 </div>
@@ -5028,7 +5121,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>10.5.14. Function listenToLttdExpired</h4>
+<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>10.5.16. Function listenToLttdExpired</h4>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information can be received by the template by registering a listener.</p>
 </div>
@@ -5039,9 +5132,9 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>10.5.15. Function listenToStyleChange</h4>
+<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>10.5.17. Function listenToStyleChange</h4>
 <div class="paragraph">
-<p>Card template can be informed when switching day/night mode by registering a listener as follow :</p>
+<p>Card template can be informed when switching day/night mode by registering a listener as follows :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5053,7 +5146,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.16. Function listenToScreenSize</h4>
+<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.18. Function listenToScreenSize</h4>
 <div class="paragraph">
 <p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
 </div>
@@ -5077,7 +5170,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.17. Function listenToTemplateRenderingComplete</h4>
+<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.19. Function listenToTemplateRenderingComplete</h4>
 <div class="paragraph">
 <p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer ,lttdExpired and screenSize)</p>
 </div>
@@ -5091,7 +5184,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.18. Function registerFunctionToGetUserResponse</h4>
+<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.20. Function registerFunctionToGetUserResponse</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user response. This function will be called by opfab when user clicks on the "send response" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
 </div>
@@ -5547,7 +5640,7 @@ The method returns only one child card and is therefore not compatible with the 
 <div class="sect3">
 <h4 id="_function_show"><a class="anchor" href="#_function_show"></a>10.8.1. Function show</h4>
 <div class="paragraph">
-<p>It’s possible to show an alert message as a popover by calling  by calling the following function from the template :</p>
+<p>It’s possible to show an alert message as a popover by calling the following function from the template :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5555,7 +5648,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="paragraph">
-<p>The popover will have a different backgroung color based on the message level specified.
+<p>The popover will have a different background color based on the message level specified.
 The available message levels are:</p>
 </div>
 <div class="ulist">
@@ -5571,6 +5664,125 @@ The available message levels are:</p>
 </li>
 <li>
 <p>ALARM (red)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_api"><a class="anchor" href="#_ui_api"></a>10.9. UI API</h3>
+<div class="sect3">
+<h4 id="_function_getcurrentvisibleperiod"><a class="anchor" href="#_function_getcurrentvisibleperiod"></a>10.9.1. Function getCurrentVisiblePeriod</h4>
+<div class="paragraph">
+<p>You can use this function to get the current visible period on the timeline.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const currentVisiblePeriod = opfab.ui.getCurrentVisiblePeriod();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This function returns 3 fields :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>domain : RT / D / 7D / W / M / Y</p>
+</li>
+<li>
+<p>startPeriod : epochDate</p>
+</li>
+<li>
+<p>endPeriod : epochDate</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cards_api"><a class="anchor" href="#_cards_api"></a>10.10. Cards API</h3>
+<div class="sect3">
+<h4 id="_function_getcards"><a class="anchor" href="#_function_getcards"></a>10.10.1. Function getCards</h4>
+<div class="paragraph">
+<p>You can use this function to get a list of cards filtered on the specified filter.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.cards.getCards(cardsFilter).then(...);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns a Promise&lt;Page&gt; object with the result of the query.</p>
+</div>
+<div class="paragraph">
+<p>Page object contains the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>totalPages: total number of pages</p>
+</li>
+<li>
+<p>totalElements: total number of results</p>
+</li>
+<li>
+<p>size: size of the page</p>
+</li>
+<li>
+<p>number: page number</p>
+</li>
+<li>
+<p>first: true if it is the first page</p>
+</li>
+<li>
+<p>last: true if it is the last page</p>
+</li>
+<li>
+<p>numberOfElements: number of cards in this page</p>
+</li>
+<li>
+<p>content: array of returned cards</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Card filter object has the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>page: page number</p>
+</li>
+<li>
+<p>size: page size,</p>
+</li>
+<li>
+<p>adminMode: set to true to retrieve cards in admin mode (only if user has the permission)</p>
+</li>
+<li>
+<p>includeChildCards: set to true to retrieve also child cards</p>
+</li>
+<li>
+<p>filters: array of FilterModel</p>
+</li>
+<li>
+<p>selectedFields: array of cards fields as string to be returned</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FilterModel object has the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>columnName: card field to be tested</p>
+</li>
+<li>
+<p>matchType: one of BLANK,CONTAINS,ENDSWITH,EQUALS,GREATERTHAN,IN,LESSTHAN,NOTBLANK,NOTCONTAINS,NOTEQUAL,STARTSWITH</p>
+</li>
+<li>
+<p>filter: list of string values to be matched, for match types that need a single argument pass an array with one value</p>
 </li>
 </ul>
 </div>
@@ -6209,6 +6421,9 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 </li>
 <li>
 <p>SEND_RESPONSE</p>
+</li>
+<li>
+<p>NOTIFICATION_CONFIG</p>
 </li>
 </ul>
 </div>

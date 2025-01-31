@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.5.0.RELEASE,</span>
-<span id="revdate">23 October 2024</span>
+<span id="revnumber">version 4.6.0.RELEASE,</span>
+<span id="revdate">31 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -545,24 +545,21 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_shared_service_configuration">3.1.1. Shared service configuration</a>
 <ul class="sectlevel4">
 <li><a href="#_mongo_configuration">3.1.1.1. Mongo configuration</a></li>
+<li><a href="#_rabbitmq">3.1.1.2. RabbitMQ</a></li>
+<li><a href="#_internal_account">3.1.1.3. Internal account</a></li>
+<li><a href="#_optional_configuration_values">3.1.1.4. Optional configuration values</a></li>
 </ul>
 </li>
-<li><a href="#_rabbitmq">3.1.2. RabbitMQ</a>
+<li><a href="#_service_specific_configurations">3.1.2. Service specific configurations</a>
 <ul class="sectlevel4">
-<li><a href="#_internal_account">3.1.2.1. Internal account</a></li>
-<li><a href="#_optional_configuration_values">3.1.2.2. Optional configuration values</a></li>
-</ul>
-</li>
-<li><a href="#_service_specific_configurations">3.1.3. Service specific configurations</a>
-<ul class="sectlevel4">
-<li><a href="#_businessconfig_service">3.1.3.1. Businessconfig service</a></li>
-<li><a href="#_users_service">3.1.3.2. Users service</a></li>
-<li><a href="#cards-pub-conf">3.1.3.3. Cards-publication service</a></li>
-<li><a href="#_cards_consultation_service">3.1.3.4. Cards-consultation service</a></li>
-<li><a href="#external-devices-conf">3.1.3.5. External devices service</a></li>
-<li><a href="#cards-external-diffusion-conf">3.1.3.6. Cards external diffusion service</a></li>
-<li><a href="#cards-reminder-conf">3.1.3.7. Cards reminder service</a></li>
-<li><a href="#supervisor-conf">3.1.3.8. Supervisor service</a></li>
+<li><a href="#_businessconfig_service">3.1.2.1. Businessconfig service</a></li>
+<li><a href="#_users_service">3.1.2.2. Users service</a></li>
+<li><a href="#cards-pub-conf">3.1.2.3. Cards-publication service</a></li>
+<li><a href="#_cards_consultation_service">3.1.2.4. Cards-consultation service</a></li>
+<li><a href="#external-devices-conf">3.1.2.5. External devices service</a></li>
+<li><a href="#cards-external-diffusion-conf">3.1.2.6. Cards external diffusion service</a></li>
+<li><a href="#cards-reminder-conf">3.1.2.7. Cards reminder service</a></li>
+<li><a href="#supervisor-conf">3.1.2.8. Supervisor service</a></li>
 </ul>
 </li>
 </ul>
@@ -717,9 +714,8 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>Operator Fabric is supporting mongo version 5.0.0 and above.</p>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>3.1.2. RabbitMQ</h4>
+<div class="sect4">
+<h5 id="_rabbitmq"><a class="anchor" href="#_rabbitmq"></a>3.1.1.2. RabbitMQ</h5>
 <div class="paragraph">
 <p>A rabbitMQ component (docker image) is provided in opfab, it has a default configuration.</p>
 </div>
@@ -768,8 +764,9 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </tr>
 </tbody>
 </table>
+</div>
 <div class="sect4">
-<h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>3.1.2.1. Internal account</h5>
+<h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>3.1.1.3. Internal account</h5>
 <div class="paragraph">
 <p>The back service cards-reminder ,cards-diffusion and supervision need an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it</p>
 </div>
@@ -806,7 +803,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </div>
 </div>
 <div class="sect4">
-<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>3.1.2.2. Optional configuration values</h5>
+<h5 id="_optional_configuration_values"><a class="anchor" href="#_optional_configuration_values"></a>3.1.1.4. Optional configuration values</h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -856,7 +853,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </div>
 </div>
 <div class="sect3">
-<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>3.1.3. Service specific configurations</h4>
+<h4 id="_service_specific_configurations"><a class="anchor" href="#_service_specific_configurations"></a>3.1.2. Service specific configurations</h4>
 <div class="paragraph">
 <p>Each service can have a specific yaml configuration file that can override the default configuration</p>
 </div>
@@ -864,7 +861,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>Examples of configuration of each service can be found under config/docker or config/dev .</p>
 </div>
 <div class="sect4">
-<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>3.1.3.1. Businessconfig service</h5>
+<h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>3.1.2.1. Businessconfig service</h5>
 <div class="paragraph">
 <p>The businessconfig service has this specific property :</p>
 </div>
@@ -891,7 +888,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </table>
 </div>
 <div class="sect4">
-<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>3.1.3.2. Users service</h5>
+<h5 id="_users_service"><a class="anchor" href="#_users_service"></a>3.1.2.2. Users service</h5>
 <div class="paragraph">
 <p>The user service has these specific properties :</p>
 </div>
@@ -938,7 +935,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 </table>
 </div>
 <div class="sect4">
-<h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>3.1.3.3. Cards-publication service</h5>
+<h5 id="cards-pub-conf"><a class="anchor" href="#cards-pub-conf"></a>3.1.2.3. Cards-publication service</h5>
 <div class="paragraph">
 <p>The cards publication service has these specific properties :</p>
 </div>
@@ -1253,7 +1250,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>3.1.3.4. Cards-consultation service</h5>
+<h5 id="_cards_consultation_service"><a class="anchor" href="#_cards_consultation_service"></a>3.1.2.4. Cards-consultation service</h5>
 <div class="paragraph">
 <p>The cards-consultation service has these specific properties :</p>
 </div>
@@ -1290,7 +1287,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>3.1.3.5. External devices service</h5>
+<h5 id="external-devices-conf"><a class="anchor" href="#external-devices-conf"></a>3.1.2.5. External devices service</h5>
 <div class="paragraph">
 <p>The external devices service can be configured with the following properties:</p>
 </div>
@@ -1327,7 +1324,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>3.1.3.6. Cards external diffusion service</h5>
+<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>3.1.2.6. Cards external diffusion service</h5>
 <div class="paragraph">
 <p>The card external diffusion service can be configured with the following properties:</p>
 </div>
@@ -1409,19 +1406,43 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailTitle</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the day'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject prefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject title</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the week'</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Weekly mail subject title</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailBodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'You received the following cards during the past 24 hours : '</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Daily email body prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailBodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'You received the following cards during the past 7 days : '</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Weekly email body prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dayOfWeekToSendWeeklyRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day of the week to send the weekly recap emails (0 is Sunday, 6 is Saturday)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the daily recap email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the recap emails</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendDailyEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the daily recap email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the recap emails</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
@@ -1496,7 +1517,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </div>
 </div>
 <div class="sect4">
-<h5 id="cards-reminder-conf"><a class="anchor" href="#cards-reminder-conf"></a>3.1.3.7. Cards reminder service</h5>
+<h5 id="cards-reminder-conf"><a class="anchor" href="#cards-reminder-conf"></a>3.1.2.7. Cards reminder service</h5>
 <div class="paragraph">
 <p>The card reminder service can be configured with the following properties:</p>
 </div>
@@ -1554,7 +1575,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="supervisor-conf"><a class="anchor" href="#supervisor-conf"></a>3.1.3.8. Supervisor service</h5>
+<h5 id="supervisor-conf"><a class="anchor" href="#supervisor-conf"></a>3.1.2.8. Supervisor service</h5>
 <div class="paragraph">
 <p>The supervisor service can be configured with the following properties:</p>
 </div>
@@ -1836,12 +1857,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.page.size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The page size of archive filters</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.publishDate.days</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -2080,9 +2095,9 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.timeline.domains</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">["TR", "J", "7D", "W", "M", "Y"]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">["RT", "J", "7D", "W", "M", "Y"]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "TR", "J", "7D", "W", "M", "Y".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "RT", "J", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">heartbeatSendingInterval</p></td>
@@ -2311,6 +2326,24 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Format for time rendering (example : HH:mm )</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.hallwayMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, hallway mode for feed screen will be enabled</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.openNextCardOnAcknowledgment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, automatically opens the next card in the feed after acknowledging the current card</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.showAcknowledgmentFooter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, always shows the acknowledgments footer in cards</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settingsScreen.hiddenSettings</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -2322,8 +2355,11 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "sendCardsByEmail" : if present, the email options will not be displayed<br>
 "emailToPlainText" : if present, the email option to have the emails sent as plain text will not be displayed<br>
 "sendDailyEmail" : if present, the email option to have the daily email recap will not be displayed<br>
+"sendWeeklyEmail" : if present, the email option to have the weekly email recap will not be displayed<br>
 "timezoneForEmails" : if present, the field to choose the timezone for emails will not be displayed<br>
-"hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed</p></td>
+"hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed<br>
+"openNextCardOnAcknowledgment": if present, the checkbox to automaticaly open next card after acknowledgment won&#8217;t be displayed<br>
+"showAcknowledgmentFooter" : if present, the checkbox to always show acknowledgments footer won&#8217;t be displayed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">showUserEntitiesOnTopRightOfTheScreen</p></td>

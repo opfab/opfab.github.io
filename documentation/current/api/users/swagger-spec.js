@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.5.0.RELEASE",
+    "version" : "4.6.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -148,7 +148,7 @@ window.swaggerSpec={
         "roles" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/RolesEnum"
+            "$ref" : "#/definitions/RoleEnum"
           }
         }
       },
@@ -159,12 +159,12 @@ window.swaggerSpec={
         "description" : "Control Room 1"
       }
     },
-    "RolesEnum" : {
+    "RoleEnum" : {
       "type" : "string",
       "description" : "Different possible roles >\n* ACTIVITY_AREA : Used to display an entity in the activity area screen\n* ACTIVITY_AREA_GROUP : Used to group entities in the activity area screen\n* CARD_SENDER : Allows an entity to send cards\n* CARD_RECEIVER : Allows an entity to receive cards",
       "enum" : [ "ACTIVITY_AREA", "ACTIVITY_AREA_GROUP", "CARD_SENDER", "CARD_RECEIVER" ]
     },
-    "RightsEnum" : {
+    "RightEnum" : {
       "type" : "string",
       "description" : "Different possible rights >\n* Receive: Only receive rights (receiving card)\n* ReceiveAndWrite: Receive and write rights (receiving card and creating new card)",
       "enum" : [ "Receive", "ReceiveAndWrite" ]
@@ -176,7 +176,7 @@ window.swaggerSpec={
           "type" : "string"
         },
         "right" : {
-          "$ref" : "#/definitions/RightsEnum"
+          "$ref" : "#/definitions/RightEnum"
         },
         "filteringNotificationAllowed" : {
           "type" : "boolean",
@@ -288,6 +288,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, always show entities acknowledgments footer in card details"
         },
+        "openNextCardOnAcknowledgment" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, in feed page, after card acknowledgment open next card in the feed"
+        },
         "processesStatesNotNotified" : {
           "type" : "object",
           "description" : "Filters on processes and states for user feed (exclusion filter)",
@@ -329,6 +333,10 @@ window.swaggerSpec={
         "sendDailyEmail" : {
           "type" : "boolean",
           "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
+        },
+        "sendWeeklyEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, an email will be sent weekly with all the cards received during the week"
         },
         "email" : {
           "type" : "string",
@@ -394,6 +402,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
         },
+        "sendWeeklyEmail" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, an email will be sent weekly with all the cards received during the week"
+        },
         "email" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
@@ -421,7 +433,7 @@ window.swaggerSpec={
           "type" : "string"
         },
         "rights" : {
-          "$ref" : "#/definitions/RightsEnum"
+          "$ref" : "#/definitions/RightEnum"
         },
         "filteringNotificationAllowed" : {
           "type" : "boolean",

@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.5.0.RELEASE,</span>
-<span id="revdate">23 October 2024</span>
+<span id="revnumber">version 4.6.0.RELEASE,</span>
+<span id="revdate">31 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -814,6 +814,20 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_deletion_of_the_deprecated_api_method_opfab_currentcard_getentityusedforuserresponse">31.8. Deletion of the deprecated API method <code>opfab.currentCard.getEntityUsedForUserResponse()</code></a></li>
 <li><a href="#_removed_deprecated_keepchildcards_field">31.9. Removed deprecated <code>keepChildCards</code> field</a></li>
 <li><a href="#_opfab_cli_renaming_log_commands">31.10. Opfab CLI : renaming log commands</a></li>
+<li><a href="#_rabbitmq_2">31.11. RabbitMQ</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_5_x_to_release_4_6_0">32. Migration Guide from release 4.5.X to release 4.6.0</a>
+<ul class="sectlevel2">
+<li><a href="#_removed_field_tonotify">32.1. Removed field <code>toNotify</code></a></li>
+<li><a href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form">32.2. New line added between opfab fields and template in usercard form</a></li>
+<li><a href="#_timeline_domain_tr_renamed_rt">32.3. Timeline domain TR renamed RT</a></li>
+<li><a href="#_ui_archives_and_logging_number_of_lines_per_page">32.4. UI archives and logging number of lines per page</a></li>
+<li><a href="#_configuration_for_recap_email">32.5. Configuration for recap email</a></li>
+<li><a href="#_timezone">32.6. Timezone</a></li>
+<li><a href="#_email_templates">32.7. Email templates</a></li>
+<li><a href="#_email_templates_custom_parameters">32.8. Email templates custom parameters</a></li>
+<li><a href="#_removed_field_timespans_recurrence">32.9. Removed field <code>timespans.recurrence</code></a></li>
 </ul>
 </li>
 </ul>
@@ -4064,8 +4078,24 @@ You can find more information in the docker documentation : <a href="https://doc
 <h3 id="_use_of_date_fns_instead_of_moment_js_library"><a class="anchor" href="#_use_of_date_fns_instead_of_moment_js_library"></a>31.2. Use of <code>date-fns</code> instead of <code>Moment.js</code> library</h3>
 <div class="paragraph">
 <p>OperatorFabric is now using <code>date-fns</code> library instead of <code>Moment.js</code>. The format used for defining a formatted date string
-is now different. So, if needed, in the file <code>web-ui.json</code>, you have to modify your fields : <code>settings.dateTimeformat</code>
-and <code>settings.dateFormat</code>. You can find the available formats here : <a href="https://date-fns.org/v3.6.0/docs/format" class="bare">date-fns.org/v3.6.0/docs/format</a></p>
+is now different. So, if needed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>in the file <code>web-ui.json</code>, you have to modify your fields : <code>settings.dateTimeformat</code>
+and <code>settings.dateFormat</code>.</p>
+</li>
+<li>
+<p>in your templates when using handlebars helper <code>dateFormat</code>, you have to modify the formatting string</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can find the available formats here : <a href="https://date-fns.org/v3.6.0/docs/format" class="bare">date-fns.org/v3.6.0/docs/format</a></p>
+</div>
+<div class="paragraph">
+<p>Especially you have to replace <code>YYYY</code> by <code>yyyy</code> and <code>DD</code> by <code>dd</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -4223,6 +4253,223 @@ deleted, so you need to upgrade your code and use the method <code>opfab.current
 <div class="paragraph">
 <p>Now, instead of doing <code>opfab service get-log-level &lt;serviceName&gt;</code>, you have to do <code>opfab log get-level  &lt;serviceName&gt;</code>.
 And instead of doing <code>opfab service set-log-level &lt;serviceName&gt; &lt;level&gt;</code>, you have to do <code>opfab log set-level  &lt;serviceName&gt; &lt;level&gt;</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rabbitmq_2"><a class="anchor" href="#_rabbitmq_2"></a>31.11. RabbitMQ</h3>
+<div class="paragraph">
+<p>The version of RabbitMQ is now 4.0.2. Before deploying it in production, if you are using a persistent queue, you need to clean the persistent file directory; otherwise, you will not be able to start the RabbitMQ docker container. (Inside the docker, the persistent folder is <code>/var/lib/rabbitmq/mnesia/</code>)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_5_x_to_release_4_6_0"><a class="anchor" href="#_migration_guide_from_release_4_5_x_to_release_4_6_0"></a>32. Migration Guide from release 4.5.X to release 4.6.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_removed_field_tonotify"><a class="anchor" href="#_removed_field_tonotify"></a>32.1. Removed field <code>toNotify</code></h3>
+<div class="paragraph">
+<p>The card field <code>toNotify</code> has been removed. You must use the <code>actions</code> field including "STORE_ONLY_IN_ARCHIVES" action instead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_line_added_between_opfab_fields_and_template_in_usercard_form"><a class="anchor" href="#_new_line_added_between_opfab_fields_and_template_in_usercard_form"></a>32.2. New line added between opfab fields and template in usercard form</h3>
+<div class="paragraph">
+<p>A new line (&lt;br/&gt;) has been added in the usercard form, between the opfab fields (service/process/state or severity or
+dates fields (depending on which fields are visible or not)) and the display of the template. So you have to check that
+the display of your usercard form still suits you.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timeline_domain_tr_renamed_rt"><a class="anchor" href="#_timeline_domain_tr_renamed_rt"></a>32.3. Timeline domain TR renamed RT</h3>
+<div class="paragraph">
+<p>To be consistent, the timeline domain TR has been renamed RT (Real Time).
+So if necessary, you have to update your config file <code>web-ui.json</code>, replacing value <code>TR</code> with <code>RT</code> in the field
+<code>feed.timeline.domains</code>, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre> "timeline": {
+   "domains": [
+     "RT",
+     "J",
+     "7D",
+     "W",
+     "M",
+     "Y"
+   ]
+ }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ui_archives_and_logging_number_of_lines_per_page"><a class="anchor" href="#_ui_archives_and_logging_number_of_lines_per_page"></a>32.4. UI archives and logging number of lines per page</h3>
+<div class="paragraph">
+<p>Since it is now possible to select the number of lines per page displayed in the archive and logging screens, the configuration parameters <code>archive.filters.page.size</code> and <code>logging.filters.page.size</code> are no longer needed and can be removed from the web-ui.json file.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_for_recap_email"><a class="anchor" href="#_configuration_for_recap_email"></a>32.5. Configuration for recap email</h3>
+<div class="paragraph">
+<p>The feature to send weekly recapitulation email has been added and thus the configuration of operatorfabric.cardsExternalDiffusion has changed.
+Before, this was the default configuration for the daily email :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  dailyEmailTitle: 'Cards received during the day'
+  hourToSendDailyEmail: 7
+  minuteToSendDailyEmail: 30</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now the following fields have been added :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>dailyEmailBodyPrefix</p>
+</li>
+<li>
+<p>weeklyEmailBodyPrefix</p>
+</li>
+<li>
+<p>weeklyEmailTitle</p>
+</li>
+<li>
+<p>dayOfWeekToSendWeeklyRecapEmail</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>And the time fields have changed from :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hourToSendDailyEmail</p>
+</li>
+<li>
+<p>minuteToSendDailyEmail</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hourToSendRecapEmail</p>
+</li>
+<li>
+<p>minuteToSendRecapEmail</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The new default configuration is as such :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  dailyEmailTitle: 'Cards received during the day'
+  weeklyEmailTitle: 'Cards received during the week'
+  dailyEmailBodyPrefix: 'You received the following cards during the past 24 hours : '
+  weeklyEmailBodyPrefix: 'You received the following cards during the past 7 days : '
+  dayOfWeekToSendWeeklyRecapEmail: 1
+  hourToSendRecapEmail: 7
+  minuteToSendRecapEmail: 30</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timezone"><a class="anchor" href="#_timezone"></a>32.6. Timezone</h3>
+<div class="paragraph">
+<p>For the cards-external-diffusion service, the timezone configuration has been moved from the Dockerfile to the docker-compose.yml file. If nothing is set in the docker compose file, the default value will be the local timezone of your machine.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates"><a class="anchor" href="#_email_templates"></a>32.7. Email templates</h3>
+<div class="paragraph">
+<p>To be homogeneous with UI templates, it is now necessary to prefix the handlebars variables with "card" in the email templates. For example, the following code</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+    {{#data.networkContingencies}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is to be changed to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+  {{#card.data.networkContingencies}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_templates_custom_parameters"><a class="anchor" href="#_email_templates_custom_parameters"></a>32.8. Email templates custom parameters</h3>
+<div class="paragraph">
+<p>It is now possible to configure custom parameters to be used in handlebars email templates.
+The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      customConfig:
+             myParam1: 'myValue1'
+             myParam2: 'myValue2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The custom parameters can then be referred in handlebars template prefixed with "config", for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{{#config.myParam1}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This change has an impact on existing mail templates, as the existing handlebars variables will have to be prefixed with "card", for example on the existing example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+    {{#data.networkContingencies}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is to be changed to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;div id=&quot;apogee-contingencies&quot;&gt;
+  {{#card.data.networkContingencies}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_removed_field_timespans_recurrence"><a class="anchor" href="#_removed_field_timespans_recurrence"></a>32.9. Removed field <code>timespans.recurrence</code></h3>
+<div class="paragraph">
+<p>The field <code>timespans.recurrence</code> has been removed. So now, to create a recurrent card, you must use the field rRule.
+There is a script to migrate existing tasks using recurrence object. After the call to this script, you have to call the
+endpoint "reset". Example :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>node migration-rrule-recurrence.js &lt;databaseURL&gt; &lt;databasePort&gt; &lt;databaseLogin&gt; &lt;databasePassword&gt; &lt;oldProcessId&gt; &lt;newProcessId&gt; &lt;oldStateId&gt; &lt;newStateId&gt; &lt;newProcessVersion&gt;</p>
+</li>
+<li>
+<p>curl <a href="http://localhost:2107/reset" class="bare">localhost:2107/reset</a> -H "Authorization:Bearer $token"</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

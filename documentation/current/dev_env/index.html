@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Development environment</h1>
 <div class="details">
-<span id="revnumber">version 4.5.0.RELEASE,</span>
-<span id="revdate">23 October 2024</span>
+<span id="revnumber">version 4.6.0.RELEASE,</span>
+<span id="revdate">31 January 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -593,6 +593,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_scripts_bin_and_cicd">6.1. Scripts (bin and CICD)</a>
 <ul class="sectlevel3">
 <li><a href="#_run_all_sh">6.1.1. run_all.sh</a></li>
+<li><a href="#_hooks">6.1.2. Hooks</a></li>
 </ul>
 </li>
 <li><a href="#gradle_tasks">6.2. Gradle Tasks</a>
@@ -1488,6 +1489,15 @@ instance).</p>
 <p> </div></details> </p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_hooks"><a class="anchor" href="#_hooks"></a>6.1.2. Hooks</h4>
+<div class="paragraph">
+<p>For copyright and licensing compliance, the CI checks in a PR if the modified files include the correct year in the copyright.
+To automate this task, a git hook is available in <strong>bin/hook/pre-commit</strong>. This file is to be placed in <strong>operatorfabric-core/.git/hooks/</strong>
+Don&#8217;t forget to change the permission of the file with <strong>chmod +x .git/hooks/pre-commit</strong>
+Set the monitored file extensions and company name approprietly.</p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="gradle_tasks"><a class="anchor" href="#gradle_tasks"></a>6.2. Gradle Tasks</h3>
@@ -2284,7 +2294,7 @@ use the <code>asciidoctor</code> gradle task from the project root:</p>
 <h3 id="_generating_api_documentation"><a class="anchor" href="#_generating_api_documentation"></a>7.5. Generating API documentation</h3>
 <div class="paragraph">
 <p>The documentation for the API is generated from the <code>swagger.yaml</code> definitions using SwaggerUI. To generate the
-API documentation, use the <code>generateSwaggerUI</code> gradle task, either from the project root or from one of the services:</p>
+API documentation, use the <code>generateSwaggerUI</code> gradle task, either from the project root or from one of the client directory:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2293,8 +2303,8 @@ API documentation, use the <code>generateSwaggerUI</code> gradle task, either fr
 </div>
 </div>
 <div class="paragraph">
-<p>The task output can be found for each service under <code>[service-path]/build/docs/api</code>
-(for example <code>services/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
+<p>The task output can be found for each client library under <code>client/[service-path]/build/docs/api</code>
+(for example <code>client/businessconfig/build/docs/api</code>). Open the <code>index.html</code> file in a browser to have a look at
 the generated SwaggerUI.</p>
 </div>
 </div>
