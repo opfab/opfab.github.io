@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">05 February 2025</span>
+<span id="revdate">06 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1027,6 +1027,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_custom_business_menus">29.2.2. Custom business menus</a></li>
 </ul>
 </li>
+<li><a href="#_card_list_custom_screen">29.3. Card List Custom Screen</a></li>
 </ul>
 </li>
 <li><a href="#_supervisor">30. Supervisor</a>
@@ -9573,6 +9574,112 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_list_custom_screen"><a class="anchor" href="#_card_list_custom_screen"></a>29.3. Card List Custom Screen</h3>
+<div class="paragraph">
+<p>You can define a custom screen containing a search header and a list of cards.</p>
+</div>
+<div class="paragraph">
+<p>To do this, register the custom screen via a JavaScript script loaded on startup (To be loaded on startup, add your script to the <code>customJsToLoad</code> array in the <code>web-ui.json</code> file).</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of a custom screen registration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>const customScreenExample = {
+    id: 'testId',
+    name: 'testName',
+    headerFilters: ['PROCESS', 'TYPE_OF_STATE'],
+    results: {
+        columns: [
+            {
+                field: 'severity',
+                cardField: 'severity',
+                fieldType: 'SEVERITY',
+            },
+            {
+                field: 'TIME',
+                cardField: 'publishDate',
+                fieldType: 'DATE_AND_TIME'
+            },
+            {
+                field: 'testField',
+                headerName: 'TITLE',
+                cardField: 'titleTranslated',
+                fieldType: 'STRING',
+                flex: 1
+            },
+            {
+                field: 'testField2',
+                headerName: 'SUMMARY',
+                cardField: 'summaryTranslated',
+                fieldType: 'STRING',
+                flex: 2
+            },
+            {
+                fieldType: 'TYPE_OF_STATE',
+                headerName: 'STATUS'
+            },
+            {
+                field: 'publisher',
+                headerName: 'EMITTER',
+                cardField: 'publisher',
+                fieldType: 'PUBLISHER'
+            },
+            {
+                headerName: 'ANSWERS',
+                fieldType: 'RESPONSES',
+                flex: 2
+            }
+        ]
+    }
+}
+
+opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, the custom screen is accessible via the URL <code>#/customScreen/testId</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code>.</p>
+</div>
+<div class="paragraph">
+<p>For each field you want to display in the result table, define a column object. The following field types are available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SEVERITY</code>: Displays the severity as a color rectangle.</p>
+</li>
+<li>
+<p><code>DATE_AND_TIME</code>: Displays the date and time formatted according to the user&#8217;s locale.</p>
+</li>
+<li>
+<p><code>STRING</code>: Displays a string value.</p>
+</li>
+<li>
+<p><code>TYPE_OF_STATE</code>: Displays the type of state value: <code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELLED</code>.</p>
+</li>
+<li>
+<p><code>PUBLISHER</code>: Displays the publisher entity if the card is published by an entity, otherwise displays the user who published the card.</p>
+</li>
+<li>
+<p><code>RESPONSES</code>: Displays the list of entities that must respond, with the color indicating the severity of the response if the entity has responded. It uses the <code>entitiesRequiredToRespond</code> field of the card. If this field is empty, it will use the <code>entitiesAllowedToRespond</code> field of the card.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can define the column header text using the <code>headerName</code> field.</p>
+</div>
+<div class="paragraph">
+<p>The <code>cardField</code> is the field of the card that will be displayed in the result. It is not used for the following field types: <code>SEVERITY</code>, <code>TYPE_OF_STATE</code>, and <code>RESPONSES</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>flex</code> field sets the CSS flex property for the column.</p>
 </div>
 </div>
 </div>
