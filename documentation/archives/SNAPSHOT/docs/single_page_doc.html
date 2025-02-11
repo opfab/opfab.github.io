@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">10 February 2025</span>
+<span id="revdate">11 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1025,9 +1025,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#core_menu_config">29.2.1. Core menus</a></li>
 <li><a href="#_custom_business_menus">29.2.2. Custom business menus</a></li>
+<li><a href="#_custom_screen_menus">29.2.3. Custom screen menus</a></li>
 </ul>
 </li>
-<li><a href="#_card_list_custom_screen">29.3. Card List Custom Screen</a></li>
+<li><a href="#card_list_custom_screen">29.3. Card List Custom Screen</a>
+<ul class="sectlevel3">
+<li><a href="#_response_buttons">29.3.1. Response buttons</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_supervisor">30. Supervisor</a>
@@ -9575,9 +9580,44 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
 </table>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_custom_screen_menus"><a class="anchor" href="#_custom_screen_menus"></a>29.2.3. Custom screen menus</h4>
+<div class="paragraph">
+<p>It is possible to add menus linked to custom screens of the application. See custom screen definition <a href="./single_page_doc.html#card_list_custom_screen">here</a>. To set up such a menu, it&#8217;s important to give it a customMenuId and a customScreenId. See example below :</p>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">navigationBar</span><span class="delimiter">&quot;</span></span>: [
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">opfabCoreMenuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">feed</span><span class="delimiter">&quot;</span></span>
+    },
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">menu1</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">entries</span><span class="delimiter">&quot;</span></span>: [
+        {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">customMenuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_0</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">customScreenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.custom</span><span class="delimiter">&quot;</span></span>
+        },
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">customMenuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_1</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io/</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">entry.single</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">linkType</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">BOTH</span><span class="delimiter">&quot;</span></span>
+        }
+      ]
+    }
+  ],
+  [<span class="error">.</span><span class="error">.</span><span class="error">.</span>]
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_card_list_custom_screen"><a class="anchor" href="#_card_list_custom_screen"></a>29.3. Card List Custom Screen</h3>
+<h3 id="card_list_custom_screen"><a class="anchor" href="#card_list_custom_screen"></a>29.3. Card List Custom Screen</h3>
 <div class="paragraph">
 <p>You can define a custom screen containing a search header and a list of cards.</p>
 </div>
@@ -9633,6 +9673,16 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
                 fieldType: 'PUBLISHER'
             },
             {
+                field: 'urgency',
+                headerName: 'URGENCY',
+                fieldType: 'COLORED_CIRCLE',
+                getValue: (card) =&gt; {
+                        if (card.severity === 'ALARM') return "red"
+                        return "green"
+                    },
+                flex: 0.5
+            },
+            {
                 headerName: 'ANSWERS',
                 fieldType: 'RESPONSES',
                 flex: 2
@@ -9645,7 +9695,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In this example, the custom screen is accessible via the URL <code>#/customScreen/testId</code>.</p>
+<p>In this example, the custom screen is accessible via the URL <code>#/customscreen/testId</code>.</p>
 </div>
 <div class="paragraph">
 <p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code> and <code>RESPONSE_FROM_MY_ENTITIES</code>.</p>
@@ -9655,6 +9705,9 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p><code>COLORED_CIRCLE</code>: Displays a colored circle. The color is defined with a custom method <code>getValue</code> defined in the field definition.</p>
+</li>
 <li>
 <p><code>DATE_AND_TIME</code>: Displays the date and time formatted according to the user&#8217;s locale.</p>
 </li>
@@ -9682,10 +9735,80 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>You can define the column header text using the <code>headerName</code> field.</p>
 </div>
 <div class="paragraph">
-<p>The <code>cardField</code> is the field of the card that will be displayed in the result. It is not used for the following field types: <code>SEVERITY</code>, <code>TYPE_OF_STATE</code>,<code>RESPONSES</code> and <code>RESPONSE_FROM_MY_ENTITIES</code>.</p>
+<p>The <code>cardField</code> is the field of the card that will be displayed in the result. It is not used for the following field types: <code>COLORED_CIRCLE</code>, <code>SEVERITY</code>, <code>TYPE_OF_STATE</code>,<code>RESPONSES</code> and <code>RESPONSE_FROM_MY_ENTITIES</code>.</p>
 </div>
 <div class="paragraph">
 <p>The <code>flex</code> field sets the CSS flex property for the column.</p>
+</div>
+<div class="sect3">
+<h4 id="_response_buttons"><a class="anchor" href="#_response_buttons"></a>29.3.1. Response buttons</h4>
+<div class="paragraph">
+<p>It is possible to define custom response buttons for the custom screen, this allows the user to send multiple responses at once.</p>
+</div>
+<div class="paragraph">
+<p>To do this, add a <code>responseButtons</code> array to the custom screen object. Each button object must contain the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>id</code>: The button identifier.</p>
+</li>
+<li>
+<p><code>label</code>: The button label.</p>
+</li>
+<li>
+<p>`getUserResponses: A function that takes an array of cards as a parameter and returns an object containing the following fields:</p>
+</li>
+<li>
+<p><code>valid</code>: A boolean indicating if the action is valid.</p>
+</li>
+<li>
+<p><code>errorMsg</code>: An error message to display if the action is not valid.</p>
+</li>
+<li>
+<p><code>responseCards</code>: An array of response cards to send with the following structure with a <code>responseCardData</code> field containing the response card data field.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is an example of a custom screen configuration with response buttons:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>const customScreenExample = {
+        id: 'testId2',
+        name: 'testName',
+
+        .....
+
+        responseButtons: [
+            {
+                id: 'button1',
+                label: 'Accept proposals',
+                getUserResponses: (cards) =&gt; {
+                    const responseCards = [];
+                    const responseData = { "choice1": ["on"], "choice2": ["on"], "choice3": ["on"] }
+                    cards.forEach((card) =&gt; {
+                        responseCards.push({ responseCardData: responseData });
+                    });
+                    return { valid: true, errorMsg: '', responseCards: responseCards };
+                }
+            },
+            {
+                id: 'button2',
+                label: 'Refuse proposals',
+                getUserResponses: (cards) =&gt; {
+                    const responseCards = [];
+                    const responseData = {}
+                    cards.forEach((card) =&gt; {
+                        responseCards.push({ responseCardData: responseData });
+                    });
+                    return { valid: true, errorMsg: '', responseCards: responseCards };
+                }
+            }
+        ]</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -11243,7 +11366,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <div class="sect3">
 <h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>35.2.2. UI properties</h4>
 <div class="paragraph">
-<p>The properties lie in the <code>web-ui.json</code>.The following table describes their meaning and  how to use them. An example file can be found in the config/docker directory.</p>
+<p>The properties lie in the <code>web-ui.json</code>. The following table describes their meaning and how to use them. An example file can be found in the config/docker directory.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
