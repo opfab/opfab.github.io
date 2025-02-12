@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">11 February 2025</span>
+<span id="revdate">12 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1797,6 +1797,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_migration_guide_from_release_4_6_x_to_release_4_7_0">97. Migration Guide from release 4.6.X to release 4.7.0</a>
 <ul class="sectlevel2">
 <li><a href="#_user_settings_2">97.1. User settings</a></li>
+<li><a href="#_response_card">97.2. Response card</a></li>
 </ul>
 </li>
 </ul>
@@ -6527,10 +6528,14 @@ which returns an object containing the following fields :</p>
 <p>errorMsg (<em>string</em>) : message in case of invalid user input. If valid is true this field is not necessary.</p>
 </li>
 <li>
-<p>responseCardData (<em>any</em>) : the user input to send in the data field of the child card. If valid is false this field is not necessary.</p>
+<p>responseCard:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>data (<em>any</em>) : the user input to send in the data field of the child card.</p>
 </li>
 <li>
-<p>responseState : name of the response state to use. This field is not mandatory, if it is not set the state defined in
+<p>state : name of the response state to use. This field is not mandatory, if it is not set the state defined in
 <code>config.json</code> will be used for the response.</p>
 </li>
 <li>
@@ -6548,11 +6553,14 @@ which returns an object containing the following fields :</p>
 </li>
 </ul>
 </div>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>This method is to be registered via <code>opfab.currentCard.registerFunctionToGetUserResponse</code>, the method will be called by OperatorFabric when the user clicks on the button to send the response.</p>
 </div>
 <div class="paragraph">
-<p>In the example below, the <code>getUserResponse</code> creates a <code>responseCardData</code> object by retrieving the user&#8217;s inputs from the HTML.
+<p>In the example below, the <code>getUserResponse</code> creates a <code>responseCard</code> object by retrieving the user&#8217;s inputs from the HTML.
 In addition, if the user chose several options, it overrides the response state defined in the <code>config.json</code> with another
 state.</p>
 </div>
@@ -6569,12 +6577,14 @@ state.</p>
 
             const result = {
                 <span class="key">valid</span>: <span class="predefined-constant">true</span>,
-                <span class="key">responseCardData</span>: responseCardData
+                <span class="key">responseCard</span>:{
+                    <span class="key">data</span>: responseCardData
+                } 
             };
 
             <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
             const choiceRequiresFollowUp = Object.entries(responseCardData).length &gt; <span class="integer">1</span>;
-            <span class="keyword">if</span> (choiceRequiresFollowUp) result[<span class="string"><span class="delimiter">'</span><span class="content">responseState</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
+            <span class="keyword">if</span> (choiceRequiresFollowUp) result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
 
             <span class="keyword">return</span> result;
 
@@ -8467,7 +8477,7 @@ The available message levels are:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>opfab.cards.sendResponseCard(parentCard,responseData).then(...);</code></pre>
+<pre class="CodeRay highlight"><code>opfab.cards.sendResponseCard(parentCard,responseCard).then(...);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8477,18 +8487,18 @@ The available message levels are:</p>
 <p>The <code>parentCard</code> parameter is the parent card object (can be obtained from the current card object).</p>
 </div>
 <div class="paragraph">
-<p>The <code>responseData</code> object has the following fields:</p>
+<p>The <code>responseCard</code> object has the following fields:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>responseCardData</code>: The data field to include in the response card.</p>
+<p><code>data</code>: The data field to include in the response card.</p>
 </li>
 <li>
 <p><code>actions</code>: The actions field value for the response card. This field is optional.</p>
 </li>
 <li>
-<p><code>responseState</code>: The state field value for the response card. This field is optional (default value is defined in the state process definition).</p>
+<p><code>state</code>: The state field value for the response card. This field is optional (default value is defined in the state process definition).</p>
 </li>
 <li>
 <p><code>publisher</code>: The publisher field value for the response card. This field is optional (default value is the first current user entity that is allowed to respond).</p>
@@ -9698,7 +9708,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>In this example, the custom screen is accessible via the URL <code>#/customscreen/testId</code>.</p>
 </div>
 <div class="paragraph">
-<p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code> and <code>RESPONSE_FROM_MY_ENTITIES</code>.</p>
+<p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code>, <code>RESPONSE_FROM_MY_ENTITIES</code> and <code>RESPONSE_FROM_ALL_ENTITIES</code>.</p>
 </div>
 <div class="paragraph">
 <p>For each field you want to display in the result table, define a column object. The following field types are available:</p>
@@ -9766,7 +9776,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>errorMsg</code>: An error message to display if the action is not valid.</p>
 </li>
 <li>
-<p><code>responseCards</code>: An array of response cards to send with the following structure with a <code>responseCardData</code> field containing the response card data field.</p>
+<p><code>responseCards</code>: An array of response cards to send with a <code>data</code> field containing the response card data field.</p>
 </li>
 </ul>
 </div>
@@ -9789,7 +9799,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
                     const responseCards = [];
                     const responseData = { "choice1": ["on"], "choice2": ["on"], "choice3": ["on"] }
                     cards.forEach((card) =&gt; {
-                        responseCards.push({ responseCardData: responseData });
+                        responseCards.push({ data: responseData });
                     });
                     return { valid: true, errorMsg: '', responseCards: responseCards };
                 }
@@ -9801,7 +9811,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
                     const responseCards = [];
                     const responseData = {}
                     cards.forEach((card) =&gt; {
-                        responseCards.push({ responseCardData: responseData });
+                        responseCards.push({ data: responseData });
                     });
                     return { valid: true, errorMsg: '', responseCards: responseCards };
                 }
@@ -22948,6 +22958,51 @@ endpoint "reset". Example :</p>
 <div class="paragraph">
 <p>A new setting to activate or not the templating of emails has been added in the settings screen of the user.
 This setting can be hidden in the configuration file of the web-ui by the field "settings.settingsScreen.hiddenSettings" by adding the value "disableCardContentInEmails".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_card"><a class="anchor" href="#_response_card"></a>97.2. Response card</h3>
+<div class="paragraph">
+<p>The object that should be returned by the method registered via <code>opfab.currentCard.registerFunctionToGetUserResponse</code> is to be changed.</p>
+</div>
+<div class="paragraph">
+<p>Previously, the object was structured as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCardData: string,
+    responseState: string,
+    publisher: string,
+    actions: [string]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, all elements related to the response card are encapsulated within a <code>responseCard</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCard: {
+        data: string,
+        state: string,
+        publisher: string,
+        actions: [string]
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>responseState</code> field has been renamed to <code>state</code>.</p>
+</div>
+<div class="paragraph">
+<p>The old structure will be supported as a fallback for a limited time, it is recommended to update your code to use the new structure.
+`</p>
 </div>
 </div>
 </div>
