@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">13 February 2025</span>
+<span id="revdate">14 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -945,19 +945,20 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_getstate">24.6.9. Function getState</a></li>
 <li><a href="#_function_getuserentitychildcard">24.6.10. Function getUserEntityChildCard</a></li>
 <li><a href="#_function_listentoentityusedforsendingcard">24.6.11. Function listenToEntityUsedForSendingCard</a></li>
-<li><a href="#_function_registerfunctiontogetspecificcardinformation">24.6.12. Function registerFunctionToGetSpecificCardInformation</a></li>
-<li><a href="#_function_setdropdownentityrecipientlist">24.6.13. Function setDropdownEntityRecipientList</a></li>
-<li><a href="#_function_setdropdownentityrecipientforinformationlist">24.6.14. Function setDropdownEntityRecipientForInformationList</a></li>
-<li><a href="#_function_setinitialenddate">24.6.15. Function setInitialEndDate</a></li>
-<li><a href="#_function_setinitialexpirationdate">24.6.16. Function setInitialExpirationDate</a></li>
-<li><a href="#_function_setinitiallttd">24.6.17. Function setInitialLttd</a></li>
-<li><a href="#_function_setinitialselectedrecipients">24.6.18. Function setInitialSelectedRecipients</a></li>
-<li><a href="#_function_setinitialselectedrecipientsforinformation">24.6.19. Function setInitialSelectedRecipientsForInformation</a></li>
-<li><a href="#_function_setselectedrecipients">24.6.20. Function setSelectedRecipients</a></li>
-<li><a href="#_function_setselectedrecipientsforinformation">24.6.21. Function setSelectedRecipientsForInformation</a></li>
-<li><a href="#_function_setinitialseverity">24.6.22. Function setInitialSeverity</a></li>
-<li><a href="#_function_setinitialkeepchildcards">24.6.23. Function setInitialKeepChildCards</a></li>
-<li><a href="#_function_setinitialstartdate">24.6.24. Function setInitialStartDate</a></li>
+<li><a href="#_function_registerfunctiontobecalledbeforecardsending">24.6.12. Function  registerFunctionToBeCalledBeforeCardSending</a></li>
+<li><a href="#_function_registerfunctiontogetspecificcardinformation">24.6.13. Function registerFunctionToGetSpecificCardInformation</a></li>
+<li><a href="#_function_setdropdownentityrecipientlist">24.6.14. Function setDropdownEntityRecipientList</a></li>
+<li><a href="#_function_setdropdownentityrecipientforinformationlist">24.6.15. Function setDropdownEntityRecipientForInformationList</a></li>
+<li><a href="#_function_setinitialenddate">24.6.16. Function setInitialEndDate</a></li>
+<li><a href="#_function_setinitialexpirationdate">24.6.17. Function setInitialExpirationDate</a></li>
+<li><a href="#_function_setinitiallttd">24.6.18. Function setInitialLttd</a></li>
+<li><a href="#_function_setinitialselectedrecipients">24.6.19. Function setInitialSelectedRecipients</a></li>
+<li><a href="#_function_setinitialselectedrecipientsforinformation">24.6.20. Function setInitialSelectedRecipientsForInformation</a></li>
+<li><a href="#_function_setselectedrecipients">24.6.21. Function setSelectedRecipients</a></li>
+<li><a href="#_function_setselectedrecipientsforinformation">24.6.22. Function setSelectedRecipientsForInformation</a></li>
+<li><a href="#_function_setinitialseverity">24.6.23. Function setInitialSeverity</a></li>
+<li><a href="#_function_setinitialkeepchildcards">24.6.24. Function setInitialKeepChildCards</a></li>
+<li><a href="#_function_setinitialstartdate">24.6.25. Function setInitialStartDate</a></li>
 </ul>
 </li>
 <li><a href="#_utils_api">24.7. Utils API</a>
@@ -8053,7 +8054,33 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_function_registerfunctiontogetspecificcardinformation"></a>24.6.12. Function registerFunctionToGetSpecificCardInformation</h4>
+<h4 id="_function_registerfunctiontobecalledbeforecardsending"><a class="anchor" href="#_function_registerfunctiontobecalledbeforecardsending"></a>24.6.12. Function  registerFunctionToBeCalledBeforeCardSending</h4>
+<div class="paragraph">
+<p>Before sending the card and after the preview, you can define a method to be called. This method is blocking (i.e., it is an async method awaited by the opfab code).</p>
+</div>
+<div class="paragraph">
+<p>The card to be sent is provided as a parameter.</p>
+</div>
+<div class="paragraph">
+<p>If the method throws an error, the error message will be shown to the user on the top screen banner and the card will not be sent.</p>
+</div>
+<div class="paragraph">
+<p>For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    opfab.currentCard.registerFunctionToBeCalledBeforeCardSending( async(cardToBeSent) =&gt; {
+
+      // do some stuff
+
+      // throws error if needed
+
+    })</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_function_registerfunctiontogetspecificcardinformation"></a>24.6.13. Function registerFunctionToGetSpecificCardInformation</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user card specific information. This function will be called by opfab when user clicks on the "preview" button. More explanation can be found in the <a href="#user_cards">user card chapter</a>.</p>
 </div>
@@ -8080,7 +8107,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setdropdownentityrecipientlist"><a class="anchor" href="#_function_setdropdownentityrecipientlist"></a>24.6.13. Function setDropdownEntityRecipientList</h4>
+<h4 id="_function_setdropdownentityrecipientlist"><a class="anchor" href="#_function_setdropdownentityrecipientlist"></a>24.6.14. Function setDropdownEntityRecipientList</h4>
 <div class="paragraph">
 <p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
@@ -8100,7 +8127,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setdropdownentityrecipientforinformationlist"><a class="anchor" href="#_function_setdropdownentityrecipientforinformationlist"></a>24.6.14. Function setDropdownEntityRecipientForInformationList</h4>
+<h4 id="_function_setdropdownentityrecipientforinformationlist"><a class="anchor" href="#_function_setdropdownentityrecipientforinformationlist"></a>24.6.15. Function setDropdownEntityRecipientForInformationList</h4>
 <div class="paragraph">
 <p>When sending a user card, by default it is possible to choose the recipients for information from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
@@ -8120,7 +8147,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialenddate"><a class="anchor" href="#_function_setinitialenddate"></a>24.6.15. Function setInitialEndDate</h4>
+<h4 id="_function_setinitialenddate"><a class="anchor" href="#_function_setinitialenddate"></a>24.6.16. Function setInitialEndDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for <code>endDate</code> by calling  <em>opfab.currentUserCard.setInitialEndDate(endDate)</em> . The endDate is a number representing an epoch date value.</p>
 </div>
@@ -8132,7 +8159,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialexpirationdate"><a class="anchor" href="#_function_setinitialexpirationdate"></a>24.6.16. Function setInitialExpirationDate</h4>
+<h4 id="_function_setinitialexpirationdate"><a class="anchor" href="#_function_setinitialexpirationdate"></a>24.6.17. Function setInitialExpirationDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for <code>expirationDate</code> by calling  <em>opfab.currentUserCard.setInitialExpirationDate(expirationDate)</em> . The expirationDate is a number representing an epoch date value.</p>
 </div>
@@ -8144,7 +8171,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitiallttd"><a class="anchor" href="#_function_setinitiallttd"></a>24.6.17. Function setInitialLttd</h4>
+<h4 id="_function_setinitiallttd"><a class="anchor" href="#_function_setinitiallttd"></a>24.6.18. Function setInitialLttd</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for <code>lttd</code> by calling  <em>opfab.currentUserCard.setInitialLttd(lttd)</em> . The lttd is a number representing an epoch date value.</p>
 </div>
@@ -8156,7 +8183,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialselectedrecipients"><a class="anchor" href="#_function_setinitialselectedrecipients"></a>24.6.18. Function setInitialSelectedRecipients</h4>
+<h4 id="_function_setinitialselectedrecipients"><a class="anchor" href="#_function_setinitialselectedrecipients"></a>24.6.19. Function setInitialSelectedRecipients</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of initially selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected. The method will work only at template loading time, cannot be used to modify the selected recipients after the template is loaded or in card edition mode.</p>
 </div>
@@ -8176,7 +8203,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialselectedrecipientsforinformation"><a class="anchor" href="#_function_setinitialselectedrecipientsforinformation"></a>24.6.19. Function setInitialSelectedRecipientsForInformation</h4>
+<h4 id="_function_setinitialselectedrecipientsforinformation"><a class="anchor" href="#_function_setinitialselectedrecipientsforinformation"></a>24.6.20. Function setInitialSelectedRecipientsForInformation</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of initially selected recipients for information via javascript in the user template by calling the setInitialSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be preselected. The method will work only at template loading time, cannot be used to modify the selected recipients after the template is loaded or in card edition mode.</p>
 </div>
@@ -8196,7 +8223,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setselectedrecipients"><a class="anchor" href="#_function_setselectedrecipients"></a>24.6.20. Function setSelectedRecipients</h4>
+<h4 id="_function_setselectedrecipients"><a class="anchor" href="#_function_setselectedrecipients"></a>24.6.21. Function setSelectedRecipients</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected. This method can be called at any time and also in edition mode.</p>
 </div>
@@ -8216,7 +8243,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setselectedrecipientsforinformation"><a class="anchor" href="#_function_setselectedrecipientsforinformation"></a>24.6.21. Function setSelectedRecipientsForInformation</h4>
+<h4 id="_function_setselectedrecipientsforinformation"><a class="anchor" href="#_function_setselectedrecipientsforinformation"></a>24.6.22. Function setSelectedRecipientsForInformation</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of selected recipients for information via javascript in the user template by calling the setSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be selected.  This method can be called at any time and also in edition mode.</p>
 </div>
@@ -8236,7 +8263,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialseverity"><a class="anchor" href="#_function_setinitialseverity"></a>24.6.22. Function setInitialSeverity</h4>
+<h4 id="_function_setinitialseverity"><a class="anchor" href="#_function_setinitialseverity"></a>24.6.23. Function setInitialSeverity</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for card severity choice by calling the function <em>setInitialSeverity(severity)</em></p>
 </div>
@@ -8266,7 +8293,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialkeepchildcards"><a class="anchor" href="#_function_setinitialkeepchildcards"></a>24.6.23. Function setInitialKeepChildCards</h4>
+<h4 id="_function_setinitialkeepchildcards"><a class="anchor" href="#_function_setinitialkeepchildcards"></a>24.6.24. Function setInitialKeepChildCards</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value to keep child cards or not by calling the function <em>setInitialKeepChildCards(keepChildCards)</em></p>
 </div>
@@ -8280,7 +8307,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialstartdate"><a class="anchor" href="#_function_setinitialstartdate"></a>24.6.24. Function setInitialStartDate</h4>
+<h4 id="_function_setinitialstartdate"><a class="anchor" href="#_function_setinitialstartdate"></a>24.6.25. Function setInitialStartDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial values for <code>startDate</code> by calling  <em>opfab.currentUserCard.setInitialStartDate(startDate)</em> . The startDate is a number representing an epoch date value.</p>
 </div>
