@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">16 February 2025</span>
+<span id="revdate">17 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1032,6 +1032,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#card_list_custom_screen">29.3. Card List Custom Screen</a>
 <ul class="sectlevel3">
 <li><a href="#_response_buttons">29.3.1. Response buttons</a></li>
+<li><a href="#_card_data_fields">29.3.2. Card data fields</a></li>
 </ul>
 </li>
 </ul>
@@ -9844,6 +9845,44 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
                 }
             }
         ]</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_card_data_fields"><a class="anchor" href="#_card_data_fields"></a>29.3.2. Card data fields</h4>
+<div class="paragraph">
+<p>It is possible to define data fields you want to display in the custom screen. To do this, you have to define the data
+fields in the configuration file shared by all the services (for example <code>/config/docker/common.yml</code>), the variable is
+<code>operatorfabric.customscreen.dataFields</code> and it must be a list of string values, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  customscreen:
+    dataFields: ["keywords", "nested.field"]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you have to add the fields in the <code>results.columns</code> field in the custom screen configuration file. For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>                ...
+                {
+                    field: 'keywords',
+                    headerName: 'keywords field',
+                    cardField: 'data.keywords',
+                    fieldType: 'STRING',
+                    flex: 1
+                },
+                {
+                    field: 'nestedField',
+                    headerName: 'nested field',
+                    cardField: 'data.nested.field',
+                    fieldType: 'STRING',
+                    flex: 1
+                },
+                ...</pre>
 </div>
 </div>
 </div>
