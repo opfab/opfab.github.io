@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">17 February 2025</span>
+<span id="revdate">18 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -6571,22 +6571,29 @@ state.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="js">        opfab.currentCard.registerFunctionToGetUserResponse(() =&gt; {
 
-            const responseCardData = {};
-            const formElement = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">question-form</span><span class="delimiter">'</span></span>);
-            <span class="keyword">for</span> (const [key, value] of [... <span class="keyword">new</span> FormData(formElement)]) {
-                (key <span class="keyword">in</span> responseCardData) ? responseCardData[key].push(value) : responseCardData[key] = [value];
-            }
 
+            const choice1 = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">choice1</span><span class="delimiter">'</span></span>).checked;
+            const choice2 = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">choice2</span><span class="delimiter">'</span></span>).checked;
+            const choice3 = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">choice3</span><span class="delimiter">'</span></span>).checked;
+            const comment = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">comment</span><span class="delimiter">'</span></span>).value;
             const result = {
                 <span class="key">valid</span>: <span class="predefined-constant">true</span>,
                 <span class="key">responseCard</span>:{
-                    <span class="key">data</span>: responseCardData
+                    <span class="key">data</span>: {
+                    <span class="key">choice1</span>: choice1,
+                    <span class="key">choice2</span>: choice2, 
+                    <span class="key">choice3</span>: choice3,
+                    <span class="key">comment</span>: comment
+                    }
                 } 
             };
 
             <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
-            const choiceRequiresFollowUp = Object.entries(responseCardData).length &gt; <span class="integer">1</span>;
-            <span class="keyword">if</span> (choiceRequiresFollowUp) result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
+            let choiceOnNumber = <span class="integer">0</span>;
+            <span class="keyword">if</span> (choice1) choiceOnNumber++;
+            <span class="keyword">if</span> (choice2) choiceOnNumber++;
+            <span class="keyword">if</span> (choice3) choiceOnNumber++;
+            <span class="keyword">if</span> (choiceOnNumber&gt;<span class="integer">1</span>) result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
 
             <span class="keyword">return</span> result;
 
@@ -9750,6 +9757,9 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>DATE_AND_TIME</code>: Displays the date and time formatted according to the user&#8217;s locale.</p>
 </li>
 <li>
+<p><code>INPUT</code>: Displays an input field. The value of the input field will be used for response cards if the custom screen has response buttons (see below).</p>
+</li>
+<li>
 <p><code>PUBLISHER</code>: Displays the publisher entity if the card is published by an entity, otherwise displays the user who published the card.</p>
 </li>
 <li>
@@ -9781,7 +9791,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <div class="sect3">
 <h4 id="_response_buttons"><a class="anchor" href="#_response_buttons"></a>29.3.1. Response buttons</h4>
 <div class="paragraph">
-<p>It is possible to define custom response buttons for the custom screen, this allows the user to send multiple responses at once.</p>
+<p>It is possible to define custom response buttons for the custom screen allowing the user to send multiple responses at once.</p>
 </div>
 <div class="paragraph">
 <p>To do this, add a <code>responseButtons</code> array to the custom screen object. Each button object must contain the following fields:</p>
@@ -9795,8 +9805,28 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>label</code>: The button label.</p>
 </li>
 <li>
-<p>`getUserResponses: A function that takes an array of cards as a parameter and returns an object containing the following fields:</p>
+<p><code>getUserResponses</code>: a function that retrieves data for response cards.</p>
 </li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The getUserResponses function takes two parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>an array of cards</p>
+</li>
+<li>
+<p>a map of responseInput indexed by card id. The responseInput is an object containing the response input fields and their values.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The method shall return an object containing the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p><code>valid</code>: A boolean indicating if the action is valid.</p>
 </li>
@@ -9804,7 +9834,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>errorMsg</code>: An error message to display if the action is not valid.</p>
 </li>
 <li>
-<p><code>responseCards</code>: An array of response cards to send with a <code>data</code> field containing the response card data field.</p>
+<p><code>responseCards</code>: An array of response cards to send, each containing a <code>data</code> field containing a response card data .</p>
 </li>
 </ul>
 </div>
@@ -9823,10 +9853,14 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
             {
                 id: 'button1',
                 label: 'Accept proposals',
-                getUserResponses: (cards) =&gt; {
+                getUserResponses: (cards, userInputs) =&gt; {
                     const responseCards = [];
-                    const responseData = { "choice1": ["on"], "choice2": ["on"], "choice3": ["on"] }
+
                     cards.forEach((card) =&gt; {
+
+                        const userInput = responsesData.get(card.id);
+                        const comment = userInput?.comment ?? '';
+                        const responseData = { "choice1": "on", "choice2": "on", "choice3": "on", "comment": comment }
                         responseCards.push({ data: responseData });
                     });
                     return { valid: true, errorMsg: '', responseCards: responseCards };
@@ -9835,16 +9869,38 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
             {
                 id: 'button2',
                 label: 'Refuse proposals',
-                getUserResponses: (cards) =&gt; {
+                getUserResponses: (cards, userInputs) =&gt; {
                     const responseCards = [];
-                    const responseData = {}
+                    let hasAlwaysComment = true;
                     cards.forEach((card) =&gt; {
+                        const userInput = responsesData.get(card.id);
+                        const comment = userInput?.comment ?? '';
+                        if (comment === '') {
+                            hasAlwaysComment = false;
+                        }
+                        const responseData = { "comment": comment }
                         responseCards.push({ data: responseData });
                     });
+                    if (!hasAlwaysComment) {
+                        return { valid: false, errorMsg: 'Please fill in the comment field for all cards' };
+                    }
                     return { valid: true, errorMsg: '', responseCards: responseCards };
                 }
             }
         ]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The input fields are to be defined in the columns definition with fieldType set to <code>INPUT</code> , for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    field: 'comment',
+    headerName: 'Comment',
+    fieldType: 'INPUT',
+    flex: 1
+}</pre>
 </div>
 </div>
 </div>
