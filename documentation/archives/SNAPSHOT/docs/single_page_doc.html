@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 February 2025</span>
+<span id="revdate">21 February 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1033,6 +1033,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#_response_buttons">29.3.1. Response buttons</a></li>
 <li><a href="#_card_data_fields">29.3.2. Card data fields</a></li>
+<li><a href="#_current_user_child_card_field">29.3.3. Current user child card field</a></li>
 </ul>
 </li>
 </ul>
@@ -6544,6 +6545,9 @@ which returns an object containing the following fields :</p>
 <p>publisher (<em>string</em>) : the id of the Entity to be used as publisher of the response. This field is not mandatory, if it is not set the publisher will be the user entity, in case the user belongs to a single entity, or it will be choosen by the user between his available entities.</p>
 </li>
 <li>
+<p>severity (<em>string</em>) : an optional field used to define the severity of the response card. The default value is "INFORMATION".</p>
+</li>
+<li>
 <p>actions (<em>string array</em>) : an optional field used to define a set of predetermined actions that will be executed upon receiving the response card. The available actions include:</p>
 <div class="ulist">
 <ul>
@@ -6563,8 +6567,8 @@ which returns an object containing the following fields :</p>
 </div>
 <div class="paragraph">
 <p>In the example below, the <code>getUserResponse</code> creates a <code>responseCard</code> object by retrieving the user&#8217;s inputs from the HTML.
-In addition, if the user chose several options, it overrides the response state defined in the <code>config.json</code> with another
-state.</p>
+In addition, if the user choses several options, it overrides the response state defined in the <code>config.json</code> with another
+state. It is also possible to dynamically set the severity of the response with a logic from the template. Here the severity of the response depends on the number of choices selected by the user.</p>
 </div>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
@@ -6594,7 +6598,18 @@ state.</p>
             <span class="keyword">if</span> (choice2) choiceOnNumber++;
             <span class="keyword">if</span> (choice3) choiceOnNumber++;
             <span class="keyword">if</span> (choiceOnNumber&gt;<span class="integer">1</span>) result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
-
+            <span class="keyword">switch</span>( choiceOnNumber ) {
+                <span class="keyword">case</span> <span class="integer">0</span>:
+                    result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>
+                    <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="integer">1</span>:
+                <span class="keyword">case</span> <span class="integer">2</span>:
+                    result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>
+                    <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="integer">3</span>:
+                    result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>
+                    <span class="keyword">break</span>;
+            }
             <span class="keyword">return</span> result;
 
         });</code></pre>
@@ -6715,13 +6730,13 @@ if a user has the right to respond, OperatorFabric consider the union of the two
 <div class="sect2">
 <h3 id="_integrate_child_cards"><a class="anchor" href="#_integrate_child_cards"></a>20.3. Integrate child cards</h3>
 <div class="paragraph">
-<p>For each user response, a child card containing the response is emitted and stored in OperatorFabric like a normal card. It is not directly visible on the ui but this child card can be integrated in real time to the parent card of all the users watching the card. To do that, you need  some code in the template to process child data:</p>
+<p>For each user response, a child card containing the response is emitted and stored in OperatorFabric like a normal card. It is not directly visible on the ui but this child card can be integrated in real time to the parent card of all the users watching the card. To do that, you need some code in the template to process child data:</p>
 </div>
 <div class="paragraph">
 <p>You shall give a reference to a method for processing the child cards via <em>opfab.currentCard.listenToChildCards</em> .</p>
 </div>
 <div class="paragraph">
-<p>The define method shall have an array of child cards as a parameter and  will be called by OperatorFabric when loading the card and every time the list of child cards changes.</p>
+<p>The defined method shall have an array of child cards as a parameter and will be called by OperatorFabric when loading the card and every time the list of child cards changes.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -9940,6 +9955,36 @@ fields in the configuration file shared by all the services (for example <code>/
                 },
                 ...</pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_current_user_child_card_field"><a class="anchor" href="#_current_user_child_card_field"></a>29.3.3. Current user child card field</h4>
+<div class="paragraph">
+<p>It is possible to define a field in the custom screen that will display the field value of the child card of the current user if any.
+To do this, you have to set the value <code>isFieldFromCurrentUserChildCard</code> to true in the column definition. For example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>                {
+                    fieldType: 'INPUT',
+                    field: 'comment',
+                    cardField: 'data.comment',
+                    isFieldFromCurrentUserChildCard: true,
+                    headerName: 'COMMENT'
+                }</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This feature is not yet taking into account the fact that the user may be member of several entities allowed to respond to the card. In this case the field will display the value of the first child card found.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -17516,7 +17561,17 @@ described in our CICD documentation for details.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>For major/minor linter upgrades (e.g., X.X.X to X.Y.X or X.X.X to Y.X.X), perform a local test to ensure the linter is still working correctly.</p>
+<p>For major/minor linter upgrades (e.g., X.X.X to X.Y.X or X.X.X to Y.X.X), perform a local test to ensure the linter is still working correctly :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for eslint: verify that console.log statements and focus test are detected</p>
+</li>
+<li>
+<p>for stylelint: verify detection of CSS errors, for example, ensuring that an erroneous declaration like <code>padding-top: 0px</code> is flagged appropriately</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>For Anchore udpates, perform a test of the "Anchore container scan" github workflow to ensure it is still working correctly.</p>
