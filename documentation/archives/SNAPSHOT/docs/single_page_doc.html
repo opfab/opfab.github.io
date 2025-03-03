@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">02 March 2025</span>
+<span id="revdate">03 March 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -9758,7 +9758,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>In this example, the custom screen is accessible via the URL <code>#/customscreen/testId</code>.</p>
 </div>
 <div class="paragraph">
-<p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code>, <code>RESPONSE_FROM_MY_ENTITIES</code> and <code>RESPONSE_FROM_ALL_ENTITIES</code>.</p>
+<p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code>, <code>READ_ACK</code>, <code>RESPONSE_FROM_MY_ENTITIES</code> and <code>RESPONSE_FROM_ALL_ENTITIES</code>.</p>
 </div>
 <div class="paragraph">
 <p>For each field you want to display in the result table, define a column object. The following field types are available:</p>
@@ -11631,6 +11631,42 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to false, an OperatorFabric url can be used by several tabs in the same browser. Note that there can only be one token per browser for a given OperatorFabric url, so the first session will be replaced by the second one</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">customCssToLoad</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of css files to be loaded at startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">customJsToLoad</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of javascript files to be loaded at startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processStateRedirects</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declares if a state when clicked in the dashboard should redirect to a custom menu or custom screen. If nothing is specified the redirection is pointing to the card feed. Here is a declaration with one redirection to a custom menu and one to a custom screen. The ids declared should match the ones in the ui-menu config.
+[source, json]
+----
+"dashboard": {
+    "processStateRedirects": [
+      {
+        "processId": "defaultProcess",
+        "stateId": "chartLineState",
+        "menuId": "uid_test_0",
+        "urlExtension": "?search=chart&amp;fulltext=1"
+      },
+      {
+        "processId": "defaultProcess",
+        "stateId": "questionState",
+        "screenId": "testId"
+      }
+    ]
+  }
+----</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">defaultEntryPage</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -12129,18 +12165,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, show entity <code>description</code> field instead of <code>name</code> in user card page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">customJsToLoad</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of javascript files to be loaded at startup</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">customCssToLoad</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of css files to be loaded at startup</p></td>
 </tr>
 </tbody>
 </table>
