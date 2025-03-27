@@ -15,7 +15,6 @@ window.swaggerSpec={
     }
   },
   "host" : "localhost:2002",
-  "basePath" : "/cards",
   "tags" : [ {
     "name" : "cards",
     "description" : "Everything concerning cards"
@@ -856,7 +855,7 @@ window.swaggerSpec={
     }
   },
   "paths" : {
-    "/cardSubscription" : {
+    "/cards-consultation/cardSubscription" : {
       "get" : {
         "tags" : [ "cards", "read", "subscription" ],
         "summary" : "fetch card operations",
@@ -906,7 +905,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cardSubscription/{uiId}" : {
+    "/cards-consultation/cardSubscription/{uiId}" : {
       "put" : {
         "tags" : [ "cards", "subscription" ],
         "summary" : "Update existing subscription",
@@ -947,7 +946,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/rateLimiter" : {
+    "/cards-publication/cards/rateLimiter" : {
       "post" : {
         "summary" : "reset the rate limiter",
         "responses" : {
@@ -960,7 +959,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/logs" : {
+    "/cards-consultation/logs" : {
       "post" : {
         "summary" : "sends remote logs",
         "produces" : [ "application/json" ],
@@ -974,7 +973,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards" : {
+    "/cards-publication/cards" : {
       "post" : {
         "tags" : [ "cards", "read" ],
         "summary" : "retrieve published cards matching given criteria",
@@ -1067,7 +1066,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/archives/{id}" : {
+    "/cards-consultation/archives/{id}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "id",
@@ -1095,7 +1094,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/archives" : {
+    "/cards-consultation/archives" : {
       "post" : {
         "tags" : [ "archives", "read" ],
         "summary" : "get archived cards matching given criteria",
@@ -1128,7 +1127,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/connectedRecipientsPreview" : {
+    "/cards-consultation/connectedRecipientsPreview" : {
       "post" : {
         "summary" : "get the connected Entity among the recipients in card preview",
         "consumes" : [ "application/json" ],
@@ -1156,7 +1155,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/{id}" : {
+    "/cards-consultation/cards/{id}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "id",
@@ -1207,7 +1206,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/userAcknowledgement/{uid}" : {
+    "/cards-publication/cards/userAcknowledgement/{uid}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "uid",
@@ -1238,12 +1237,12 @@ window.swaggerSpec={
             "description" : "No action done, the item already exists"
           },
           "404" : {
-            "description" : "Try to remove item from unexisting card"
+            "description" : "Try to remove item from non-existing card"
           }
         }
       }
     },
-    "/cards/cancelUserAcknowledgement/{uid}" : {
+    "/cards-publication/cards/cancelUserAcknowledgement/{uid}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "uid",
@@ -1271,15 +1270,15 @@ window.swaggerSpec={
             "description" : "Item removed"
           },
           "204" : {
-            "description" : "Try to remove unexisting item"
+            "description" : "Try to remove non-existing item"
           },
           "404" : {
-            "description" : "Try to remove item from unexisting card"
+            "description" : "Try to remove item from non-existing card"
           }
         }
       }
     },
-    "/cards/userCardRead/{uid}" : {
+    "/cards-publication/cards/userCardRead/{uid}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "uid",
@@ -1300,7 +1299,7 @@ window.swaggerSpec={
             "description" : "No action done, the item already exists"
           },
           "404" : {
-            "description" : "Try to remove item from unexisting card"
+            "description" : "Try to remove item from non-existing card"
           }
         }
       },
@@ -1317,12 +1316,12 @@ window.swaggerSpec={
             "description" : "No action done, the item already exists"
           },
           "404" : {
-            "description" : "Try to remove item from unexisting card"
+            "description" : "Try to remove item from non-existing card"
           }
         }
       }
     },
-    "/cards/translateCardField" : {
+    "/cards-publication/cards/translateCardField" : {
       "post" : {
         "summary" : "Get translated field",
         "description" : "Get translated field for a given i18n value",
@@ -1352,7 +1351,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards/resetReadAndAcks/{uid}" : {
+    "/cards-publication/cards/resetReadAndAcks/{uid}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "uid",
@@ -1370,7 +1369,7 @@ window.swaggerSpec={
             "description" : "card updated and sent with updated publishDate"
           },
           "404" : {
-            "description" : "Try to update unexisting card"
+            "description" : "Try to update non-existing card"
           },
           "403" : {
             "description" : "Forbidden - User not allowed"

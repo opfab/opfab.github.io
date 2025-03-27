@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">22 March 2025</span>
+<span id="revdate">27 March 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1032,10 +1032,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#card_list_custom_screen">30.3. Card List Custom Screen</a>
 <ul class="sectlevel3">
-<li><a href="#_acknowledgment">30.3.1. Acknowledgment</a></li>
-<li><a href="#_response_buttons">30.3.2. Response buttons</a></li>
-<li><a href="#_card_data_fields">30.3.3. Card data fields</a></li>
-<li><a href="#_current_user_child_card_field">30.3.4. Current user child card field</a></li>
+<li><a href="#_tooltips">30.3.1. Tooltips</a></li>
+<li><a href="#_acknowledgment">30.3.2. Acknowledgment</a></li>
+<li><a href="#_response_buttons">30.3.3. Response buttons</a></li>
+<li><a href="#_card_data_fields">30.3.4. Card data fields</a></li>
+<li><a href="#_current_user_child_card_field">30.3.5. Current user child card field</a></li>
 </ul>
 </li>
 </ul>
@@ -1768,7 +1769,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_use_of_client_id_to_obtain_token">95.1. Use of client_id to obtain token</a></li>
 <li><a href="#_endpoints_configuration">95.2. Endpoints configuration</a></li>
-<li><a href="#_tooltips">95.3. Tooltips</a></li>
+<li><a href="#_tooltips_2">95.3. Tooltips</a></li>
 </ul>
 </li>
 <li><a href="#_migration_guide_from_release_4_4_x_to_release_4_5_0">96. Migration Guide from release 4.4.X to release 4.5.0</a>
@@ -6580,52 +6581,44 @@ which returns an object containing the following fields :</p>
 </div>
 <div class="paragraph">
 <p>In the example below, the <code>getUserResponse</code> creates a <code>responseCard</code> object by retrieving the user&#8217;s inputs from the HTML.
-In addition, if the user choses several options, it overrides the response state defined in the <code>config.json</code> with another
+In addition, if the user choses the refusal option, it overrides the response state defined in the <code>config.json</code> with another
 state. It is also possible to dynamically set the severity of the response with a logic from the template. Here the severity of the response depends on the number of choices selected by the user.</p>
 </div>
 <div class="listingblock">
 <div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="js">        opfab.currentCard.registerFunctionToGetUserResponse(() =&gt; {
+<pre class="CodeRay highlight"><code data-lang="js">    <span class="keyword">function</span> <span class="function">fetchResponseCardData</span>() {
 
+        const answer = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">opfab-toggle</span><span class="delimiter">'</span></span>).checked;
+        let reason = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="comment">// answer = true means refusal in the toggle</span>
+        <span class="keyword">if</span> (answer) {
+            reason = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#answer-select</span><span class="delimiter">'</span></span>).value;
+        }
 
-            const choice1 = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">choice1</span><span class="delimiter">'</span></span>).checked;
-            const choice2 = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">choice2</span><span class="delimiter">'</span></span>).checked;
-            const choice3 = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">choice3</span><span class="delimiter">'</span></span>).checked;
-            const comment = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">comment</span><span class="delimiter">'</span></span>).value;
-            const result = {
-                <span class="key">valid</span>: <span class="predefined-constant">true</span>,
-                <span class="key">responseCard</span>:{
-                    <span class="key">data</span>: {
-                    <span class="key">choice1</span>: choice1,
-                    <span class="key">choice2</span>: choice2, 
-                    <span class="key">choice3</span>: choice3,
-                    <span class="key">comment</span>: comment
-                    }
-                } 
-            };
+        const comment = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">comment</span><span class="delimiter">'</span></span>).value;
 
-            <span class="comment">// If the user chose several options, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
-            let choiceOnNumber = <span class="integer">0</span>;
-            <span class="keyword">if</span> (choice1) choiceOnNumber++;
-            <span class="keyword">if</span> (choice2) choiceOnNumber++;
-            <span class="keyword">if</span> (choice3) choiceOnNumber++;
-            <span class="keyword">if</span> (choiceOnNumber&gt;<span class="integer">1</span>) result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">multipleOptionsResponseState</span><span class="delimiter">'</span></span>;
-            <span class="keyword">switch</span>( choiceOnNumber ) {
-                <span class="keyword">case</span> <span class="integer">0</span>:
-                    result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>
-                    <span class="keyword">break</span>;
-                <span class="keyword">case</span> <span class="integer">1</span>:
-                <span class="keyword">case</span> <span class="integer">2</span>:
-                    result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">INFORMATION</span><span class="delimiter">&quot;</span></span>
-                    <span class="keyword">break</span>;
-                <span class="keyword">case</span> <span class="integer">3</span>:
-                    result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>
-                    <span class="keyword">break</span>;
-            }
-            <span class="keyword">return</span> result;
+        const result = {
+            <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+            <span class="key">responseCard</span>:{
+                <span class="key">data</span>: {
+                <span class="key">propositionRefused</span>: answer,
+                <span class="key">reason</span>: reason, 
+                <span class="key">comment</span>: comment
+                }
+            } 
+        };
 
-        });</code></pre>
+        <span class="comment">// If the user choses to answer no, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+        <span class="keyword">if</span> (answer){
+            result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">refuseResponseState</span><span class="delimiter">'</span></span>;
+            result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>
+        }  <span class="keyword">else</span> {
+            result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>
+        }
+        <span class="keyword">return</span> result
+    }
+            opfab.currentCard.registerFunctionToGetUserResponse(fetchResponseCardData);</code></pre>
 </div>
 </div>
 </div>
@@ -9734,7 +9727,8 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
                 headerName: 'SUMMARY',
                 cardField: 'summaryTranslated',
                 fieldType: 'STRING',
-                flex: 2
+                flex: 2,
+                showTooltips: true
             },
             {
                 fieldType: 'TYPE_OF_STATE',
@@ -9831,13 +9825,19 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>It is possible to define the minimum width of the column by setting the <code>minWidth</code> field in the column definition. The <code>minWidth</code> is a number representing the width in pixels.</p>
 </div>
 <div class="sect3">
-<h4 id="_acknowledgment"><a class="anchor" href="#_acknowledgment"></a>30.3.1. Acknowledgment</h4>
+<h4 id="_tooltips"><a class="anchor" href="#_tooltips"></a>30.3.1. Tooltips</h4>
+<div class="paragraph">
+<p>Sometimes columns are not wide enough to display all the content. In this case, you can enable tooltips for the column by setting the <code>showTooltips</code> field to <code>true</code> in the column definition.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_acknowledgment"><a class="anchor" href="#_acknowledgment"></a>30.3.2. Acknowledgment</h4>
 <div class="paragraph">
 <p>It is possible to define a custom screen with an acknowledgment button allowing the user to acknowledge multiple cards at once. This is possible by setting the <code>showAcknowledgmentButton</code> field to <code>true</code> in the custom screen object.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_buttons"><a class="anchor" href="#_response_buttons"></a>30.3.2. Response buttons</h4>
+<h4 id="_response_buttons"><a class="anchor" href="#_response_buttons"></a>30.3.3. Response buttons</h4>
 <div class="paragraph">
 <p>It is possible to define custom response buttons for the custom screen allowing the user to send multiple responses at once.</p>
 </div>
@@ -9900,7 +9900,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
         responseButtons: [
             {
                 id: 'button1',
-                label: 'Accept proposals',
+                label: 'ACCEPT PROPOSALS',
                 getUserResponses: (cards, userInputs) =&gt; {
                     const responseCards = [];
 
@@ -9916,7 +9916,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
             },
             {
                 id: 'button2',
-                label: 'Refuse proposals',
+                label: 'REFUSE PROPOSALS',
                 getUserResponses: (cards, userInputs) =&gt; {
                     const responseCards = [];
                     let hasAlwaysComment = true;
@@ -9953,7 +9953,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_card_data_fields"><a class="anchor" href="#_card_data_fields"></a>30.3.3. Card data fields</h4>
+<h4 id="_card_data_fields"><a class="anchor" href="#_card_data_fields"></a>30.3.4. Card data fields</h4>
 <div class="paragraph">
 <p>It is possible to define data fields you want to display in the custom screen. To do this, you have to define the data
 fields in the configuration file shared by all the services (for example <code>/config/docker/common.yml</code>), the variable is
@@ -9991,7 +9991,7 @@ fields in the configuration file shared by all the services (for example <code>/
 </div>
 </div>
 <div class="sect3">
-<h4 id="_current_user_child_card_field"><a class="anchor" href="#_current_user_child_card_field"></a>30.3.4. Current user child card field</h4>
+<h4 id="_current_user_child_card_field"><a class="anchor" href="#_current_user_child_card_field"></a>30.3.5. Current user child card field</h4>
 <div class="paragraph">
 <p>It is possible to define a field in the custom screen that will display the field value of the child card of the current user if any.
 To do this, you have to set the value <code>isFieldFromCurrentUserChildCard</code> to true in the column definition. For example :</p>
@@ -22734,7 +22734,7 @@ You should change your configuration for geoJSON layer to configure it as an arr
 </div>
 </div>
 <div class="sect2">
-<h3 id="_tooltips"><a class="anchor" href="#_tooltips"></a>95.3. Tooltips</h3>
+<h3 id="_tooltips_2"><a class="anchor" href="#_tooltips_2"></a>95.3. Tooltips</h3>
 <div class="paragraph">
 <p>For templates and external applications, the tooltip styling now allows HTML inside of it and the implementation syntax changed from:</p>
 </div>
