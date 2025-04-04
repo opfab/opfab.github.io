@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">03 April 2025</span>
+<span id="revdate">04 April 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -9833,7 +9833,20 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>For <code>STRING</code> field type if the method <code>getValue</code> is defined, the value of the field will be the result of this method instead of the value of the cardField.</p>
 </div>
 <div class="paragraph">
-<p>For <code>HTML</code> field type, sorting has been deactivated because the HTML tags may falsify the order. Filtering is enabled but may also be impacted. The HTML tags need to be injected by the <code>getValue</code> method of the column.</p>
+<p>For <code>HTML</code> field type, the HTML tags need to be injected by the <code>getHTMLValue</code> method of the column. The value for sorting and filtering the column will be the content of the field <code>cardField</code> or the result of the <code>getValue</code> method if defined. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+    field: 'testField',
+    headerName: 'TITLE',
+    cardField: 'titleTranslated',
+    fieldType: 'HTML',
+    getHTMLValue: (card) =&gt; {
+        return `&lt;span style=&quot;color:red&quot;&gt;${card.titleTranslated}&lt;/span&gt;`;
+    }
+}</code></pre>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_cell_size"><a class="anchor" href="#_cell_size"></a>30.3.1. Cell size</h4>
@@ -9971,6 +9984,9 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
     flex: 1
 }</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>If you want the input to be restricted to a certain number of characters, you can set the <code>maxInputLength</code> field in the column definition.</p>
 </div>
 <div class="paragraph">
 <p>It is possible instead of using an input field to use a select field by setting the fieldType to <code>SELECT</code> and defining the options in the column definition, for example :</p>
