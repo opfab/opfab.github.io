@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.6.0.RELEASE,</span>
-<span id="revdate">31 January 2025</span>
+<span id="revnumber">version 4.7.0.RELEASE,</span>
+<span id="revdate">05 May 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -828,6 +828,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_email_templates">32.7. Email templates</a></li>
 <li><a href="#_email_templates_custom_parameters">32.8. Email templates custom parameters</a></li>
 <li><a href="#_removed_field_timespans_recurrence">32.9. Removed field <code>timespans.recurrence</code></a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_6_x_to_release_4_7_0">33. Migration Guide from release 4.6.X to release 4.7.0</a>
+<ul class="sectlevel2">
+<li><a href="#_user_settings_2">33.1. User settings</a></li>
+<li><a href="#_response_card">33.2. Response card</a></li>
 </ul>
 </li>
 </ul>
@@ -3011,7 +3017,7 @@ usercard configuration in the config.json of your bundle.</p>
 <p>Bundles are not stored directly into the business config storage path defined in configuration anymore (operatorfabric.businessconfig.storage.path) but in a subdirectory named bundles. So in order to migrate, it is needed to move your bundles directories to a subdirectory named bundles.</p>
 </div>
 <div class="paragraph">
-<p>To help you migrate your production environment you can use the following script : <a href="https://github.com/opfab/operatorfabric-core/tree/develop/src/tooling/migration-opfab3.13/moveBundles.sh" class="bare">github.com/opfab/operatorfabric-core/tree/develop/src/tooling/migration-opfab3.13/moveBundles.sh</a></p>
+<p>To help you migrate your production environment you can use the following script : <a href="https://github.com/opfab/operatorfabric-core/blob//src/tooling/migration-opfab3.13/moveBundles.sh" class="bare">github.com/opfab/operatorfabric-core/blob//src/tooling/migration-opfab3.13/moveBundles.sh</a></p>
 </div>
 </div>
 </div>
@@ -4470,6 +4476,63 @@ endpoint "reset". Example :</p>
 <p>curl <a href="http://localhost:2107/reset" class="bare">localhost:2107/reset</a> -H "Authorization:Bearer $token"</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_6_x_to_release_4_7_0"><a class="anchor" href="#_migration_guide_from_release_4_6_x_to_release_4_7_0"></a>33. Migration Guide from release 4.6.X to release 4.7.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_user_settings_2"><a class="anchor" href="#_user_settings_2"></a>33.1. User settings</h3>
+<div class="paragraph">
+<p>A new setting to activate or not the templating of emails has been added in the settings screen of the user.
+This setting can be hidden in the configuration file of the web-ui by the field "settings.settingsScreen.hiddenSettings" by adding the value "disableCardContentInEmails".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_card"><a class="anchor" href="#_response_card"></a>33.2. Response card</h3>
+<div class="paragraph">
+<p>The object that should be returned by the method registered via <code>opfab.currentCard.registerFunctionToGetUserResponse</code> is to be changed.</p>
+</div>
+<div class="paragraph">
+<p>Previously, the object was structured as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCardData: string,
+    responseState: string,
+    publisher: string,
+    actions: [string]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, all elements related to the response card are encapsulated within a <code>responseCard</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCard: {
+        data: string,
+        state: string,
+        publisher: string,
+        actions: [string]
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>responseState</code> field has been renamed to <code>state</code>.</p>
+</div>
+<div class="paragraph">
+<p>The old structure will be supported as a fallback for a limited time, it is recommended to update your code to use the new structure.
+`</p>
 </div>
 </div>
 </div>

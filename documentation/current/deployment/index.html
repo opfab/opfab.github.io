@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.6.0.RELEASE,</span>
-<span id="revdate">31 January 2025</span>
+<span id="revnumber">version 4.7.0.RELEASE,</span>
+<span id="revdate">05 May 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1793,7 +1793,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <div class="sect3">
 <h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>3.2.2. UI properties</h4>
 <div class="paragraph">
-<p>The properties lie in the <code>web-ui.json</code>.The following table describes their meaning and  how to use them. An example file can be found in the config/docker directory.</p>
+<p>The properties lie in the <code>web-ui.json</code>. The following table describes their meaning and how to use them. An example file can be found in the config/docker directory.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1879,6 +1879,68 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to false, an OperatorFabric url can be used by several tabs in the same browser. Note that there can only be one token per browser for a given OperatorFabric url, so the first session will be replaced by the second one</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">customCssToLoad</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of css files to be loaded at startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">customJsToLoad</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of javascript files to be loaded at startup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processStateRedirects</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declares if a state when clicked in the dashboard should redirect to a custom menu or custom screen. If nothing is specified the redirection is pointing to the card feed. Here is a declaration with one redirection to a custom menu and one to a custom screen. The ids declared should match the ones in the ui-menu config.
+[source, json]
+----
+"dashboard": {
+    "processStateRedirects": [
+      {
+        "processId": "defaultProcess",
+        "stateId": "chartLineState",
+        "menuId": "uid_test_0",
+        "urlExtension": "?search=chart&amp;fulltext=1"
+      },
+      {
+        "processId": "defaultProcess",
+        "stateId": "questionState",
+        "screenId": "testId"
+      }
+    ]
+  }
+----</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processCustomLinks</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declares a list of link to show under the states of processes.Here is a declaration with two links  to custom screens.
+[source, json]
+----
+  "dashboard": {
+        "processCustomLinks": [
+            {
+            "processId": "defaultProcess",
+            "customLinks": [
+                    {
+                        "label": "Custom screen",
+                        "customScreenId": "testId"
+                    },
+                    {
+                        "label": "Custom screen 2",
+                        "customScreenId": "testId2"
+                    }
+                ]
+            }
+        ]
+  }
+----</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">defaultEntryPage</p></td>
@@ -2356,6 +2418,7 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "emailToPlainText" : if present, the email option to have the emails sent as plain text will not be displayed<br>
 "sendDailyEmail" : if present, the email option to have the daily email recap will not be displayed<br>
 "sendWeeklyEmail" : if present, the email option to have the weekly email recap will not be displayed<br>
+"disableCardContentInEmails" : if present, the email option to activate or not the templating of emails will not be displayed<br>
 "timezoneForEmails" : if present, the field to choose the timezone for emails will not be displayed<br>
 "hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed<br>
 "openNextCardOnAcknowledgment": if present, the checkbox to automaticaly open next card after acknowledgment won&#8217;t be displayed<br>
@@ -2378,12 +2441,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If true, show entity <code>description</code> field instead of <code>name</code> in user card page</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">customJsToLoad</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of javascript files to be loaded at startup</p></td>
 </tr>
 </tbody>
 </table>

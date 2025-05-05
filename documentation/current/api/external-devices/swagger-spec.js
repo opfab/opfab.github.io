@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.6.0.RELEASE",
+    "version" : "4.7.0.RELEASE",
     "title" : "External Devices Management",
     "termsOfService" : "",
     "contact" : {
@@ -15,7 +15,6 @@ window.swaggerSpec={
     }
   },
   "host" : "localhost:2002",
-  "basePath" : "/externaldevices",
   "schemes" : [ "http" ],
   "tags" : [ {
     "name" : "notification",
@@ -153,7 +152,7 @@ window.swaggerSpec={
     }
   },
   "paths" : {
-    "/notifications" : {
+    "/externaldevices/notifications" : {
       "post" : {
         "tags" : [ "notification" ],
         "summary" : "Handle (e.g. play sound for) given notification",
@@ -184,7 +183,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/configurations/devices" : {
+    "/externaldevices/configurations/devices" : {
       "post" : {
         "tags" : [ "deviceConfiguration" ],
         "summary" : "Create device with provided configuration",
@@ -238,7 +237,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/configurations/devices/{deviceId}" : {
+    "/externaldevices/configurations/devices/{deviceId}" : {
       "get" : {
         "tags" : [ "deviceConfiguration" ],
         "summary" : "Get device configuration with given Id",
@@ -297,7 +296,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/configurations/signals" : {
+    "/externaldevices/configurations/signals" : {
       "post" : {
         "tags" : [ "signalMapping" ],
         "summary" : "Create signal mapping with provided configuration",
@@ -345,7 +344,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/configurations/signals/{signalMappingId}" : {
+    "/externaldevices/configurations/signals/{signalMappingId}" : {
       "get" : {
         "tags" : [ "signalMapping" ],
         "summary" : "Get signal mapping with given Id",
@@ -404,7 +403,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/configurations/users" : {
+    "/externaldevices/configurations/users" : {
       "post" : {
         "tags" : [ "userConfiguration" ],
         "summary" : "Configures the external device to use for a given user",
@@ -452,7 +451,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/configurations/users/{userLogin}" : {
+    "/externaldevices/configurations/users/{userLogin}" : {
       "get" : {
         "tags" : [ "userConfiguration" ],
         "summary" : "Get user configuration for user with given login",
@@ -511,7 +510,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/devices" : {
+    "/externaldevices/devices" : {
       "get" : {
         "tags" : [ "device" ],
         "summary" : "Fetch all devices",
@@ -530,7 +529,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/devices/{deviceId}" : {
+    "/externaldevices/devices/{deviceId}" : {
       "get" : {
         "tags" : [ "device" ],
         "summary" : "Fetch device",
@@ -557,7 +556,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/devices/{deviceId}/enable" : {
+    "/externaldevices/devices/{deviceId}/enable" : {
       "post" : {
         "tags" : [ "device" ],
         "summary" : "Enable device",
@@ -586,7 +585,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/devices/{deviceId}/disable" : {
+    "/externaldevices/devices/{deviceId}/disable" : {
       "post" : {
         "tags" : [ "device" ],
         "summary" : "Disable device",

@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.6.0.RELEASE",
+    "version" : "4.7.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -15,7 +15,6 @@ window.swaggerSpec={
     }
   },
   "host" : "localhost:2002",
-  "basePath" : "/users",
   "tags" : [ {
     "name" : "users",
     "description" : "Everything concerning users"
@@ -330,6 +329,10 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
         },
+        "disableCardContentInEmails" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, the email templates will be disabled"
+        },
         "sendDailyEmail" : {
           "type" : "boolean",
           "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
@@ -397,6 +400,10 @@ window.swaggerSpec={
         "emailToPlainText" : {
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
+        },
+        "disableCardContentInEmails" : {
+          "type" : "boolean",
+          "description" : "If this is set to true, the email templates will be disabled"
         },
         "sendDailyEmail" : {
           "type" : "boolean",
@@ -521,7 +528,7 @@ window.swaggerSpec={
     }
   },
   "paths" : {
-    "/users" : {
+    "/users/users" : {
       "get" : {
         "tags" : [ "users" ],
         "summary" : "Fetch a list of all existing users",
@@ -601,7 +608,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/users/{login}" : {
+    "/users/users/{login}" : {
       "get" : {
         "tags" : [ "users" ],
         "summary" : "Fetch an existing user",
@@ -710,7 +717,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/users/{login}/settings" : {
+    "/users/users/{login}/settings" : {
       "get" : {
         "tags" : [ "users" ],
         "summary" : "Fetch an existing user's settings",
@@ -830,7 +837,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/users/synchronizeWithToken" : {
+    "/users/users/synchronizeWithToken" : {
       "post" : {
         "tags" : [ "users" ],
         "summary" : "synchronize user data",
@@ -856,7 +863,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups" : {
+    "/users/groups" : {
       "get" : {
         "tags" : [ "groups" ],
         "summary" : "Fetch a list of all existing groups",
@@ -932,7 +939,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{id}" : {
+    "/users/groups/{id}" : {
       "put" : {
         "tags" : [ "groups" ],
         "summary" : "Update existing group",
@@ -1041,7 +1048,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{id}/users" : {
+    "/users/groups/{id}/users" : {
       "put" : {
         "tags" : [ "groups", "users" ],
         "summary" : "Update list of group users",
@@ -1158,7 +1165,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{id}/users/{login}" : {
+    "/users/groups/{id}/users/{login}" : {
       "delete" : {
         "tags" : [ "groups", "users" ],
         "summary" : "Remove user from group",
@@ -1197,7 +1204,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/entities" : {
+    "/users/entities" : {
       "get" : {
         "tags" : [ "entities" ],
         "summary" : "Fetch a list of all existing entities.",
@@ -1270,7 +1277,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/entities/{id}" : {
+    "/users/entities/{id}" : {
       "put" : {
         "tags" : [ "entities" ],
         "summary" : "Update existing entity",
@@ -1379,7 +1386,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/entities/{id}/users" : {
+    "/users/entities/{id}/users" : {
       "put" : {
         "tags" : [ "entities", "users" ],
         "summary" : "Update list of entity users",
@@ -1496,7 +1503,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/entities/{id}/users/{login}" : {
+    "/users/entities/{id}/users/{login}" : {
       "delete" : {
         "tags" : [ "entities", "users" ],
         "summary" : "Remove user from entity",
@@ -1535,7 +1542,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/perimeters" : {
+    "/users/perimeters" : {
       "get" : {
         "tags" : [ "perimeters" ],
         "summary" : "Fetch a list of all existing perimeters",
@@ -1617,7 +1624,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/perimeters/{id}" : {
+    "/users/perimeters/{id}" : {
       "put" : {
         "tags" : [ "perimeters" ],
         "summary" : "Update existing perimeter",
@@ -1726,7 +1733,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/perimeters/{id}/groups" : {
+    "/users/perimeters/{id}/groups" : {
       "put" : {
         "tags" : [ "perimeters", "groups" ],
         "summary" : "Update list of groups that have this perimeter",
@@ -1843,7 +1850,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/perimeters/{idPerimeter}/groups/{idGroup}" : {
+    "/users/perimeters/{idPerimeter}/groups/{idGroup}" : {
       "delete" : {
         "tags" : [ "perimeters", "groups" ],
         "summary" : "Remove group from perimeter",
@@ -1882,7 +1889,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/groups/{id}/perimeters" : {
+    "/users/groups/{id}/perimeters" : {
       "get" : {
         "tags" : [ "groups", "perimeters" ],
         "summary" : "Fetch an existing group's perimeters",
@@ -2025,7 +2032,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/users/{login}/perimeters" : {
+    "/users/users/{login}/perimeters" : {
       "get" : {
         "tags" : [ "users", "perimeters" ],
         "summary" : "Fetch an existing user's perimeters",
@@ -2084,7 +2091,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/CurrentUserWithPerimeters" : {
+    "/users/CurrentUserWithPerimeters" : {
       "get" : {
         "tags" : [ "users" ],
         "summary" : "Get information about the user connected and his perimeters",
@@ -2125,7 +2132,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/UserWithPerimeters/{login}" : {
+    "/users/UserWithPerimeters/{login}" : {
       "get" : {
         "tags" : [ "users" ],
         "summary" : "Get information about a user and his perimeters",
@@ -2173,7 +2180,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/userActionLogs" : {
+    "/users/userActionLogs" : {
       "get" : {
         "tags" : [ "user actions logs" ],
         "summary" : "Get user action logs",
@@ -2234,7 +2241,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/notificationconfiguration/processstatenotified/{process}/{state}" : {
+    "/users/notificationconfiguration/processstatenotified/{process}/{state}" : {
       "post" : {
         "tags" : [ "notification configuration" ],
         "summary" : "Set notification for a process/state for all users",
@@ -2298,7 +2305,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/notificationconfiguration/processstatenotifiedbymail/{process}/{state}" : {
+    "/users/notificationconfiguration/processstatenotifiedbymail/{process}/{state}" : {
       "post" : {
         "tags" : [ "email notification configuration" ],
         "summary" : "Set email notification for a process/state for all users",

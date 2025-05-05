@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Community</h1>
 <div class="details">
-<span id="revnumber">version 4.6.0.RELEASE,</span>
-<span id="revdate">31 January 2025</span>
+<span id="revnumber">version 4.7.0.RELEASE,</span>
+<span id="revdate">05 May 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -562,27 +562,28 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 </ul>
 </li>
-<li><a href="#_code_guidelines">3.2. Code Guidelines</a>
+<li><a href="#_renovate_pr">3.2. Renovate PR</a></li>
+<li><a href="#_code_guidelines">3.3. Code Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_angulartypescript_development_caution_and_guidelines">3.2.1. Angular/TypeScript development caution and guidelines</a></li>
-<li><a href="#_back_development">3.2.2. Back development</a></li>
-<li><a href="#_unit_test">3.2.3. Unit test</a></li>
+<li><a href="#_angulartypescript_development_caution_and_guidelines">3.3.1. Angular/TypeScript development caution and guidelines</a></li>
+<li><a href="#_back_development">3.3.2. Back development</a></li>
+<li><a href="#_unit_test">3.3.3. Unit test</a></li>
 </ul>
 </li>
-<li><a href="#_documentation_guidelines">3.3. Documentation Guidelines</a>
+<li><a href="#_documentation_guidelines">3.4. Documentation Guidelines</a>
 <ul class="sectlevel3">
-<li><a href="#_structure">3.3.1. Structure</a></li>
-<li><a href="#_conventions">3.3.2. Conventions</a></li>
+<li><a href="#_structure">3.4.1. Structure</a></li>
+<li><a href="#_conventions">3.4.2. Conventions</a></li>
 </ul>
 </li>
-<li><a href="#_copyright_headers">3.4. Copyright Headers</a>
+<li><a href="#_copyright_headers">3.5. Copyright Headers</a>
 <ul class="sectlevel3">
-<li><a href="#_header_templates">3.4.1. Header templates</a></li>
-<li><a href="#_examples">3.4.2. Examples</a>
+<li><a href="#_header_templates">3.5.1. Header templates</a></li>
+<li><a href="#_examples">3.5.2. Examples</a>
 <ul class="sectlevel4">
-<li><a href="#_creating_a_new_file">3.4.2.1. Creating a new file</a></li>
-<li><a href="#_updating_a_file">3.4.2.2. Updating a file</a></li>
-<li><a href="#_multiple_contributors">3.4.2.3. Multiple contributors</a></li>
+<li><a href="#_creating_a_new_file">3.5.2.1. Creating a new file</a></li>
+<li><a href="#_updating_a_file">3.5.2.2. Updating a file</a></li>
+<li><a href="#_multiple_contributors">3.5.2.3. Multiple contributors</a></li>
 </ul>
 </li>
 </ul>
@@ -1345,7 +1346,102 @@ described in our CICD documentation for details.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>3.2. Code Guidelines</h3>
+<h3 id="_renovate_pr"><a class="anchor" href="#_renovate_pr"></a>3.2. Renovate PR</h3>
+<div class="paragraph">
+<p>Renovate automates dependency upgrades, proposing PRs for updates. Before merging:</p>
+</div>
+<div class="paragraph">
+<p>Devtools:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No specific checks are generally needed.</p>
+</li>
+<li>
+<p>Exceptions:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For major/minor linter upgrades (e.g., X.X.X to X.Y.X or X.X.X to Y.X.X), perform a local test to ensure the linter is still working correctly :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for eslint: verify that console.log statements and focus test are detected</p>
+</li>
+<li>
+<p>for stylelint: verify detection of CSS errors, for example, ensuring that an erroneous declaration like <code>padding-top: 0px</code> is flagged appropriately</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>For Anchore udpates, perform a test of the "Anchore container scan" github workflow to ensure it is still working correctly.</p>
+</li>
+<li>
+<p>For Scorecard udpates, perform a test of the "Scorecard supply-chain security" github workflow to ensure it is still working correctly.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Backend Dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No specific tests are needed due to strong test coverage.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>UI Dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No tests required: If the library has minimal visual impact (e.g., rxjs, date-fns).</p>
+</li>
+<li>
+<p>Local testing required: If the library has potential visual impact (e.g., ag-grid, Bootstrap) and it is not a patch release (e.g., X.X.X to X.X.Y).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Opfab cli dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>As no automatic tests are available, local testing is required.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>General Guidance:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On the days before an Opfab release, avoid merging PRs that introduce library versions released within the last few days, except for dev dependencies or critical security fixes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Post-Merge:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update release notes if the dependency is not a dev dependency.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_guidelines"><a class="anchor" href="#_code_guidelines"></a>3.3. Code Guidelines</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1364,7 +1460,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>3.2.1. Angular/TypeScript development caution and guidelines</h4>
+<h4 id="_angulartypescript_development_caution_and_guidelines"><a class="anchor" href="#_angulartypescript_development_caution_and_guidelines"></a>3.3.1. Angular/TypeScript development caution and guidelines</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1411,7 +1507,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect3">
-<h4 id="_back_development"><a class="anchor" href="#_back_development"></a>3.2.2. Back development</h4>
+<h4 id="_back_development"><a class="anchor" href="#_back_development"></a>3.3.2. Back development</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1424,7 +1520,7 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect3">
-<h4 id="_unit_test"><a class="anchor" href="#_unit_test"></a>3.2.3. Unit test</h4>
+<h4 id="_unit_test"><a class="anchor" href="#_unit_test"></a>3.3.3. Unit test</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1438,16 +1534,16 @@ to have to maintain these mentions (since this information is tracked by git any
 </div>
 </div>
 <div class="sect2">
-<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>3.3. Documentation Guidelines</h3>
+<h3 id="_documentation_guidelines"><a class="anchor" href="#_documentation_guidelines"></a>3.4. Documentation Guidelines</h3>
 <div class="paragraph">
 <p>The aim of this section is to explain how the documentation is currently organized and to give a few guidelines on how
 it should be written.</p>
 </div>
 <div class="sect3">
-<h4 id="_structure"><a class="anchor" href="#_structure"></a>3.3.1. Structure</h4>
+<h4 id="_structure"><a class="anchor" href="#_structure"></a>3.4.1. Structure</h4>
 <div class="paragraph">
 <p>All the sources for the AsciiDoc documentation published on our <a href="https://opfab.github.io/">website</a> are found under
-the <a href="https://github.com/opfab/operatorfabric-core/tree/master/src/docs/asciidoc">src/docs/asciidoc</a> folder in the
+the <a href="https://github.com/opfab/operatorfabric-core/blob//src/docs/asciidoc">src/docs/asciidoc</a> folder in the
 operatorfabric-core repository.</p>
 </div>
 <div class="paragraph">
@@ -1609,7 +1705,7 @@ example for the
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>3.3.2. Conventions</h4>
+<h4 id="_conventions"><a class="anchor" href="#_conventions"></a>3.4.2. Conventions</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1635,6 +1731,28 @@ set in the configuration of the asciidoctor gradle task:</p>
             include <span class="string"><span class="delimiter">'</span><span class="content">images/*</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">pdf/*</span><span class="delimiter">'</span></span>
         }
     }
+    
+    <span class="comment">// This is done to fetch the correct version for links that reference source files.</span>
+    <span class="comment">// The reference is set to develop if on develop branch for snapshot</span>
+    <span class="comment">// else it's set on latest release tag</span>
+    doFirst {
+        <span class="keyword">def</span> currentBranchProcess = [<span class="string"><span class="delimiter">'</span><span class="content">sh</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">-c</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">git rev-parse --abbrev-ref HEAD</span><span class="delimiter">'</span></span>].execute()
+        currentBranchProcess.waitFor()
+        <span class="keyword">def</span> currentBranch = currentBranchProcess.text.trim()
+        
+        <span class="keyword">def</span> gitReference
+        
+        <span class="keyword">if</span> (currentBranch == <span class="string"><span class="delimiter">&quot;</span><span class="content">develop</span><span class="delimiter">&quot;</span></span>) {
+            gitReference = <span class="string"><span class="delimiter">&quot;</span><span class="content">develop</span><span class="delimiter">&quot;</span></span>
+        } <span class="keyword">else</span> {
+            <span class="keyword">def</span> latestTagProcess = [<span class="string"><span class="delimiter">'</span><span class="content">sh</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">-c</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">git tag -l --sort=-creatordate | head -n 1</span><span class="delimiter">'</span></span>].execute()
+            latestTagProcess.waitFor()
+            gitReference = latestTagProcess.text.trim()
+        }
+        
+        attributes(<span class="string"><span class="delimiter">'</span><span class="content">gitReference</span><span class="delimiter">'</span></span>: gitReference)
+    }
+
     attributes  nofooter            : <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
             revnumber           : operatorfabric.version,
             revdate             : operatorfabric.revisionDate,
@@ -1807,12 +1925,12 @@ the latest (release) version of the documentation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>3.4. Copyright Headers</h3>
+<h3 id="_copyright_headers"><a class="anchor" href="#_copyright_headers"></a>3.5. Copyright Headers</h3>
 <div class="paragraph">
 <p>All source files and documentation files for the project should bear copyright headers.</p>
 </div>
 <div class="sect3">
-<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>3.4.1. Header templates</h4>
+<h4 id="_header_templates"><a class="anchor" href="#_header_templates"></a>3.5.1. Header templates</h4>
 <div class="paragraph">
 <p>In the case of source files (*.java, *.css or *.scss, *.html, *.ts, etc.), we are working with the
 <a href="http://mozilla.org/MPL/2.0/">Mozilla Public License, v. 2.0</a>, so the header should be something like this:</p>
@@ -1856,9 +1974,9 @@ added to the AUTHORS file.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples"><a class="anchor" href="#_examples"></a>3.4.2. Examples</h4>
+<h4 id="_examples"><a class="anchor" href="#_examples"></a>3.5.2. Examples</h4>
 <div class="sect4">
-<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>3.4.2.1. Creating a new file</h5>
+<h5 id="_creating_a_new_file"><a class="anchor" href="#_creating_a_new_file"></a>3.5.2.1. Creating a new file</h5>
 <div class="paragraph">
 <p>Let&#8217;s say a developer from entity Entity X creates a new java file in 2020. The header should read:</p>
 </div>
@@ -1875,7 +1993,7 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>3.4.2.2. Updating a file</h5>
+<h5 id="_updating_a_file"><a class="anchor" href="#_updating_a_file"></a>3.5.2.2. Updating a file</h5>
 <div class="paragraph">
 <p>Given an existing java file with the following header:</p>
 </div>
@@ -1921,7 +2039,7 @@ This file is part of the OperatorFabric project.</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>3.4.2.3. Multiple contributors</h5>
+<h5 id="_multiple_contributors"><a class="anchor" href="#_multiple_contributors"></a>3.5.2.3. Multiple contributors</h5>
 <div class="paragraph">
 <p>Given an existing java file with the following header:</p>
 </div>

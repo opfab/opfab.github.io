@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.6.0.RELEASE",
+    "version" : "4.7.0.RELEASE",
     "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -1006,6 +1006,9 @@ window.swaggerSpec={
           "type" : "boolean"
         },
         "recipientForInformationVisible" : {
+          "type" : "boolean"
+        },
+        "publisherVisible" : {
           "type" : "boolean"
         },
         "publisherList" : {
