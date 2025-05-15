@@ -879,6 +879,10 @@ window.swaggerSpec={
         "emittingEntityAllowedToRespond" : {
           "description" : "If true, entity emitting a card is allowed to respond",
           "type" : "boolean"
+        },
+        "showConfirmationPopup" : {
+          "description" : "If true, opfab displays a confirmation popup before the user sends response",
+          "type" : "boolean"
         }
       }
     },
