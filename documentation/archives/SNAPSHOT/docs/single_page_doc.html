@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">21 May 2025</span>
+<span id="revdate">22 May 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1038,6 +1038,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_response_buttons">30.3.4. Response buttons</a></li>
 <li><a href="#_card_data_fields">30.3.5. Card data fields</a></li>
 <li><a href="#_current_user_child_card_field">30.3.6. Current user child card field</a></li>
+<li><a href="#_exporting_responses_by_type_and_not_responded">30.3.7. Exporting responses by type and not responded</a></li>
 </ul>
 </li>
 </ul>
@@ -10140,6 +10141,33 @@ This feature is not yet taking into account the fact that the user may be member
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exporting_responses_by_type_and_not_responded"><a class="anchor" href="#_exporting_responses_by_type_and_not_responded"></a>30.3.7. Exporting responses by type and not responded</h4>
+<div class="paragraph">
+<p>When exporting the data of a custom screen, you can add columns per type of response (severity), with the column name defined by configuration</p>
+</div>
+<div class="paragraph">
+<p>To enable this, define a <code>responseSeverityColumnLabelsForExportFile</code> field in your custom screen JS definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>responseSeverityColumnLabelsForExportFile: {
+    COMPLIANT: "yes",
+    ALARM: "no"
+},
+results: {
+    columns: [
+        // Only declare the visible columns for the UI, e.g.:
+        { headerName: 'ANSWERS', fieldType: 'RESPONSES', flex: 2, minWidth: 400 }
+        // Do NOT declare export-only columns here
+    ]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For each configured severity, a column will be exported (but not shown in the UI) with the entities that responded with that severity.These columns are only present in the export, not in the UI.</p>
 </div>
 </div>
 </div>
