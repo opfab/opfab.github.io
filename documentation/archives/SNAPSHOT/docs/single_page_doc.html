@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">01 June 2025</span>
+<span id="revdate">02 June 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -9727,6 +9727,10 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
     statesToExclude: [{processId: 'processId0', stateIds: ['stateId0', 'stateId1']}],
     headerFilters: ['PROCESS', 'TYPE_OF_STATE'],
     showAcknowledgmentButton: false,
+    defaultSelectedTypeOfState: [
+        'INPROGRESS',
+        'FINISHED'
+    ],
     results: {
         columns: [
             {
@@ -9803,6 +9807,10 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code>, <code>READ_ACK</code>, <code>RESPONSE_FROM_MY_ENTITIES</code> and <code>RESPONSE_FROM_ALL_ENTITIES</code>.</p>
 </div>
 <div class="paragraph">
+<p>You can define pre-selected values for the type of state multiselect by setting the field <code>defaultSelectedTypeOfState</code>.
+The possible values are <code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>.</p>
+</div>
+<div class="paragraph">
 <p>For each field you want to display in the result table, define a column object. The following field types are available:</p>
 </div>
 <div class="ulist">
@@ -9854,7 +9862,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>HTML</code>: Renders the HTML contained in the <code>getValue</code> method.</p>
 </li>
 <li>
-<p><code>TYPE_OF_STATE</code>: Displays the name of the type of state (<code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELLED</code>) with a corresponding color. The color is defined as follows:</p>
+<p><code>TYPE_OF_STATE</code>: Displays the name of the type of state (<code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>) with a corresponding color. The color is defined as follows:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -9877,7 +9885,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 </li>
 <li>
-<p><code>CANCELLED</code>: red</p>
+<p><code>CANCELED</code>: red</p>
 </li>
 <li>
 <p>none: grey</p>
@@ -11491,6 +11499,12 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Europe/Paris</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default timezone used to display dates and times for email notifications if user has not set the timezone for mail in his settings</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.showCardUrls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the URL of the card should be displayed in email notifications</p></td>
 </tr>
 </tbody>
 </table>
