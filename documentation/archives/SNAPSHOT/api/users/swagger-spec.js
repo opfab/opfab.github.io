@@ -332,10 +332,6 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
         },
-        "disableCardContentInEmails" : {
-          "type" : "boolean",
-          "description" : "If this is set to true, the email templates will be disabled"
-        },
         "sendDailyEmail" : {
           "type" : "boolean",
           "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
@@ -403,10 +399,6 @@ window.swaggerSpec={
         "emailToPlainText" : {
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
-        },
-        "disableCardContentInEmails" : {
-          "type" : "boolean",
-          "description" : "If this is set to true, the email templates will be disabled"
         },
         "sendDailyEmail" : {
           "type" : "boolean",
