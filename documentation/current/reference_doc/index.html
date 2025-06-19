@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.7.2.RELEASE,</span>
-<span id="revdate">20 May 2025</span>
+<span id="revnumber">version 4.8.0.RELEASE,</span>
+<span id="revdate">19 June 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -909,9 +909,16 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_cell_size">15.3.1. Cell size</a></li>
 <li><a href="#_tooltips">15.3.2. Tooltips</a></li>
 <li><a href="#_acknowledgment">15.3.3. Acknowledgment</a></li>
-<li><a href="#_response_buttons">15.3.4. Response buttons</a></li>
+<li><a href="#_response_buttons">15.3.4. Response buttons</a>
+<ul class="sectlevel4">
+<li><a href="#_input_fields">15.3.4.1. Input fields</a></li>
+<li><a href="#_select_fields">15.3.4.2. Select fields</a></li>
+<li><a href="#_response_restrictions">15.3.4.3. Response restrictions</a></li>
+</ul>
+</li>
 <li><a href="#_card_data_fields">15.3.5. Card data fields</a></li>
 <li><a href="#_current_user_child_card_field">15.3.6. Current user child card field</a></li>
+<li><a href="#_exporting_responses_by_type_and_not_responded">15.3.7. Exporting responses by type and not responded</a></li>
 </ul>
 </li>
 </ul>
@@ -1077,6 +1084,9 @@ to OperatorFabric. It then handles those cards:</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>The maximum size of a card is 1.5 Mb. This limit is enforced to avoid bloating the mongo database and for performance reasons.</p>
+</div>
 <div class="sect2">
 <h3 id="card_structure"><a class="anchor" href="#card_structure"></a>2.1. Card Structure</h3>
 <div class="paragraph">
@@ -1106,6 +1116,18 @@ to OperatorFabric. It then handles those cards:</p>
 <p>This field indicates which process the card is attached to. This information is used to resolve the presentation
 resources (bundle) used to render the card and card details.</p>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The use of '/','#' or '?' in process field is forbidden.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect5">
 <h6 id="card_process_version"><a class="anchor" href="#card_process_version"></a>Process Version (<code>processVersion</code>)</h6>
@@ -1121,6 +1143,18 @@ The <code>processVersion</code> field indicate which version of the process shou
 <div class="paragraph">
 <p>A card is associated to a given process, which defines how it is rendered, but it is also more precisely associated to
 a <strong>specific instance</strong> of this process. The <code>processInstanceId</code> field contains the unique identifier of the process instance.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The use of '/' in the processInstanceId field is forbidden.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect5">
@@ -1418,19 +1452,6 @@ The card is visible in the feed when the card will be reminded.</p>
 <p>Determines where custom information is store. The content in this attribute, is purely <code>publisher</code> choice.
 This content, as long as it&#8217;s in <code>json</code> format can be used to display details. For the way the details are
 displayed, see below.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-You must not use dot in json field names. In this case, the card will be refused with following message :
-"Error, unable to handle pushed Cards: Map key xxx.xxx contains dots but no replacement was configured!""
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
@@ -3651,7 +3672,11 @@ Users can enable hallway mode in their user settings by selecting the <code>Auto
 <div class="sect2">
 <h3 id="_configuring_email_notifications"><a class="anchor" href="#_configuring_email_notifications"></a>5.1. Configuring Email Notifications</h3>
 <div class="paragraph">
-<p>Users can enable email notifications in their user settings. They must provide an email address for receiving notifications and select the processes/states they want to be notified about.
+<p>Users can enable email notifications in their user settings. If the parameter
+<code>operatorfabric.users.getEmailFromUserInsteadOfSettingsThey</code> is set to true, the email address is fetched from the token.
+The email address is displayed in the settings screen but the field is readonly.
+If the parameter is absent or set to false, the user must provide an email address (in the settings screen) for receiving
+notifications and select the processes/states they want to be notified about.
 Users can specify the desired timezone for displaying dates and times in emails. To do this, they must fill in
 the "timezone for mails" field in the user settings screen.</p>
 </div>
@@ -7043,6 +7068,12 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
     statesToExclude: [{processId: 'processId0', stateIds: ['stateId0', 'stateId1']}],
     headerFilters: ['PROCESS', 'TYPE_OF_STATE'],
     showAcknowledgmentButton: false,
+    defaultSelectedTypeOfState: [
+        'INPROGRESS',
+        'FINISHED'
+    ],
+    includeOnlyCardsEmittedByCurrentUserEntities: false,
+    excludeCardsEmittedByCurrentUserEntities: false,
     results: {
         columns: [
             {
@@ -7113,10 +7144,36 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>In this example, the custom screen is accessible via the URL <code>#/customscreen/testId</code>.</p>
 </div>
 <div class="paragraph">
-<p>It is possible to exclude specific states from being display by adding them to the <code>statesToExclude</code> array. State ids are not unique and should be associated to their process id.</p>
+<p>It is possible to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>exclude specific states from being display by adding them to the <code>statesToExclude</code> array. State ids are not unique and should be associated to their process id.</p>
+</li>
+<li>
+<p>include only cards emitted by the entities of the current user by setting the <code>includeOnlyCardsEmittedByCurrentUserEntities</code> field to <code>true</code>.The default value is <code>false</code>.</p>
+</li>
+<li>
+<p>exclude cards emitted by the entities of the current user by setting the <code>excludeCardsEmittedByCurrentUserEntities</code> field to <code>true</code>. The default value is <code>false</code>.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>You can define the filters to be displayed in the header of the screen by adding them to the <code>headerFilters</code> array. The following filters are available: <code>PROCESS</code>, <code>TYPE_OF_STATE</code>, <code>READ_ACK</code>, <code>RESPONSE_FROM_MY_ENTITIES</code> and <code>RESPONSE_FROM_ALL_ENTITIES</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can define pre-selected values :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>for the type of state multiselect filter by setting the field <code>defaultSelectedTypeOfState</code>. The possible values are <code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>.</p>
+</li>
+<li>
+<p>for the read and ack multiselect fitler by setting the field <code>defaultSelectedReadAndAck</code>. The possible values are <code>READ</code>, <code>NOT_READ</code>, <code>ACKNOWLEDGED</code>, <code>NOT_ACKNOWLEDGED</code>.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>For each field you want to display in the result table, define a column object. The following field types are available:</p>
@@ -7170,7 +7227,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>HTML</code>: Renders the HTML contained in the <code>getValue</code> method.</p>
 </li>
 <li>
-<p><code>TYPE_OF_STATE</code>: Displays the name of the type of state (<code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELLED</code>) with a corresponding color. The color is defined as follows:</p>
+<p><code>TYPE_OF_STATE</code>: Displays the name of the type of state (<code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>) with a corresponding color. The color is defined as follows:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -7193,7 +7250,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 </li>
 <li>
-<p><code>CANCELLED</code>: red</p>
+<p><code>CANCELED</code>: red</p>
 </li>
 <li>
 <p>none: grey</p>
@@ -7352,6 +7409,8 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
         ]</pre>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_input_fields"><a class="anchor" href="#_input_fields"></a>15.3.4.1. Input fields</h5>
 <div class="paragraph">
 <p>The input fields are to be defined in the columns definition with fieldType set to <code>INPUT</code> , for example :</p>
 </div>
@@ -7368,6 +7427,9 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <div class="paragraph">
 <p>If you want the input to be restricted to a certain number of characters, you can set the <code>maxInputLength</code> field in the column definition.</p>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_select_fields"><a class="anchor" href="#_select_fields"></a>15.3.4.2. Select fields</h5>
 <div class="paragraph">
 <p>It is possible instead of using an input field to use a select field by setting the fieldType to <code>SELECT</code> and defining the options in the column definition, for example :</p>
 </div>
@@ -7381,12 +7443,43 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
         { value: 'on', label: 'Accept' },
         { value: 'off', label: 'Refuse' }
     ],
+    allowNewOptionForSelect: true,
     flex: 1
 }</pre>
 </div>
 </div>
 <div class="paragraph">
+<p>The option <code>allowNewOptionForSelect</code> allows the user to enter a new value that is not in the list of possible values. If set to <code>false</code>, the user will only be able to select from the list of possible values.</p>
+</div>
+<div class="paragraph">
+<p>If you want the input for new options to be restricted to a certain number of characters, you can set the <code>maxInputLength</code> field in the column definition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_restrictions"><a class="anchor" href="#_response_restrictions"></a>15.3.4.3. Response restrictions</h5>
+<div class="paragraph">
 <p>It is possible to restrict the possibility to respond to entities that are defined as required (field <code>entitiesRequiredToRespond</code> in the card). To do this, you need to set <code>responseOnlyAllowedForEntitiesRequiredToRespond</code> to <code>true</code> in the custom screen definition.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to restrict the possibility to respond to certain process states. To do this, you need to set the <code>responsePossibleOnlyForProcessStates</code> field in the custom screen definition. This field is an array of objects containing the <code>process</code> and an array of <code>states</code> to include. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>responsePossibleOnlyForProcessStates: [
+    {
+        process: 'processId0',
+        states: ['stateId0', 'stateId1']
+    },
+    {
+        process: 'processId1',
+        states: ['stateId2']
+    }
+]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>responsePossibleOnlyForProcessStates</code> field is not defined, the response will be possible for all process states (provided that the user is allowed to respond to the card).</p>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -7467,6 +7560,33 @@ This feature is not yet taking into account the fact that the user may be member
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exporting_responses_by_type_and_not_responded"><a class="anchor" href="#_exporting_responses_by_type_and_not_responded"></a>15.3.7. Exporting responses by type and not responded</h4>
+<div class="paragraph">
+<p>When exporting the data of a custom screen, you can add columns per type of response (severity), with the column name defined by configuration</p>
+</div>
+<div class="paragraph">
+<p>To enable this, define a <code>responseSeverityColumnLabelsForExportFile</code> field in your custom screen JS definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>responseSeverityColumnLabelsForExportFile: {
+    COMPLIANT: "yes",
+    ALARM: "no"
+},
+results: {
+    columns: [
+        // Only declare the visible columns for the UI, e.g.:
+        { headerName: 'ANSWERS', fieldType: 'RESPONSES', flex: 2, minWidth: 400 }
+        // Do NOT declare export-only columns here
+    ]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For each configured severity, a column will be exported (but not shown in the UI) with the entities that responded with that severity.These columns are only present in the export, not in the UI.</p>
 </div>
 </div>
 </div>

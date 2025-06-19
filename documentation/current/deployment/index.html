@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.7.2.RELEASE,</span>
-<span id="revdate">20 May 2025</span>
+<span id="revnumber">version 4.8.0.RELEASE,</span>
+<span id="revdate">19 June 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -930,6 +930,12 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.daysBeforeLogExpiration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">61</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Duration beyond which user action logs get automatically deleted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.getEmailFromUserInsteadOfSettings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the email address used to notify the user
+is fetched from the token, otherwise the user must fill the field on the settings screen</p></td>
 </tr>
 </tbody>
 </table>
@@ -1509,6 +1515,18 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Europe/Paris</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default timezone used to display dates and times for email notifications if user has not set the timezone for mail in his settings</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.showCardUrls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the URL of the card should be displayed in email notifications</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.forceEmailsInPlainText</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the emails must be sent in plain text (regardless of user configuration in settings)</p></td>
 </tr>
 </tbody>
 </table>
@@ -2292,6 +2310,12 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm dd/MM/yyyy )</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">settings.getEmailFromUserInsteadOfSettings</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the email address used to notify the user is fetched from the token, otherwise the user must fill the field on the settings screen</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.locale</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">en</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -2418,10 +2442,9 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 "emailToPlainText" : if present, the email option to have the emails sent as plain text will not be displayed<br>
 "sendDailyEmail" : if present, the email option to have the daily email recap will not be displayed<br>
 "sendWeeklyEmail" : if present, the email option to have the weekly email recap will not be displayed<br>
-"disableCardContentInEmails" : if present, the email option to activate or not the templating of emails will not be displayed<br>
 "timezoneForEmails" : if present, the field to choose the timezone for emails will not be displayed<br>
 "hallwayMode": if present, the checkbox to activate hallway mode won&#8217;t be displayed<br>
-"openNextCardOnAcknowledgment": if present, the checkbox to automaticaly open next card after acknowledgment won&#8217;t be displayed<br>
+"openNextCardOnAcknowledgment": if present, the checkbox to automatically open next card after acknowledgment won&#8217;t be displayed<br>
 "showAcknowledgmentFooter" : if present, the checkbox to always show acknowledgments footer won&#8217;t be displayed</p></td>
 </tr>
 <tr>

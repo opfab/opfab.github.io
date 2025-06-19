@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.7.2.RELEASE",
+    "version" : "4.8.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -42,6 +42,9 @@ window.swaggerSpec={
           "type" : "string"
         },
         "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
           "type" : "string"
         },
         "comment" : {
@@ -329,10 +332,6 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
         },
-        "disableCardContentInEmails" : {
-          "type" : "boolean",
-          "description" : "If this is set to true, the email templates will be disabled"
-        },
         "sendDailyEmail" : {
           "type" : "boolean",
           "description" : "If this is set to true, an email will be sent daily with all the cards received during the day"
@@ -400,10 +399,6 @@ window.swaggerSpec={
         "emailToPlainText" : {
           "type" : "boolean",
           "description" : "If this is set to true, the emails' bodies will be plain text"
-        },
-        "disableCardContentInEmails" : {
-          "type" : "boolean",
-          "description" : "If this is set to true, the email templates will be disabled"
         },
         "sendDailyEmail" : {
           "type" : "boolean",
