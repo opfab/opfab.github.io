@@ -1155,7 +1155,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards-consultation/cards/{id}" : {
+    "/cards-publication/cards/{id}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "id",
@@ -1173,7 +1173,16 @@ window.swaggerSpec={
             "description" : "OK"
           }
         }
-      },
+      }
+    },
+    "/cards-consultation/cards/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "type" : "string",
+        "required" : true,
+        "description" : "The id parameter is constructed as follows : {process}.{processInstanceId}"
+      } ],
       "get" : {
         "operationId" : "fetchProcessCard",
         "tags" : [ "cards", "read" ],
