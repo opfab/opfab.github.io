@@ -34,7 +34,7 @@ Integration with existing IT systems is an overarching concern: support of Firef
 
 # Open source
 
-OperatorFabric is part of the [LF Energy](https://www.lfenergy.org/) coalition, a project of The Linux Foundation that supports open source innovation projects within the energy and electricity sectors.
+OperatorFabric is a [LF Energy Project](https://www.lfenergy.org/). LF Energy is a Directed Fund of [The Linux Foundation](https://linuxfoundation.org) that supports open source innovation projects within the energy and electricity sectors.
 
 OpFab is an open source platform licensed under [Mozilla Public License V2](https://www.mozilla.org/en-US/MPL/2.0/). 
 The source code is hosted on GitHub in this repository : [operatorfabric-core](https://github.com/opfab/operatorfabric-core).
