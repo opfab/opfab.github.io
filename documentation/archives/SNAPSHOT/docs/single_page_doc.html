@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">20 July 2025</span>
+<span id="revdate">21 July 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -982,6 +982,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#_function_getcards">25.10.1. Function getCards</a></li>
 <li><a href="#_function_sendresponsecard">25.10.2. Function sendResponseCard</a></li>
+</ul>
+</li>
+<li><a href="#_lightcards_api">25.11. LightCards API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcurrentuserchildcardsforparentcard">25.11.1. Function getCurrentUserChildCardsForParentCard</a></li>
 </ul>
 </li>
 </ul>
@@ -8396,7 +8401,7 @@ The available message levels are:</p>
 <div class="sect3">
 <h4 id="_function_getcards"><a class="anchor" href="#_function_getcards"></a>25.10.1. Function getCards</h4>
 <div class="paragraph">
-<p>You can use this function to get a list of cards filtered on the specified filter.</p>
+<p>You can use this function to get a list of cards filtered on the specified filter. The cards will be retrieved via a request to the backend.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8513,6 +8518,29 @@ The available message levels are:</p>
 <p><code>publisher</code>: The publisher field value for the response card. This field is optional (default value is the first current user entity that is allowed to respond).</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lightcards_api"><a class="anchor" href="#_lightcards_api"></a>25.11. LightCards API</h3>
+<div class="paragraph">
+<p>A light card is a card that does not contain the fields present in "data", except for those fields used in custom screens and declared in <code>common.yml</code> (<code>operatorfabric.customscreen.dataFields</code>) in the backend configuration. The advantage is that light cards are kept in memory and do not require backend access, unlike the Card API.</p>
+</div>
+<div class="sect3">
+<h4 id="_function_getcurrentuserchildcardsforparentcard"><a class="anchor" href="#_function_getcurrentuserchildcardsforparentcard"></a>25.11.1. Function getCurrentUserChildCardsForParentCard</h4>
+<div class="paragraph">
+<p>You can use this function to get the child cards of the current user&#8217;s entities for a given parent card.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const childCards = opfab.lightCards.getCurrentUserChildCardsForParentCard(parentCardId);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns an array of child cards.</p>
+</div>
+<div class="paragraph">
+<p>The <code>parentCardId</code> parameter is the id of the card for which you want to retrieve the child cards.</p>
 </div>
 </div>
 </div>
@@ -10673,9 +10701,7 @@ the project or by using images releases from <a href="https://hub.docker.com/">D
 <p>Opfab comes with a default embedded configuration, but certain parameters need to be provided and configured.</p>
 </div>
 <div class="paragraph">
-<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. The dev subdirectory contains
-configurations specific to development environments, while the <strong>docker</strong> subdirectory contains a specific configuration
-meant for use in a full docker environment.</p>
+<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. This directory contains a README.md file that explains its contents.</p>
 </div>
 <div class="sect2">
 <h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>36.1. Business service configuration</h3>
