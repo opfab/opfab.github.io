@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">22 July 2025</span>
+<span id="revdate">23 July 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1118,7 +1118,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_web_ui_configuration">36.2. Web UI Configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_nginx_configuration">36.2.1. NGINX configuration</a></li>
-<li><a href="#ui_properties">36.2.2. UI properties</a></li>
+<li><a href="#ui_properties">36.2.2. UI properties</a>
+<ul class="sectlevel4">
+<li><a href="#ui_properties_geomap">36.2.2.1. Geomap Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#opfab_spec_conf">36.3. Security Configuration</a>
@@ -1724,6 +1728,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_user_settings_2">87.1. User settings</a></li>
 <li><a href="#_response_card">87.2. Response card</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_8_x_to_release_4_9_0">88. Migration Guide from release 4.8.X to release 4.9.0</a>
+<ul class="sectlevel2">
+<li><a href="#_geomap_configuration">88.1. Geomap configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -8656,25 +8665,31 @@ can see all archives for which he has the right to receive it, whether he is par
 can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specification</a>.</p>
 </div>
 <div class="paragraph">
-<p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file. For example:</p>
+<p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file.</p>
+</div>
+<div class="paragraph">
+<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> parameter. The following types are supported:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The map uses OpenStreetMap tiles by default, but you can specify different tiles using the <code>feed.geomap.bglayer.xyz</code> parameters.</p>
+<p><code>osm</code> for OpenStreetMap tiles</p>
 </li>
 <li>
-<p>You can add GeoJSON layers to the map using the <code>feed.geomap.layer.geojson</code> parameter in web-ui.json. For each layer it is possible to specify the url and an optional style. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)</p>
+<p><code>geojson</code> for GeoJSON layers.</p>
+</li>
+<li>
+<p><code>xyz</code> for XYZ tiles.</p>
+</li>
+<li>
+<p><code>wmts</code> for WMTS layers.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Refer to the
-<a href="#ui_properties">web-ui configuration</a>
+<a href="#ui_properties_geomap">geomap web-ui configuration</a>
 section for more information and additional customization options.</p>
-</div>
-<div class="paragraph">
-<p>The example configuration references a GeoJSON layer from  Open Data GRD (<a href="https://opendata.agenceore.fr" class="bare">opendata.agenceore.fr</a>) published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
 </div>
 </div>
 </div>
@@ -10436,7 +10451,8 @@ When a device is disabled (isEnabled = false) , OperatorFabric will not send any
 </div>
 </li>
 <li>
-<p>How to map an OperatorFabric signal key <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> to a signal (sound, light) on the external system</p>
+<p>How to map an OperatorFabric signal key (currently, that means a severity, but in the future it could also
+be a process id, or anything identifying the signal to be played) to a signal (sound, light) on the external system</p>
 <div class="listingblock">
 <div class="title">signalMapping</div>
 <div class="content">
@@ -11813,7 +11829,7 @@ It  serves the Angular SPA to browsers and act as a reverse proxy for other serv
 <div class="sect3">
 <h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>36.2.2. UI properties</h4>
 <div class="paragraph">
-<p>The properties lie in the <code>web-ui.json</code>. The following table describes their meaning and how to use them. An example file can be found in the config/docker directory.</p>
+<p>The properties lie in the <code>web-ui.json</code>. The following table describes their meaning and how to use them, the properties regarding the geomap feature are found in the <a href="#ui_properties_geomap">next section</a>.  An example file can be found in the config/web-ui/ui-config directory.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -12084,96 +12100,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.bglayer.xyz.crossOrigin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer crossOrigin setting.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.bglayer.xyz.tileSize</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer tile size (Int value, example: 256. Required when using custom background layer).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.bglayer.xyz.url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer service URL, Replaces OSM background layer (Add endpoint with {x}{y}{z} variables. Example: "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png".</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.defaultDataProjection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:4326</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableGraph</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Show a graph on the map with number of cards per severity.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.highlightPolygonStrokeWidth</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Define the stroke width when highlighting polygon in the geomap view of a card.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLatitude</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The initial latitude of the map when no cards with geographical coordinates are present.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLongitude</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The initial longitude of the map when no cards with geographical coordinates are present.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialZoom</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of GeoJSON layers to add to the map with optional style attribute. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>). Example: [{"url":"assets/layers/service-area.geojson"},{"url":"https://localhost:8000/network-lines.geojson", "style": {"stroke-color": "blue"}}]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Max zoom level, to prevent zooming in too much when only one card is shown (or multiple cards in close proximity).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.popupContent</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">publishDateAndTitle</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Define the content of the geomap popup. Possible values are : <code>publishDateAndTitle</code> (default value) or <code>summary</code>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomDuration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomToLocation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Zoom level when zooming to a location of a selected card.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -12528,6 +12454,164 @@ For example:</p>
   },</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="ui_properties_geomap"><a class="anchor" href="#ui_properties_geomap"></a>36.2.2.1. Geomap Configuration</h5>
+<div class="paragraph">
+<p>In the web-ui.json, the geomap can be configure with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.defaultDataProjection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:4326</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.darkMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active a filter for dark mode (if false dark mode and light have the same colors).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableGraph</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Show a graph on the map with number of cards per severity.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.highlightPolygonStrokeWidth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define the stroke width when highlighting polygon in the geomap view of a card.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLatitude</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The initial latitude of the map when no cards with geographical coordinates are present.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLongitude</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The initial longitude of the map when no cards with geographical coordinates are present.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialZoom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max zoom level, to prevent zooming in too much when only one card is shown (or multiple cards in close proximity).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.popupContent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">publishDateAndTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define the content of the geomap popup. Possible values are : <code>publishDateAndTitle</code> (default value) or <code>summary</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomDuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomToLocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zoom level when zooming to a location of a selected card.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type. The following layer types are supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required.</p>
+</li>
+<li>
+<p><code>geojson</code>: GeoJSON layers. Requires a <code>url</code> for the GeoJSON file and optionally a <code>style</code> object for feature styling. The <code>style</code> object supports stroke, fill, image, and text styles as defined in the OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>).</p>
+</li>
+<li>
+<p><code>xyz</code>: XYZ tiles. Requires a <code>url</code> endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png"). You may also specify:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tileSize</code>: Integer value (e.g., 256). Required for custom background layers.</p>
+</li>
+<li>
+<p><code>crossOrigin</code>: Optional. Default is <code>null</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example configuration for the <code>feed.geomap.layers</code> property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;layers&quot;: [
+                {
+                    &quot;type&quot;:&quot;osm&quot;
+                },
+                {
+                    &quot;type&quot;:&quot;wmts&quot;,
+                    &quot;capabilitiesUrl&quot;:&quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+                    &quot;layer&quot;:&quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;
+                },
+                {
+                    &quot;type&quot;: &quot;geojson&quot;,
+                    &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+                    &quot;style&quot;: {
+                        &quot;stroke-color&quot;: &quot;red&quot;
+                    }
+                },
+                {
+                    &quot;type&quot;: &quot;geojson&quot;,
+                    &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;
+                }
+
+            ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The example configuration references a GeoJSON layer from  Open Data GRD (<a href="https://opendata.agenceore.fr" class="bare">opendata.agenceore.fr</a>) and a wmts layer from IGN (<a href="https://geoservices.ign.fr" class="bare">geoservices.ign.fr</a>) both published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
 </div>
 </div>
 </div>
@@ -22394,11 +22478,78 @@ This setting can be hidden in the configuration file of the web-ui by the field 
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_8_x_to_release_4_9_0"><a class="anchor" href="#_migration_guide_from_release_4_8_x_to_release_4_9_0"></a>88. Migration Guide from release 4.8.X to release 4.9.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_geomap_configuration"><a class="anchor" href="#_geomap_configuration"></a>88.1. Geomap configuration</h3>
+<div class="paragraph">
+<p>As a new layer type (<code>wmts</code>) has been added, the geomap configuration has been updated for improved clarity in layer management. All layers are now stored in a single property.</p>
 </div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. currently, that means a severity, but in the future it could also be a process id, or anything identifying the signal to be played
+<div class="paragraph">
+<p>You must update your configuration to match this new structure.</p>
+</div>
+<div class="paragraph">
+<p>The layers and tiles of the map can now be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type. The following layer types are supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required.</p>
+</li>
+<li>
+<p><code>geojson</code>: GeoJSON layers. Requires a <code>url</code> for the GeoJSON file and optionally a <code>style</code> object for feature styling. The <code>style</code> object supports stroke, fill, image, and text styles as defined in the OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>).</p>
+</li>
+<li>
+<p><code>xyz</code>: XYZ tiles. Requires a <code>url</code> endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png"). You may also specify:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tileSize</code>: Integer value (e.g., 256). Required for custom background layers.</p>
+</li>
+<li>
+<p><code>crossOrigin</code>: Optional. Default is <code>null</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example configuration for the <code>feed.geomap.layers</code> property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;layers&quot;: [
+                {
+                    &quot;type&quot;:&quot;osm&quot;
+                },
+                {
+                    &quot;type&quot;:&quot;wmts&quot;,
+                    &quot;capabilitiesUrl&quot;:&quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+                    &quot;layer&quot;:&quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;
+                },
+                {
+                    &quot;type&quot;: &quot;geojson&quot;,
+                    &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+                    &quot;style&quot;: {
+                        &quot;stroke-color&quot;: &quot;red&quot;
+                    }
+                },
+                {
+                    &quot;type&quot;: &quot;geojson&quot;,
+                    &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;
+                }
+
+            ]</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </body>
