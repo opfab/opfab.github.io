@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">28 July 2025</span>
+<span id="revdate">29 July 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -998,12 +998,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#geomap">27. Geographical map</a></li>
-<li><a href="#_monitoring">28. Monitoring</a>
-<ul class="sectlevel2">
-<li><a href="#_export_configuration">28.1. Export configuration</a></li>
-<li><a href="#_process_monitoring">28.2. Process monitoring</a></li>
-</ul>
-</li>
+<li><a href="#_process_monitoring">28. Process monitoring</a></li>
 <li><a href="#users_management">29. User management</a>
 <ul class="sectlevel2">
 <li><a href="#_users_groups_entities_and_perimeters">29.1. Users, groups, entities and perimeters</a>
@@ -1145,7 +1140,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#_operatorfabric_cli_command_line_interface">37. OperatorFabric CLI (Command Line Interface)</a></li>
-<li><a href="#_monitoring_2">38. Monitoring</a></li>
+<li><a href="#_monitoring">38. Monitoring</a></li>
 <li><a href="#_logging_administration">39. Logging Administration</a>
 <ul class="sectlevel2">
 <li><a href="#_logging_configuration">39.1. Logging configuration</a></li>
@@ -1733,6 +1728,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_migration_guide_from_release_4_8_x_to_release_4_9_0">88. Migration Guide from release 4.8.X to release 4.9.0</a>
 <ul class="sectlevel2">
 <li><a href="#_geomap_configuration">88.1. Geomap configuration</a></li>
+<li><a href="#_entities_in_token">88.2. Entities in Token</a></li>
+<li><a href="#_deletion_of_monitoring_screen">88.3. Deletion of monitoring screen</a></li>
 </ul>
 </li>
 </ul>
@@ -3977,10 +3974,11 @@ Only the POINT and POLYGON are supported.
 <p>KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
 </li>
 <li>
-<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed and in monitoring screen.</p>
+<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed.</p>
 </li>
 <li>
-<p>NOT_NOTIFIED : when this action is set, the card is not visible in the card feed except for the publisher but it is visible in all the other screens : monitoring screen / agenda / timeline.
+<p>NOT_NOTIFIED : when this action is set, the card is not visible in the card feed except for the publisher but it is
+visible in all the other screens: custom screens / agenda / timeline.
 The card is visible in the feed when the card will be reminded.</p>
 </li>
 </ul>
@@ -3990,7 +3988,7 @@ The card is visible in the feed when the card will be reminded.</p>
 <div class="sect4">
 <h5 id="_business_period"><a class="anchor" href="#_business_period"></a>17.1.1.3. Business period</h5>
 <div class="paragraph">
-<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e. the period selected on  the timeline). If endDate is not set, the card will be visible as soon as the startDate is between start and end date of the chosen period.</p>
+<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlaps the user chosen period (i.e. the period selected on  the timeline). If endDate is not set, the card will be visible as soon as the startDate is between start and end date of the chosen period.</p>
 </div>
 </div>
 <div class="sect4">
@@ -4532,14 +4530,14 @@ It lists the content of the bundle.</p>
 </li>
 <li>
 <p><code>version</code>: enables the correct display of the card data, even for the old ones.
-The server store the previous versions in its file system.
+The server stores the previous versions in its file system.
 This field value should match a businessconfig configuration for a correct rendering;</p>
 </li>
 <li>
 <p><code>states</code>: lists the available states which each declares associated actions, associated templates and if cards could be acknowledged by users;</p>
 </li>
 <li>
-<p><code>uiVisibility</code>: in the monitoring, logging and calendar screens, not all the cards are visible, it depends on the business process they are part of. For a card to be visible in these screens, the corresponding parameter must be set to true.</p>
+<p><code>uiVisibility</code>: in the logging and calendar screens, not all the cards are visible, it depends on the business process they are part of. For a card to be visible in these screens, the corresponding parameter must be set to true.</p>
 </li>
 </ul>
 </div>
@@ -4669,8 +4667,8 @@ A process definition is itself a dictionary of states, each key maps to a state 
 <h6 id="_templates"><a class="anchor" href="#_templates"></a>Templates</h6>
 <div class="paragraph">
 <p>For demonstration purposes, there will be two simple templates.
-For more advance feature go to the section detailing the handlebars templates and associated helpers available in OperatorFabric.
-As the card used in this example are created above, the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
+For more advance feature, go to the section detailing the handlebar templates and associated helpers available in OperatorFabric.
+As the card used in this example is created above, the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Examples of template (i18n versions)</strong></p>
@@ -6016,10 +6014,10 @@ notified then the card will not be visible:</p>
 <p>in the feed or the timeline</p>
 </li>
 <li>
-<p>in the monitoring screen</p>
+<p>in the calendar screen</p>
 </li>
 <li>
-<p>in the calendar screen</p>
+<p>in the custom screens</p>
 </li>
 </ul>
 </div>
@@ -8694,40 +8692,8 @@ section for more information and additional customization options.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>28. Monitoring</h2>
+<h2 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>28. Process monitoring</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The monitoring screen is a realtime view of processes based on current cards received by the user (i.e. the last version of cards visible by the user). It can be seen as another view of the feed.</p>
-</div>
-<div class="paragraph">
-<p>Not all the cards are visible, it depends on the business process they are part of. For a card to be visible in this screen, the parameter <code>uiVisibility.monitoring</code> must be set to <code>true</code> in the config.json file of its process.</p>
-</div>
-<div class="sect2">
-<h3 id="_export_configuration"><a class="anchor" href="#_export_configuration"></a>28.1. Export configuration</h3>
-<div class="paragraph">
-<p>An Excel export function is available in the monitoring screen, the content of the export can be configured.
-To do so, a json file describing the expected output can be sent to the businessconfig service through the /businessconfig/monitoring endpoint.</p>
-</div>
-<div class="paragraph">
-<p>In opfab git repository, you can find in directory <a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/monitoringConfig">src/test/resources/monitoringConfig</a>  :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a script to load a monitoring configuration <code>loadMonitoringConfig.sh</code></p>
-</li>
-<li>
-<p>an example of configuration in <code>monitoringConfig.json</code> (for the response fields to be filled , you need to respond to a card question in process messageOrQuestionExample )</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>A description of the structure of the configuration can be found in
-<a href="../api/businessconfig/">the businessconfig api documentation</a></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>28.2. Process monitoring</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -8741,7 +8707,7 @@ This feature is experimental
 </table>
 </div>
 <div class="paragraph">
-<p>The process monitoring screen has the following similarities with the monitoring screen :</p>
+<p>The process monitoring screen has the following features :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -8822,7 +8788,7 @@ Depending on the permissions of the groups to which the user is attached, he can
 <p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of available tags used in the UI to filter the results <code>filters.tags</code>.</p>
 </div>
 <div class="paragraph">
-<p>If geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
+<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </div>
 <div class="paragraph">
 <p>Here is the description of the fields :</p>
@@ -8830,19 +8796,18 @@ Depending on the permissions of the groups to which the user is attached, he can
 <div class="ulist">
 <ul>
 <li>
-<p>"field" : the name of the field in the card (or in the database) you want to display</p>
+<p>"field": the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type" : field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
+<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
 </li>
 <li>
-<p>"colName" : name of the column on the UI</p>
+<p>"colName": name of the column on the UI</p>
 </li>
 <li>
-<p>"size" : size of the column on the UI, proportionally to each other</p>
+<p>"size": size of the column on the UI, proportionally to each other</p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -9196,6 +9161,12 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <li>
 <p>NOTIFICATION_CONFIG</p>
 </li>
+<li>
+<p>USER</p>
+</li>
+<li>
+<p>BUSINESS_CONFIG</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -9249,7 +9220,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>To manage the visibility of core OperatorFabric menus (feed, monitoring, etc.)</p>
+<p>To manage the visibility of core OperatorFabric menus (feed, archives, etc.)</p>
 </li>
 <li>
 <p>To declare specific business menus to be displayed in the navigation bar of OperatorFabric</p>
@@ -9334,17 +9305,13 @@ listed groups.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Navigation bar</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Navigation bar</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Feed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Archives</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archives</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Monitoring</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">monitoring</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Dashboard</p></td>
@@ -9800,7 +9767,21 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>for the type of state multiselect filter by setting the field <code>defaultSelectedTypeOfState</code>. The possible values are <code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>.</p>
 </li>
 <li>
-<p>for the read and ack multiselect fitler by setting the field <code>defaultSelectedReadAndAck</code>. The possible values are <code>READ</code>, <code>NOT_READ</code>, <code>ACKNOWLEDGED</code>, <code>NOT_ACKNOWLEDGED</code>.</p>
+<p>for the read and ack multiselect filter by setting the field <code>defaultSelectedReadAndAck</code>. The possible values are <code>READ</code>, <code>NOT_READ</code>, <code>ACKNOWLEDGED</code>, <code>NOT_ACKNOWLEDGED</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can define the initial business period you want to display for each custom screen, using the field <code>initialBusinessPeriod</code>.
+The possible values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FEED</code> (default value): the period is based on the feed period</p>
+</li>
+<li>
+<p><code>FROM_TODAY_TO_YEAR_END</code>: the period is from now to the end of the year</p>
 </li>
 </ul>
 </div>
@@ -10001,6 +9982,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
         id: 'testId2',
         name: 'testName',
         responseOnlyAllowedForEntitiesRequiredToRespond: false,
+        initialBusinessPeriod: 'FROM_TODAY_TO_YEAR_END',
 
         .....
 
@@ -11991,6 +11973,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 ----</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dateRangePickerConfig</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the mode for the date range picker configuration. The default mode can be changed to "ahead", which displays three predefined periods: W-1 (Week ahead), M-1 (Month ahead), and Y-1 (Year ahead) for the date range picker across all screens.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">defaultEntryPage</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -12087,7 +12075,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.titleUpperCase</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the card titles are in UPPERCASE. (Option applies to the 'Card Feed', 'Archives' and 'Monitoring')</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the card titles are in UPPERCASE. (Option applies to the 'Card Feed' and 'Archives'.)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.defaultAcknowledgmentFilter</p></td>
@@ -13097,8 +13085,16 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
 <td class="tableblock halign-left valign-top"><p class="tableblock">set the name of the field in the token</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.entitiesIdClaimSingleString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">a boolean specifying the expected format of the entitiesId field in the token.<br>
+- true: a single string with all entities, separated by a semicolon<br>
+- false: an array of strings, each one is an entity</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values: true/false)</p></td>
 </tr>
@@ -13119,6 +13115,7 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
   security:
     jwt:
       entitiesIdClaim: entitiesId
+      entitiesIdClaimSingleString : false
       gettingEntitiesFromToken: true
       groups:
         mode: JWT # value possible JWT | OPERATOR_FABRIC
@@ -13197,7 +13194,7 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
   &quot;ATTR1&quot;: &quot;roleATTR1&quot;,
   &quot;preferred_username&quot;: &quot;example_user&quot;,
   &quot;given_name&quot;: &quot;example_firtstname&quot;,
-  &quot;entitiesId&quot;: &quot;ENTITY1&quot;,
+  &quot;entitiesId&quot;: [&quot;ENTITY1&quot;, &quot;ENTITY2&quot;],
   &quot;family_name&quot;: &quot;example_lastname&quot;,
   &quot;email&quot;: &quot;example_user@mail.com&quot;,
   &quot;roleFieldList&quot;: &quot;roleA;roleB;roleC&quot;
@@ -13384,7 +13381,7 @@ prod PROD PROD_URL 80</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_monitoring_2"><a class="anchor" href="#_monitoring_2"></a>38. Monitoring</h2>
+<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>38. Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Operator Fabric provides end points for monitoring via <a href="https://prometheus.io/">prometheus</a>. The monitoring is available for the five following services: user, businessconfig, cards-consultation, cards-publication and external-devices.  To enable the monitoring , you need to open the endpoint by adding in the common yml configuration file :</p>
@@ -22552,6 +22549,86 @@ This setting can be hidden in the configuration file of the web-ui by the field 
                 }
 
             ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_entities_in_token"><a class="anchor" href="#_entities_in_token"></a>88.2. Entities in Token</h3>
+<div class="paragraph">
+<p>When retrieving entities from a token, the recommended approach is to use an array attribute containing entity IDs as strings. The previous method, which uses a single string with semicolon-separated IDs, remains available for backward compatibility. To enable the old mode, set the parameter <code>operatorfabric.security.jwt.entitiesIdClaimSingleString</code> to <code>true</code> in your YAML services configuration.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deletion_of_monitoring_screen"><a class="anchor" href="#_deletion_of_monitoring_screen"></a>88.3. Deletion of monitoring screen</h3>
+<div class="paragraph">
+<p>The monitoring screen is not needed anymore as a similar screen can be defined via custom screens.
+Here is a custom screen configuration that can replace the monitoring screen :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+    const CustomScreenMonitoring = {
+        id: 'monitoringId',
+        name: 'monitoring',
+        headerFilters: ['PROCESS', 'TYPE_OF_STATE', 'RESPONSE_FROM_MY_ENTITIES'],
+
+        results: {
+            columns: [
+                {
+                    field: 'severity',
+                    cardField: 'severity',
+                    fieldType: 'SEVERITY'
+                },
+                {
+                    field: 'TIME',
+                    headerName: 'TIME',
+                    cardField: 'publishDate',
+                    fieldType: 'DATE_AND_TIME',
+                    minWidth: 150,
+                    flex: 0.5
+                },
+                {
+                    field: 'title',
+                    headerName: 'TITLE',
+                    cardField: 'titleTranslated',
+                    fieldType: 'STRING',
+                    flex: 1,
+                    minWidth: 150
+                },
+                {
+                    field: 'summary',
+                    headerName: 'SUMMARY',
+                    cardField: 'summaryTranslated',
+                    fieldType: 'STRING',
+                    flex: 2,
+                    minWidth: 150,
+                    showTooltips: true
+                },
+                {
+                    fieldType: 'TYPE_OF_STATE',
+                    headerName: 'PROCESS STATUS',
+                    flex: 0.6,
+                    minWidth: 150
+                },
+                {
+                    field: 'publisher',
+                    headerName: 'EMITTER',
+                    cardField: 'publisher',
+                    fieldType: 'PUBLISHER',
+                    flex: 1,
+                    minWidth: 150
+                },
+                {
+                    headerName: 'ANSWERS',
+                    fieldType: 'RESPONSES',
+                    flex: 2,
+                    minWidth: 400
+                }
+            ]
+        }
+    };
+    opfab.businessconfig.registerCustomScreen(CustomScreenMonitoring);
+}</code></pre>
 </div>
 </div>
 </div>
