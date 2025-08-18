@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">17 August 2025</span>
+<span id="revdate">18 August 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1336,19 +1336,16 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_get_a_token_2">53.1. Get a token</a>
 <ul class="sectlevel3">
 <li><a href="#_curl">53.1.1. Curl</a></li>
-<li><a href="#_httpie">53.1.2. Httpie</a></li>
 </ul>
 </li>
 <li><a href="#_extract_token">53.2. Extract token</a>
 <ul class="sectlevel3">
 <li><a href="#_curl_2">53.2.1. Curl</a></li>
-<li><a href="#_httpie_2">53.2.2. Httpie</a></li>
 </ul>
 </li>
 <li><a href="#_check_a_token">53.3. Check a token</a>
 <ul class="sectlevel3">
 <li><a href="#_curl_3">53.3.1. Curl</a></li>
-<li><a href="#_httpie_3">53.3.2. Httpie</a></li>
 </ul>
 </li>
 <li><a href="#_extract_token_2">53.4. Extract token</a></li>
@@ -13651,17 +13648,6 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 <div class="paragraph">
 <p>First of all, list the users (who are the recipients in OperatorFabric) of the system with the following commands:</p>
 </div>
-<div class="paragraph">
-<p>Httpie</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/users "Authorization:Bearer $token" "Content-Type:application/type"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>cURL</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -v http://localhost:2103/users -H "Authorization:Bearer $token" -H "Content-Type:application/type"</pre>
@@ -13748,15 +13734,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 <h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>40.1.2. Create a new User</h4>
 <div class="paragraph">
 <p>We are sure that no John-doe-operator exists in our OperatorFabric instance.
-We can add him in our OperatorFabric instance using the following command use httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"login":"john-doe-operator","firstName":"Jahne","lastName":"Doe"}' | http POST http://localhost:2103/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Or here cURL:</p>
+We can add him in our OperatorFabric instance using the following command, using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -13782,17 +13760,6 @@ We can add him in our OperatorFabric instance using the following command use ht
 <h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>40.1.3. Fetch user details</h4>
 <div class="paragraph">
 <p>It&#8217;s always a good thing to verify if all the information has been correctly recorded in the system:</p>
-</div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http -b http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or with cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -13823,18 +13790,7 @@ We can add him in our OperatorFabric instance using the following command use ht
 We need
 <a href="../api/users/index.html#/users/updateUser">to update the existing user</a>
 with <code>john-doe-operator</code> login.
-To correct this mistake, the following commands can be used:</p>
-</div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"login":"john-doe-operator","lastName":"Doe","firstName":"John"}' | http PUT http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or with cURL:</p>
+To correct this mistake, the following command can be used, using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -13904,17 +13860,6 @@ the system. As shown when we
 <a href="../api/users/index.html#/groups/fetchGroups">list the groups</a>
 existing in the server.</p>
 </div>
-<div class="paragraph">
-<p>Httpie</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/type"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>cURL</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
@@ -13974,17 +13919,6 @@ existing in the server.</p>
 <a href="../api/users/index.html#/groups/createGroup">added to the system</a>
 using the following command:</p>
 </div>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"OPERATORS","decription":"This is the brand new group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","decription":"This is the brand new group of operator"}'</pre>
@@ -14012,17 +13946,6 @@ using the following command:</p>
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="../api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
 called <code>OPERATORS</code>, use the following command:</p>
-</div>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -14053,17 +13976,6 @@ the attribute for the description is misspelled. Using the following command
 <a href="../api/users/index.html#/groups/updateGroup">to update the group</a>
 with the correct spelling, the new group of operator gets a proper description:</p>
 </div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"OPERATORS","description":"This is the brand-new group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","description":"This is the brand-new group of operator"}'</pre>
@@ -14090,17 +14002,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 <a href="../api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
 . To achieve this, use the following command:</p>
 </div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '["john-doe-operator"]' | http PATCH http://localhost:2103/groups/OPERATORS/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X PATCH http://localhost:2103/groups/OPERATORS/users -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '["john-doe-operator"]'</pre>
@@ -14116,14 +14017,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="paragraph">
 <p>Let&#8217;s verify that the changes are correctly recorded by fetching the :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -14155,17 +14048,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http DELETE http://localhost:2103/groups/OPERATORS/users/john-doe-operator "Authorization:Bearer $token"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X DELETE -H "Authorization:Bearer $token" http://localhost:2103/groups/OPERATORS/users/john-doe-operator</pre>
@@ -14189,17 +14071,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="paragraph">
 <p>A last command to verify that <code>OPERATORS</code> is no longer linked to <code>john-doe-operator</code>:</p>
-</div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -14235,18 +14106,6 @@ On a positive cycle detection cancels the addition or the patch.</p>
 </div>
 <div class="sect4">
 <h5 id="_add_a_new_entity_without_a_cycle_in_the_parent_declaration"><a class="anchor" href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration"></a>40.2.7.1. Add a new Entity without a cycle in the parent declaration</h5>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1_FR"]}' \
-| http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl http://localhost:2103/entities -H "Authorization:Bearer $token" -H "Content-Type:application/json" \
@@ -14275,17 +14134,6 @@ On a positive cycle detection cancels the addition or the patch.</p>
 <div class="paragraph">
 <p>For simplicity, in this example the new entity will declare itself as a parent.
 This auto-referencing triggers a cycle detection.</p>
-</div>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["NEW_ENTITY"]}' | http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -16449,57 +16297,6 @@ user_info","jti":"02d82e85-13f0-4678-974d-18eb06215a65"}</pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_httpie"><a class="anchor" href="#_httpie"></a>53.1.2. Httpie</h4>
-<div class="listingblock">
-<div class="content">
-<pre>http --form POST http://localhost:2002/auth/token username=admin password=test
-grant_type=password</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>example of expected result:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>.HTTP/1.1 200 OK
-Cache-Control: no-store
-Content-Type: application/json;charset=utf-8
-Date: Fri, 15 Mar 2019 13:57:19 GMT
-Pragma: no-cache
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-transfer-encoding: chunked
-
-{
-    "access_token":
-"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOS
-wiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yz
-g3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2
-NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd
-3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST
-8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge
-8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfD
-J6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q",
-    "expires_in": 1799,
-    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
-    "refresh_token":
-"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLC
-J1c2VyX2luZm8iXSwiYXRpIjoiNjI0MzA5YjEtN2M4Ny00Y2RjLTg0NDMtMDEyNDUxNWY4N2Y4IiwiZX
-hwIjoxNTUyNzAxNDM5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aS
-I6ImRiYzMxNTJiLTM4YTUtNGFmZC1hY2VmLWVkZTI4MjJkOTE3YyIsImNsaWVudF9pZCI6ImNsaWVudE
-lkUGFzc3dvcmQifQ.Ezd8kbfNQHOOvUCNNN4UmOOkncHiT9QVEM63FiW1rq0uXDa3xfBGil8geM5MsP0
-7Q2He-mynkFb8sGNDrAXTdO-8r5o4a60zWrktrMg2QH4icC1lyeZpiwZxe6675QpLpSeMlXt9PdYj-pb
-14lrRookxXP5xMQuIMteZpbtby7LuuNAbNrjveZ1bZ4WMi7zltUzcYUuqHlP1AYPteGRrJVKXiuPpoDv
-gwMsEk2SkgyyACI7SdZZs8IT9IGgSsIjjgTMQKzj8P6yYxNLUynEW4o5y1s2aAOV0xKrzkln9PchH9zN
-qO-fkjTVRjy_LBXGq9zkn0ZeQ3BUe1GuthvGjaA",
-    "scope": "read user_info",
-    "token_type": "bearer"
-}</pre>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_extract_token"><a class="anchor" href="#_extract_token"></a>53.2. Extract token</h3>
@@ -16523,22 +16320,6 @@ OXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdKVAz0CkMKqng4kQeQm
 _1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVDSJew1rj5EiSybuy83
 PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZCAYVM-mmHbjk8mF89f
 L9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_httpie_2"><a class="anchor" href="#_httpie_2"></a>53.2.2. Httpie</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Authorization:Bearer
-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOSw
-iYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yzg
-3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2N
-vcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd3
-PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST8
-fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge8
-scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfDJ
-6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
 </div>
 </div>
 </div>
@@ -16576,58 +16357,6 @@ http://localhost:2002/auth/check_token</pre>
     "authorities":["ROLE_ADMIN","ROLE_USER"],
     "jti":"02d82e85-13f0-4678-974d-18eb06215a65",
     "client_id":"clientIdPassword"
-}</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_httpie_3"><a class="anchor" href="#_httpie_3"></a>53.3.2. Httpie</h4>
-<div class="paragraph">
-<p>from previous example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>http --form POST http://localhost:2002/auth/check_token
-token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2M
-DAzOSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliM
-S03Yzg3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkI
-iwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2q
-Fa5Bd3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lH
-Dd8ST8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNX
-J4Bge8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeA
-pKdfDJ6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>which gives the following example of result:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>HTTP/1.1 200 OK
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Content-Type: application/json;charset=utf-8
-Date: Fri, 15 Mar 2019 14:19:31 GMT
-Expires: 0
-Pragma: no-cache
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-transfer-encoding: chunked
-
-{
-    "active": true,
-    "authorities": [
-        "ROLE_ADMIN",
-        "ROLE_USER"
-    ],
-    "client_id": "clientIdPassword",
-    "exp": 1552660039,
-    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
-    "scope": [
-        "read",
-        "user_info"
-    ],
-    "sub": "admin"
 }</pre>
 </div>
 </div>
