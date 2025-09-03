@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">01 September 2025</span>
+<span id="revdate">03 September 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -8732,7 +8732,9 @@ process.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The columns displayed on this screen can be configured. To do that, you have to define a JSON file and load the file by sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using CLI command <code>opfab process-monitoring load &lt;file&gt;</code>.</p>
+<p>The columns displayed on this screen can be configured. To do that, you have to define a JSON file and load the file by
+sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using CLI command
+<code>opfab process-monitoring load &lt;file&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Here is an example of processMonitoring configuration file:</p>
@@ -8746,7 +8748,7 @@ process.</p>
     { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400},
     { &quot;field&quot;: &quot;data.stateName&quot;, &quot;colName&quot;: &quot;My field&quot;, &quot;size&quot;: 300},
     { &quot;field&quot;: &quot;summaryTranslated&quot;, &quot;colName&quot;: &quot;Summary&quot;, &quot;size&quot;: 250},
-    { &quot;field&quot;: &quot;data.error&quot;, &quot;colName&quot;: &quot;My second field&quot;, &quot;size&quot;: 100}
+    { &quot;field&quot;: &quot;data.error&quot;, &quot;colName&quot;: &quot;My second field&quot;, &quot;size&quot;: 100, &quot;defaultVisibility&quot;: false}
   ],
   &quot;fieldsForProcesses&quot;: [
     {
@@ -8763,7 +8765,7 @@ process.</p>
         { &quot;field&quot;: &quot;startDate&quot;, &quot;type&quot;: &quot;date&quot;, &quot;colName&quot;: &quot;Start Date&quot;, &quot;size&quot;: 200},
         { &quot;field&quot;: &quot;endDate&quot;, &quot;type&quot;: &quot;date&quot;, &quot;colName&quot;: &quot;End Date&quot;, &quot;size&quot;: 200},
         { &quot;field&quot;: &quot;titleTranslated&quot;, &quot;colName&quot;: &quot;Title&quot;, &quot;size&quot;: 250},
-        { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400}
+        { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400, &quot;defaultVisibility&quot;:  false}
       ]
     }
   ],
@@ -8777,27 +8779,33 @@ process.</p>
           &quot;label&quot;: &quot;Label for tag 2&quot;,
           &quot;value&quot;: &quot;tag2&quot;
         }
-      ]
+      ],
     &quot;pageSize&quot;: 10
   }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>fields</code> field in the process monitoring configuration file defines the list of the fields you want to see in the array.</p>
+<p>The <code>fields</code> field in the process monitoring configuration file defines the list of the fields you want to see in the
+array.</p>
 </div>
 <div class="paragraph">
-<p>You also have the possibility to define the columns displayed per process. To do that, you have to configure the field <code>fieldsForProcesses</code>.</p>
+<p>You also have the possibility to define the columns displayed per process. To do that, you have to configure the field
+<code>fieldsForProcesses</code>.</p>
 </div>
 <div class="paragraph">
-<p>If more than one process is selected by the user or if a process has no configuration, the columns displayed will be those of the default config (<code>fields</code>).
-Depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the recipient of.</p>
+<p>If more than one process is selected by the user or if a process has no configuration, the columns displayed will be
+those of the default config (<code>fields</code>).
+Depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the
+recipient of.</p>
 </div>
 <div class="paragraph">
-<p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of available tags used in the UI to filter the results <code>filters.tags</code>.</p>
+<p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of
+available tags used in the UI to filter the results <code>filters.tags</code>.</p>
 </div>
 <div class="paragraph">
-<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
+<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view
+the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </div>
 <div class="paragraph">
 <p>Here is the description of the fields :</p>
@@ -8808,13 +8816,18 @@ Depending on the permissions of the groups to which the user is attached, he can
 <p>"field": the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
+<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display
+a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
 </li>
 <li>
 <p>"colName": name of the column on the UI</p>
 </li>
 <li>
 <p>"size": size of the column on the UI, proportionally to each other</p>
+</li>
+<li>
+<p>"defaultVisibility": Indicates whether the field will be displayed, before the user interacts with the column for the
+first time.</p>
 </li>
 </ul>
 </div>
@@ -12582,7 +12595,7 @@ For example:</p>
 </div>
 </li>
 <li>
-<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>.</p>
+<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>. You may also specify <code>useCredentialsForCapabilities</code> to <code>true</code> if capabilities retrieval requires authentication.</p>
 </li>
 </ul>
 </div>
@@ -12599,7 +12612,8 @@ For example:</p>
                     &quot;type&quot;:&quot;wmts&quot;,
                     &quot;capabilitiesUrl&quot;:&quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
                     &quot;layer&quot;:&quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
-                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;
+                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;,
+                    &quot;useCredentialsForCapabilities&quot;: false
                 },
                 {
                     &quot;type&quot;: &quot;geojson&quot;,

@@ -1058,6 +1058,10 @@ window.swaggerSpec={
         "size" : {
           "description" : "The size of the field",
           "type" : "integer"
+        },
+        "defaultVisibility" : {
+          "description" : "Indicates whether the field will be displayed, before the user interacts with the column for the first time.",
+          "type" : "boolean"
         }
       }
     },
