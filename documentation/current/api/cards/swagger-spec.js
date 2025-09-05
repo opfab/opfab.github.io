@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.8.0.RELEASE",
+    "version" : "4.9.0.RELEASE",
     "title" : "Card Management API",
     "termsOfService" : "",
     "contact" : {
@@ -1155,7 +1155,7 @@ window.swaggerSpec={
         }
       }
     },
-    "/cards-consultation/cards/{id}" : {
+    "/cards-publication/cards/{id}" : {
       "parameters" : [ {
         "in" : "path",
         "name" : "id",
@@ -1173,7 +1173,16 @@ window.swaggerSpec={
             "description" : "OK"
           }
         }
-      },
+      }
+    },
+    "/cards-consultation/cards/{id}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "type" : "string",
+        "required" : true,
+        "description" : "The id parameter is constructed as follows : {process}.{processInstanceId}"
+      } ],
       "get" : {
         "operationId" : "fetchProcessCard",
         "tags" : [ "cards", "read" ],

@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.8.0.RELEASE,</span>
-<span id="revdate">19 June 2025</span>
+<span id="revnumber">version 4.9.0.RELEASE,</span>
+<span id="revdate">05 September 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -567,7 +567,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_web_ui_configuration">3.2. Web UI Configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_nginx_configuration">3.2.1. NGINX configuration</a></li>
-<li><a href="#ui_properties">3.2.2. UI properties</a></li>
+<li><a href="#ui_properties">3.2.2. UI properties</a>
+<ul class="sectlevel4">
+<li><a href="#ui_properties_geomap">3.2.2.1. Geomap Configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#opfab_spec_conf">3.3. Security Configuration</a>
@@ -687,9 +691,7 @@ the project or by using images releases from <a href="https://hub.docker.com/">D
 <p>Opfab comes with a default embedded configuration, but certain parameters need to be provided and configured.</p>
 </div>
 <div class="paragraph">
-<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. The dev subdirectory contains
-configurations specific to development environments, while the <strong>docker</strong> subdirectory contains a specific configuration
-meant for use in a full docker environment.</p>
+<p>The configuration is centralized in the <strong>config</strong> directory of the GitHub repository. This directory contains a README.md file that explains its contents.</p>
 </div>
 <div class="sect2">
 <h3 id="_business_service_configuration"><a class="anchor" href="#_business_service_configuration"></a>3.1. Business service configuration</h3>
@@ -858,7 +860,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <p>Each service can have a specific yaml configuration file that can override the default configuration</p>
 </div>
 <div class="paragraph">
-<p>Examples of configuration of each service can be found under config/docker or config/dev .</p>
+<p>Examples of configuration of each service can be found under config/services.</p>
 </div>
 <div class="sect4">
 <h5 id="_businessconfig_service"><a class="anchor" href="#_businessconfig_service"></a>3.1.2.1. Businessconfig service</h5>
@@ -1528,6 +1530,12 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the emails must be sent in plain text (regardless of user configuration in settings)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.showCardTitleInBody</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the body of the emails must include the card title or not. This only concerns real time email sending and not the recapitulatory emails</p></td>
+</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -1772,26 +1780,16 @@ It  serves the Angular SPA to browsers and act as a reverse proxy for other serv
 <div class="sect3">
 <h4 id="_nginx_configuration"><a class="anchor" href="#_nginx_configuration"></a>3.2.1. NGINX configuration</h4>
 <div class="paragraph">
-<p>An external <code>nginx.conf</code> file configures the OperatorFabric Nginx instance named <code>web-ui</code> service.
-Those files are mounted as docker volumes. There are two of them in OperatorFabric, one in <code>config/dev</code> and one in <code>config/docker</code>.</p>
+<p>An external <code>nginx.conf</code> file configures the OperatorFabric Nginx instance named <code>web-ui</code> service.The file is mounted as docker volumes.</p>
 </div>
 <div class="paragraph">
-<p>The one in <code>config/dev</code> is set with
- permissive <code>CORS</code> rules to enable web development using <code>ng serve</code> within the <code>ui/main</code> project.It&#8217;s possible to use <code>ng serve</code> with the one in <code>config/docker</code> version also. To do so use the conf file named
-<code>nginx-cors-permissive.conf</code> by configuring the <code>/docker-compose.yml</code> with the following line:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>- "./nginx-cors-permissive.conf:/etc/nginx/conf.d/default.conf"</pre>
-</div>
+<p>Three version of the configuration file are available in config/web-ui directory:
+* <code>nginx-prod.conf</code>: The default configuration file which is used in production.
+* <code>nginx-cors-permissive.conf</code>: The configuration file used in development mode that allows CORS requests from any origin. This is useful for development purposes, but should not be used in production.
+* <code>nginx-java.conf</code>: The configuration file used in development mode that allows CORS requests from any origin and starts the java services outside of docker containers. This is useful for development purposes, but should not be used in production.</p>
 </div>
 <div class="paragraph">
-<p>instead of:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>- "./nginx.conf:/etc/nginx/conf.d/default.conf"</pre>
-</div>
+<p>When starting Opfab, depending on the chosen mode, the related file is copied to nginx.conf and mounted in the <code>web-ui</code> service container.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1811,7 +1809,7 @@ Those files are mounted as docker volumes. There are two of them in OperatorFabr
 <div class="sect3">
 <h4 id="ui_properties"><a class="anchor" href="#ui_properties"></a>3.2.2. UI properties</h4>
 <div class="paragraph">
-<p>The properties lie in the <code>web-ui.json</code>. The following table describes their meaning and how to use them. An example file can be found in the config/docker directory.</p>
+<p>The properties lie in the <code>web-ui.json</code>. The following table describes their meaning and how to use them, the properties regarding the geomap feature are found in the <a href="#ui_properties_geomap">next section</a>.  An example file can be found in the config/web-ui/ui-config directory.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1873,6 +1871,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if set to true, the alert message is shown on the bottom of the page</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.hidePublisherAndRecipientsFields</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the emitter and recipients fields will not be displayed in the archives filters</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archive.filters.publishDate.days</p></td>
@@ -1959,6 +1963,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
         ]
   }
 ----</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dateRangePickerConfig</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the mode for the date range picker configuration. The default mode can be changed to "ahead", which displays three predefined periods: W-1 (Week ahead), M-1 (Month ahead), and Y-1 (Year ahead) for the date range picker across all screens.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">defaultEntryPage</p></td>
@@ -2057,7 +2067,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.card.titleUpperCase</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the card titles are in UPPERCASE. (Option applies to the 'Card Feed', 'Archives' and 'Monitoring')</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the card titles are in UPPERCASE. (Option applies to the 'Card Feed' and 'Archives'.)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.defaultAcknowledgmentFilter</p></td>
@@ -2076,96 +2086,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.bglayer.xyz.crossOrigin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer crossOrigin setting.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.bglayer.xyz.tileSize</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer tile size (Int value, example: 256. Required when using custom background layer).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.bglayer.xyz.url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Custom xyz/tiled background layer service URL, Replaces OSM background layer (Add endpoint with {x}{y}{z} variables. Example: "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png".</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.defaultDataProjection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:4326</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableGraph</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Show a graph on the map with number of cards per severity.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.highlightPolygonStrokeWidth</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Define the stroke width when highlighting polygon in the geomap view of a card.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLatitude</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The initial latitude of the map when no cards with geographical coordinates are present.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLongitude</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The initial longitude of the map when no cards with geographical coordinates are present.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialZoom</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.layer.geojson</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of GeoJSON layers to add to the map with optional style attribute. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>). Example: [{"url":"assets/layers/service-area.geojson"},{"url":"https://localhost:8000/network-lines.geojson", "style": {"stroke-color": "blue"}}]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Max zoom level, to prevent zooming in too much when only one card is shown (or multiple cards in close proximity).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.popupContent</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">publishDateAndTitle</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Define the content of the geomap popup. Possible values are : <code>publishDateAndTitle</code> (default value) or <code>summary</code>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomDuration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomToLocation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Zoom level when zooming to a location of a selected card.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -2522,6 +2442,164 @@ For example:</p>
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="ui_properties_geomap"><a class="anchor" href="#ui_properties_geomap"></a>3.2.2.1. Geomap Configuration</h5>
+<div class="paragraph">
+<p>In the web-ui.json, the geomap can be configure with the following properties:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">default</th>
+<th class="tableblock halign-left valign-top">mandatory?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.defaultDataProjection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:4326</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.darkMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active a filter for dark mode (if false dark mode and light have the same colors).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableGraph</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Show a graph on the map with number of cards per severity.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.highlightPolygonStrokeWidth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define the stroke width when highlighting polygon in the geomap view of a card.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLatitude</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The initial latitude of the map when no cards with geographical coordinates are present.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialLongitude</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The initial longitude of the map when no cards with geographical coordinates are present.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.initialZoom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max zoom level, to prevent zooming in too much when only one card is shown (or multiple cards in close proximity).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.popupContent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">publishDateAndTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define the content of the geomap popup. Possible values are : <code>publishDateAndTitle</code> (default value) or <code>summary</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomDuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomToLocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zoom level when zooming to a location of a selected card.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type. The following layer types are supported:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required.</p>
+</li>
+<li>
+<p><code>geojson</code>: GeoJSON layers. Requires a <code>url</code> for the GeoJSON file and optionally a <code>style</code> object for feature styling. The <code>style</code> object supports stroke, fill, image, and text styles as defined in the OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>).</p>
+</li>
+<li>
+<p><code>xyz</code>: XYZ tiles. Requires a <code>url</code> endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png"). You may also specify:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tileSize</code>: Integer value (e.g., 256). Required for custom background layers.</p>
+</li>
+<li>
+<p><code>crossOrigin</code>: Optional. Default is <code>null</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example configuration for the <code>feed.geomap.layers</code> property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&quot;layers&quot;: [
+                {
+                    &quot;type&quot;:&quot;osm&quot;
+                },
+                {
+                    &quot;type&quot;:&quot;wmts&quot;,
+                    &quot;capabilitiesUrl&quot;:&quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+                    &quot;layer&quot;:&quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;
+                },
+                {
+                    &quot;type&quot;: &quot;geojson&quot;,
+                    &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+                    &quot;style&quot;: {
+                        &quot;stroke-color&quot;: &quot;red&quot;
+                    }
+                },
+                {
+                    &quot;type&quot;: &quot;geojson&quot;,
+                    &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;
+                }
+
+            ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The example configuration references a GeoJSON layer from  Open Data GRD (<a href="https://opendata.agenceore.fr" class="bare">opendata.agenceore.fr</a>) and a wmts layer from IGN (<a href="https://geoservices.ign.fr" class="bare">geoservices.ign.fr</a>) both published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -2535,7 +2613,7 @@ For example:</p>
 <p><code>nginx.conf</code> of the nginx server</p>
 </li>
 <li>
-<p><code>config/docker/common.yml</code> the common configuration file for back services</p>
+<p><code>config/common.yml</code> the common configuration file for back services</p>
 </li>
 <li>
 <p><code>web-ui.json</code> served by the <code>web-ui</code> service;</p>
@@ -2932,7 +3010,7 @@ location /auth/code/ {
 Another mode can be defined, the JWT mode. The groups (and/or entities) come from the authentication token.</p>
 </div>
 <div class="paragraph">
-<p>To activate this option , you need to set some parameter in the common.yml file :</p>
+<p>To activate this option, you need to set some parameter in the common.yml file :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -2972,13 +3050,13 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardList.path</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a list of group</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">path in the JWT to retrieve the claim that defines a list of groups</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimStandardList.separator</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">set the separator value of the list of group</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set the separator value of the list of groups</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.groups.rolesClaim.rolesClaimCheckExistPath.path</p></td>
@@ -2999,10 +3077,24 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
 <td class="tableblock halign-left valign-top"><p class="tableblock">set the name of the field in the token</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.entitiesIdClaimSingleString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values : true/false)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">a boolean specifying the expected format of the entitiesId field in the token.<br>
+- true: a single string with all entities, separated by a semicolon<br>
+- false: an array of strings, each one is an entity</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingEntitiesFromToken</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the entities of the user to come from the token and not mongoDB (possible values: true/false)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.security.jwt.gettingFirstAndLastNameFromToken</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean indicating if you want the first name and last name of the user to come from the token and not mongoDB (possible values: true/false)</p></td>
 </tr>
 </tbody>
 </table>
@@ -3015,6 +3107,7 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
   security:
     jwt:
       entitiesIdClaim: entitiesId
+      entitiesIdClaimSingleString : false
       gettingEntitiesFromToken: true
       groups:
         mode: JWT # value possible JWT | OPERATOR_FABRIC
@@ -3093,7 +3186,7 @@ Another mode can be defined, the JWT mode. The groups (and/or entities) come fro
   &quot;ATTR1&quot;: &quot;roleATTR1&quot;,
   &quot;preferred_username&quot;: &quot;example_user&quot;,
   &quot;given_name&quot;: &quot;example_firtstname&quot;,
-  &quot;entitiesId&quot;: &quot;ENTITY1&quot;,
+  &quot;entitiesId&quot;: [&quot;ENTITY1&quot;, &quot;ENTITY2&quot;],
   &quot;family_name&quot;: &quot;example_lastname&quot;,
   &quot;email&quot;: &quot;example_user@mail.com&quot;,
   &quot;roleFieldList&quot;: &quot;roleA;roleB;roleC&quot;
@@ -3135,7 +3228,7 @@ at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:392)
 <p>If that is the case, you can pass the additional authorities or certificates that you use to the containers at runtime.</p>
 </div>
 <div class="paragraph">
-<p>To do so, put the relevant files (*.der files for example) under <strong>src/main/docker/certificates</strong>.</p>
+<p>To do so, put the relevant files (*.der files for example) under <strong>src/main/certificates</strong>.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -3308,7 +3401,7 @@ prod PROD PROD_URL 80</pre>
 <div class="sect2">
 <h3 id="_logging_configuration"><a class="anchor" href="#_logging_configuration"></a>6.1. Logging configuration</h3>
 <div class="paragraph">
-<p>Log levels can be defined either globally in the YAML configuration file or individually for each service. You will find a commented configuration for each service within the directory config/docker.</p>
+<p>Log levels can be defined either globally in the YAML configuration file or individually for each service. You will find a commented configuration for each service within the directory config/services.</p>
 </div>
 <div class="paragraph">
 <p>Services are designed to write logs to two primary destinations: standard output and log files within the Docker containers.</p>

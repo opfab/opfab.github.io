@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.8.0.RELEASE",
+    "version" : "4.9.0.RELEASE",
     "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -577,50 +577,6 @@ window.swaggerSpec={
         }
       }
     },
-    "/businessconfig/monitoring" : {
-      "get" : {
-        "summary" : "Get the monitoring configuration",
-        "description" : "Get the monitoring configuration ",
-        "operationId" : "getMonitoring",
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "schema" : {
-              "$ref" : "#/definitions/Monitoring"
-            }
-          },
-          "401" : {
-            "description" : "Authentication required"
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Post the json defining the monitoring config",
-        "description" : "Post the json defining the monitoring config This json is saved to disk, under the name 'monitoring.json'.",
-        "operationId" : "postMonitoring",
-        "consumes" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "monitoring",
-          "in" : "body",
-          "schema" : {
-            "$ref" : "#/definitions/Monitoring"
-          }
-        } ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "201" : {
-            "description" : "Successful creation"
-          },
-          "401" : {
-            "description" : "Authentication required"
-          },
-          "403" : {
-            "description" : "Forbidden - ADMIN role necessary"
-          }
-        }
-      }
-    },
     "/businessconfig/processmonitoring" : {
       "get" : {
         "summary" : "Get the process monitoring configuration",
@@ -1036,55 +992,6 @@ window.swaggerSpec={
           }
         }
       }
-    },
-    "Monitoring" : {
-      "description" : "Configuration for the monitoring screen",
-      "properties" : {
-        "export" : {
-          "description" : "export configuration",
-          "$ref" : "#/definitions/MonitoringExport"
-        }
-      }
-    },
-    "MonitoringExport" : {
-      "description" : "Configuration for the export feature in the monitoring screen",
-      "properties" : {
-        "fields" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/MonitoringExportField"
-          }
-        }
-      }
-    },
-    "MonitoringExportField" : {
-      "description" : "Configuration for Field to export",
-      "properties" : {
-        "columnName" : {
-          "description" : "Name of the colum in export",
-          "type" : "string"
-        },
-        "jsonField" : {
-          "description" : "Name of the field corresponding to the column name",
-          "type" : "string"
-        },
-        "type" : {
-          "description" : "Type of the field (for now only type EPOCHDATE is used)",
-          "type" : "MonitoringExportFieldTypeEnum"
-        },
-        "fields" : {
-          "description" : "Nested fields description",
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/MonitoringExportField"
-          }
-        }
-      }
-    },
-    "MonitoringExportFieldTypeEnum" : {
-      "type" : "string",
-      "description" : "Type of field to export",
-      "enum" : [ "STRING", "EPOCHDATE" ]
     },
     "ProcessMonitoring" : {
       "description" : "Configuration for the process monitoring screen",

@@ -441,8 +441,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OperatorFabric Security</h1>
 <div class="details">
-<span id="revnumber">version 4.8.0.RELEASE,</span>
-<span id="revdate">19 June 2025</span>
+<span id="revnumber">version 4.9.0.RELEASE,</span>
+<span id="revdate">05 September 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -459,6 +459,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_inter_services_communication">5.4. Inter-Services Communication</a></li>
 <li><a href="#_access_to_card_publication_without_authentication">5.5. Access to card publication without authentication</a></li>
 <li><a href="#_template">5.6. Template</a></li>
+<li><a href="#_card_list_custom_screen">5.7. Card List Custom Screen</a></li>
 </ul>
 </li>
 <li><a href="#_security_audit">6. Security audit</a></li>
@@ -622,6 +623,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_template"><a class="anchor" href="#_template"></a>5.6. Template</h3>
 <div class="paragraph">
 <p>OperatorFabric is designed to be used with card templates provided by the end user. These templates should be considered as code and reviewed by the end user before being used in a production environment. Failure to do so could lead to security issues.</p>
+</div>
+<div class="paragraph">
+<p>In particular, if you use js in the template , you should be aware that it can lead to XSS (Cross-Site Scripting) vulnerabilities if you do not properly sanitize the input. To do so the opfab api provide a function to sanitize input : <code>opfab.utils.escapeHtml</code></p>
+</div>
+<div class="paragraph">
+<p>The handlebars template is escaped by default, so you should not have to worry about XSS vulnerabilities if you use the handlebars template syntax '{{}}' to display data. However, if you use the handlebars <code>{{{}}}</code> syntax to display raw HTML, you must ensure that the input is properly sanitized to avoid XSS vulnerabilities.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_list_custom_screen"><a class="anchor" href="#_card_list_custom_screen"></a>5.7. Card List Custom Screen</h3>
+<div class="paragraph">
+<p>The custom screen definition is a js file ,as for the template, it should be considered as code and reviewed by the end user before being used in a production environment.</p>
+</div>
+<div class="paragraph">
+<p>In particular, if you are implementing the 'getHTMLValue' function to display data, you should be aware that it can lead to XSS (Cross-Site Scripting) vulnerabilities if you do not properly sanitize the input.</p>
 </div>
 </div>
 </div>

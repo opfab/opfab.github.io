@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.8.0.RELEASE,</span>
-<span id="revdate">19 June 2025</span>
+<span id="revnumber">version 4.9.0.RELEASE,</span>
+<span id="revdate">05 September 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -857,6 +857,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_sendresponsecard">10.10.2. Function sendResponseCard</a></li>
 </ul>
 </li>
+<li><a href="#_lightcards_api">10.11. LightCards API</a>
+<ul class="sectlevel3">
+<li><a href="#_function_getcurrentuserchildcardsforparentcard">10.11.1. Function getCurrentUserChildCardsForParentCard</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_archived_cards">11. Archived Cards</a>
@@ -866,12 +871,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#geomap">12. Geographical map</a></li>
-<li><a href="#_monitoring">13. Monitoring</a>
-<ul class="sectlevel2">
-<li><a href="#_export_configuration">13.1. Export configuration</a></li>
-<li><a href="#_process_monitoring">13.2. Process monitoring</a></li>
-</ul>
-</li>
+<li><a href="#_process_monitoring">13. Process monitoring</a></li>
 <li><a href="#users_management">14. User management</a>
 <ul class="sectlevel2">
 <li><a href="#_users_groups_entities_and_perimeters">14.1. Users, groups, entities and perimeters</a>
@@ -921,6 +921,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_exporting_responses_by_type_and_not_responded">15.3.7. Exporting responses by type and not responded</a></li>
 </ul>
 </li>
+<li><a href="#_customizing_browser_notification_sounds">15.4. Customizing browser notification sounds</a></li>
 </ul>
 </li>
 <li><a href="#_supervisor">16. Supervisor</a>
@@ -1382,10 +1383,11 @@ Only the POINT and POLYGON are supported.
 <p>KEEP_EXISTING_ACKS_AND_READS : used to keep existing reads and acks when updating a card</p>
 </li>
 <li>
-<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed and in monitoring screen.</p>
+<p>STORE_ONLY_IN_ARCHIVES : used to store the card only in archivedCards collection and not in cards collection. No notification will be sent to UI, so the card will not be displayed in the feed.</p>
 </li>
 <li>
-<p>NOT_NOTIFIED : when this action is set, the card is not visible in the card feed except for the publisher but it is visible in all the other screens : monitoring screen / agenda / timeline.
+<p>NOT_NOTIFIED : when this action is set, the card is not visible in the card feed except for the publisher but it is
+visible in all the other screens: custom screens / agenda / timeline.
 The card is visible in the feed when the card will be reminded.</p>
 </li>
 </ul>
@@ -1395,7 +1397,7 @@ The card is visible in the feed when the card will be reminded.</p>
 <div class="sect4">
 <h5 id="_business_period"><a class="anchor" href="#_business_period"></a>2.1.1.3. Business period</h5>
 <div class="paragraph">
-<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlap the user chosen period (i.e. the period selected on  the timeline). If endDate is not set, the card will be visible as soon as the startDate is between start and end date of the chosen period.</p>
+<p>We define the business period as starting form startDate to endDate.  The card will be visible on the UI if the business period overlaps the user chosen period (i.e. the period selected on  the timeline). If endDate is not set, the card will be visible as soon as the startDate is between start and end date of the chosen period.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1937,14 +1939,14 @@ It lists the content of the bundle.</p>
 </li>
 <li>
 <p><code>version</code>: enables the correct display of the card data, even for the old ones.
-The server store the previous versions in its file system.
+The server stores the previous versions in its file system.
 This field value should match a businessconfig configuration for a correct rendering;</p>
 </li>
 <li>
 <p><code>states</code>: lists the available states which each declares associated actions, associated templates and if cards could be acknowledged by users;</p>
 </li>
 <li>
-<p><code>uiVisibility</code>: in the monitoring, logging and calendar screens, not all the cards are visible, it depends on the business process they are part of. For a card to be visible in these screens, the corresponding parameter must be set to true.</p>
+<p><code>uiVisibility</code>: in the logging and calendar screens, not all the cards are visible, it depends on the business process they are part of. For a card to be visible in these screens, the corresponding parameter must be set to true.</p>
 </li>
 </ul>
 </div>
@@ -2074,8 +2076,8 @@ A process definition is itself a dictionary of states, each key maps to a state 
 <h6 id="_templates"><a class="anchor" href="#_templates"></a>Templates</h6>
 <div class="paragraph">
 <p>For demonstration purposes, there will be two simple templates.
-For more advance feature go to the section detailing the handlebars templates and associated helpers available in OperatorFabric.
-As the card used in this example are created above, the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
+For more advance feature, go to the section detailing the handlebar templates and associated helpers available in OperatorFabric.
+As the card used in this example is created above, the bundle template folder needs to contain 2 templates: <code>template1.handlebars</code> and <code>template2.handlebars</code>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Examples of template (i18n versions)</strong></p>
@@ -3421,10 +3423,10 @@ notified then the card will not be visible:</p>
 <p>in the feed or the timeline</p>
 </li>
 <li>
-<p>in the monitoring screen</p>
+<p>in the calendar screen</p>
 </li>
 <li>
-<p>in the calendar screen</p>
+<p>in the custom screens</p>
 </li>
 </ul>
 </div>
@@ -3837,7 +3839,9 @@ appropriate configuration in the config.json of the concerned process. Here is a
       "color": "#8bcdcd",
       "response": {
         "state": "responseState",
-        "externalRecipients":["externalRecipient1", "externalRecipient2"]
+        "externalRecipients":["externalRecipient1", "externalRecipient2"],
+        "showConfirmationPopup": false,
+        "emittingEntityAllowedToRespond": true
       },
       "templateName": "question",
       "styles": [
@@ -3866,6 +3870,9 @@ and state "questionState", the user will have the possibility to respond if he h
 <li>
 <p>The field "externalRecipients" define the recipients of the response card. These recipients are the ids of the objects referenced in
 the config file of cards-publication service, in "external-recipients" element. This field is optional.</p>
+</li>
+<li>
+<p>The field "showConfirmationPopup" is used to display a confirmation popup before sending the response. The default value is false.</p>
 </li>
 <li>
 <p>The field "emittingEntityAllowedToRespond" in the response field is used to allow the emitting entity to respond to a card. To be able to respond, however, the emitting entity has to be one of the recipients of the card. Default value is false.</p>
@@ -3976,7 +3983,7 @@ state. It is also possible to dynamically set the severity of the response with 
             } 
         };
 
-        <span class="comment">// If the user choses to answer no, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+        <span class="comment">// If the user chooses to answer no, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
         <span class="keyword">if</span> (answer){
             result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">refuseResponseState</span><span class="delimiter">'</span></span>;
             result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>
@@ -4841,6 +4848,9 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <p>BusinessConfig API : API to get business configuration information</p>
 </li>
 <li>
+<p>Handlebars API : API to register custom helpers</p>
+</li>
+<li>
 <p>Navigate API : API to ask opfab to navigate to a specific view</p>
 </li>
 <li>
@@ -4850,10 +4860,19 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <p>CurrentUserCard API : API to get information regarding the current user card (card in creation or edition)</p>
 </li>
 <li>
+<p>AlertMessage API : API to send alert messages</p>
+</li>
+<li>
+<p>UI API : API to access elements from the interface</p>
+</li>
+<li>
 <p>Cards API : API to get or send cards</p>
 </li>
 <li>
 <p>Utils API : utilities functions</p>
+</li>
+<li>
+<p>LightCards API : API to access light cards properties</p>
 </li>
 </ul>
 </div>
@@ -5017,7 +5036,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_displayloadingspinner"><a class="anchor" href="#_function_displayloadingspinner"></a>10.5.1. Function displayLoadingSpinner</h4>
 <div class="paragraph">
-<p>Once the card is loaded, there may be some processing that is time-consuming. In this case, it is possible to show a spinner using the method displayLoadingSpinner and hideLoadingSpinner in the card template .</p>
+<p>Once the card is loaded, there may be some processing that is time-consuming. In this case, it is possible to show a spinner using the method displayLoadingSpinner and hideLoadingSpinner in the card template.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5066,7 +5085,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_isuserallowedtoedit"><a class="anchor" href="#_function_isuserallowedtoedit"></a>10.5.5. Function isUserAllowedToEdit</h4>
 <div class="paragraph">
-<p>To check if current user has the permission to edit the current card, you can call the isUserAllowedToEdit() method.</p>
+<p>To check if the current user has the permission to edit the current card, you can call the isUserAllowedToEdit() method.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5077,7 +5096,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_editcard"><a class="anchor" href="#_function_editcard"></a>10.5.6. Function editCard</h4>
 <div class="paragraph">
-<p>It is possible to open current card edition modal, if current user has the permission, by calling the editCard() method.</p>
+<p>It is possible to open current card edition modal, if the current user has the permission, by calling the editCard() method.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5088,7 +5107,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_getdisplaycontext"><a class="anchor" href="#_function_getdisplaycontext"></a>10.5.7. Function getDisplayContext</h4>
 <div class="paragraph">
-<p>To adapt the template content to the display context it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function getDisplayContext(). The function returns a string with one of the following values :</p>
+<p>To adapt the template content to the display context, it is possible to get from OperatorFabric the page context where the template will be rendered by calling the javascript function getDisplayContext(). The function returns a string with one of the following values :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5134,7 +5153,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_isresponselocked"><a class="anchor" href="#_function_isresponselocked"></a>10.5.10. Function isResponseLocked</h4>
 <div class="paragraph">
-<p>To know if template is locked (i.e. user can not respond unless he unlocks the card)</p>
+<p>To know if the template is locked (i.e. user can not respond unless he unlocks the card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5158,7 +5177,7 @@ An example of usage can be found in the file
 <div class="sect3">
 <h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>10.5.12. Function isUserMemberOfAnEntityRequiredToRespond</h4>
 <div class="paragraph">
-<p>The template can know if the current user is member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
+<p>The template can know if the current user is a member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
 An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 <div class="listingblock">
@@ -5170,7 +5189,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.13. Function listenToResponseLock</h4>
 <div class="paragraph">
-<p>Register a function to be informed when template is locked (i.e. user has responded to the current card)</p>
+<p>Register a function to be informed when the template is locked (i.e. user has responded to the current card)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5228,7 +5247,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.18. Function listenToScreenSize</h4>
 <div class="paragraph">
-<p>To adapt the template content on screen size it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
+<p>To adapt the template content on screen size, it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information, you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5252,7 +5271,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.19. Function listenToTemplateRenderingComplete</h4>
 <div class="paragraph">
-<p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer ,lttdExpired and screenSize)</p>
+<p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer, lttdExpired and screenSize)</p>
 </div>
 <div class="paragraph">
 <p>It can be used by a template to launch some processing when loading is complete</p>
@@ -5266,7 +5285,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.20. Function registerFunctionToGetUserResponse</h4>
 <div class="paragraph">
-<p>Register the template function to call to get user response. This function will be called by opfab when user clicks on the "send response" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
+<p>Register the template function to call to get user response. This function will be called by opfab when the user clicks on the "send response" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -5292,7 +5311,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
                 };
                 return {
                     valid: true,
-                    card: card,
+                    responseCard: card,
                     viewCardInCalendar: false
                 };
 
@@ -5396,7 +5415,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 <div class="sect3">
 <h4 id="_function_getstartdate"><a class="anchor" href="#_function_getstartdate"></a>10.6.8. Function getStartDate</h4>
 <div class="paragraph">
-<p>The template can know the current startDate of the card in creation or edition by calling the <em>opfab.currentUserCard.getStartDate()</em> function.The function will return a number corresponding to the startDate as epoch date value.</p>
+<p>The template can know the current startDate of the card in creation or edition by calling the <em>opfab.currentUserCard.getStartDate()</em> function. The function will return a number corresponding to the startDate as epoch date value.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5505,7 +5524,7 @@ The method returns only one child card and is therefore not compatible with the 
 <div class="sect3">
 <h4 id="_function_setdropdownentityrecipientlist"><a class="anchor" href="#_function_setdropdownentityrecipientlist"></a>10.6.14. Function setDropdownEntityRecipientList</h4>
 <div class="paragraph">
-<p>When sending a user card, by default it is possible to choose the recipients from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template.</p>
+<p>When sending a user card, by default, it is possible to choose the recipients from all the available entities. To limit the list of available recipients, it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -5519,13 +5538,13 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="paragraph">
-<p>In this example the list of available recipients will contain: "ENTITY_FR" (level 0), all the first level children of "ENTITY_FR" (level 1) and "IT_SUPERVISOR_ENTITY".</p>
+<p>In this example, the list of available recipients will contain: "ENTITY_FR" (level 0), all the first level children of "ENTITY_FR" (level 1) and "IT_SUPERVISOR_ENTITY".</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_function_setdropdownentityrecipientforinformationlist"><a class="anchor" href="#_function_setdropdownentityrecipientforinformationlist"></a>10.6.15. Function setDropdownEntityRecipientForInformationList</h4>
 <div class="paragraph">
-<p>When sending a user card, by default it is possible to choose the recipients for information from all the available entities. To limit the list of available recipients it is possible to configure the list of possible recipients via javascript in the user template.</p>
+<p>When sending a user card, by default, it is possible to choose the recipients for information from all the available entities. To limit the list of available recipients, it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
 <div class="paragraph">
 <p>For example :</p>
@@ -5810,7 +5829,7 @@ The available message levels are:</p>
 <div class="sect3">
 <h4 id="_function_getcards"><a class="anchor" href="#_function_getcards"></a>10.10.1. Function getCards</h4>
 <div class="paragraph">
-<p>You can use this function to get a list of cards filtered on the specified filter.</p>
+<p>You can use this function to get a list of cards filtered on the specified filter. The cards will be retrieved via a request to the backend.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5930,6 +5949,29 @@ The available message levels are:</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_lightcards_api"><a class="anchor" href="#_lightcards_api"></a>10.11. LightCards API</h3>
+<div class="paragraph">
+<p>A light card is a card that does not contain the fields present in "data", except for those fields used in custom screens and declared in <code>common.yml</code> (<code>operatorfabric.customscreen.dataFields</code>) in the backend configuration. The advantage is that light cards are kept in memory and do not require backend access, unlike the Card API.</p>
+</div>
+<div class="sect3">
+<h4 id="_function_getcurrentuserchildcardsforparentcard"><a class="anchor" href="#_function_getcurrentuserchildcardsforparentcard"></a>10.11.1. Function getCurrentUserChildCardsForParentCard</h4>
+<div class="paragraph">
+<p>You can use this function to get the child cards of the current user&#8217;s entities for a given parent card.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const childCards = opfab.lightCards.getCurrentUserChildCardsForParentCard(parentCardId);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns an array of child cards.</p>
+</div>
+<div class="paragraph">
+<p>The <code>parentCardId</code> parameter is the id of the card for which you want to retrieve the child cards.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -6042,63 +6084,37 @@ can see all archives for which he has the right to receive it, whether he is par
 can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specification</a>.</p>
 </div>
 <div class="paragraph">
-<p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file. For example:</p>
+<p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file.</p>
+</div>
+<div class="paragraph">
+<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> parameter. The following types are supported:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The map uses OpenStreetMap tiles by default, but you can specify different tiles using the <code>feed.geomap.bglayer.xyz</code> parameters.</p>
+<p><code>osm</code> for OpenStreetMap tiles</p>
 </li>
 <li>
-<p>You can add GeoJSON layers to the map using the <code>feed.geomap.layer.geojson</code> parameter in web-ui.json. For each layer it is possible to specify the url and an optional style. The style object can have styling properties for stroke, fill, image, and text styles as defined in OpenLayer flat style (<a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)</p>
+<p><code>geojson</code> for GeoJSON layers.</p>
+</li>
+<li>
+<p><code>xyz</code> for XYZ tiles.</p>
+</li>
+<li>
+<p><code>wmts</code> for WMTS layers.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Refer to the
-<a href="/documentation/current/reference_doc/index.html#ui_properties">web-ui configuration</a>
+<a href="/documentation/current/deployment/index.html#ui_properties_geomap">geomap web-ui configuration</a>
 section for more information and additional customization options.</p>
-</div>
-<div class="paragraph">
-<p>The example configuration references a GeoJSON layer from  Opendata Réseau Énergies (<a href="https://odre.opendatasoft.com/" class="bare">odre.opendatasoft.com/</a>) published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>13. Monitoring</h2>
+<h2 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>13. Process monitoring</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The monitoring screen is a realtime view of processes based on current cards received by the user (i.e. the last version of cards visible by the user). It can be seen as another view of the feed.</p>
-</div>
-<div class="paragraph">
-<p>Not all the cards are visible, it depends on the business process they are part of. For a card to be visible in this screen, the parameter <code>uiVisibility.monitoring</code> must be set to <code>true</code> in the config.json file of its process.</p>
-</div>
-<div class="sect2">
-<h3 id="_export_configuration"><a class="anchor" href="#_export_configuration"></a>13.1. Export configuration</h3>
-<div class="paragraph">
-<p>An Excel export function is available in the monitoring screen, the content of the export can be configured.
-To do so, a json file describing the expected output can be sent to the businessconfig service through the /businessconfig/monitoring endpoint.</p>
-</div>
-<div class="paragraph">
-<p>In opfab git repository, you can find in directory <a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/monitoringConfig">src/test/resources/monitoringConfig</a>  :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a script to load a monitoring configuration <code>loadMonitoringConfig.sh</code></p>
-</li>
-<li>
-<p>an example of configuration in <code>monitoringConfig.json</code> (for the response fields to be filled , you need to respond to a card question in process messageOrQuestionExample )</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>A description of the structure of the configuration can be found in
-<a href="/documentation/current/api/businessconfig/">the businessconfig api documentation</a></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_process_monitoring"><a class="anchor" href="#_process_monitoring"></a>13.2. Process monitoring</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -6112,7 +6128,7 @@ This feature is experimental
 </table>
 </div>
 <div class="paragraph">
-<p>The process monitoring screen has the following similarities with the monitoring screen :</p>
+<p>The process monitoring screen has the following features :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -6193,7 +6209,7 @@ Depending on the permissions of the groups to which the user is attached, he can
 <p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of available tags used in the UI to filter the results <code>filters.tags</code>.</p>
 </div>
 <div class="paragraph">
-<p>If geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
+<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </div>
 <div class="paragraph">
 <p>Here is the description of the fields :</p>
@@ -6201,19 +6217,18 @@ Depending on the permissions of the groups to which the user is attached, he can
 <div class="ulist">
 <ul>
 <li>
-<p>"field" : the name of the field in the card (or in the database) you want to display</p>
+<p>"field": the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type" : field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
+<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
 </li>
 <li>
-<p>"colName" : name of the column on the UI</p>
+<p>"colName": name of the column on the UI</p>
 </li>
 <li>
-<p>"size" : size of the column on the UI, proportionally to each other</p>
+<p>"size": size of the column on the UI, proportionally to each other</p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -6562,10 +6577,19 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>SEND_CARD</p>
 </li>
 <li>
+<p>DELETE_CARD</p>
+</li>
+<li>
 <p>SEND_RESPONSE</p>
 </li>
 <li>
 <p>NOTIFICATION_CONFIG</p>
+</li>
+<li>
+<p>USER</p>
+</li>
+<li>
+<p>BUSINESS_CONFIG</p>
 </li>
 </ul>
 </div>
@@ -6620,7 +6644,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>To manage the visibility of core OperatorFabric menus (feed, monitoring, etc.)</p>
+<p>To manage the visibility of core OperatorFabric menus (feed, archives, etc.)</p>
 </li>
 <li>
 <p>To declare specific business menus to be displayed in the navigation bar of OperatorFabric</p>
@@ -6705,17 +6729,13 @@ listed groups.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Navigation bar</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Navigation bar</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Feed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Archives</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archives</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Monitoring</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">monitoring</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Dashboard</p></td>
@@ -7171,7 +7191,21 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p>for the type of state multiselect filter by setting the field <code>defaultSelectedTypeOfState</code>. The possible values are <code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>.</p>
 </li>
 <li>
-<p>for the read and ack multiselect fitler by setting the field <code>defaultSelectedReadAndAck</code>. The possible values are <code>READ</code>, <code>NOT_READ</code>, <code>ACKNOWLEDGED</code>, <code>NOT_ACKNOWLEDGED</code>.</p>
+<p>for the read and ack multiselect filter by setting the field <code>defaultSelectedReadAndAck</code>. The possible values are <code>READ</code>, <code>NOT_READ</code>, <code>ACKNOWLEDGED</code>, <code>NOT_ACKNOWLEDGED</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can define the initial business period you want to display for each custom screen, using the field <code>initialBusinessPeriod</code>.
+The possible values are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FEED</code> (default value): the period is based on the feed period</p>
+</li>
+<li>
+<p><code>FROM_TODAY_TO_YEAR_END</code>: the period is from now to the end of the year</p>
 </li>
 </ul>
 </div>
@@ -7180,6 +7214,12 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p><code>ACKNOWLEDGMENT</code>: Displays a blue check if the card has been acknowledged.</p>
+</li>
+<li>
+<p><code>BUSINESS_PERIOD</code>: Displays the business period of the card on two lines</p>
+</li>
 <li>
 <p><code>COLORED_CIRCLE</code>: Displays a colored circle. The value is to be defined with a custom method <code>getValue</code> that shall contain two fields:</p>
 <div class="ulist">
@@ -7197,7 +7237,13 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>DATE_AND_TIME</code>: Displays the date and time formatted according to the user&#8217;s locale.</p>
 </li>
 <li>
+<p><code>HTML</code>: Renders the HTML contained in the <code>getValue</code> method.</p>
+</li>
+<li>
 <p><code>INPUT</code>: Displays an input field. The value of the input field will be used for response cards if the custom screen has response buttons (see below).</p>
+</li>
+<li>
+<p><code>PROCESS_NAME</code>: Displays the name of the card&#8217;s process.</p>
 </li>
 <li>
 <p><code>PUBLISHER</code>: Displays the publisher entity if the card is published by an entity, otherwise displays the user who published the card.</p>
@@ -7209,22 +7255,13 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 <p><code>RESPONSE_FROM_MY_ENTITIES</code>: Displays a blue arrow if one of the user&#8217;s entity has responded to the card.</p>
 </li>
 <li>
-<p><code>ACKNOWLEDGMENT</code>: Displays a blue check if the card has been acknowledged.</p>
+<p><code>SEVERITY</code>: Displays the severity as a color rectangle.</p>
 </li>
 <li>
 <p><code>STATE_NAME</code>: Displays the name of the card&#8217;s state.</p>
 </li>
 <li>
-<p><code>PROCESS_NAME</code>: Displays the name of the card&#8217;s process.</p>
-</li>
-<li>
-<p><code>SEVERITY</code>: Displays the severity as a color rectangle.</p>
-</li>
-<li>
 <p><code>STRING</code>: Displays a string value.</p>
-</li>
-<li>
-<p><code>HTML</code>: Renders the HTML contained in the <code>getValue</code> method.</p>
 </li>
 <li>
 <p><code>TYPE_OF_STATE</code>: Displays the name of the type of state (<code>INPROGRESS</code>, <code>FINISHED</code>, <code>CANCELED</code>) with a corresponding color. The color is defined as follows:</p>
@@ -7280,10 +7317,14 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
     cardField: 'titleTranslated',
     fieldType: 'HTML',
     getHTMLValue: (card) =&gt; {
-        return `&lt;span style=&quot;color:red&quot;&gt;${card.titleTranslated}&lt;/span&gt;`;
+        const title = opfab.utils.escapeHtml(card.titleTranslated);
+        return `&lt;span style=&quot;color:red&quot;&gt;${title}&lt;/span&gt;`;
     }
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Warning: Be cautious when using the <code>getHTMLValue</code> method, as it can lead to XSS (Cross-Site Scripting) vulnerabilities if you do not properly sanitize the input. Use <code>opfab.utils.escapeHtml</code> to sanitize the input before injecting it into the HTML.</p>
 </div>
 <div class="sect3">
 <h4 id="_cell_size"><a class="anchor" href="#_cell_size"></a>15.3.1. Cell size</h4>
@@ -7365,6 +7406,7 @@ opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
         id: 'testId2',
         name: 'testName',
         responseOnlyAllowedForEntitiesRequiredToRespond: false,
+        initialBusinessPeriod: 'FROM_TODAY_TO_YEAR_END',
 
         .....
 
@@ -7590,13 +7632,54 @@ results: {
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_customizing_browser_notification_sounds"><a class="anchor" href="#_customizing_browser_notification_sounds"></a>15.4. Customizing browser notification sounds</h3>
+<div class="paragraph">
+<p>The sounds used by default by the browser to signal a card of a given severity
+can be found under <code>ui/main/src/assets/sounds</code> in the core repository and are packaged in the <code>web-ui</code> docker image.</p>
+</div>
+<div class="paragraph">
+<p>To customize these sounds, you can put the files in the current directory and mount that directory as a volume for
+the web-ui container:</p>
+</div>
+<div class="listingblock">
+<div class="title">Under web-ui.volumes, add:</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>- &quot;./custom-sounds:/usr/share/nginx/html/assets/sounds&quot;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When testing, if the sounds seem not to be taken into account try clearing your browser&#8217;s cache.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The name of the file needs to match the existing file (for example <code>alarm.mp3</code>).
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_supervisor"><a class="anchor" href="#_supervisor"></a>16. Supervisor</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Supervisor service can monitor users connections and card acknowledgements to send alert cards when specified conditions are met. To configure the module see <a href="https://github.com/opfab/operatorfabric-core/blob/master/config/docker/node-services.yml">config/docker/node-services.yml</a></p>
+<p>Supervisor service can monitor users connections and card acknowledgements to send alert cards when specified conditions are met. To configure the module see <a href="https://github.com/opfab/operatorfabric-core/blob//config/services/supervisor.yml">config/services/supervisor.yml</a></p>
 </div>
 <div class="sect2">
 <h3 id="_entities_connection"><a class="anchor" href="#_entities_connection"></a>16.1. Entities connection</h3>
@@ -7774,7 +7857,8 @@ When a device is disabled (isEnabled = false) , OperatorFabric will not send any
 </div>
 </li>
 <li>
-<p>How to map an OperatorFabric signal key <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> to a signal (sound, light) on the external system</p>
+<p>How to map an OperatorFabric signal key (currently, that means a severity, but in the future it could also
+be a process id, or anything identifying the signal to be played) to a signal (sound, light) on the external system</p>
 <div class="listingblock">
 <div class="title">signalMapping</div>
 <div class="content">
@@ -7990,12 +8074,6 @@ The available css classes are detailed in
 <p>The example test page can be accessed from OperatorFabric directly at the following url  <code><a href="http://localhost:2002/external/appExample/" class="bare">localhost:2002/external/appExample/</a></code> and also using one of the example business menu entries.</p>
 </div>
 </div>
-</div>
-</div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. currently, that means a severity, but in the future it could also be a process id, or anything identifying the signal to be played
 </div>
 </div>
 </body>

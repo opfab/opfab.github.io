@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.8.0.RELEASE",
+    "version" : "4.9.0.RELEASE",
     "title" : "User Management",
     "termsOfService" : "",
     "contact" : {
@@ -408,7 +408,7 @@ window.swaggerSpec={
           "type" : "boolean",
           "description" : "If this is set to true, an email will be sent weekly with all the cards received during the week"
         },
-        "email" : {
+        "emailForCardSending" : {
           "type" : "string",
           "description" : "Email address to use as recipient for email notifications"
         },
@@ -519,6 +519,23 @@ window.swaggerSpec={
           "type" : "number",
           "description" : "Page number"
         }
+      }
+    },
+    "LastUserAction" : {
+      "type" : "object",
+      "properties" : {
+        "login" : {
+          "type" : "string"
+        },
+        "lastActionDate" : {
+          "type" : "number",
+          "description" : "User last action as epoch date"
+        }
+      },
+      "required" : [ "login", "lastActionDate" ],
+      "example" : {
+        "login" : "jcleese",
+        "lastActionDate" : 1719911567000
       }
     }
   },
@@ -747,7 +764,7 @@ window.swaggerSpec={
       "put" : {
         "tags" : [ "users" ],
         "summary" : "Update existing user settings",
-        "description" : "Update existing user settiogs",
+        "description" : "Update existing user settings",
         "operationId" : "updateUserSettings",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -2232,6 +2249,56 @@ window.swaggerSpec={
               "type" : "object",
               "$ref" : "#/definitions/UserActionLogPage"
             }
+          }
+        }
+      }
+    },
+    "/users/lastUserAction" : {
+      "get" : {
+        "tags" : [ "last user action" ],
+        "summary" : "Get last user action",
+        "description" : "Get the list the user actions.",
+        "operationId" : "getLastUserAction",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/LastUserAction"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/lastUserAction/{login}" : {
+      "get" : {
+        "tags" : [ "last user action" ],
+        "summary" : "Fetch a last user action, for a specific user",
+        "description" : "Fetch a last user action, for a specific user",
+        "operationId" : "fetchLastUserAction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "login",
+          "description" : "user login",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/LastUserAction"
+            }
+          },
+          "401" : {
+            "description" : "Authentication required"
+          },
+          "403" : {
+            "description" : "Authenticated users who are not admins can only access the data"
           }
         }
       }
