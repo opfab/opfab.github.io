@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">14 September 2025</span>
+<span id="revdate">15 September 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1316,21 +1316,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#troubleshooting">51. Troubleshooting</a></li>
-<li><a href="#_keycloak_configuration">52. Keycloak Configuration</a>
-<ul class="sectlevel2">
-<li><a href="#_add_realm">52.1. Add Realm</a></li>
-<li><a href="#_setup_at_least_one_client_or_best_one_per_service">52.2. Setup at least one client (or best one per service)</a>
-<ul class="sectlevel3">
-<li><a href="#_create_client">52.2.1. Create client</a></li>
-</ul>
-</li>
-<li><a href="#_create_users">52.3. Create Users</a>
-<ul class="sectlevel3">
-<li><a href="#_development_specific_configuration">52.3.1. Development-specific configuration</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#_keycloak_configuration">52. Keycloak Configuration</a></li>
 <li><a href="#_using_oauth2_token_with_the_cli">53. Using OAuth2 token with the CLI</a>
 <ul class="sectlevel2">
 <li><a href="#_get_a_token_2">53.1. Get a token</a>
@@ -16028,218 +16014,15 @@ Available Java Versions
 <h2 id="_keycloak_configuration"><a class="anchor" href="#_keycloak_configuration"></a>52. Keycloak Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The configuration needed for development purposes is automatically loaded from the dev-realms.json file.
-However, the steps below describe how they can be reproduced from scratch on a blank Keycloak instance in case you
-want to add to it.</p>
+<p>The configuration needed for development purposes is automatically loaded from the config/keycloak repository.</p>
 </div>
 <div class="paragraph">
 <p>The Keycloak Management interface is available here:  [host]:89/auth/admin
 Default credentials are admin/admin.</p>
 </div>
-<div class="sect2">
-<h3 id="_add_realm"><a class="anchor" href="#_add_realm"></a>52.1. Add Realm</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Click top left down arrow next to Master</p>
-</li>
-<li>
-<p>Add Realm</p>
-</li>
-<li>
-<p>Name it dev (or whatever)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_setup_at_least_one_client_or_best_one_per_service"><a class="anchor" href="#_setup_at_least_one_client_or_best_one_per_service"></a>52.2. Setup at least one client (or best one per service)</h3>
-<div class="sect3">
-<h4 id="_create_client"><a class="anchor" href="#_create_client"></a>52.2.1. Create client</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Click Clients in left menu</p>
-</li>
-<li>
-<p>Click Create Button</p>
-</li>
-<li>
-<p>Set client ID to "opfab-client" (or whatever)</p>
-</li>
-<li>
-<p>Select Openid-Connect Protocol</p>
-</li>
-<li>
-<p>Click Next</p>
-</li>
-<li>
-<p>Enable client authentication</p>
-</li>
-<li>
-<p>Enable authorization</p>
-</li>
-<li>
-<p>Select Authentication flows: Standard flow, Direct access grants, Implicit flow</p>
-</li>
-<li>
-<p>Click Next</p>
-</li>
-<li>
-<p>Enter Valid redirect URIs : <a href="http://localhost:2002/*" class="bare">localhost:2002/*</a></p>
-</li>
-<li>
-<p>Add Valid redirect URIs : <a href="http://localhost:4200/*" class="bare">localhost:4200/*</a></p>
-</li>
-<li>
-<p>Click Save</p>
-</li>
-<li>
-<p>Remove Web origins settings</p>
-</li>
-<li>
-<p>Click Save</p>
-</li>
-<li>
-<p>Select Client scopes tab</p>
-</li>
-<li>
-<p>Click on opfab-client-dedicated</p>
-</li>
-<li>
-<p>From Mappers tab click Add Mapper</p>
-</li>
-<li>
-<p>Select by configuration</p>
-</li>
-<li>
-<p>Select User Property</p>
-</li>
-<li>
-<p>name it sub</p>
-</li>
-<li>
-<p>set Property to username</p>
-</li>
-<li>
-<p>set Token claim name to sub</p>
-</li>
-<li>
-<p>enable add to access token</p>
-</li>
-<li>
-<p>save</p>
-</li>
-<li>
-<p>From Mappers tab click Add Mapper</p>
-</li>
-<li>
-<p>Select by configuration</p>
-</li>
-<li>
-<p>Select User Attribute</p>
-</li>
-<li>
-<p>name it groups</p>
-</li>
-<li>
-<p>set Property to groups</p>
-</li>
-<li>
-<p>set User attribute to groups</p>
-</li>
-<li>
-<p>set Token claim name to groups</p>
-</li>
-<li>
-<p>enable add to access token</p>
-</li>
-<li>
-<p>save</p>
-</li>
-<li>
-<p>From Mappers tab click Add Mapper</p>
-</li>
-<li>
-<p>Select by configuration</p>
-</li>
-<li>
-<p>Select User Attribute</p>
-</li>
-<li>
-<p>name it groups</p>
-</li>
-<li>
-<p>set Property to entitiesId</p>
-</li>
-<li>
-<p>set User attribute to entitiesId</p>
-</li>
-<li>
-<p>set Token claim name to entitiesId</p>
-</li>
-<li>
-<p>enable add to access token</p>
-</li>
-<li>
-<p>save</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_create_users"><a class="anchor" href="#_create_users"></a>52.3. Create Users</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Click Users in left menu</p>
-</li>
-<li>
-<p>Click Add User button</p>
-</li>
-<li>
-<p>Set username to admin</p>
-</li>
-<li>
-<p>Create</p>
-</li>
-<li>
-<p>Select Credentials tab</p>
-</li>
-<li>
-<p>set password and confirmation to "test"</p>
-</li>
-<li>
-<p>disable Temporary flag</p>
-</li>
-<li>
-<p>Select Attributes tab</p>
-</li>
-<li>
-<p>add groups or entitiesId attributes if needed</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
-<p>repeat process for other users:
-operator3_fr, operator1_fr, operator2_fr, etc ..</p>
-</div>
-<div class="sect3">
-<h4 id="_development_specific_configuration"><a class="anchor" href="#_development_specific_configuration"></a>52.3.1. Development-specific configuration</h4>
-<div class="paragraph">
-<p>To facilitate development, in  the configuration file provided in the git (dev-realms.json) ,session are set to have
-a duration of 10 hours (36000 seconds) and SSL is not required. These parameters should not be used in production.</p>
-</div>
-<div class="paragraph">
-<p>The following parameters are set :
-accessTokenLifespan : 36000
-ssoSessionMaxLifespan : 36000
-accessCodeLifespan" : 36000
-accessCodeLifespanUserAction : 36000
-sslRequired : none</p>
-</div>
-</div>
+<p>To facilitate development, in  the configuration file dev-realms.json, session is set to have
+a duration of 10 hours (36000 seconds).</p>
 </div>
 </div>
 </div>
