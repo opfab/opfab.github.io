@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">25 September 2025</span>
+<span id="revdate">26 September 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -997,7 +997,28 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_archives_screen_in_the_ui">26.2. Archives screen in the UI</a></li>
 </ul>
 </li>
-<li><a href="#geomap">27. Geographical map</a></li>
+<li><a href="#geomap">27. Geographical map</a>
+<ul class="sectlevel2">
+<li><a href="#_map_projections">27.1. Map Projections</a>
+<ul class="sectlevel3">
+<li><a href="#_layer_properties">27.1.1. Layer Properties</a>
+<ul class="sectlevel4">
+<li><a href="#_common_properties">27.1.1.1. Common Properties</a></li>
+<li><a href="#_arcgis_specific_properties">27.1.1.2. ArcGIS Specific Properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_color_mode_control">27.2. Color Mode Control</a></li>
+<li><a href="#_layer_authentication">27.3. Layer Authentication</a></li>
+<li><a href="#_configuration_examples">27.4. Configuration Examples</a>
+<ul class="sectlevel3">
+<li><a href="#_web_mercator_projection_worldwide">27.4.1. Web Mercator Projection (Worldwide)</a></li>
+<li><a href="#_lambert_93_projection_france">27.4.2. Lambert 93 Projection (France)</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_process_monitoring">28. Process monitoring</a></li>
 <li><a href="#users_management">29. User management</a>
 <ul class="sectlevel2">
@@ -3913,7 +3934,7 @@ Grouping cards is an experimental feature
 <p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
 </div>
 <div class="paragraph">
-<p>When <code>feed.enableMap</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn. When the card has set its wktGeometry, the location will be highlighted on the card. Two geometrical shapes are supported <code>POINT</code>, which will show a circle on the map, and <code>POLYGON</code> which will draw the specified area on the map.  For example show a circle based on the card location:</p>
+<p>When <code>feed.geomap.enableMap</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn. When the card has set its wktGeometry, the location will be highlighted on the card. Two geometrical shapes are supported <code>POINT</code>, which will show a circle on the map, and <code>POLYGON</code> which will draw the specified area on the map.  For example show a circle based on the card location:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -8637,10 +8658,13 @@ can see all archives for which he has the right to receive it, whether he is par
 <p>The geographical map is a feature that allows you to display the geographical location of cards on a map on the feed screen.</p>
 </div>
 <div class="paragraph">
-<p>To activate the geographical map feature, set the <code>feed.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
+<p>To activate the geographical map feature, set the <code>feed.geomap.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
 </div>
 <div class="paragraph">
 <p>The geographical location of the cards is determined by the <code>wktGeometry</code> and <code>wktProjection</code> fields in the card&#8217;s metadata. If a card has a defined <code>wktGeometry</code>, its location will be highlighted on the card. The system supports two geometrical shapes: <code>POINT</code> and <code>POLYGON</code>. A <code>POINT</code> will display as a circle on the map, while a <code>POLYGON</code> will outline the specified area.</p>
+</div>
+<div class="paragraph">
+<p>The <code>wktProjection</code> field specifies the coordinate reference system of the WKT geometry. If not specified, the system uses the <code>defaultDataProjection</code> configuration parameter (default: EPSG:4326). The geometry is automatically transformed to match the map&#8217;s projection.</p>
 </div>
 <div class="paragraph">
 <p>For instance, to display a circle at a specific location, use:</p>
@@ -8667,6 +8691,27 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <div class="paragraph">
 <p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file.</p>
 </div>
+<div class="sect2">
+<h3 id="_map_projections"><a class="anchor" href="#_map_projections"></a>27.1. Map Projections</h3>
+<div class="paragraph">
+<p>The geographical map supports different coordinate reference systems (projections):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>EPSG:3857</code> (Web Mercator) - Default projection, suitable for worldwide mapping</p>
+</li>
+<li>
+<p><code>EPSG:2154</code> (Lambert 93) - French national projection, optimized for France</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The map projection can be configured using the <code>feed.geomap.mapProjection</code> parameter. Initial coordinates (<code>initialLongitude</code> and <code>initialLatitude</code>) can be specified either in WGS84 (EPSG:4326) or in the target projection - the system automatically detects the format and transforms them if necessary.</p>
+</div>
+<div class="paragraph">
+<p>For Lambert 93 projection, the system includes automatic extent constraint to avoid 404 errors on tiles outside the valid area for France (including Corsica). This can be controlled using the <code>feed.geomap.constrainLambert93Extent</code> parameter.</p>
+</div>
 <div class="paragraph">
 <p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> parameter. The following types are supported:</p>
 </div>
@@ -8676,13 +8721,273 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <p><code>osm</code> for OpenStreetMap tiles</p>
 </li>
 <li>
-<p><code>geojson</code> for GeoJSON layers.</p>
+<p><code>geojson</code> for GeoJSON layers</p>
 </li>
 <li>
-<p><code>xyz</code> for XYZ tiles.</p>
+<p><code>xyz</code> for XYZ tiles</p>
 </li>
 <li>
-<p><code>wmts</code> for WMTS layers.</p>
+<p><code>wmts</code> for WMTS layers</p>
+</li>
+<li>
+<p><code>arcgis</code> or <code>esri</code> for ArcGIS REST Map Service layers</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All layer types support <code>opacity</code> (transparency from 0 to 1) and <code>zIndex</code> (stacking order) properties for advanced layer management.</p>
+</div>
+<div class="sect3">
+<h4 id="_layer_properties"><a class="anchor" href="#_layer_properties"></a>27.1.1. Layer Properties</h4>
+<div class="sect4">
+<h5 id="_common_properties"><a class="anchor" href="#_common_properties"></a>27.1.1.1. Common Properties</h5>
+<div class="paragraph">
+<p>All layer types support these properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>opacity</code>: Transparency level from 0.0 (transparent) to 1.0 (opaque). Default: 1.0</p>
+</li>
+<li>
+<p><code>zIndex</code>: Stacking order (higher values appear on top). Default: 0</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_arcgis_specific_properties"><a class="anchor" href="#_arcgis_specific_properties"></a>27.1.1.2. ArcGIS Specific Properties</h5>
+<div class="paragraph">
+<p>ArcGIS layers support additional parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>transparent</code>: Boolean parameter sent to ArcGIS server requesting transparent background</p>
+</li>
+<li>
+<p><code>layers</code>: Comma-separated list of layer IDs to display (e.g., "0,1,2")</p>
+</li>
+<li>
+<p><code>format</code>: Image format requested from server (e.g., "png", "jpg")</p>
+</li>
+<li>
+<p><code>ratio</code>: Device pixel ratio (default: 1, overrides OpenLayers' default of 1.5 for consistent performance)</p>
+</li>
+<li>
+<p><code>visible</code>: Initial layer visibility (default: true)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Example ArcGIS configuration:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;type&quot;: &quot;arcgis&quot;,
+  &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+  &quot;transparent&quot;: true,
+  &quot;opacity&quot;: 0.8,
+  &quot;layers&quot;: &quot;0,1,2&quot;,
+  &quot;format&quot;: &quot;png&quot;,
+  &quot;ratio&quot;: 1,
+  &quot;visible&quot;: true,
+  &quot;zIndex&quot;: 3
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_color_mode_control"><a class="anchor" href="#_color_mode_control"></a>27.2. Color Mode Control</h3>
+<div class="paragraph">
+<p>The map appearance can be controlled using the <code>colorMode</code> parameter with three possible values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>"dark"</code>: Always apply dark mode (CSS inversion filter applied)</p>
+</li>
+<li>
+<p><code>"light"</code>: Always apply light mode (no CSS filter applied)</p>
+</li>
+<li>
+<p><code>"uiTheme"</code> (default): Automatically follow the application&#8217;s day/night theme</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      // ... other configuration
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is useful when you want the map to remain in a specific color mode regardless of the OpFab interface theme. The <code>"dark"</code> value applies CSS inversion filter while <code>"light"</code> ensures no filter is applied.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_layer_authentication"><a class="anchor" href="#_layer_authentication"></a>27.3. Layer Authentication</h3>
+<div class="paragraph">
+<p>OpFab requests map layers with anonymous cross-origin mode by default.</p>
+</div>
+<div class="paragraph">
+<p><strong>Recommended approach</strong>: Use a reverse proxy (nginx) for all external services to avoid CORS errors and handle authentication, caching, and rate limiting.</p>
+</div>
+<div class="paragraph">
+<p><strong>For public layers</strong>: Configure the proxy to forward requests without authentication headers.</p>
+</div>
+<div class="paragraph">
+<p><strong>For secured layers</strong>: Configure the proxy to add authentication headers (API keys, tokens, certificates) before forwarding requests.</p>
+</div>
+<div class="paragraph">
+<p>Then configure OpFab to use your proxy URLs instead of external service URLs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_examples"><a class="anchor" href="#_configuration_examples"></a>27.4. Configuration Examples</h3>
+<div class="sect3">
+<h4 id="_web_mercator_projection_worldwide"><a class="anchor" href="#_web_mercator_projection_worldwide"></a>27.4.1. Web Mercator Projection (Worldwide)</h4>
+<div class="paragraph">
+<p>Here&#8217;s a complete example configuration using Web Mercator projection with all supported layer types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;enableMap&quot;: true,
+      &quot;mapProjection&quot;: &quot;EPSG:3857&quot;,
+      &quot;defaultDataProjection&quot;: &quot;EPSG:4326&quot;,
+      &quot;initialLongitude&quot;: 2.4408,
+      &quot;initialLatitude&quot;: 46.7211,
+      &quot;initialZoom&quot;: 6,
+      &quot;maxZoom&quot;: 18,
+      &quot;zoomLevelWhenZoomToLocation&quot;: 14,
+      &quot;zoomDuration&quot;: 500,
+      &quot;highlightPolygonStrokeWidth&quot;: 20,
+      &quot;popupContent&quot;: &quot;summary&quot;,
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      &quot;layers&quot;: [
+        {
+          &quot;type&quot;: &quot;osm&quot;,
+          &quot;zIndex&quot;: 0
+        },
+        {
+          &quot;type&quot;: &quot;xyz&quot;,
+          &quot;url&quot;: &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+          &quot;zIndex&quot;: 1
+        },
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+          &quot;matrixSet&quot;: &quot;PM_0_19&quot;,
+          &quot;opacity&quot;: 0.7,
+          &quot;zIndex&quot;: 2
+        },
+        {
+          &quot;type&quot;: &quot;arcgis&quot;,
+          &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+          &quot;transparent&quot;: true,
+          &quot;opacity&quot;: 0.8,
+          &quot;zIndex&quot;: 3
+        },
+        {
+          &quot;type&quot;: &quot;geojson&quot;,
+          &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+          &quot;style&quot;: {
+            &quot;stroke-color&quot;: &quot;red&quot;
+          },
+          &quot;zIndex&quot;: 4
+        },
+        {
+          &quot;type&quot;: &quot;geojson&quot;,
+          &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;,
+          &quot;zIndex&quot;: 5
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lambert_93_projection_france"><a class="anchor" href="#_lambert_93_projection_france"></a>27.4.2. Lambert 93 Projection (France)</h4>
+<div class="paragraph">
+<p>Here&#8217;s an example configuration optimized for France using Lambert 93 projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;enableMap&quot;: true,
+      &quot;mapProjection&quot;: &quot;EPSG:2154&quot;,
+      &quot;defaultDataProjection&quot;: &quot;EPSG:2154&quot;,
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      &quot;initialLongitude&quot;: 651966,
+      &quot;initialLatitude&quot;: 6862314,
+      &quot;initialZoom&quot;: 4,
+      &quot;maxZoom&quot;: 8,
+      &quot;zoomLevelWhenZoomToLocation&quot;: 6,
+      &quot;zoomDuration&quot;: 500,
+      &quot;highlightPolygonStrokeWidth&quot;: 20,
+      &quot;popupContent&quot;: &quot;summary&quot;,
+      &quot;layers&quot;: [
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+          &quot;matrixSet&quot;: &quot;2154_16&quot;,
+          &quot;opacity&quot;: 0.7,
+          &quot;zIndex&quot;: 1
+        },
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+          &quot;matrixSet&quot;: &quot;2154_16&quot;,
+          &quot;opacity&quot;: 1,
+          &quot;zIndex&quot;: 2
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Important notes for Lambert 93:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use lower zoom levels: <code>initialZoom: 2</code> for France overview, <code>maxZoom: 12</code> is usually sufficient</p>
+</li>
+<li>
+<p>Coordinates can be provided in Lambert 93 format (large numbers) or WGS84 (auto-detected)</p>
+</li>
+<li>
+<p>The extent automatically includes Corsica</p>
+</li>
+<li>
+<p>Constraint to France territory is enabled by default (<code>constrainLambert93Extent: true</code>)</p>
+</li>
+<li>
+<p>Layer validation is performed automatically with detailed error logging for invalid configurations</p>
 </li>
 </ul>
 </div>
@@ -8690,6 +8995,8 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <p>Refer to the
 <a href="#ui_properties_geomap">geomap web-ui configuration</a>
 section for more information and additional customization options.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -12116,7 +12423,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.enableGroupedCards</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -12501,16 +12808,16 @@ For example:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableMap</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.darkMode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.colorMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uiTheme</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Active a filter for dark mode (if false dark mode and light have the same colors).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Controls <strong>how/if</strong> the night filter is applied. <code>"dark"</code> = always dark (apply filter), <code>"light"</code> = always light (no filter), <code>"uiTheme"</code> = follows application theme.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableGraph</p></td>
@@ -12543,6 +12850,12 @@ For example:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.mapProjection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:3857</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The map projection to use for displaying the map. Supported values: <code>EPSG:3857</code> (Web Mercator, default) and <code>EPSG:2154</code> (Lambert 93 for France). Initial coordinates (<code>initialLongitude</code>/<code>initialLatitude</code>) may be given in WGS84 (EPSG:4326) or in the target projection; the system auto‑detects the format.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -12561,75 +12874,272 @@ For example:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomToLocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomLevelWhenZoomToLocation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Zoom level when zooming to a location of a selected card.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.constrainLambert93Extent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Applies only when mapProjection is <code>EPSG:2154</code> (Lambert 93). Constrains the map extent to the valid area for France (including Corsica) to avoid 404s outside provider coverage.</p></td>
+</tr>
 </tbody>
 </table>
+<div class="sect5">
+<h6 id="_color_mode_parameter"><a class="anchor" href="#_color_mode_parameter"></a>Color Mode Parameter</h6>
 <div class="paragraph">
-<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type. The following layer types are supported:</p>
+<p>The map appearance is controlled by a single parameter under <code>feed.geomap</code>:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required.</p>
-</li>
-<li>
-<p><code>geojson</code>: GeoJSON layers. Requires a <code>url</code> for the GeoJSON file and optionally a <code>style</code> object for feature styling. The <code>style</code> object supports stroke, fill, image, and text styles as defined in the OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>).</p>
-</li>
-<li>
-<p><code>xyz</code>: XYZ tiles. Requires a <code>url</code> endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png"). You may also specify:</p>
+<p><strong><code>colorMode</code></strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>tileSize</code>: Integer value (e.g., 256). Required for custom background layers.</p>
+<p><code>"dark"</code>: Always apply dark mode (CSS inversion filter applied)</p>
 </li>
 <li>
-<p><code>crossOrigin</code>: Optional. Default is <code>null</code>.</p>
+<p><code>"light"</code>: Always apply light mode (no CSS filter applied)</p>
+</li>
+<li>
+<p><code>"uiTheme"</code> (default): Automatically follow the application&#8217;s day/night theme</p>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>. You may also specify <code>useCredentialsForCapabilities</code> to <code>true</code> if capabilities retrieval requires authentication.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Example configuration for the <code>feed.geomap.layers</code> property:</p>
+<p><strong>Examples:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>&quot;layers&quot;: [
-                {
-                    &quot;type&quot;:&quot;osm&quot;
-                },
-                {
-                    &quot;type&quot;:&quot;wmts&quot;,
-                    &quot;capabilitiesUrl&quot;:&quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
-                    &quot;layer&quot;:&quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
-                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;,
-                    &quot;useCredentialsForCapabilities&quot;: false
-                },
-                {
-                    &quot;type&quot;: &quot;geojson&quot;,
-                    &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
-                    &quot;style&quot;: {
-                        &quot;stroke-color&quot;: &quot;red&quot;
-                    }
-                },
-                {
-                    &quot;type&quot;: &quot;geojson&quot;,
-                    &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;
-                }
+<pre class="CodeRay highlight"><code data-lang="jsonc">// Always follows application theme (default)
+&quot;colorMode&quot;: &quot;uiTheme&quot;
 
-            ]</code></pre>
+// Always dark map with inverted tiles
+&quot;colorMode&quot;: &quot;dark&quot;
+
+// Always light map without filter
+&quot;colorMode&quot;: &quot;light&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>"dark"</code> value applies CSS inversion filter while <code>"light"</code> ensures no filter is applied, regardless of the application theme.</p>
+</div>
+<div class="paragraph">
+<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_common_layer_properties"><a class="anchor" href="#_common_layer_properties"></a>Common Layer Properties</h6>
+<div class="paragraph">
+<p>All layer types support the following optional properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>opacity</code>: Number between 0 and 1 (default: 1). Controls layer transparency.</p>
+</li>
+<li>
+<p><code>zIndex</code>: Integer between 0 to 1999 (default: 0). Controls layer stacking order. Higher values appear on top.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_layer_types"><a class="anchor" href="#_layer_types"></a>Layer Types</h6>
+<div class="ulist">
+<ul>
+<li>
+<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required beyond common properties.</p>
+</li>
+<li>
+<p><code>geojson</code>: GeoJSON layers. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>url</code>: URL to the GeoJSON file</p>
+</li>
+<li>
+<p><code>style</code>: Optional styling object using OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>xyz</code>: XYZ tiles. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>url</code>: Endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png")</p>
+</li>
+<li>
+<p><code>tileSize</code>: Optional integer (default server is often 256). Set only if the provider uses a non‑default tile size.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>wmts</code>: WMTS layers. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>capabilitiesUrl</code>: URL to WMTS capabilities document</p>
+</li>
+<li>
+<p><code>layer</code>: Layer identifier from capabilities</p>
+</li>
+<li>
+<p><code>matrixSet</code>: Matrix set identifier from capabilities. The matrixSet must match your <code>mapProjection</code> — e.g., a <code>2154_*</code> set for <code>EPSG:2154</code>.
+(Ensure the provider allows client access and CORS; some services require API keys or specific referers.)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>arcgis</code> or <code>esri</code>: ArcGIS REST Map Service layers. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>url</code>: ArcGIS REST service endpoint URL</p>
+</li>
+<li>
+<p><code>layers</code>: Optional string specifying which layers to show (e.g., "0,1,2")</p>
+</li>
+<li>
+<p><code>format</code>: Optional image format (default: "png")</p>
+</li>
+<li>
+<p><code>transparent</code>: Optional boolean (default: true)</p>
+</li>
+<li>
+<p><code>ratio</code>: Optional number (default: 1). Device pixel ratio</p>
+</li>
+<li>
+<p><code>visible</code>: Optional boolean (default: true). Initial visibility
+(ArcGIS services may enforce usage limits, API keys, or CORS restrictions; check provider terms.)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_example_configurations"><a class="anchor" href="#_example_configurations"></a>Example Configurations</h6>
+<div class="sect6">
+<h7 id="_web_mercator_projection_standard"><a class="anchor" href="#_web_mercator_projection_standard"></a>Web Mercator Projection (Standard)</h7>
+<div class="paragraph">
+<p>Example configuration for the <code>feed.geomap.layers</code> property with all supported layer types using Web Mercator projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">&quot;geomap&quot;: {
+  &quot;enableMap&quot;: true,
+  &quot;mapProjection&quot;: &quot;EPSG:3857&quot;,
+  &quot;defaultDataProjection&quot;: &quot;EPSG:4326&quot;,
+  &quot;initialLongitude&quot;: 2.4408,
+  &quot;initialLatitude&quot;: 46.7211,
+  &quot;initialZoom&quot;: 6,
+  &quot;maxZoom&quot;: 18,
+  &quot;zoomLevelWhenZoomToLocation&quot;: 14,
+  &quot;zoomDuration&quot;: 500,
+  &quot;highlightPolygonStrokeWidth&quot;: 20,
+  &quot;popupContent&quot;: &quot;summary&quot;,
+  &quot;colorMode&quot;: &quot;uiTheme&quot;,
+  &quot;layers&quot;: [
+    {
+      &quot;type&quot;: &quot;osm&quot;,
+      &quot;zIndex&quot;: 0
+    },
+    {
+      &quot;type&quot;: &quot;xyz&quot;,
+      &quot;url&quot;: &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+      &quot;zIndex&quot;: 1
+    },
+    {
+      &quot;type&quot;: &quot;wmts&quot;,
+      &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+      &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+      &quot;matrixSet&quot;: &quot;PM_0_19&quot;,
+      &quot;opacity&quot;: 0.7,
+      &quot;zIndex&quot;: 2
+    },
+    {
+      &quot;type&quot;: &quot;arcgis&quot;,
+      &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+      &quot;transparent&quot;: true,
+      &quot;opacity&quot;: 0.8,
+      &quot;zIndex&quot;: 3
+    },
+    {
+      &quot;type&quot;: &quot;geojson&quot;,
+      &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+      &quot;style&quot;: {
+        &quot;stroke-color&quot;: &quot;red&quot;
+      },
+      &quot;zIndex&quot;: 4
+    },
+    {
+      &quot;type&quot;: &quot;geojson&quot;,
+      &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;,
+      &quot;zIndex&quot;: 5
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_lambert_93_projection_france_2"><a class="anchor" href="#_lambert_93_projection_france_2"></a>Lambert 93 Projection (France)</h7>
+<div class="paragraph">
+<p>Example configuration optimized for France using Lambert 93 projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">&quot;geomap&quot;: {
+  &quot;enableMap&quot;: true,
+  &quot;mapProjection&quot;: &quot;EPSG:2154&quot;,
+  &quot;defaultDataProjection&quot;: &quot;EPSG:2154&quot;,
+  &quot;constrainLambert93Extent&quot;: true,
+  &quot;colorMode&quot;: &quot;uiTheme&quot;,
+  &quot;initialLongitude&quot;: 651966,
+  &quot;initialLatitude&quot;: 6862314,
+  &quot;initialZoom&quot;: 4,
+  &quot;maxZoom&quot;: 8,
+  &quot;zoomLevelWhenZoomToLocation&quot;: 6,
+  &quot;zoomDuration&quot;: 500,
+  &quot;highlightPolygonStrokeWidth&quot;: 20,
+  &quot;popupContent&quot;: &quot;summary&quot;,
+  &quot;layers&quot;: [
+    {
+      &quot;type&quot;: &quot;wmts&quot;,
+      &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+      &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+      &quot;matrixSet&quot;: &quot;2154_16&quot;,
+      &quot;opacity&quot;: 0.7,
+      &quot;zIndex&quot;: 1
+    },
+    {
+      &quot;type&quot;: &quot;wmts&quot;,
+      &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+      &quot;layer&quot;: &quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+      &quot;matrixSet&quot;: &quot;2154_16&quot;,
+      &quot;opacity&quot;: 1,
+      &quot;zIndex&quot;: 2
+    }
+  ]
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The example configuration references a GeoJSON layer from  Open Data GRD (<a href="https://opendata.agenceore.fr" class="bare">opendata.agenceore.fr</a>) and a wmts layer from IGN (<a href="https://geoservices.ign.fr" class="bare">geoservices.ign.fr</a>) both published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
+</div>
+</div>
 </div>
 </div>
 </div>
