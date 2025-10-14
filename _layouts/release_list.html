@@ -5,13 +5,16 @@ layout: default
 <table class="table">
     <tbody>
     {% for version in site.data.versions %}
-    {% assign base_version_path = site.url | append: '/documentation/archives/'| append: version.id %}
+    {% assign base_version_path = '/documentation/archives/'| append: version.id %}
     <tr>
         <th scope="row">{{ version.id }} <span class="badge badge-primary badge-pill">{{ version.badge }}</span></th>
         <!--No point in showing now always empty SNAPSHOT release notes-->
         <!--We could link to the release-notes repo if we decide to make it public later so people can see what is going to be in the release-->
         <td>{% if version.type != "SNAPSHOT" %}<a href="https://github.com/opfab/operatorfabric-core/releases/tag/{{ version.id }}">Release Notes</a>{% endif %}</td>
         <td><a href="{{ base_version_path | append: '/docs/single_page_doc.html' }}">Documentation</a></li></td>
+        {%if version.new_api_documentation %}
+        <td colspan="4"><a href="{{ base_version_path | append: '/api/index.html' }}">API</a></td>
+        {% else %}
         <td><a href="{{ base_version_path | append: '/api/cards/index.html' }}">Cards API</a></td>
         <td>
             {% if version.thirds_api %}
@@ -25,6 +28,7 @@ layout: default
             {% if version.actions_api %}<a href="{{ base_version_path | append: '/api/actions/index.html' }}">Actions API</a>{% endif %}
             {% if version.external_devices_api %}<a href="{{ base_version_path | append: '/api/external-devices/index.html' }}">External Devices API</a>{% endif %}
         </td>
+        {% endif %}
     </tr>
     {% endfor %}
     </tbody>
