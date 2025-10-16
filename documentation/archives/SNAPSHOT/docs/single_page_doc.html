@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">14 October 2025</span>
+<span id="revdate">16 October 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -811,9 +811,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_email_templates">20.3. Email templates</a>
 <ul class="sectlevel3">
 <li><a href="#_rich_text_content">20.3.1. Rich text content</a></li>
-<li><a href="#_custom_handlebars_helpers">20.3.2. Custom Handlebars helpers</a></li>
 </ul>
 </li>
+<li><a href="#_email_attachment_templates">20.4. Email attachment templates</a></li>
 </ul>
 </li>
 <li><a href="#response_cards">21. Response cards</a>
@@ -1276,9 +1276,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#_services">49.2.1. Services</a>
 <ul class="sectlevel4">
-<li><a href="#_common_tasks_for_all_sub_projects">49.2.1.1. Common tasks for all sub-projects</a></li>
-<li><a href="#_businessconfig_service_2">49.2.1.2. Businessconfig Service</a></li>
-<li><a href="#_toolsgeneric">49.2.1.3. tools/generic</a></li>
+<li><a href="#_businessconfig_service_2">49.2.1.1. Businessconfig Service</a></li>
+<li><a href="#_toolsgeneric">49.2.1.2. tools/generic</a></li>
 </ul>
 </li>
 <li><a href="#_client_library">49.2.2. Client Library</a>
@@ -1383,9 +1382,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_response_cards">54.8. Response Cards</a></li>
 </ul>
 </li>
-<li><a href="#_mailhog_smtp_server">55. MailHog SMTP server</a>
+<li><a href="#_greenmail_servers">55. Greenmail servers</a>
 <ul class="sectlevel2">
-<li><a href="#_mailhog_docker_container">55.1. MailHog docker container</a></li>
+<li><a href="#_greenmail_docker_container">55.1. Greenmail Docker Container</a></li>
+<li><a href="#_accessing_greenmail_via_web_interface">55.2. Accessing Greenmail via Web Interface</a></li>
 </ul>
 </li>
 <li><a href="#_dependency_analysis">56. Dependency analysis</a></li>
@@ -6339,8 +6339,46 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>20.3.2. Custom Handlebars helpers</h4>
+</div>
+<div class="sect2">
+<h3 id="_email_attachment_templates"><a class="anchor" href="#_email_attachment_templates"></a>20.4. Email attachment templates</h3>
+<div class="paragraph">
+<p>It is possible to define a handlebars template that will generate an attachment to the email. This feature is only for direct emails and not for recap emails.
+In the configuration of your bundle you need to define the following fields in the state definition :</p>
+</div>
+<div class="paragraph">
+<p>+[source,json]
++----
++{
++  "emailAttachmentTemplate": "email_attachment_template",
++  "emailAttachmentFileName": "chartLineData.xml"
++}
++----</p>
+</div>
+<div class="paragraph">
+<p>If no file name is specified the default value is "attachment".</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of a template to generate an xml attached file containing the data of the card :</p>
+</div>
+<div class="paragraph">
+<p>+[source,xml]
++----
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;document&gt;
+  &lt;process&gt;{{card.process}}&lt;/process&gt;
+  &lt;state&gt;{{card.state}}&lt;/state&gt;
+  &lt;data&gt;
+    &lt;values&gt;
+      {{#each card.data.values}}
+      &lt;value&gt;{{this}}&lt;/value&gt;
+      {{/each}}
+    &lt;/values&gt;
+    &lt;keywords&gt;{{card.data.keywords}}&lt;/keywords&gt;
+  &lt;/data&gt;
+&lt;/document&gt;
++----=== Custom Handlebars helpers</p>
+</div>
 <div class="paragraph">
 <p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
 </div>
@@ -6382,7 +6420,6 @@ helpers = [example_severityColor];</code></pre>
 <pre class="CodeRay highlight"><code>cardsExternalDiffusion:
     adminPort: 2106
     customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -14822,14 +14859,39 @@ This auto-referencing triggers a cycle detection.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Rabbitmq api port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1025</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog SMTP port (for testing only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail SMTP port (for testing only)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8025</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MailHog web UI and API http (REST) (for testing only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3110</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail POP3 port (for testing only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3143</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail IMAP port (for testing only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3465</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail SMTPS port (for testing only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3993</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail IMAPS port (for testing only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3995</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail POP3S port (for testing only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Greenmail API http (REST) (for testing only)</p></td>
 </tr>
 </tbody>
 </table>
@@ -15649,27 +15711,7 @@ to gradle and plugins official documentation.</p>
 <div class="sect3">
 <h4 id="_services"><a class="anchor" href="#_services"></a>49.2.1. Services</h4>
 <div class="sect4">
-<h5 id="_common_tasks_for_all_sub_projects"><a class="anchor" href="#_common_tasks_for_all_sub_projects"></a>49.2.1.1. Common tasks for all sub-projects</h5>
-<div class="ulist">
-<ul>
-<li>
-<p>Test tasks</p>
-</li>
-<li>
-<p>Other:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>copyDependencies: copy dependencies to build/support_libs (for Sonar)</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_businessconfig_service_2"><a class="anchor" href="#_businessconfig_service_2"></a>49.2.1.2. Businessconfig Service</h5>
+<h5 id="_businessconfig_service_2"><a class="anchor" href="#_businessconfig_service_2"></a>49.2.1.1. Businessconfig Service</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -15708,7 +15750,7 @@ catching lombok that must be sent for sonarqube</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>49.2.1.3. tools/generic</h5>
+<h5 id="_toolsgeneric"><a class="anchor" href="#_toolsgeneric"></a>49.2.1.2. tools/generic</h5>
 <div class="ulist">
 <ul>
 <li>
@@ -16969,34 +17011,41 @@ section from the cards-publication.yml file:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_mailhog_smtp_server"><a class="anchor" href="#_mailhog_smtp_server"></a>55. MailHog SMTP server</h2>
+<h2 id="_greenmail_servers"><a class="anchor" href="#_greenmail_servers"></a>55. Greenmail servers</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>MailHog is an SMTP mail server suitable for testing.
-Opfab uses MailHog to test mail notification service.
-MailHog allows to view sent messages in the web UI, or retrieve them with the JSON API.</p>
+<p>Greenmail is an open source test suite of email servers designed for testing purposes.
+OperatorFabric uses Greenmail to test its mail notification service, enabling automated retrieval and inspection of sent messages via a JSON API.</p>
 </div>
 <div class="sect2">
-<h3 id="_mailhog_docker_container"><a class="anchor" href="#_mailhog_docker_container"></a>55.1. MailHog docker container</h3>
+<h3 id="_greenmail_docker_container"><a class="anchor" href="#_greenmail_docker_container"></a>55.1. Greenmail Docker Container</h3>
 <div class="paragraph">
-<p>A MailHog docker container is configured in Opfab docker-compose.yaml:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml">  <span class="key">mailhog</span>:
-    <span class="key">image</span>: <span class="string"><span class="content">mailhog/mailhog:v1.0.1</span></span>
-    <span class="key">ports</span>:
-      - <span class="string"><span class="content">1025:1025</span></span>
-      - <span class="string"><span class="content">8025:8025</span></span></code></pre>
-</div>
+<p>A Greenmail Docker container is configured in the Opfab <code>docker-compose.yaml</code> file.</p>
 </div>
 <div class="paragraph">
-<p>The container exposes port 1025 for SMTP protocol and port 8025 for web UI and HTTP REST API.
-Mailhog web interface is accesible at <code><a href="http://localhost:8025" class="bare">localhost:8025</a></code>.
-Mailhog REST API allows to list, retrieve and delete messages.</p>
+<p>The container exposes:
+- Port <code>3025</code> for the SMTP protocol (sending emails)
+- Port <code>8080</code> for the HTTP REST API (managing and retrieving messages)</p>
 </div>
 <div class="paragraph">
-<p>For example, to retrieve the list of received messages, send an http GET request to: <code><a href="http://localhost:8025/api/v2/messages" class="bare">localhost:8025/api/v2/messages</a></code></p>
+<p>Greenmail&#8217;s REST API supports listing, retrieving, and deleting messages.</p>
+</div>
+<div class="paragraph">
+<p>To retrieve the list of received messages for a specific user, send an HTTP GET request to:
+<code><a href="http://localhost:8080/api/user/{user}/messages/" class="bare">localhost:8080/api/user/{user}/messages/</a></code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessing_greenmail_via_web_interface"><a class="anchor" href="#_accessing_greenmail_via_web_interface"></a>55.2. Accessing Greenmail via Web Interface</h3>
+<div class="paragraph">
+<p>You can use a web interface to interact with Greenmail&#8217;s REST API. Run the script <code>bin/startEmailClient.sh</code> to start a mail client container, which connects to the Greenmail container and exposes a web interface on port <code>8000</code>.</p>
+</div>
+<div class="paragraph">
+<p>To access a user&#8217;s mailbox, you must first create the user in Greenmail using the REST API:
+<code><a href="http://localhost:8080/#post-/api/user" class="bare">localhost:8080/#post-/api/user</a></code></p>
+</div>
+<div class="paragraph">
+<p>Refer to the Greenmail REST API documentation (<a href="http://localhost:8080/#" class="bare">localhost:8080/#</a>) for details on available endpoints and usage.</p>
 </div>
 </div>
 </div>
