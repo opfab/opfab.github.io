@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">19 October 2025</span>
+<span id="revdate">21 October 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1235,7 +1235,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_log_into_the_ui">45.6. Log into the UI</a></li>
 <li><a href="#_push_cards_to_the_feed">45.7. Push cards to the feed</a></li>
-<li><a href="#_enabling_local_quality_report_generation">45.8. Enabling local quality report generation</a></li>
 </ul>
 </li>
 <li><a href="#_user_interface">46. User Interface</a>
@@ -4392,7 +4391,7 @@ The way details are formatted depends on the template contained in the bundle as
 <a href="#template_description">described here</a>
 . To have an effective example without too many actions to perform, the following example will use an already existing
 configuration. You can find the corresponding bundle of the following example in the test directory of OperatorFabric
-(src/test/resources/bundles).</p>
+(tests/resources/bundles).</p>
 </div>
 <div class="paragraph">
 <p>At the card level, the attributes in the card telling OperatorFabric which template to use are the <code>process</code> and <code>state</code>
@@ -5552,7 +5551,7 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 <p>OperatorFabric defines several css classes that you should use so your templates don&#8217;t clash with the rest of the OperatorFabric look and feel. These styles are especially useful for templates used in user card or card with responses.</p>
 </div>
 <div class="paragraph">
-<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles">src/test/resources/bundles</a>).</p>
+<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles">tests/resources/bundles</a>).</p>
 </div>
 <div class="paragraph">
 <p>The following css styles are available.</p>
@@ -5935,7 +5934,7 @@ The tool allows you to convert a rich text formatted using the visual editor int
 <div class="sect3">
 <h4 id="_charts"><a class="anchor" href="#_charts"></a>18.2.7. Charts</h4>
 <div class="paragraph">
-<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
+<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/defaultProcess_V1">tests/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
 <div class="paragraph">
 <p>The version of chartjs integrated in OperatorFabric is v3.7.1.</p>
@@ -6049,7 +6048,7 @@ the response is disabled for the user</p>
 <p>When the user acknowledges a card, the card detail is closed unless process state configuration has the <code>closeCardWhenUserAcknowledges</code> field set to false.</p>
 </div>
 <div class="paragraph">
-<p>You can see examples in src/test/resources/bundles/defaultProcess_V1/config.json</p>
+<p>You can see examples in tests/resources/bundles/defaultProcess_V1/config.json</p>
 </div>
 </div>
 <div class="sect3">
@@ -6592,10 +6591,40 @@ In addition, if the user choses the refusal option, it overrides the response st
 state. It is also possible to dynamically set the severity of the response with a logic from the template. Here the severity of the response depends on the number of choices selected by the user.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
+<div class="title">tests/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="js">Unresolved directive <span class="keyword">in</span> ..<span class="regexp"><span class="delimiter">/</span><span class="content">reference_doc</span><span class="delimiter">/</span></span>response_cards.adoc - include::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">test</span><span class="delimiter">/</span></span>resources/bundles/defaultProcess_V1/template/question.handlebars[tag=functionToGetUserResponse_example]
-Unresolved directive <span class="keyword">in</span> ..<span class="regexp"><span class="delimiter">/</span><span class="content">reference_doc</span><span class="delimiter">/</span></span>response_cards.adoc - include::..<span class="regexp"><span class="delimiter">/</span><span class="content">..</span><span class="delimiter">/</span></span>..<span class="regexp"><span class="delimiter">/</span><span class="content">test</span><span class="delimiter">/</span></span>resources/bundles/defaultProcess_V1/template/question.handlebars[tag=opfab.currentCard.registerFunctionToGetUserResponse_example]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="js">    <span class="keyword">function</span> <span class="function">fetchResponseCardData</span>() {
+
+        const answer = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">opfab-toggle</span><span class="delimiter">'</span></span>).checked;
+        let reason = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="comment">// answer = true means refusal in the toggle</span>
+        <span class="keyword">if</span> (answer) {
+            reason = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#answer-select</span><span class="delimiter">'</span></span>).value;
+        }
+
+        const comment = document.getElementById(<span class="string"><span class="delimiter">'</span><span class="content">comment</span><span class="delimiter">'</span></span>).value;
+
+        const result = {
+            <span class="key">valid</span>: <span class="predefined-constant">true</span>,
+            <span class="key">responseCard</span>:{
+                <span class="key">data</span>: {
+                <span class="key">propositionRefused</span>: answer,
+                <span class="key">reason</span>: reason, 
+                <span class="key">comment</span>: comment
+                }
+            } 
+        };
+
+        <span class="comment">// If the user chooses to answer no, we decide to move the process to a specific state, for example to ask a follow-up question (what's their preferred option).</span>
+        <span class="keyword">if</span> (answer){
+            result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">state</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">'</span><span class="content">refuseResponseState</span><span class="delimiter">'</span></span>;
+            result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">ALARM</span><span class="delimiter">&quot;</span></span>
+        }  <span class="keyword">else</span> {
+            result.responseCard[<span class="string"><span class="delimiter">'</span><span class="content">severity</span><span class="delimiter">'</span></span>] = <span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLIANT</span><span class="delimiter">&quot;</span></span>
+        }
+        <span class="keyword">return</span> result
+    }
+            opfab.currentCard.registerFunctionToGetUserResponse(fetchResponseCardData);</code></pre>
 </div>
 </div>
 </div>
@@ -6736,7 +6765,7 @@ field of the child card and then you  can get the name of the entity by calling 
 <div class="sect3">
 <h4 id="_example"><a class="anchor" href="#_example"></a>21.3.2. Example</h4>
 <div class="paragraph">
-<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
+<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/defaultProcess_V1/template/question.handlebars">tests/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -6873,7 +6902,7 @@ with the value of the field <code>message</code> from the card&#8217;s data.</p>
 </div>
 <div class="paragraph">
 <p>To have a better understanding of this feature, we encourage you to have a look at the examples in the OperatorFabric
-core repository under (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/conferenceAndITIncidentExample">src/test/resources/bundles/conferenceAndITIncidentExample</a>).</p>
+core repository under (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/conferenceAndITIncidentExample">tests/resources/bundles/conferenceAndITIncidentExample</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -6956,7 +6985,7 @@ for more information).</p>
 <div class="paragraph">
 <p>If you want the card to be visible in the calendar feature, you need to set 'timeSpans' field (as array of TimeSpans objects) in the object returned by the method.
 You can find an example in the file:
-<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/taskExample/template/usercard_task.handlebars">src/test/resources/bundles/taskExample/template/usercard_task.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/taskExample/template/usercard_task.handlebars">tests/resources/bundles/taskExample/template/usercard_task.handlebars</a>.</p>
 </div>
 <div class="paragraph">
 <p>If not using 'timeSpans' it&#8217;s possible to set the 'viewCardInCalendar' field to true, the card will be visible using card&#8217;s startDate and endDate as default timeSpan.</p>
@@ -7428,7 +7457,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect2">
 <h3 id="_calling_a_resource"><a class="anchor" href="#_calling_a_resource"></a>24.2. Calling a resource</h3>
 <div class="paragraph">
-<p>Once a resource has been stored, it is possible to call it from the template of a card. See in this template (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/conferenceAndITIncidentExample/template/usercard_incidentInProgress.handlebars">usercard_incidentInProgress.handlebars</a>) how the resource <code>services</code> is called with the method <code>opfab.businessconfig.businessData.get()</code></p>
+<p>Once a resource has been stored, it is possible to call it from the template of a card. See in this template (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/conferenceAndITIncidentExample/template/usercard_incidentInProgress.handlebars">usercard_incidentInProgress.handlebars</a>) how the resource <code>services</code> is called with the method <code>opfab.businessconfig.businessData.get()</code></p>
 </div>
 <div class="paragraph">
 <p>This prevents writing directly in the template&#8217;s code long lists and allows easy data duplication between templates.</p>
@@ -7769,7 +7798,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="paragraph">
 <p>The template can know if the current user has the permission to send a response to the current card by calling the isUserAllowedToRespond() function.
 An example of usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars">src/test/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars">tests/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -7781,7 +7810,7 @@ An example of usage can be found in the file
 <h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>25.5.12. Function isUserMemberOfAnEntityRequiredToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user is a member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
-An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
+An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources/bundles/defaultProcess_V1/template/question.handlebars">tests/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -10981,7 +11010,7 @@ The available css classes are detailed in
 </ul>
 </div>
 <div class="paragraph">
-<p>Your can find an example of a web page using these resources in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/externalWebAppExample/index.html">src/test/externalWebAppExample/index.html</a>).</p>
+<p>Your can find an example of a web page using these resources in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/externalWebAppExample/index.html">tests/externalWebAppExample/index.html</a>).</p>
 </div>
 <div class="paragraph">
 <p>The example test page can be accessed from OperatorFabric directly at the following url  <code><a href="http://localhost:2002/external/appExample/" class="bare">localhost:2002/external/appExample/</a></code> and also using one of the example business menu entries.</p>
@@ -15127,31 +15156,9 @@ systemProp.https.proxyPassword=PASSWORD</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">./src/test/resources/loadTestConf.sh
-./src/test/resources/send6TestCards.sh</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">./tests/resources/loadTestConf.sh
+./tests/resources/send6TestCards.sh</code></pre>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_enabling_local_quality_report_generation"><a class="anchor" href="#_enabling_local_quality_report_generation"></a>45.8. Enabling local quality report generation</h3>
-<div class="paragraph">
-<p>This step is optional and is generally not needed (only needed if you want a Sonarqube report locally)</p>
-</div>
-<div class="paragraph">
-<p>Sonarqube reporting needs a <code>SonarQube</code> docker container.
-Use the <code>${OF_HOME}/src/main/docker/test-quality-environment/docker-compose.yml</code> to get them all running.</p>
-</div>
-<div class="paragraph">
-<p>To generate the quality report, run the following commands:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd ${OF_HOME}
-./gradlew jacocoTestReport</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To export the reports into the <code>SonarQube</code> docker instance, install and use <a href="https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/">SonarScanner</a>.</p>
 </div>
 </div>
 </div>
@@ -15378,38 +15385,35 @@ tests and demonstrations</p>
 </div>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test">test</a></p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests">tests</a></p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/api">api</a> : karate code for automatic api testing (non-regression tests)</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/api">api</a> : karate code for automatic api testing (non-regression tests)</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/clientApp">clientApp</a> : test application that send card (used to test client lib)</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/clientApp">clientApp</a> : test application that send card (used to test client lib)</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/cypress">cypress</a> : cypress code for automatic ui testing</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/cypress">cypress</a> : cypress code for automatic ui testing</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/dummyModbusDevice">dummyModbusDevice</a> : application emulating a Modbus device for test purposes</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/dummyModbusDevice">dummyModbusDevice</a> : application emulating a Modbus device for test purposes</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/externalApp">externalApp</a> : external test application that received card</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/externalApp">externalApp</a> : external test application that received card</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/externalWebAppExample">externalWebAppExample</a> : example application to show integration of an external application in opfab UI</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/externalWebAppExample">externalWebAppExample</a> : example application to show integration of an external application in opfab UI</p>
 </li>
 <li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/test/resources">resources</a> : scripts and data for manual testing</p>
+<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tests/resources">resources</a> : scripts and data for manual testing</p>
 </li>
 </ul>
 </div>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/tools">tools</a> : code common to every back services</p>
 </li>
 <li>
 <p><a href="https://github.com/opfab/operatorfabric-core/blob/develop/ui">ui</a>: Angular sources for the UI</p>
@@ -15864,12 +15868,12 @@ of your running instance within the <code>karate-config.js</code> file.
 </table>
 </div>
 <div class="paragraph">
-<p>All the scripts and test files are in src/test/api/karate.</p>
+<p>All the scripts and test files are in tests/api/karate.</p>
 </div>
 <div class="sect3">
 <h4 id="_run_a_feature"><a class="anchor" href="#_run_a_feature"></a>49.3.1. Run a feature</h4>
 <div class="paragraph">
-<p>To launch a specific test, launch in src/test/api/karate.</p>
+<p>To launch a specific test, launch in tests/api/karate.</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -15883,7 +15887,7 @@ of your running instance within the <code>karate-config.js</code> file.
 <div class="sect3">
 <h4 id="_non_regression_tests"><a class="anchor" href="#_non_regression_tests"></a>49.3.2. Non regression tests</h4>
 <div class="paragraph">
-<p>You can launch operatorFabric non-regression tests via the script launchAll.sh in src/test/api/karate.</p>
+<p>You can launch operatorFabric non-regression tests via the script launchAll.sh in tests/api/karate.</p>
 </div>
 <div class="paragraph">
 <p>To have the test passed, you need to have a clean Mongo DB database. To do that, you can use the scripts :</p>
@@ -15891,10 +15895,10 @@ of your running instance within the <code>karate-config.js</code> file.
 <div class="ulist">
 <ul>
 <li>
-<p>src/test/resources/deleteAllCards.sh</p>
+<p>tests/resources/deleteAllCards.sh</p>
 </li>
 <li>
-<p>src/test/resources/deleteAllArchivedCards.sh</p>
+<p>tests/resources/deleteAllArchivedCards.sh</p>
 </li>
 </ul>
 </div>
@@ -15924,7 +15928,7 @@ All paths for cd are given assuming you&#8217;re starting from <code>$OF_HOME</c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd src/test/cypress
+<pre class="CodeRay highlight"><code data-lang="bash">cd tests/cypress
 npm install</code></pre>
 </div>
 </div>
@@ -15978,7 +15982,7 @@ before each test or series of test.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd src/test/cypress
+<pre class="CodeRay highlight"><code data-lang="bash">cd tests/cypress
 ./node_modules/.bin/cypress open</code></pre>
 </div>
 </div>
@@ -16020,7 +16024,7 @@ ng serve</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd src/test/cypress
+<pre class="CodeRay highlight"><code data-lang="bash">cd tests/cypress
 ./node_modules/.bin/cypress open --config baseUrl=http://localhost:4200</code></pre>
 </div>
 </div>
@@ -16177,7 +16181,7 @@ time to be changed globally for all steps to the value defined by this property.
 <h3 id="_load_testing_with_gatling"><a class="anchor" href="#_load_testing_with_gatling"></a>49.5. Load testing with Gatling</h3>
 <div class="paragraph">
 <p>Load tests using Gatling are written in java.
-All test java sources are in src/test/gatling/src/java</p>
+All test java sources are in tests/gatling/src/java</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -16210,7 +16214,7 @@ If your OperatorFabric instance is not running on localhost, you need to edit th
 </div>
 </div>
 <div class="paragraph">
-<p>The result will be available in the <code>src/test/gatling/build/reports/gatling/</code> folder.</p>
+<p>The result will be available in the <code>tests/gatling/build/reports/gatling/</code> folder.</p>
 </div>
 </div>
 </div>
@@ -17643,7 +17647,7 @@ of making sure that the configuration documentation is correct and easily unders
 <p>Pull the submitted branch on a testing machine;</p>
 </li>
 <li>
-<p>Run a <code>docker compose</code> with the <code>${OF_HOME}/src/main/docker/test-environment/docker-compose.yml</code> file;</p>
+<p>Run a <code>docker compose</code> with the <code>${OF_HOME}/tests/test-environment/docker-compose.yml</code> file;</p>
 </li>
 <li>
 <p>Create <code>SNAPSHOT</code> docker images, from the <code>${OF_HOME}</code> directory with the following command: <code>./gradlew clean buildDocker</code>;</p>
@@ -17658,7 +17662,7 @@ of making sure that the configuration documentation is correct and easily unders
 <p>Run the <code>./docker-compose.sh</code> script (or use the <code>docker-compose.yml</code> with a <code>docker compose</code> command);</p>
 </li>
 <li>
-<p>Go to <code>${OF_HOME}/src/test/resources/</code>;</p>
+<p>Go to <code>${OF_HOME}/tests/resources/</code>;</p>
 </li>
 <li>
 <p>Run the following scripts: <code>./loadTestConf.sh &amp;&amp;  ./send6TestCards.sh</code>;</p>
@@ -17669,7 +17673,7 @@ of making sure that the configuration documentation is correct and easily unders
 </ol>
 </div>
 <div class="paragraph">
-<p>To automate build and API testing, you can use <code>${OF_HOME}/src/test/api/karate/buildAndLaunchAll.sh</code>.</p>
+<p>To automate build and API testing, you can use <code>${OF_HOME}/tests/api/karate/buildAndLaunchAll.sh</code>.</p>
 </div>
 </div>
 </div>
@@ -18425,7 +18429,7 @@ This file is part of the OperatorFabric project.</code></pre>
 <p>Verification that the reminder feature functions correctly, including proper reminders and sound notifications</p>
 </li>
 <li>
-<p>Load testing using the script located at <code>src/test/resources/cardsForStressTests/send6xN_TestCards.sh</code></p>
+<p>Load testing using the script located at <code>tests/resources/cardsForStressTests/send6xN_TestCards.sh</code></p>
 </li>
 <li>
 <p>Testing under slow network conditions (e.g., simulating slow 4G using Chrome DevTools)</p>
@@ -18875,10 +18879,10 @@ git push --set-upstream origin X.X.release</pre>
 </div>
 </li>
 <li>
-<p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
+<p>Use the ./bin/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre>./CICD/prepare_release_version.sh -v X.X.X-RC.RELEASE</pre>
+<pre>./bin/prepare_release_version.sh -v X.X.X-RC.RELEASE</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -19152,10 +19156,10 @@ git checkout -b X.X.X.release.draft</pre>
 </div>
 </li>
 <li>
-<p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
+<p>Use the ./bin/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</pre>
+<pre>./bin/prepare_release_version.sh -v X.X.X.RELEASE</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -19477,10 +19481,10 @@ git checkout -b X.X.X.release.draft</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Use the ./CICD/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
+<p>Use the ./bin/prepare_release_version.sh script to automatically perform all the necessary changes:</p>
 <div class="listingblock">
 <div class="content">
-<pre>./CICD/prepare_release_version.sh -v X.X.X.RELEASE</pre>
+<pre>./bin/prepare_release_version.sh -v X.X.X.RELEASE</pre>
 </div>
 </div>
 </li>
@@ -20424,7 +20428,7 @@ usercard configuration in the config.json of your bundle.</p>
 <p>Bundles are not stored directly into the business config storage path defined in configuration anymore (operatorfabric.businessconfig.storage.path) but in a subdirectory named bundles. So in order to migrate, it is needed to move your bundles directories to a subdirectory named bundles.</p>
 </div>
 <div class="paragraph">
-<p>To help you migrate your production environment you can use the following script : <a href="https://github.com/opfab/operatorfabric-core/blob/develop/src/tooling/migration-opfab3.13/moveBundles.sh" class="bare">github.com/opfab/operatorfabric-core/blob/develop/src/tooling/migration-opfab3.13/moveBundles.sh</a></p>
+<p>To help you migrate your production environment you can use the following script : <a href="https://github.com/opfab/operatorfabric-core/blob/develop/migrations/migration-opfab3.13/moveBundles.sh" class="bare">github.com/opfab/operatorfabric-core/blob/develop/migrations/migration-opfab3.13/moveBundles.sh</a></p>
 </div>
 </div>
 </div>
@@ -21201,7 +21205,7 @@ So you have to remove this parameter from the configuration file <code>web-ui.js
 <h3 id="_updating_the_entity_roles_in_the_database"><a class="anchor" href="#_updating_the_entity_roles_in_the_database"></a>81.3. Updating the entity roles in the database</h3>
 <div class="paragraph">
 <p>In this release the "roles" attribute has been added to the entity object. It defines the utility of an entity. It absorbs and broaden the logic of the attribute "entityAllowedToSendCard" which becomes deprecated.
-To update the entities in your mongo database, you can execute the following script located in <code>OF_HOME/src/tooling/migration-entity-roles</code> :</p>
+To update the entities in your mongo database, you can execute the following script located in <code>OF_HOME/migrations/migration-entity-roles</code> :</p>
 </div>
 <div class="paragraph">
 <p><code>./launchMigration.sh &lt;IP or DNSNameMongoDB&gt; &lt;portMongoDB&gt; &lt;loginMongoDB&gt; &lt;passwordMongoDB&gt;</code></p>
