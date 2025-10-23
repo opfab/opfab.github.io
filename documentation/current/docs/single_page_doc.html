@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.9.0.RELEASE,</span>
-<span id="revdate">05 September 2025</span>
+<span id="revnumber">version 4.10.0.RELEASE,</span>
+<span id="revdate">23 October 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -808,7 +808,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_configuring_email_notifications">20.1. Configuring Email Notifications</a></li>
 <li><a href="#_email_content">20.2. Email Content</a></li>
-<li><a href="#_email_templates">20.3. Email templates</a></li>
+<li><a href="#_email_templates">20.3. Email templates</a>
+<ul class="sectlevel3">
+<li><a href="#_rich_text_content">20.3.1. Rich text content</a></li>
+<li><a href="#_custom_handlebars_helpers">20.3.2. Custom Handlebars helpers</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#response_cards">21. Response cards</a>
@@ -997,7 +1002,28 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_archives_screen_in_the_ui">26.2. Archives screen in the UI</a></li>
 </ul>
 </li>
-<li><a href="#geomap">27. Geographical map</a></li>
+<li><a href="#geomap">27. Geographical map</a>
+<ul class="sectlevel2">
+<li><a href="#_map_projections">27.1. Map Projections</a>
+<ul class="sectlevel3">
+<li><a href="#_layer_properties">27.1.1. Layer Properties</a>
+<ul class="sectlevel4">
+<li><a href="#_common_properties">27.1.1.1. Common Properties</a></li>
+<li><a href="#_arcgis_specific_properties">27.1.1.2. ArcGIS Specific Properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_color_mode_control">27.2. Color Mode Control</a></li>
+<li><a href="#_layer_authentication">27.3. Layer Authentication</a></li>
+<li><a href="#_configuration_examples">27.4. Configuration Examples</a>
+<ul class="sectlevel3">
+<li><a href="#_web_mercator_projection_worldwide">27.4.1. Web Mercator Projection (Worldwide)</a></li>
+<li><a href="#_lambert_93_projection_france">27.4.2. Lambert 93 Projection (France)</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_process_monitoring">28. Process monitoring</a></li>
 <li><a href="#users_management">29. User management</a>
 <ul class="sectlevel2">
@@ -1316,39 +1342,22 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#troubleshooting">51. Troubleshooting</a></li>
-<li><a href="#_keycloak_configuration">52. Keycloak Configuration</a>
-<ul class="sectlevel2">
-<li><a href="#_add_realm">52.1. Add Realm</a></li>
-<li><a href="#_setup_at_least_one_client_or_best_one_per_service">52.2. Setup at least one client (or best one per service)</a>
-<ul class="sectlevel3">
-<li><a href="#_create_client">52.2.1. Create client</a></li>
-</ul>
-</li>
-<li><a href="#_create_users">52.3. Create Users</a>
-<ul class="sectlevel3">
-<li><a href="#_development_specific_configuration">52.3.1. Development-specific configuration</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#_keycloak_configuration">52. Keycloak Configuration</a></li>
 <li><a href="#_using_oauth2_token_with_the_cli">53. Using OAuth2 token with the CLI</a>
 <ul class="sectlevel2">
 <li><a href="#_get_a_token_2">53.1. Get a token</a>
 <ul class="sectlevel3">
 <li><a href="#_curl">53.1.1. Curl</a></li>
-<li><a href="#_httpie">53.1.2. Httpie</a></li>
 </ul>
 </li>
 <li><a href="#_extract_token">53.2. Extract token</a>
 <ul class="sectlevel3">
 <li><a href="#_curl_2">53.2.1. Curl</a></li>
-<li><a href="#_httpie_2">53.2.2. Httpie</a></li>
 </ul>
 </li>
 <li><a href="#_check_a_token">53.3. Check a token</a>
 <ul class="sectlevel3">
 <li><a href="#_curl_3">53.3.1. Curl</a></li>
-<li><a href="#_httpie_3">53.3.2. Httpie</a></li>
 </ul>
 </li>
 <li><a href="#_extract_token_2">53.4. Extract token</a></li>
@@ -1730,6 +1739,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_geomap_configuration">88.1. Geomap configuration</a></li>
 <li><a href="#_entities_in_token">88.2. Entities in Token</a></li>
 <li><a href="#_deletion_of_monitoring_screen">88.3. Deletion of monitoring screen</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_9_x_to_release_4_10_0">89. Migration Guide from release 4.9.X to release 4.10.0</a>
+<ul class="sectlevel2">
+<li><a href="#_response_card_in_handlebars_templates">89.1. Response card in handlebars templates</a></li>
+<li><a href="#_timeline_domain_j_renamed_d">89.2. Timeline domain J renamed D</a></li>
+<li><a href="#_rabbitmq_configuration">89.3. RabbitMQ configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -3923,7 +3939,7 @@ Grouping cards is an experimental feature
 <p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
 </div>
 <div class="paragraph">
-<p>When <code>feed.enableMap</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn. When the card has set its wktGeometry, the location will be highlighted on the card. Two geometrical shapes are supported <code>POINT</code>, which will show a circle on the map, and <code>POLYGON</code> which will draw the specified area on the map.  For example show a circle based on the card location:</p>
+<p>When <code>feed.geomap.enableMap</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn. When the card has set its wktGeometry, the location will be highlighted on the card. Two geometrical shapes are supported <code>POINT</code>, which will show a circle on the map, and <code>POLYGON</code> which will draw the specified area on the map.  For example show a circle based on the card location:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6292,6 +6308,8 @@ This template can use handlebars helpers for formatting but can&#8217;t run java
   {{#card.data.networkContingencies}}</pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_rich_text_content"><a class="anchor" href="#_rich_text_content"></a>20.3.1. Rich text content</h4>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
@@ -6326,6 +6344,53 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 <div class="literalblock">
 <div class="content">
 <pre>{{#config.myParam1}}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>20.3.2. Custom Handlebars helpers</h4>
+<div class="paragraph">
+<p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">function</span> <span class="function">example_severityColor</span>(severity) {
+    let color;
+    <span class="keyword">switch</span> (severity) {
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">ALARM</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">red</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">ACTION</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">orange</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">COMPLIANT</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">green</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">INFORMATION</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">blue</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">white</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> color;
+}
+
+helpers = [example_severityColor];</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each helper will be registered with the same name as the helper function. To avoid conflicts with existing helpers, it is recommended to prefix your helper names (for example: <code>myapp_xxx</code>).</p>
+</div>
+<div class="paragraph">
+<p>Reference this file in the YAML configuration of the <code>cards-external-diffusion</code> service using the <code>customHandlebarsHelpersFile</code> parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -8647,10 +8712,13 @@ can see all archives for which he has the right to receive it, whether he is par
 <p>The geographical map is a feature that allows you to display the geographical location of cards on a map on the feed screen.</p>
 </div>
 <div class="paragraph">
-<p>To activate the geographical map feature, set the <code>feed.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
+<p>To activate the geographical map feature, set the <code>feed.geomap.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
 </div>
 <div class="paragraph">
 <p>The geographical location of the cards is determined by the <code>wktGeometry</code> and <code>wktProjection</code> fields in the card&#8217;s metadata. If a card has a defined <code>wktGeometry</code>, its location will be highlighted on the card. The system supports two geometrical shapes: <code>POINT</code> and <code>POLYGON</code>. A <code>POINT</code> will display as a circle on the map, while a <code>POLYGON</code> will outline the specified area.</p>
+</div>
+<div class="paragraph">
+<p>The <code>wktProjection</code> field specifies the coordinate reference system of the WKT geometry. If not specified, the system uses the <code>defaultDataProjection</code> configuration parameter (default: EPSG:4326). The geometry is automatically transformed to match the map&#8217;s projection.</p>
 </div>
 <div class="paragraph">
 <p>For instance, to display a circle at a specific location, use:</p>
@@ -8677,6 +8745,27 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <div class="paragraph">
 <p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file.</p>
 </div>
+<div class="sect2">
+<h3 id="_map_projections"><a class="anchor" href="#_map_projections"></a>27.1. Map Projections</h3>
+<div class="paragraph">
+<p>The geographical map supports different coordinate reference systems (projections):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>EPSG:3857</code> (Web Mercator) - Default projection, suitable for worldwide mapping</p>
+</li>
+<li>
+<p><code>EPSG:2154</code> (Lambert 93) - French national projection, optimized for France</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The map projection can be configured using the <code>feed.geomap.mapProjection</code> parameter. Initial coordinates (<code>initialLongitude</code> and <code>initialLatitude</code>) can be specified either in WGS84 (EPSG:4326) or in the target projection - the system automatically detects the format and transforms them if necessary.</p>
+</div>
+<div class="paragraph">
+<p>For Lambert 93 projection, the system includes automatic extent constraint to avoid 404 errors on tiles outside the valid area for France (including Corsica). This can be controlled using the <code>feed.geomap.constrainLambert93Extent</code> parameter.</p>
+</div>
 <div class="paragraph">
 <p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> parameter. The following types are supported:</p>
 </div>
@@ -8686,13 +8775,273 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <p><code>osm</code> for OpenStreetMap tiles</p>
 </li>
 <li>
-<p><code>geojson</code> for GeoJSON layers.</p>
+<p><code>geojson</code> for GeoJSON layers</p>
 </li>
 <li>
-<p><code>xyz</code> for XYZ tiles.</p>
+<p><code>xyz</code> for XYZ tiles</p>
 </li>
 <li>
-<p><code>wmts</code> for WMTS layers.</p>
+<p><code>wmts</code> for WMTS layers</p>
+</li>
+<li>
+<p><code>arcgis</code> or <code>esri</code> for ArcGIS REST Map Service layers</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All layer types support <code>opacity</code> (transparency from 0 to 1) and <code>zIndex</code> (stacking order) properties for advanced layer management.</p>
+</div>
+<div class="sect3">
+<h4 id="_layer_properties"><a class="anchor" href="#_layer_properties"></a>27.1.1. Layer Properties</h4>
+<div class="sect4">
+<h5 id="_common_properties"><a class="anchor" href="#_common_properties"></a>27.1.1.1. Common Properties</h5>
+<div class="paragraph">
+<p>All layer types support these properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>opacity</code>: Transparency level from 0.0 (transparent) to 1.0 (opaque). Default: 1.0</p>
+</li>
+<li>
+<p><code>zIndex</code>: Stacking order (higher values appear on top). Default: 0</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_arcgis_specific_properties"><a class="anchor" href="#_arcgis_specific_properties"></a>27.1.1.2. ArcGIS Specific Properties</h5>
+<div class="paragraph">
+<p>ArcGIS layers support additional parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>transparent</code>: Boolean parameter sent to ArcGIS server requesting transparent background</p>
+</li>
+<li>
+<p><code>layers</code>: Comma-separated list of layer IDs to display (e.g., "0,1,2")</p>
+</li>
+<li>
+<p><code>format</code>: Image format requested from server (e.g., "png", "jpg")</p>
+</li>
+<li>
+<p><code>ratio</code>: Device pixel ratio (default: 1, overrides OpenLayers' default of 1.5 for consistent performance)</p>
+</li>
+<li>
+<p><code>visible</code>: Initial layer visibility (default: true)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Example ArcGIS configuration:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;type&quot;: &quot;arcgis&quot;,
+  &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+  &quot;transparent&quot;: true,
+  &quot;opacity&quot;: 0.8,
+  &quot;layers&quot;: &quot;0,1,2&quot;,
+  &quot;format&quot;: &quot;png&quot;,
+  &quot;ratio&quot;: 1,
+  &quot;visible&quot;: true,
+  &quot;zIndex&quot;: 3
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_color_mode_control"><a class="anchor" href="#_color_mode_control"></a>27.2. Color Mode Control</h3>
+<div class="paragraph">
+<p>The map appearance can be controlled using the <code>colorMode</code> parameter with three possible values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>"dark"</code>: Always apply dark mode (CSS inversion filter applied)</p>
+</li>
+<li>
+<p><code>"light"</code>: Always apply light mode (no CSS filter applied)</p>
+</li>
+<li>
+<p><code>"uiTheme"</code> (default): Automatically follow the application&#8217;s day/night theme</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      // ... other configuration
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is useful when you want the map to remain in a specific color mode regardless of the OpFab interface theme. The <code>"dark"</code> value applies CSS inversion filter while <code>"light"</code> ensures no filter is applied.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_layer_authentication"><a class="anchor" href="#_layer_authentication"></a>27.3. Layer Authentication</h3>
+<div class="paragraph">
+<p>OpFab requests map layers with anonymous cross-origin mode by default.</p>
+</div>
+<div class="paragraph">
+<p><strong>Recommended approach</strong>: Use a reverse proxy (nginx) for all external services to avoid CORS errors and handle authentication, caching, and rate limiting.</p>
+</div>
+<div class="paragraph">
+<p><strong>For public layers</strong>: Configure the proxy to forward requests without authentication headers.</p>
+</div>
+<div class="paragraph">
+<p><strong>For secured layers</strong>: Configure the proxy to add authentication headers (API keys, tokens, certificates) before forwarding requests.</p>
+</div>
+<div class="paragraph">
+<p>Then configure OpFab to use your proxy URLs instead of external service URLs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_examples"><a class="anchor" href="#_configuration_examples"></a>27.4. Configuration Examples</h3>
+<div class="sect3">
+<h4 id="_web_mercator_projection_worldwide"><a class="anchor" href="#_web_mercator_projection_worldwide"></a>27.4.1. Web Mercator Projection (Worldwide)</h4>
+<div class="paragraph">
+<p>Here&#8217;s a complete example configuration using Web Mercator projection with all supported layer types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;enableMap&quot;: true,
+      &quot;mapProjection&quot;: &quot;EPSG:3857&quot;,
+      &quot;defaultDataProjection&quot;: &quot;EPSG:4326&quot;,
+      &quot;initialLongitude&quot;: 2.4408,
+      &quot;initialLatitude&quot;: 46.7211,
+      &quot;initialZoom&quot;: 6,
+      &quot;maxZoom&quot;: 18,
+      &quot;zoomLevelWhenZoomToLocation&quot;: 14,
+      &quot;zoomDuration&quot;: 500,
+      &quot;highlightPolygonStrokeWidth&quot;: 20,
+      &quot;popupContent&quot;: &quot;summary&quot;,
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      &quot;layers&quot;: [
+        {
+          &quot;type&quot;: &quot;osm&quot;,
+          &quot;zIndex&quot;: 0
+        },
+        {
+          &quot;type&quot;: &quot;xyz&quot;,
+          &quot;url&quot;: &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+          &quot;zIndex&quot;: 1
+        },
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+          &quot;matrixSet&quot;: &quot;PM_0_19&quot;,
+          &quot;opacity&quot;: 0.7,
+          &quot;zIndex&quot;: 2
+        },
+        {
+          &quot;type&quot;: &quot;arcgis&quot;,
+          &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+          &quot;transparent&quot;: true,
+          &quot;opacity&quot;: 0.8,
+          &quot;zIndex&quot;: 3
+        },
+        {
+          &quot;type&quot;: &quot;geojson&quot;,
+          &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+          &quot;style&quot;: {
+            &quot;stroke-color&quot;: &quot;red&quot;
+          },
+          &quot;zIndex&quot;: 4
+        },
+        {
+          &quot;type&quot;: &quot;geojson&quot;,
+          &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;,
+          &quot;zIndex&quot;: 5
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lambert_93_projection_france"><a class="anchor" href="#_lambert_93_projection_france"></a>27.4.2. Lambert 93 Projection (France)</h4>
+<div class="paragraph">
+<p>Here&#8217;s an example configuration optimized for France using Lambert 93 projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;enableMap&quot;: true,
+      &quot;mapProjection&quot;: &quot;EPSG:2154&quot;,
+      &quot;defaultDataProjection&quot;: &quot;EPSG:2154&quot;,
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      &quot;initialLongitude&quot;: 651966,
+      &quot;initialLatitude&quot;: 6862314,
+      &quot;initialZoom&quot;: 4,
+      &quot;maxZoom&quot;: 8,
+      &quot;zoomLevelWhenZoomToLocation&quot;: 6,
+      &quot;zoomDuration&quot;: 500,
+      &quot;highlightPolygonStrokeWidth&quot;: 20,
+      &quot;popupContent&quot;: &quot;summary&quot;,
+      &quot;layers&quot;: [
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+          &quot;matrixSet&quot;: &quot;2154_16&quot;,
+          &quot;opacity&quot;: 0.7,
+          &quot;zIndex&quot;: 1
+        },
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+          &quot;matrixSet&quot;: &quot;2154_16&quot;,
+          &quot;opacity&quot;: 1,
+          &quot;zIndex&quot;: 2
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Important notes for Lambert 93:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use lower zoom levels: <code>initialZoom: 2</code> for France overview, <code>maxZoom: 12</code> is usually sufficient</p>
+</li>
+<li>
+<p>Coordinates can be provided in Lambert 93 format (large numbers) or WGS84 (auto-detected)</p>
+</li>
+<li>
+<p>The extent automatically includes Corsica</p>
+</li>
+<li>
+<p>Constraint to France territory is enabled by default (<code>constrainLambert93Extent: true</code>)</p>
+</li>
+<li>
+<p>Layer validation is performed automatically with detailed error logging for invalid configurations</p>
 </li>
 </ul>
 </div>
@@ -8700,6 +9049,8 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <p>Refer to the
 <a href="#ui_properties_geomap">geomap web-ui configuration</a>
 section for more information and additional customization options.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -8735,7 +9086,9 @@ process.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The columns displayed on this screen can be configured. To do that, you have to define a JSON file and load the file by sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using CLI command <code>opfab process-monitoring load &lt;file&gt;</code>.</p>
+<p>The columns displayed on this screen can be configured. To do that, you have to define a JSON file and load the file by
+sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using CLI command
+<code>opfab process-monitoring load &lt;file&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Here is an example of processMonitoring configuration file:</p>
@@ -8749,7 +9102,7 @@ process.</p>
     { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400},
     { &quot;field&quot;: &quot;data.stateName&quot;, &quot;colName&quot;: &quot;My field&quot;, &quot;size&quot;: 300},
     { &quot;field&quot;: &quot;summaryTranslated&quot;, &quot;colName&quot;: &quot;Summary&quot;, &quot;size&quot;: 250},
-    { &quot;field&quot;: &quot;data.error&quot;, &quot;colName&quot;: &quot;My second field&quot;, &quot;size&quot;: 100}
+    { &quot;field&quot;: &quot;data.error&quot;, &quot;colName&quot;: &quot;My second field&quot;, &quot;size&quot;: 100, &quot;defaultVisibility&quot;: false}
   ],
   &quot;fieldsForProcesses&quot;: [
     {
@@ -8766,7 +9119,7 @@ process.</p>
         { &quot;field&quot;: &quot;startDate&quot;, &quot;type&quot;: &quot;date&quot;, &quot;colName&quot;: &quot;Start Date&quot;, &quot;size&quot;: 200},
         { &quot;field&quot;: &quot;endDate&quot;, &quot;type&quot;: &quot;date&quot;, &quot;colName&quot;: &quot;End Date&quot;, &quot;size&quot;: 200},
         { &quot;field&quot;: &quot;titleTranslated&quot;, &quot;colName&quot;: &quot;Title&quot;, &quot;size&quot;: 250},
-        { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400}
+        { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400, &quot;defaultVisibility&quot;:  false}
       ]
     }
   ],
@@ -8780,27 +9133,33 @@ process.</p>
           &quot;label&quot;: &quot;Label for tag 2&quot;,
           &quot;value&quot;: &quot;tag2&quot;
         }
-      ]
+      ],
     &quot;pageSize&quot;: 10
   }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>fields</code> field in the process monitoring configuration file defines the list of the fields you want to see in the array.</p>
+<p>The <code>fields</code> field in the process monitoring configuration file defines the list of the fields you want to see in the
+array.</p>
 </div>
 <div class="paragraph">
-<p>You also have the possibility to define the columns displayed per process. To do that, you have to configure the field <code>fieldsForProcesses</code>.</p>
+<p>You also have the possibility to define the columns displayed per process. To do that, you have to configure the field
+<code>fieldsForProcesses</code>.</p>
 </div>
 <div class="paragraph">
-<p>If more than one process is selected by the user or if a process has no configuration, the columns displayed will be those of the default config (<code>fields</code>).
-Depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the recipient of.</p>
+<p>If more than one process is selected by the user or if a process has no configuration, the columns displayed will be
+those of the default config (<code>fields</code>).
+Depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the
+recipient of.</p>
 </div>
 <div class="paragraph">
-<p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of available tags used in the UI to filter the results <code>filters.tags</code>.</p>
+<p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of
+available tags used in the UI to filter the results <code>filters.tags</code>.</p>
 </div>
 <div class="paragraph">
-<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
+<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view
+the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </div>
 <div class="paragraph">
 <p>Here is the description of the fields :</p>
@@ -8811,13 +9170,23 @@ Depending on the permissions of the groups to which the user is attached, he can
 <p>"field": the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
+<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display
+a date/time field, set it to <code>array</code> to display an array as a comma separated list. Set to <code>set</code> if you want to have a
+custom filter for a column. The possible values for the custom filter must be set with the field <code>possibleValues</code>.</p>
 </li>
 <li>
 <p>"colName": name of the column on the UI</p>
 </li>
 <li>
 <p>"size": size of the column on the UI, proportionally to each other</p>
+</li>
+<li>
+<p>"defaultVisibility": Indicates whether the field will be displayed, before the user interacts with the column for the
+first time.</p>
+</li>
+<li>
+<p>"possibleValues": List of values to display in the custom filter of a column. Must be used with field <code>type</code> set to
+<code>set</code>.</p>
 </li>
 </ul>
 </div>
@@ -9832,6 +10201,15 @@ The possible values are:</p>
 </li>
 <li>
 <p><code>INPUT</code>: Displays an input field. The value of the input field will be used for response cards if the custom screen has response buttons (see below).</p>
+</li>
+<li>
+<p><code>NUMBER</code> : Displays a number.</p>
+</li>
+<li>
+<p><code>NUMBER_ARRAY</code> : Displays an array of numbers based on a json array.</p>
+</li>
+<li>
+<p><code>PERIOD_ARRAY</code> : Displays an array of period based on a json array of objects, each object containing <code>startDate</code> and <code>endDate</code> fields as epoch date or Date object.</p>
 </li>
 <li>
 <p><code>PROCESS_NAME</code>: Displays the name of the card&#8217;s process.</p>
@@ -11428,6 +11806,12 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the notification service on startup</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.customHandlebarsHelpersFile</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path to a javascript file containing custom Handlebars helpers to be used in email templates</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.mailFrom</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
@@ -12108,7 +12492,7 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.enableGroupedCards</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">: If true cards with the same tags are grouped together. Clicking on the grouped card will show the other cards with the same tags in the feed.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.showSearchFilter</p></td>
@@ -12118,9 +12502,9 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.timeline.domains</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">["RT", "J", "7D", "W", "M", "Y"]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">["RT", "D", "7D", "W", "M", "Y"]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "RT", "J", "7D", "W", "M", "Y".</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of domains to show on the timeline, possible domains are : "RT", "D", "7D", "W", "M", "Y".</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">heartbeatSendingInterval</p></td>
@@ -12493,16 +12877,16 @@ For example:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The default data projection of <code>card.wktGeometry</code> to use when no wktProjection is embedded in the card.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableMap</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>(Experimental feature)</em>: If true a geographical map will be shown and cards that have geographical coordinates will be drawn on the map.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.darkMode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.colorMode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uiTheme</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Active a filter for dark mode (if false dark mode and light have the same colors).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Controls <strong>how/if</strong> the night filter is applied. <code>"dark"</code> = always dark (apply filter), <code>"light"</code> = always light (no filter), <code>"uiTheme"</code> = follows application theme.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.enableGraph</p></td>
@@ -12535,6 +12919,12 @@ For example:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Initial zoom level of the map.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.mapProjection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EPSG:3857</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The map projection to use for displaying the map. Supported values: <code>EPSG:3857</code> (Web Mercator, default) and <code>EPSG:2154</code> (Lambert 93 for France). Initial coordinates (<code>initialLongitude</code>/<code>initialLatitude</code>) may be given in WGS84 (EPSG:4326) or in the target projection; the system auto‑detects the format.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.maxZoom</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -12553,74 +12943,272 @@ For example:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time in milliseconds it takes to zoom the map to the specific location. Set to 0 to disable the zoom animation.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomToLocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.zoomLevelWhenZoomToLocation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Zoom level when zooming to a location of a selected card.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feed.geomap.constrainLambert93Extent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Applies only when mapProjection is <code>EPSG:2154</code> (Lambert 93). Constrains the map extent to the valid area for France (including Corsica) to avoid 404s outside provider coverage.</p></td>
+</tr>
 </tbody>
 </table>
+<div class="sect5">
+<h6 id="_color_mode_parameter"><a class="anchor" href="#_color_mode_parameter"></a>Color Mode Parameter</h6>
 <div class="paragraph">
-<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type. The following layer types are supported:</p>
+<p>The map appearance is controlled by a single parameter under <code>feed.geomap</code>:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required.</p>
-</li>
-<li>
-<p><code>geojson</code>: GeoJSON layers. Requires a <code>url</code> for the GeoJSON file and optionally a <code>style</code> object for feature styling. The <code>style</code> object supports stroke, fill, image, and text styles as defined in the OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>).</p>
-</li>
-<li>
-<p><code>xyz</code>: XYZ tiles. Requires a <code>url</code> endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png"). You may also specify:</p>
+<p><strong><code>colorMode</code></strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>tileSize</code>: Integer value (e.g., 256). Required for custom background layers.</p>
+<p><code>"dark"</code>: Always apply dark mode (CSS inversion filter applied)</p>
 </li>
 <li>
-<p><code>crossOrigin</code>: Optional. Default is <code>null</code>.</p>
+<p><code>"light"</code>: Always apply light mode (no CSS filter applied)</p>
+</li>
+<li>
+<p><code>"uiTheme"</code> (default): Automatically follow the application&#8217;s day/night theme</p>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p><code>wmts</code>: WMTS layers. Requires <code>capabilitiesUrl</code>, <code>layer</code>, and <code>matrixSet</code>.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Example configuration for the <code>feed.geomap.layers</code> property:</p>
+<p><strong>Examples:</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>&quot;layers&quot;: [
-                {
-                    &quot;type&quot;:&quot;osm&quot;
-                },
-                {
-                    &quot;type&quot;:&quot;wmts&quot;,
-                    &quot;capabilitiesUrl&quot;:&quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
-                    &quot;layer&quot;:&quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
-                    &quot;matrixSet&quot;:&quot;PM_0_19&quot;
-                },
-                {
-                    &quot;type&quot;: &quot;geojson&quot;,
-                    &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
-                    &quot;style&quot;: {
-                        &quot;stroke-color&quot;: &quot;red&quot;
-                    }
-                },
-                {
-                    &quot;type&quot;: &quot;geojson&quot;,
-                    &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;
-                }
+<pre class="CodeRay highlight"><code data-lang="jsonc">// Always follows application theme (default)
+&quot;colorMode&quot;: &quot;uiTheme&quot;
 
-            ]</code></pre>
+// Always dark map with inverted tiles
+&quot;colorMode&quot;: &quot;dark&quot;
+
+// Always light map without filter
+&quot;colorMode&quot;: &quot;light&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>"dark"</code> value applies CSS inversion filter while <code>"light"</code> ensures no filter is applied, regardless of the application theme.</p>
+</div>
+<div class="paragraph">
+<p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> property. This property accepts an array of objects, each representing a layer with a <code>type</code> property and additional configuration options depending on the layer type.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_common_layer_properties"><a class="anchor" href="#_common_layer_properties"></a>Common Layer Properties</h6>
+<div class="paragraph">
+<p>All layer types support the following optional properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>opacity</code>: Number between 0 and 1 (default: 1). Controls layer transparency.</p>
+</li>
+<li>
+<p><code>zIndex</code>: Integer between 0 to 1999 (default: 0). Controls layer stacking order. Higher values appear on top.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_layer_types"><a class="anchor" href="#_layer_types"></a>Layer Types</h6>
+<div class="ulist">
+<ul>
+<li>
+<p><code>osm</code>: OpenStreetMap tiles. No additional configuration required beyond common properties.</p>
+</li>
+<li>
+<p><code>geojson</code>: GeoJSON layers. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>url</code>: URL to the GeoJSON file</p>
+</li>
+<li>
+<p><code>style</code>: Optional styling object using OpenLayers flat style format (see: <a href="https://openlayers.org/en/latest/apidoc/module-ol_style_flat.html" class="bare">openlayers.org/en/latest/apidoc/module-ol_style_flat.html</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>xyz</code>: XYZ tiles. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>url</code>: Endpoint with <code>{x}</code>, <code>{y}</code>, and <code>{z}</code> variables (e.g., "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/grijs/EPSG:3857/{z}/{x}/{y}.png")</p>
+</li>
+<li>
+<p><code>tileSize</code>: Optional integer (default server is often 256). Set only if the provider uses a non‑default tile size.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>wmts</code>: WMTS layers. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>capabilitiesUrl</code>: URL to WMTS capabilities document</p>
+</li>
+<li>
+<p><code>layer</code>: Layer identifier from capabilities</p>
+</li>
+<li>
+<p><code>matrixSet</code>: Matrix set identifier from capabilities. The matrixSet must match your <code>mapProjection</code> — e.g., a <code>2154_*</code> set for <code>EPSG:2154</code>.
+(Ensure the provider allows client access and CORS; some services require API keys or specific referers.)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>arcgis</code> or <code>esri</code>: ArcGIS REST Map Service layers. Requires:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>url</code>: ArcGIS REST service endpoint URL</p>
+</li>
+<li>
+<p><code>layers</code>: Optional string specifying which layers to show (e.g., "0,1,2")</p>
+</li>
+<li>
+<p><code>format</code>: Optional image format (default: "png")</p>
+</li>
+<li>
+<p><code>transparent</code>: Optional boolean (default: true)</p>
+</li>
+<li>
+<p><code>ratio</code>: Optional number (default: 1). Device pixel ratio</p>
+</li>
+<li>
+<p><code>visible</code>: Optional boolean (default: true). Initial visibility
+(ArcGIS services may enforce usage limits, API keys, or CORS restrictions; check provider terms.)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_example_configurations"><a class="anchor" href="#_example_configurations"></a>Example Configurations</h6>
+<div class="sect6">
+<h7 id="_web_mercator_projection_standard"><a class="anchor" href="#_web_mercator_projection_standard"></a>Web Mercator Projection (Standard)</h7>
+<div class="paragraph">
+<p>Example configuration for the <code>feed.geomap.layers</code> property with all supported layer types using Web Mercator projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">&quot;geomap&quot;: {
+  &quot;enableMap&quot;: true,
+  &quot;mapProjection&quot;: &quot;EPSG:3857&quot;,
+  &quot;defaultDataProjection&quot;: &quot;EPSG:4326&quot;,
+  &quot;initialLongitude&quot;: 2.4408,
+  &quot;initialLatitude&quot;: 46.7211,
+  &quot;initialZoom&quot;: 6,
+  &quot;maxZoom&quot;: 18,
+  &quot;zoomLevelWhenZoomToLocation&quot;: 14,
+  &quot;zoomDuration&quot;: 500,
+  &quot;highlightPolygonStrokeWidth&quot;: 20,
+  &quot;popupContent&quot;: &quot;summary&quot;,
+  &quot;colorMode&quot;: &quot;uiTheme&quot;,
+  &quot;layers&quot;: [
+    {
+      &quot;type&quot;: &quot;osm&quot;,
+      &quot;zIndex&quot;: 0
+    },
+    {
+      &quot;type&quot;: &quot;xyz&quot;,
+      &quot;url&quot;: &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+      &quot;zIndex&quot;: 1
+    },
+    {
+      &quot;type&quot;: &quot;wmts&quot;,
+      &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+      &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+      &quot;matrixSet&quot;: &quot;PM_0_19&quot;,
+      &quot;opacity&quot;: 0.7,
+      &quot;zIndex&quot;: 2
+    },
+    {
+      &quot;type&quot;: &quot;arcgis&quot;,
+      &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+      &quot;transparent&quot;: true,
+      &quot;opacity&quot;: 0.8,
+      &quot;zIndex&quot;: 3
+    },
+    {
+      &quot;type&quot;: &quot;geojson&quot;,
+      &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+      &quot;style&quot;: {
+        &quot;stroke-color&quot;: &quot;red&quot;
+      },
+      &quot;zIndex&quot;: 4
+    },
+    {
+      &quot;type&quot;: &quot;geojson&quot;,
+      &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;,
+      &quot;zIndex&quot;: 5
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_lambert_93_projection_france_2"><a class="anchor" href="#_lambert_93_projection_france_2"></a>Lambert 93 Projection (France)</h7>
+<div class="paragraph">
+<p>Example configuration optimized for France using Lambert 93 projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">&quot;geomap&quot;: {
+  &quot;enableMap&quot;: true,
+  &quot;mapProjection&quot;: &quot;EPSG:2154&quot;,
+  &quot;defaultDataProjection&quot;: &quot;EPSG:2154&quot;,
+  &quot;constrainLambert93Extent&quot;: true,
+  &quot;colorMode&quot;: &quot;uiTheme&quot;,
+  &quot;initialLongitude&quot;: 651966,
+  &quot;initialLatitude&quot;: 6862314,
+  &quot;initialZoom&quot;: 4,
+  &quot;maxZoom&quot;: 8,
+  &quot;zoomLevelWhenZoomToLocation&quot;: 6,
+  &quot;zoomDuration&quot;: 500,
+  &quot;highlightPolygonStrokeWidth&quot;: 20,
+  &quot;popupContent&quot;: &quot;summary&quot;,
+  &quot;layers&quot;: [
+    {
+      &quot;type&quot;: &quot;wmts&quot;,
+      &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+      &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+      &quot;matrixSet&quot;: &quot;2154_16&quot;,
+      &quot;opacity&quot;: 0.7,
+      &quot;zIndex&quot;: 1
+    },
+    {
+      &quot;type&quot;: &quot;wmts&quot;,
+      &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+      &quot;layer&quot;: &quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+      &quot;matrixSet&quot;: &quot;2154_16&quot;,
+      &quot;opacity&quot;: 1,
+      &quot;zIndex&quot;: 2
+    }
+  ]
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The example configuration references a GeoJSON layer from  Open Data GRD (<a href="https://opendata.agenceore.fr" class="bare">opendata.agenceore.fr</a>) and a wmts layer from IGN (<a href="https://geoservices.ign.fr" class="bare">geoservices.ign.fr</a>) both published under open licence v2.0 <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" class="bare">www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</a></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -13651,17 +14239,6 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 <div class="paragraph">
 <p>First of all, list the users (who are the recipients in OperatorFabric) of the system with the following commands:</p>
 </div>
-<div class="paragraph">
-<p>Httpie</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/users "Authorization:Bearer $token" "Content-Type:application/type"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>cURL</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -v http://localhost:2103/users -H "Authorization:Bearer $token" -H "Content-Type:application/type"</pre>
@@ -13748,15 +14325,7 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
 <h4 id="_create_a_new_user"><a class="anchor" href="#_create_a_new_user"></a>40.1.2. Create a new User</h4>
 <div class="paragraph">
 <p>We are sure that no John-doe-operator exists in our OperatorFabric instance.
-We can add him in our OperatorFabric instance using the following command use httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"login":"john-doe-operator","firstName":"Jahne","lastName":"Doe"}' | http POST http://localhost:2103/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Or here cURL:</p>
+We can add him in our OperatorFabric instance using the following command, using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -13782,17 +14351,6 @@ We can add him in our OperatorFabric instance using the following command use ht
 <h4 id="_fetch_user_details"><a class="anchor" href="#_fetch_user_details"></a>40.1.3. Fetch user details</h4>
 <div class="paragraph">
 <p>It&#8217;s always a good thing to verify if all the information has been correctly recorded in the system:</p>
-</div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http -b http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or with cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -13823,18 +14381,7 @@ We can add him in our OperatorFabric instance using the following command use ht
 We need
 <a href="../api/users/index.html#/users/updateUser">to update the existing user</a>
 with <code>john-doe-operator</code> login.
-To correct this mistake, the following commands can be used:</p>
-</div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"login":"john-doe-operator","lastName":"Doe","firstName":"John"}' | http PUT http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or with cURL:</p>
+To correct this mistake, the following command can be used, using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -13904,17 +14451,6 @@ the system. As shown when we
 <a href="../api/users/index.html#/groups/fetchGroups">list the groups</a>
 existing in the server.</p>
 </div>
-<div class="paragraph">
-<p>Httpie</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/type"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>cURL</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json"</pre>
@@ -13974,17 +14510,6 @@ existing in the server.</p>
 <a href="../api/users/index.html#/groups/createGroup">added to the system</a>
 using the following command:</p>
 </div>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"OPERATORS","decription":"This is the brand new group of operator"}' | http POST http://localhost:2103/groups "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X POST http://localhost:2103/groups -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","decription":"This is the brand new group of operator"}'</pre>
@@ -14012,17 +14537,6 @@ using the following command:</p>
 <p>The result returned seems strange, to verify if it&#8217;s the correct answer by
 <a href="../api/users/index.html#/groups/fetchGroup">displaying the details of the group</a>
 called <code>OPERATORS</code>, use the following command:</p>
-</div>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -14053,17 +14567,6 @@ the attribute for the description is misspelled. Using the following command
 <a href="../api/users/index.html#/groups/updateGroup">to update the group</a>
 with the correct spelling, the new group of operator gets a proper description:</p>
 </div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"OPERATORS","description":"This is the brand-new group of operator"}' | http -b PUT http://localhost:2103/groups/OPERATORS "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X PUT http://localhost:2103/groups/OPERATORS -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '{"id":"OPERATORS","description":"This is the brand-new group of operator"}'</pre>
@@ -14090,17 +14593,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 <a href="../api/users/index.html#/users/addGroupUsers">to make the user a member of the group</a>
 . To achieve this, use the following command:</p>
 </div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '["john-doe-operator"]' | http PATCH http://localhost:2103/groups/OPERATORS/users "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X PATCH http://localhost:2103/groups/OPERATORS/users -H "Authorization:Bearer $token" -H "Content-Type:application/json" --data '["john-doe-operator"]'</pre>
@@ -14116,14 +14608,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="paragraph">
 <p>Let&#8217;s verify that the changes are correctly recorded by fetching the :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -14155,17 +14639,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 <div class="paragraph">
 <p>When John Doe is no longer in charge of hypervising cards for <code>OPERATORS</code> group, this group has to be removed from his login by using the following command:</p>
 </div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http DELETE http://localhost:2103/groups/OPERATORS/users/john-doe-operator "Authorization:Bearer $token"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl -X DELETE -H "Authorization:Bearer $token" http://localhost:2103/groups/OPERATORS/users/john-doe-operator</pre>
@@ -14189,17 +14662,6 @@ with the correct spelling, the new group of operator gets a proper description:<
 </div>
 <div class="paragraph">
 <p>A last command to verify that <code>OPERATORS</code> is no longer linked to <code>john-doe-operator</code>:</p>
-</div>
-<div class="paragraph">
-<p>with httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>http http://localhost:2103/users/john-doe-operator "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>with cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -14235,18 +14697,6 @@ On a positive cycle detection cancels the addition or the patch.</p>
 </div>
 <div class="sect4">
 <h5 id="_add_a_new_entity_without_a_cycle_in_the_parent_declaration"><a class="anchor" href="#_add_a_new_entity_without_a_cycle_in_the_parent_declaration"></a>40.2.7.1. Add a new Entity without a cycle in the parent declaration</h5>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["ENTITY1_FR"]}' \
-| http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
-</div>
 <div class="literalblock">
 <div class="content">
 <pre>curl http://localhost:2103/entities -H "Authorization:Bearer $token" -H "Content-Type:application/json" \
@@ -14275,17 +14725,6 @@ On a positive cycle detection cancels the addition or the patch.</p>
 <div class="paragraph">
 <p>For simplicity, in this example the new entity will declare itself as a parent.
 This auto-referencing triggers a cycle detection.</p>
-</div>
-<div class="paragraph">
-<p>using httpie:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>echo '{"id":"NEW_ENTITY","name":"Last New Entity","description":"This is the last new entity","parents": ["NEW_ENTITY"]}' | http POST http://localhost:2103/entities "Authorization:Bearer $token" "Content-Type:application/json"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>using cURL:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -16000,7 +16439,7 @@ the generated SwaggerUI.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p> <details><summary> 
-<strong>Proxy error when running businessconfig-party docker compose</strong>
+<strong>Proxy error when starting opfab</strong>
  </summary><div> </p>
 </div>
 <div class="listingblock">
@@ -16012,7 +16451,7 @@ ERROR: Get https://registry-1.docker.io/v2/: Proxy Authentication Required</code
 </div>
 <div class="paragraph">
 <div class="title">Possible causes &amp; resolution</div>
-<p>When running docker compose files using businessconfig-party images(such as rabbitmq,
+<p>When running docker compose files using images(such as rabbitmq,
 mongodb etc.) the first time, docker will need to pull these images from
 their repositories.
 If the docker proxy isn&#8217;t set properly, you will see the above message.</p>
@@ -16131,39 +16570,6 @@ Available Java Versions
 </div>
 <div class="paragraph">
 <p> <details><summary> 
-<strong>BUILD FAILED with message <code>Execution failed for task ':ui:main-user-interface:npmInstall'.</code></strong>
- </summary><div> </p>
-</div>
-<div class="listingblock">
-<div class="title">Error message</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>FAILURE: Build failed with an exception.
-
-    What went wrong:
-    Execution failed for task ':ui:main-user-interface:npmInstall'.</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Possible causes &amp; resolution</div>
-<p>A <code>sudo</code> has been used before the <code>./gradlew assemble</code>.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpected problems could arise.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
-<div class="paragraph">
-<p> <details><summary> 
 <strong>curl get Failed to connect to localhost:2002: Connection refused</strong>
  </summary><div> </p>
 </div>
@@ -16188,456 +16594,21 @@ Don&#8217;t use <strong>sudo</strong> to build OperatorFabric otherwise unexpect
 <div class="paragraph">
 <p> </div></details> </p>
 </div>
-<div class="paragraph">
-<p> <details><summary> 
-<strong>curl 404 status return by ngnix</strong>
- </summary><div> </p>
-</div>
-<div class="paragraph">
-<p>When using the following command line:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>curl http://localhost:2002/thirds/</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The following error appears:</p>
-</div>
-<div class="listingblock">
-<div class="title">Error message</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>&lt;html&gt;
-&lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt;
-&lt;hr&gt;&lt;center&gt;nginx/1.17.10&lt;/center&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Possible causes &amp; resolution</div>
-<p>The requested page is not or no more mapped by the <code>nginx.conf</code> of <code>web-ui</code>.
-Update it or check for the new end point of the desired page.</p>
-</div>
-<div class="paragraph">
-<p>For this example, <code>businessconfig</code> replaces now the former <code>thirds</code> end-point.</p>
-</div>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
-<div class="paragraph">
-<p> <details><summary> 
-<strong>curl 404 status return by OperatorFabric</strong>
- </summary><div> </p>
-</div>
-<div class="paragraph">
-<p>When using the following command line:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>curl http://localhost:2002/businessconfig/ -H &quot;Authorization: Bearer ${token}&quot;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>${token}</code> is a valid OAuth2 JWT.</p>
-</div>
-<div class="paragraph">
-<p>The following error appears:</p>
-</div>
-<div class="listingblock">
-<div class="title">Error message</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>{&quot;timestamp&quot;:&quot;XXXX-XX-XXTXX:XX:XX.XXX+00:00&quot;,&quot;status&quot;:404,&quot;error&quot;:&quot;Not Found&quot;,&quot;message&quot;:&quot;&quot;,&quot;path&quot;:&quot;/businessconfig&quot;}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>XXXX-XX-XXTXX:XX:XX.XXX+00:00</code> is a time stamp corresponding to the moment when the request has been sent.</p>
-</div>
-<div class="paragraph">
-<div class="title">Possible causes &amp; resolution</div>
-<p>The requested end-point is not or no more valid in <code>OperatorFabric</code>.
-Check the API documentation for correct path.</p>
-</div>
-<div class="paragraph">
-<p>For this example, <code>businessconfig/processes</code> is a correct end-point whereas <code>businessconfig</code> alone is not.</p>
-</div>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
-<div class="paragraph">
-<p> <details><summary> 
-<strong><code>ERROR: for web-ui</code> when running docker compose in <code>${OF_HOME}/config/dev</code></strong>
- </summary><div> </p>
-</div>
-<div class="paragraph">
-<p>When using the following commands:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
-docker compose up -d</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The following error appears:</p>
-</div>
-<div class="listingblock">
-<div class="title">Error message</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>ERROR: for web-ui  Cannot start service web-ui: OCI runtime create failed: container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/home/legallron/projects/operatorfabric-core/config/dev/nginx.conf\\\&quot; to rootfs …</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>…</code> is specific to the runtime environment.</p>
-</div>
-<div class="paragraph">
-<div class="title">Possible causes &amp; resolution</div>
-<p>There is no <code>nginx.conf</code> file in the <code>${OF_HOME}/conf/dev</code> directory.</p>
-</div>
-<div class="paragraph">
-<p>A first run of OperatorFabric <code>docker compose</code> in dev config needs a <code>nginx.conf</code> file.
-To create it, and run a docker compose environment use:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
-./docker-compose.sh</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If docker compose has created a <code>nginx.conf</code> directory, delete it before running the previous commands.</p>
-</div>
-<div class="paragraph">
-<p>Once this <code>nginx.conf</code> file created a simple <code>docker compose up -d</code> is enough to run a dev docker compose environment.
-Sometimes a <code>nginx.conf</code> has been created as an attempt to launch the <code>web-ui</code> docker.
-See the following section to resolve this.</p>
-</div>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
-<div class="paragraph">
-<p> <details><summary> 
-<strong><code>/docker-compose.sh: ligne 7: ./nginx.conf: is a folder</code> when running <code>${OF_HOME}/config/dev/docker-compose.sh</code></strong>
- </summary><div> </p>
-</div>
-<div class="paragraph">
-<p>When using the following commands:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
-./docker-compose.sh</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The following error appears:</p>
-</div>
-<div class="listingblock">
-<div class="title">Error message</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>./docker-compose.sh: ligne 7: ./nginx.conf: is a folder</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Possible causes</div>
-<p>A <code>docker compose up</code> has been run previously without <code>nginx.conf</code>.
-A folder named <code>nginx.conf</code> has been created by <code>docker compose</code>.</p>
-</div>
-<div class="paragraph">
-<div class="title">Resolution</div>
-<p>You have rights to delete the folder:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
-rm -rf nginx.conf
-./docker-compose.sh # if you want to run OperatorFabric directly after.
-cd ${OF_HOME}
-bin/run_all.sh start</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You don&#8217;t have the rights to delete the folder:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd ${OF_HOME}/config/dev
-docker run -ti --rm -v $(pwd):/current alpine # if there is no `alpine` docker available it will pull it from dockerHub
-# your are now in the alpine docker container
-cd /current
-rm -rf nginxconf
-&lt;ctrl-d&gt; # to exit the `alpine` container bash environement
-./docker-compose.sh # if you want to run OperatorFabric directly after.
-cd ${OF_HOME}
-bin/run_all.sh start</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
-<div class="paragraph">
-<p> <details><summary> 
-<strong><code>An unhandled exception occurred: Call retries were exceeded</code> occurs when using <code>ng build</code></strong>
- </summary><div> </p>
-</div>
-<div class="paragraph">
-<p>When using the following command line:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd ${OF_HOME}/ui/main
-ng build</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The following error appears:</p>
-</div>
-<div class="listingblock">
-<div class="title">Error message</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>Generating ES5 bundles for differential loading...
-An unhandled exception occurred: Call retries were exceeded
-See &quot;/tmp/ng-&lt;random-string&gt;/angular-errors.log&quot; for further details.</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>where <code>ng-&lt;random-string&gt;</code> is a temporary folder created by Angular to build the front-end.</p>
-</div>
-<div class="paragraph">
-<div class="title">Possible causes &amp; resolution</div>
-<p>There is not enough allocated memory space to build the front-end.</p>
-</div>
-<div class="paragraph">
-<p>Use the following command to solve the problem:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p> </div></details> </p>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_keycloak_configuration"><a class="anchor" href="#_keycloak_configuration"></a>52. Keycloak Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The configuration needed for development purposes is automatically loaded from the dev-realms.json file.
-However, the steps below describe how they can be reproduced from scratch on a blank Keycloak instance in case you
-want to add to it.</p>
+<p>The configuration needed for development purposes is automatically loaded from the config/keycloak repository.</p>
 </div>
 <div class="paragraph">
 <p>The Keycloak Management interface is available here:  [host]:89/auth/admin
 Default credentials are admin/admin.</p>
 </div>
-<div class="sect2">
-<h3 id="_add_realm"><a class="anchor" href="#_add_realm"></a>52.1. Add Realm</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Click top left down arrow next to Master</p>
-</li>
-<li>
-<p>Add Realm</p>
-</li>
-<li>
-<p>Name it dev (or whatever)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_setup_at_least_one_client_or_best_one_per_service"><a class="anchor" href="#_setup_at_least_one_client_or_best_one_per_service"></a>52.2. Setup at least one client (or best one per service)</h3>
-<div class="sect3">
-<h4 id="_create_client"><a class="anchor" href="#_create_client"></a>52.2.1. Create client</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Click Clients in left menu</p>
-</li>
-<li>
-<p>Click Create Button</p>
-</li>
-<li>
-<p>Set client ID to "opfab-client" (or whatever)</p>
-</li>
-<li>
-<p>Select Openid-Connect Protocol</p>
-</li>
-<li>
-<p>Click Next</p>
-</li>
-<li>
-<p>Enable client authentication</p>
-</li>
-<li>
-<p>Enable authorization</p>
-</li>
-<li>
-<p>Select Authentication flows: Standard flow, Direct access grants, Implicit flow</p>
-</li>
-<li>
-<p>Click Next</p>
-</li>
-<li>
-<p>Enter Valid redirect URIs : <a href="http://localhost:2002/*" class="bare">localhost:2002/*</a></p>
-</li>
-<li>
-<p>Add Valid redirect URIs : <a href="http://localhost:4200/*" class="bare">localhost:4200/*</a></p>
-</li>
-<li>
-<p>Click Save</p>
-</li>
-<li>
-<p>Remove Web origins settings</p>
-</li>
-<li>
-<p>Click Save</p>
-</li>
-<li>
-<p>Select Client scopes tab</p>
-</li>
-<li>
-<p>Click on opfab-client-dedicated</p>
-</li>
-<li>
-<p>From Mappers tab click Add Mapper</p>
-</li>
-<li>
-<p>Select by configuration</p>
-</li>
-<li>
-<p>Select User Property</p>
-</li>
-<li>
-<p>name it sub</p>
-</li>
-<li>
-<p>set Property to username</p>
-</li>
-<li>
-<p>set Token claim name to sub</p>
-</li>
-<li>
-<p>enable add to access token</p>
-</li>
-<li>
-<p>save</p>
-</li>
-<li>
-<p>From Mappers tab click Add Mapper</p>
-</li>
-<li>
-<p>Select by configuration</p>
-</li>
-<li>
-<p>Select User Attribute</p>
-</li>
-<li>
-<p>name it groups</p>
-</li>
-<li>
-<p>set Property to groups</p>
-</li>
-<li>
-<p>set User attribute to groups</p>
-</li>
-<li>
-<p>set Token claim name to groups</p>
-</li>
-<li>
-<p>enable add to access token</p>
-</li>
-<li>
-<p>save</p>
-</li>
-<li>
-<p>From Mappers tab click Add Mapper</p>
-</li>
-<li>
-<p>Select by configuration</p>
-</li>
-<li>
-<p>Select User Attribute</p>
-</li>
-<li>
-<p>name it groups</p>
-</li>
-<li>
-<p>set Property to entitiesId</p>
-</li>
-<li>
-<p>set User attribute to entitiesId</p>
-</li>
-<li>
-<p>set Token claim name to entitiesId</p>
-</li>
-<li>
-<p>enable add to access token</p>
-</li>
-<li>
-<p>save</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_create_users"><a class="anchor" href="#_create_users"></a>52.3. Create Users</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Click Users in left menu</p>
-</li>
-<li>
-<p>Click Add User button</p>
-</li>
-<li>
-<p>Set username to admin</p>
-</li>
-<li>
-<p>Create</p>
-</li>
-<li>
-<p>Select Credentials tab</p>
-</li>
-<li>
-<p>set password and confirmation to "test"</p>
-</li>
-<li>
-<p>disable Temporary flag</p>
-</li>
-<li>
-<p>Select Attributes tab</p>
-</li>
-<li>
-<p>add groups or entitiesId attributes if needed</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
-<p>repeat process for other users:
-operator3_fr, operator1_fr, operator2_fr, etc ..</p>
-</div>
-<div class="sect3">
-<h4 id="_development_specific_configuration"><a class="anchor" href="#_development_specific_configuration"></a>52.3.1. Development-specific configuration</h4>
-<div class="paragraph">
-<p>To facilitate development, in  the configuration file provided in the git (dev-realms.json) ,session are set to have
-a duration of 10 hours (36000 seconds) and SSL is not required. These parameters should not be used in production.</p>
-</div>
-<div class="paragraph">
-<p>The following parameters are set :
-accessTokenLifespan : 36000
-ssoSessionMaxLifespan : 36000
-accessCodeLifespan" : 36000
-accessCodeLifespanUserAction : 36000
-sslRequired : none</p>
-</div>
-</div>
+<p>To facilitate development, in  the configuration file dev-realms.json, session is set to have
+a duration of 10 hours (36000 seconds).</p>
 </div>
 </div>
 </div>
@@ -16714,57 +16685,6 @@ user_info","jti":"02d82e85-13f0-4678-974d-18eb06215a65"}</pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_httpie"><a class="anchor" href="#_httpie"></a>53.1.2. Httpie</h4>
-<div class="listingblock">
-<div class="content">
-<pre>http --form POST http://localhost:2002/auth/token username=admin password=test
-grant_type=password</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>example of expected result:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>.HTTP/1.1 200 OK
-Cache-Control: no-store
-Content-Type: application/json;charset=utf-8
-Date: Fri, 15 Mar 2019 13:57:19 GMT
-Pragma: no-cache
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-transfer-encoding: chunked
-
-{
-    "access_token":
-"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOS
-wiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yz
-g3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2
-NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd
-3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST
-8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge
-8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfD
-J6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q",
-    "expires_in": 1799,
-    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
-    "refresh_token":
-"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLC
-J1c2VyX2luZm8iXSwiYXRpIjoiNjI0MzA5YjEtN2M4Ny00Y2RjLTg0NDMtMDEyNDUxNWY4N2Y4IiwiZX
-hwIjoxNTUyNzAxNDM5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aS
-I6ImRiYzMxNTJiLTM4YTUtNGFmZC1hY2VmLWVkZTI4MjJkOTE3YyIsImNsaWVudF9pZCI6ImNsaWVudE
-lkUGFzc3dvcmQifQ.Ezd8kbfNQHOOvUCNNN4UmOOkncHiT9QVEM63FiW1rq0uXDa3xfBGil8geM5MsP0
-7Q2He-mynkFb8sGNDrAXTdO-8r5o4a60zWrktrMg2QH4icC1lyeZpiwZxe6675QpLpSeMlXt9PdYj-pb
-14lrRookxXP5xMQuIMteZpbtby7LuuNAbNrjveZ1bZ4WMi7zltUzcYUuqHlP1AYPteGRrJVKXiuPpoDv
-gwMsEk2SkgyyACI7SdZZs8IT9IGgSsIjjgTMQKzj8P6yYxNLUynEW4o5y1s2aAOV0xKrzkln9PchH9zN
-qO-fkjTVRjy_LBXGq9zkn0ZeQ3BUe1GuthvGjaA",
-    "scope": "read user_info",
-    "token_type": "bearer"
-}</pre>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_extract_token"><a class="anchor" href="#_extract_token"></a>53.2. Extract token</h3>
@@ -16788,22 +16708,6 @@ OXT3bUhQwPOgggZDO0lv2U1klwB94c8Cb6rErzd3yjJ8wcVcnFLO4KxrjYZZxdKVAz0CkMKqng4kQeQm
 _1UShsQXGLl48ezbjXyJn6mAl0oS4ExeiVsx_kYGEdqjyb5CiNaAzyx0J-J5jVDSJew1rj5EiSybuy83
 PZwhluhxq0D2zPK1OSzqiezsd5kX5V8XI4MipDhaAbPYroL94banZTn9RmmAKZCAYVM-mmHbjk8mF89f
 L9rKf9EUNhxOG6GE0MDqB3LLLcyQ6sYUmpqdP5Z94IkAN-FpC7k93_-RDw</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_httpie_2"><a class="anchor" href="#_httpie_2"></a>53.2.2. Httpie</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Authorization:Bearer
-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2MDAzOSw
-iYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliMS03Yzg
-3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkIiwic2N
-vcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2qFa5Bd3
-PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lHDd8ST8
-fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNXJ4Bge8
-scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeApKdfDJ
-6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
 </div>
 </div>
 </div>
@@ -16841,58 +16745,6 @@ http://localhost:2002/auth/check_token</pre>
     "authorities":["ROLE_ADMIN","ROLE_USER"],
     "jti":"02d82e85-13f0-4678-974d-18eb06215a65",
     "client_id":"clientIdPassword"
-}</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_httpie_3"><a class="anchor" href="#_httpie_3"></a>53.3.2. Httpie</h4>
-<div class="paragraph">
-<p>from previous example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>http --form POST http://localhost:2002/auth/check_token
-token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjY2M
-DAzOSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2MjQzMDliM
-S03Yzg3LTRjZGMtODQ0My0wMTI0NTE1Zjg3ZjgiLCJjbGllbnRfaWQiOiJjbGllbnRJZFBhc3N3b3JkI
-iwic2NvcGUiOlsicmVhZCIsInVzZXJfaW5mbyJdfQ.VO4OZL7ycqNez0cHzM5WPuklr0r6SAOkUdUV2q
-Fa5Bd3PWx3DFHAHUxkfSX0-R4OO6iG2Zu7abzToAZNVLwk107LH_lWXOMQBriGx3d2aSgCf1yx_wI3lH
-Dd8ST8fxV7uNeolzywYavSpMGfgz9GXLzmnyeuPH4oy7eyPk9BwWVi0d7a_0d-EfhE1T8eaiDfymzzNX
-J4Bge8scPy-93HmWpqORtJaFq1qy4QgU28N2LgHFEEEWCSzfhYXH-LngTCP3-JSNcox1hI51XBWEqoeA
-pKdfDJ6o4szR71SIFCBERxCH9TyUxsFywWL3e-YnXMiP2J08eB8O4YwhYQEFqB8Q</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>which gives the following example of result:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>HTTP/1.1 200 OK
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Content-Type: application/json;charset=utf-8
-Date: Fri, 15 Mar 2019 14:19:31 GMT
-Expires: 0
-Pragma: no-cache
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-transfer-encoding: chunked
-
-{
-    "active": true,
-    "authorities": [
-        "ROLE_ADMIN",
-        "ROLE_USER"
-    ],
-    "client_id": "clientIdPassword",
-    "exp": 1552660039,
-    "jti": "624309b1-7c87-4cdc-8443-0124515f87f8",
-    "scope": [
-        "read",
-        "user_info"
-    ],
-    "sub": "admin"
 }</pre>
 </div>
 </div>
@@ -22645,6 +22497,105 @@ Here is a custom screen configuration that can replace the monitoring screen :</
     opfab.businessconfig.registerCustomScreen(CustomScreenMonitoring);
 }</code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_9_x_to_release_4_10_0"><a class="anchor" href="#_migration_guide_from_release_4_9_x_to_release_4_10_0"></a>89. Migration Guide from release 4.9.X to release 4.10.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_response_card_in_handlebars_templates"><a class="anchor" href="#_response_card_in_handlebars_templates"></a>89.1. Response card in handlebars templates</h3>
+<div class="paragraph">
+<p>If this has not been done in a previous migration, the object that should be returned by
+the method registered via <code>opfab.currentCard.registerFunctionToGetUserResponse</code> is to be
+changed.</p>
+</div>
+<div class="paragraph">
+<p>Previously, the object was structured as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCardData: {},
+    responseState: string,
+    publisher: string,
+    actions: [string]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, all elements related to the response card are encapsulated within a <code>responseCard</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCard: {
+        data: {},
+        state: string,
+        publisher: string,
+        actions: [string]
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>responseState</code> field has been renamed to <code>state</code>.</p>
+</div>
+<div class="paragraph">
+<p>The old structure has been supported as a fallback for a limited time, now it is removed, so you have to update your
+code to use the new structure.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timeline_domain_j_renamed_d"><a class="anchor" href="#_timeline_domain_j_renamed_d"></a>89.2. Timeline domain J renamed D</h3>
+<div class="paragraph">
+<p>To be consistent, the timeline domain J has been renamed D (Day).
+So if necessary, you have to update your config file <code>web-ui.json</code>, replacing value <code>J</code> with <code>D</code> in the field
+<code>feed.timeline.domains</code>, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre> "timeline": {
+   "domains": [
+     "RT",
+     "D",
+     "7D",
+     "W",
+     "M",
+     "Y"
+   ]
+ }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rabbitmq_configuration"><a class="anchor" href="#_rabbitmq_configuration"></a>89.3. RabbitMQ configuration</h3>
+<div class="paragraph">
+<p>In previous version, a default password was set for RabbitMQ connection if no password was provided in configuration. Using the default password was considered as acceptable as the rabbit server was not suppose to be accessible from outside the docker network and a security advice was present in the docker compose file.</p>
+</div>
+<div class="paragraph">
+<p>Starting from this version, no default password is set anymore in the services configuration to mitigate security risk by forcing user to set a password.</p>
+</div>
+<div class="paragraph">
+<p>So you must provide a password :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>in your docker compose configuration file via the env variable RABBITMQ_DEFAULT_PASS.</p>
+</li>
+<li>
+<p>in your yaml common configuration file via the property <code>operatorfabric.rabbitmq.password</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you do not provide any password, the application will not start and an error message will be logged.</p>
 </div>
 </div>
 </div>

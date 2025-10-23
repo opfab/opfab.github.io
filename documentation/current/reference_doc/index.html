@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.9.0.RELEASE,</span>
-<span id="revdate">05 September 2025</span>
+<span id="revnumber">version 4.10.0.RELEASE,</span>
+<span id="revdate">23 October 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -681,7 +681,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_configuring_email_notifications">5.1. Configuring Email Notifications</a></li>
 <li><a href="#_email_content">5.2. Email Content</a></li>
-<li><a href="#_email_templates">5.3. Email templates</a></li>
+<li><a href="#_email_templates">5.3. Email templates</a>
+<ul class="sectlevel3">
+<li><a href="#_rich_text_content">5.3.1. Rich text content</a></li>
+<li><a href="#_custom_handlebars_helpers">5.3.2. Custom Handlebars helpers</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#response_cards">6. Response cards</a>
@@ -870,7 +875,28 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_archives_screen_in_the_ui">11.2. Archives screen in the UI</a></li>
 </ul>
 </li>
-<li><a href="#geomap">12. Geographical map</a></li>
+<li><a href="#geomap">12. Geographical map</a>
+<ul class="sectlevel2">
+<li><a href="#_map_projections">12.1. Map Projections</a>
+<ul class="sectlevel3">
+<li><a href="#_layer_properties">12.1.1. Layer Properties</a>
+<ul class="sectlevel4">
+<li><a href="#_common_properties">12.1.1.1. Common Properties</a></li>
+<li><a href="#_arcgis_specific_properties">12.1.1.2. ArcGIS Specific Properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_color_mode_control">12.2. Color Mode Control</a></li>
+<li><a href="#_layer_authentication">12.3. Layer Authentication</a></li>
+<li><a href="#_configuration_examples">12.4. Configuration Examples</a>
+<ul class="sectlevel3">
+<li><a href="#_web_mercator_projection_worldwide">12.4.1. Web Mercator Projection (Worldwide)</a></li>
+<li><a href="#_lambert_93_projection_france">12.4.2. Lambert 93 Projection (France)</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_process_monitoring">13. Process monitoring</a></li>
 <li><a href="#users_management">14. User management</a>
 <ul class="sectlevel2">
@@ -1332,7 +1358,7 @@ Grouping cards is an experimental feature
 <p>You can add geographical location in  <code>wktGeometry</code> and the projection in <code>wktProjection</code>  fields.</p>
 </div>
 <div class="paragraph">
-<p>When <code>feed.enableMap</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn. When the card has set its wktGeometry, the location will be highlighted on the card. Two geometrical shapes are supported <code>POINT</code>, which will show a circle on the map, and <code>POLYGON</code> which will draw the specified area on the map.  For example show a circle based on the card location:</p>
+<p>When <code>feed.geomap.enableMap</code> is enabled in the <code>web&#8288;-ui.json</code> configuration file and the card is visible in the line feed, a geographical map will be drawn. When the card has set its wktGeometry, the location will be highlighted on the card. Two geometrical shapes are supported <code>POINT</code>, which will show a circle on the map, and <code>POLYGON</code> which will draw the specified area on the map.  For example show a circle based on the card location:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3701,6 +3727,8 @@ This template can use handlebars helpers for formatting but can&#8217;t run java
   {{#card.data.networkContingencies}}</pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_rich_text_content"><a class="anchor" href="#_rich_text_content"></a>5.3.1. Rich text content</h4>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
@@ -3735,6 +3763,53 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 <div class="literalblock">
 <div class="content">
 <pre>{{#config.myParam1}}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>5.3.2. Custom Handlebars helpers</h4>
+<div class="paragraph">
+<p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">function</span> <span class="function">example_severityColor</span>(severity) {
+    let color;
+    <span class="keyword">switch</span> (severity) {
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">ALARM</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">red</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">ACTION</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">orange</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">COMPLIANT</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">green</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">INFORMATION</span><span class="delimiter">'</span></span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">blue</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            color = <span class="string"><span class="delimiter">'</span><span class="content">white</span><span class="delimiter">'</span></span>;
+            <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> color;
+}
+
+helpers = [example_severityColor];</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each helper will be registered with the same name as the helper function. To avoid conflicts with existing helpers, it is recommended to prefix your helper names (for example: <code>myapp_xxx</code>).</p>
+</div>
+<div class="paragraph">
+<p>Reference this file in the YAML configuration of the <code>cards-external-diffusion</code> service using the <code>customHandlebarsHelpersFile</code> parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+    adminPort: 2106
+    customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -6056,10 +6131,13 @@ can see all archives for which he has the right to receive it, whether he is par
 <p>The geographical map is a feature that allows you to display the geographical location of cards on a map on the feed screen.</p>
 </div>
 <div class="paragraph">
-<p>To activate the geographical map feature, set the <code>feed.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
+<p>To activate the geographical map feature, set the <code>feed.geomap.enableMap</code> property to <code>true</code> in the <code>web-ui.json</code> configuration file.</p>
 </div>
 <div class="paragraph">
 <p>The geographical location of the cards is determined by the <code>wktGeometry</code> and <code>wktProjection</code> fields in the card&#8217;s metadata. If a card has a defined <code>wktGeometry</code>, its location will be highlighted on the card. The system supports two geometrical shapes: <code>POINT</code> and <code>POLYGON</code>. A <code>POINT</code> will display as a circle on the map, while a <code>POLYGON</code> will outline the specified area.</p>
+</div>
+<div class="paragraph">
+<p>The <code>wktProjection</code> field specifies the coordinate reference system of the WKT geometry. If not specified, the system uses the <code>defaultDataProjection</code> configuration parameter (default: EPSG:4326). The geometry is automatically transformed to match the map&#8217;s projection.</p>
 </div>
 <div class="paragraph">
 <p>For instance, to display a circle at a specific location, use:</p>
@@ -6086,6 +6164,27 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <div class="paragraph">
 <p>You can customize the map by setting parameters in the <code>web-ui.json</code> configuration file.</p>
 </div>
+<div class="sect2">
+<h3 id="_map_projections"><a class="anchor" href="#_map_projections"></a>12.1. Map Projections</h3>
+<div class="paragraph">
+<p>The geographical map supports different coordinate reference systems (projections):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>EPSG:3857</code> (Web Mercator) - Default projection, suitable for worldwide mapping</p>
+</li>
+<li>
+<p><code>EPSG:2154</code> (Lambert 93) - French national projection, optimized for France</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The map projection can be configured using the <code>feed.geomap.mapProjection</code> parameter. Initial coordinates (<code>initialLongitude</code> and <code>initialLatitude</code>) can be specified either in WGS84 (EPSG:4326) or in the target projection - the system automatically detects the format and transforms them if necessary.</p>
+</div>
+<div class="paragraph">
+<p>For Lambert 93 projection, the system includes automatic extent constraint to avoid 404 errors on tiles outside the valid area for France (including Corsica). This can be controlled using the <code>feed.geomap.constrainLambert93Extent</code> parameter.</p>
+</div>
 <div class="paragraph">
 <p>The layers and tiles of the map can be configured using the <code>feed.geomap.layers</code> parameter. The following types are supported:</p>
 </div>
@@ -6095,13 +6194,273 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <p><code>osm</code> for OpenStreetMap tiles</p>
 </li>
 <li>
-<p><code>geojson</code> for GeoJSON layers.</p>
+<p><code>geojson</code> for GeoJSON layers</p>
 </li>
 <li>
-<p><code>xyz</code> for XYZ tiles.</p>
+<p><code>xyz</code> for XYZ tiles</p>
 </li>
 <li>
-<p><code>wmts</code> for WMTS layers.</p>
+<p><code>wmts</code> for WMTS layers</p>
+</li>
+<li>
+<p><code>arcgis</code> or <code>esri</code> for ArcGIS REST Map Service layers</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All layer types support <code>opacity</code> (transparency from 0 to 1) and <code>zIndex</code> (stacking order) properties for advanced layer management.</p>
+</div>
+<div class="sect3">
+<h4 id="_layer_properties"><a class="anchor" href="#_layer_properties"></a>12.1.1. Layer Properties</h4>
+<div class="sect4">
+<h5 id="_common_properties"><a class="anchor" href="#_common_properties"></a>12.1.1.1. Common Properties</h5>
+<div class="paragraph">
+<p>All layer types support these properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>opacity</code>: Transparency level from 0.0 (transparent) to 1.0 (opaque). Default: 1.0</p>
+</li>
+<li>
+<p><code>zIndex</code>: Stacking order (higher values appear on top). Default: 0</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_arcgis_specific_properties"><a class="anchor" href="#_arcgis_specific_properties"></a>12.1.1.2. ArcGIS Specific Properties</h5>
+<div class="paragraph">
+<p>ArcGIS layers support additional parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>transparent</code>: Boolean parameter sent to ArcGIS server requesting transparent background</p>
+</li>
+<li>
+<p><code>layers</code>: Comma-separated list of layer IDs to display (e.g., "0,1,2")</p>
+</li>
+<li>
+<p><code>format</code>: Image format requested from server (e.g., "png", "jpg")</p>
+</li>
+<li>
+<p><code>ratio</code>: Device pixel ratio (default: 1, overrides OpenLayers' default of 1.5 for consistent performance)</p>
+</li>
+<li>
+<p><code>visible</code>: Initial layer visibility (default: true)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Example ArcGIS configuration:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;type&quot;: &quot;arcgis&quot;,
+  &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+  &quot;transparent&quot;: true,
+  &quot;opacity&quot;: 0.8,
+  &quot;layers&quot;: &quot;0,1,2&quot;,
+  &quot;format&quot;: &quot;png&quot;,
+  &quot;ratio&quot;: 1,
+  &quot;visible&quot;: true,
+  &quot;zIndex&quot;: 3
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_color_mode_control"><a class="anchor" href="#_color_mode_control"></a>12.2. Color Mode Control</h3>
+<div class="paragraph">
+<p>The map appearance can be controlled using the <code>colorMode</code> parameter with three possible values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>"dark"</code>: Always apply dark mode (CSS inversion filter applied)</p>
+</li>
+<li>
+<p><code>"light"</code>: Always apply light mode (no CSS filter applied)</p>
+</li>
+<li>
+<p><code>"uiTheme"</code> (default): Automatically follow the application&#8217;s day/night theme</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Example:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      // ... other configuration
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is useful when you want the map to remain in a specific color mode regardless of the OpFab interface theme. The <code>"dark"</code> value applies CSS inversion filter while <code>"light"</code> ensures no filter is applied.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_layer_authentication"><a class="anchor" href="#_layer_authentication"></a>12.3. Layer Authentication</h3>
+<div class="paragraph">
+<p>OpFab requests map layers with anonymous cross-origin mode by default.</p>
+</div>
+<div class="paragraph">
+<p><strong>Recommended approach</strong>: Use a reverse proxy (nginx) for all external services to avoid CORS errors and handle authentication, caching, and rate limiting.</p>
+</div>
+<div class="paragraph">
+<p><strong>For public layers</strong>: Configure the proxy to forward requests without authentication headers.</p>
+</div>
+<div class="paragraph">
+<p><strong>For secured layers</strong>: Configure the proxy to add authentication headers (API keys, tokens, certificates) before forwarding requests.</p>
+</div>
+<div class="paragraph">
+<p>Then configure OpFab to use your proxy URLs instead of external service URLs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration_examples"><a class="anchor" href="#_configuration_examples"></a>12.4. Configuration Examples</h3>
+<div class="sect3">
+<h4 id="_web_mercator_projection_worldwide"><a class="anchor" href="#_web_mercator_projection_worldwide"></a>12.4.1. Web Mercator Projection (Worldwide)</h4>
+<div class="paragraph">
+<p>Here&#8217;s a complete example configuration using Web Mercator projection with all supported layer types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;enableMap&quot;: true,
+      &quot;mapProjection&quot;: &quot;EPSG:3857&quot;,
+      &quot;defaultDataProjection&quot;: &quot;EPSG:4326&quot;,
+      &quot;initialLongitude&quot;: 2.4408,
+      &quot;initialLatitude&quot;: 46.7211,
+      &quot;initialZoom&quot;: 6,
+      &quot;maxZoom&quot;: 18,
+      &quot;zoomLevelWhenZoomToLocation&quot;: 14,
+      &quot;zoomDuration&quot;: 500,
+      &quot;highlightPolygonStrokeWidth&quot;: 20,
+      &quot;popupContent&quot;: &quot;summary&quot;,
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      &quot;layers&quot;: [
+        {
+          &quot;type&quot;: &quot;osm&quot;,
+          &quot;zIndex&quot;: 0
+        },
+        {
+          &quot;type&quot;: &quot;xyz&quot;,
+          &quot;url&quot;: &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+          &quot;zIndex&quot;: 1
+        },
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+          &quot;matrixSet&quot;: &quot;PM_0_19&quot;,
+          &quot;opacity&quot;: 0.7,
+          &quot;zIndex&quot;: 2
+        },
+        {
+          &quot;type&quot;: &quot;arcgis&quot;,
+          &quot;url&quot;: &quot;https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer&quot;,
+          &quot;transparent&quot;: true,
+          &quot;opacity&quot;: 0.8,
+          &quot;zIndex&quot;: 3
+        },
+        {
+          &quot;type&quot;: &quot;geojson&quot;,
+          &quot;url&quot;: &quot;https://opendata.agenceore.fr/api/explore/v2.1/catalog/datasets/reseau-aerien-haute-tension-htb/exports/geojson?lang=fr&amp;timezone=Europe%2FBerlin&quot;,
+          &quot;style&quot;: {
+            &quot;stroke-color&quot;: &quot;red&quot;
+          },
+          &quot;zIndex&quot;: 4
+        },
+        {
+          &quot;type&quot;: &quot;geojson&quot;,
+          &quot;url&quot;: &quot;assets/layers/geojson-layer2.json&quot;,
+          &quot;zIndex&quot;: 5
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lambert_93_projection_france"><a class="anchor" href="#_lambert_93_projection_france"></a>12.4.2. Lambert 93 Projection (France)</h4>
+<div class="paragraph">
+<p>Here&#8217;s an example configuration optimized for France using Lambert 93 projection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="jsonc">{
+  &quot;feed&quot;: {
+    &quot;geomap&quot;: {
+      &quot;enableMap&quot;: true,
+      &quot;mapProjection&quot;: &quot;EPSG:2154&quot;,
+      &quot;defaultDataProjection&quot;: &quot;EPSG:2154&quot;,
+      &quot;colorMode&quot;: &quot;uiTheme&quot;,
+      &quot;initialLongitude&quot;: 651966,
+      &quot;initialLatitude&quot;: 6862314,
+      &quot;initialZoom&quot;: 4,
+      &quot;maxZoom&quot;: 8,
+      &quot;zoomLevelWhenZoomToLocation&quot;: 6,
+      &quot;zoomDuration&quot;: 500,
+      &quot;highlightPolygonStrokeWidth&quot;: 20,
+      &quot;popupContent&quot;: &quot;summary&quot;,
+      &quot;layers&quot;: [
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&quot;,
+          &quot;matrixSet&quot;: &quot;2154_16&quot;,
+          &quot;opacity&quot;: 0.7,
+          &quot;zIndex&quot;: 1
+        },
+        {
+          &quot;type&quot;: &quot;wmts&quot;,
+          &quot;capabilitiesUrl&quot;: &quot;https://data.geopf.fr/annexes/ressources/wmts/essentiels.xml&quot;,
+          &quot;layer&quot;: &quot;CADASTRALPARCELS.PARCELLAIRE_EXPRESS&quot;,
+          &quot;matrixSet&quot;: &quot;2154_16&quot;,
+          &quot;opacity&quot;: 1,
+          &quot;zIndex&quot;: 2
+        }
+      ]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Important notes for Lambert 93:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use lower zoom levels: <code>initialZoom: 2</code> for France overview, <code>maxZoom: 12</code> is usually sufficient</p>
+</li>
+<li>
+<p>Coordinates can be provided in Lambert 93 format (large numbers) or WGS84 (auto-detected)</p>
+</li>
+<li>
+<p>The extent automatically includes Corsica</p>
+</li>
+<li>
+<p>Constraint to France territory is enabled by default (<code>constrainLambert93Extent: true</code>)</p>
+</li>
+<li>
+<p>Layer validation is performed automatically with detailed error logging for invalid configurations</p>
 </li>
 </ul>
 </div>
@@ -6109,6 +6468,8 @@ can be found at <a href="https://www.ogc.org/standards/wkt-crs">WKT Specificatio
 <p>Refer to the
 <a href="/documentation/current/deployment/index.html#ui_properties_geomap">geomap web-ui configuration</a>
 section for more information and additional customization options.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -6144,7 +6505,9 @@ process.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The columns displayed on this screen can be configured. To do that, you have to define a JSON file and load the file by sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using CLI command <code>opfab process-monitoring load &lt;file&gt;</code>.</p>
+<p>The columns displayed on this screen can be configured. To do that, you have to define a JSON file and load the file by
+sending an HTTP POST request to the <code>/processmonitoring</code> API of businessconfig service or using CLI command
+<code>opfab process-monitoring load &lt;file&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Here is an example of processMonitoring configuration file:</p>
@@ -6158,7 +6521,7 @@ process.</p>
     { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400},
     { &quot;field&quot;: &quot;data.stateName&quot;, &quot;colName&quot;: &quot;My field&quot;, &quot;size&quot;: 300},
     { &quot;field&quot;: &quot;summaryTranslated&quot;, &quot;colName&quot;: &quot;Summary&quot;, &quot;size&quot;: 250},
-    { &quot;field&quot;: &quot;data.error&quot;, &quot;colName&quot;: &quot;My second field&quot;, &quot;size&quot;: 100}
+    { &quot;field&quot;: &quot;data.error&quot;, &quot;colName&quot;: &quot;My second field&quot;, &quot;size&quot;: 100, &quot;defaultVisibility&quot;: false}
   ],
   &quot;fieldsForProcesses&quot;: [
     {
@@ -6175,7 +6538,7 @@ process.</p>
         { &quot;field&quot;: &quot;startDate&quot;, &quot;type&quot;: &quot;date&quot;, &quot;colName&quot;: &quot;Start Date&quot;, &quot;size&quot;: 200},
         { &quot;field&quot;: &quot;endDate&quot;, &quot;type&quot;: &quot;date&quot;, &quot;colName&quot;: &quot;End Date&quot;, &quot;size&quot;: 200},
         { &quot;field&quot;: &quot;titleTranslated&quot;, &quot;colName&quot;: &quot;Title&quot;, &quot;size&quot;: 250},
-        { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400}
+        { &quot;field&quot;: &quot;entityRecipients&quot;, &quot;type&quot;: &quot;array&quot;, &quot;colName&quot;: &quot;Entity Recipients&quot;, &quot;size&quot;: 400, &quot;defaultVisibility&quot;:  false}
       ]
     }
   ],
@@ -6189,27 +6552,33 @@ process.</p>
           &quot;label&quot;: &quot;Label for tag 2&quot;,
           &quot;value&quot;: &quot;tag2&quot;
         }
-      ]
+      ],
     &quot;pageSize&quot;: 10
   }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>fields</code> field in the process monitoring configuration file defines the list of the fields you want to see in the array.</p>
+<p>The <code>fields</code> field in the process monitoring configuration file defines the list of the fields you want to see in the
+array.</p>
 </div>
 <div class="paragraph">
-<p>You also have the possibility to define the columns displayed per process. To do that, you have to configure the field <code>fieldsForProcesses</code>.</p>
+<p>You also have the possibility to define the columns displayed per process. To do that, you have to configure the field
+<code>fieldsForProcesses</code>.</p>
 </div>
 <div class="paragraph">
-<p>If more than one process is selected by the user or if a process has no configuration, the columns displayed will be those of the default config (<code>fields</code>).
-Depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the recipient of.</p>
+<p>If more than one process is selected by the user or if a process has no configuration, the columns displayed will be
+those of the default config (<code>fields</code>).
+Depending on the permissions of the groups to which the user is attached, he can also see the cards he is not the
+recipient of.</p>
 </div>
 <div class="paragraph">
-<p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of available tags used in the UI to filter the results <code>filters.tags</code>.</p>
+<p>In the process monitoring config file it is possible to configure the page size <code>filters.pageSize</code> and the list of
+available tags used in the UI to filter the results <code>filters.tags</code>.</p>
 </div>
 <div class="paragraph">
-<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
+<p>If the geographical map view is enabled ('feed.geomap.enableMap' set to 'true' in web-ui.json) it is possible to view
+the cards on the map by checking the "View Results on a Geographical Map" checkbox.</p>
 </div>
 <div class="paragraph">
 <p>Here is the description of the fields :</p>
@@ -6220,13 +6589,23 @@ Depending on the permissions of the groups to which the user is attached, he can
 <p>"field": the name of the field in the card (or in the database) you want to display</p>
 </li>
 <li>
-<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display a date/time field, set it to <code>array</code> to display an array as a comma separated list.</p>
+<p>"type": field type to be used for formatting. Possible values : <code>date</code>, <code>array</code>. Set to <code>date</code> if you want to display
+a date/time field, set it to <code>array</code> to display an array as a comma separated list. Set to <code>set</code> if you want to have a
+custom filter for a column. The possible values for the custom filter must be set with the field <code>possibleValues</code>.</p>
 </li>
 <li>
 <p>"colName": name of the column on the UI</p>
 </li>
 <li>
 <p>"size": size of the column on the UI, proportionally to each other</p>
+</li>
+<li>
+<p>"defaultVisibility": Indicates whether the field will be displayed, before the user interacts with the column for the
+first time.</p>
+</li>
+<li>
+<p>"possibleValues": List of values to display in the custom filter of a column. Must be used with field <code>type</code> set to
+<code>set</code>.</p>
 </li>
 </ul>
 </div>
@@ -7241,6 +7620,15 @@ The possible values are:</p>
 </li>
 <li>
 <p><code>INPUT</code>: Displays an input field. The value of the input field will be used for response cards if the custom screen has response buttons (see below).</p>
+</li>
+<li>
+<p><code>NUMBER</code> : Displays a number.</p>
+</li>
+<li>
+<p><code>NUMBER_ARRAY</code> : Displays an array of numbers based on a json array.</p>
+</li>
+<li>
+<p><code>PERIOD_ARRAY</code> : Displays an array of period based on a json array of objects, each object containing <code>startDate</code> and <code>endDate</code> fields as epoch date or Date object.</p>
 </li>
 <li>
 <p><code>PROCESS_NAME</code>: Displays the name of the card&#8217;s process.</p>

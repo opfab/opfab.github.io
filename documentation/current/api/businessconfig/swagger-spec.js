@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "description" : "IMPORTANT - The Try it Out button will generate curl requests for examples, but executing them through the UI will not work as authentication has not been set up. This page is for documentation only.",
-    "version" : "4.9.0.RELEASE",
+    "version" : "4.10.0.RELEASE",
     "title" : "BusinessConfig Management",
     "termsOfService" : "",
     "contact" : {
@@ -1058,6 +1058,18 @@ window.swaggerSpec={
         "size" : {
           "description" : "The size of the field",
           "type" : "integer"
+        },
+        "defaultVisibility" : {
+          "description" : "Indicates whether the field will be displayed, before the user interacts with the column for the first time.",
+          "type" : "boolean"
+        },
+        "possibleValues" : {
+          "description" : "List of values to display in the custom filter of a column. Must be used with field 'type' set to 'set'.",
+          "type" : "array",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },
@@ -1075,7 +1087,7 @@ window.swaggerSpec={
     "ProcessMonitoringFieldTypeEnum" : {
       "type" : "string",
       "description" : "Type of field",
-      "enum" : [ "string", "date", "array" ]
+      "enum" : [ "string", "date", "array", "set" ]
     }
   }
 }

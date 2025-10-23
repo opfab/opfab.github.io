@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.9.0.RELEASE,</span>
-<span id="revdate">05 September 2025</span>
+<span id="revnumber">version 4.10.0.RELEASE,</span>
+<span id="revdate">23 October 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -748,6 +748,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_geomap_configuration">23.1. Geomap configuration</a></li>
 <li><a href="#_entities_in_token">23.2. Entities in Token</a></li>
 <li><a href="#_deletion_of_monitoring_screen">23.3. Deletion of monitoring screen</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_9_x_to_release_4_10_0">24. Migration Guide from release 4.9.X to release 4.10.0</a>
+<ul class="sectlevel2">
+<li><a href="#_response_card_in_handlebars_templates">24.1. Response card in handlebars templates</a></li>
+<li><a href="#_timeline_domain_j_renamed_d">24.2. Timeline domain J renamed D</a></li>
+<li><a href="#_rabbitmq_configuration">24.3. RabbitMQ configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -3516,6 +3523,105 @@ Here is a custom screen configuration that can replace the monitoring screen :</
     opfab.businessconfig.registerCustomScreen(CustomScreenMonitoring);
 }</code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_9_x_to_release_4_10_0"><a class="anchor" href="#_migration_guide_from_release_4_9_x_to_release_4_10_0"></a>24. Migration Guide from release 4.9.X to release 4.10.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_response_card_in_handlebars_templates"><a class="anchor" href="#_response_card_in_handlebars_templates"></a>24.1. Response card in handlebars templates</h3>
+<div class="paragraph">
+<p>If this has not been done in a previous migration, the object that should be returned by
+the method registered via <code>opfab.currentCard.registerFunctionToGetUserResponse</code> is to be
+changed.</p>
+</div>
+<div class="paragraph">
+<p>Previously, the object was structured as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCardData: {},
+    responseState: string,
+    publisher: string,
+    actions: [string]
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, all elements related to the response card are encapsulated within a <code>responseCard</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    valid: true/false,
+    errorMsg: string,
+    responseCard: {
+        data: {},
+        state: string,
+        publisher: string,
+        actions: [string]
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the <code>responseState</code> field has been renamed to <code>state</code>.</p>
+</div>
+<div class="paragraph">
+<p>The old structure has been supported as a fallback for a limited time, now it is removed, so you have to update your
+code to use the new structure.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timeline_domain_j_renamed_d"><a class="anchor" href="#_timeline_domain_j_renamed_d"></a>24.2. Timeline domain J renamed D</h3>
+<div class="paragraph">
+<p>To be consistent, the timeline domain J has been renamed D (Day).
+So if necessary, you have to update your config file <code>web-ui.json</code>, replacing value <code>J</code> with <code>D</code> in the field
+<code>feed.timeline.domains</code>, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre> "timeline": {
+   "domains": [
+     "RT",
+     "D",
+     "7D",
+     "W",
+     "M",
+     "Y"
+   ]
+ }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rabbitmq_configuration"><a class="anchor" href="#_rabbitmq_configuration"></a>24.3. RabbitMQ configuration</h3>
+<div class="paragraph">
+<p>In previous version, a default password was set for RabbitMQ connection if no password was provided in configuration. Using the default password was considered as acceptable as the rabbit server was not suppose to be accessible from outside the docker network and a security advice was present in the docker compose file.</p>
+</div>
+<div class="paragraph">
+<p>Starting from this version, no default password is set anymore in the services configuration to mitigate security risk by forcing user to set a password.</p>
+</div>
+<div class="paragraph">
+<p>So you must provide a password :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>in your docker compose configuration file via the env variable RABBITMQ_DEFAULT_PASS.</p>
+</li>
+<li>
+<p>in your yaml common configuration file via the property <code>operatorfabric.rabbitmq.password</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you do not provide any password, the application will not start and an error message will be logged.</p>
 </div>
 </div>
 </div>
