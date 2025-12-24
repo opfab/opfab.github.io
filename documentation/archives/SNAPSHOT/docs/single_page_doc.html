@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">21 December 2025</span>
+<span id="revdate">24 December 2025</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1716,6 +1716,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_destroy_listener_for_templates">89.2. Destroy listener for templates</a></li>
 <li><a href="#_docker_naming_change">89.3. Docker naming change</a></li>
 <li><a href="#_email_configuration_in_bundles">89.4. Email configuration in bundles</a></li>
+<li><a href="#_email_feature">89.5. Email feature</a></li>
+<li><a href="#_selectactivityareaonlogin_configuration_parameter">89.6. selectActivityAreaOnLogin configuration parameter</a></li>
 </ul>
 </li>
 </ul>
@@ -6252,7 +6254,6 @@ Users can enable hallway mode in their user settings by selecting the <code>Auto
 <h3 id="_configuring_email_notifications"><a class="anchor" href="#_configuring_email_notifications"></a>20.1. Configuring Email Notifications</h3>
 <div class="paragraph">
 <p>Users can enable email notifications in their user settings. If the parameter
-<code>operatorfabric.users.getEmailFromUserInsteadOfSettingsThey</code> is set to true, the email address is fetched from the token.
 The email address is displayed in the settings screen but the field is readonly.
 If the parameter is absent or set to false, the user must provide an email address (in the settings screen) for receiving
 notifications and select the processes/states they want to be notified about.
@@ -6263,8 +6264,13 @@ the "timezone for mails" field in the user settings screen.</p>
 <div class="sect2">
 <h3 id="_email_content"><a class="anchor" href="#_email_content"></a>20.2. Email Content</h3>
 <div class="paragraph">
-<p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
-This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
+<p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition,
+the <code>email.bodyTemplate</code> field allows defining a template specific to the email body content.
+This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail
+is sent with just the link to the card in the body.
+In the state definition, you can also set <code>email.hideDefaultBodyPrefixAndPostfix</code> to true if you don&#8217;t want to display the
+default body prefix and postfix.
+If you want to override the default mail sender, you can set <code>sender</code> in the state definition.</p>
 </div>
 </div>
 <div class="sect2">
@@ -9550,7 +9556,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>If set visible in ui-menu.json, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 <div class="paragraph">
-<p>The choice of activity area may be done during user logging phase if you set selectActivityAreaOnLogin to true in web-ui.json.</p>
+<p>The choice of activity area may be done during user logging phase if you set activityArea.selectActivityAreaOnLogin to true in web-ui.json.</p>
 </div>
 <div class="paragraph">
 <p>If the user is a member of one (or more) real-time group(s), then he will see on the screen the members of these groups, currently connected.</p>
@@ -11377,12 +11383,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.daysBeforeLogExpiration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">61</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Duration beyond which user action logs get automatically deleted</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.users.getEmailFromUserInsteadOfSettings</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the email address used to notify the user
+<td class="tableblock halign-left valign-top"><p class="tableblock">Duration beyond which user action logs get automatically deleted
 is fetched from the token, otherwise the user must fill the field on the settings screen</p></td>
 </tr>
 </tbody>
@@ -12313,6 +12314,12 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, connected users are not displayed in the activity area screen</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">activityArea.selectActivityAreaOnLogin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true the users belonging to multiple Entities will be required to configure activity area on login</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">alerts.doNotAlertForHiddenCardReceived</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -12670,12 +12677,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">The redirect URL after logout when using IMPLICIT flow</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">selectActivityAreaOnLogin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if set to true the users belonging to multiple Entities will be required to configure activity area on login</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateFormat</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -12686,12 +12687,6 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">Value from the browser configuration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Format for date and time rendering (example : HH:mm dd/MM/yyyy )</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">settings.getEmailFromUserInsteadOfSettings</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true, the email address used to notify the user is fetched from the token, otherwise the user must fill the field on the settings screen</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.locale</p></td>
@@ -17840,6 +17835,11 @@ set in the configuration of the asciidoctor gradle task:</p>
         }
     }
     
+    <span class="comment">// Declare inputs and outputs for Gradle build cache</span>
+    inputs.dir <span class="string"><span class="delimiter">'</span><span class="content">docs/asciidoc</span><span class="delimiter">'</span></span>
+    inputs.files fileTree(<span class="string"><span class="delimiter">'</span><span class="content">docs/asciidoc</span><span class="delimiter">'</span></span>) { include <span class="string"><span class="delimiter">'</span><span class="content">*/index.adoc</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">docs/*</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">images/*</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">pdf/*</span><span class="delimiter">'</span></span> }
+    outputs.dir <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>buildDir<span class="inline-delimiter">}</span></span><span class="content">/docs/asciidoc</span><span class="delimiter">&quot;</span></span>
+
     <span class="comment">// This is done to fetch the correct version for links that reference source files.</span>
     <span class="comment">// The reference is set to develop if on develop branch for snapshot</span>
     <span class="comment">// else it's set on latest release tag</span>
@@ -22064,6 +22064,38 @@ your file <code>config.json</code> if needed. For example:</p>
           bodyTemplate: 'testTemplateMail'
       }
   }</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_email_feature"><a class="anchor" href="#_email_feature"></a>89.5. Email feature</h3>
+<div class="paragraph">
+<p>For security reasons, the admin shall now set the email of a user via the user interface or the email shall be populated
+by the JWT token.
+The user can no longer enter its email itself.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_selectactivityareaonlogin_configuration_parameter"><a class="anchor" href="#_selectactivityareaonlogin_configuration_parameter"></a>89.6. selectActivityAreaOnLogin configuration parameter</h3>
+<div class="paragraph">
+<p>The configuration parameter <code>selectActivityAreaOnLogin</code> has been moved in the activityArea section of the 'web-ui.json' file.</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    "selectActivityAreaOnLogin": true,</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    "activityArea": {
+        "selectActivityAreaOnLogin": true
+    },</pre>
 </div>
 </div>
 </div>
