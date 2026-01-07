@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">06 January 2026</span>
+<span id="revdate">07 January 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -901,7 +901,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_businessconfig_api">25.2. BusinessConfig API</a>
 <ul class="sectlevel3">
-<li><a href="#_function_registerfunctiontogettags">25.2.1. Function registerFunctionToGetTags</a></li>
+<li><a href="#_businessdata">25.2.1. BusinessData</a>
+<ul class="sectlevel4">
+<li><a href="#_function_get">25.2.1.1. Function get</a></li>
+<li><a href="#_function_registerfunctiontolistentobusinessdataupdates">25.2.1.2. Function registerFunctionToListenToBusinessDataUpdates</a></li>
+</ul>
+</li>
+<li><a href="#_function_registercustomscreen">25.2.2. Function registerCustomScreen</a></li>
+<li><a href="#_function_registerfunctiontogettags">25.2.3. Function registerFunctionToGetTags</a></li>
 </ul>
 </li>
 <li><a href="#_handlebars_api">25.3. Handlebars API</a>
@@ -7610,7 +7617,68 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect2">
 <h3 id="_businessconfig_api"><a class="anchor" href="#_businessconfig_api"></a>25.2. BusinessConfig API</h3>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogettags"><a class="anchor" href="#_function_registerfunctiontogettags"></a>25.2.1. Function registerFunctionToGetTags</h4>
+<h4 id="_businessdata"><a class="anchor" href="#_businessdata"></a>25.2.1. BusinessData</h4>
+<div class="sect4">
+<h5 id="_function_get"><a class="anchor" href="#_function_get"></a>25.2.1.1. Function get</h5>
+<div class="paragraph">
+<p>It is possible to get business data json file content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const businessData = opfab.businessconfig.businessData.get('businessDataFileName');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function take as input the name of the business data file (without the extension) and returns the content of the json file as a javascript object.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_registerfunctiontolistentobusinessdataupdates"><a class="anchor" href="#_function_registerfunctiontolistentobusinessdataupdates"></a>25.2.1.2. Function registerFunctionToListenToBusinessDataUpdates</h5>
+<div class="paragraph">
+<p>It is possible to register at startup the function to be used to listen to business data updates:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.businessconfig.businessData.registerFunctionToListenToBusinessDataUpdates( () =&gt; {
+// do some stuff
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function given as parameter will be called by opfab when business data need to be refreshed (i.e a business data file has changed on server side , it is not possible to specify which file has changed).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>It is not yet possible to unregister the function once registered so you should avoid registering function multiple times (it must be avoided in templates for example).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_registercustomscreen"><a class="anchor" href="#_function_registercustomscreen"></a>25.2.2. Function registerCustomScreen</h4>
+<div class="paragraph">
+<p>It is possible to register at startup a custom screen definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.businessconfig.registerCustomScreen(screenDefinition);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See chapter <a href="#card_list_custom_screen">custom screens</a> for more details on the screen definition structure.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_registerfunctiontogettags"><a class="anchor" href="#_function_registerfunctiontogettags"></a>25.2.3. Function registerFunctionToGetTags</h4>
 <div class="paragraph">
 <p>It is possible to register at startup the function to be used to retrieve the list of tags:</p>
 </div>
