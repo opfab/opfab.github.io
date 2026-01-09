@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">08 January 2026</span>
+<span id="revdate">09 January 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1162,8 +1162,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_nginx_configuration_2">36.3.1.1. Nginx Configuration</a></li>
 <li><a href="#_configuration_file_common_yml">36.3.1.2. Configuration file common.yml</a></li>
 <li><a href="#_configuration_file_web_ui_json">36.3.1.3. Configuration file web-ui.json</a></li>
-<li><a href="#_oauth2_password_or_code_flows">36.3.1.4. OAuth2 PASSWORD or CODE Flows</a></li>
-<li><a href="#_oauth2_implicit_flow">36.3.1.5. OAuth2 IMPLICIT Flow</a></li>
+<li><a href="#_oauth2_password_flow">36.3.1.4. OAuth2 PASSWORD Flow</a></li>
+<li><a href="#_oauth2_code_and_implicit_flows">36.3.1.5. OAuth2 CODE and IMPLICIT Flows</a></li>
 <li><a href="#_none_flow">36.3.1.6. NONE Flow</a></li>
 </ul>
 </li>
@@ -1726,6 +1726,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_email_feature">89.5. Email feature</a></li>
 <li><a href="#_selectactivityareaonlogin_configuration_parameter">89.6. selectActivityAreaOnLogin configuration parameter</a></li>
 <li><a href="#_process_monitoring_screen_configuration">89.7. Process monitoring screen configuration</a></li>
+<li><a href="#_authentication_configuration_2">89.8. Authentication configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -12704,18 +12705,7 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Url to redirect the browser to for authentication. Mandatory with:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>CODE flow: must be the url with protocol choice and version as query parameters;</p>
-</li>
-<li>
-<p>IMPLICIT flow: must be the url part before <code>.well-known/openid-configuration</code> (for example in dev configuration it&#8217;s
-<code><a href="http://localhost:89/auth/realms/dev" class="bare">localhost:89/auth/realms/dev</a></code>).</p>
-</li>
-</ul>
+<p>Url to redirect the browser for authentication. Mandatory with CODE and IMPLICIT flows and must be the url part before <code>.well-known/openid-configuration</code> (for example in dev configuration it&#8217;s <code><a href="http://localhost:89/auth/realms/dev" class="bare">localhost:89/auth/realms/dev</a></code>).</p>
 </div></div></td>
 </tr>
 <tr>
@@ -12740,10 +12730,16 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">security.implicit-mode-post-logout-url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">security.oauth2.useSilentRefresh</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The redirect URL after logout when using IMPLICIT flow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set to true for using silent refresh with CODE flow (for IMPLICIT flow silent refresh is always enabled and not configurable)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">security.post-logout-url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the opfab url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The redirect URL after logout when using IMPLICIT and CODE flow</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings.dateFormat</p></td>
@@ -13498,7 +13494,7 @@ There are several common properties:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>security.logout-url</code>: url used when a user is logged out of the UI;</p>
+<p><code>security.logout-url</code>: url used when a user is logged out of the UI (not used for CODE and IMPLICIT flows);</p>
 </li>
 <li>
 <p><code>security.oauth2.flow.delegate-url</code>: url used to connect to the Authentication provider;</p>
@@ -13516,14 +13512,14 @@ There are several common properties:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_oauth2_password_or_code_flows"><a class="anchor" href="#_oauth2_password_or_code_flows"></a>36.3.1.4. OAuth2 PASSWORD or CODE Flows</h5>
+<h5 id="_oauth2_password_flow"><a class="anchor" href="#_oauth2_password_flow"></a>36.3.1.4. OAuth2 PASSWORD Flow</h5>
 <div class="paragraph">
-<p>These two modes share the same way of declaring the delegate URL. This has to be defined in web-ui.json by setting :</p>
+<p>This has to be defined in web-ui.json by setting :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>security.oauth2.flow.mode</code> to <code>PASSWORD</code> or <code>CODE</code>;</p>
+<p><code>security.oauth2.flow.mode</code> to <code>PASSWORD</code>;</p>
 </li>
 <li>
 <p><code>security.oauth2.flow.delegate-url</code> with the URL of the OAuth2 leading to the protocol used for authentication.</p>
@@ -13531,22 +13527,22 @@ There are several common properties:</p>
 </ul>
 </div>
 <div class="sect5">
-<h6 id="_example_of_configuration_for_code_flow"><a class="anchor" href="#_example_of_configuration_for_code_flow"></a>Example of Configuration For CODE Flow</h6>
+<h6 id="_example_of_configuration_for_password_flow"><a class="anchor" href="#_example_of_configuration_for_password_flow"></a>Example of Configuration For PASSWORD Flow</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="json">{
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">jwt</span><span class="delimiter">&quot;</span></span>: {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">login-claim</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">preferred_username</span><span class="delimiter">&quot;</span></span>
-      },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">client-id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">OAUTHCLIENTID</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">CODE</span><span class="delimiter">&quot;</span></span>,
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>
-        }
-      },
-      <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">security</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">jwt</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">login-claim</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">preferred_username</span><span class="delimiter">&quot;</span></span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?post_logout_redirect_uri=http://localhost:2002/&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">oauth2</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">client-id</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">opfab-client</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">flow</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">PASSWORD</span><span class="delimiter">&quot;</span></span>
+      }
+    }
   }
 }</code></pre>
 </div>
@@ -13559,15 +13555,14 @@ Here, the <code>client-id</code> value is <code>opfab-client</code> which is def
 </div>
 </div>
 <div class="sect4">
-<h5 id="_oauth2_implicit_flow"><a class="anchor" href="#_oauth2_implicit_flow"></a>36.3.1.5. OAuth2 IMPLICIT Flow</h5>
+<h5 id="_oauth2_code_and_implicit_flows"><a class="anchor" href="#_oauth2_code_and_implicit_flows"></a>36.3.1.5. OAuth2 CODE and IMPLICIT Flows</h5>
 <div class="paragraph">
-<p>It had its own way of configuration.
-To enable IMPLICIT Flow authentication the following properties need to be set in web-ui.json:</p>
+<p>To enable IMPLICIT or CODE Flow authentication the following properties need to be set in web-ui.json:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>security.oauth2.flow.mode</code> to <code>IMPLICIT</code>;</p>
+<p><code>security.oauth2.flow.mode</code> to <code>IMPLICIT</code> or <code>CODE</code>;</p>
 </li>
 <li>
 <p><code>security.oauth2.flow.delegate-url</code> with the URL of the OAuth2 leading to the <code>.well-known/openid-configuration</code> end-point used for authentication configuration.</p>
@@ -13575,7 +13570,7 @@ To enable IMPLICIT Flow authentication the following properties need to be set i
 </ul>
 </div>
 <div class="paragraph">
-<p>It is possible to configure the URL to redirect the browser after logout by setting the <code>security.implicit-mode-post-logout-url</code> parameter in web-ui.json.
+<p>It is possible to configure the URL to redirect the browser after logout by setting the <code>security.post-logout-url</code> parameter in web-ui.json.
 Be careful that the configured value should be one of the valid post logout redirect URIs configured on Keycloak realm.</p>
 </div>
 <div class="sect5">
@@ -13594,8 +13589,7 @@ Be careful that the configured value should be one of the valid post logout redi
         <span class="key"><span class="delimiter">&quot;</span><span class="content">delegate-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev</span><span class="delimiter">&quot;</span></span>
       }
     },
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">logout-url</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?redirect_uri=http://localhost:2002/</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">implicit-mode-post-logout-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">post-logout-url</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://opfab.github.io</span><span class="delimiter">&quot;</span></span>
   }
 }</code></pre>
 </div>
@@ -13604,6 +13598,9 @@ Be careful that the configured value should be one of the valid post logout redi
 <p>Within the <code>delegate-url</code> property <code>dev</code> is the keycloak client realm of OperatorFabric.
 For keycloak instance used for development purposes, this <code>delegate-url</code> correspond to the realm under which the client <code>opfab-client</code> is registered.
 The url look up by the implicit ui mechanism is <code><a href="http://localhost:89/auth/realms/dev/.well-known/openid-configuration" class="bare">localhost:89/auth/realms/dev/.well-known/openid-configuration</a></code>.</p>
+</div>
+<div class="paragraph">
+<p>For CODE mode, it is possible to set a silent refresh by setting <code>security.oauth2.useSilentRefresh</code> to true. For IMPLICIT mode, silent refresh is always enabled and not configurable.</p>
 </div>
 </div>
 </div>
@@ -22172,6 +22169,54 @@ The user can no longer enter its email itself.</p>
 <h3 id="_process_monitoring_screen_configuration"><a class="anchor" href="#_process_monitoring_screen_configuration"></a>89.7. Process monitoring screen configuration</h3>
 <div class="paragraph">
 <p>The column parameter <code>size</code> is now expressed in pixels. It allows you to define the column width.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_authentication_configuration_2"><a class="anchor" href="#_authentication_configuration_2"></a>89.8. Authentication configuration</h3>
+<div class="paragraph">
+<p>For IMPLICIT mode the post logout url in web-ui.json is now named "post-logout-url" and not anymore "implicit-mode-post-logout-url" .</p>
+</div>
+<div class="paragraph">
+<p>For CODE mode the delegate url is now configure as for implicit mode and you do not need anymore to set the logout-url value but you may set the post-logout-url if needed.</p>
+</div>
+<div class="paragraph">
+<p>For example, replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "jwt": {
+    "login-claim": "preferred_username"
+  },
+  "logout-url": "http://localhost:89/auth/realms/dev/protocol/openid-connect/logout?post_logout_redirect_uri=http://localhost:2002/&amp;client_id=opfab-client",
+  "oauth2": {
+    "client-id": "opfab-client",
+    "flow": {
+      "delegate-url": "http://localhost:89/auth/realms/dev/protocol/openid-connect/auth?response_type=code&amp;client_id=opfab-client",
+      "mode": "CODE"
+    }
+  }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "jwt": {
+    "login-claim": "preferred_username"
+  },
+  "oauth2": {
+    "client-id": "opfab-client",
+    "flow": {
+      "delegate-url": "http://localhost:89/auth/realms/dev",
+      "mode": "CODE"
+    }
+  }
+}</pre>
+</div>
 </div>
 </div>
 </div>
