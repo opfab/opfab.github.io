@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">01 February 2026</span>
+<span id="revdate">03 February 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -3337,7 +3337,7 @@ The current software does not yet fully follow the architecture described here, 
 <div class="sect2">
 <h3 id="_front_architecture"><a class="anchor" href="#_front_architecture"></a>9.2. Front Architecture</h3>
 <div class="paragraph">
-<p>The main idea is to make the business code as technology independent as possible. This means that the business code should be independent of the Angular Framework for example. Inspired by the hexagonal architecture, this leads to the following simplified view:</p>
+<p>The main idea is to keep business logic as independent from technology as possible. For example, business code should not depend on the Angular framework. Inspired by hexagonal architecture, this results in the following simplified view:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3345,13 +3345,16 @@ The current software does not yet fully follow the architecture described here, 
 </div>
 </div>
 <div class="paragraph">
-<p>The UI components shall contain as little as possible business code.</p>
+<p>Rendering components should contain minimal business logic. Each component is split into two parts: a component part (the Angular component) and a "View" part (e.g., <code>view/myComponentView.ts</code>) that contains business logic specific to the component.</p>
 </div>
 <div class="paragraph">
-<p>The API component is a gateway to access business method, it shall not contain any logic.</p>
+<p>Code inside the services directory contains business logic shared between components or logic not directly related to the UI.</p>
 </div>
 <div class="paragraph">
-<p>Unit testing consists in testing the business code and using mock objects to simulate the servers (in app/tests/mocks)</p>
+<p>The API component acts as a gateway to access business methods and should not contain any business logic.</p>
+</div>
+<div class="paragraph">
+<p>Unit testing focuses on testing business logic, using mock objects to simulate servers (see <code>app/tests/mocks</code>).</p>
 </div>
 </div>
 </div>
