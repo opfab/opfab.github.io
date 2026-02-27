@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">27 February 2026</span>
+<span id="revdate">28 February 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -813,7 +813,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_rich_text_content">20.3.1. Rich text content</a></li>
 </ul>
 </li>
-<li><a href="#_email_attachment_templates">20.4. Email attachment templates</a></li>
+<li><a href="#_email_attachment_templates">20.4. Email attachment templates</a>
+<ul class="sectlevel3">
+<li><a href="#_custom_handlebars_helpers">20.4.1. Custom Handlebars helpers</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#response_cards">21. Response cards</a>
@@ -6374,14 +6378,13 @@ The custom parameter can be added in email-gateway configuration under the "defa
 <p>It is possible to define a handlebars template that will generate an attachment to the email. This feature is only for direct emails and not for recap emails.
 In the configuration of your bundle you need to define the following fields in the state definition :</p>
 </div>
-<div class="paragraph">
-<p>+[source,json]
-+----
-+{
-+  "emailAttachmentTemplate": "email_attachment_template",
-+  "emailAttachmentFileName": "chartLineData.xml"
-+}
-+----</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">emailAttachmentTemplate</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">email_attachment_template</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">emailAttachmentFileName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">chartLineData.xml</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no file name is specified the default value is "attachment".</p>
@@ -6389,24 +6392,25 @@ In the configuration of your bundle you need to define the following fields in t
 <div class="paragraph">
 <p>Here is an example of a template to generate an xml attached file containing the data of the card :</p>
 </div>
-<div class="paragraph">
-<p>+[source,xml]
-+----
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;document&gt;
-  &lt;process&gt;{{card.process}}&lt;/process&gt;
-  &lt;state&gt;{{card.state}}&lt;/state&gt;
-  &lt;data&gt;
-    &lt;values&gt;
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;document&gt;</span>
+  <span class="tag">&lt;process&gt;</span>{{card.process}}<span class="tag">&lt;/process&gt;</span>
+  <span class="tag">&lt;state&gt;</span>{{card.state}}<span class="tag">&lt;/state&gt;</span>
+  <span class="tag">&lt;data&gt;</span>
+    <span class="tag">&lt;values&gt;</span>
       {{#each card.data.values}}
-      &lt;value&gt;{{this}}&lt;/value&gt;
+      <span class="tag">&lt;value&gt;</span>{{this}}<span class="tag">&lt;/value&gt;</span>
       {{/each}}
-    &lt;/values&gt;
-    &lt;keywords&gt;{{card.data.keywords}}&lt;/keywords&gt;
-  &lt;/data&gt;
-&lt;/document&gt;
-+----=== Custom Handlebars helpers</p>
+    <span class="tag">&lt;/values&gt;</span>
+    <span class="tag">&lt;keywords&gt;</span>{{card.data.keywords}}<span class="tag">&lt;/keywords&gt;</span>
+  <span class="tag">&lt;/data&gt;</span>
+<span class="tag">&lt;/document&gt;</span></code></pre>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>20.4.1. Custom Handlebars helpers</h4>
 <div class="paragraph">
 <p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
 </div>
@@ -6448,6 +6452,7 @@ helpers = [example_severityColor];</code></pre>
 <pre class="CodeRay highlight"><code>emailGateway:
     adminPort: 2106
     customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
+</div>
 </div>
 </div>
 </div>
