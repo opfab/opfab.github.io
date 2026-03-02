@@ -5,9 +5,14 @@ services:
     environment:
       - JEKYLL_UID=${USER_ID}
       - JEKYLL_GID=${USER_GID}
+      # Corporate proxy configuration
+      # if value not set, no proxy will be used
+      # Acces to internet is required to install gems
+      - HTTP_PROXY=${http_proxy}
+      - HTTPS_PROXY=${https_proxy}
     volumes:
       - .:/srv/jekyll
     container_name: opfab_website
     ports:
       - "4000:4000"
-    command: bash -c "jekyll serve"
+    command: bash -c "bundle install;jekyll serve"
