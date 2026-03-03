@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">03 March 2026</span>
+<span id="revdate">04 March 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1743,6 +1743,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_mongodb_collection_name">91.1.4. MongoDB collection name</a></li>
 <li><a href="#_nginx_proxy_configuration">91.1.5. Nginx proxy configuration</a></li>
 <li><a href="#_cli_and_scripts">91.1.6. CLI and scripts</a></li>
+<li><a href="#_menu_configuration_via_rest_api">91.1.7. Menu Configuration via REST API</a></li>
 </ul>
 </li>
 </ul>
@@ -7819,7 +7820,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_redirecttobusinessmenu"><a class="anchor" href="#_function_redirecttobusinessmenu"></a>25.4.1. Function redirectToBusinessMenu</h4>
 <div class="paragraph">
-<p>It’s possible to redirect the user from a card to a business application declared in ui-menu.json.</p>
+<p>It’s possible to redirect the user from a card to a business application declared in the ui menu configuration.</p>
 </div>
 <div class="paragraph">
 <p>This can be done by calling the following function from the template :</p>
@@ -7832,7 +7833,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="ulist">
 <ul>
 <li>
-<p>idMenu is the id of the menu entry defined in ui-menu.json</p>
+<p>idMenu is the id of the menu entry defined in the ui menu configuration</p>
 </li>
 </ul>
 </div>
@@ -9727,7 +9728,7 @@ By choosing to disconnect from an entity, the user will still be a member of thi
 access to the cards intended for this entity, until he reconnects to it.</p>
 </div>
 <div class="paragraph">
-<p>If set visible in ui-menu.json, this interface is accessible via the user menu (top right of the screen).</p>
+<p>If set visible in the ui menu configuration, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 <div class="paragraph">
 <p>The choice of activity area may be done during user logging phase if you set activityArea.selectActivityAreaOnLogin to true in web-ui.json.</p>
@@ -9810,7 +9811,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>By default, logs older than 61 days are automatically deleted.</p>
 </div>
 <div class="paragraph">
-<p>If set visible in ui-menu.json and user is admin, this interface is accessible via the user menu (top right of the screen).</p>
+<p>If set visible in the ui menu configuration and user is admin, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 </div>
 </div>
@@ -9827,7 +9828,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <div class="sect2">
 <h3 id="menu_entries"><a class="anchor" href="#menu_entries"></a>30.2. Menu Entries</h3>
 <div class="paragraph">
-<p>The <code>ui-menu.json</code> file is used:</p>
+<p>A json description is used :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -9838,6 +9839,14 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>To declare specific business menus to be displayed in the navigation bar of OperatorFabric</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>To update the menu, you can upload a file containing the json data via a POST HTTP request to the dedicated API endpoint
+as described in
+<a href="../api/index.html#tag/configurations/operation/uploadUIMenu">UI Menu API documentation</a></p>
+</div>
+<div class="paragraph">
+<p>You can do it using the cli (command line interface), for example: <code>opfab ui-menu load &lt;uiMenuFileName&gt;</code></p>
 </div>
 <div class="paragraph">
 <p>This file contains 4 fields :</p>
@@ -9989,9 +9998,6 @@ listed groups.</p>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>See <code>/config/docker/ui-menu.json</code> for an example containing all core menus.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -10012,10 +10018,6 @@ setting the <code>settings.styleWhenNightDayModeDesactivated</code> property in 
 <p>A menu can target directly a link or give access to several sub-menus when clicked.
 Those sub-menus can target a link or an opfab core menu.
 A targeted link can be open in an iframe or in a new tab.</p>
-</div>
-<div class="paragraph">
-<p>Menus support i18n following the i18n OperatorFabric rules.
-The ui-menu.json file contains directly the i18n dictionary for the menus.</p>
 </div>
 <div class="paragraph">
 <p>In case of a single menu, the navigation bar displays the l10n of the <code>label</code> of the entry menu.
@@ -22605,6 +22607,40 @@ your file <code>config.json</code> if needed. For example:</p>
 <div class="content">
 <pre>./opfab logs email-gateway</pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_menu_configuration_via_rest_api"><a class="anchor" href="#_menu_configuration_via_rest_api"></a>91.1.7. Menu Configuration via REST API</h4>
+<div class="paragraph">
+<p>The menu configuration, previously managed through the ui-menu.json file on the server filesystem, is now exposed via a
+dedicated REST API allowing retrieval (GET) and update (POST) of the full configuration. This aligns the menu management
+with the existing configuration mechanism used for other files, for example <code>processgroups</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>The API endpoint is <code>/businessconfig/uimenu</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>GET /businessconfig/uimenu
+POST /businessconfig/uimenu</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example update:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X POST "$OPFAB_URL/businessconfig/uimenu" \
+  -H "Content-Type: application/json" \
+  -d `@uimenu.json`</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also do it using the cli (command line interface), for example: <code>opfab ui-menu load &lt;uiMenuFileName&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Additionally, within the <code>locales</code> section, the <code>i18n</code> property has been renamed to <code>localizedContent</code>
+(e.g. "i18n": { &#8230;&#8203; } becomes "localizedContent": { &#8230;&#8203; }). No other structural changes have been introduced.</p>
 </div>
 </div>
 </div>
