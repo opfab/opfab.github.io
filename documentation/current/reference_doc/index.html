@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.10.0.RELEASE,</span>
-<span id="revdate">23 October 2025</span>
+<span id="revnumber">version 4.11.0.RELEASE,</span>
+<span id="revdate">06 March 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -549,7 +549,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_store_information">2.1.1.4. Store information</a></li>
 </ul>
 </li>
-<li><a href="#_user_destined_information_of_the_card">2.1.2. User destined Information of the card</a>
+<li><a href="#_user_intended_information_of_the_card">2.1.2. User intended Information of the card</a>
 <ul class="sectlevel4">
 <li><a href="#_in_card_format">2.1.2.1. in Card Format</a></li>
 <li><a href="#_custom_part">2.1.2.2. Custom part</a></li>
@@ -684,9 +684,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_email_templates">5.3. Email templates</a>
 <ul class="sectlevel3">
 <li><a href="#_rich_text_content">5.3.1. Rich text content</a></li>
-<li><a href="#_custom_handlebars_helpers">5.3.2. Custom Handlebars helpers</a></li>
 </ul>
 </li>
+<li><a href="#_email_attachment_templates">5.4. Email attachment templates</a></li>
 </ul>
 </li>
 <li><a href="#response_cards">6. Response cards</a>
@@ -774,7 +774,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_businessconfig_api">10.2. BusinessConfig API</a>
 <ul class="sectlevel3">
-<li><a href="#_function_registerfunctiontogettags">10.2.1. Function registerFunctionToGetTags</a></li>
+<li><a href="#_businessdata">10.2.1. BusinessData</a>
+<ul class="sectlevel4">
+<li><a href="#_function_get">10.2.1.1. Function get</a></li>
+<li><a href="#_function_registerfunctiontolistentobusinessdataupdates">10.2.1.2. Function registerFunctionToListenToBusinessDataUpdates</a></li>
+</ul>
+</li>
+<li><a href="#_function_registercustomscreen">10.2.2. Function registerCustomScreen</a></li>
+<li><a href="#_function_registerfunctiontogettags">10.2.3. Function registerFunctionToGetTags</a></li>
 </ul>
 </li>
 <li><a href="#_handlebars_api">10.3. Handlebars API</a>
@@ -802,14 +809,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_isresponselocked">10.5.10. Function isResponseLocked</a></li>
 <li><a href="#_function_isuserallowedtorespond">10.5.11. Function isUserAllowedToRespond</a></li>
 <li><a href="#_function_isusermemberofanentityrequiredtorespond">10.5.12. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
-<li><a href="#_function_listentoresponselock">10.5.13. Function listenToResponseLock</a></li>
-<li><a href="#_function_listentoresponseunlock">10.5.14. Function listenToResponseUnlock</a></li>
-<li><a href="#_function_listentochildcards">10.5.15. Function listenToChildCards</a></li>
-<li><a href="#_function_listentolttdexpired">10.5.16. Function listenToLttdExpired</a></li>
-<li><a href="#_function_listentostylechange">10.5.17. Function listenToStyleChange</a></li>
-<li><a href="#_function_listentoscreensize">10.5.18. Function listenToScreenSize</a></li>
-<li><a href="#_function_listentotemplaterenderingcomplete">10.5.19. Function listenToTemplateRenderingComplete</a></li>
-<li><a href="#_function_registerfunctiontogetuserresponse">10.5.20. Function registerFunctionToGetUserResponse</a></li>
+<li><a href="#_function_listentodestroy">10.5.13. Function listenToDestroy</a></li>
+<li><a href="#_function_listentoresponselock">10.5.14. Function listenToResponseLock</a></li>
+<li><a href="#_function_listentoresponseunlock">10.5.15. Function listenToResponseUnlock</a></li>
+<li><a href="#_function_listentochildcards">10.5.16. Function listenToChildCards</a></li>
+<li><a href="#_function_listentolttdexpired">10.5.17. Function listenToLttdExpired</a></li>
+<li><a href="#_function_listentostylechange">10.5.18. Function listenToStyleChange</a></li>
+<li><a href="#_function_listentoscreensize">10.5.19. Function listenToScreenSize</a></li>
+<li><a href="#_function_listentotemplaterenderingcomplete">10.5.20. Function listenToTemplateRenderingComplete</a></li>
+<li><a href="#_function_registerfunctiontogetuserresponse">10.5.21. Function registerFunctionToGetUserResponse</a></li>
 </ul>
 </li>
 <li><a href="#_currentusercard_api">10.6. CurrentUserCard API</a>
@@ -824,21 +832,22 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_getstartdate">10.6.8. Function getStartDate</a></li>
 <li><a href="#_function_getstate">10.6.9. Function getState</a></li>
 <li><a href="#_function_getuserentitychildcard">10.6.10. Function getUserEntityChildCard</a></li>
-<li><a href="#_function_listentoentityusedforsendingcard">10.6.11. Function listenToEntityUsedForSendingCard</a></li>
-<li><a href="#_function_registerfunctiontobecalledbeforecardsending">10.6.12. Function  registerFunctionToBeCalledBeforeCardSending</a></li>
-<li><a href="#_function_registerfunctiontogetspecificcardinformation">10.6.13. Function registerFunctionToGetSpecificCardInformation</a></li>
-<li><a href="#_function_setdropdownentityrecipientlist">10.6.14. Function setDropdownEntityRecipientList</a></li>
-<li><a href="#_function_setdropdownentityrecipientforinformationlist">10.6.15. Function setDropdownEntityRecipientForInformationList</a></li>
-<li><a href="#_function_setinitialenddate">10.6.16. Function setInitialEndDate</a></li>
-<li><a href="#_function_setinitialexpirationdate">10.6.17. Function setInitialExpirationDate</a></li>
-<li><a href="#_function_setinitiallttd">10.6.18. Function setInitialLttd</a></li>
-<li><a href="#_function_setinitialselectedrecipients">10.6.19. Function setInitialSelectedRecipients</a></li>
-<li><a href="#_function_setinitialselectedrecipientsforinformation">10.6.20. Function setInitialSelectedRecipientsForInformation</a></li>
-<li><a href="#_function_setselectedrecipients">10.6.21. Function setSelectedRecipients</a></li>
-<li><a href="#_function_setselectedrecipientsforinformation">10.6.22. Function setSelectedRecipientsForInformation</a></li>
-<li><a href="#_function_setinitialseverity">10.6.23. Function setInitialSeverity</a></li>
-<li><a href="#_function_setinitialkeepchildcards">10.6.24. Function setInitialKeepChildCards</a></li>
-<li><a href="#_function_setinitialstartdate">10.6.25. Function setInitialStartDate</a></li>
+<li><a href="#_function_listentodestroy_2">10.6.11. Function listenToDestroy</a></li>
+<li><a href="#_function_listentoentityusedforsendingcard">10.6.12. Function listenToEntityUsedForSendingCard</a></li>
+<li><a href="#_function_registerfunctiontobecalledbeforecardsending">10.6.13. Function  registerFunctionToBeCalledBeforeCardSending</a></li>
+<li><a href="#_function_registerfunctiontogetspecificcardinformation">10.6.14. Function registerFunctionToGetSpecificCardInformation</a></li>
+<li><a href="#_function_setdropdownentityrecipientlist">10.6.15. Function setDropdownEntityRecipientList</a></li>
+<li><a href="#_function_setdropdownentityrecipientforinformationlist">10.6.16. Function setDropdownEntityRecipientForInformationList</a></li>
+<li><a href="#_function_setinitialenddate">10.6.17. Function setInitialEndDate</a></li>
+<li><a href="#_function_setinitialexpirationdate">10.6.18. Function setInitialExpirationDate</a></li>
+<li><a href="#_function_setinitiallttd">10.6.19. Function setInitialLttd</a></li>
+<li><a href="#_function_setinitialselectedrecipients">10.6.20. Function setInitialSelectedRecipients</a></li>
+<li><a href="#_function_setinitialselectedrecipientsforinformation">10.6.21. Function setInitialSelectedRecipientsForInformation</a></li>
+<li><a href="#_function_setselectedrecipients">10.6.22. Function setSelectedRecipients</a></li>
+<li><a href="#_function_setselectedrecipientsforinformation">10.6.23. Function setSelectedRecipientsForInformation</a></li>
+<li><a href="#_function_setinitialseverity">10.6.24. Function setInitialSeverity</a></li>
+<li><a href="#_function_setinitialkeepchildcards">10.6.25. Function setInitialKeepChildCards</a></li>
+<li><a href="#_function_setinitialstartdate">10.6.26. Function setInitialStartDate</a></li>
 </ul>
 </li>
 <li><a href="#_utils_api">10.7. Utils API</a>
@@ -1118,7 +1127,7 @@ to OperatorFabric. It then handles those cards:</p>
 <h3 id="card_structure"><a class="anchor" href="#card_structure"></a>2.1. Card Structure</h3>
 <div class="paragraph">
 <p>Cards are represented as <code>Json</code> objects. The technical design of cards is described in
-<a href="/documentation/current/api/cards/">the cards api documentation</a>
+<a href="/documentation/current/api/index.html#tag/cards-publication">the cards api documentation</a>
 . A card correspond to the state of a Process in OperatorFabric.</p>
 </div>
 <div class="sect3">
@@ -1200,7 +1209,7 @@ resources used to render the card and card details.</p>
 <div class="sect5">
 <h6 id="_severity_severity"><a class="anchor" href="#_severity_severity"></a>Severity (<code>severity</code>)</h6>
 <div class="paragraph">
-<p>The severity is a core principe of the OperatorFabric Card system. There are 4 severities available.
+<p>The severity is a core principle of the OperatorFabric Card system. There are 4 severities available.
 A color is associated in the GUI to each severity. Here the details about severity and their meaning for OperatorFabric:</p>
 </div>
 <div class="olist arabic">
@@ -1223,7 +1232,7 @@ A color is associated in the GUI to each severity. Here the details about severi
 <div class="sect5">
 <h6 id="card_title"><a class="anchor" href="#card_title"></a>Title (<code>title</code>)</h6>
 <div class="paragraph">
-<p>This attribute is display as header of a card in the feed of the GUI. It&#8217;s the main User destined Information of a card. The value refer to an <code>i18n</code> value used to localize this information.</p>
+<p>This attribute is display as header of a card in the feed of the GUI. It&#8217;s the main User intended Information of a card. The value refer to an <code>i18n</code> value used to localize this information.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1449,9 +1458,9 @@ The card is visible in the feed when the card will be reminded.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_user_destined_information_of_the_card"><a class="anchor" href="#_user_destined_information_of_the_card"></a>2.1.2. User destined Information of the card</h4>
+<h4 id="_user_intended_information_of_the_card"><a class="anchor" href="#_user_intended_information_of_the_card"></a>2.1.2. User intended Information of the card</h4>
 <div class="paragraph">
-<p>There are two kind of User destined information in a card. Some are restricted to the card format, others are defined by the publisher as long as there are encoded in <code>json</code> format.</p>
+<p>There are two kind of User intended information in a card. Some are restricted to the card format, others are defined by the publisher as long as there are encoded in <code>json</code> format.</p>
 </div>
 <div class="sect4">
 <h5 id="_in_card_format"><a class="anchor" href="#_in_card_format"></a>2.1.2.1. in Card Format</h5>
@@ -1819,7 +1828,7 @@ The way details are formatted depends on the template contained in the bundle as
 <a href="/documentation/current/reference_doc/index.html#template_description">described here</a>
 . To have an effective example without too many actions to perform, the following example will use an already existing
 configuration. You can find the corresponding bundle of the following example in the test directory of OperatorFabric
-(src/test/resources/bundles).</p>
+(tests/resources/bundles).</p>
 </div>
 <div class="paragraph">
 <p>At the card level, the attributes in the card telling OperatorFabric which template to use are the <code>process</code> and <code>state</code>
@@ -1855,7 +1864,7 @@ attributes, the <code>templateName</code> can be retrieved from the definition o
 <div class="paragraph">
 <p>The Cards Publication Service exposes a REST API endpoint through which a card can be patched.
 You can find more information in
-<a href="/documentation/current/api/cards/">the cards api documentation</a>
+<a href="/documentation/current/api/index.html#tag/cards-publication">the cards publication api documentation</a>
 . For example, fields like severity, title, summary or data etc&#8230;&#8203; can be patched. However, the fields <code>process</code> and
 <code>processInstanceId</code> can not be patched as they are used to identify the card.</p>
 </div>
@@ -1981,7 +1990,7 @@ This field value should match a businessconfig configuration for a correct rende
 </div>
 <div class="paragraph">
 <p>See the
-<a href="/documentation/current/api/businessconfig/index.html">Businessconfig API documentation</a>
+<a href="/documentation/current/api/index.html#tag/processes">Processes API documentation</a>
 for details.</p>
 </div>
 </div>
@@ -2038,7 +2047,7 @@ The bundle provides an english l10n.</p>
 <div class="paragraph">
 <p>To check the i18n, after the upload of the bundle, use a <code>GET</code> request against the <code>businessconfig</code> service.
 The simpler is to ask for the i18n file, as described
-<a href="/documentation/current/api/businessconfig/index.html#/businessconfig/getI18n">here</a>
+<a href="/documentation/current/api/index.html#tag/processes/operation/getI18n">here</a>
 .</p>
 </div>
 <div class="paragraph">
@@ -2205,7 +2214,7 @@ The file name must be declared in the <code>config.json</code> file in order to 
 <h5 id="_upload"><a class="anchor" href="#_upload"></a>3.1.3.3. Upload</h5>
 <div class="paragraph">
 <p>To upload a bundle to the OperatorFabric server use a <code>POST</code> http request as described in the
-<a href="/documentation/current/api/businessconfig/.html#/businessconfig/uploadBundle">Businessconfig Service API documentation</a>
+<a href="/documentation/current/api/index.html.html#tag/processes/operation/postBundle">Processes API documentation</a>
 .</p>
 </div>
 <div class="paragraph">
@@ -2283,7 +2292,7 @@ A process can only belong to one process group.
 <p>To define processes groups, you have to upload a file via a <code>POST</code> http request as described in the</p>
 </div>
 <div class="paragraph">
-<p><a href="/documentation/current/api/businessconfig/index.html#/default/uploadProcessgroups">Businessconfig Service API documentation</a>
+<p><a href="/documentation/current/api/index.html#tag/processes/operation/uploadProcessgroups">Processes API documentation</a>
 .</p>
 </div>
 <div class="paragraph">
@@ -2357,7 +2366,7 @@ are then filled with data coming from two sources:</p>
 <ul>
 <li>
 <p>a <strong>card</strong> property (See
-<a href="/documentation/current/api/cards/index.html">card data model</a>
+<a href="/documentation/current/api/index.html#tag/cards-publication">card publication API</a>
 for more information)</p>
 </li>
 <li>
@@ -3031,7 +3040,7 @@ Please do not prefix <code>id</code> attributes of DOM elements or css class nam
 <p>OperatorFabric defines several css classes that you should use so your templates don&#8217;t clash with the rest of the OperatorFabric look and feel. These styles are especially useful for templates used in user card or card with responses.</p>
 </div>
 <div class="paragraph">
-<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles">src/test/resources/bundles</a>).</p>
+<p>Your can find example using these classes in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles">tests/resources/bundles</a>).</p>
 </div>
 <div class="paragraph">
 <p>The following css styles are available.</p>
@@ -3414,7 +3423,7 @@ The tool allows you to convert a rich text formatted using the visual editor int
 <div class="sect3">
 <h4 id="_charts"><a class="anchor" href="#_charts"></a>3.2.7. Charts</h4>
 <div class="paragraph">
-<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/defaultProcess_V1">src/test/resources/bundle/defaultProcess_V1</a>).</p>
+<p>The library <a href="https://www.chartjs.org/">charts.js</a> is integrated in OperatorFabric, it means it&#8217;s possible to show charts in cards, you can find a bundle example in the operator fabric git (<a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/defaultProcess_V1">tests/resources/bundle/defaultProcess_V1</a>).</p>
 </div>
 <div class="paragraph">
 <p>The version of chartjs integrated in OperatorFabric is v3.7.1.</p>
@@ -3528,7 +3537,7 @@ the response is disabled for the user</p>
 <p>When the user acknowledges a card, the card detail is closed unless process state configuration has the <code>closeCardWhenUserAcknowledges</code> field set to false.</p>
 </div>
 <div class="paragraph">
-<p>You can see examples in src/test/resources/bundles/defaultProcess_V1/config.json</p>
+<p>You can see examples in tests/resources/bundles/defaultProcess_V1/config.json</p>
 </div>
 </div>
 <div class="sect3">
@@ -3712,8 +3721,31 @@ the "timezone for mails" field in the user settings screen.</p>
 <div class="sect2">
 <h3 id="_email_content"><a class="anchor" href="#_email_content"></a>5.2. Email Content</h3>
 <div class="paragraph">
-<p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition, the "emailBodyTemplate" field allows to define a template specific to the email body content.
-This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail is sent with just the link to the card in the body.</p>
+<p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition,
+the <code>email.bodyTemplate</code> field allows defining a template specific to the email body content.
+This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail
+is sent with just the link to the card in the body.<br>
+In the state definition, you can also set <code>email.hideDefaultBodyPrefixAndPostfix</code> to true if you don&#8217;t want to display the
+default body prefix and postfix.<br>
+You can override the default mail sender using <code>email.sender</code> in the state definition.<br>
+You can override the mail subject using <code>email.cardFieldUsedForSubject</code>, which references a field in the card, for example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>email : {
+    cardFieldUsedForSubject:"data.mailTitle"
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>email : {
+    cardFieldUsedForSubject:"titleTranslated"
+}</pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3766,8 +3798,46 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>5.3.2. Custom Handlebars helpers</h4>
+</div>
+<div class="sect2">
+<h3 id="_email_attachment_templates"><a class="anchor" href="#_email_attachment_templates"></a>5.4. Email attachment templates</h3>
+<div class="paragraph">
+<p>It is possible to define a handlebars template that will generate an attachment to the email. This feature is only for direct emails and not for recap emails.
+In the configuration of your bundle you need to define the following fields in the state definition :</p>
+</div>
+<div class="paragraph">
+<p>+[source,json]
++----
++{
++  "emailAttachmentTemplate": "email_attachment_template",
++  "emailAttachmentFileName": "chartLineData.xml"
++}
++----</p>
+</div>
+<div class="paragraph">
+<p>If no file name is specified the default value is "attachment".</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of a template to generate an xml attached file containing the data of the card :</p>
+</div>
+<div class="paragraph">
+<p>+[source,xml]
++----
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;document&gt;
+  &lt;process&gt;{{card.process}}&lt;/process&gt;
+  &lt;state&gt;{{card.state}}&lt;/state&gt;
+  &lt;data&gt;
+    &lt;values&gt;
+      {{#each card.data.values}}
+      &lt;value&gt;{{this}}&lt;/value&gt;
+      {{/each}}
+    &lt;/values&gt;
+    &lt;keywords&gt;{{card.data.keywords}}&lt;/keywords&gt;
+  &lt;/data&gt;
+&lt;/document&gt;
++----=== Custom Handlebars helpers</p>
+</div>
 <div class="paragraph">
 <p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
 </div>
@@ -3809,7 +3879,6 @@ helpers = [example_severityColor];</code></pre>
 <pre class="CodeRay highlight"><code>cardsExternalDiffusion:
     adminPort: 2106
     customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -4034,7 +4103,7 @@ In addition, if the user choses the refusal option, it overrides the response st
 state. It is also possible to dynamically set the severity of the response with a logic from the template. Here the severity of the response depends on the number of choices selected by the user.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
+<div class="title">tests/resources/bundles/defaultProcess_V1/template/question.handlebars</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="js">    <span class="keyword">function</span> <span class="function">fetchResponseCardData</span>() {
 
@@ -4208,7 +4277,7 @@ field of the child card and then you  can get the name of the entity by calling 
 <div class="sect3">
 <h4 id="_example"><a class="anchor" href="#_example"></a>6.3.2. Example</h4>
 <div class="paragraph">
-<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
+<p>You can find an example in the file <a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/defaultProcess_V1/template/question.handlebars">tests/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 </div>
 </div>
@@ -4345,7 +4414,7 @@ with the value of the field <code>message</code> from the card&#8217;s data.</p>
 </div>
 <div class="paragraph">
 <p>To have a better understanding of this feature, we encourage you to have a look at the examples in the OperatorFabric
-core repository under (<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/conferenceAndITIncidentExample">src/test/resources/bundles/conferenceAndITIncidentExample</a>).</p>
+core repository under (<a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/conferenceAndITIncidentExample">tests/resources/bundles/conferenceAndITIncidentExample</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -4428,7 +4497,7 @@ for more information).</p>
 <div class="paragraph">
 <p>If you want the card to be visible in the calendar feature, you need to set 'timeSpans' field (as array of TimeSpans objects) in the object returned by the method.
 You can find an example in the file:
-<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/taskExample/template/usercard_task.handlebars">src/test/resources/bundles/taskExample/template/usercard_task.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/taskExample/template/usercard_task.handlebars">tests/resources/bundles/taskExample/template/usercard_task.handlebars</a>.</p>
 </div>
 <div class="paragraph">
 <p>If not using 'timeSpans' it&#8217;s possible to set the 'viewCardInCalendar' field to true, the card will be visible using card&#8217;s startDate and endDate as default timeSpan.</p>
@@ -4889,18 +4958,18 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <h2 id="business_data"><a class="anchor" href="#business_data"></a>9. Business Data</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Using the API, it is now possible to store business data and then call it from the templates. This storage system is intended for light documents and should not be treated as a database.</p>
+<p>Using the API, it is possible to store business data and then call it from the templates. This storage system is intended for light documents and should not be treated as a database.</p>
 </div>
 <div class="sect2">
 <h3 id="_pushing_data"><a class="anchor" href="#_pushing_data"></a>9.1. Pushing data</h3>
 <div class="paragraph">
-<p>It is expected for the data being pushed to be compliant with the <code>json</code> format. The different methods are detailed in the (<a href="https://opfab.github.io/documentation/current/api/businessconfig/#/default/getBusinessData">API documentation</a>). The default limit of file size accepted is 100 MB, it can be updated in the nginx configuation.</p>
+<p>It is expected for the data being pushed to be compliant with the <code>json</code> format. The different methods are detailed in the (<a href="https://opfab.github.io/documentation/current/api/index.html#tag/business-data">API documentation</a>). The default limit of file size accepted is 100 MB, it can be updated in the nginx configuation.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_calling_a_resource"><a class="anchor" href="#_calling_a_resource"></a>9.2. Calling a resource</h3>
 <div class="paragraph">
-<p>Once a resource has been stored, it is possible to call it from the template of a card. See in this template (<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/conferenceAndITIncidentExample/template/usercard_incidentInProgress.handlebars">usercard_incidentInProgress.handlebars</a>) how the resource <code>services</code> is called with the method <code>opfab.businessconfig.businessData.get()</code></p>
+<p>Once a resource has been stored, it is possible to call it from the template of a card. See in this template (<a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/conferenceAndITIncidentExample/template/usercard_incidentInProgress.handlebars">usercard_incidentInProgress.handlebars</a>) how the resource <code>services</code> is called with the method <code>opfab.businessconfig.businessData.get()</code></p>
 </div>
 <div class="paragraph">
 <p>This prevents writing directly in the template&#8217;s code long lists and allows easy data duplication between templates.</p>
@@ -5015,7 +5084,68 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect2">
 <h3 id="_businessconfig_api"><a class="anchor" href="#_businessconfig_api"></a>10.2. BusinessConfig API</h3>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogettags"><a class="anchor" href="#_function_registerfunctiontogettags"></a>10.2.1. Function registerFunctionToGetTags</h4>
+<h4 id="_businessdata"><a class="anchor" href="#_businessdata"></a>10.2.1. BusinessData</h4>
+<div class="sect4">
+<h5 id="_function_get"><a class="anchor" href="#_function_get"></a>10.2.1.1. Function get</h5>
+<div class="paragraph">
+<p>It is possible to get business data json file content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const businessData = opfab.businessconfig.businessData.get('businessDataFileName');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function take as input the name of the business data file (without the extension) and returns the content of the json file as a javascript object.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_registerfunctiontolistentobusinessdataupdates"><a class="anchor" href="#_function_registerfunctiontolistentobusinessdataupdates"></a>10.2.1.2. Function registerFunctionToListenToBusinessDataUpdates</h5>
+<div class="paragraph">
+<p>It is possible to register at startup the function to be used to listen to business data updates:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.businessconfig.businessData.registerFunctionToListenToBusinessDataUpdates( () =&gt; {
+// do some stuff
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function given as parameter will be called by opfab when business data need to be refreshed (i.e a business data file has changed on server side , it is not possible to specify which file has changed).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>It is not yet possible to unregister the function once registered so you should avoid registering function multiple times (it must be avoided in templates for example).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_registercustomscreen"><a class="anchor" href="#_function_registercustomscreen"></a>10.2.2. Function registerCustomScreen</h4>
+<div class="paragraph">
+<p>It is possible to register at startup a custom screen definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>opfab.businessconfig.registerCustomScreen(screenDefinition);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See chapter <a href="#card_list_custom_screen">custom screens</a> for more details on the screen definition structure.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_registerfunctiontogettags"><a class="anchor" href="#_function_registerfunctiontogettags"></a>10.2.3. Function registerFunctionToGetTags</h4>
 <div class="paragraph">
 <p>It is possible to register at startup the function to be used to retrieve the list of tags:</p>
 </div>
@@ -5241,7 +5371,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="paragraph">
 <p>The template can know if the current user has the permission to send a response to the current card by calling the isUserAllowedToRespond() function.
 An example of usage can be found in the file
-<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars">src/test/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars</a>.</p>
+<a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars">tests/resources/bundles/conferenceAndITIncidentExample/template/incidentInProgress.handlebars</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5253,7 +5383,7 @@ An example of usage can be found in the file
 <h4 id="_function_isusermemberofanentityrequiredtorespond"><a class="anchor" href="#_function_isusermemberofanentityrequiredtorespond"></a>10.5.12. Function isUserMemberOfAnEntityRequiredToRespond</h4>
 <div class="paragraph">
 <p>The template can know if the current user is a member of an Entity required to respond by calling the isUserMemberOfAnEntityRequiredToRespond function.
-An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/blob//src/test/resources/bundles/defaultProcess_V1/template/question.handlebars">src/test/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
+An example of usage can be found in the file <a href="https://github.com/opfab/operatorfabric-core/blob//tests/resources/bundles/defaultProcess_V1/template/question.handlebars">tests/resources/bundles/defaultProcess_V1/template/question.handlebars</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5262,7 +5392,21 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.13. Function listenToResponseLock</h4>
+<h4 id="_function_listentodestroy"><a class="anchor" href="#_function_listentodestroy"></a>10.5.13. Function listenToDestroy</h4>
+<div class="paragraph">
+<p>Register a function to listen for template destruction (i.e., when a card is removed from display). This is especially useful if you need to remove JavaScript event listeners.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    opfab.currentCard.listenToDestroy(() =&gt; {// Do some stuff});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Only one listener can be registered at a time. If you register another listener, the previous listener will not receive events.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.14. Function listenToResponseLock</h4>
 <div class="paragraph">
 <p>Register a function to be informed when the template is locked (i.e. user has responded to the current card)</p>
 </div>
@@ -5273,7 +5417,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>10.5.14. Function listenToResponseUnlock</h4>
+<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>10.5.15. Function listenToResponseUnlock</h4>
 <div class="paragraph">
 <p>Register a function to be informed when template is unlocked (i.e. user has clicked the modify button to prepare a new response)</p>
 </div>
@@ -5284,7 +5428,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>10.5.15. Function listenToChildCards</h4>
+<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>10.5.16. Function listenToChildCards</h4>
 <div class="paragraph">
 <p>Register a function to receive the child cards on card loading and when the childCards list changes</p>
 </div>
@@ -5295,7 +5439,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>10.5.16. Function listenToLttdExpired</h4>
+<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>10.5.17. Function listenToLttdExpired</h4>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information can be received by the template by registering a listener.</p>
 </div>
@@ -5306,7 +5450,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>10.5.17. Function listenToStyleChange</h4>
+<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>10.5.18. Function listenToStyleChange</h4>
 <div class="paragraph">
 <p>Card template can be informed when switching day/night mode by registering a listener as follows :</p>
 </div>
@@ -5320,7 +5464,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.18. Function listenToScreenSize</h4>
+<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.19. Function listenToScreenSize</h4>
 <div class="paragraph">
 <p>To adapt the template content on screen size, it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information, you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
 </div>
@@ -5344,7 +5488,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.19. Function listenToTemplateRenderingComplete</h4>
+<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.20. Function listenToTemplateRenderingComplete</h4>
 <div class="paragraph">
 <p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer, lttdExpired and screenSize)</p>
 </div>
@@ -5358,7 +5502,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.20. Function registerFunctionToGetUserResponse</h4>
+<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.21. Function registerFunctionToGetUserResponse</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user response. This function will be called by opfab when the user clicks on the "send response" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
 </div>
@@ -5533,7 +5677,21 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoentityusedforsendingcard"><a class="anchor" href="#_function_listentoentityusedforsendingcard"></a>10.6.11. Function listenToEntityUsedForSendingCard</h4>
+<h4 id="_function_listentodestroy_2"><a class="anchor" href="#_function_listentodestroy_2"></a>10.6.11. Function listenToDestroy</h4>
+<div class="paragraph">
+<p>Register a function to listen for template destruction (i.e., when a usercard is removed from display). This is especially useful if you need to remove JavaScript event listeners.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>       opfab.currentUserCard.listenToDestroy(() =&gt; {// Do some stuff});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Only one listener can be registered at a time. If you register another listener, the previous listener will not receive events.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_listentoentityusedforsendingcard"><a class="anchor" href="#_function_listentoentityusedforsendingcard"></a>10.6.12. Function listenToEntityUsedForSendingCard</h4>
 <div class="paragraph">
 <p>The template can receive the emitter entity of the card by registering a listener function. The function will be called by OperatorFabric after loading the template and every time the card emitter changes (if the user can choose from multiple entities).</p>
 </div>
@@ -5544,7 +5702,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontobecalledbeforecardsending"><a class="anchor" href="#_function_registerfunctiontobecalledbeforecardsending"></a>10.6.12. Function  registerFunctionToBeCalledBeforeCardSending</h4>
+<h4 id="_function_registerfunctiontobecalledbeforecardsending"><a class="anchor" href="#_function_registerfunctiontobecalledbeforecardsending"></a>10.6.13. Function  registerFunctionToBeCalledBeforeCardSending</h4>
 <div class="paragraph">
 <p>Before sending the card and after the preview, you can define a method to be called. This method is blocking (i.e., it is an async method awaited by the opfab code).</p>
 </div>
@@ -5570,7 +5728,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_function_registerfunctiontogetspecificcardinformation"></a>10.6.13. Function registerFunctionToGetSpecificCardInformation</h4>
+<h4 id="_function_registerfunctiontogetspecificcardinformation"><a class="anchor" href="#_function_registerfunctiontogetspecificcardinformation"></a>10.6.14. Function registerFunctionToGetSpecificCardInformation</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user card specific information. This function will be called by opfab when user clicks on the "preview" button. More explanation can be found in the <a href="#user_cards">user card chapter</a>.</p>
 </div>
@@ -5597,7 +5755,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setdropdownentityrecipientlist"><a class="anchor" href="#_function_setdropdownentityrecipientlist"></a>10.6.14. Function setDropdownEntityRecipientList</h4>
+<h4 id="_function_setdropdownentityrecipientlist"><a class="anchor" href="#_function_setdropdownentityrecipientlist"></a>10.6.15. Function setDropdownEntityRecipientList</h4>
 <div class="paragraph">
 <p>When sending a user card, by default, it is possible to choose the recipients from all the available entities. To limit the list of available recipients, it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
@@ -5617,7 +5775,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setdropdownentityrecipientforinformationlist"><a class="anchor" href="#_function_setdropdownentityrecipientforinformationlist"></a>10.6.15. Function setDropdownEntityRecipientForInformationList</h4>
+<h4 id="_function_setdropdownentityrecipientforinformationlist"><a class="anchor" href="#_function_setdropdownentityrecipientforinformationlist"></a>10.6.16. Function setDropdownEntityRecipientForInformationList</h4>
 <div class="paragraph">
 <p>When sending a user card, by default, it is possible to choose the recipients for information from all the available entities. To limit the list of available recipients, it is possible to configure the list of possible recipients via javascript in the user template.</p>
 </div>
@@ -5637,7 +5795,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialenddate"><a class="anchor" href="#_function_setinitialenddate"></a>10.6.16. Function setInitialEndDate</h4>
+<h4 id="_function_setinitialenddate"><a class="anchor" href="#_function_setinitialenddate"></a>10.6.17. Function setInitialEndDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for <code>endDate</code> by calling  <em>opfab.currentUserCard.setInitialEndDate(endDate)</em> . The endDate is a number representing an epoch date value.</p>
 </div>
@@ -5649,7 +5807,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialexpirationdate"><a class="anchor" href="#_function_setinitialexpirationdate"></a>10.6.17. Function setInitialExpirationDate</h4>
+<h4 id="_function_setinitialexpirationdate"><a class="anchor" href="#_function_setinitialexpirationdate"></a>10.6.18. Function setInitialExpirationDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for <code>expirationDate</code> by calling  <em>opfab.currentUserCard.setInitialExpirationDate(expirationDate)</em> . The expirationDate is a number representing an epoch date value.</p>
 </div>
@@ -5661,7 +5819,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitiallttd"><a class="anchor" href="#_function_setinitiallttd"></a>10.6.18. Function setInitialLttd</h4>
+<h4 id="_function_setinitiallttd"><a class="anchor" href="#_function_setinitiallttd"></a>10.6.19. Function setInitialLttd</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for <code>lttd</code> by calling  <em>opfab.currentUserCard.setInitialLttd(lttd)</em> . The lttd is a number representing an epoch date value.</p>
 </div>
@@ -5673,7 +5831,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialselectedrecipients"><a class="anchor" href="#_function_setinitialselectedrecipients"></a>10.6.19. Function setInitialSelectedRecipients</h4>
+<h4 id="_function_setinitialselectedrecipients"><a class="anchor" href="#_function_setinitialselectedrecipients"></a>10.6.20. Function setInitialSelectedRecipients</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of initially selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected. The method will work only at template loading time, cannot be used to modify the selected recipients after the template is loaded or in card edition mode.</p>
 </div>
@@ -5693,7 +5851,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialselectedrecipientsforinformation"><a class="anchor" href="#_function_setinitialselectedrecipientsforinformation"></a>10.6.20. Function setInitialSelectedRecipientsForInformation</h4>
+<h4 id="_function_setinitialselectedrecipientsforinformation"><a class="anchor" href="#_function_setinitialselectedrecipientsforinformation"></a>10.6.21. Function setInitialSelectedRecipientsForInformation</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of initially selected recipients for information via javascript in the user template by calling the setInitialSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be preselected. The method will work only at template loading time, cannot be used to modify the selected recipients after the template is loaded or in card edition mode.</p>
 </div>
@@ -5713,7 +5871,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setselectedrecipients"><a class="anchor" href="#_function_setselectedrecipients"></a>10.6.21. Function setSelectedRecipients</h4>
+<h4 id="_function_setselectedrecipients"><a class="anchor" href="#_function_setselectedrecipients"></a>10.6.22. Function setSelectedRecipients</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of selected recipients via javascript in the user template by calling the setInitialSelectedRecipients method. The method takes as input the list of Entity ids to be preselected. This method can be called at any time and also in edition mode.</p>
 </div>
@@ -5733,7 +5891,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setselectedrecipientsforinformation"><a class="anchor" href="#_function_setselectedrecipientsforinformation"></a>10.6.22. Function setSelectedRecipientsForInformation</h4>
+<h4 id="_function_setselectedrecipientsforinformation"><a class="anchor" href="#_function_setselectedrecipientsforinformation"></a>10.6.23. Function setSelectedRecipientsForInformation</h4>
 <div class="paragraph">
 <p>It is possible to configure the list of selected recipients for information via javascript in the user template by calling the setSelectedRecipientsForInformation method. The method takes as input the list of Entity ids to be selected.  This method can be called at any time and also in edition mode.</p>
 </div>
@@ -5753,7 +5911,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialseverity"><a class="anchor" href="#_function_setinitialseverity"></a>10.6.23. Function setInitialSeverity</h4>
+<h4 id="_function_setinitialseverity"><a class="anchor" href="#_function_setinitialseverity"></a>10.6.24. Function setInitialSeverity</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value for card severity choice by calling the function <em>setInitialSeverity(severity)</em></p>
 </div>
@@ -5783,7 +5941,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialkeepchildcards"><a class="anchor" href="#_function_setinitialkeepchildcards"></a>10.6.24. Function setInitialKeepChildCards</h4>
+<h4 id="_function_setinitialkeepchildcards"><a class="anchor" href="#_function_setinitialkeepchildcards"></a>10.6.25. Function setInitialKeepChildCards</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial value to keep child cards or not by calling the function <em>setInitialKeepChildCards(keepChildCards)</em></p>
 </div>
@@ -5797,7 +5955,7 @@ The method returns only one child card and is therefore not compatible with the 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_setinitialstartdate"><a class="anchor" href="#_function_setinitialstartdate"></a>10.6.25. Function setInitialStartDate</h4>
+<h4 id="_function_setinitialstartdate"><a class="anchor" href="#_function_setinitialstartdate"></a>10.6.26. Function setInitialStartDate</h4>
 <div class="paragraph">
 <p>From the template it is possible to set the initial values for <code>startDate</code> by calling  <em>opfab.currentUserCard.setInitialStartDate(startDate)</em> . The startDate is a number representing an epoch date value.</p>
 </div>
@@ -6597,7 +6755,7 @@ custom filter for a column. The possible values for the custom filter must be se
 <p>"colName": name of the column on the UI</p>
 </li>
 <li>
-<p>"size": size of the column on the UI, proportionally to each other</p>
+<p>"size": size of the column on the UI (number of pixels)</p>
 </li>
 <li>
 <p>"defaultVisibility": Indicates whether the field will be displayed, before the user interacts with the column for the
@@ -6621,14 +6779,14 @@ first time.</p>
 <dl>
 <dt class="hdlist1">Users</dt>
 <dd>
-<p>represent account information for a person destined to receive cards in the OperatorFabric instance.</p>
+<p>represent account information for a person intended to receive cards in the OperatorFabric instance.</p>
 </dd>
 <dt class="hdlist1">Entities</dt>
 <dd>
 <div class="ulist">
 <ul>
 <li>
-<p>represent set of users destined to receive collectively some cards.</p>
+<p>represent set of users intended to receive collectively some cards.</p>
 </li>
 <li>
 <p>can be used to model organizations, for examples : control center, company , department&#8230;&#8203;</p>
@@ -6647,7 +6805,7 @@ first time.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>represent set of users destined to receive collectively some cards.</p>
+<p>represent set of users intended to receive collectively some cards.</p>
 </li>
 <li>
 <p>has a set of perimeters to define rights for card reception in OperatorFabric (group type 'PERMISSION').</p>
@@ -6748,10 +6906,23 @@ More details about automated user creation
 <div class="sect3">
 <h4 id="_entities_2"><a class="anchor" href="#_entities_2"></a>14.1.2. Entities</h4>
 <div class="paragraph">
-<p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).
-Entities are used to send cards to several users without a name specifically. The information about membership to an
-entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object). In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.
-The roles attribute allows to set the utility of an entity. It determines if an entity can send or receive cards and if it&#8217;s part of an activity area. This can be useful for a group of entities where only child entities should be used as card publishers while the parent is just a logical group usable as a card recipient. The <code>labels</code> property (array) allows to associate string labels to an Entity object.</p>
+<p>The notion of entity is loose and can be used to model organizations structures(examples : control center, company , department&#8230;&#8203; ).</p>
+</div>
+<div class="paragraph">
+<p>Entities are used to send cards to several users without a name specifically. The information about membership to an
+entity is stored in the user&#8217;s data (<code>entities</code> field of the <code>user</code> object).</p>
+</div>
+<div class="paragraph">
+<p>In Entity objects, the <code>parents</code> property (array) expresses the fact that this entity is a part of one or several other entities. This feature allows cards to be sent to a group of entities without having to repeat the detailed list of entities for each card.</p>
+</div>
+<div class="paragraph">
+<p>The roles attribute allows to set the utility of an entity. It determines if an entity can send or receive cards and if it&#8217;s part of an activity area. This can be useful for a group of entities where only child entities should be used as card publishers while the parent is just a logical group usable as a card recipient.</p>
+</div>
+<div class="paragraph">
+<p>The <code>description</code> property is used, in addition to the label, for searching in the multi-select on the user card screen (recipient and recipient for information fields).</p>
+</div>
+<div class="paragraph">
+<p>The <code>labels</code> property (array) allows to associate string labels to an Entity object.</p>
 </div>
 <div class="paragraph">
 <p>Examples using entities can be found
@@ -6921,7 +7092,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>If set visible in ui-menu.json, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 <div class="paragraph">
-<p>The choice of activity area may be done during user logging phase if you set selectActivityAreaOnLogin to true in web-ui.json.</p>
+<p>The choice of activity area may be done during user logging phase if you set activityArea.selectActivityAreaOnLogin to true in web-ui.json.</p>
 </div>
 <div class="paragraph">
 <p>If the user is a member of one (or more) real-time group(s), then he will see on the screen the members of these groups, currently connected.</p>
@@ -8024,7 +8195,7 @@ results: {
 <h3 id="_customizing_browser_notification_sounds"><a class="anchor" href="#_customizing_browser_notification_sounds"></a>15.4. Customizing browser notification sounds</h3>
 <div class="paragraph">
 <p>The sounds used by default by the browser to signal a card of a given severity
-can be found under <code>ui/main/src/assets/sounds</code> in the core repository and are packaged in the <code>web-ui</code> docker image.</p>
+can be found under <code>frontend/src/assets/sounds</code> in the core repository and are packaged in the <code>web-ui</code> docker image.</p>
 </div>
 <div class="paragraph">
 <p>To customize these sounds, you can put the files in the current directory and mount that directory as a volume for
@@ -8324,9 +8495,6 @@ severities.
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Please see the <a href="https://opfab.github.io/documentation/current/api/external-devices/">API documentation</a> for details.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -8456,7 +8624,7 @@ The available css classes are detailed in
 </ul>
 </div>
 <div class="paragraph">
-<p>Your can find an example of a web page using these resources in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob//src/test/externalWebAppExample/index.html">src/test/externalWebAppExample/index.html</a>).</p>
+<p>Your can find an example of a web page using these resources in the OperatorFabric core repository (<a href="https://github.com/opfab/operatorfabric-core/blob//tests/externalWebAppExample/index.html">tests/externalWebAppExample/index.html</a>).</p>
 </div>
 <div class="paragraph">
 <p>The example test page can be accessed from OperatorFabric directly at the following url  <code><a href="http://localhost:2002/external/appExample/" class="bare">localhost:2002/external/appExample/</a></code> and also using one of the example business menu entries.</p>
