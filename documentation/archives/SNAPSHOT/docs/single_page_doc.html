@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">05 March 2026</span>
+<span id="revdate">06 March 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -804,18 +804,39 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_hallway_mode">19.7. Hallway mode</a></li>
 </ul>
 </li>
-<li><a href="#_email_notifications">20. Email Notifications</a>
+<li><a href="#_email_gateway">20. Email Gateway</a>
 <ul class="sectlevel2">
-<li><a href="#_configuring_email_notifications">20.1. Configuring Email Notifications</a></li>
-<li><a href="#_email_content">20.2. Email Content</a></li>
-<li><a href="#_email_templates">20.3. Email templates</a>
+<li><a href="#_outgoing_emails">20.1. Outgoing Emails</a>
 <ul class="sectlevel3">
-<li><a href="#_rich_text_content">20.3.1. Rich text content</a></li>
+<li><a href="#_configuring_email_notifications">20.1.1. Configuring Email Notifications</a></li>
+<li><a href="#_email_content">20.1.2. Email Content</a></li>
+<li><a href="#_email_templates">20.1.3. Email templates</a>
+<ul class="sectlevel4">
+<li><a href="#_rich_text_content">20.1.3.1. Rich text content</a></li>
 </ul>
 </li>
-<li><a href="#_email_attachment_templates">20.4. Email attachment templates</a>
+<li><a href="#_email_attachment_templates">20.1.4. Email attachment templates</a>
+<ul class="sectlevel4">
+<li><a href="#_custom_handlebars_helpers">20.1.4.1. Custom Handlebars helpers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_incoming_emails">20.2. Incoming Emails</a>
 <ul class="sectlevel3">
-<li><a href="#_custom_handlebars_helpers">20.4.1. Custom Handlebars helpers</a></li>
+<li><a href="#_configuration_2">20.2.1. Configuration</a></li>
+<li><a href="#_behavior">20.2.2. Behavior</a></li>
+<li><a href="#_email_parsing_rules">20.2.3. Email Parsing Rules</a></li>
+<li><a href="#_runtime_configuration">20.2.4. Runtime Configuration</a></li>
+<li><a href="#_emailtocardconverter">20.2.5. emailToCardConverter</a></li>
+<li><a href="#_converter_file">20.2.6. Converter File</a>
+<ul class="sectlevel4">
+<li><a href="#_incomingemail_object">20.2.6.1. IncomingEmail Object</a></li>
+<li><a href="#_required_method_convertemailtocardemail">20.2.6.2. Required Method <code>convertEmailToCard(email)</code></a></li>
+<li><a href="#_upload_list_and_delete_converter_file">20.2.6.3. Upload, list and delete Converter File</a></li>
+<li><a href="#_xmltojson_helper_method">20.2.6.4. XMLToJSON helper method</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1103,10 +1124,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_implementation">32.2. Implementation</a>
 <ul class="sectlevel3">
 <li><a href="#_architecture">32.2.1. Architecture</a></li>
-<li><a href="#_configuration_2">32.2.2. Configuration</a></li>
+<li><a href="#_configuration_3">32.2.2. Configuration</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_3">32.3. Configuration</a></li>
+<li><a href="#_configuration_4">32.3. Configuration</a></li>
 <li><a href="#_connection_management">32.4. Connection Management</a></li>
 <li><a href="#_configuration_management">32.5. Configuration Management</a></li>
 <li><a href="#_drivers">32.6. Drivers</a>
@@ -1124,7 +1145,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel1">
 <li><a href="#_deployment">34. Deployment</a></li>
 <li><a href="#_user_computer">35. User computer</a></li>
-<li><a href="#_configuration_4">36. Configuration</a>
+<li><a href="#_configuration_5">36. Configuration</a>
 <ul class="sectlevel2">
 <li><a href="#_business_service_configuration">36.1. Business service configuration</a>
 <ul class="sectlevel3">
@@ -1184,7 +1205,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_logging_administration">39. Logging Administration</a>
 <ul class="sectlevel2">
 <li><a href="#_logging_configuration">39.1. Logging configuration</a></li>
-<li><a href="#_runtime_configuration">39.2. Runtime configuration</a>
+<li><a href="#_runtime_configuration_2">39.2. Runtime configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_java_services">39.2.1. Java services</a></li>
 <li><a href="#_node_services">39.2.2. Node Services</a></li>
@@ -1302,7 +1323,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_guidelines_and_tips">49.3.8.2. Guidelines and tips</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_5">49.3.9. Configuration</a></li>
+<li><a href="#_configuration_6">49.3.9. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#_load_testing_with_gatling">49.4. Load testing with Gatling</a>
@@ -1352,7 +1373,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_setup_kafka_environment">54.1. Setup Kafka environment</a></li>
 <li><a href="#_disabling_kafka">54.2. Disabling Kafka</a></li>
-<li><a href="#_configuration_6">54.3. Configuration</a></li>
+<li><a href="#_configuration_7">54.3. Configuration</a></li>
 <li><a href="#_operatorfabric_kafka_source_code">54.4. OperatorFabric Kafka source code</a></li>
 <li><a href="#_listener_deserializer">54.5. Listener / deserializer</a>
 <ul class="sectlevel3">
@@ -1635,7 +1656,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_internal_technical_account">80.6. Internal technical account</a></li>
 <li><a href="#_port_mapping">80.7. Port mapping</a></li>
 <li><a href="#_rabbitmq_2">80.8. RabbitMQ</a></li>
-<li><a href="#_configuration_7">80.9. Configuration</a></li>
+<li><a href="#_configuration_8">80.9. Configuration</a></li>
 <li><a href="#_normalization_of_some_configuration_parameters">80.10. Normalization of some configuration parameters</a></li>
 <li><a href="#_mongodb_uri">80.11. Mongodb uri</a></li>
 <li><a href="#_rate_limiter_for_card_sendings">80.12. Rate limiter for card sendings</a></li>
@@ -6277,13 +6298,18 @@ Users can enable hallway mode in their user settings by selecting the <code>Auto
 </div>
 </div>
 <div class="sect1">
-<h2 id="_email_notifications"><a class="anchor" href="#_email_notifications"></a>20. Email Notifications</h2>
+<h2 id="_email_gateway"><a class="anchor" href="#_email_gateway"></a>20. Email Gateway</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The <strong>email-gateway</strong> service in OpFab supports both outgoing email notifications and incoming email handling for conversion into OperatorFabric cards.</p>
+</div>
+<div class="sect2">
+<h3 id="_outgoing_emails"><a class="anchor" href="#_outgoing_emails"></a>20.1. Outgoing Emails</h3>
 <div class="paragraph">
 <p>OpFab can send card notifications via email. These notifications are sent when a new card is published for a user and remains unread for a configured period. The email subject includes the card title, summary, and start and end dates.</p>
 </div>
-<div class="sect2">
-<h3 id="_configuring_email_notifications"><a class="anchor" href="#_configuring_email_notifications"></a>20.1. Configuring Email Notifications</h3>
+<div class="sect3">
+<h4 id="_configuring_email_notifications"><a class="anchor" href="#_configuring_email_notifications"></a>20.1.1. Configuring Email Notifications</h4>
 <div class="paragraph">
 <p>Users can enable email notifications in their user settings. If the parameter
 <code>operatorfabric.users.getEmailFromUserInsteadOfSettingsThey</code> is set to true, the email address is fetched from the token.
@@ -6294,8 +6320,8 @@ Users can specify the desired timezone for displaying dates and times in emails.
 the "timezone for mails" field in the user settings screen.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_email_content"><a class="anchor" href="#_email_content"></a>20.2. Email Content</h3>
+<div class="sect3">
+<h4 id="_email_content"><a class="anchor" href="#_email_content"></a>20.1.2. Email Content</h4>
 <div class="paragraph">
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition,
 the <code>email.bodyTemplate</code> field allows defining a template specific to the email body content.
@@ -6324,8 +6350,8 @@ You can override the mail subject using <code>email.cardFieldUsedForSubject</cod
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_email_templates"><a class="anchor" href="#_email_templates"></a>20.3. Email templates</h3>
+<div class="sect3">
+<h4 id="_email_templates"><a class="anchor" href="#_email_templates"></a>20.1.3. Email templates</h4>
 <div class="paragraph">
 <p>In email handlebars templates it is possible to refer card fields by prefixing with "card" prefix. For example:</p>
 </div>
@@ -6335,8 +6361,8 @@ You can override the mail subject using <code>email.cardFieldUsedForSubject</cod
   {{#card.data.networkContingencies}}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_rich_text_content"><a class="anchor" href="#_rich_text_content"></a>20.3.1. Rich text content</h4>
+<div class="sect4">
+<h5 id="_rich_text_content"><a class="anchor" href="#_rich_text_content"></a>20.1.3.1. Rich text content</h5>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
@@ -6350,7 +6376,7 @@ You can override the mail subject using <code>email.cardFieldUsedForSubject</cod
 </div>
 <div class="paragraph">
 <p>It is also possible to configure custom parameters to be used in handlebars email templates.
-The custom parameter can be added in email-gateway configuration under the "defaultConfig.customConfig" section:</p>
+The custom parameter can be added in <strong>email-gateway</strong> configuration under the "defaultConfig.customConfig" section:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6375,8 +6401,8 @@ The custom parameter can be added in email-gateway configuration under the "defa
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_email_attachment_templates"><a class="anchor" href="#_email_attachment_templates"></a>20.4. Email attachment templates</h3>
+<div class="sect3">
+<h4 id="_email_attachment_templates"><a class="anchor" href="#_email_attachment_templates"></a>20.1.4. Email attachment templates</h4>
 <div class="paragraph">
 <p>It is possible to define a handlebars template that will generate an attachment to the email. This feature is only for direct emails and not for recap emails.
 In the configuration of your bundle you need to define the following fields in the state definition :</p>
@@ -6412,8 +6438,8 @@ In the configuration of your bundle you need to define the following fields in t
 <span class="tag">&lt;/document&gt;</span></code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>20.4.1. Custom Handlebars helpers</h4>
+<div class="sect4">
+<h5 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>20.1.4.1. Custom Handlebars helpers</h5>
 <div class="paragraph">
 <p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
 </div>
@@ -6448,13 +6474,329 @@ helpers = [example_severityColor];</code></pre>
 <p>Each helper will be registered with the same name as the helper function. To avoid conflicts with existing helpers, it is recommended to prefix your helper names (for example: <code>myapp_xxx</code>).</p>
 </div>
 <div class="paragraph">
-<p>Reference this file in the YAML configuration of the <code>email-gateway</code> service using the <code>customHandlebarsHelpersFile</code> parameter:</p>
+<p>Reference this file in the YAML configuration of the <strong>email-gateway</strong> service using the <code>customHandlebarsHelpersFile</code> parameter:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>emailGateway:
     adminPort: 2106
     customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_incoming_emails"><a class="anchor" href="#_incoming_emails"></a>20.2. Incoming Emails</h3>
+<div class="paragraph">
+<p>The <strong>email-gateway</strong> service can also monitor mailboxes via IMAP and convert incoming emails into OperatorFabric cards.</p>
+</div>
+<div class="paragraph">
+<p>Incoming email handling is configured in the <code>defaultConfig.incomingEmails</code> section of the <strong>email-gateway</strong> configuration.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>20.2.1. Configuration</h4>
+<div class="paragraph">
+<p>Example configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>emailGateway:
+  defaultConfig:
+    incomingEmails:
+      secondsBetweenConnectionChecks: 10
+      mailboxes:
+        - mailbox: &quot;operator1@test.com&quot;
+          password: &quot;a&quot;
+          emailToCardConverter: &quot;emailToCardConverter1&quot;
+        - mailbox: &quot;operator2@test.com&quot;
+          password: &quot;b&quot;
+          emailToCardConverter: &quot;emailToCardConverter2&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The IMAP server connection is configured using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric.emailGateway.imapServer.host
+operatorfabric.emailGateway.imapServer.port
+operatorfabric.emailGateway.imapServer.tls
+operatorfabric.emailGateway.imapServer.authTimeout</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behavior"><a class="anchor" href="#_behavior"></a>20.2.2. Behavior</h4>
+<div class="paragraph">
+<p>For each configured mailbox:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The service opens a secure IMAP connection using the configured <code>host</code>, <code>port</code>, <code>tls</code>, and <code>authTimeout</code>.</p>
+</li>
+<li>
+<p>The <code>INBOX</code> folder is opened.</p>
+</li>
+<li>
+<p>Only unread messages (<code>UNSEEN</code>) are fetched.</p>
+</li>
+<li>
+<p>Retrieved messages are automatically marked as read.</p>
+</li>
+<li>
+<p>Each message is parsed and transformed into an internal <code>IncomingEmail</code> object.</p>
+</li>
+<li>
+<p>The configured <code>emailToCardConverter</code> is then used to convert the email into a card.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Mailbox checks are performed periodically according to <code>secondsBetweenConnectionChecks</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_email_parsing_rules"><a class="anchor" href="#_email_parsing_rules"></a>20.2.3. Email Parsing Rules</h4>
+<div class="paragraph">
+<p>When an email is received, attachments are processed as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Only text attachments are supported.</p>
+</li>
+<li>
+<p>Attachments larger than 100 KB are ignored.</p>
+</li>
+<li>
+<p>Attachment content is converted to UTF-8 text.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each processed email is then handed over to the configured converter, which is responsible for generating the corresponding OperatorFabric card.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>20.2.4. Runtime Configuration</h4>
+<div class="paragraph">
+<p>As with other <code>defaultConfig</code> parameters, the <code>incomingEmails</code> configuration can be updated at runtime by sending an HTTP POST request to the <code>/config</code> endpoint of the <strong>email-gateway</strong> service with a JSON payload containing the updated parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_emailtocardconverter"><a class="anchor" href="#_emailtocardconverter"></a>20.2.5. emailToCardConverter</h4>
+<div class="paragraph">
+<p>The <code>emailToCardConverter</code> parameter defines the JavaScript converter responsible for transforming an incoming email into an OperatorFabric card.</p>
+</div>
+<div class="paragraph">
+<p>Each configured mailbox must reference a converter by its identifier, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>incomingEmails:
+  mailboxes:
+    - mailbox: &quot;operator1@test.com&quot;
+      password: &quot;a&quot;
+      emailToCardConverter: &quot;emailToCardConverter1&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value <code>emailToCardConverter1</code> refers to a JavaScript file implementing the conversion logic.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_converter_file"><a class="anchor" href="#_converter_file"></a>20.2.6. Converter File</h4>
+<div class="paragraph">
+<p>A converter is a JavaScript file loaded by the email-gateway service.
+It must export a conversion function that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Receives an <code>IncomingEmail</code> object</p>
+</li>
+<li>
+<p>Returns a valid OperatorFabric card object (JSON)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The converter is responsible for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mapping email metadata (subject, sender, body)</p>
+</li>
+<li>
+<p>Parsing structured content (e.g., XML attachments)</p>
+</li>
+<li>
+<p>Constructing the card payload</p>
+</li>
+<li>
+<p>Defining process, state, severity, and data</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_incomingemail_object"><a class="anchor" href="#_incomingemail_object"></a>20.2.6.1. IncomingEmail Object</h5>
+<div class="paragraph">
+<p>The converter receives an object containing:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>from</code> (string)</p>
+</li>
+<li>
+<p><code>to</code> (string[])</p>
+</li>
+<li>
+<p><code>subject</code> (string)</p>
+</li>
+<li>
+<p><code>body</code> (string)</p>
+</li>
+<li>
+<p><code>attachments</code> (array of <code>{ filename, content }</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_required_method_convertemailtocardemail"><a class="anchor" href="#_required_method_convertemailtocardemail"></a>20.2.6.2. Required Method <code>convertEmailToCard(email)</code></h5>
+<div class="paragraph">
+<p>The converter file must define the function convertEmailToCard(email), for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>function convertEmailToCard(email) {
+
+    let xmlJson = null;
+
+    if (email.attachments &amp;&amp; email.attachments.length &gt; 0) {
+        const xmlAttachment = email.attachments.find(att =&gt;
+            att.filename &amp;&amp; att.filename.endsWith('.xml')
+        );
+
+        if (xmlAttachment) {
+            xmlJson = helpers.XMLToJSON(xmlAttachment.content);
+        }
+    }
+
+    return {
+        publisher: 'opfab',
+        process: 'api_test',
+        state: 'messageState',
+        processVersion: '1',
+        processInstanceId: 'emailToCardTest',
+        severity: 'ALARM',
+        summary: {key: 'detail.title'},
+        title: {key: 'detail.title'},
+        startDate: 7200000,
+        data: {
+            content: {
+                from: email.from,
+                to: email.to,
+                subject: email.subject,
+                body: email.body,
+                attachments: email.attachments.map((att) =&gt; ({
+                    filename: att.filename,
+                    content: att.content,
+                    contentInJsonFormat: xmlJson
+                }))
+            },
+            converter: 'emailToCardConverter1.js'
+        },
+        entityRecipients: ['ENTITY_FR']
+    };
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The service will call this function for each incoming email and publish the returned card to OperatorFabric.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_upload_list_and_delete_converter_file"><a class="anchor" href="#_upload_list_and_delete_converter_file"></a>20.2.6.3. Upload, list and delete Converter File</h5>
+<div class="paragraph">
+<p>Converters are uploaded through the <strong>/upload</strong> endpoint using a multipart/form-data POST request.
+Only users with administrator privileges are allowed to upload converter files.</p>
+</div>
+<div class="paragraph">
+<p>Example using curl:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl -X POST &quot;http://localhost:2106/upload&quot; -H &quot;Authorization: Bearer &lt;admin_token&gt;&quot; -F &quot;file=@emailToCardConverter.js&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the upload is successful, the service returns a 200 OK response and the converter file becomes available for use by the email-gateway service.</p>
+</div>
+<div class="paragraph">
+<p>If a non-administrator user attempts to upload a file, the service returns a 403 Forbidden response.</p>
+</div>
+<div class="paragraph">
+<p>Uploaded converter files can later be listed or deleted using the corresponding administration endpoints (<strong>/list</strong> and <strong>/delete</strong>).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_xmltojson_helper_method"><a class="anchor" href="#_xmltojson_helper_method"></a>20.2.6.4. XMLToJSON helper method</h5>
+<div class="paragraph">
+<p>When writing an <code>emailToCardConverter</code>, a helper function named <code>XMLToJSON</code> is made available in the execution context.</p>
+</div>
+<div class="paragraph">
+<p>This helper allows converters to easily transform XML content (for example from an email attachment or from the email body) into a JavaScript JSON object.</p>
+</div>
+<div class="paragraph">
+<p>The helper is exposed under the <code>helpers</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>helpers.XMLToJSON(xmlString)</code></pre>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_behavior_2"><a class="anchor" href="#_behavior_2"></a>Behavior</h6>
+<div class="ulist">
+<ul>
+<li>
+<p>It parses the provided XML string.</p>
+</li>
+<li>
+<p>It converts XML elements into a JavaScript object.</p>
+</li>
+<li>
+<p>XML attributes are preserved.</p>
+</li>
+<li>
+<p>Leading and trailing spaces in values are trimmed.</p>
+</li>
+<li>
+<p>If parsing fails, an error is thrown and logged.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Internally, the method uses the <code>fast-xml-parser</code> library with the following configuration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ignoreAttributes: false</code> → XML attributes are kept</p>
+</li>
+<li>
+<p><code>attributeNamePrefix: '@<em>'</code> → attributes are prefixed with <code>@</em></code></p>
+</li>
+<li>
+<p><code>trimValues: true</code> → whitespace is automatically removed from values</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -11032,7 +11374,7 @@ for operator1_fr, how to connect to them and what signal "ALARM" translates to o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>32.2.2. Configuration</h4>
+<h4 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>32.2.2. Configuration</h4>
 <div class="paragraph">
 <p>The following elements need to be configurable:</p>
 </div>
@@ -11172,7 +11514,7 @@ them differently.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>32.3. Configuration</h3>
+<h3 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>32.3. Configuration</h3>
 
 </div>
 <div class="sect2">
@@ -11327,7 +11669,7 @@ the project or by using images releases from <a href="https://hub.docker.com/">D
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>36. Configuration</h2>
+<h2 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>36. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The configuration is divided into two parts, the configuration of the business services and the configuration of the UI.</p>
@@ -12014,6 +12356,30 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.authTimeout</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the maximum amount of time (in milliseconds) the client will wait for the authentication process to complete before timing out</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.host</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server host</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.port</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.tls</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the connection to the IMAP server should be secured using TLS (Transport Layer Security)</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.smtpServer.host</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
@@ -12054,6 +12420,36 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Path to a javascript file containing custom Handlebars helpers to be used in email templates</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of mailboxes that the email gateway will monitor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes[].mailbox</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address of the mailbox to monitor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes[].password</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password used to authenticate to the mailbox via IMAP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes[].emailToCardConverter</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier of the converter used to transform incoming emails into OperatorFabric cards</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.secondsBetweenConnectionChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection check period</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.mailFrom</p></td>
@@ -14274,7 +14670,7 @@ prod PROD PROD_URL 80</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>39.2. Runtime configuration</h3>
+<h3 id="_runtime_configuration_2"><a class="anchor" href="#_runtime_configuration_2"></a>39.2. Runtime configuration</h3>
 <div class="paragraph">
 <p>OperatorFabric includes the ability to view and configure the log levels at runtime through APIs for most of the business services. It is possible to configure and view an individual logger configuration, which is made up of both the explicitly configured logging level as well as the effective logging level given to it by the logging framework.</p>
 </div>
@@ -16109,7 +16505,7 @@ explanation</a> and <a href="https://docs.cypress.io/guides/core-concepts/retry-
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>49.3.9. Configuration</h4>
+<h4 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>49.3.9. Configuration</h4>
 <div class="paragraph">
 <p>In <code>cypress.config.js</code>:</p>
 </div>
@@ -16703,7 +17099,7 @@ If you have a Kafka environment running you need to configure Opfab to connect t
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>54.3. Configuration</h3>
+<h3 id="_configuration_7"><a class="anchor" href="#_configuration_7"></a>54.3. Configuration</h3>
 <div class="paragraph">
 <p>The default topic from which the messages are consumed is called <code>opfab</code>. This setting can be modified by setting <code>opfab.kafka.card.topics.topicname</code>. Messages are encoded in the <code>CardCommand.card</code> field.
 The default topic to which messages are produced is called <code>opfab-response</code>. This setting can be modified by setting the <code>opfab.kafka.topics.response-card</code>, see below. Messages produced by OperatorFabric are encoded in the <code>CardCommand.responseCard</code> field.</p>
@@ -20843,7 +21239,7 @@ Error during startup: {error,failed_to_initialize_feature_flags_registry}
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_7"><a class="anchor" href="#_configuration_7"></a>80.9. Configuration</h3>
+<h3 id="_configuration_8"><a class="anchor" href="#_configuration_8"></a>80.9. Configuration</h3>
 <div class="paragraph">
 <p>The configuration has been simplified, you have now default parameters you do not need to set anymore in the back configuration:</p>
 </div>
