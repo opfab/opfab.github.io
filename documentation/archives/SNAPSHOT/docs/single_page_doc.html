@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">23 March 2026</span>
+<span id="revdate">24 March 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1109,7 +1109,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_exporting_responses_by_type_and_not_responded">30.3.7. Exporting responses by type and not responded</a></li>
 </ul>
 </li>
-<li><a href="#_customizing_browser_notification_sounds">30.4. Customizing browser notification sounds</a></li>
+<li><a href="#_dashboard_screen">30.4. Dashboard screen</a>
+<ul class="sectlevel3">
+<li><a href="#_processstateredirects">30.4.1. processStateRedirects</a></li>
+<li><a href="#_processcustomlinks">30.4.2. processCustomLinks</a></li>
+<li><a href="#_loading_the_configuration">30.4.3. Loading the configuration</a></li>
+</ul>
+</li>
+<li><a href="#_customizing_browser_notification_sounds">30.5. Customizing browser notification sounds</a></li>
 </ul>
 </li>
 <li><a href="#_supervisor">31. Supervisor</a>
@@ -1781,6 +1788,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_impact_on_custom_integrations_2">91.3.2. Impact on custom integrations</a></li>
 </ul>
 </li>
+<li><a href="#_dashboard_configuration">91.4. Dashboard configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -11204,7 +11212,183 @@ results: {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_customizing_browser_notification_sounds"><a class="anchor" href="#_customizing_browser_notification_sounds"></a>30.4. Customizing browser notification sounds</h3>
+<h3 id="_dashboard_screen"><a class="anchor" href="#_dashboard_screen"></a>30.4. Dashboard screen</h3>
+<div class="paragraph">
+<p>The dashboard screen presents the number of cards per process and state. To the right of each state, bubbles display the number of visible cards by severity.</p>
+</div>
+<div class="paragraph">
+<p>An optional configuration can be loaded via a call to the <code>opfab.businessconfig.registerCustomScreen</code> method, to be defined in a JavaScript file loaded at startup.</p>
+</div>
+<div class="paragraph">
+<p>Two types of configuration are available for the dashboard:</p>
+</div>
+<div class="sect3">
+<h4 id="_processstateredirects"><a class="anchor" href="#_processstateredirects"></a>30.4.1. processStateRedirects</h4>
+<div class="paragraph">
+<p>This configuration allows you to define custom redirections when clicking on a state in the dashboard. If not specified, clicking on a state redirects to the card feed filtered by the selected process and state.</p>
+</div>
+<div class="paragraph">
+<p>You can redirect to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A custom menu (URL-based link) using <code>menuId</code> and optionally <code>urlExtension</code></p>
+</li>
+<li>
+<p>A custom screen using <code>screenId</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The IDs declared must match those defined in the UI menu configuration.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example with redirections to a custom menu and a custom screen</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">processStateRedirects</span><span class="delimiter">&quot;</span></span>: [
+  {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">stateId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">chartLineState</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">menuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_0</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">urlExtension</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">?search=chart&amp;fulltext=1</span><span class="delimiter">&quot;</span></span>
+  },
+  {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">stateId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">questionState</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">screenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+  }
+]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processcustomlinks"><a class="anchor" href="#_processcustomlinks"></a>30.4.2. processCustomLinks</h4>
+<div class="paragraph">
+<p>This configuration allows you to define custom links that appear below the states for each process in the dashboard. These links typically point to custom screens.</p>
+</div>
+<div class="paragraph">
+<p>Each link requires:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>label</code>: The text displayed for the link</p>
+</li>
+<li>
+<p><code>customScreenId</code>: The ID of the custom screen to open</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example with two custom screen links</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">processCustomLinks</span><span class="delimiter">&quot;</span></span>: [
+  {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">customLinks</span><span class="delimiter">&quot;</span></span>: [
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">customScreenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+      },
+      {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen 2</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">customScreenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId2</span><span class="delimiter">&quot;</span></span>
+      }
+    ]
+  }
+]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_loading_the_configuration"><a class="anchor" href="#_loading_the_configuration"></a>30.4.3. Loading the configuration</h4>
+<div class="paragraph">
+<p>To apply the dashboard configuration, you need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a JavaScript file containing your dashboard definition</p>
+</li>
+<li>
+<p>Register it using the <code>opfab.businessconfig.registerCustomScreen</code> method</p>
+</li>
+<li>
+<p>Load this file at application startup</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Complete example combining both processCustomLinks and processStateRedirects</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">{
+    const dashboardExample = {
+        <span class="key">id</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">name</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">type</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">DASHBOARD</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">processCustomLinks</span>: [
+            {
+                <span class="key">processId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">customLinks</span>: [
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+                    },
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen 2</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId2</span><span class="delimiter">&quot;</span></span>
+                    }
+                ]
+            }
+        ],
+        <span class="key">processStateRedirects</span>: [
+            {
+                <span class="key">processId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">stateId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">chartLineState</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">menuId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_0</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">urlExtension</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">?search=chart&amp;fulltext=1</span><span class="delimiter">&quot;</span></span>
+            },
+            {
+                <span class="key">processId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">stateId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">questionState</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">screenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+            }
+        ]
+    };
+
+    opfab.businessconfig.registerCustomScreen(dashboardExample);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, declare this file in <code>web-ui.json</code> to load it at startup:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">customJsToLoad</span><span class="delimiter">&quot;</span></span>: [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">/externalJs/DashboardExample.js</span><span class="delimiter">&quot;</span></span>
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The custom screen IDs referenced in <code>processCustomLinks</code> and <code>processStateRedirects</code> must match the IDs of custom screens registered via <code>opfab.businessconfig.registerCustomScreen</code> or custom menu IDs defined in the UI menu configuration.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_customizing_browser_notification_sounds"><a class="anchor" href="#_customizing_browser_notification_sounds"></a>30.5. Customizing browser notification sounds</h3>
 <div class="paragraph">
 <p>The sounds used by default by the browser to signal a card of a given severity
 can be found under <code>frontend/src/assets/sounds</code> in the core repository and are packaged in the <code>web-ui</code> docker image.</p>
@@ -12985,56 +13169,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of javascript files to be loaded at startup</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processStateRedirects</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declares if a state when clicked in the dashboard should redirect to a custom menu or custom screen. If nothing is specified the redirection is pointing to the card feed. Here is a declaration with one redirection to a custom menu and one to a custom screen. The ids declared should match the ones in the ui-menu config.
-[source, json]
-----
-"dashboard": {
-    "processStateRedirects": [
-      {
-        "processId": "defaultProcess",
-        "stateId": "chartLineState",
-        "menuId": "uid_test_0",
-        "urlExtension": "?search=chart&amp;fulltext=1"
-      },
-      {
-        "processId": "defaultProcess",
-        "stateId": "questionState",
-        "screenId": "testId"
-      }
-    ]
-  }
-----</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processCustomLinks</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declares a list of link to show under the states of processes.Here is a declaration with two links  to custom screens.
-[source, json]
-----
-  "dashboard": {
-        "processCustomLinks": [
-            {
-            "processId": "defaultProcess",
-            "customLinks": [
-                    {
-                        "label": "Custom screen",
-                        "customScreenId": "testId"
-                    },
-                    {
-                        "label": "Custom screen 2",
-                        "customScreenId": "testId2"
-                    }
-                ]
-            }
-        ]
-  }
-----</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dateRangePickerConfig</p></td>
@@ -23170,6 +23304,104 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
 <h4 id="_impact_on_custom_integrations_2"><a class="anchor" href="#_impact_on_custom_integrations_2"></a>91.3.2. Impact on custom integrations</h4>
 <div class="paragraph">
 <p>If you have custom code or scripts calling these endpoints directly, you must update them to use the new request format. The OperatorFabric web UI, CLI, and internal services have all been updated to use the new format.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard_configuration"><a class="anchor" href="#_dashboard_configuration"></a>91.4. Dashboard configuration</h3>
+<div class="paragraph">
+<p>In previous versions, dashboard configuration was managed via the <code>web-ui.json</code> config file. Starting from version 4.12, it is now handled programmatically using the <code>opfab.businessconfig.registerCustomScreen</code> method.</p>
+</div>
+<div class="paragraph">
+<p>For example, instead of the following configuration in <code>web-ui.json</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;dashboard&quot;: {
+        &quot;processCustomLinks&quot;: [
+            {
+            &quot;processId&quot;: &quot;defaultProcess&quot;,
+            &quot;customLinks&quot;: [
+                    {
+                        &quot;label&quot;: &quot;Custom screen&quot;,
+                        &quot;customScreenId&quot;: &quot;testId&quot;
+                    },
+                    {
+                        &quot;label&quot;: &quot;Custom screen 2&quot;,
+                        &quot;customScreenId&quot;: &quot;testId2&quot;
+                    }
+                ]
+            }
+        ],
+        &quot;processStateRedirects&quot;: [
+            {
+            &quot;processId&quot;: &quot;defaultProcess&quot;,
+            &quot;stateId&quot;: &quot;chartLineState&quot;,
+            &quot;menuId&quot;: &quot;uid_test_0&quot;,
+            &quot;urlExtension&quot;: &quot;?search=chart&amp;fulltext=1&quot;
+            },
+            {
+            &quot;processId&quot;: &quot;defaultProcess&quot;,
+            &quot;stateId&quot;: &quot;questionState&quot;,
+            &quot;screenId&quot;: &quot;testId&quot;
+            }
+        ]
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You now need to create a JavaScript file like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+    const dashboardExample = {
+        &quot;id&quot;: &quot;dashboard&quot;,
+        &quot;name&quot;: &quot;Dashboard&quot;,
+        &quot;type&quot;: &quot;DASHBOARD&quot;,
+        &quot;processCustomLinks&quot;: [
+            {
+                &quot;processId&quot;: &quot;defaultProcess&quot;,
+                &quot;customLinks&quot;: [
+                    {
+                        &quot;label&quot;: &quot;Custom screen&quot;,
+                        &quot;customScreenId&quot;: &quot;testId&quot;
+                    },
+                    {
+                        &quot;label&quot;: &quot;Custom screen 2&quot;,
+                        &quot;customScreenId&quot;: &quot;testId2&quot;
+                    }
+                ]
+            }
+        ],
+        &quot;processStateRedirects&quot;: [
+            {
+                &quot;processId&quot;: &quot;defaultProcess&quot;,
+                &quot;stateId&quot;: &quot;chartLineState&quot;,
+                &quot;menuId&quot;: &quot;uid_test_0&quot;,
+                &quot;urlExtension&quot;: &quot;?search=chart&amp;fulltext=1&quot;
+            },
+            {
+                &quot;processId&quot;: &quot;defaultProcess&quot;,
+                &quot;stateId&quot;: &quot;questionState&quot;,
+                &quot;screenId&quot;: &quot;testId&quot;
+            }
+        ]
+    };
+
+    opfab.businessconfig.registerCustomScreen(dashboardExample);
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, load this file at startup by declaring it in <code>web-ui.json</code>, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;customJsToLoad&quot;: [
+        &quot;/externalJs/DashboardExample.js&quot;,
+        ....]</code></pre>
 </div>
 </div>
 </div>
