@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">27 March 2026</span>
+<span id="revdate">28 March 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1769,10 +1769,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_docker_image_name">91.1.1. Docker image name</a></li>
 <li><a href="#_configuration_file_name">91.1.2. Configuration file name</a></li>
 <li><a href="#_configuration_parameters">91.1.3. Configuration parameters</a></li>
-<li><a href="#_mongodb_collection_name">91.1.4. MongoDB collection name</a></li>
-<li><a href="#_nginx_proxy_configuration">91.1.5. Nginx proxy configuration</a></li>
-<li><a href="#_cli_and_scripts">91.1.6. CLI and scripts</a></li>
-<li><a href="#_menu_configuration_via_rest_api">91.1.7. Menu Configuration via REST API</a></li>
+<li><a href="#_email_body_rendering_parameter_renamed">91.1.4. Email body rendering parameter renamed</a></li>
+<li><a href="#_behavior_change">91.1.5. Behavior change</a></li>
+<li><a href="#_mongodb_collection_name">91.1.6. MongoDB collection name</a></li>
+<li><a href="#_nginx_proxy_configuration">91.1.7. Nginx proxy configuration</a></li>
+<li><a href="#_cli_and_scripts">91.1.8. CLI and scripts</a></li>
+<li><a href="#_menu_configuration_via_rest_api">91.1.9. Menu Configuration via REST API</a></li>
 </ul>
 </li>
 <li><a href="#_card_api_endpoints_updated_to_use_query_parameters">91.2. Card API endpoints updated to use query parameters</a>
@@ -6347,9 +6349,32 @@ the "timezone for mails" field in the user settings screen.</p>
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition,
 the <code>email.bodyTemplate</code> field allows defining a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail
-is sent with just the link to the card in the body.<br>
-In the state definition, you can also set <code>email.hideDefaultBodyPrefixAndPostfix</code> to true if you don&#8217;t want to display the
-default body prefix and postfix.<br></p>
+is sent with just the link to the card in the body.<br></p>
+</div>
+<div class="paragraph">
+<p>In the state definition, you can control how the email body is rendered using the <code>email.useOnlyTemplateForBodyRendering</code> parameter.</p>
+</div>
+<div class="paragraph">
+<p>When set to <code>true</code>, only the content generated from the <code>email.bodyTemplate</code> is used as the email body.
+The default header (prefix), footer (postfix), and card title/link are not included.</p>
+</div>
+<div class="paragraph">
+<p>When set to <code>false</code> or not defined, the email body is composed of:
+- the default body prefix
+- the card title and/or link (depending on configuration)
+- the content generated from the <code>email.bodyTemplate</code>
+- the default body postfix</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>email : {
+    bodyTemplate: "myTemplate",
+    useOnlyTemplateForBodyRendering: true
+}</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>You can override the default mail sender using <code>email.sender</code> in the state definition.<br></p>
@@ -23117,7 +23142,69 @@ your file <code>config.json</code> if needed. For example:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mongodb_collection_name"><a class="anchor" href="#_mongodb_collection_name"></a>91.1.4. MongoDB collection name</h4>
+<h4 id="_email_body_rendering_parameter_renamed"><a class="anchor" href="#_email_body_rendering_parameter_renamed"></a>91.1.4. Email body rendering parameter renamed</h4>
+<div class="paragraph">
+<p>The email body rendering parameter has been renamed in state configuration.</p>
+</div>
+<div class="paragraph">
+<p>Replace the deprecated parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>email: {
+  hideDefaultBodyPrefixAndPostfix: true
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>email: {
+useOnlyTemplateForBodyRendering: true
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behavior_change"><a class="anchor" href="#_behavior_change"></a>91.1.5. Behavior change</h4>
+<div class="paragraph">
+<p>The new parameter <code>useOnlyTemplateForBodyRendering</code> provides clearer behavior:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When set to <code>true</code>, only the content generated from <code>email.bodyTemplate</code> is used as the email body.
+The default prefix, postfix, and card title/link are not included.</p>
+</li>
+<li>
+<p>When set to <code>false</code> or not defined, the email body includes:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the default prefix</p>
+</li>
+<li>
+<p>the card title and/or link</p>
+</li>
+<li>
+<p>the rendered template content</p>
+</li>
+<li>
+<p>the default postfix</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Make sure to update your state configurations accordingly, otherwise email content may differ from previous versions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mongodb_collection_name"><a class="anchor" href="#_mongodb_collection_name"></a>91.1.6. MongoDB collection name</h4>
 <div class="paragraph">
 <p>The MongoDB collection name has changed:</p>
 </div>
@@ -23143,7 +23230,7 @@ your file <code>config.json</code> if needed. For example:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_nginx_proxy_configuration"><a class="anchor" href="#_nginx_proxy_configuration"></a>91.1.5. Nginx proxy configuration</h4>
+<h4 id="_nginx_proxy_configuration"><a class="anchor" href="#_nginx_proxy_configuration"></a>91.1.7. Nginx proxy configuration</h4>
 <div class="paragraph">
 <p>If you have custom nginx proxy configuration referencing the service, update the location path:</p>
 </div>
@@ -23171,7 +23258,7 @@ your file <code>config.json</code> if needed. For example:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_cli_and_scripts"><a class="anchor" href="#_cli_and_scripts"></a>91.1.6. CLI and scripts</h4>
+<h4 id="_cli_and_scripts"><a class="anchor" href="#_cli_and_scripts"></a>91.1.8. CLI and scripts</h4>
 <div class="paragraph">
 <p>If you use the OperatorFabric CLI to manage logs or other operations, the service name has changed:</p>
 </div>
@@ -23192,7 +23279,7 @@ your file <code>config.json</code> if needed. For example:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_menu_configuration_via_rest_api"><a class="anchor" href="#_menu_configuration_via_rest_api"></a>91.1.7. Menu Configuration via REST API</h4>
+<h4 id="_menu_configuration_via_rest_api"><a class="anchor" href="#_menu_configuration_via_rest_api"></a>91.1.9. Menu Configuration via REST API</h4>
 <div class="paragraph">
 <p>The menu configuration, previously managed through the ui-menu.json file on the server filesystem, is now exposed via a
 dedicated REST API allowing retrieval (GET) and update (POST) of the full configuration. This aligns the menu management
