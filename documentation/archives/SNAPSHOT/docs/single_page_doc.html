@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">03 April 2026</span>
+<span id="revdate">05 April 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1116,8 +1116,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_adding_a_dashboard_to_the_menu">30.4.2. Adding a dashboard to the menu</a></li>
 <li><a href="#_loading_the_configuration">30.4.3. Loading the configuration</a></li>
 <li><a href="#_processlist">30.4.4. processList</a></li>
-<li><a href="#_processstateredirects">30.4.5. processStateRedirects</a></li>
-<li><a href="#_processcustomlinks">30.4.6. processCustomLinks</a></li>
+<li><a href="#_processcustomlinks">30.4.5. processCustomLinks</a></li>
 </ul>
 </li>
 <li><a href="#_customizing_browser_notification_sounds">30.5. Customizing browser notification sounds</a></li>
@@ -1794,7 +1793,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_impact_on_custom_integrations_2">91.3.2. Impact on custom integrations</a></li>
 </ul>
 </li>
-<li><a href="#_dashboard_configuration">91.4. Dashboard configuration</a></li>
+<li><a href="#_dashboard">91.4. Dashboard</a>
+<ul class="sectlevel3">
+<li><a href="#_removal_of_processstateredirects">91.4.1. Removal of processStateRedirects</a></li>
+<li><a href="#_dashboard_configuration">91.4.2. Dashboard configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -11399,47 +11403,7 @@ To make it accessible to users, you must declare a corresponding menu entry in t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_processstateredirects"><a class="anchor" href="#_processstateredirects"></a>30.4.5. processStateRedirects</h4>
-<div class="paragraph">
-<p>This configuration allows you to define custom redirections when clicking on a state in the dashboard. If not specified, clicking on a state redirects to the card feed filtered by the selected process and state.</p>
-</div>
-<div class="paragraph">
-<p>You can redirect to:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>A custom menu (URL-based link) using <code>menuId</code> and optionally <code>urlExtension</code></p>
-</li>
-<li>
-<p>A custom screen using <code>screenId</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The IDs declared must match those defined in the UI menu configuration.</p>
-</div>
-<div class="listingblock">
-<div class="title">Example with redirections to a custom menu and a custom screen</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">processStateRedirects</span><span class="delimiter">&quot;</span></span>: [
-  {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">stateId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">chartLineState</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">menuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_0</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">urlExtension</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">?search=chart&amp;fulltext=1</span><span class="delimiter">&quot;</span></span>
-  },
-  {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">stateId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">questionState</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">screenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
-  }
-]</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_processcustomlinks"><a class="anchor" href="#_processcustomlinks"></a>30.4.6. processCustomLinks</h4>
+<h4 id="_processcustomlinks"><a class="anchor" href="#_processcustomlinks"></a>30.4.5. processCustomLinks</h4>
 <div class="paragraph">
 <p>This configuration allows you to define custom links that appear below the states for each process in the dashboard. These links typically point to custom screens.</p>
 </div>
@@ -11483,7 +11447,7 @@ To make it accessible to users, you must declare a corresponding menu entry in t
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The custom screen IDs referenced in <code>processCustomLinks</code> and <code>processStateRedirects</code> must match the IDs of custom screens registered via <code>opfab.businessconfig.registerCustomScreen</code> or custom menu IDs defined in the UI menu configuration.
+The custom screen IDs referenced in <code>processCustomLinks</code> must match the IDs of custom screens registered via <code>opfab.businessconfig.registerCustomScreen</code> or custom menu IDs defined in the UI menu configuration.
 </td>
 </tr>
 </table>
@@ -23473,7 +23437,24 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dashboard_configuration"><a class="anchor" href="#_dashboard_configuration"></a>91.4. Dashboard configuration</h3>
+<h3 id="_dashboard"><a class="anchor" href="#_dashboard"></a>91.4. Dashboard</h3>
+<div class="sect3">
+<h4 id="_removal_of_processstateredirects"><a class="anchor" href="#_removal_of_processstateredirects"></a>91.4.1. Removal of processStateRedirects</h4>
+<div class="paragraph">
+<p>The <code>processStateRedirects</code> configuration is no longer supported starting from version 4.12.</p>
+</div>
+<div class="paragraph">
+<p>In previous versions, this parameter allowed defining custom redirections when clicking on a state in the dashboard.</p>
+</div>
+<div class="paragraph">
+<p>This feature has been removed and is no longer available.</p>
+</div>
+<div class="paragraph">
+<p>If you were using <code>processStateRedirects</code>, you need to remove this configuration.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dashboard_configuration"><a class="anchor" href="#_dashboard_configuration"></a>91.4.2. Dashboard configuration</h4>
 <div class="paragraph">
 <p>In previous versions, dashboard configuration was managed via the <code>web-ui.json</code> config file. Starting from version 4.12, it is now handled programmatically using the <code>opfab.businessconfig.registerCustomScreen</code> method.</p>
 </div>
@@ -23515,7 +23496,7 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You now need to create a JavaScript file like this:</p>
+<p>You now need to create a JavaScript file like this (note that <code>processStateRedirects</code> is no longer supported) :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -23537,19 +23518,6 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
                         &quot;customScreenId&quot;: &quot;testId2&quot;
                     }
                 ]
-            }
-        ],
-        &quot;processStateRedirects&quot;: [
-            {
-                &quot;processId&quot;: &quot;defaultProcess&quot;,
-                &quot;stateId&quot;: &quot;chartLineState&quot;,
-                &quot;menuId&quot;: &quot;uid_test_0&quot;,
-                &quot;urlExtension&quot;: &quot;?search=chart&amp;fulltext=1&quot;
-            },
-            {
-                &quot;processId&quot;: &quot;defaultProcess&quot;,
-                &quot;stateId&quot;: &quot;questionState&quot;,
-                &quot;screenId&quot;: &quot;testId&quot;
             }
         ]
     };
@@ -23603,6 +23571,7 @@ To make it accessible to users, you must declare a corresponding menu entry in t
     }
   ]
 }</pre>
+</div>
 </div>
 </div>
 </div>
