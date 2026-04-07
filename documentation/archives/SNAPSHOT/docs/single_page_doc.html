@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">07 April 2026</span>
+<span id="revdate">08 April 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1117,6 +1117,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_loading_the_configuration">30.4.3. Loading the configuration</a></li>
 <li><a href="#_processlist">30.4.4. processList</a></li>
 <li><a href="#_processcustomlinks">30.4.5. processCustomLinks</a></li>
+<li><a href="#_customtiles">30.4.6. customTiles</a></li>
 </ul>
 </li>
 <li><a href="#_customizing_browser_notification_sounds">30.5. Customizing browser notification sounds</a></li>
@@ -11451,6 +11452,81 @@ The custom screen IDs referenced in <code>processCustomLinks</code> must match t
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_customtiles"><a class="anchor" href="#_customtiles"></a>30.4.6. customTiles</h4>
+<div class="paragraph">
+<p>Custom tiles can be added to a dashboard to provide access to custom screens.
+They are configured in the dashboard JavaScript configuration object registered at application startup.</p>
+</div>
+<div class="paragraph">
+<p>Each custom tile contains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>title</code>: displayed as the tile title</p>
+</li>
+<li>
+<p>a list of <code>cells</code>: each cell defines a link to a custom screen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each cell has the same structure as <code>processCustomLinks</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>label</code>: text displayed in the cell</p>
+</li>
+<li>
+<p><code>customScreenId</code>: identifier of the custom screen to open</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">{
+    const dashboardExample = {
+        <span class="key">id</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">name</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">type</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">DASHBOARD</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">customTiles</span>: [
+            {
+                <span class="key">title</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My custom tile 1</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">cells</span>: [
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+                    },
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen 2</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId2</span><span class="delimiter">&quot;</span></span>
+                    }
+                ]
+            },
+            {
+                <span class="key">title</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My custom tile 2</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">cells</span>: [
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+                    }
+                ]
+            }
+        ]
+    };
+
+    opfab.businessconfig.registerCustomScreen(dashboardExample);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clicking on the title of a custom tile does not trigger any navigation.
+Navigation is only available through the cells, which open the associated custom screens.</p>
 </div>
 </div>
 </div>
