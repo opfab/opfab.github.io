@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">09 April 2026</span>
+<span id="revdate">10 April 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1116,8 +1116,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_adding_a_dashboard_to_the_menu">30.4.2. Adding a dashboard to the menu</a></li>
 <li><a href="#_loading_the_configuration">30.4.3. Loading the configuration</a></li>
 <li><a href="#_processlist">30.4.4. processList</a></li>
-<li><a href="#_processcustomlinks">30.4.5. processCustomLinks</a></li>
-<li><a href="#_customtiles">30.4.6. customTiles</a></li>
+<li><a href="#_customtiles">30.4.5. customTiles</a></li>
 </ul>
 </li>
 <li><a href="#_customizing_browser_notification_sounds">30.5. Customizing browser notification sounds</a></li>
@@ -1797,7 +1796,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_dashboard">91.4. Dashboard</a>
 <ul class="sectlevel3">
 <li><a href="#_removal_of_processstateredirects">91.4.1. Removal of processStateRedirects</a></li>
-<li><a href="#_dashboard_configuration">91.4.2. Dashboard configuration</a></li>
+<li><a href="#_removal_of_processcustomlinks">91.4.2. Removal of processCustomLinks</a></li>
+<li><a href="#_dashboard_configuration">91.4.3. Dashboard configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -11404,58 +11404,7 @@ To make it accessible to users, you must declare a corresponding menu entry in t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_processcustomlinks"><a class="anchor" href="#_processcustomlinks"></a>30.4.5. processCustomLinks</h4>
-<div class="paragraph">
-<p>This configuration allows you to define custom links that appear below the states for each process in the dashboard. These links typically point to custom screens.</p>
-</div>
-<div class="paragraph">
-<p>Each link requires:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>label</code>: The text displayed for the link</p>
-</li>
-<li>
-<p><code>customScreenId</code>: The ID of the custom screen to open</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="title">Example with two custom screen links</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">processCustomLinks</span><span class="delimiter">&quot;</span></span>: [
-  {
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">processId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">defaultProcess</span><span class="delimiter">&quot;</span></span>,
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">customLinks</span><span class="delimiter">&quot;</span></span>: [
-      {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">customScreenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
-      },
-      {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen 2</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">customScreenId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId2</span><span class="delimiter">&quot;</span></span>
-      }
-    ]
-  }
-]</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The custom screen IDs referenced in <code>processCustomLinks</code> must match the IDs of custom screens registered via <code>opfab.businessconfig.registerCustomScreen</code> or custom menu IDs defined in the UI menu configuration.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_customtiles"><a class="anchor" href="#_customtiles"></a>30.4.6. customTiles</h4>
+<h4 id="_customtiles"><a class="anchor" href="#_customtiles"></a>30.4.5. customTiles</h4>
 <div class="paragraph">
 <p>Custom tiles can be added to a dashboard to provide access to custom screens.
 They are configured in the dashboard JavaScript configuration object registered at application startup.</p>
@@ -11474,7 +11423,7 @@ They are configured in the dashboard JavaScript configuration object registered 
 </ul>
 </div>
 <div class="paragraph">
-<p>Each cell has the same structure as <code>processCustomLinks</code>:</p>
+<p>Each cell has this structure :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -23530,7 +23479,22 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_dashboard_configuration"><a class="anchor" href="#_dashboard_configuration"></a>91.4.2. Dashboard configuration</h4>
+<h4 id="_removal_of_processcustomlinks"><a class="anchor" href="#_removal_of_processcustomlinks"></a>91.4.2. Removal of processCustomLinks</h4>
+<div class="paragraph">
+<p>The <code>processCustomLinks</code> configuration is no longer supported starting from version 4.12.</p>
+</div>
+<div class="paragraph">
+<p>In previous versions, this parameter allowed defining custom links associated to a process in the dashboard.</p>
+</div>
+<div class="paragraph">
+<p>This feature has been removed and is no longer available.</p>
+</div>
+<div class="paragraph">
+<p>If you used it to expose custom screen links, migrate to <code>customTiles</code> in the dashboard definition.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dashboard_configuration"><a class="anchor" href="#_dashboard_configuration"></a>91.4.3. Dashboard configuration</h4>
 <div class="paragraph">
 <p>In previous versions, dashboard configuration was managed via the <code>web-ui.json</code> config file. Starting from version 4.12, it is now handled programmatically using the <code>opfab.businessconfig.registerCustomScreen</code> method.</p>
 </div>
@@ -23572,7 +23536,8 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You now need to create a JavaScript file like this (note that <code>processStateRedirects</code> is no longer supported) :</p>
+<p>You now need to create a JavaScript file like this (note that <code>processStateRedirects</code> and <code>processCustomLinks</code> are no
+longer supported) :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -23580,22 +23545,7 @@ DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
     const dashboardExample = {
         &quot;id&quot;: &quot;dashboard&quot;,
         &quot;name&quot;: &quot;Dashboard&quot;,
-        &quot;type&quot;: &quot;DASHBOARD&quot;,
-        &quot;processCustomLinks&quot;: [
-            {
-                &quot;processId&quot;: &quot;defaultProcess&quot;,
-                &quot;customLinks&quot;: [
-                    {
-                        &quot;label&quot;: &quot;Custom screen&quot;,
-                        &quot;customScreenId&quot;: &quot;testId&quot;
-                    },
-                    {
-                        &quot;label&quot;: &quot;Custom screen 2&quot;,
-                        &quot;customScreenId&quot;: &quot;testId2&quot;
-                    }
-                ]
-            }
-        ]
+        &quot;type&quot;: &quot;DASHBOARD&quot;
     };
 
     opfab.businessconfig.registerCustomScreen(dashboardExample);
