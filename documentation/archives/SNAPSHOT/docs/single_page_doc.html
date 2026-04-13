@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">13 April 2026</span>
+<span id="revdate">14 April 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -851,7 +851,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_define_permissions">21.1.4. Define permissions</a></li>
 </ul>
 </li>
-<li><a href="#_send_a_question_card">21.2. Send a question card</a></li>
+<li><a href="#_send_a_question_card">21.2. Send a question card</a>
+<ul class="sectlevel3">
+<li><a href="#_difference_between_entitiesallowedtorespond_and_entitiesrequiredtorespond">21.2.1. Difference between entitiesAllowedToRespond and entitiesRequiredToRespond</a></li>
+</ul>
+</li>
 <li><a href="#_integrate_child_cards">21.3. Integrate child cards</a>
 <ul class="sectlevel3">
 <li><a href="#_entity_name">21.3.1. Entity name</a></li>
@@ -1108,6 +1112,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_card_data_fields">30.3.6. Card data fields</a></li>
 <li><a href="#_current_user_child_card_field">30.3.7. Current user child card field</a></li>
 <li><a href="#_exporting_responses_by_type_and_not_responded">30.3.8. Exporting responses by type and not responded</a></li>
+<li><a href="#_user_notification_filter">30.3.9. User notification filter</a></li>
 </ul>
 </li>
 <li><a href="#_dashboard_screen">30.4. Dashboard screen</a>
@@ -6090,7 +6095,7 @@ notified then the card will not be visible:</p>
 <p>in the calendar screen</p>
 </li>
 <li>
-<p>in the custom screens</p>
+<p>in the custom screens (card list or dashboard)</p>
 </li>
 </ul>
 </div>
@@ -7264,9 +7269,36 @@ You can also set the property <code>entitiesRequiredToRespond</code> to differen
 ...</pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_difference_between_entitiesallowedtorespond_and_entitiesrequiredtorespond"><a class="anchor" href="#_difference_between_entitiesallowedtorespond_and_entitiesrequiredtorespond"></a>21.2.1. Difference between entitiesAllowedToRespond and entitiesRequiredToRespond</h4>
 <div class="paragraph">
-<p>If <code>entitiesRequiredToRespond</code> is set and not empty, the card detail header will use this list instead of
-<code>entitiesAllowedToRespond</code>.</p>
+<p>The properties <code>entitiesAllowedToRespond</code> and <code>entitiesRequiredToRespond</code> serve different purposes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>entitiesAllowedToRespond</code> defines all entities that are authorized to respond to the card.</p>
+</li>
+<li>
+<p><code>entitiesRequiredToRespond</code> defines all entities from which a response is explicitly expected.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>From a user interface perspective, this distinction impacts how information is displayed in the card detail header:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If only <code>entitiesAllowedToRespond</code> is defined, all these entities are displayed in the header and are considered as expected to respond.</p>
+</li>
+<li>
+<p>If <code>entitiesRequiredToRespond</code> is defined and not empty, only these entities are displayed in the header, even if additional entities are allowed to respond.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This behavior allows focusing the user’s attention on the entities whose response is truly required, while still allowing other entities to contribute if needed.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -7275,11 +7307,11 @@ You can also set the property <code>entitiesRequiredToRespond</code> to differen
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If set, <code>entitiesRequiredToRespond</code> does not have to be a subset of <code>entitiesAllowedToRespond</code>. To determine
-if a user has the right to respond, OperatorFabric consider the union of the two lists.
+The authorization to respond is determined by the union of <code>entitiesAllowedToRespond</code> and <code>entitiesRequiredToRespond</code>. An entity does not need to be present in both lists to be able to respond.
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -11273,6 +11305,22 @@ results: {
 <p>For each configured severity, a column will be exported (but not shown in the UI) with the entities that responded with that severity.These columns are only present in the export, not in the UI.</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_user_notification_filter"><a class="anchor" href="#_user_notification_filter"></a>30.3.9. User notification filter</h4>
+<div class="paragraph">
+<p>It is possible to see cards in custom screens even if cards are filtered by the user via the notification configuration screen. To do so, you can configure in the web-ui.json the list of processes/states for which the card should be visible even if it is filtered. The parameter to configure is <code>processStatesAlwaysLoaded</code> and the value is an array of process/state in the format "processName.stateName".</p>
+</div>
+<div class="paragraph">
+<p>For example, if you want to see the cards of the state "state1" of the process "process1" even if the user has filtered the state, you can set the parameter as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"processStatesAlwaysLoaded": [
+    "process1.state1"
+]</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_dashboard_screen"><a class="anchor" href="#_dashboard_screen"></a>30.4. Dashboard screen</h3>
@@ -11474,8 +11522,10 @@ They are configured in the dashboard JavaScript configuration object registered 
 </div>
 </div>
 <div class="paragraph">
-<p>Clicking on the title of a custom tile does not trigger any navigation.
-Navigation is only available through the cells, which open the associated custom screens.</p>
+<p>Clicking on the title of a custom tile does not trigger any navigation. Navigation is only available through the cells, which open the associated custom screens.</p>
+</div>
+<div class="paragraph">
+<p>The bubbles with the number of cards per severity are still displayed on the dashboard tiles, but they take into account the list of cards that will be displayed in the custom screen linked to the cell instead of the total number of cards of the process/state.</p>
 </div>
 </div>
 </div>
@@ -13439,6 +13489,12 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The width of the logo (in px) (only taken into account if logo.base64 is set).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processStatesAlwaysLoaded</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array of strings specifying process.state pairs (e.g., ["process1.state1", "process2.state2"]) that should be sent to the UI even if the user has configured them as not notified in the notification configuration screen. These cards will still not be visible in the feed but will be available in card list custom screens. Each entry should follow the format "processId.stateId". Be aware that this can lead to performance issues if too many process/state pairs are configured.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
