@@ -531,7 +531,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
 <span id="revnumber">version SNAPSHOT,</span>
-<span id="revdate">26 April 2026</span>
+<span id="revdate">28 April 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1803,6 +1803,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_removal_of_processstateredirects">91.4.1. Removal of processStateRedirects</a></li>
 <li><a href="#_removal_of_processcustomlinks">91.4.2. Removal of processCustomLinks</a></li>
 <li><a href="#_dashboard_configuration">91.4.3. Dashboard configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_12_x_to_release_4_13_0">92. Migration Guide from release 4.12.X to release 4.13.0</a>
+<ul class="sectlevel2">
+<li><a href="#_custom_screen_type_field_is_now_mandatory">92.1. Custom screen: <code>type</code> field is now mandatory</a>
+<ul class="sectlevel3">
+<li><a href="#_required_action">92.1.1. Required action</a></li>
 </ul>
 </li>
 </ul>
@@ -23648,6 +23657,55 @@ To make it accessible to users, you must declare a corresponding menu entry in t
     }
   ]
 }</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_12_x_to_release_4_13_0"><a class="anchor" href="#_migration_guide_from_release_4_12_x_to_release_4_13_0"></a>92. Migration Guide from release 4.12.X to release 4.13.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_custom_screen_type_field_is_now_mandatory"><a class="anchor" href="#_custom_screen_type_field_is_now_mandatory"></a>92.1. Custom screen: <code>type</code> field is now mandatory</h3>
+<div class="paragraph">
+<p>When registering a custom screen via <code>opfab.businessconfig.registerCustomScreen(&#8230;&#8203;)</code>, the <code>type</code> field is now required.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>type</code> field is not set, or if it contains an invalid value, the custom screen will not be loaded and an error will be logged to the console.</p>
+</div>
+<div class="sect3">
+<h4 id="_required_action"><a class="anchor" href="#_required_action"></a>92.1.1. Required action</h4>
+<div class="paragraph">
+<p>Ensure every custom screen definition includes a valid <code>type</code> value. The supported types are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>CARD_LIST</code></p>
+</li>
+<li>
+<p><code>DASHBOARD</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example of a valid custom screen definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>const customScreenExample = {
+    id: 'testId',
+    name: 'testName',
+    type: 'CARD_LIST',
+    initialBusinessPeriod: 'FROM_TODAY_TO_YEAR_END',
+    processIds: [
+        'api_test',
+        'cypress',
+        'defaultProcess'
+    ]
+};
+opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 </div>
 </div>
