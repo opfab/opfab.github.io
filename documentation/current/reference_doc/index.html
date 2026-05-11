@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Reference Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.11.1.RELEASE,</span>
-<span id="revdate">09 March 2026</span>
+<span id="revnumber">version 4.12.0.RELEASE,</span>
+<span id="revdate">11 May 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -677,16 +677,41 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_hallway_mode">4.7. Hallway mode</a></li>
 </ul>
 </li>
-<li><a href="#_email_notifications">5. Email Notifications</a>
+<li><a href="#_email_gateway">5. Email Gateway</a>
 <ul class="sectlevel2">
-<li><a href="#_configuring_email_notifications">5.1. Configuring Email Notifications</a></li>
-<li><a href="#_email_content">5.2. Email Content</a></li>
-<li><a href="#_email_templates">5.3. Email templates</a>
+<li><a href="#_outgoing_emails">5.1. Outgoing Emails</a>
 <ul class="sectlevel3">
-<li><a href="#_rich_text_content">5.3.1. Rich text content</a></li>
+<li><a href="#_configuring_email_notifications">5.1.1. Configuring Email Notifications</a></li>
+<li><a href="#_email_content">5.1.2. Email Content</a></li>
+<li><a href="#_email_templates">5.1.3. Email templates</a>
+<ul class="sectlevel4">
+<li><a href="#_rich_text_content">5.1.3.1. Rich text content</a></li>
 </ul>
 </li>
-<li><a href="#_email_attachment_templates">5.4. Email attachment templates</a></li>
+<li><a href="#_email_attachment_templates">5.1.4. Email attachment templates</a>
+<ul class="sectlevel4">
+<li><a href="#_custom_handlebars_helpers">5.1.4.1. Custom Handlebars helpers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_incoming_emails">5.2. Incoming Emails</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration_2">5.2.1. Configuration</a></li>
+<li><a href="#_behavior">5.2.2. Behavior</a></li>
+<li><a href="#_email_parsing_rules">5.2.3. Email Parsing Rules</a></li>
+<li><a href="#_runtime_configuration">5.2.4. Runtime Configuration</a></li>
+<li><a href="#_emailtocardconverter">5.2.5. emailToCardConverter</a></li>
+<li><a href="#_converter_file">5.2.6. Converter File</a>
+<ul class="sectlevel4">
+<li><a href="#_incomingemail_object">5.2.6.1. IncomingEmail Object</a></li>
+<li><a href="#_required_method_convertemailtocardemail">5.2.6.2. Required Method <code>convertEmailToCard(email)</code></a></li>
+<li><a href="#_upload_list_and_delete_converter_file">5.2.6.3. Upload, list and delete Converter File</a></li>
+<li><a href="#_xmltojson_helper_method">5.2.6.4. XMLToJSON helper method</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#response_cards">6. Response cards</a>
@@ -699,7 +724,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_define_permissions">6.1.4. Define permissions</a></li>
 </ul>
 </li>
-<li><a href="#_send_a_question_card">6.2. Send a question card</a></li>
+<li><a href="#_send_a_question_card">6.2. Send a question card</a>
+<ul class="sectlevel3">
+<li><a href="#_difference_between_entitiesallowedtorespond_and_entitiesrequiredtorespond">6.2.1. Difference between entitiesAllowedToRespond and entitiesRequiredToRespond</a></li>
+</ul>
+</li>
 <li><a href="#_integrate_child_cards">6.3. Integrate child cards</a>
 <ul class="sectlevel3">
 <li><a href="#_entity_name">6.3.1. Entity name</a></li>
@@ -810,14 +839,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_isuserallowedtorespond">10.5.11. Function isUserAllowedToRespond</a></li>
 <li><a href="#_function_isusermemberofanentityrequiredtorespond">10.5.12. Function isUserMemberOfAnEntityRequiredToRespond</a></li>
 <li><a href="#_function_listentodestroy">10.5.13. Function listenToDestroy</a></li>
-<li><a href="#_function_listentoresponselock">10.5.14. Function listenToResponseLock</a></li>
-<li><a href="#_function_listentoresponseunlock">10.5.15. Function listenToResponseUnlock</a></li>
-<li><a href="#_function_listentochildcards">10.5.16. Function listenToChildCards</a></li>
-<li><a href="#_function_listentolttdexpired">10.5.17. Function listenToLttdExpired</a></li>
-<li><a href="#_function_listentostylechange">10.5.18. Function listenToStyleChange</a></li>
-<li><a href="#_function_listentoscreensize">10.5.19. Function listenToScreenSize</a></li>
-<li><a href="#_function_listentotemplaterenderingcomplete">10.5.20. Function listenToTemplateRenderingComplete</a></li>
-<li><a href="#_function_registerfunctiontogetuserresponse">10.5.21. Function registerFunctionToGetUserResponse</a></li>
+<li><a href="#_function_listentoresponsefromchildcardssending">10.5.14. Function listenToResponseFromChildcardsSending</a></li>
+<li><a href="#_function_listentoresponselock">10.5.15. Function listenToResponseLock</a></li>
+<li><a href="#_function_listentoresponseunlock">10.5.16. Function listenToResponseUnlock</a></li>
+<li><a href="#_function_listentochildcards">10.5.17. Function listenToChildCards</a></li>
+<li><a href="#_function_listentolttdexpired">10.5.18. Function listenToLttdExpired</a></li>
+<li><a href="#_function_listentostylechange">10.5.19. Function listenToStyleChange</a></li>
+<li><a href="#_function_listentoscreensize">10.5.20. Function listenToScreenSize</a></li>
+<li><a href="#_function_listentotemplaterenderingcomplete">10.5.21. Function listenToTemplateRenderingComplete</a></li>
+<li><a href="#_function_registerfunctiontogetuserresponse">10.5.22. Function registerFunctionToGetUserResponse</a></li>
 </ul>
 </li>
 <li><a href="#_currentusercard_api">10.6. CurrentUserCard API</a>
@@ -944,19 +974,30 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_cell_size">15.3.1. Cell size</a></li>
 <li><a href="#_tooltips">15.3.2. Tooltips</a></li>
 <li><a href="#_acknowledgment">15.3.3. Acknowledgment</a></li>
-<li><a href="#_response_buttons">15.3.4. Response buttons</a>
+<li><a href="#_back_button">15.3.4. Back button</a></li>
+<li><a href="#_response_buttons">15.3.5. Response buttons</a>
 <ul class="sectlevel4">
-<li><a href="#_input_fields">15.3.4.1. Input fields</a></li>
-<li><a href="#_select_fields">15.3.4.2. Select fields</a></li>
-<li><a href="#_response_restrictions">15.3.4.3. Response restrictions</a></li>
+<li><a href="#_input_fields">15.3.5.1. Input fields</a></li>
+<li><a href="#_select_fields">15.3.5.2. Select fields</a></li>
+<li><a href="#_response_restrictions">15.3.5.3. Response restrictions</a></li>
 </ul>
 </li>
-<li><a href="#_card_data_fields">15.3.5. Card data fields</a></li>
-<li><a href="#_current_user_child_card_field">15.3.6. Current user child card field</a></li>
-<li><a href="#_exporting_responses_by_type_and_not_responded">15.3.7. Exporting responses by type and not responded</a></li>
+<li><a href="#_card_data_fields">15.3.6. Card data fields</a></li>
+<li><a href="#_current_user_child_card_field">15.3.7. Current user child card field</a></li>
+<li><a href="#_exporting_responses_by_type_and_not_responded">15.3.8. Exporting responses by type and not responded</a></li>
+<li><a href="#_user_notification_filter">15.3.9. User notification filter</a></li>
 </ul>
 </li>
-<li><a href="#_customizing_browser_notification_sounds">15.4. Customizing browser notification sounds</a></li>
+<li><a href="#_dashboard_screen">15.4. Dashboard screen</a>
+<ul class="sectlevel3">
+<li><a href="#_declaring_a_dashboard">15.4.1. Declaring a dashboard</a></li>
+<li><a href="#_adding_a_dashboard_to_the_menu">15.4.2. Adding a dashboard to the menu</a></li>
+<li><a href="#_loading_the_configuration">15.4.3. Loading the configuration</a></li>
+<li><a href="#_processlist">15.4.4. processList</a></li>
+<li><a href="#_customtiles">15.4.5. customTiles</a></li>
+</ul>
+</li>
+<li><a href="#_customizing_browser_notification_sounds">15.5. Customizing browser notification sounds</a></li>
 </ul>
 </li>
 <li><a href="#_supervisor">16. Supervisor</a>
@@ -971,10 +1012,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_implementation">17.2. Implementation</a>
 <ul class="sectlevel3">
 <li><a href="#_architecture">17.2.1. Architecture</a></li>
-<li><a href="#_configuration_2">17.2.2. Configuration</a></li>
+<li><a href="#_configuration_3">17.2.2. Configuration</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_3">17.3. Configuration</a></li>
+<li><a href="#_configuration_4">17.3. Configuration</a></li>
 <li><a href="#_connection_management">17.4. Connection Management</a></li>
 <li><a href="#_configuration_management">17.5. Configuration Management</a></li>
 <li><a href="#_drivers">17.6. Drivers</a>
@@ -3461,7 +3502,7 @@ notified then the card will not be visible:</p>
 <p>in the calendar screen</p>
 </li>
 <li>
-<p>in the custom screens</p>
+<p>in the custom screens (card list or dashboard)</p>
 </li>
 </ul>
 </div>
@@ -3701,13 +3742,18 @@ Users can enable hallway mode in their user settings by selecting the <code>Auto
 </div>
 </div>
 <div class="sect1">
-<h2 id="_email_notifications"><a class="anchor" href="#_email_notifications"></a>5. Email Notifications</h2>
+<h2 id="_email_gateway"><a class="anchor" href="#_email_gateway"></a>5. Email Gateway</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The <strong>email-gateway</strong> service in OpFab supports both outgoing email notifications and incoming email handling for conversion into OperatorFabric cards.</p>
+</div>
+<div class="sect2">
+<h3 id="_outgoing_emails"><a class="anchor" href="#_outgoing_emails"></a>5.1. Outgoing Emails</h3>
 <div class="paragraph">
 <p>OpFab can send card notifications via email. These notifications are sent when a new card is published for a user and remains unread for a configured period. The email subject includes the card title, summary, and start and end dates.</p>
 </div>
-<div class="sect2">
-<h3 id="_configuring_email_notifications"><a class="anchor" href="#_configuring_email_notifications"></a>5.1. Configuring Email Notifications</h3>
+<div class="sect3">
+<h4 id="_configuring_email_notifications"><a class="anchor" href="#_configuring_email_notifications"></a>5.1.1. Configuring Email Notifications</h4>
 <div class="paragraph">
 <p>Users can enable email notifications in their user settings. If the parameter
 <code>operatorfabric.users.getEmailFromUserInsteadOfSettingsThey</code> is set to true, the email address is fetched from the token.
@@ -3718,17 +3764,44 @@ Users can specify the desired timezone for displaying dates and times in emails.
 the "timezone for mails" field in the user settings screen.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_email_content"><a class="anchor" href="#_email_content"></a>5.2. Email Content</h3>
+<div class="sect3">
+<h4 id="_email_content"><a class="anchor" href="#_email_content"></a>5.1.2. Email Content</h4>
 <div class="paragraph">
 <p>The email body contains a link to the card details in OpFab. In the config.json file containing the state definition,
 the <code>email.bodyTemplate</code> field allows defining a template specific to the email body content.
 This template can use handlebars helpers for formatting but can&#8217;t run javascript. If no template is specified, the mail
-is sent with just the link to the card in the body.<br>
-In the state definition, you can also set <code>email.hideDefaultBodyPrefixAndPostfix</code> to true if you don&#8217;t want to display the
-default body prefix and postfix.<br>
-You can override the default mail sender using <code>email.sender</code> in the state definition.<br>
-You can override the mail subject using <code>email.cardFieldUsedForSubject</code>, which references a field in the card, for example:</p>
+is sent with just the link to the card in the body.<br></p>
+</div>
+<div class="paragraph">
+<p>In the state definition, you can control how the email body is rendered using the <code>email.useOnlyTemplateForBodyRendering</code> parameter.</p>
+</div>
+<div class="paragraph">
+<p>When set to <code>true</code>, only the content generated from the <code>email.bodyTemplate</code> is used as the email body.
+The default header (prefix), footer (postfix), and card title/link are not included.</p>
+</div>
+<div class="paragraph">
+<p>When set to <code>false</code> or not defined, the email body is composed of:
+- the default body prefix
+- the card title and/or link (depending on configuration)
+- the content generated from the <code>email.bodyTemplate</code>
+- the default body postfix</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>email : {
+    bodyTemplate: "myTemplate",
+    useOnlyTemplateForBodyRendering: true
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can override the default mail sender using <code>email.sender</code> in the state definition.<br></p>
+</div>
+<div class="paragraph">
+<p>You can override the mail subject using <code>email.cardFieldUsedForSubject</code>, which references a field in the card, for example:</p>
 </div>
 <div class="literalblock">
 <div class="content">
@@ -3747,9 +3820,27 @@ You can override the mail subject using <code>email.cardFieldUsedForSubject</cod
 }</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>You can force the email body to be sent as plain text instead of HTML by using the <code>email.bodyInPlainText</code> parameter in the state definition.</p>
 </div>
-<div class="sect2">
-<h3 id="_email_templates"><a class="anchor" href="#_email_templates"></a>5.3. Email templates</h3>
+<div class="paragraph">
+<p>When this parameter is set to <code>true</code>, the email body is converted to plain text for this specific state.
+If the parameter is absent or set to <code>false</code>, the email is sent using the default HTML format.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>email: {
+    bodyTemplate: "myTemplate",
+    bodyInPlainText: true
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_email_templates"><a class="anchor" href="#_email_templates"></a>5.1.3. Email templates</h4>
 <div class="paragraph">
 <p>In email handlebars templates it is possible to refer card fields by prefixing with "card" prefix. For example:</p>
 </div>
@@ -3759,8 +3850,8 @@ You can override the mail subject using <code>email.cardFieldUsedForSubject</cod
   {{#card.data.networkContingencies}}</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_rich_text_content"><a class="anchor" href="#_rich_text_content"></a>5.3.1. Rich text content</h4>
+<div class="sect4">
+<h5 id="_rich_text_content"><a class="anchor" href="#_rich_text_content"></a>5.1.3.1. Rich text content</h5>
 <div class="paragraph">
 <p>A specific handlebars helper <code>deltaToHtml</code> allows to display rich text content from a card containing the 'richMessage' field with the following syntax:</p>
 </div>
@@ -3774,11 +3865,11 @@ You can override the mail subject using <code>email.cardFieldUsedForSubject</cod
 </div>
 <div class="paragraph">
 <p>It is also possible to configure custom parameters to be used in handlebars email templates.
-The custom parameter can be added in cards-external-diffusion configuration under the "defaultConfig.customConfig" section:</p>
+The custom parameter can be added in <strong>email-gateway</strong> configuration under the "defaultConfig.customConfig" section:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+<pre class="CodeRay highlight"><code>emailGateway:
     adminPort: 2106
     activeOnStartup: true
     defaultConfig:
@@ -3799,20 +3890,19 @@ The custom parameter can be added in cards-external-diffusion configuration unde
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_email_attachment_templates"><a class="anchor" href="#_email_attachment_templates"></a>5.4. Email attachment templates</h3>
+<div class="sect3">
+<h4 id="_email_attachment_templates"><a class="anchor" href="#_email_attachment_templates"></a>5.1.4. Email attachment templates</h4>
 <div class="paragraph">
 <p>It is possible to define a handlebars template that will generate an attachment to the email. This feature is only for direct emails and not for recap emails.
 In the configuration of your bundle you need to define the following fields in the state definition :</p>
 </div>
-<div class="paragraph">
-<p>+[source,json]
-+----
-+{
-+  "emailAttachmentTemplate": "email_attachment_template",
-+  "emailAttachmentFileName": "chartLineData.xml"
-+}
-+----</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">emailAttachmentTemplate</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">email_attachment_template</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">emailAttachmentFileName</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">chartLineData.xml</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no file name is specified the default value is "attachment".</p>
@@ -3820,24 +3910,25 @@ In the configuration of your bundle you need to define the following fields in t
 <div class="paragraph">
 <p>Here is an example of a template to generate an xml attached file containing the data of the card :</p>
 </div>
-<div class="paragraph">
-<p>+[source,xml]
-+----
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;document&gt;
-  &lt;process&gt;{{card.process}}&lt;/process&gt;
-  &lt;state&gt;{{card.state}}&lt;/state&gt;
-  &lt;data&gt;
-    &lt;values&gt;
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;document&gt;</span>
+  <span class="tag">&lt;process&gt;</span>{{card.process}}<span class="tag">&lt;/process&gt;</span>
+  <span class="tag">&lt;state&gt;</span>{{card.state}}<span class="tag">&lt;/state&gt;</span>
+  <span class="tag">&lt;data&gt;</span>
+    <span class="tag">&lt;values&gt;</span>
       {{#each card.data.values}}
-      &lt;value&gt;{{this}}&lt;/value&gt;
+      <span class="tag">&lt;value&gt;</span>{{this}}<span class="tag">&lt;/value&gt;</span>
       {{/each}}
-    &lt;/values&gt;
-    &lt;keywords&gt;{{card.data.keywords}}&lt;/keywords&gt;
-  &lt;/data&gt;
-&lt;/document&gt;
-+----=== Custom Handlebars helpers</p>
+    <span class="tag">&lt;/values&gt;</span>
+    <span class="tag">&lt;keywords&gt;</span>{{card.data.keywords}}<span class="tag">&lt;/keywords&gt;</span>
+  <span class="tag">&lt;/data&gt;</span>
+<span class="tag">&lt;/document&gt;</span></code></pre>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_custom_handlebars_helpers"><a class="anchor" href="#_custom_handlebars_helpers"></a>5.1.4.1. Custom Handlebars helpers</h5>
 <div class="paragraph">
 <p>As with the UI via the Frontend API, you can define custom Handlebars helpers for use in email templates. To do this, create a JavaScript file and assign an array of functions to the <code>helpers</code> variable. For example:</p>
 </div>
@@ -3872,13 +3963,330 @@ helpers = [example_severityColor];</code></pre>
 <p>Each helper will be registered with the same name as the helper function. To avoid conflicts with existing helpers, it is recommended to prefix your helper names (for example: <code>myapp_xxx</code>).</p>
 </div>
 <div class="paragraph">
-<p>Reference this file in the YAML configuration of the <code>cards-external-diffusion</code> service using the <code>customHandlebarsHelpersFile</code> parameter:</p>
+<p>Reference this file in the YAML configuration of the <strong>email-gateway</strong> service using the <code>customHandlebarsHelpersFile</code> parameter:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>cardsExternalDiffusion:
+<pre class="CodeRay highlight"><code>emailGateway:
     adminPort: 2106
     customHandlebarsHelpersFile: /path/to/the/file/containing/helpers.js</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_incoming_emails"><a class="anchor" href="#_incoming_emails"></a>5.2. Incoming Emails</h3>
+<div class="paragraph">
+<p>The <strong>email-gateway</strong> service can also monitor mailboxes via IMAP and convert incoming emails into OperatorFabric cards.</p>
+</div>
+<div class="paragraph">
+<p>Incoming email handling is configured in the <code>defaultConfig.incomingEmails</code> section of the <strong>email-gateway</strong> configuration.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>5.2.1. Configuration</h4>
+<div class="paragraph">
+<p>Example configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>emailGateway:
+  defaultConfig:
+    incomingEmails:
+      secondsBetweenConnectionChecks: 10
+      mailboxes:
+        - mailbox: &quot;operator1@test.com&quot;
+          password: &quot;a&quot;
+          emailToCardConverter: &quot;emailToCardConverter1&quot;
+        - mailbox: &quot;operator2@test.com&quot;
+          password: &quot;b&quot;
+          emailToCardConverter: &quot;emailToCardConverter2&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The IMAP server connection is configured using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>operatorfabric.emailGateway.imapServer.host
+operatorfabric.emailGateway.imapServer.port
+operatorfabric.emailGateway.imapServer.tls
+operatorfabric.emailGateway.imapServer.authTimeout</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behavior"><a class="anchor" href="#_behavior"></a>5.2.2. Behavior</h4>
+<div class="paragraph">
+<p>For each configured mailbox:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The service opens a secure IMAP connection using the configured <code>host</code>, <code>port</code>, <code>tls</code>, and <code>authTimeout</code>.</p>
+</li>
+<li>
+<p>The <code>INBOX</code> folder is opened.</p>
+</li>
+<li>
+<p>Only unread messages (<code>UNSEEN</code>) are fetched.</p>
+</li>
+<li>
+<p>Retrieved messages are automatically marked as read.</p>
+</li>
+<li>
+<p>Each message is parsed and transformed into an internal <code>IncomingEmail</code> object.</p>
+</li>
+<li>
+<p>The configured <code>emailToCardConverter</code> is then used to convert the email into a card.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Mailbox checks are performed periodically according to <code>secondsBetweenConnectionChecks</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_email_parsing_rules"><a class="anchor" href="#_email_parsing_rules"></a>5.2.3. Email Parsing Rules</h4>
+<div class="paragraph">
+<p>When an email is received, attachments are processed as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Only text attachments are supported.</p>
+</li>
+<li>
+<p>Attachments larger than 100 KB are ignored.</p>
+</li>
+<li>
+<p>Attachment content is converted to UTF-8 text.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each processed email is then handed over to the configured converter, which is responsible for generating the corresponding OperatorFabric card.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_runtime_configuration"><a class="anchor" href="#_runtime_configuration"></a>5.2.4. Runtime Configuration</h4>
+<div class="paragraph">
+<p>As with other <code>defaultConfig</code> parameters, the <code>incomingEmails</code> configuration can be updated at runtime by sending an HTTP POST request to the <code>/config</code> endpoint of the <strong>email-gateway</strong> service with a JSON payload containing the updated parameters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_emailtocardconverter"><a class="anchor" href="#_emailtocardconverter"></a>5.2.5. emailToCardConverter</h4>
+<div class="paragraph">
+<p>The <code>emailToCardConverter</code> parameter defines the JavaScript converter responsible for transforming an incoming email into an OperatorFabric card.</p>
+</div>
+<div class="paragraph">
+<p>Each configured mailbox must reference a converter by its identifier, for example :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>incomingEmails:
+  mailboxes:
+    - mailbox: &quot;operator1@test.com&quot;
+      password: &quot;a&quot;
+      emailToCardConverter: &quot;emailToCardConverter1&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value <code>emailToCardConverter1</code> refers to a JavaScript file implementing the conversion logic.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_converter_file"><a class="anchor" href="#_converter_file"></a>5.2.6. Converter File</h4>
+<div class="paragraph">
+<p>A converter is a JavaScript file loaded by the email-gateway service.
+It must export a conversion function that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Receives an <code>IncomingEmail</code> object</p>
+</li>
+<li>
+<p>Returns a valid OperatorFabric card object (JSON)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The converter is responsible for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mapping email metadata (subject, sender, body)</p>
+</li>
+<li>
+<p>Parsing structured content (e.g., XML attachments)</p>
+</li>
+<li>
+<p>Constructing the card payload</p>
+</li>
+<li>
+<p>Defining process, state, severity, and data</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_incomingemail_object"><a class="anchor" href="#_incomingemail_object"></a>5.2.6.1. IncomingEmail Object</h5>
+<div class="paragraph">
+<p>The converter receives an object containing:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>from</code> (string)</p>
+</li>
+<li>
+<p><code>to</code> (string[])</p>
+</li>
+<li>
+<p><code>subject</code> (string)</p>
+</li>
+<li>
+<p><code>body</code> (string)</p>
+</li>
+<li>
+<p><code>attachments</code> (array of <code>{ filename, content }</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_required_method_convertemailtocardemail"><a class="anchor" href="#_required_method_convertemailtocardemail"></a>5.2.6.2. Required Method <code>convertEmailToCard(email)</code></h5>
+<div class="paragraph">
+<p>The converter file must define the function convertEmailToCard(email), for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>function convertEmailToCard(email) {
+
+    let xmlJson = null;
+
+    if (email.attachments &amp;&amp; email.attachments.length &gt; 0) {
+        const xmlAttachment = email.attachments.find(att =&gt;
+            att.filename &amp;&amp; att.filename.endsWith('.xml')
+        );
+
+        if (xmlAttachment) {
+            xmlJson = helpers.XMLToJSON(xmlAttachment.content);
+        }
+    }
+
+    return {
+        publisher: 'opfab',
+        process: 'api_test',
+        state: 'messageState',
+        processVersion: '1',
+        processInstanceId: 'emailToCardTest',
+        severity: 'ALARM',
+        summary: {key: 'detail.title'},
+        title: {key: 'detail.title'},
+        startDate: 7200000,
+        data: {
+            content: {
+                from: email.from,
+                to: email.to,
+                subject: email.subject,
+                body: email.body,
+                attachments: email.attachments.map((att) =&gt; ({
+                    filename: att.filename,
+                    content: att.content,
+                    contentInJsonFormat: xmlJson
+                }))
+            },
+            converter: 'emailToCardConverter1.js'
+        },
+        entityRecipients: ['ENTITY_FR']
+    };
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The service will call this function for each incoming email and publish the returned card to OperatorFabric.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_upload_list_and_delete_converter_file"><a class="anchor" href="#_upload_list_and_delete_converter_file"></a>5.2.6.3. Upload, list and delete Converter File</h5>
+<div class="paragraph">
+<p>Converters are uploaded through the <strong>/upload</strong> endpoint using a multipart/form-data POST request.
+Only users with administrator privileges are allowed to upload converter files.</p>
+</div>
+<div class="paragraph">
+<p>Example using curl:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>curl -X POST &quot;http://localhost:2106/upload&quot; -H &quot;Authorization: Bearer &lt;admin_token&gt;&quot; -F &quot;file=@emailToCardConverter.js&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the upload is successful, the service returns a 200 OK response and the converter file becomes available for use by the email-gateway service.</p>
+</div>
+<div class="paragraph">
+<p>If a non-administrator user attempts to upload a file, the service returns a 403 Forbidden response.</p>
+</div>
+<div class="paragraph">
+<p>Uploaded converter files can later be listed or deleted using the corresponding administration endpoints (<strong>/list</strong> and <strong>/delete</strong>).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_xmltojson_helper_method"><a class="anchor" href="#_xmltojson_helper_method"></a>5.2.6.4. XMLToJSON helper method</h5>
+<div class="paragraph">
+<p>When writing an <code>emailToCardConverter</code>, a helper function named <code>XMLToJSON</code> is made available in the execution context.</p>
+</div>
+<div class="paragraph">
+<p>This helper allows converters to easily transform XML content (for example from an email attachment or from the email body) into a JavaScript JSON object.</p>
+</div>
+<div class="paragraph">
+<p>The helper is exposed under the <code>helpers</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>helpers.XMLToJSON(xmlString)</code></pre>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_behavior_2"><a class="anchor" href="#_behavior_2"></a>Behavior</h6>
+<div class="ulist">
+<ul>
+<li>
+<p>It parses the provided XML string.</p>
+</li>
+<li>
+<p>It converts XML elements into a JavaScript object.</p>
+</li>
+<li>
+<p>XML attributes are preserved.</p>
+</li>
+<li>
+<p>Leading and trailing spaces in values are trimmed.</p>
+</li>
+<li>
+<p>If parsing fails, an error is thrown and logged.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Internally, the method uses the <code>fast-xml-parser</code> library with the following configuration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ignoreAttributes: false</code> → XML attributes are kept</p>
+</li>
+<li>
+<p><code>attributeNamePrefix: '@<em>'</code> → attributes are prefixed with <code>@</em></code></p>
+</li>
+<li>
+<p><code>trimValues: true</code> → whitespace is automatically removed from values</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -4044,6 +4452,27 @@ response by returning it in the method registered by <code>opfab.currentCard.reg
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There is also the possibility to replace the "validate answer" and  "modify answer" default button labels in the config.json of the process:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  "questionState": {
+    "validateAnswerButtonLabel": "Submit your answer",
+    "modifyAnswerButtonLabel": "Change your answer"</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_design_the_question_form_in_the_template"><a class="anchor" href="#_design_the_question_form_in_the_template"></a>6.1.3. Design the question form in the template</h4>
@@ -4139,6 +4568,20 @@ state. It is also possible to dynamically set the severity of the response with 
             opfab.currentCard.registerFunctionToGetUserResponse(fetchResponseCardData);</code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The method registered via <code>opfab.currentCard.registerFunctionToGetUserResponse</code> can also return a Promise of the object described above instead of the object itself, to allow asynchronous processing in the template before sending the response.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_define_permissions"><a class="anchor" href="#_define_permissions"></a>6.1.4. Define permissions</h4>
@@ -4233,9 +4676,36 @@ You can also set the property <code>entitiesRequiredToRespond</code> to differen
 ...</pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_difference_between_entitiesallowedtorespond_and_entitiesrequiredtorespond"><a class="anchor" href="#_difference_between_entitiesallowedtorespond_and_entitiesrequiredtorespond"></a>6.2.1. Difference between entitiesAllowedToRespond and entitiesRequiredToRespond</h4>
 <div class="paragraph">
-<p>If <code>entitiesRequiredToRespond</code> is set and not empty, the card detail header will use this list instead of
-<code>entitiesAllowedToRespond</code>.</p>
+<p>The properties <code>entitiesAllowedToRespond</code> and <code>entitiesRequiredToRespond</code> serve different purposes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>entitiesAllowedToRespond</code> defines all entities that are authorized to respond to the card.</p>
+</li>
+<li>
+<p><code>entitiesRequiredToRespond</code> defines all entities from which a response is explicitly expected.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>From a user interface perspective, this distinction impacts how information is displayed in the card detail header:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If only <code>entitiesAllowedToRespond</code> is defined, all these entities are displayed in the header and are considered as expected to respond.</p>
+</li>
+<li>
+<p>If <code>entitiesRequiredToRespond</code> is defined and not empty, only these entities are displayed in the header, even if additional entities are allowed to respond.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This behavior allows focusing the user’s attention on the entities whose response is truly required, while still allowing other entities to contribute if needed.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -4244,11 +4714,11 @@ You can also set the property <code>entitiesRequiredToRespond</code> to differen
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If set, <code>entitiesRequiredToRespond</code> does not have to be a subset of <code>entitiesAllowedToRespond</code>. To determine
-if a user has the right to respond, OperatorFabric consider the union of the two lists.
+The authorization to respond is determined by the union of <code>entitiesAllowedToRespond</code> and <code>entitiesRequiredToRespond</code>. An entity does not need to be present in both lists to be able to respond.
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -4505,6 +4975,20 @@ You can find an example in the file:
 <div class="paragraph">
 <p>If the form is not filled correctly by the user, you can provide an error message (see example above).
 Again, have a look to the examples provided.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The method registered via <code>opfab.currentCard.registerFunctionToGetSpecificCardInformation</code> can also return a Promise of the object described above instead of the object itself, to allow asynchronous processing in the template before sending the card.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -5195,7 +5679,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="sect3">
 <h4 id="_function_redirecttobusinessmenu"><a class="anchor" href="#_function_redirecttobusinessmenu"></a>10.4.1. Function redirectToBusinessMenu</h4>
 <div class="paragraph">
-<p>It’s possible to redirect the user from a card to a business application declared in ui-menu.json.</p>
+<p>It’s possible to redirect the user from a card to a business application declared in the ui menu configuration.</p>
 </div>
 <div class="paragraph">
 <p>This can be done by calling the following function from the template :</p>
@@ -5208,7 +5692,7 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="ulist">
 <ul>
 <li>
-<p>idMenu is the id of the menu entry defined in ui-menu.json</p>
+<p>idMenu is the id of the menu entry defined in the ui menu configuration</p>
 </li>
 </ul>
 </div>
@@ -5406,7 +5890,23 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.14. Function listenToResponseLock</h4>
+<h4 id="_function_listentoresponsefromchildcardssending"><a class="anchor" href="#_function_listentoresponsefromchildcardssending"></a>10.5.14. Function listenToResponseFromChildcardsSending</h4>
+<div class="paragraph">
+<p>Register a function that will be called after a child card (or response card) has been sent. The function will receive as parameter an object with the following fields:
+ - error: boolean indicating if an error occurred during the sending of the child card
+ - message: in case of error, the error message
+ - publisher: the entity on behalf of which the child card has been sent</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>    opfab.currentCard.listenToResponseFromChildcardsSending((response) =&gt; {
+         console.log(&quot;Response from child card sending: &quot;, response);
+    });</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_function_listentoresponselock"><a class="anchor" href="#_function_listentoresponselock"></a>10.5.15. Function listenToResponseLock</h4>
 <div class="paragraph">
 <p>Register a function to be informed when the template is locked (i.e. user has responded to the current card)</p>
 </div>
@@ -5417,7 +5917,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>10.5.15. Function listenToResponseUnlock</h4>
+<h4 id="_function_listentoresponseunlock"><a class="anchor" href="#_function_listentoresponseunlock"></a>10.5.16. Function listenToResponseUnlock</h4>
 <div class="paragraph">
 <p>Register a function to be informed when template is unlocked (i.e. user has clicked the modify button to prepare a new response)</p>
 </div>
@@ -5428,7 +5928,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>10.5.16. Function listenToChildCards</h4>
+<h4 id="_function_listentochildcards"><a class="anchor" href="#_function_listentochildcards"></a>10.5.17. Function listenToChildCards</h4>
 <div class="paragraph">
 <p>Register a function to receive the child cards on card loading and when the childCards list changes</p>
 </div>
@@ -5439,7 +5939,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>10.5.17. Function listenToLttdExpired</h4>
+<h4 id="_function_listentolttdexpired"><a class="anchor" href="#_function_listentolttdexpired"></a>10.5.18. Function listenToLttdExpired</h4>
 <div class="paragraph">
 <p>If the card has a last time to decide (lttd) configured, when the time is expired this information can be received by the template by registering a listener.</p>
 </div>
@@ -5450,7 +5950,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>10.5.18. Function listenToStyleChange</h4>
+<h4 id="_function_listentostylechange"><a class="anchor" href="#_function_listentostylechange"></a>10.5.19. Function listenToStyleChange</h4>
 <div class="paragraph">
 <p>Card template can be informed when switching day/night mode by registering a listener as follows :</p>
 </div>
@@ -5464,7 +5964,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.19. Function listenToScreenSize</h4>
+<h4 id="_function_listentoscreensize"><a class="anchor" href="#_function_listentoscreensize"></a>10.5.20. Function listenToScreenSize</h4>
 <div class="paragraph">
 <p>To adapt the template content on screen size, it is possible to receive from OperatorFabric information on the size of the window where the template will be rendered. To receive screen size information, you need to implement a listener function which will receive as input a string parameter with one of the following values :</p>
 </div>
@@ -5488,7 +5988,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.20. Function listenToTemplateRenderingComplete</h4>
+<h4 id="_function_listentotemplaterenderingcomplete"><a class="anchor" href="#_function_listentotemplaterenderingcomplete"></a>10.5.21. Function listenToTemplateRenderingComplete</h4>
 <div class="paragraph">
 <p>It is possible to be informed when opfab has finished all tasks regarding rendering template by registering a listener function .The function will be called after the call of the other listener (applyChildCard, lockAnswer, lttdExpired and screenSize)</p>
 </div>
@@ -5502,7 +6002,7 @@ An example of usage can be found in the file <a href="https://github.com/opfab/o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.21. Function registerFunctionToGetUserResponse</h4>
+<h4 id="_function_registerfunctiontogetuserresponse"><a class="anchor" href="#_function_registerfunctiontogetuserresponse"></a>10.5.22. Function registerFunctionToGetUserResponse</h4>
 <div class="paragraph">
 <p>Register the template function to call to get user response. This function will be called by opfab when the user clicks on the "send response" button. More explanation can be found in the <a href="#response_cards">response card chapter</a>.</p>
 </div>
@@ -6897,8 +7397,22 @@ By default, a user cannot have several sessions at the same time. If you want to
 <p>In case of a user does exist in a provided authentication service but he does not exist in the <code>OperatorFabric</code>
 instance, when he is authenticated and connected for the first time in the <code>OperatorFabric</code> instance, the user is
 automatically created in the system without attached group or entity.
-The administration of the groups, entities and perimeters is dealt by the administrator manually.
-More details about automated user creation
+The administration of the groups, entities and perimeters is dealt by the administrator manually.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When a user is created (either manually via API or automatically via authentication), a <code>creationDate</code> field is automatically set with the current date and time. This field is read-only and preserved during updates. It is displayed in the admin users screen and can be retrieved via the users API.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>More details about automated user creation
 <a href="/documentation/current/deployment/index.html#opfab_spec_conf">here</a></p>
 </div>
 </div>
@@ -7089,7 +7603,7 @@ By choosing to disconnect from an entity, the user will still be a member of thi
 access to the cards intended for this entity, until he reconnects to it.</p>
 </div>
 <div class="paragraph">
-<p>If set visible in ui-menu.json, this interface is accessible via the user menu (top right of the screen).</p>
+<p>If set visible in the ui menu configuration, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 <div class="paragraph">
 <p>The choice of activity area may be done during user logging phase if you set activityArea.selectActivityAreaOnLogin to true in web-ui.json.</p>
@@ -7172,7 +7686,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>By default, logs older than 61 days are automatically deleted.</p>
 </div>
 <div class="paragraph">
-<p>If set visible in ui-menu.json and user is admin, this interface is accessible via the user menu (top right of the screen).</p>
+<p>If set visible in the ui menu configuration and user is admin, this interface is accessible via the user menu (top right of the screen).</p>
 </div>
 </div>
 </div>
@@ -7189,7 +7703,7 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <div class="sect2">
 <h3 id="menu_entries"><a class="anchor" href="#menu_entries"></a>15.2. Menu Entries</h3>
 <div class="paragraph">
-<p>The <code>ui-menu.json</code> file is used:</p>
+<p>A json description is used :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -7200,6 +7714,14 @@ access to the cards intended for this entity, until he reconnects to it.</p>
 <p>To declare specific business menus to be displayed in the navigation bar of OperatorFabric</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>To update the menu, you can upload a file containing the json data via a POST HTTP request to the dedicated API endpoint
+as described in
+<a href="/documentation/current/api/index.html#tag/configurations/operation/uploadUIMenu">UI Menu API documentation</a></p>
+</div>
+<div class="paragraph">
+<p>You can do it using the cli (command line interface), for example: <code>opfab ui-menu load &lt;uiMenuFileName&gt;</code></p>
 </div>
 <div class="paragraph">
 <p>This file contains 4 fields :</p>
@@ -7288,72 +7810,64 @@ listed groups.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">archives</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dashboard</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Logging</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">logging</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Navigation bar (icon)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User card</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">usercard</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Calendar</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">calendar</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">calendar</p></td>
 <td class="tableblock halign-left valign-top" rowspan="11"><p class="tableblock">Top-right menu</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Administration</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">admin</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">External devices configuration</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">externaldevicesconfiguration</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Real time users</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">realtimeusers</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Settings</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">settings</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Activity area</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">activityarea</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Notification Configuration</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">feedconfiguration</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User action logs</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">useractionlogs</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">About</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">about</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Night/Day toggle</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">nightdaymode</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Change password</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">changepassword</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">changepassword</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Logout</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">logout</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>See <code>/config/docker/ui-menu.json</code> for an example containing all core menus.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -7374,10 +7888,6 @@ setting the <code>settings.styleWhenNightDayModeDesactivated</code> property in 
 <p>A menu can target directly a link or give access to several sub-menus when clicked.
 Those sub-menus can target a link or an opfab core menu.
 A targeted link can be open in an iframe or in a new tab.</p>
-</div>
-<div class="paragraph">
-<p>Menus support i18n following the i18n OperatorFabric rules.
-The ui-menu.json file contains directly the i18n dictionary for the menus.</p>
 </div>
 <div class="paragraph">
 <p>In case of a single menu, the navigation bar displays the l10n of the <code>label</code> of the entry menu.
@@ -7428,7 +7938,7 @@ Note that menus with sub-menus need a <code>label</code> declaring an i18n key.<
 <div class="paragraph">
 <p>In the following example, the configuration file declares two additional business menus.
 The first has only one entry, which targets a link. The second business menu has three entries, one which targets the
-core menu <code>Dashboard</code> and two others which target links.
+core menu <code>logging</code> and two others which target links.
 The sample also contains the 2 top right icons (<code>usercard</code> and <code>calendar</code>), the composition of the top right menu and
 the i18n translations in English and French.</p>
 </div>
@@ -7459,7 +7969,7 @@ the i18n translations in English and French.</p>
       <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">title.multi</span><span class="delimiter">&quot;</span></span>,
       <span class="key"><span class="delimiter">&quot;</span><span class="content">entries</span><span class="delimiter">&quot;</span></span>: [
         {
-          <span class="key"><span class="delimiter">&quot;</span><span class="content">opfabCoreMenuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dashboard</span><span class="delimiter">&quot;</span></span>
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">opfabCoreMenuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">logging</span><span class="delimiter">&quot;</span></span>
         },
         {
           <span class="key"><span class="delimiter">&quot;</span><span class="content">customMenuId</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">uid_test_1</span><span class="delimiter">&quot;</span></span>,
@@ -7638,6 +8148,7 @@ Named <code>opfab_theme</code>, this parameter has a value corresponding to the 
     statesToExclude: [{processId: 'processId0', stateIds: ['stateId0', 'stateId1']}],
     headerFilters: ['PROCESS', 'TYPE_OF_STATE'],
     showAcknowledgmentButton: false,
+    showBackButton: true,
     defaultSelectedTypeOfState: [
         'INPROGRESS',
         'FINISHED'
@@ -7907,7 +8418,13 @@ The possible values are:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_buttons"><a class="anchor" href="#_response_buttons"></a>15.3.4. Response buttons</h4>
+<h4 id="_back_button"><a class="anchor" href="#_back_button"></a>15.3.4. Back button</h4>
+<div class="paragraph">
+<p>A back button can be displayed in the top-left corner of the screen by setting <code>showBackButton</code> to <code>true</code> (default is <code>false</code>). When clicked, it behaves like the browser&#8217;s back button and navigates to the previous page.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_buttons"><a class="anchor" href="#_response_buttons"></a>15.3.5. Response buttons</h4>
 <div class="paragraph">
 <p>It is possible to define custom response buttons for the custom screen allowing the user to send multiple responses at once.</p>
 </div>
@@ -8011,7 +8528,7 @@ The possible values are:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_input_fields"><a class="anchor" href="#_input_fields"></a>15.3.4.1. Input fields</h5>
+<h5 id="_input_fields"><a class="anchor" href="#_input_fields"></a>15.3.5.1. Input fields</h5>
 <div class="paragraph">
 <p>The input fields are to be defined in the columns definition with fieldType set to <code>INPUT</code> , for example :</p>
 </div>
@@ -8030,7 +8547,7 @@ The possible values are:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_select_fields"><a class="anchor" href="#_select_fields"></a>15.3.4.2. Select fields</h5>
+<h5 id="_select_fields"><a class="anchor" href="#_select_fields"></a>15.3.5.2. Select fields</h5>
 <div class="paragraph">
 <p>It is possible instead of using an input field to use a select field by setting the fieldType to <code>SELECT</code> and defining the options in the column definition, for example :</p>
 </div>
@@ -8057,7 +8574,7 @@ The possible values are:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_restrictions"><a class="anchor" href="#_response_restrictions"></a>15.3.4.3. Response restrictions</h5>
+<h5 id="_response_restrictions"><a class="anchor" href="#_response_restrictions"></a>15.3.5.3. Response restrictions</h5>
 <div class="paragraph">
 <p>It is possible to restrict the possibility to respond to entities that are defined as required (field <code>entitiesRequiredToRespond</code> in the card). To do this, you need to set <code>responseOnlyAllowedForEntitiesRequiredToRespond</code> to <code>true</code> in the custom screen definition.</p>
 </div>
@@ -8084,7 +8601,7 @@ The possible values are:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_card_data_fields"><a class="anchor" href="#_card_data_fields"></a>15.3.5. Card data fields</h4>
+<h4 id="_card_data_fields"><a class="anchor" href="#_card_data_fields"></a>15.3.6. Card data fields</h4>
 <div class="paragraph">
 <p>It is possible to define data fields you want to display in the custom screen. To do this, you have to define the data
 fields in the configuration file shared by all the services (for example <code>/config/docker/common.yml</code>), the variable is
@@ -8134,7 +8651,7 @@ Be cautious when adding too many data fields in the configuration files. If ther
 </div>
 </div>
 <div class="sect3">
-<h4 id="_current_user_child_card_field"><a class="anchor" href="#_current_user_child_card_field"></a>15.3.6. Current user child card field</h4>
+<h4 id="_current_user_child_card_field"><a class="anchor" href="#_current_user_child_card_field"></a>15.3.7. Current user child card field</h4>
 <div class="paragraph">
 <p>It is possible to define a field in the custom screen that will display the field value of the child card of the current user if any.
 To do this, you have to set the value <code>isFieldFromCurrentUserChildCard</code> to true in the column definition. For example :</p>
@@ -8164,7 +8681,7 @@ This feature is not yet taking into account the fact that the user may be member
 </div>
 </div>
 <div class="sect3">
-<h4 id="_exporting_responses_by_type_and_not_responded"><a class="anchor" href="#_exporting_responses_by_type_and_not_responded"></a>15.3.7. Exporting responses by type and not responded</h4>
+<h4 id="_exporting_responses_by_type_and_not_responded"><a class="anchor" href="#_exporting_responses_by_type_and_not_responded"></a>15.3.8. Exporting responses by type and not responded</h4>
 <div class="paragraph">
 <p>When exporting the data of a custom screen, you can add columns per type of response (severity), with the column name defined by configuration</p>
 </div>
@@ -8190,9 +8707,232 @@ results: {
 <p>For each configured severity, a column will be exported (but not shown in the UI) with the entities that responded with that severity.These columns are only present in the export, not in the UI.</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_user_notification_filter"><a class="anchor" href="#_user_notification_filter"></a>15.3.9. User notification filter</h4>
+<div class="paragraph">
+<p>It is possible to see cards in custom screens even if cards are filtered by the user via the notification configuration screen. To do so, you can configure in the web-ui.json the list of processes/states for which the card should be visible even if it is filtered. The parameter to configure is <code>processStatesAlwaysLoaded</code> and the value is an array of process/state in the format "processName.stateName".</p>
+</div>
+<div class="paragraph">
+<p>For example, if you want to see the cards of the state "state1" of the process "process1" even if the user has filtered the state, you can set the parameter as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"processStatesAlwaysLoaded": [
+    "process1.state1"
+]</pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_customizing_browser_notification_sounds"><a class="anchor" href="#_customizing_browser_notification_sounds"></a>15.4. Customizing browser notification sounds</h3>
+<h3 id="_dashboard_screen"><a class="anchor" href="#_dashboard_screen"></a>15.4. Dashboard screen</h3>
+<div class="paragraph">
+<p>The dashboard screen presents the number of cards per process and state. To the right of each state, bubbles display the number of visible cards by severity.</p>
+</div>
+<div class="sect3">
+<h4 id="_declaring_a_dashboard"><a class="anchor" href="#_declaring_a_dashboard"></a>15.4.1. Declaring a dashboard</h4>
+<div class="paragraph">
+<p>In OperatorFabric, a dashboard is declared as a custom screen with type <code>DASHBOARD</code>.</p>
+</div>
+<div class="paragraph">
+<p>It must be defined in a JavaScript file loaded at application startup and registered using the <code>opfab.businessconfig.registerCustomScreen</code> method.</p>
+</div>
+<div class="paragraph">
+<p>A dashboard requires at least the following fields:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>id</code>: unique identifier of the dashboard</p>
+</li>
+<li>
+<p><code>name</code>: name displayed in the UI</p>
+</li>
+<li>
+<p><code>type</code>: must be set to <code>"DASHBOARD"</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Minimal example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">{
+    const myDashboard = {
+        <span class="key">id</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">my-dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">name</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My Dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">type</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">DASHBOARD</span><span class="delimiter">&quot;</span></span>
+    };
+
+    opfab.businessconfig.registerCustomScreen(myDashboard);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_a_dashboard_to_the_menu"><a class="anchor" href="#_adding_a_dashboard_to_the_menu"></a>15.4.2. Adding a dashboard to the menu</h4>
+<div class="paragraph">
+<p>A dashboard registered via registerCustomScreen is not automatically displayed in the navigation bar.
+To make it accessible to users, you must declare a corresponding menu entry in the UI menu configuration (uimenu.json).</p>
+</div>
+<div class="paragraph">
+<p>Once your dashboard is declared, you need to create a menu entry that references it using its customScreenId.</p>
+</div>
+<div class="paragraph">
+<p>Example :</p>
+</div>
+<div class="paragraph">
+<p>If your dashboard is declared with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>id: "dashboard2"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can add it to any existing menu, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "id": "menu2",
+  "label": "title.multi",
+  "entries": [
+    {
+      "customMenuId": "uid_test_6",
+      "customScreenId": "dashboard2",
+      "label": "entry.dashboard2"
+    }
+  ]
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_loading_the_configuration"><a class="anchor" href="#_loading_the_configuration"></a>15.4.3. Loading the configuration</h4>
+<div class="paragraph">
+<p>To apply the dashboard configuration, you need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a JavaScript file containing your dashboard definition</p>
+</li>
+<li>
+<p>Register it using the <code>opfab.businessconfig.registerCustomScreen</code> method</p>
+</li>
+<li>
+<p>Load this file at application startup</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Then, declare this file in <code>web-ui.json</code> to load it at startup:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">customJsToLoad</span><span class="delimiter">&quot;</span></span>: [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">/externalJs/DashboardExample.js</span><span class="delimiter">&quot;</span></span>
+  ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processlist"><a class="anchor" href="#_processlist"></a>15.4.4. processList</h4>
+<div class="paragraph">
+<p>This optional field allows you to restrict the dashboard to a specific subset of processes. When defined, only processes whose IDs are included in the list will be considered when building the visible process tiles. Processes not in the list are ignored, even if the user has receive rights for them.</p>
+</div>
+<div class="paragraph">
+<p>When <code>processList</code> is absent or empty, all processes accessible to the user are displayed (default behaviour).</p>
+</div>
+<div class="listingblock">
+<div class="title">Example restricting the dashboard to two processes</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">processList</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">process1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">process2</span><span class="delimiter">&quot;</span></span>]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_customtiles"><a class="anchor" href="#_customtiles"></a>15.4.5. customTiles</h4>
+<div class="paragraph">
+<p>Custom tiles can be added to a dashboard to provide access to custom screens.
+They are configured in the dashboard JavaScript configuration object registered at application startup.</p>
+</div>
+<div class="paragraph">
+<p>Each custom tile contains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>title</code>: displayed as the tile title</p>
+</li>
+<li>
+<p>a list of <code>cells</code>: each cell defines a link to a custom screen</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each cell has this structure :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>label</code>: text displayed in the cell</p>
+</li>
+<li>
+<p><code>customScreenId</code>: identifier of the custom screen to open</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">{
+    const dashboardExample = {
+        <span class="key">id</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">name</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Dashboard</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">type</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">DASHBOARD</span><span class="delimiter">&quot;</span></span>,
+        <span class="key">customTiles</span>: [
+            {
+                <span class="key">title</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My custom tile 1</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">cells</span>: [
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+                    },
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen 2</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId2</span><span class="delimiter">&quot;</span></span>
+                    }
+                ]
+            },
+            {
+                <span class="key">title</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">My custom tile 2</span><span class="delimiter">&quot;</span></span>,
+                <span class="key">cells</span>: [
+                    {
+                        <span class="key">label</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Custom screen</span><span class="delimiter">&quot;</span></span>,
+                        <span class="key">customScreenId</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testId</span><span class="delimiter">&quot;</span></span>
+                    }
+                ]
+            }
+        ]
+    };
+
+    opfab.businessconfig.registerCustomScreen(dashboardExample);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clicking on the title of a custom tile does not trigger any navigation. Navigation is only available through the cells, which open the associated custom screens.</p>
+</div>
+<div class="paragraph">
+<p>The bubbles with the number of cards per severity are still displayed on the dashboard tiles, but they take into account the list of cards that will be displayed in the custom screen linked to the cell instead of the total number of cards of the process/state.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_customizing_browser_notification_sounds"><a class="anchor" href="#_customizing_browser_notification_sounds"></a>15.5. Customizing browser notification sounds</h3>
 <div class="paragraph">
 <p>The sounds used by default by the browser to signal a card of a given severity
 can be found under <code>frontend/src/assets/sounds</code> in the core repository and are packaged in the <code>web-ui</code> docker image.</p>
@@ -8375,7 +9115,7 @@ for operator1_fr, how to connect to them and what signal "ALARM" translates to o
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>17.2.2. Configuration</h4>
+<h4 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>17.2.2. Configuration</h4>
 <div class="paragraph">
 <p>The following elements need to be configurable:</p>
 </div>
@@ -8515,7 +9255,7 @@ them differently.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>17.3. Configuration</h3>
+<h3 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>17.3. Configuration</h3>
 
 </div>
 <div class="sect2">

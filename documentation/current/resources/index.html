@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Resources</h1>
 <div class="details">
-<span id="revnumber">version 4.11.1.RELEASE,</span>
-<span id="revdate">09 March 2026</span>
+<span id="revnumber">version 4.12.0.RELEASE,</span>
+<span id="revdate">11 May 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -756,6 +756,43 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_selectactivityareaonlogin_configuration_parameter">24.5. selectActivityAreaOnLogin configuration parameter</a></li>
 <li><a href="#_process_monitoring_screen_configuration">24.6. Process monitoring screen configuration</a></li>
 <li><a href="#_authentication_configuration">24.7. Authentication configuration</a></li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_11_x_to_release_4_12_0">25. Migration Guide from release 4.11.X to release 4.12.0</a>
+<ul class="sectlevel2">
+<li><a href="#_service_renamed_cards_external_diffusion_to_email_gateway">25.1. Service renamed: cards-external-diffusion to email-gateway</a>
+<ul class="sectlevel3">
+<li><a href="#_docker_image_name">25.1.1. Docker image name</a></li>
+<li><a href="#_configuration_file_name">25.1.2. Configuration file name</a></li>
+<li><a href="#_configuration_parameters">25.1.3. Configuration parameters</a></li>
+<li><a href="#_email_body_rendering_parameter_renamed">25.1.4. Email body rendering parameter renamed</a></li>
+<li><a href="#_behavior_change">25.1.5. Behavior change</a></li>
+<li><a href="#_mongodb_collection_name">25.1.6. MongoDB collection name</a></li>
+<li><a href="#_nginx_proxy_configuration">25.1.7. Nginx proxy configuration</a></li>
+<li><a href="#_cli_and_scripts">25.1.8. CLI and scripts</a></li>
+<li><a href="#_menu_configuration_via_rest_api">25.1.9. Menu Configuration via REST API</a></li>
+</ul>
+</li>
+<li><a href="#_card_api_endpoints_updated_to_use_query_parameters">25.2. Card API endpoints updated to use query parameters</a>
+<ul class="sectlevel3">
+<li><a href="#_affected_endpoints">25.2.1. Affected endpoints</a></li>
+<li><a href="#_why_this_change">25.2.2. Why this change?</a></li>
+<li><a href="#_impact_on_custom_integrations">25.2.3. Impact on custom integrations</a></li>
+</ul>
+</li>
+<li><a href="#_card_api_endpoints_updated_to_use_request_body_or_query_parameters">25.3. Card API endpoints updated to use request body or query parameters</a>
+<ul class="sectlevel3">
+<li><a href="#_affected_endpoints_2">25.3.1. Affected endpoints</a></li>
+<li><a href="#_impact_on_custom_integrations_2">25.3.2. Impact on custom integrations</a></li>
+</ul>
+</li>
+<li><a href="#_dashboard">25.4. Dashboard</a>
+<ul class="sectlevel3">
+<li><a href="#_removal_of_processstateredirects">25.4.1. Removal of processStateRedirects</a></li>
+<li><a href="#_removal_of_processcustomlinks">25.4.2. Removal of processCustomLinks</a></li>
+<li><a href="#_dashboard_configuration">25.4.3. Dashboard configuration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2201,15 +2238,15 @@ For example you should change :</p>
 <h3 id="_rate_limiter_for_card_sendings"><a class="anchor" href="#_rate_limiter_for_card_sendings"></a>14.12. Rate limiter for card sendings</h3>
 <div class="paragraph">
 <p>External publishers are now monitored by a new module which limits how many cards they can send
-<a href="/documentation/current/deployment/configuration/configuration.html#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
+<a href="/documentation/current/deployment/index.html#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
  in a period of time
-<a href="/documentation/current/deployment/configuration/configuration.html#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
+<a href="/documentation/current/deployment/index.html#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
 .
 This is to avoid potential overloading due to external apps stuck in a card sending loop.</p>
 </div>
 <div class="paragraph">
 <p>Default value is set to 1000 cards per hour. It can be disabled / enabled with
-<a href="/documentation/current/deployment/configuration/configuration.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
+<a href="/documentation/current/deployment/index.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a></p>
 </div>
 </div>
 </div>
@@ -3584,6 +3621,581 @@ your file <code>config.json</code> if needed. For example:</p>
     }
   }
 }</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_11_x_to_release_4_12_0"><a class="anchor" href="#_migration_guide_from_release_4_11_x_to_release_4_12_0"></a>25. Migration Guide from release 4.11.X to release 4.12.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_service_renamed_cards_external_diffusion_to_email_gateway"><a class="anchor" href="#_service_renamed_cards_external_diffusion_to_email_gateway"></a>25.1. Service renamed: cards-external-diffusion to email-gateway</h3>
+<div class="paragraph">
+<p>The <code>cards-external-diffusion</code> service has been renamed to <code>email-gateway</code> to better reflect its purpose as an email gateway for card notifications. This change affects multiple aspects of your deployment.</p>
+</div>
+<div class="sect3">
+<h4 id="_docker_image_name"><a class="anchor" href="#_docker_image_name"></a>25.1.1. Docker image name</h4>
+<div class="paragraph">
+<p>The Docker image name has changed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>of-cards-external-diffusion</code> is now <code>of-email-gateway</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Update your docker-compose.yml file accordingly</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_file_name"><a class="anchor" href="#_configuration_file_name"></a>25.1.2. Configuration file name</h4>
+<div class="paragraph">
+<p>The service configuration file has been renamed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cards-external-diffusion.yml</code> is now <code>email-gateway.yml</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Update your volume mount in docker-compose.yml:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    volumes:
+      - "./services/cards-external-diffusion.yml:/usr/app/config/docker.yml"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    volumes:
+      - "./services/email-gateway.yml:/usr/app/config/docker.yml"</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_parameters"><a class="anchor" href="#_configuration_parameters"></a>25.1.3. Configuration parameters</h4>
+<div class="paragraph">
+<p>All configuration parameters have been renamed from <code>cardsExternalDiffusion</code> to <code>emailGateway</code>:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  cardsExternalDiffusion:
+    adminPort: 2106
+    activeOnStartup: true
+    customHandlebarsHelpersFile: config/customHandlebarsHelpersExample.js
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      # ... other config</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  emailGateway:
+    adminPort: 2106
+    activeOnStartup: true
+    customHandlebarsHelpersFile: config/customHandlebarsHelpersExample.js
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      # ... other config</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally, mail server configuration parameters have been moved under the <code>emailGateway</code> section:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  mail:
+    host: localhost
+    port: 1025
+    auth:
+      user: guest
+      pass: guest</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  emailGateway:
+    smtpServer:
+      host: localhost
+      port: 1025
+      auth:
+        user: guest
+        pass: guest</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Furthermore, email configuration parameters under <code>defaultConfig</code> have been reorganized under an <code>outgoingEmails</code> section:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  emailGateway:
+    defaultConfig:
+      mailFrom: opfab@localhost.it
+      subjectPrefix: 'Opfab card received '
+      bodyPrefix: 'You received a card in opfab : '
+      # ... other email config</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>operatorfabric:
+  emailGateway:
+    defaultConfig:
+      outgoingEmails:
+        mailFrom: opfab@localhost.it
+        subjectPrefix: 'Opfab card received '
+        bodyPrefix: 'You received a card in opfab : '
+        # ... other email config</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_email_body_rendering_parameter_renamed"><a class="anchor" href="#_email_body_rendering_parameter_renamed"></a>25.1.4. Email body rendering parameter renamed</h4>
+<div class="paragraph">
+<p>The email body rendering parameter has been renamed in state configuration.</p>
+</div>
+<div class="paragraph">
+<p>Replace the deprecated parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>email: {
+  hideDefaultBodyPrefixAndPostfix: true
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>email: {
+useOnlyTemplateForBodyRendering: true
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behavior_change"><a class="anchor" href="#_behavior_change"></a>25.1.5. Behavior change</h4>
+<div class="paragraph">
+<p>The new parameter <code>useOnlyTemplateForBodyRendering</code> provides clearer behavior:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When set to <code>true</code>, only the content generated from <code>email.bodyTemplate</code> is used as the email body.
+The default prefix, postfix, and card title/link are not included.</p>
+</li>
+<li>
+<p>When set to <code>false</code> or not defined, the email body includes:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the default prefix</p>
+</li>
+<li>
+<p>the card title and/or link</p>
+</li>
+<li>
+<p>the rendered template content</p>
+</li>
+<li>
+<p>the default postfix</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Make sure to update your state configurations accordingly, otherwise email content may differ from previous versions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mongodb_collection_name"><a class="anchor" href="#_mongodb_collection_name"></a>25.1.6. MongoDB collection name</h4>
+<div class="paragraph">
+<p>The MongoDB collection name has changed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cardsExternalDiffusion-mailsAlreadySent</code> is now <code>emailGateway-emailsAlreadySent</code>. This collection stores records of emails that have already been sent to prevent duplicate notifications. To avoid sending duplicate emails, you should rename the collection in your MongoDB database after stopping Opfab and before starting the new version:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>db["cardsExternalDiffusion-mailsAlreadySent"].renameCollection("emailGateway-emailsAlreadySent")</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can delete the existing collection after migration (the new collection will be created automatically):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>db["cardsExternalDiffusion-mailsAlreadySent"].drop()</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_nginx_proxy_configuration"><a class="anchor" href="#_nginx_proxy_configuration"></a>25.1.7. Nginx proxy configuration</h4>
+<div class="paragraph">
+<p>If you have custom nginx proxy configuration referencing the service, update the location path:</p>
+</div>
+<div class="paragraph">
+<p>Replace</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  location /cards-external-diffusion/ {
+    proxy_set_header Host $http_host;
+    proxy_pass http://cards-external-diffusion:2106/;
+  }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  location /email-gateway/ {
+    proxy_set_header Host $http_host;
+    proxy_pass http://email-gateway:2106/;
+  }</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cli_and_scripts"><a class="anchor" href="#_cli_and_scripts"></a>25.1.8. CLI and scripts</h4>
+<div class="paragraph">
+<p>If you use the OperatorFabric CLI to manage logs or other operations, the service name has changed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use <code>email-gateway</code> instead of <code>cards-external-diffusion</code> in CLI commands</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./opfab logs email-gateway</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_menu_configuration_via_rest_api"><a class="anchor" href="#_menu_configuration_via_rest_api"></a>25.1.9. Menu Configuration via REST API</h4>
+<div class="paragraph">
+<p>The menu configuration, previously managed through the ui-menu.json file on the server filesystem, is now exposed via a
+dedicated REST API allowing retrieval (GET) and update (POST) of the full configuration. This aligns the menu management
+with the existing configuration mechanism used for other files, for example <code>processgroups</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>The API endpoint is <code>/businessconfig/uimenu</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>GET /businessconfig/uimenu
+POST /businessconfig/uimenu</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example update:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl -X POST "$OPFAB_URL/businessconfig/uimenu" \
+  -H "Content-Type: application/json" \
+  -d `@uimenu.json`</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also do it using the cli (command line interface), for example: <code>opfab ui-menu load &lt;uiMenuFileName&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Additionally, within the <code>locales</code> section, the <code>i18n</code> property has been renamed to <code>localizedContent</code>
+(e.g. "i18n": { &#8230;&#8203; } becomes "localizedContent": { &#8230;&#8203; }). No other structural changes have been introduced.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_api_endpoints_updated_to_use_query_parameters"><a class="anchor" href="#_card_api_endpoints_updated_to_use_query_parameters"></a>25.2. Card API endpoints updated to use query parameters</h3>
+<div class="paragraph">
+<p>To properly handle card IDs containing special characters (especially slashes <code>/</code>), the card consultation and deletion endpoints now use query parameters instead of path parameters.</p>
+</div>
+<div class="sect3">
+<h4 id="_affected_endpoints"><a class="anchor" href="#_affected_endpoints"></a>25.2.1. Affected endpoints</h4>
+<div class="paragraph">
+<p>The following endpoints are now deprecated and will be removed in a future release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET /cards-consultation/cards/{id}</code> - replaced by <code>GET /cards-consultation/cards?cardId={id}</code></p>
+</li>
+<li>
+<p><code>DELETE /cards-publication/cards/userCard/{id}</code> - replaced by <code>DELETE /cards-publication/cards/userCard?cardId={id}</code></p>
+</li>
+<li>
+<p><code>DELETE /cards-publication/cards/{id}</code> - replaced by <code>DELETE /cards-publication/cards?cardId={id}</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The deprecated endpoints will continue to work for backward compatibility, but a deprecation warning will be logged when they are used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_why_this_change"><a class="anchor" href="#_why_this_change"></a>25.2.2. Why this change?</h4>
+<div class="paragraph">
+<p>Even when URL-encoded (e.g., <code>/</code> as <code>%2F</code>), Spring Framework interprets slashes in path parameters, which causes issues when card IDs contain this character. Using query parameters resolves this issue and allows card IDs to contain any special character.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_impact_on_custom_integrations"><a class="anchor" href="#_impact_on_custom_integrations"></a>25.2.3. Impact on custom integrations</h4>
+<div class="paragraph">
+<p>If you have custom code or scripts that call these endpoints directly (not using the OperatorFabric web UI or CLI), you need to update them to use the new query parameter format:</p>
+</div>
+<div class="paragraph">
+<p><strong>Before:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>GET /cards-consultation/cards/myProcess.instance
+DELETE /cards-publication/cards/userCard/myProcess.instance
+DELETE /cards-publication/cards/myProcess.instance</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>After:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>GET /cards-consultation/cards?cardId=myProcess.instance
+DELETE /cards-publication/cards/userCard?cardId=myProcess.instance
+DELETE /cards-publication/cards?cardId=myProcess.instance</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Remember to properly URL-encode the card ID when calling these endpoints. For example, a card ID containing a slash like <code>myProcess/instance</code> should be encoded as <code>myProcess%2Finstance</code> in the query parameter.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_card_api_endpoints_updated_to_use_request_body_or_query_parameters"><a class="anchor" href="#_card_api_endpoints_updated_to_use_request_body_or_query_parameters"></a>25.3. Card API endpoints updated to use request body or query parameters</h3>
+<div class="paragraph">
+<p>Several additional card endpoints have been updated to properly handle card UIDs containing special characters. These are breaking changes without backward compatibility.</p>
+</div>
+<div class="sect3">
+<h4 id="_affected_endpoints_2"><a class="anchor" href="#_affected_endpoints_2"></a>25.3.1. Affected endpoints</h4>
+<div class="paragraph">
+<p>The following endpoints have been changed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>POST /cards-publication/cards/resetReadAndAcks/{uid}</code> - now <code>POST /cards-publication/cards/resetReadAndAcks</code> with JSON body</p>
+</li>
+<li>
+<p><code>POST /cards-publication/cards/userAcknowledgement/{cardUid}</code> - now <code>POST /cards-publication/cards/userAcknowledgement</code> with JSON body</p>
+</li>
+<li>
+<p><code>POST /cards-publication/cards/cancelUserAcknowledgement/{cardUid}</code> - now <code>POST /cards-publication/cards/cancelUserAcknowledgement</code> with JSON body</p>
+</li>
+<li>
+<p><code>POST /cards-publication/cards/userCardRead/{cardUid}</code> - now <code>POST /cards-publication/cards/userCardRead</code> with JSON body</p>
+</li>
+<li>
+<p><code>DELETE /cards-publication/cards/userCardRead/{cardUid}</code> - now <code>DELETE /cards-publication/cards/userCardRead?cardUid={cardUid}</code> with query parameter</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These endpoints are used internally by the OperatorFabric web UI and are not typically called directly by external integrations. No backward compatibility is provided for these endpoints.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_impact_on_custom_integrations_2"><a class="anchor" href="#_impact_on_custom_integrations_2"></a>25.3.2. Impact on custom integrations</h4>
+<div class="paragraph">
+<p>If you have custom code or scripts calling these endpoints directly, you must update them to use the new request format. The OperatorFabric web UI, CLI, and internal services have all been updated to use the new format.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard"><a class="anchor" href="#_dashboard"></a>25.4. Dashboard</h3>
+<div class="sect3">
+<h4 id="_removal_of_processstateredirects"><a class="anchor" href="#_removal_of_processstateredirects"></a>25.4.1. Removal of processStateRedirects</h4>
+<div class="paragraph">
+<p>The <code>processStateRedirects</code> configuration is no longer supported starting from version 4.12.</p>
+</div>
+<div class="paragraph">
+<p>In previous versions, this parameter allowed defining custom redirections when clicking on a state in the dashboard.</p>
+</div>
+<div class="paragraph">
+<p>This feature has been removed and is no longer available.</p>
+</div>
+<div class="paragraph">
+<p>If you were using <code>processStateRedirects</code>, you need to remove this configuration.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_removal_of_processcustomlinks"><a class="anchor" href="#_removal_of_processcustomlinks"></a>25.4.2. Removal of processCustomLinks</h4>
+<div class="paragraph">
+<p>The <code>processCustomLinks</code> configuration is no longer supported starting from version 4.12.</p>
+</div>
+<div class="paragraph">
+<p>In previous versions, this parameter allowed defining custom links associated to a process in the dashboard.</p>
+</div>
+<div class="paragraph">
+<p>This feature has been removed and is no longer available.</p>
+</div>
+<div class="paragraph">
+<p>If you used it to expose custom screen links, migrate to <code>customTiles</code> in the dashboard definition.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dashboard_configuration"><a class="anchor" href="#_dashboard_configuration"></a>25.4.3. Dashboard configuration</h4>
+<div class="paragraph">
+<p>In previous versions, dashboard configuration was managed via the <code>web-ui.json</code> config file. Starting from version 4.12, it is now handled programmatically using the <code>opfab.businessconfig.registerCustomScreen</code> method.</p>
+</div>
+<div class="paragraph">
+<p>For example, instead of the following configuration in <code>web-ui.json</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;dashboard&quot;: {
+        &quot;processCustomLinks&quot;: [
+            {
+            &quot;processId&quot;: &quot;defaultProcess&quot;,
+            &quot;customLinks&quot;: [
+                    {
+                        &quot;label&quot;: &quot;Custom screen&quot;,
+                        &quot;customScreenId&quot;: &quot;testId&quot;
+                    },
+                    {
+                        &quot;label&quot;: &quot;Custom screen 2&quot;,
+                        &quot;customScreenId&quot;: &quot;testId2&quot;
+                    }
+                ]
+            }
+        ],
+        &quot;processStateRedirects&quot;: [
+            {
+            &quot;processId&quot;: &quot;defaultProcess&quot;,
+            &quot;stateId&quot;: &quot;chartLineState&quot;,
+            &quot;menuId&quot;: &quot;uid_test_0&quot;,
+            &quot;urlExtension&quot;: &quot;?search=chart&amp;fulltext=1&quot;
+            },
+            {
+            &quot;processId&quot;: &quot;defaultProcess&quot;,
+            &quot;stateId&quot;: &quot;questionState&quot;,
+            &quot;screenId&quot;: &quot;testId&quot;
+            }
+        ]
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You now need to create a JavaScript file like this (note that <code>processStateRedirects</code> and <code>processCustomLinks</code> are no
+longer supported) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+    const dashboardExample = {
+        &quot;id&quot;: &quot;dashboard&quot;,
+        &quot;name&quot;: &quot;Dashboard&quot;,
+        &quot;type&quot;: &quot;DASHBOARD&quot;
+    };
+
+    opfab.businessconfig.registerCustomScreen(dashboardExample);
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, load this file at startup by declaring it in <code>web-ui.json</code>, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;customJsToLoad&quot;: [
+        &quot;/externalJs/DashboardExample.js&quot;,
+        ....]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A dashboard registered via registerCustomScreen is not automatically displayed in the navigation bar.
+To make it accessible to users, you must declare a corresponding menu entry in the UI menu configuration (uimenu.json).</p>
+</div>
+<div class="paragraph">
+<p>Once your dashboard is declared, you need to create a menu entry that references it using its customScreenId.</p>
+</div>
+<div class="paragraph">
+<p>Example :</p>
+</div>
+<div class="paragraph">
+<p>If your dashboard is declared with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>id: "dashboard2"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can add it to any existing menu, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "id": "menu2",
+  "label": "title.multi",
+  "entries": [
+    {
+      "customMenuId": "uid_test_6",
+      "customScreenId": "dashboard2",
+      "label": "entry.dashboard2"
+    }
+  ]
+}</pre>
+</div>
 </div>
 </div>
 </div>

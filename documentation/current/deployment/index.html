@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.11.1.RELEASE,</span>
-<span id="revdate">09 March 2026</span>
+<span id="revnumber">version 4.12.0.RELEASE,</span>
+<span id="revdate">11 May 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -557,7 +557,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#cards-pub-conf">3.1.2.3. Cards-publication service</a></li>
 <li><a href="#_cards_consultation_service">3.1.2.4. Cards-consultation service</a></li>
 <li><a href="#external-devices-conf">3.1.2.5. External devices service</a></li>
-<li><a href="#cards-external-diffusion-conf">3.1.2.6. Cards external diffusion service</a></li>
+<li><a href="#email-gateway-conf">3.1.2.6. Email gateway service</a></li>
 <li><a href="#cards-reminder-conf">3.1.2.7. Cards reminder service</a></li>
 <li><a href="#supervisor-conf">3.1.2.8. Supervisor service</a></li>
 </ul>
@@ -770,7 +770,7 @@ See <a href="https://docs.mongodb.com/manual/reference/connection-string/">mongo
 <div class="sect4">
 <h5 id="_internal_account"><a class="anchor" href="#_internal_account"></a>3.1.1.3. Internal account</h5>
 <div class="paragraph">
-<p>The back service cards-reminder ,cards-diffusion and supervision need an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it</p>
+<p>The backend services cards-reminder, email-gateway, and supervision need an internal account to communicate between opfab back services. Therefore, if you intend to utilize any of these services, it is necessary to create an Opfab technical account with ADMIN permissions and configure it</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1332,9 +1332,9 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </table>
 </div>
 <div class="sect4">
-<h5 id="cards-external-diffusion-conf"><a class="anchor" href="#cards-external-diffusion-conf"></a>3.1.2.6. Cards external diffusion service</h5>
+<h5 id="email-gateway-conf"><a class="anchor" href="#email-gateway-conf"></a>3.1.2.6. Email gateway service</h5>
 <div class="paragraph">
-<p>The card external diffusion service can be configured with the following properties:</p>
+<p>The email gateway service can be configured with the following properties:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1369,175 +1369,229 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default log level</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.authTimeout</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the maximum amount of time (in milliseconds) the client will wait for the authentication process to complete before timing out</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.host</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail server host</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.port</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail server port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.auth.user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.imapServer.tls</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the connection to the IMAP server should be secured using TLS (Transport Layer Security)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.smtpServer.host</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server host</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.smtpServer.port</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail server port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.smtpServer.auth.user</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail server authentication user</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.mail.auth.pass</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.smtpServer.auth.pass</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail server authentication password</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.adminPort</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.adminPort</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Listen port</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.activeOnStartup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.activeOnStartup</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to start the notification service on startup</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.customHandlebarsHelpersFile</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.customHandlebarsHelpersFile</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Path to a javascript file containing custom Handlebars helpers to be used in email templates</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.mailFrom</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of mailboxes that the email gateway will monitor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes[].mailbox</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email address of the mailbox to monitor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes[].password</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password used to authenticate to the mailbox via IMAP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.mailboxes[].emailToCardConverter</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier of the converter used to transform incoming emails into OperatorFabric cards</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.incomingEmails.secondsBetweenConnectionChecks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection check period</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.mailFrom</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail from address</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.dailyEmailTitle</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the day'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Daily mail subject title</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.weeklyEmailTitle</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Cards received during the week'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Weekly mail subject title</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dailyEmailBodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.dailyEmailBodyPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'You received the following cards during the past 24 hours : '</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Daily email body prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.weeklyEmailBodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.weeklyEmailBodyPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'You received the following cards during the past 7 days : '</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Weekly email body prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.dayOfWeekToSendWeeklyRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.dayOfWeekToSendWeeklyRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Day of the week to send the weekly recap emails (0 is Sunday, 6 is Saturday)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.hourToSendRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.hourToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Hour at which to send the recap emails</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.minuteToSendRecapEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.minuteToSendRecapEmail</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Minute at which to send the recap emails</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.subjectPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.subjectPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'Opfab card received'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail subject prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.bodyPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.bodyPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'You received a card in opfab : '</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail body prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.bodyPostfix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.bodyPostfix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'This email has been sent by Opfab, there is no need to reply.'</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mail body postfix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.publisherEntityPrefix</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.publisherEntityPrefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'The card has been sent by '</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Publisher entity text prefix</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.opfabUrlInMailContent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.opfabUrlInMailContent</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Url to write in mail to access the opfab server (example : <a href="https://opfab_url/" class="bare">opfab_url/</a>)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.windowInSecondsForCardSearch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.windowInSecondsForCardSearch</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">360</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Max time interval used to query new cards (in seconds)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.checkPeriodInSeconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.checkPeriodInSeconds</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time interval between consecutive checks</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.activateCardsDiffusionRateLimiter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.activateCardsDiffusionRateLimiter</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to activate mail sending rate limiting</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.sendRateLimit</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.sendRateLimit</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Max number of mail sent allowed for a single destination in the configured period</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.sendRateLimitPeriodInSec</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.sendRateLimitPeriodInSec</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3600</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Time period for rate limiting control</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.defaultTimeZone</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.defaultTimeZone</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Europe/Paris</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Default timezone used to display dates and times for email notifications if user has not set the timezone for mail in his settings</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.showCardUrls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.showCardUrls</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the URL of the card should be displayed in email notifications</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.forceEmailsInPlainText</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.forceEmailsInPlainText</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the emails must be sent in plain text (regardless of user configuration in settings)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.cardsExternalDiffusion.defaultConfig.showCardTitleInBody</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operatorfabric.emailGateway.defaultConfig.outgoingEmails.showCardTitleInBody</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Flag to set whether the body of the emails must include the card title or not. This only concerns real time email sending and not the recapitulatory emails</p></td>
@@ -1545,7 +1599,7 @@ are to be returned via Kafka by setting the <code>external-recipients</code> in 
 </tbody>
 </table>
 <div class="paragraph">
-<p>The parameters in "operatorfabric.cardsExternalDiffusion.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of cards external diffusion service with a JSON payload containing the config parameters to be changed.</p>
+<p>The parameters in "operatorfabric.emailGateway.defaultConfig" section can be modified at runtime by sending an http POST request to the <code>/config</code> API of email gateway service with a JSON payload containing the config parameters to be changed.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1933,56 +1987,6 @@ For example adding <code>Keycloak</code> application, with <code>'Keycloak'</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of URLs of javascript files to be loaded at startup</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processStateRedirects</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declares if a state when clicked in the dashboard should redirect to a custom menu or custom screen. If nothing is specified the redirection is pointing to the card feed. Here is a declaration with one redirection to a custom menu and one to a custom screen. The ids declared should match the ones in the ui-menu config.
-[source, json]
-----
-"dashboard": {
-    "processStateRedirects": [
-      {
-        "processId": "defaultProcess",
-        "stateId": "chartLineState",
-        "menuId": "uid_test_0",
-        "urlExtension": "?search=chart&amp;fulltext=1"
-      },
-      {
-        "processId": "defaultProcess",
-        "stateId": "questionState",
-        "screenId": "testId"
-      }
-    ]
-  }
-----</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard.processCustomLinks</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declares a list of link to show under the states of processes.Here is a declaration with two links  to custom screens.
-[source, json]
-----
-  "dashboard": {
-        "processCustomLinks": [
-            {
-            "processId": "defaultProcess",
-            "customLinks": [
-                    {
-                        "label": "Custom screen",
-                        "customScreenId": "testId"
-                    },
-                    {
-                        "label": "Custom screen 2",
-                        "customScreenId": "testId2"
-                    }
-                ]
-            }
-        ]
-  }
-----</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dateRangePickerConfig</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
@@ -2159,6 +2163,12 @@ Values should be taken from the <a href="https://en.wikipedia.org/wiki/List_of_t
 <td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The width of the logo (in px) (only taken into account if logo.base64 is set).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processStatesAlwaysLoaded</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array of strings specifying process.state pairs (e.g., ["process1.state1", "process2.state2"]) that should be sent to the UI even if the user has configured them as not notified in the notification configuration screen. These cards will still not be visible in the feed but will be available in card list custom screens. Each entry should follow the format "processId.stateId". Be aware that this can lead to performance issues if too many process/state pairs are configured.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">secondsToCloseSession</p></td>
@@ -3603,7 +3613,7 @@ prod PROD PROD_URL 80</pre>
 <p>You can start a test prometheus instance via <code>config/monitoring/startPrometheus.sh</code> , the monitoring will be accessible on <a href="http://localhost:9090/" class="bare">localhost:9090/</a></p>
 </div>
 <div class="paragraph">
-<p>It is also possible to monitor the health status of cards-external-diffusion, cards-reminder and supervisor services by making an HTTP GET request to the "/healthcheck" endpoint exposed by each service. The healthcheck endpoint will return a HTTP 200 status code if the service is up and running.</p>
+<p>It is also possible to monitor the health status of email-gateway, cards-reminder and supervisor services by making an HTTP GET request to the "/healthcheck" endpoint exposed by each service. The healthcheck endpoint will return a HTTP 200 status code if the service is up and running.</p>
 </div>
 </div>
 </div>
@@ -3717,7 +3727,7 @@ and <code>${logger}</code> is the logger (ex: org.opfab)</p>
 <div class="sect3">
 <h4 id="_node_services"><a class="anchor" href="#_node_services"></a>6.2.2. Node Services</h4>
 <div class="paragraph">
-<p>For node services (supervisor, cards-external-diffusion and cards-reminder) the available logging levels are:</p>
+<p>For node services (supervisor, email-gateway and cards-reminder) the available logging levels are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3863,7 +3873,8 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "ENTITY2_FR"
         ],
         "lastName": null,
-        "login": "admin"
+        "login": "admin",
+        "creationDate": 1708876800000
     },
     {
         "firstName": null,
@@ -3875,7 +3886,9 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "TEST"
         ],
         "lastName": null,
-        "login": "operator3_fr"
+        "login": "operator3_fr",
+        "creationDate": 1708876800000
+}
     },
     {
         "firstName": null,
@@ -3883,7 +3896,9 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "ELIA"
         ],
         "lastName": null,
-        "login": "elia-operator"
+        "login": "elia-operator",
+        "creationDate": 1708876800000
+}
     },
     {
         "firstName": null,
@@ -3891,7 +3906,8 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "CORESO"
         ],
         "lastName": null,
-        "login": "coreso-operator"
+        "login": "coreso-operator",
+        "creationDate": 1708876800000
     },
     {
         "firstName": null,
@@ -3904,7 +3920,8 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "ENTITY1_FR"
         ],
         "lastName": null,
-        "login": "operator1_fr"
+        "login": "operator1_fr",
+        "creationDate": 1708876800000
     },
     {
         "firstName": null,
@@ -3916,7 +3933,8 @@ As there is no <code>Administration GUI</code> for the moment, it must be perfor
             "ENTITY2_FR"
         ],
         "lastName": null,
-        "login": "operator2_fr"
+        "login": "operator2_fr",
+        "creationDate": 1708876800000
     },
 ]</pre>
 </div>
@@ -3943,9 +3961,22 @@ We can add him in our OperatorFabric instance using the following command, using
 {
     "firstName": "Jahne",
     "lastName": "Doe",
-    "login": "john-doe-operator"
+    "login": "john-doe-operator",
+    "creationDate": 1708876800000
 }</pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When a user is created, a <code>creationDate</code> field is automatically set with the current date and time (epoch time in milliseconds). This field is read-only and cannot be modified.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -3970,7 +4001,8 @@ We can add him in our OperatorFabric instance using the following command, using
     "groups": [],
     "entities": [],
     "lastName": "Doe",
-    "login": "john-doe-operator"
+    "login": "john-doe-operator",
+    "creationDate": 1708876800000
 }</pre>
 </div>
 </div>
@@ -3999,7 +4031,8 @@ To correct this mistake, the following command can be used, using cURL:</p>
 {
     "firstName": "John",
     "lastName": "Doe",
-    "login": "john-doe-operator"
+    "login": "john-doe-operator",
+    "creationDate": 1708876800000
 }</pre>
 </div>
 </div>
@@ -4227,7 +4260,8 @@ with the correct spelling, the new group of operator gets a proper description:<
     "groups": ["OPERATORS"],
     "entities": [],
     "lastName": "Doe",
-    "login": "john-doe-operator"
+    "login": "john-doe-operator",
+    "creationDate": 1708876800000
 }</pre>
 </div>
 </div>
@@ -4257,7 +4291,9 @@ with the correct spelling, the new group of operator gets a proper description:<
 	firstName":"John",
 	"lastName":"Doe",
 	"groups":[],
-    "entities":[]
+    "entities":[],
+    "creationDate": 1708876800000
+}
 }</pre>
 </div>
 </div>
@@ -4281,7 +4317,8 @@ with the correct spelling, the new group of operator gets a proper description:<
     "groups": [],
     "entities": [],
     "lastName": "Doe",
-    "login": "john-doe-operator"
+    "login": "john-doe-operator",
+    "creationDate": 1708876800000
 
 }</pre>
 </div>
@@ -4405,8 +4442,8 @@ This auto-referencing triggers a cycle detection.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2106</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cards-external-diffusion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mail notification service http (REST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email-gateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mail gateway service http (REST)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2107</p></td>
@@ -4477,13 +4514,13 @@ This auto-referencing triggers a cycle detection.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>External publishers are monitored by this module which limits how many cards they can send
-<a href="/documentation/current/deployment/.html#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
- in a period of time
-<a href="/documentation/current/deployment/.html#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
+<a href="/documentation/current/deployment/index.html#cardSendingLimitCardCount"><code>cardSendingLimitCardCount</code></a>
+in a period of time.
+<a href="/documentation/current/deployment/index.html#cardSendingLimitPeriod"><code>cardSendingLimitPeriod</code></a>
 .
 This is to avoid potential overloading due to external apps stuck in a card sending loop.
 It can be disabled / enabled with
-<a href="/documentation/current/deployment/.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a>
+<a href="/documentation/current/deployment/index.html#activateCardSendingLimiter"><code>activateCardSendingLimiter</code></a>
 .
 It is also possible to reset the data of the limiter by calling the API through the "/cards/rateLimiter" endpoint (e.g.
 POST "$url:2102/cards/rateLimiter" -H "Authorization:Bearer $token").</p>
