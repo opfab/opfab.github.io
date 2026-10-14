@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>Deployment and Administration of OperatorFabric</h1>
 <div class="details">
-<span id="revnumber">version 4.12.2.RELEASE,</span>
-<span id="revdate">10 June 2026</span>
+<span id="revnumber">version 4.13.0.RELEASE,</span>
+<span id="revdate">14 October 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -637,7 +637,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_service_port_table">8. Service port table</a></li>
 <li><a href="#_rate_limiter_for_card_sending">9. Rate limiter for card sending</a></li>
-<li><a href="#_restricted_operations_administration">10. Restricted operations (administration)</a></li>
+<li><a href="#_manual_purge_of_cards_administration">10. Manual purge of cards (administration)</a>
+<ul class="sectlevel2">
+<li><a href="#_purge_behavior">10.1. Purge behavior</a></li>
+<li><a href="#_using_the_rest_api">10.2. Using the REST API</a></li>
+<li><a href="#_using_the_cli">10.3. Using the CLI</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -4528,8 +4534,125 @@ POST "$url:2102/cards/rateLimiter" -H "Authorization:Bearer $token").</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_restricted_operations_administration"><a class="anchor" href="#_restricted_operations_administration"></a>10. Restricted operations (administration)</h2>
+<h2 id="_manual_purge_of_cards_administration"><a class="anchor" href="#_manual_purge_of_cards_administration"></a>10. Manual purge of cards (administration)</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>OperatorFabric includes an automatic purge mechanism that periodically removes old cards and archived cards according to configured retention policies.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to trigger this purge manually.</p>
+</div>
+<div class="sect2">
+<h3 id="_purge_behavior"><a class="anchor" href="#_purge_behavior"></a>10.1. Purge behavior</h3>
+<div class="paragraph">
+<p>The purge logic is based on the card <code>publishDate</code>.</p>
+</div>
+<div class="paragraph">
+<p>Two retention strategies are applied:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>cards without <code>endDate</code> use:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepCardsAfterPublication</code></p>
+</li>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepArchivesCardsAfterPublication</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>cards with <code>endDate</code> use:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepCardsAfterEndDate</code></p>
+</li>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepArchivesCardsAfterEndDate</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For cards with an <code>endDate</code>, both conditions must be met for the purge to occur:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the <code>publishDate</code> retention limit must be reached</p>
+</li>
+<li>
+<p>the <code>endDate</code> retention limit must be reached</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_rest_api"><a class="anchor" href="#_using_the_rest_api"></a>10.2. Using the REST API</h3>
+<div class="paragraph">
+<p>The purge can be triggered via the following endpoint:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>POST "$url:2102/cards/purge" -H "Authorization:Bearer $token"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This endpoint executes the same purge logic as the scheduled job by calling the internal CardPurgeService.</p>
+</div>
+<div class="paragraph">
+<p>It will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>delete old cards according to the configured retention policies</p>
+</li>
+<li>
+<p>delete archived cards according to the configured retention policies</p>
+</li>
+<li>
+<p>update archived cards deletion dates when applicable</p>
+</li>
+<li>
+<p>apply only if <code>operatorfabric.cards-publication.purge.activate=true</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This operation is restricted to administrators.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_cli"><a class="anchor" href="#_using_the_cli"></a>10.3. Using the CLI</h3>
+<div class="paragraph">
+<p>The purge can also be triggered using the OperatorFabric CLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab card purge</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command internally calls the same REST endpoint and provides a simpler way for administrators to trigger the purge without manually constructing HTTP requests.
+== Restricted operations (administration)</p>
+</div>
 <div class="paragraph">
 <p>Some operations are restricted to users with administrative roles, either because they are administration
 operations with the potential to impact the OperatorFabric instance as a whole, or because they
@@ -4565,6 +4688,7 @@ groups or entities), just like any other user.</p>
 <div class="paragraph">
 <div class="title">External devices service</div>
 <p>Any action (read, create/update or delete) on external devices configuration is restricted to users with th ADMIN role.</p>
+</div>
 </div>
 </div>
 </div>

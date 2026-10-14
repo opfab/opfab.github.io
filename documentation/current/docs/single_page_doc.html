@@ -530,8 +530,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="header">
 <h1>OperatorFabric Documentation</h1>
 <div class="details">
-<span id="revnumber">version 4.12.2.RELEASE,</span>
-<span id="revdate">10 June 2026</span>
+<span id="revnumber">version 4.13.0.RELEASE,</span>
+<span id="revdate">14 October 2026</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -926,6 +926,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_function_getallentities">25.1.1.3. Function getAllEntities</a></li>
 </ul>
 </li>
+<li><a href="#_current_user">25.1.2. Current User</a>
+<ul class="sectlevel4">
+<li><a href="#_function_getlogin">25.1.2.1. Function getLogin</a></li>
+<li><a href="#_function_getfirstname">25.1.2.2. Function getFirstName</a></li>
+<li><a href="#_function_getlastname">25.1.2.3. Function getLastName</a></li>
+<li><a href="#_function_getgroups">25.1.2.4. Function getGroups</a></li>
+<li><a href="#_function_getentities">25.1.2.5. Function getEntities</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_businessconfig_api">25.2. BusinessConfig API</a>
@@ -1260,7 +1269,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_service_port_table">41. Service port table</a></li>
 <li><a href="#_rate_limiter_for_card_sending">42. Rate limiter for card sending</a></li>
-<li><a href="#_restricted_operations_administration">43. Restricted operations (administration)</a></li>
+<li><a href="#_manual_purge_of_cards_administration">43. Manual purge of cards (administration)</a>
+<ul class="sectlevel2">
+<li><a href="#_purge_behavior">43.1. Purge behavior</a></li>
+<li><a href="#_using_the_rest_api">43.2. Using the REST API</a></li>
+<li><a href="#_using_the_cli">43.3. Using the CLI</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#dev_env">Development environment</a>
@@ -1804,6 +1819,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_removal_of_processstateredirects">91.4.1. Removal of processStateRedirects</a></li>
 <li><a href="#_removal_of_processcustomlinks">91.4.2. Removal of processCustomLinks</a></li>
 <li><a href="#_dashboard_configuration">91.4.3. Dashboard configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_migration_guide_from_release_4_12_x_to_release_4_13_0">92. Migration Guide from release 4.12.X to release 4.13.0</a>
+<ul class="sectlevel2">
+<li><a href="#_custom_screen_type_field_is_now_mandatory">92.1. Custom screen: <code>type</code> field is now mandatory</a>
+<ul class="sectlevel3">
+<li><a href="#_required_action">92.1.1. Required action</a></li>
 </ul>
 </li>
 </ul>
@@ -8155,6 +8179,70 @@ in the feed will be 'Message received : xxx'. If left empty the summary input fi
 <div class="content">
 <pre class="CodeRay highlight"><code>const entities = opfab.users.entities.getAllEntities();</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_current_user"><a class="anchor" href="#_current_user"></a>25.1.2. Current User</h4>
+<div class="sect4">
+<h5 id="_function_getlogin"><a class="anchor" href="#_function_getlogin"></a>25.1.2.1. Function getLogin</h5>
+<div class="paragraph">
+<p>Obtain the login of the current user :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const login = opfab.users.currentUser.getLogin();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_getfirstname"><a class="anchor" href="#_function_getfirstname"></a>25.1.2.2. Function getFirstName</h5>
+<div class="paragraph">
+<p>Obtain the first name of the current user :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const firstName = opfab.users.currentUser.getFirstName();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_getlastname"><a class="anchor" href="#_function_getlastname"></a>25.1.2.3. Function getLastName</h5>
+<div class="paragraph">
+<p>Obtain the last name of the current user :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const lastName = opfab.users.currentUser.getLastName();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_getgroups"><a class="anchor" href="#_function_getgroups"></a>25.1.2.4. Function getGroups</h5>
+<div class="paragraph">
+<p>Obtain the list of group ids the current user belongs to :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const groups = opfab.users.currentUser.getGroups();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns an array of group id strings.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_function_getentities"><a class="anchor" href="#_function_getentities"></a>25.1.2.5. Function getEntities</h5>
+<div class="paragraph">
+<p>Obtain the list of entity ids the current user belongs to :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>const entities = opfab.users.currentUser.getEntities();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The function returns an array of entity id strings.</p>
 </div>
 </div>
 </div>
@@ -15877,8 +15965,125 @@ POST "$url:2102/cards/rateLimiter" -H "Authorization:Bearer $token").</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_restricted_operations_administration"><a class="anchor" href="#_restricted_operations_administration"></a>43. Restricted operations (administration)</h2>
+<h2 id="_manual_purge_of_cards_administration"><a class="anchor" href="#_manual_purge_of_cards_administration"></a>43. Manual purge of cards (administration)</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>OperatorFabric includes an automatic purge mechanism that periodically removes old cards and archived cards according to configured retention policies.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to trigger this purge manually.</p>
+</div>
+<div class="sect2">
+<h3 id="_purge_behavior"><a class="anchor" href="#_purge_behavior"></a>43.1. Purge behavior</h3>
+<div class="paragraph">
+<p>The purge logic is based on the card <code>publishDate</code>.</p>
+</div>
+<div class="paragraph">
+<p>Two retention strategies are applied:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>cards without <code>endDate</code> use:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepCardsAfterPublication</code></p>
+</li>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepArchivesCardsAfterPublication</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>cards with <code>endDate</code> use:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepCardsAfterEndDate</code></p>
+</li>
+<li>
+<p><code>operatorfabric.cards-publication.purge.defaultDaysToKeepArchivesCardsAfterEndDate</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For cards with an <code>endDate</code>, both conditions must be met for the purge to occur:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the <code>publishDate</code> retention limit must be reached</p>
+</li>
+<li>
+<p>the <code>endDate</code> retention limit must be reached</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_rest_api"><a class="anchor" href="#_using_the_rest_api"></a>43.2. Using the REST API</h3>
+<div class="paragraph">
+<p>The purge can be triggered via the following endpoint:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>POST "$url:2102/cards/purge" -H "Authorization:Bearer $token"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This endpoint executes the same purge logic as the scheduled job by calling the internal CardPurgeService.</p>
+</div>
+<div class="paragraph">
+<p>It will:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>delete old cards according to the configured retention policies</p>
+</li>
+<li>
+<p>delete archived cards according to the configured retention policies</p>
+</li>
+<li>
+<p>update archived cards deletion dates when applicable</p>
+</li>
+<li>
+<p>apply only if <code>operatorfabric.cards-publication.purge.activate=true</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This operation is restricted to administrators.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_cli"><a class="anchor" href="#_using_the_cli"></a>43.3. Using the CLI</h3>
+<div class="paragraph">
+<p>The purge can also be triggered using the OperatorFabric CLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>opfab card purge</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command internally calls the same REST endpoint and provides a simpler way for administrators to trigger the purge without manually constructing HTTP requests.
+== Restricted operations (administration)</p>
+</div>
 <div class="paragraph">
 <p>Some operations are restricted to users with administrative roles, either because they are administration
 operations with the potential to impact the OperatorFabric instance as a whole, or because they
@@ -15914,6 +16119,7 @@ groups or entities), just like any other user.</p>
 <div class="paragraph">
 <div class="title">External devices service</div>
 <p>Any action (read, create/update or delete) on external devices configuration is restricted to users with th ADMIN role.</p>
+</div>
 </div>
 </div>
 </div>
@@ -23676,6 +23882,55 @@ To make it accessible to users, you must declare a corresponding menu entry in t
     }
   ]
 }</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guide_from_release_4_12_x_to_release_4_13_0"><a class="anchor" href="#_migration_guide_from_release_4_12_x_to_release_4_13_0"></a>92. Migration Guide from release 4.12.X to release 4.13.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_custom_screen_type_field_is_now_mandatory"><a class="anchor" href="#_custom_screen_type_field_is_now_mandatory"></a>92.1. Custom screen: <code>type</code> field is now mandatory</h3>
+<div class="paragraph">
+<p>When registering a custom screen via <code>opfab.businessconfig.registerCustomScreen(&#8230;&#8203;)</code>, the <code>type</code> field is now required.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>type</code> field is not set, or if it contains an invalid value, the custom screen will not be loaded and an error will be logged to the console.</p>
+</div>
+<div class="sect3">
+<h4 id="_required_action"><a class="anchor" href="#_required_action"></a>92.1.1. Required action</h4>
+<div class="paragraph">
+<p>Ensure every custom screen definition includes a valid <code>type</code> value. The supported types are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>CARD_LIST</code></p>
+</li>
+<li>
+<p><code>DASHBOARD</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example of a valid custom screen definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>const customScreenExample = {
+    id: 'testId',
+    name: 'testName',
+    type: 'CARD_LIST',
+    initialBusinessPeriod: 'FROM_TODAY_TO_YEAR_END',
+    processIds: [
+        'api_test',
+        'cypress',
+        'defaultProcess'
+    ]
+};
+opfab.businessconfig.registerCustomScreen(customScreenExample);</pre>
 </div>
 </div>
 </div>
